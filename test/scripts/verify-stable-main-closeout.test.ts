@@ -274,12 +274,12 @@ describe("stable closeout workflow publication routing", () => {
     writeFileSync(
       run,
       JSON.stringify({
-        workflowName: "Zero to Agent Release Publish",
+        workflowName: "OpenAgent Release Publish",
         event: "workflow_dispatch",
         status: "completed",
         conclusion: scenario.conclusion,
         jobs: [
-          { name: "Publish plugins, then Zero to Agent", conclusion: scenario.npm },
+          { name: "Publish plugins, then OpenAgent", conclusion: scenario.npm },
           {
             name: "Publish Docker images / Publish prepared Docker images",
             conclusion: scenario.docker,

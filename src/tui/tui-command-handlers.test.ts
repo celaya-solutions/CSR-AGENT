@@ -1177,15 +1177,13 @@ describe("tui command handlers", () => {
     expect(addSystem).toHaveBeenCalledWith("  Telegram: not configured");
   });
 
-  it("returns to Zero to Agent with an optional request", async () => {
+  it("returns to OpenAgent with an optional request", async () => {
     const { handleCommand, addSystem, requestExit, sendChat } = createHarness();
 
     await handleCommand("/openclaw restart gateway");
 
     expect(sendChat).not.toHaveBeenCalled();
-    expect(addSystem).toHaveBeenCalledWith(
-      "returning to Zero to Agent with request: restart gateway",
-    );
+    expect(addSystem).toHaveBeenCalledWith("returning to OpenAgent with request: restart gateway");
     expect(requestExit).toHaveBeenCalledWith({
       exitReason: "return-to-system-agent",
       systemAgentMessage: "restart gateway",
@@ -1203,7 +1201,7 @@ describe("tui command handlers", () => {
     expect(addSystem).not.toHaveBeenCalled();
   });
 
-  it("leaves a Zero to Agent breadcrumb after switching agents", async () => {
+  it("leaves an OpenAgent breadcrumb after switching agents", async () => {
     const { handleCommand, addSystem, setSession, state } = createHarness();
 
     await handleCommand("/agent Work");

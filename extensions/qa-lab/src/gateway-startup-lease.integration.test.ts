@@ -466,7 +466,7 @@ describe.skipIf(process.platform === "win32")(
         expect(JSON.stringify(serializeError(result.suiteError))).toContain(
           surface === "gateway"
             ? "gateway exited before listening (exitCode=17"
-            : "Zero to Agent CLI exited 17",
+            : "OpenAgent CLI exited 17",
         );
         expect(
           result.releases.every((release) => !release.descendantAlive),

@@ -1,5 +1,5 @@
 /**
- * Standalone MCP server for selected built-in Zero to Agent tools.
+ * Standalone MCP server for selected built-in OpenAgent tools.
  *
  * Run via: node --import tsx src/mcp/openclaw-tools-serve.ts
  * Or: bun src/mcp/openclaw-tools-serve.ts

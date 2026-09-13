@@ -1,6 +1,6 @@
 import Testing
 import OpenClawChatUI
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct CommandCenterTabSessionFilterTests {
     @Test func `hides direct agent device sessions`() {
@@ -85,13 +85,13 @@ struct CommandCenterTabSessionFilterTests {
                 == "My thread")
 
         let nodeKey = "agent:main:node-1234567890ab"
-        let autoLabel = "OpenClaw App · Pixel · 1234567890ab"
+        let autoLabel = "OpenAgent App · Pixel · 1234567890ab"
         #expect(CommandCenterTab.sessionTitle(entry(key: nodeKey, autoLabel: autoLabel)) == autoLabel)
         #expect(
             CommandCenterTab.sessionTitle(
                 entry(key: nodeKey, displayName: "Compare session naming", autoLabel: autoLabel))
                 == "Compare session naming")
-        let manualLabel = "OpenClaw App · Release planning · 1234567890ab"
+        let manualLabel = "OpenAgent App · Release planning · 1234567890ab"
         #expect(
             CommandCenterTab.sessionTitle(
                 entry(key: nodeKey, displayName: "Compare session naming", label: manualLabel, autoLabel: autoLabel))

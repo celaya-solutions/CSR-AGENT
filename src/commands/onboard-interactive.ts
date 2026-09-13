@@ -27,7 +27,7 @@ export async function runInteractiveSetup(
 }
 
 /**
- * Opens the Zero to Agent onboarding conversation used by the guided escape hatch.
+ * Opens the OpenAgent onboarding conversation used by the guided escape hatch.
  * The first-run greeting proposes a setup plan and keeps subsequent setup and
  * agent handoff in the same conversation.
  */
@@ -45,7 +45,7 @@ export async function runConversationalOnboarding(
   const { verifySetupInference } = await import("../system-agent/setup-inference.js");
   const inference = await verifySetupInference({ runtime, bindSession: true });
   if (!inference.ok) {
-    runtime.error(`Zero to Agent requires working inference: ${inference.error}`);
+    runtime.error(`OpenAgent requires working inference: ${inference.error}`);
     runtime.exit(1);
     return;
   }

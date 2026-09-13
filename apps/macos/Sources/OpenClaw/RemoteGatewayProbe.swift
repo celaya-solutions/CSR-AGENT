@@ -79,8 +79,8 @@ enum RemoteGatewayAuthIssue: Equatable {
                 + "Save the connection, then try again. If no password is configured, "
                 + "set `gateway.auth.password` or `OPENCLAW_GATEWAY_PASSWORD` on the gateway host."
         case .pairingRequired:
-            "Approve this device from an already-paired OpenClaw client. "
-                + "In your OpenClaw chat, run `/pair approve`, then click **Check connection** again."
+            "Approve this device from an already-paired OpenAgent client. "
+                + "In your OpenAgent chat, run `/pair approve`, then click **Check connection** again."
         }
     }
 
@@ -92,7 +92,7 @@ enum RemoteGatewayAuthIssue: Equatable {
         case .setupCodeExpired:
             nil
         case .pairingRequired:
-            "If you do not have another paired OpenClaw client yet, "
+            "If you do not have another paired OpenAgent client yet, "
                 + "approve the pending request on the gateway host with `openclaw devices approve`."
         case .tokenMismatch, .passwordRequired:
             nil
@@ -113,7 +113,7 @@ enum RemoteGatewayAuthIssue: Equatable {
             "Click Change connection and enter the gateway password in the Gateway password field. "
                 + "If needed, configure gateway.auth.password or OPENCLAW_GATEWAY_PASSWORD on the gateway host."
         case .pairingRequired:
-            "Pairing required. In an already-paired OpenClaw client, "
+            "Pairing required. In an already-paired OpenAgent client, "
                 + "run /pair approve, then check the connection again."
         }
     }

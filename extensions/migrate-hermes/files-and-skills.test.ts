@@ -234,7 +234,7 @@ describe("Hermes migration file and skill items", () => {
     ]);
   });
 
-  it("maps supported OAuth model providers and requests fresh Zero to Agent authentication", async () => {
+  it("maps supported OAuth model providers and requests fresh OpenAgent authentication", async () => {
     const root = testWorkspace.dir;
     const source = path.join(root, "hermes");
     const xaiProvider = ["xai", "oauth"].join("-");
@@ -271,11 +271,11 @@ describe("Hermes migration file and skill items", () => {
       (item) => item.kind === "manual" && item.message?.includes("credentials cannot be reused"),
     );
     expect(reauthItems.map((item) => item.reason)).toEqual([
-      "Authenticate anthropic in Zero to Agent after migration.",
-      "Authenticate nous in Zero to Agent after migration.",
+      "Authenticate anthropic in OpenAgent after migration.",
+      "Authenticate nous in OpenAgent after migration.",
       "Authenticate qwen with an API key after migration: openclaw onboard --auth-choice qwen-api-key.",
-      "Authenticate minimax-portal in Zero to Agent after migration.",
-      "Authenticate xai in Zero to Agent after migration.",
+      "Authenticate minimax-portal in OpenAgent after migration.",
+      "Authenticate xai in OpenAgent after migration.",
     ]);
   });
 
@@ -516,7 +516,7 @@ describe("Hermes migration file and skill items", () => {
     }
     expect(plan.items.find((item) => item.id === "archive:auth.json")).toBeUndefined();
     expect(plan.warnings).toEqual([
-      "Some Hermes files are archive-only. They will be copied into the migration report for manual review, not loaded into Zero to Agent.",
+      "Some Hermes files are archive-only. They will be copied into the migration report for manual review, not loaded into OpenAgent.",
     ]);
 
     const result = await provider.apply(makeContext({ source, stateDir, workspaceDir, reportDir }));
@@ -737,7 +737,7 @@ describe("Hermes migration file and skill items", () => {
       }),
     );
     expect(plan.warnings).toContain(
-      "Hermes and Zero to Agent must not keep using the same imported OpenAI OAuth refresh grant after migration; reauthenticate one side before running both.",
+      "Hermes and OpenAgent must not keep using the same imported OpenAI OAuth refresh grant after migration; reauthenticate one side before running both.",
     );
   });
 

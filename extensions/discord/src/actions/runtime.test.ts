@@ -1504,7 +1504,7 @@ describe("handleDiscordMessagingAction", () => {
     });
     fetchGuildInfoDiscord.mockResolvedValueOnce({
       id: "111",
-      name: "Friends of Zero to Agent",
+      name: "Friends of OpenAgent",
     });
     const cfg = discordAllowlistCfg({
       "friends-of-openclaw": {
@@ -1601,7 +1601,7 @@ describe("handleDiscordMessagingAction", () => {
     });
     fetchGuildInfoDiscord.mockResolvedValueOnce({
       id: "111",
-      name: "Friends of Zero to Agent",
+      name: "Friends of OpenAgent",
     });
     const cfg = discordAllowlistCfg({
       "friends-of-openclaw": {

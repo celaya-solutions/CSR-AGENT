@@ -26,25 +26,25 @@ on:
         default: ""
         type: string
       release_publish_run_id:
-        description: Approved OpenClaw Release Publish workflow run id
+        description: Approved OpenAgent Release Publish workflow run id
         required: false
         type: string
       release_publish_run_attempt:
-        description: Exact approving OpenClaw Release Publish workflow run attempt
+        description: Exact approving OpenAgent Release Publish workflow run attempt
         required: false
         default: ""
         type: string
       release_publish_branch:
-        description: Branch name of the approving OpenClaw Release Publish workflow run
+        description: Branch name of the approving OpenAgent Release Publish workflow run
         required: false
         type: string
       release_publish_full_ref:
-        description: Full ref of the approving OpenClaw Release Publish workflow run
+        description: Full ref of the approving OpenAgent Release Publish workflow run
         required: false
         default: ""
         type: string
       release_publish_workflow_sha:
-        description: Exact SHA of the approving OpenClaw Release Publish workflow run
+        description: Exact SHA of the approving OpenAgent Release Publish workflow run
         required: false
         default: ""
         type: string
@@ -794,7 +794,7 @@ jobs:
     steps:
       - name: Approve Plugin ClawHub release publish
         run: |
-          echo "Approved CLAW-277 03 - Split OpenClaw plugin ClawHub publishing into OIDC release and token bootstrap workflows release publish gate."
+          echo "Approved CLAW-277 03 - Split OpenAgent plugin ClawHub publishing into OIDC release and token bootstrap workflows release publish gate."
 
       # The automated bot-dispatched route is unchanged; direct human dispatch binds this approval
       # to the exact child run and to the original child attempt whose parent receipt ClawHub

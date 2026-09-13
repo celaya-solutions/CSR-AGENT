@@ -156,7 +156,7 @@ async function createLiveRedirectSandbox(
   };
 }
 
-describe("Zero to Agent Codex sandbox exec-server HTTP", () => {
+describe("OpenAgent Codex sandbox exec-server HTTP", () => {
   it("routes HTTP requests through the sandbox backend", async () => {
     const runShellCommand = vi.fn(async () => ({
       stdout: Buffer.from(

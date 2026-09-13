@@ -328,7 +328,7 @@ export async function runChannelsSetupWizard(
   const { snapshot } = writeSnapshot;
   if (snapshot.exists && !snapshot.valid) {
     throw new Error(
-      "Zero to Agent config is invalid; run `openclaw doctor --fix`, then retry channel setup.",
+      "OpenAgent config is invalid; run `openclaw doctor --fix`, then retry channel setup.",
     );
   }
   const cfg = snapshot.sourceConfig;

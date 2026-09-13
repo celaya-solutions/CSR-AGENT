@@ -45,7 +45,7 @@ final class CLIInstallPrompter {
             installPolicy: CLIInstallPolicy.storedPolicy(),
             launchAgentWriteDisabled: GatewayLaunchAgentManager.isLaunchAgentWriteDisabled())
         if await self.completePendingManagedRestartIfNeeded(managedStatus: managedStatus) {
-            self.installStatus = String(localized: "OpenClaw Gateway is ready.")
+            self.installStatus = String(localized: "OpenAgent Gateway is ready.")
             return
         }
         if shouldRepairManaged, !userInitiated {
@@ -68,7 +68,7 @@ final class CLIInstallPrompter {
         }
         if status.isReady {
             if userInitiated {
-                self.installStatus = String(localized: "Starting OpenClaw Gateway…")
+                self.installStatus = String(localized: "Starting OpenAgent Gateway…")
                 self.installStatus = await Self.activationMessage(CLIInstaller.activateLocalGateway())
             }
             return
@@ -107,7 +107,7 @@ final class CLIInstallPrompter {
         {
             guard confirmStable else { return target }
             let alert = NSAlert()
-            alert.messageText = "Install OpenClaw CLI?"
+            alert.messageText = "Install OpenAgent CLI?"
             alert.informativeText = "The app-managed local Gateway needs an external CLI runtime."
             alert.addButton(withTitle: "Install CLI")
             alert.addButton(withTitle: "Not Now")
@@ -137,9 +137,9 @@ final class CLIInstallPrompter {
     {
         let channels = [suggested] + CLIInstaller.Channel.allCases.filter { $0 != suggested }
         let alert = NSAlert()
-        alert.messageText = "Choose OpenClaw CLI channel"
+        alert.messageText = "Choose OpenAgent CLI channel"
         alert.informativeText =
-            "This is an unreleased OpenClaw build. " +
+            "This is an unreleased OpenAgent build. " +
             "Stable and Beta use published builds and are usually quick. " +
             "Dev (Git main) downloads and builds from source, so it can take several minutes " +
             "and needs several gigabytes free."
@@ -189,7 +189,7 @@ final class CLIInstallPrompter {
                   GatewayEnvironment.gatewayPort() == port,
                   GatewayProcessManager.shared.installation == .managed
             else {
-                await status.set("OpenClaw is installed. Gateway selection changed; reconnect to continue setup.")
+                await status.set("OpenAgent is installed. Gateway selection changed; reconnect to continue setup.")
                 return false
             }
             if shouldRestartManagedGateway {
@@ -205,9 +205,9 @@ final class CLIInstallPrompter {
                     return false
                 }
             }
-            await status.set("Starting OpenClaw Gateway…")
+            await status.set("Starting OpenAgent Gateway…")
             if !showCompletionAlert {
-                self.logger.info("managed CLI repair: Starting OpenClaw Gateway…")
+                self.logger.info("managed CLI repair: Starting OpenAgent Gateway…")
             }
             let activation = await CLIInstaller.activateLocalGateway()
             if case .failed = activation { activated = false } else { activated = true }
@@ -239,12 +239,12 @@ final class CLIInstallPrompter {
     private static func activationMessage(_ activation: CLIInstaller.LocalGatewayActivation) -> String {
         switch activation {
         case .ready:
-            "OpenClaw Gateway is ready."
+            "OpenAgent Gateway is ready."
         case .deferred:
-            "OpenClaw is installed. The Gateway will start when This Mac is active and resumed."
+            "OpenAgent is installed. The Gateway will start when This Mac is active and resumed."
         case let .failed(reason):
             OnboardingView.gatewayStartFailureMessage(
-                prefix: "OpenClaw was installed, but the Gateway did not start. Open Settings to retry.",
+                prefix: "OpenAgent was installed, but the Gateway did not start. Open Settings to retry.",
                 reason: reason)
         }
     }

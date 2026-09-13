@@ -106,7 +106,7 @@ export type PluginApprovalExpiredView = PluginApprovalViewBase & {
   phase: "expired";
 };
 
-/** Shared presentation fields for Zero to Agent system change approvals. */
+/** Shared presentation fields for OpenAgent system change approvals. */
 export type SystemAgentApprovalViewBase = ApprovalViewBase & {
   approvalKind: "system-agent";
   agentId?: string | null;

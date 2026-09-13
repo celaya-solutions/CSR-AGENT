@@ -83,7 +83,7 @@ export function runCli(context, args, { timeoutMs = 120_000 } = {}) {
           const diagnostics = [stderr, stdout].filter(Boolean).join("\n");
           reject(
             new Error(
-              `OpenClaw ${args[0]} failed: ${diagnostics || error.code || "unknown error"}`,
+              `OpenAgent ${args[0]} failed: ${diagnostics || error.code || "unknown error"}`,
             ),
           );
           return;

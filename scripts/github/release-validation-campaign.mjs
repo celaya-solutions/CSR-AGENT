@@ -157,7 +157,7 @@ export function validateReleaseValidationCampaignArtifact(
     throw new Error("Campaign artifact guidance main SHA does not match the workflow checkout");
   }
   const title = requireString(artifact.title, "title");
-  const expectedTitle = `OpenClaw ${parsedTag.displayVersion} beta feedback`;
+  const expectedTitle = `OpenAgent ${parsedTag.displayVersion} beta feedback`;
   if (title !== expectedTitle) {
     throw new Error(`Campaign artifact title must be ${expectedTitle}`);
   }
@@ -308,7 +308,7 @@ export async function runReleaseValidationCampaignPublish({
     repo,
     name: CAMPAIGN_LABEL,
     color: CAMPAIGN_LABEL_COLOR,
-    description: "Canonical OpenClaw release-validation campaign",
+    description: "Canonical OpenAgent release-validation campaign",
   });
   await ensureLabel({
     github,

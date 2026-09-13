@@ -3,7 +3,7 @@
 if [[ ${OSTYPE:-} == darwin* && $BASH != /bin/bash ]] && ((BASH_VERSINFO[0] > 5 || (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] >= 3))); then
   exec /bin/bash "$0" "$@"
 fi
-# Runs Open WebUI against a Dockerized OpenClaw Gateway and verifies the proxied
+# Runs Open WebUI against a Dockerized OpenAgent Gateway and verifies the proxied
 # chat path with a real OpenAI-compatible request.
 set -euo pipefail
 
@@ -182,7 +182,7 @@ docker_e2e_docker_cmd run -d \
   --name "$OW_NAME" \
   --network "$NET_NAME" \
   -e ENV=prod \
-  -e WEBUI_NAME="OpenClaw E2E" \
+  -e WEBUI_NAME="OpenAgent E2E" \
   -e WEBUI_SECRET_KEY="openclaw-openwebui-e2e-secret-key-v1" \
   -e OFFLINE_MODE=True \
   -e ENABLE_VERSION_UPDATE_CHECK=False \
@@ -196,7 +196,7 @@ docker_e2e_docker_cmd run -d \
   -e RAG_RERANKING_MODEL_AUTO_UPDATE=False \
   -e WEBUI_ADMIN_EMAIL="$ADMIN_EMAIL" \
   -e WEBUI_ADMIN_PASSWORD="$ADMIN_PASSWORD" \
-  -e WEBUI_ADMIN_NAME="OpenClaw E2E" \
+  -e WEBUI_ADMIN_NAME="OpenAgent E2E" \
   -e ENABLE_SIGNUP=False \
   -e DEFAULT_MODELS="openclaw/default" \
   "$OPENWEBUI_IMAGE" >/dev/null
@@ -219,7 +219,7 @@ if ! docker_e2e_wait_container_bash "$GW_NAME" 90 5 "OPENCLAW_HTTP_PROBE_BEARER=
 fi
 sample_openwebui_stats_once
 
-echo "Running Open WebUI -> OpenClaw smoke..."
+echo "Running Open WebUI -> OpenAgent smoke..."
 set +e
 docker_e2e_docker_cmd exec \
   -e "OPENWEBUI_BASE_URL=http://$OW_NAME:$WEBUI_PORT" \

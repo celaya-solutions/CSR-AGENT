@@ -206,7 +206,7 @@ enum GatewayEnvironment {
                 projectRoot: projectRoot,
                 searchPaths: searchPaths)
             if let gatewayBin, installedRaw == nil {
-                let message = "OpenClaw Gateway at \(gatewayBin) could not be verified; reinstall or repair it."
+                let message = "OpenAgent Gateway at \(gatewayBin) could not be verified; reinstall or repair it."
                 return GatewayEnvironmentStatus(
                     kind: .error(message),
                     nodeVersion: runtime.version.description,

@@ -27,7 +27,7 @@ if [[ -n "${OPENCLAW_INSTALLER_REEXEC_FILE:-}" && "${BASH_SOURCE[0]:-}" == "$OPE
 fi
 unset OPENCLAW_INSTALLER_REEXEC_FILE
 
-# OpenClaw CLI installer (non-interactive, no onboarding)
+# OpenAgent CLI installer (non-interactive, no onboarding)
 # Usage: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install-cli.sh | bash -s -- [--json] [--prefix <path>] [--version <ver>] [--node-version <ver>] [--onboard]
 
 ensure_home_env() {
@@ -129,7 +129,7 @@ Usage: install-cli.sh [options]
   --npm                               Shortcut for --install-method npm
   --git, --github                     Shortcut for --install-method git
   --git-dir, --dir <path>             Checkout directory (default: ~/openclaw, or \$OPENCLAW_HOME/openclaw)
-  --version <ver>                     OpenClaw version (default: latest)
+  --version <ver>                     OpenAgent version (default: latest)
   --compatible-with <ver>             Refuse a CLI that cannot modify config written by <ver>
   --node-version <ver>                Node version (default: 24.19.0)
   --node-only                         Install only a private Node runtime (no system package changes)
@@ -957,9 +957,9 @@ require_openclaw_version_compatible() {
   fi
   local status="$?"
   if [[ "$status" -eq 2 ]]; then
-    fail "Cannot compare resolved OpenClaw version '${candidate}' with config writer '${config_writer}'."
+    fail "Cannot compare resolved OpenAgent version '${candidate}' with config writer '${config_writer}'."
   fi
-  fail "OpenClaw ${candidate} is older than config writer ${config_writer}. Choose a newer CLI channel or retry after the channel is updated."
+  fail "OpenAgent ${candidate} is older than config writer ${config_writer}. Choose a newer CLI channel or retry after the channel is updated."
 }
 
 resolve_npm_openclaw_version() {
@@ -1443,7 +1443,7 @@ commit_wrapper_backup() {
 install_openclaw() {
   local requested="${OPENCLAW_VERSION:-latest}"
   if is_openclaw_source_package_install_spec "$requested"; then
-    fail "npm installs do not support OpenClaw GitHub source targets like '${requested}'. Use --install-method git --version main, latest, beta, an exact version, or a built .tgz package."
+    fail "npm installs do not support OpenAgent GitHub source targets like '${requested}'. Use --install-method git --version main, latest, beta, an exact version, or a built .tgz package."
   fi
   local freshness_flag="--min-release-age=0"
   local min_release_age=""
@@ -1469,7 +1469,7 @@ install_openclaw() {
     # of dying silently through set -e with no error event.
     resolved_requested="$(resolve_npm_openclaw_version "$requested" || true)"
     if [[ -z "$resolved_requested" ]]; then
-      fail "Could not resolve OpenClaw ${requested} before compatibility checking."
+      fail "Could not resolve OpenAgent ${requested} before compatibility checking."
     fi
     require_openclaw_version_compatible "$resolved_requested"
   fi
@@ -1482,7 +1482,7 @@ install_openclaw() {
   local npm_cwd="$PWD"
   lifecycle_arg="$(npm_lifecycle_allow_arg "$npm_cmd" "$install_spec" "$npm_cwd")" || return 1
   emit_json step name openclaw status start version "$requested"
-  log "Installing OpenClaw (${requested})..."
+  log "Installing OpenAgent (${requested})..."
   if [[ "$SET_NPM_PREFIX" -eq 1 ]]; then
     fix_npm_prefix_if_needed
   fi
@@ -1497,8 +1497,8 @@ install_openclaw() {
   if ! env -u NPM_CONFIG_BEFORE -u npm_config_before -u NPM_CONFIG_MIN_RELEASE_AGE -u npm_config_min_release_age -u npm_config_min-release-age "$npm_cmd" "${npm_install_args[@]}" || [[ ! -f "$installed_entry" || -e "$lifecycle_pending" || -e "$legacy_install_guard" ]]; then
     log "npm install openclaw@${resolved_requested} did not produce a usable package; retrying once"
     if ! env -u NPM_CONFIG_BEFORE -u npm_config_before -u NPM_CONFIG_MIN_RELEASE_AGE -u npm_config_min_release_age -u npm_config_min-release-age "$npm_cmd" "${npm_install_args[@]}" || [[ ! -f "$installed_entry" || -e "$lifecycle_pending" || -e "$legacy_install_guard" ]]; then
-      emit_json error message "npm install did not produce a usable OpenClaw package"
-      log "ERROR: npm install did not produce a usable OpenClaw package"
+      emit_json error message "npm install did not produce a usable OpenAgent package"
+      log "ERROR: npm install did not produce a usable OpenAgent package"
       return 1
     fi
   fi
@@ -1852,13 +1852,13 @@ main() {
   local installed_version
   if ! installed_version="$("${PREFIX}/bin/openclaw" --version 2>/dev/null | head -n 1 | tr -d '\r')" ||
     [[ -z "$installed_version" ]]; then
-    fail "Installed OpenClaw CLI did not return a version successfully from ${PREFIX}/bin/openclaw."
+    fail "Installed OpenAgent CLI did not return a version successfully from ${PREFIX}/bin/openclaw."
   fi
   commit_wrapper_backup
 
   refresh_gateway_service_if_loaded
   emit_json "done" version "$installed_version"
-  log "OpenClaw installed (${installed_version})."
+  log "OpenAgent installed (${installed_version})."
 
   if [[ "$RUN_ONBOARD" -eq 1 ]]; then
     "${PREFIX}/bin/openclaw" onboard

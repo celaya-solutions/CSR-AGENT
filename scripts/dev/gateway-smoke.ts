@@ -1,4 +1,4 @@
-// Gateway Smoke script supports OpenClaw repository automation.
+// Gateway Smoke script supports OpenAgent repository automation.
 import { fileURLToPath } from "node:url";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import {

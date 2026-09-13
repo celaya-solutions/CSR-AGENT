@@ -1,4 +1,4 @@
-// Featherless plugin entrypoint registers its Zero to Agent integration.
+// Featherless plugin entrypoint registers its OpenAgent integration.
 import type {
   ProviderResolveDynamicModelContext,
   ProviderRuntimeModel,

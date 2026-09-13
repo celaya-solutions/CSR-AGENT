@@ -341,7 +341,7 @@ function packFutureRuntimeFixture(candidateTarball, outputTarball, sequence = 0)
         ) ||
         manifest.openclaw?.build?.openclawVersion !== manifest.version
       ) {
-        throw new Error("runtime package version and OpenClaw build cohort must match");
+        throw new Error("runtime package version and OpenAgent build cohort must match");
       }
       manifest.version = version;
       manifest.openclaw.build.openclawVersion = version;

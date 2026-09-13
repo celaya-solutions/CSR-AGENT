@@ -35,7 +35,7 @@ function expectIncluded(names: Set<string>, included: string[], excluded: string
   }
 }
 
-test("Zero to Agent applies every configured tool policy as a restrictive intersection", () => {
+test("OpenAgent applies every configured tool policy as a restrictive intersection", () => {
   const profileConfig: OpenClawConfig = {
     tools: { profile: "coding" },
   };

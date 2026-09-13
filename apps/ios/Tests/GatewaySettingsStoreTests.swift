@@ -2,7 +2,7 @@ import Foundation
 import OpenClawKit
 import Security
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 private struct KeychainEntry: Hashable {
     let service: String

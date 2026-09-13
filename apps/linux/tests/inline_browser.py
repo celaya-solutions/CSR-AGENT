@@ -17,7 +17,7 @@ import uuid
 
 
 DASHBOARD = """<!doctype html><html lang="en"><head><meta charset="utf-8">
-<title>OpenClaw inline browser fixture</title>
+<title>OpenAgent inline browser fixture</title>
 <style>body{margin:24px;background:#f3f5fa;color:#18253d;font:18px sans-serif}
 h1{font-size:26px}p{max-width:850px}</style></head><body>
 <h1 id="status">Running native inline browser regression</h1>
@@ -247,7 +247,7 @@ class GatewayFixture(ThreadingHTTPServer):
             "import json, sys\n"
             "command = ' '.join(sys.argv[1:])\n"
             "if command == '--version':\n"
-            "    print('OpenClaw inline fixture')\n"
+            "    print('OpenAgent inline fixture')\n"
             "elif command == 'gateway status --json':\n"
             "    print(json.dumps({'service': {'loaded': True, 'runtime': {'status': 'running'}}, 'rpc': {'ok': True}}))\n"
             "elif command == 'dashboard --json --no-open':\n"

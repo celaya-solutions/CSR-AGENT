@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/firecrawl-plugin",
   "version": "2026.9.4",
-  "description": "Zero to Agent Firecrawl plugin.",
+  "description": "OpenAgent Firecrawl plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

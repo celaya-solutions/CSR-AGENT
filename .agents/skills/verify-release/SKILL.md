@@ -1,11 +1,11 @@
 ---
 name: verify-release
-description: "Verify regular or extended-stable OpenClaw releases against the exact publication surfaces, workflow identities, package provenance, smoke tests, and live Gateway behavior expected for that release track."
+description: "Verify regular or extended-stable OpenAgent releases against the exact publication surfaces, workflow identities, package provenance, smoke tests, and live Gateway behavior expected for that release track."
 ---
 
 # Verify Release
 
-Use this when asked whether an OpenClaw release is fully released, published,
+Use this when asked whether an OpenAgent release is fully released, published,
 promoted, smoke-tested, or live-verified. This is a verification skill, not a
 publish skill; use `$release-openclaw-maintainer` before changing release state.
 
@@ -64,7 +64,7 @@ Use these checks only for the regular orchestrated release track.
      `dist-tags.latest === <VERSION>`.
 4. ClawHub:
    - Check the Plugin ClawHub Release workflow conclusion and publish job count.
-   - Use OpenClaw itself for live registry proof:
+   - Use OpenAgent itself for live registry proof:
      `openclaw plugins search <known-plugin> --json`.
    - Install one official plugin at the exact requested release version from
      ClawHub in an isolated HOME:
@@ -73,10 +73,10 @@ Use these checks only for the regular orchestrated release track.
      versions belong in the spec; `--pin` is only supported for npm installs.
 5. Release workflows:
    - Verify conclusions for release notes evidence links:
-     Full Release Validation, OpenClaw Release Checks, OpenClaw NPM Release,
+     Full Release Validation, OpenAgent Release Checks, OpenAgent NPM Release,
      Plugin NPM Release, Plugin ClawHub Release, mac preflight/validation/publish
      when stable mac assets are expected.
-   - For stable, verify `OpenClaw Stable Main Closeout` succeeded and its
+   - For stable, verify `OpenAgent Stable Main Closeout` succeeded and its
      manifest records the matching release tag, current rollback drill, stable
      soak, and blocking performance evidence.
    - Summarize only relevant successful/failed jobs; ignore routine skipped

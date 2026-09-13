@@ -51,7 +51,7 @@ it("keeps Messages default and opens capture with a collapsed schema editor insi
       gateway: { ...gateway, connection: { gatewayUrl: "ws://transcripts.test" } },
       runtimeConfig,
       navigate: vi.fn(),
-      config: { current: { assistantIdentity: { name: "Zero to Agent" } } },
+      config: { current: { assistantIdentity: { name: "OpenAgent" } } },
       overlays: { snapshot: { updateRunning: false, updateReconciliationPending: false } },
       webPush: { snapshot: {} },
     } as unknown as ApplicationContext;

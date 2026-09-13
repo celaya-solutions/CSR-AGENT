@@ -32,7 +32,7 @@ describe("Windows Gateway task supervisor", () => {
   beforeEach(() => {
     process.argv = [
       process.execPath,
-      "C:\\Zero to Agent\\dist\\entry.js",
+      "C:\\OpenAgent\\dist\\entry.js",
       "gateway",
       "--task-supervisor",
     ];

@@ -121,7 +121,7 @@ describe("check-release-metadata-only", () => {
       "git",
       [
         "-c",
-        "user.name=Zero to Agent Test",
+        "user.name=OpenAgent Test",
         "-c",
         "user.email=test@openclaw.invalid",
         "commit",

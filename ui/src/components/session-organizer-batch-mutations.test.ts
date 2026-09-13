@@ -712,7 +712,7 @@ describe("session organizer destructive confirmations", () => {
     answerConfirmDialog(await waitForConfirmDialogActions(), "confirm");
     const worktreeActions = await waitForConfirmDialogActions();
     expect(document.body.querySelector("openclaw-modal-dialog")?.textContent).toContain(
-      "Zero to Agent could not create a safety snapshot",
+      "OpenAgent could not create a safety snapshot",
     );
     answerConfirmDialog(worktreeActions, "confirm");
     await pending;

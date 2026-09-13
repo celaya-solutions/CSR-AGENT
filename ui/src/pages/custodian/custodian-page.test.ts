@@ -288,7 +288,7 @@ describe("custodian page", () => {
       .fn()
       .mockRejectedValue(
         new Error(
-          "Zero to Agent requires working inference: No agent model is configured. Run `openclaw onboard` first.",
+          "OpenAgent requires working inference: No agent model is configured. Run `openclaw onboard` first.",
         ),
       );
     const { context } = createContext(request);
@@ -783,7 +783,7 @@ describe("custodian page", () => {
     const question = {
       id: "access",
       header: "Access",
-      question: "How should Zero to Agent work?",
+      question: "How should OpenAgent work?",
       options: [{ label: "Full access", recommended: true }, { label: "Ask first" }],
       isOther: false,
     };
@@ -904,7 +904,7 @@ describe("custodian page", () => {
     const question = {
       id: "access",
       header: "Access",
-      question: "How should Zero to Agent work?",
+      question: "How should OpenAgent work?",
       options: [{ label: "Full access", recommended: true }, { label: "Ask first" }],
       isOther: false,
     };
@@ -948,7 +948,7 @@ describe("custodian page", () => {
   it("requests the normal caretaker greeting outside onboarding", async () => {
     const request = vi.fn().mockResolvedValue({
       sessionId: "control-ui-onboarding-00000000-0000-4000-8000-000000000001",
-      reply: "Zero to Agent here. Everything is healthy.",
+      reply: "OpenAgent here. Everything is healthy.",
       action: "none",
     });
     const { context } = createContext(request);
@@ -975,7 +975,7 @@ describe("custodian page", () => {
       .fn()
       .mockResolvedValueOnce({
         sessionId: "control-ui-caretaker-00000000-0000-4000-8000-000000000001",
-        reply: "I'm Zero to Agent. All systems nominal.",
+        reply: "I'm OpenAgent. All systems nominal.",
         action: "none",
         question: {
           id: "system-agent-quick-actions",

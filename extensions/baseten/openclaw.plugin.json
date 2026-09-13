@@ -2,7 +2,7 @@
   "id": "baseten",
   "categories": ["models"],
   "name": "Baseten",
-  "description": "Zero to Agent Baseten provider plugin.",
+  "description": "OpenAgent Baseten provider plugin.",
   "activation": {
     "onStartup": false
   },

@@ -62,7 +62,7 @@ export async function runDoctorStateSqliteCompact(
     };
   }
   if (!stat.isFile()) {
-    throw new Error(`Canonical Zero to Agent state database is not a regular file: ${sqlitePath}`);
+    throw new Error(`Canonical OpenAgent state database is not a regular file: ${sqlitePath}`);
   }
   const withMaintenanceLock = deps.withMaintenanceLock ?? withDoctorSqliteMaintenanceLock;
   return await withMaintenanceLock({
@@ -76,7 +76,7 @@ export async function runDoctorStateSqliteCompact(
         () => {
           if (isOpenClawStateDatabaseOpen()) {
             throw new Error(
-              "The shared Zero to Agent state database is already open in this process. Stop Zero to Agent and retry.",
+              "The shared OpenAgent state database is already open in this process. Stop OpenAgent and retry.",
             );
           }
 
@@ -84,7 +84,7 @@ export async function runDoctorStateSqliteCompact(
             afterSuccess: () => {
               if (!clearOpenClawDatabaseQuarantine(sqlitePath, { env })) {
                 throw new Error(
-                  `Zero to Agent state database ${sqlitePath} was compacted, but its persisted quarantine record could not be cleared. Rerun openclaw doctor --fix so the database is not refused again.`,
+                  `OpenAgent state database ${sqlitePath} was compacted, but its persisted quarantine record could not be cleared. Rerun openclaw doctor --fix so the database is not refused again.`,
                 );
               }
               clearOpenClawStateDatabaseOpenFailure(sqlitePath);

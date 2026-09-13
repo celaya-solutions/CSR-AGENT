@@ -65,7 +65,7 @@ function createCaptureRuntime(): CaptureRuntime {
     log: (...args) => lines.push(args.join(" ")),
     error: (...args) => lines.push(args.join(" ")),
     exit: (code) => {
-      throw new Error(`Zero to Agent operation exited with code ${String(code)}`);
+      throw new Error(`OpenAgent operation exited with code ${String(code)}`);
     },
     read: () => lines.join("\n").trim(),
   };
@@ -100,7 +100,7 @@ export function redactSensitiveCommandText(text: string): string {
 function formatPendingOperationForAssistant(operation: SystemAgentOperation): string {
   const description = describeSystemAgentPersistentOperation(operation);
   return operation.kind === "setup"
-    ? `${description}. Exact setup JSON: ${JSON.stringify(operation)}. Keep the verified model unless the user explicitly asks to leave Zero to Agent and reconfigure inference.`
+    ? `${description}. Exact setup JSON: ${JSON.stringify(operation)}. Keep the verified model unless the user explicitly asks to leave OpenAgent and reconfigure inference.`
     : description;
 }
 
@@ -195,7 +195,7 @@ export class ChatTurnRouter {
       };
     }
     if (/^(quit|exit)$/i.test(trimmed)) {
-      return { text: "Zero to Agent retracts into shell. Bye.", action: "exit" };
+      return { text: "OpenAgent retracts into shell. Bye.", action: "exit" };
     }
     if (this.awaitingSetupChannel) {
       if (/^(cancel|abort|stop)$/i.test(trimmed)) {
@@ -216,7 +216,7 @@ export class ChatTurnRouter {
       });
     }
     if (this.options.operatorApprovalOnly && this.getPendingOperatorProposal()) {
-      return { text: "Approval pending. Human must decide in Zero to Agent UI.", action: "none" };
+      return { text: "Approval pending. Human must decide in OpenAgent UI.", action: "none" };
     }
     const typed = parseSystemAgentOperation(text);
     if (isInvalidConfigSetOperation(typed)) {
@@ -289,7 +289,7 @@ export class ChatTurnRouter {
     beforePersistentApply?: PersistentApplyGuard,
   ): Promise<SystemAgentChatReply> {
     if (!isPersistentSystemAgentOperation(operation)) {
-      throw new Error("Zero to Agent host received a non-persistent approved operation.");
+      throw new Error("OpenAgent host received a non-persistent approved operation.");
     }
     const capture = createCaptureRuntime();
     const result = await this.executeOperation(operation, capture, true, beforePersistentApply);
@@ -418,13 +418,13 @@ export class ChatTurnRouter {
       this.clearPendingProposals();
       if (this.options.surface === "gateway") {
         return {
-          text: "Open Settings to change your model or connect a channel. To change providers from a shell, run `openclaw onboard` on the machine running Zero to Agent.",
+          text: "Open Settings to change your model or connect a channel. To change providers from a shell, run `openclaw onboard` on the machine running OpenAgent.",
           action: "none",
         };
       }
       if (!["channels", "search", "gateway"].includes(recordedOperation.target)) {
         return {
-          text: "Setup can replace the inference route powering this session. Exit Zero to Agent and run `openclaw onboard`; it saves only a route that passes a live test. Then start Zero to Agent again.",
+          text: "Setup can replace the inference route powering this session. Exit OpenAgent and run `openclaw onboard`; it saves only a route that passes a live test. Then start OpenAgent again.",
           action: "none",
         };
       }
@@ -553,7 +553,7 @@ export class ChatTurnRouter {
     return {
       text: [
         "Changing provider credentials would replace the inference route powering this session.",
-        "Stop the Zero to Agent host through whatever started it. Run `openclaw onboard` on the machine running Zero to Agent: it stages credentials, live-tests the new route, and saves only a passing setup. Then restart the host and return to Zero to Agent.",
+        "Stop the OpenAgent host through whatever started it. Run `openclaw onboard` on the machine running OpenAgent: it stages credentials, live-tests the new route, and saves only a passing setup. Then restart the host and return to OpenAgent.",
       ].join("\n"),
       action: "none",
     };
@@ -570,7 +570,7 @@ export class ChatTurnRouter {
   private agentHandoffReturnHint(): string {
     // Only the TUI uses /openclaw for navigation; web chat runs rescue in place.
     return this.options.surface === "gateway"
-      ? "You can return through Settings → Ask Zero to Agent."
+      ? "You can return through Settings → Ask OpenAgent."
       : "Use /openclaw to come back.";
   }
 
@@ -595,8 +595,8 @@ export class ChatTurnRouter {
   private armFollowUp(operation: SystemAgentOperation | undefined): string | null {
     return operation?.kind === "model-setup"
       ? [
-          "No usable inference route is configured, so Zero to Agent cannot continue.",
-          "Run `openclaw onboard` on the machine running Zero to Agent; it saves only a route that passes a live test.",
+          "No usable inference route is configured, so OpenAgent cannot continue.",
+          "Run `openclaw onboard` on the machine running OpenAgent; it saves only a route that passes a live test.",
         ].join("\n")
       : null;
   }

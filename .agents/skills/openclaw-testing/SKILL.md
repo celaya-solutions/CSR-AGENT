@@ -1,9 +1,9 @@
 ---
 name: openclaw-testing
-description: Choose proportional OpenClaw tests and checks, diagnose failures, and route environment-sensitive or release proof to its owner.
+description: Choose proportional OpenAgent tests and checks, diagnose failures, and route environment-sensitive or release proof to its owner.
 ---
 
-# OpenClaw Testing
+# OpenAgent Testing
 
 Prove the changed contract with the smallest meaningful check, complete required
 checks, then finish. Broaden or repeat only for new changes, failures, or
@@ -32,7 +32,7 @@ desktop/platform behavior, or an explicit operator request.
 For specialized proof, load only the selected route:
 
 - Remote leases and credentials: [`$crabbox`](../crabbox/SKILL.md), with the
-  OpenClaw bootstrap binding below.
+  OpenAgent bootstrap binding below.
 - Package installation, plugin package trust, Docker/live lane selection or
   reruns: [Package And Docker Proof](references/package-and-docker.md).
 - Release candidates, full-validation dispatch, evidence identity or recovery:
@@ -52,7 +52,7 @@ wrapper or config. Use secretless fork CI or sanitized direct AWS under
 `$crabbox`; never credential-hydrated Testbox. Credentialed execution requires
 maintainer approval after review, and never hydrates an untrusted lease.
 
-For untrusted OpenClaw AWS proof, supply the clean trusted `main` copy of
+For untrusted OpenAgent AWS proof, supply the clean trusted `main` copy of
 `scripts/crabbox-untrusted-bootstrap.sh` as Crabbox's
 `<trusted-bootstrap-script>`. Bind the fresh lease and `--fresh-pr` checkout to
 the reviewed full head SHA. The trusted bootstrap verifies that SHA, the IMDSv2

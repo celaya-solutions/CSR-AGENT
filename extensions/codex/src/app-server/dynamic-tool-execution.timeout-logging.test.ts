@@ -40,7 +40,7 @@ describe("dynamic tool timeout logging", () => {
       contentItems: [
         {
           type: "inputText",
-          text: "Zero to Agent dynamic tool call timed out after 1ms while waiting for process action=poll sessionId=process-session. This is a tool RPC timeout, not a session idle timeout.",
+          text: "OpenAgent dynamic tool call timed out after 1ms while waiting for process action=poll sessionId=process-session. This is a tool RPC timeout, not a session idle timeout.",
         },
       ],
     });

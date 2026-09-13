@@ -48,7 +48,7 @@ describe("system-agent inference fallback", () => {
       ok: false,
       status: "unknown",
       error:
-        "Zero to Agent could not verify a usable inference route. Check model setup and try again.",
+        "OpenAgent could not verify a usable inference route. Check model setup and try again.",
     });
   });
 

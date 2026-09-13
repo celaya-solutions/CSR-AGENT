@@ -67,7 +67,7 @@ function makeDistributionFixture(layout: "native" | "xcode", missingArch?: strin
     if (arch === missingArch) {
       continue;
     }
-    const binary = path.join(products, "Zero to Agent");
+    const binary = path.join(products, "OpenAgent");
     const symbols = `${binary}.dSYM`;
     for (const args of [
       ["clang", "-arch", arch, "-g", source, "-o", binary],
@@ -161,7 +161,7 @@ describe("package-mac-dist plist validation", () => {
     const script = readFileSync(scriptPath, "utf8");
     const readBlock = script.slice(
       script.indexOf("VERSION="),
-      script.indexOf('ZIP="$ROOT_DIR/dist/Zero to Agent-$VERSION.zip"'),
+      script.indexOf('ZIP="$ROOT_DIR/dist/OpenAgent-$VERSION.zip"'),
     );
 
     expect(script).toContain('source "$ROOT_DIR/scripts/lib/plistbuddy.sh"');
@@ -286,7 +286,7 @@ describe("package-mac-dist plist validation", () => {
     `);
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("Zero to Agent macOS app packaging requires Swift tools 6.3+");
+    expect(result.stderr).toContain("OpenAgent macOS app packaging requires Swift tools 6.3+");
     expect(result.stderr).toContain("Current Swift is 6.0");
     expect(result.stderr).not.toContain("node should not run before Swift preflight");
   });
@@ -493,12 +493,12 @@ describe("package-mac-dist plist validation", () => {
         plist,
         readFileSync(plist, "utf8").replace(
           "</dict>",
-          "<key>CFBundleExecutable</key><string>Zero to Agent</string></dict>",
+          "<key>CFBundleExecutable</key><string>OpenAgent</string></dict>",
         ),
       );
       mkdirSync(path.join(app, "Contents/MacOS"));
       copyFileSync(
-        path.join(fixture.root, "apps/macos/.build/arm64/release/Zero to Agent"),
+        path.join(fixture.root, "apps/macos/.build/arm64/release/OpenAgent"),
         path.join(app, "Contents/MacOS/OpenClaw"),
       );
       const signed = spawnSync("/usr/bin/codesign", ["--force", "--sign", "-", app], {

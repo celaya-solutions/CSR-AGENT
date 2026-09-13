@@ -1,4 +1,4 @@
-# Copilot Proxy (Zero to Agent plugin)
+# Copilot Proxy (OpenAgent plugin)
 
 Provider plugin for the **Copilot Proxy** VS Code extension.
 

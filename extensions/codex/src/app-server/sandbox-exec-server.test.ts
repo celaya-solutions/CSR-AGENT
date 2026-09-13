@@ -68,7 +68,7 @@ async function readStartedPid(
   throw new Error(`process ${processId} did not report its PID`);
 }
 
-describe("Zero to Agent Codex sandbox exec-server", () => {
+describe("OpenAgent Codex sandbox exec-server", () => {
   it("rejects an incomplete sandbox environment before publishing an exec-server", async () => {
     const sandbox = createSandboxContext({});
     sandbox.fsBridge = undefined;
@@ -779,7 +779,7 @@ describe("Zero to Agent Codex sandbox exec-server", () => {
     for (const method of ["fs/walk", "process/signal", "unsupported/method"]) {
       await expect(rpc(socket, method, {})).rejects.toMatchObject({
         code: -32601,
-        message: `Unsupported Zero to Agent sandbox exec-server method: ${method}`,
+        message: `Unsupported OpenAgent sandbox exec-server method: ${method}`,
       });
     }
     await expect(

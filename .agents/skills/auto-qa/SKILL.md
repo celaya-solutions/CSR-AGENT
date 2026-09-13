@@ -3,9 +3,9 @@ name: auto-qa
 description: "Run OpenClaw-wide autonomous QA and live/stress campaigns across independent subsystem lanes, with verified fixes and a resumable evidence report."
 ---
 
-# OpenClaw Auto QA
+# OpenAgent Auto QA
 
-Run a continuous, current-`main` OpenClaw product campaign. Treat a reviewer finding as a hypothesis, a passing test as evidence only for its actual head, and a merge as complete only when the canonical repository confirms it. Always prefer a clean, appropriately scoped root-cause refactor over a quick fix or smaller diff. Repair the actual root cause in its canonical owner; a patch is not acceptable when it leaves sibling paths, lifecycle invariants, or the defective abstraction intact.
+Run a continuous, current-`main` OpenAgent product campaign. Treat a reviewer finding as a hypothesis, a passing test as evidence only for its actual head, and a merge as complete only when the canonical repository confirms it. Always prefer a clean, appropriately scoped root-cause refactor over a quick fix or smaller diff. Repair the actual root cause in its canonical owner; a patch is not acceptable when it leaves sibling paths, lifecycle invariants, or the defective abstraction intact.
 
 ## Set the campaign goal
 
@@ -76,4 +76,4 @@ Prepare but **do not autonomously merge** security or authentication changes; SQ
 
 Update the requested report throughout the campaign, not only at the end. Follow [references/campaign-evidence.md](references/campaign-evidence.md) for campaign and active-lane evidence and [references/evidence-ledger.md](references/evidence-ledger.md) for verified bug states. Separate discovered hypotheses, reproduced bugs, review-required PRs, exact-head validated fixes, and actually merged fixes. Report the frozen main SHA, worker lanes, resource use, live model and gateway proof, soak timestamps, actual failures, independent review, CI run IDs, PR links, and canonical merge SHAs.
 
-Count only distinct, verified, authorized, **actually merged** low-risk root-cause fixes toward the operator's current explicit target. Never count the Auto QA skill PR, observations, pending PRs, skipped checks, existing unrelated merges, individual symptoms of the same defect, hypotheses, or review-required fixes. Keep iterating on this skill from real OpenClaw campaign evidence in a separate skill-only worktree and PR.
+Count only distinct, verified, authorized, **actually merged** low-risk root-cause fixes toward the operator's current explicit target. Never count the Auto QA skill PR, observations, pending PRs, skipped checks, existing unrelated merges, individual symptoms of the same defect, hypotheses, or review-required fixes. Keep iterating on this skill from real OpenAgent campaign evidence in a separate skill-only worktree and PR.

@@ -8,7 +8,7 @@ title: "Telegram media and attachments"
 sidebarTitle: "Media and attachments"
 ---
 
-What Zero to Agent can send to Telegram beyond text, and how inbound media reaches the agent.
+What OpenAgent can send to Telegram beyond text, and how inbound media reaches the agent.
 
 ## Media and attachments
 
@@ -16,7 +16,7 @@ What Zero to Agent can send to Telegram beyond text, and how inbound media reach
   <Accordion title="Photo albums, audio, video, and stickers">
     ### Photo albums
 
-    Send multiple image attachments in one `message` tool call. Zero to Agent groups consecutive photos into Telegram albums of up to 10 images, in their original order. Automatic replies with multiple photos use the same grouping. A single photo, including a final remainder of one, is sent separately.
+    Send multiple image attachments in one `message` tool call. OpenAgent groups consecutive photos into Telegram albums of up to 10 images, in their original order. Automatic replies with multiple photos use the same grouping. A single photo, including a final remainder of one, is sent separately.
 
 ```json5
 {
@@ -84,7 +84,7 @@ What Zero to Agent can send to Telegram beyond text, and how inbound media reach
 
     Inbound: static WEBP is downloaded and processed (placeholder `<media:sticker>`); animated TGS and video WEBM are skipped.
 
-    Sticker context fields: `Sticker.emoji`, `Sticker.setName`, `Sticker.fileId`, `Sticker.fileUniqueId`, `Sticker.cachedDescription`. Descriptions are cached in Zero to Agent SQLite plugin state to reduce repeated vision calls.
+    Sticker context fields: `Sticker.emoji`, `Sticker.setName`, `Sticker.fileId`, `Sticker.fileUniqueId`, `Sticker.cachedDescription`. Descriptions are cached in OpenAgent SQLite plugin state to reduce repeated vision calls.
 
     Sticker descriptions use the configured `agents.defaults.imageModel` before shared automatic image-model selection, including the provider's MiniMax image routing. The sticker description uses one selected model and does not try the configured fallback list if that model fails. A failed description is not cached; general media analysis can still run separately with its normal fallback handling.
 

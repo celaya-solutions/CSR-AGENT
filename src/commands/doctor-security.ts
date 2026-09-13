@@ -99,8 +99,8 @@ function collectExecPolicyConflictWarnings(
   approvals: ExecApprovalsFile,
 ): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
-  const defaultRequestedSecuritySource = "Zero to Agent default (full)";
-  const defaultRequestedAskSource = "Zero to Agent default (off)";
+  const defaultRequestedSecuritySource = "OpenAgent default (full)";
+  const defaultRequestedAskSource = "OpenAgent default (off)";
 
   const maybeWarn = (params: {
     scopeLabel: string;

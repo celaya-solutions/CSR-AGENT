@@ -65,7 +65,7 @@ mkdir -p "$OPENCLAW_STATE_DIR" "$TLS_DIR"
 node scripts/e2e/lib/fixture.mjs openai-web-search-minimal-config
 
 openssl req -x509 -newkey rsa:2048 -nodes -sha256 -days 1 \
-  -subj "/CN=OpenClaw E2E CA" \
+  -subj "/CN=OpenAgent E2E CA" \
   -addext "basicConstraints=critical,CA:TRUE" \
   -addext "keyUsage=critical,keyCertSign,cRLSign" \
   -keyout "$TLS_CA_KEY" \

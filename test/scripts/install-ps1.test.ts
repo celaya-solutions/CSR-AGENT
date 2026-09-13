@@ -96,7 +96,7 @@ function createDeferredPathSuccessFixture(source: string): string {
     "function Check-Node { return $true }",
     "function Check-ExistingOpenClaw { return $false }",
     "function Add-ToPath { param([string]$Path) }",
-    "function Install-Zero to Agent { return $true }",
+    "function Install-OpenAgent { return $true }",
     "function Ensure-OpenClawOnPath { return $false }",
     "$NoOnboard = $true",
     "",
@@ -180,10 +180,10 @@ $beforeMachinePath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
 $script:InstallerTempDirectory = Join-Path $root 'temp'
 $script:Scenario = ''
 $script:Extractions = 0
-function Check-ExistingOpenClaw { throw 'unexpected Zero to Agent lookup' }
+function Check-ExistingOpenClaw { throw 'unexpected OpenAgent lookup' }
 function Install-Node { throw 'unexpected package-manager install' }
-function Install-Zero to Agent { throw 'unexpected Zero to Agent install' }
-function Ensure-OpenClawOnPath { throw 'unexpected Zero to Agent PATH update' }
+function Install-OpenAgent { throw 'unexpected OpenAgent install' }
+function Ensure-OpenClawOnPath { throw 'unexpected OpenAgent PATH update' }
 function Add-ToProcessPath { throw 'unexpected process PATH update' }
 function Add-ToUserPath { throw 'unexpected user PATH update' }
 function Refresh-GatewayServiceIfLoaded { throw 'unexpected Gateway update' }
@@ -885,7 +885,7 @@ try {
           "try {",
           ...entrypointLines.map((line) => `  ${line}`),
           "} catch {",
-          "  if ($_.Exception.Message -ne 'Zero to Agent installation failed with exit code 1.') { throw }",
+          "  if ($_.Exception.Message -ne 'OpenAgent installation failed with exit code 1.') { throw }",
           "  $caught = $true",
           "}",
           "if (-not $caught) { throw 'Install failure did not reach the caller' }",
@@ -929,10 +929,10 @@ try {
           "function Check-Node { return $true }",
           "function Check-ExistingOpenClaw { return $false }",
           "function Add-ToPath { param([string]$Path) }",
-          "function Install-Zero to Agent { Write-Output 'npm stdout'; return $true }",
+          "function Install-OpenAgent { Write-Output 'npm stdout'; return $true }",
           "function Ensure-OpenClawOnPath { return $true }",
           "function Refresh-GatewayServiceIfLoaded { }",
-          "function Invoke-OpenClawCommand { return 'Zero to Agent test-version' }",
+          "function Invoke-OpenClawCommand { return 'OpenAgent test-version' }",
           "$NoOnboard = $true",
           "$result = Main",
           "if ($result -is [array]) { throw 'Main returned an array' }",
@@ -950,13 +950,13 @@ try {
           "function Check-Node { return $true }",
           "function Check-ExistingOpenClaw { return $false }",
           "function Add-ToPath { param([string]$Path) }",
-          "function Install-Zero to Agent {",
+          "function Install-OpenAgent {",
           "  Write-Output 'native chatter'",
           "  return $true",
           "}",
           "function Ensure-OpenClawOnPath { return $true }",
           "function Refresh-GatewayServiceIfLoaded { }",
-          "function Invoke-OpenClawCommand { return 'Zero to Agent test-version' }",
+          "function Invoke-OpenClawCommand { return 'OpenAgent test-version' }",
           "$NoOnboard = $true",
           ...entrypointLines,
           "",
@@ -1492,9 +1492,7 @@ try {
     const completeInstallBody = extractFunctionBody(source, "Complete-Install");
     expect(completeInstallBody).toMatch(/\$PSCommandPath/);
     expect(completeInstallBody).toMatch(/\bexit \$script:InstallExitCode\b/);
-    expect(completeInstallBody).toMatch(
-      /\bthrow "Zero to Agent installation failed with exit code/,
-    );
+    expect(completeInstallBody).toMatch(/\bthrow "OpenAgent installation failed with exit code/);
     expect(completeInstallBody).toContain("$script:InstallExitCode -eq 0");
     expect(source).toContain("$null = Main");
     expect(source).toMatch(/\$null = Main\s+Complete-Install\s*$/);
@@ -1622,7 +1620,7 @@ try {
   });
 
   it("runs npm install through the resolved command with quiet CI defaults", () => {
-    const npmInstallBody = extractFunctionBody(source, "Install-Zero to Agent");
+    const npmInstallBody = extractFunctionBody(source, "Install-OpenAgent");
     expect(npmInstallBody).toContain(
       "$npmOutput = Invoke-NpmCommand -CommandPath $npmCommand -WorkingDirectory $npmCwd -Arguments",
     );
@@ -1653,7 +1651,7 @@ try {
 
   it("does not force npm or pnpm lifecycle scripts through cmd.exe", () => {
     const ensurePnpmBody = extractFunctionBody(source, "Ensure-Pnpm");
-    const npmInstallBody = extractFunctionBody(source, "Install-Zero to Agent");
+    const npmInstallBody = extractFunctionBody(source, "Install-OpenAgent");
     const gitInstallBody = extractFunctionBody(source, "Install-OpenClawFromGit");
 
     expect(ensurePnpmBody).not.toContain("NPM_CONFIG_SCRIPT_SHELL");
@@ -1732,15 +1730,13 @@ try {
     expect(source).not.toContain("Get-InstallerTempDirectory");
   });
 
-  it("rejects Zero to Agent GitHub source targets for npm installs", () => {
-    const npmInstallBody = extractFunctionBody(source, "Install-Zero to Agent");
+  it("rejects OpenAgent GitHub source targets for npm installs", () => {
+    const npmInstallBody = extractFunctionBody(source, "Install-OpenAgent");
     const sourceTargetBody = extractFunctionBody(source, "Test-OpenClawSourcePackageInstallSpec");
     expect(sourceTargetBody).toContain('$normalizedTag -eq "main"');
     expect(sourceTargetBody).toContain("^github:openclaw/openclaw");
     expect(npmInstallBody).toContain("Test-OpenClawSourcePackageInstallSpec -RequestedTag $Tag");
-    expect(npmInstallBody).toContain(
-      "npm installs do not support Zero to Agent GitHub source targets",
-    );
+    expect(npmInstallBody).toContain("npm installs do not support OpenAgent GitHub source targets");
     expect(npmInstallBody).toContain("-InstallMethod git -Tag main");
   });
 
@@ -1751,7 +1747,7 @@ try {
   });
 
   it("preserves the min-release-age probe status before raw npmrc detection", () => {
-    const npmInstallBody = extractFunctionBody(source, "Install-Zero to Agent");
+    const npmInstallBody = extractFunctionBody(source, "Install-OpenAgent");
     const probeStatusCapture = npmInstallBody.indexOf("$minReleaseAgeStatus = $LASTEXITCODE");
     const rawKeyProbe = npmInstallBody.indexOf("Test-NpmConfigRawKey -Key");
     expect(probeStatusCapture).toBeGreaterThan(-1);
@@ -1799,7 +1795,7 @@ try {
     expect(installNodeBody).toContain("Install-PortableNode");
     expect(installNodeBody).toContain("Portable Node.js bootstrap failed");
     expect(installNodeBody).toContain("Error: Could not install Node.js automatically.");
-    expect(depsRootBody).toContain("Zero to Agent\\deps");
+    expect(depsRootBody).toContain("OpenAgent\\deps");
     expect(portableNodeRootBody).toContain("portable-node");
     expect(portableNodeBody).toContain("Ensure-PortableNodeOnUserPath");
     expect(portableNodeBody).toContain(
@@ -1932,7 +1928,7 @@ try {
     );
     expect(mainBody).toContain("$gitInstallResults = @(Install-OpenClawFromGit");
     expect(mainBody).toContain("Test-BooleanSuccessResult -Results $gitInstallResults");
-    expect(mainBody).toContain("$npmInstallResults = @(Install-Zero to Agent)");
+    expect(mainBody).toContain("$npmInstallResults = @(Install-OpenAgent)");
     expect(mainBody).toContain("Test-BooleanSuccessResult -Results $npmInstallResults");
     expect(gitInstallBody).toContain("Push-Location -LiteralPath $RepoDir");
     expect(gitInstallBody).toContain('$sourceInstallArgs = @("install")');
@@ -1984,9 +1980,7 @@ try {
     expect(gitInstallBody).toContain('Write-Host "[!] pnpm build failed for the Git checkout"');
     expect(gitInstallBody).toContain('$entryPath = Join-Path $RepoDir "dist\\\\entry.js"');
     expect(gitInstallBody).toContain("Test-Path $entryPath");
-    expect(gitInstallBody).toContain(
-      'Write-Host "[!] Zero to Agent build did not produce $entryPath"',
-    );
+    expect(gitInstallBody).toContain('Write-Host "[!] OpenAgent build did not produce $entryPath"');
     expect(gitInstallBody).toContain("node $entryPath --version");
     expect(gitInstallBody).toContain("Format-OpenClawGitWrapper -EntryPath $entryPath");
     expect(gitInstallBody).not.toContain("& $pnpmCommand -C $RepoDir install");
@@ -2034,7 +2028,7 @@ try {
             "  if ($Arguments[0] -eq 'config' -and $Arguments[2] -eq 'prefix') { Write-Output $env:USERPROFILE; $global:LASTEXITCODE = 0; return }",
             "  throw 'unexpected npm command'",
             "}",
-            "function Install-Zero to Agent { return $true }",
+            "function Install-OpenAgent { return $true }",
             "function Ensure-OpenClawOnPath { return $true }",
             "function Add-ToUserPath { param([string]$Path) }",
             "function Get-OpenClawCommandPath { return 'cmd.exe' }",

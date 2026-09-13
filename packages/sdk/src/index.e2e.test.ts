@@ -10,7 +10,7 @@ import {
   registerAgentRunContext,
 } from "../../../src/infra/agent-run-registry.js";
 import { withTimeout } from "../../../src/utils/with-timeout.js";
-import { GatewayClientTransport, OpenClaw } from "./index.js";
+import { GatewayClientTransport, OpenAgent } from "./index.js";
 
 type JsonObject = Record<string, unknown>;
 type FakeGatewayRequest = {
@@ -338,7 +338,7 @@ async function createFakeGateway(port = 0): Promise<FakeGateway> {
   };
 }
 
-describe("Zero to Agent SDK websocket e2e", () => {
+describe("OpenAgent SDK websocket e2e", () => {
   afterEach(async () => {
     await Promise.all(
       servers.splice(0).map(
@@ -360,7 +360,7 @@ describe("Zero to Agent SDK websocket e2e", () => {
       deviceIdentity: null,
       requestTimeoutMs: 2_000,
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new OpenAgent({ transport });
     try {
       const agent = await oc.agents.get("main");
       const run = await agent.run({
@@ -409,7 +409,7 @@ describe("Zero to Agent SDK websocket e2e", () => {
       deviceIdentity: null,
       requestTimeoutMs: 2_000,
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new OpenAgent({ transport });
 
     try {
       const agents = expectJsonObject(await oc.agents.list());
@@ -559,7 +559,7 @@ describe("Zero to Agent SDK websocket e2e", () => {
   });
 });
 
-describe("Zero to Agent SDK real Gateway e2e", () => {
+describe("OpenAgent SDK real Gateway e2e", () => {
   installGatewayTestHooks({ scope: "test" });
 
   it("streams real Gateway agent events and preserves late replay order", async () => {
@@ -571,7 +571,7 @@ describe("Zero to Agent SDK real Gateway e2e", () => {
       deviceIdentity: null,
       requestTimeoutMs: 2_000,
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new OpenAgent({ transport });
     const runId = "sdk-real-gateway-run";
     const replayRunId = "sdk-real-gateway-replay";
 
@@ -706,9 +706,9 @@ function expectArrayProperty(value: unknown, property: string): void {
   expect(Array.isArray(record[property])).toBe(true);
 }
 
-liveGatewayDescribe("Zero to Agent SDK live Gateway e2e", () => {
+liveGatewayDescribe("OpenAgent SDK live Gateway e2e", () => {
   it("connects to a configured Gateway, streams a real run, and waits for completion", async () => {
-    const oc = new OpenClaw({
+    const oc = new OpenAgent({
       url: liveGatewayUrl,
       token: liveGatewayToken,
       requestTimeoutMs: 20_000,

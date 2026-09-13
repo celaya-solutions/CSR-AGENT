@@ -556,7 +556,7 @@ export const handleRestartCommand: CommandHandler = defineGatewayControlCommand(
           : undefined,
       });
       return sessionCommandReply(
-        "⚙️ Restarting Zero to Agent in-process (SIGUSR1); back in a few seconds.",
+        "⚙️ Restarting OpenAgent in-process (SIGUSR1); back in a few seconds.",
       );
     }
     let sentinelWritten = false;
@@ -580,7 +580,7 @@ export const handleRestartCommand: CommandHandler = defineGatewayControlCommand(
       return sessionCommandReply(`⚠️ Restart failed (${restartMethod.method}).${detail}`);
     }
     return sessionCommandReply(
-      `⚙️ Restarting Zero to Agent via ${restartMethod.method}; give me a few seconds to come back online.`,
+      `⚙️ Restarting OpenAgent via ${restartMethod.method}; give me a few seconds to come back online.`,
     );
   },
 );

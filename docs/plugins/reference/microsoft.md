@@ -15,7 +15,7 @@ Adds text-to-speech provider support.
 ## Distribution
 
 - Package: `@openclaw/microsoft-speech`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

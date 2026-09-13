@@ -1,5 +1,5 @@
 // Minimal @openclaw/ai consumer: one isolated runtime, built-in providers,
-// one streamed completion. Uses only the public package surface — no OpenClaw
+// one streamed completion. Uses only the public package surface — no OpenAgent
 // application code. See README.md for build prerequisites and run commands.
 import { createLlmRuntime } from "@openclaw/ai";
 import { registerBuiltInApiProviders } from "@openclaw/ai/providers";

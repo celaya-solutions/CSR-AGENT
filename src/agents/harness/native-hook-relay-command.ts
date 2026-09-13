@@ -121,5 +121,5 @@ function resolveNativeHookRelayExecutable(): string {
       return resolved;
     }
   }
-  throw new Error("Cannot resolve Zero to Agent CLI executable path for native hook relay");
+  throw new Error("Cannot resolve OpenAgent CLI executable path for native hook relay");
 }

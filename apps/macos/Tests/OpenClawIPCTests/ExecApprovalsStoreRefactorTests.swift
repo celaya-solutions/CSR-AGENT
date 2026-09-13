@@ -2,7 +2,7 @@ import Foundation
 import OpenClawKit
 import SQLite3
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 struct ExecApprovalsStoreRefactorTests {

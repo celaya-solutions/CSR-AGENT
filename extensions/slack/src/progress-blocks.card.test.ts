@@ -213,7 +213,7 @@ describe("buildSlackProgressCardBlocks", () => {
           {
             type: "button",
             action_id: "openclaw:session_link",
-            text: { type: "plain_text", text: "Open in Zero to Agent" },
+            text: { type: "plain_text", text: "Open in OpenAgent" },
             url: "https://team.openclaw.ai/openclaw/chat/main",
           },
         ],

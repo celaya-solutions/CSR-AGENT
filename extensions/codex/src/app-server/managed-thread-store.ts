@@ -51,7 +51,7 @@ function managedThreadStoreKey(sourceHomeId: string, threadId: string): string {
     .digest("hex")}`;
 }
 
-/** Durable ownership index for Codex threads created by Zero to Agent. */
+/** Durable ownership index for Codex threads created by OpenAgent. */
 export function createCodexManagedThreadStore(
   state: Pick<
     PluginStateSyncKeyedStore<StoredCodexManagedThread>,

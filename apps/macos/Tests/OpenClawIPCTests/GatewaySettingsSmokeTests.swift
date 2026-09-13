@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 @MainActor

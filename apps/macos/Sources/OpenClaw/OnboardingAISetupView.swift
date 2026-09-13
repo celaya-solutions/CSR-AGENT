@@ -160,7 +160,7 @@ struct OnboardingAISetupView: View {
                         : "Looking for AI you already use…")
                         .font(.callout.weight(.semibold))
                     Text(self.model.waitingForPendingActivationDeadline
-                        ? "OpenClaw will check again before changing any inference settings."
+                        ? "OpenAgent will check again before changing any inference settings."
                         : "Checking CLI logins, saved API keys, and local model servers on the Gateway.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -497,9 +497,9 @@ struct OnboardingAISetupView: View {
                 }
                 Text("Connect an AI provider")
                     .font(.headline)
-                // Localization: the sign-in/API-key flow belongs to the selected provider, not OpenClaw.
+                // Localization: the sign-in/API-key flow belongs to the selected provider, not OpenAgent.
                 Text(
-                    "Choose any supported provider. OpenClaw asks before installing a provider plugin, " +
+                    "Choose any supported provider. OpenAgent asks before installing a provider plugin, " +
                         "then continues into its own sign-in or API-key flow and verifies a real reply.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -667,9 +667,9 @@ struct OnboardingAISetupView: View {
     private var manualProviderHelp: String {
         let hint = self.model.selectedManualProvider?.hint?.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let hint, !hint.isEmpty else {
-            return "Paste the key or token here, and OpenClaw checks it with a real test question."
+            return "Paste the key or token here, and OpenAgent checks it with a real test question."
         }
-        return "\(hint). Paste it here, and OpenClaw checks it with a real test question."
+        return "\(hint). Paste it here, and OpenAgent checks it with a real test question."
     }
 }
 

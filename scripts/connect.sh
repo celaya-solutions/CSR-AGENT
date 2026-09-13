@@ -22,8 +22,8 @@ print_usage() {
   cat <<'EOF'
 Usage: connect.sh --version <exact-version> [--prefix <path>] [--display-name <name>] <join-target>
 
-Installs an exact OpenClaw CLI version, connects the machine as a worker-session
-host, and installs the node service. The join target is handed to OpenClaw through
+Installs an exact OpenAgent CLI version, connects the machine as a worker-session
+host, and installs the node service. The join target is handed to OpenAgent through
 a private temporary file, never as a child-process argument.
 
 Options:
@@ -182,16 +182,16 @@ INSTALLER_PATH="${TEMP_DIR}/install-cli.sh"
 TARGET_FILE="${TEMP_DIR}/join-target"
 INSTALLER_SOURCE="${OPENCLAW_INSTALL_CLI_URL:-https://openclaw.ai/install-cli.sh}"
 
-FAILURE_CONTEXT="Could not obtain the OpenClaw CLI installer. Check network access or OPENCLAW_INSTALL_CLI_URL, then retry."
+FAILURE_CONTEXT="Could not obtain the OpenAgent CLI installer. Check network access or OPENCLAW_INSTALL_CLI_URL, then retry."
 download_installer "$INSTALLER_SOURCE" "$INSTALLER_PATH"
-[[ -s "$INSTALLER_PATH" ]] || fail "The OpenClaw CLI installer was empty. Check the installer source and retry."
+[[ -s "$INSTALLER_PATH" ]] || fail "The OpenAgent CLI installer was empty. Check the installer source and retry."
 chmod 0700 "$INSTALLER_PATH"
 
-FAILURE_CONTEXT="OpenClaw CLI installation failed. Verify the exact version and install prefix, then retry."
+FAILURE_CONTEXT="OpenAgent CLI installation failed. Verify the exact version and install prefix, then retry."
 bash "$INSTALLER_PATH" --version "$VERSION" --prefix "$PREFIX" --no-onboard
 
 OPENCLAW_BIN="${PREFIX}/bin/openclaw"
-[[ -x "$OPENCLAW_BIN" ]] || fail "Installed OpenClaw CLI is missing at ${OPENCLAW_BIN}. Check the installer output and retry."
+[[ -x "$OPENCLAW_BIN" ]] || fail "Installed OpenAgent CLI is missing at ${OPENCLAW_BIN}. Check the installer output and retry."
 
 CAPABILITY_ERROR="The selected exact version ${VERSION} does not support session-host onboarding. Choose a newer supporting exact version and retry."
 if ! CONNECT_HELP="$("$OPENCLAW_BIN" connect --help 2>&1)"; then
@@ -214,7 +214,7 @@ if [[ -n "$DISPLAY_NAME" ]]; then
   CONNECT_ARGS+=(--display-name "$DISPLAY_NAME")
 fi
 
-FAILURE_CONTEXT="OpenClaw could not connect or install the session-host service. Mint a fresh join target, verify Gateway reachability, and retry."
+FAILURE_CONTEXT="OpenAgent could not connect or install the session-host service. Mint a fresh join target, verify Gateway reachability, and retry."
 "$OPENCLAW_BIN" "${CONNECT_ARGS[@]}"
 
-printf 'OpenClaw session-host service installed.\n'
+printf 'OpenAgent session-host service installed.\n'

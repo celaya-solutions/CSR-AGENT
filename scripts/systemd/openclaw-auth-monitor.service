@@ -1,5 +1,5 @@
 [Unit]
-Description=OpenClaw Auth Expiry Monitor
+Description=OpenAgent Auth Expiry Monitor
 After=network.target
 
 [Service]

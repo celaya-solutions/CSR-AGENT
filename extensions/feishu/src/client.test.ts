@@ -656,7 +656,7 @@ describe("createFeishuClient HTTP timeout", () => {
     });
   });
 
-  it("uses Zero to Agent's ambient proxy agent for Feishu HTTP API requests", async () => {
+  it("uses OpenAgent's ambient proxy agent for Feishu HTTP API requests", async () => {
     process.env.HTTPS_PROXY = "http://upper-https:8002";
 
     createFeishuClient({

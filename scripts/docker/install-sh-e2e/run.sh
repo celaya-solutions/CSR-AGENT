@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Official installer E2E harness for Docker.
 #
-# Installs OpenClaw through the public one-liner, verifies the resolved npm
+# Installs OpenAgent through the public one-liner, verifies the resolved npm
 # version, then exercises onboard + local embedded agent tool turns for the
 # configured model providers. Keep this script package-install based: it should
 # validate the installed npm artifact, not repo sources.

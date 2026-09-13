@@ -1,4 +1,4 @@
-// Bench Gateway Restart script supports OpenClaw repository automation.
+// Bench Gateway Restart script supports OpenAgent repository automation.
 import { spawn, spawnSync, type ChildProcessWithoutNullStreams } from "node:child_process";
 import fs, { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -287,7 +287,7 @@ function parseOptions(argv: string[] = process.argv.slice(2)): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`OpenClaw Gateway restart benchmark
+  console.log(`OpenAgent Gateway restart benchmark
 
 Usage:
   pnpm test:restart:gateway -- [options]

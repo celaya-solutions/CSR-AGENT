@@ -296,7 +296,7 @@ describe("agent tool definition adapter logging", () => {
 
     const result = await def.execute(
       "call-web-search-abort",
-      { query: "Zero to Agent" },
+      { query: "OpenAgent" },
       undefined,
       undefined,
       extensionContext,
@@ -338,7 +338,7 @@ describe("agent tool definition adapter logging", () => {
     try {
       await def.execute(
         "call-web-search-agent-abort",
-        { query: "Zero to Agent" },
+        { query: "OpenAgent" },
         controller.signal,
         undefined,
         extensionContext,

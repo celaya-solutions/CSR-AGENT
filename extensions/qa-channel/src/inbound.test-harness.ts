@@ -19,7 +19,7 @@ export function createQaInboundParams(
       configured: true,
       baseUrl: "http://127.0.0.1:43123",
       botUserId: "openclaw",
-      botDisplayName: "Zero to Agent QA",
+      botDisplayName: "OpenAgent QA",
       pollTimeoutMs: 250,
       config: {
         allowFrom: ["*"],

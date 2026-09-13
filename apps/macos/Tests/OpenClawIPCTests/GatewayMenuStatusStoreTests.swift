@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 private enum GatewayMenuProbeError: Error {
     case unreachable

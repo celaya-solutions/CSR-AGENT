@@ -2,7 +2,7 @@ import Foundation
 import OpenClawChatUI
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite("Chat message speech client")
 struct ChatMessageSpeechClientTests {

@@ -1,6 +1,6 @@
 import Speech
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct SpeechRecognizerCacheTests {
     @Test func `repeated captures reuse one recognizer for the requested locale`() throws {

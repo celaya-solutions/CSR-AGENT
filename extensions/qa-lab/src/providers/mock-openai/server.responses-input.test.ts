@@ -40,7 +40,7 @@ describe("mock Responses input text", () => {
         {
           role: "user",
           content: [
-            "Zero to Agent runtime event.",
+            "OpenAgent runtime event.",
             "This context is runtime-generated, not user-authored. Keep internal details private.",
             "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
             "Runtime: synthetic metadata.",

@@ -458,7 +458,7 @@ export function createDiscordGatewayPlugin(params: {
     options: {
       reconnect: { maxAttempts: 50 },
       intents,
-      // Zero to Agent registers its own async interaction listener.
+      // OpenAgent registers its own async interaction listener.
       autoInteractions: false,
     },
     gatewayInfoTimeoutMs,

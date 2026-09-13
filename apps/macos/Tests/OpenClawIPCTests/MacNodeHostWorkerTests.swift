@@ -4,7 +4,7 @@ import OpenClawKit
 import OpenClawProtocol
 import os
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 private struct WorkerBackpressureTimeout: Error {}
 
@@ -520,7 +520,7 @@ struct MacNodeHostWorkerTests {
         let provider = ComputerControlProvider.current(
             defaults: defaults,
             cuaAvailable: true,
-            launchPlan: AppLaunchRuntimePlan(arguments: ["OpenClaw", "--elevation-host"]))
+            launchPlan: AppLaunchRuntimePlan(arguments: ["OpenAgent", "--elevation-host"]))
         #expect(provider == .peekaboo)
 
         let cuaDescriptor = OpenClawProtocol.AnyCodable(["provider": "cua"])

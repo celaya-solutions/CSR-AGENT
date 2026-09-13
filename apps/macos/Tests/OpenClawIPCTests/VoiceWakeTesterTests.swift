@@ -1,6 +1,6 @@
 import SwabbleKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct VoiceWakeTesterTests {
     @Test func `trigger only fallback accepts bare test trigger`() {

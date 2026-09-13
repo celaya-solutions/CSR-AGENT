@@ -25,7 +25,7 @@ node scripts/e2e/lib/package-git-fixture.mjs prepare "$git_root"
   fi
   git init -q
   git config user.email "docker-e2e@openclaw.local"
-  git config user.name "OpenClaw Docker E2E"
+  git config user.name "OpenAgent Docker E2E"
   git add -A --
   git commit -qm "test fixture"
 )

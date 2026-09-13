@@ -4,19 +4,19 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing stable OpenClaw release tag to receive the signed Android APK
+        description: Existing stable OpenAgent release tag to receive the signed Android APK
         required: true
         type: string
       release_publish_run_id:
-        description: OpenClaw Release Publish run that approved this release
+        description: OpenAgent Release Publish run that approved this release
         required: true
         type: string
       release_publish_branch:
-        description: Branch or protected tag used by the approving OpenClaw Release Publish run
+        description: Branch or protected tag used by the approving OpenAgent Release Publish run
         required: true
         type: string
       release_publish_run_attempt:
-        description: Exact approving OpenClaw Release Publish run attempt
+        description: Exact approving OpenAgent Release Publish run attempt
         required: true
         type: string
       release_publish_full_ref:
@@ -28,7 +28,7 @@ on:
         required: true
         type: string
       release_target_sha:
-        description: Exact release tag commit resolved by OpenClaw Release Publish
+        description: Exact release tag commit resolved by OpenAgent Release Publish
         required: true
         type: string
       direct_release_recovery:
@@ -91,7 +91,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ ! "${RELEASE_TAG}" =~ ^v[0-9]{4}\.[1-9][0-9]*\.[1-9][0-9]*(-[1-9][0-9]*)?$ ]]; then
-            echo "Android APK publishing requires a final or correction OpenClaw release tag: ${RELEASE_TAG}" >&2
+            echo "Android APK publishing requires a final or correction OpenAgent release tag: ${RELEASE_TAG}" >&2
             exit 1
           fi
           expected_source_ref="refs/tags/${RELEASE_TAG}"

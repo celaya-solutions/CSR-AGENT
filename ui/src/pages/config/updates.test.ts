@@ -652,9 +652,7 @@ describe("renderUpdates", () => {
         )!;
         await view.updateComplete;
         expect(view.querySelector(".update-run-view__report")?.textContent).toContain(
-          status === "succeeded"
-            ? "Zero to Agent updated to 2026.9.2"
-            : `Zero to Agent update ${status}`,
+          status === "succeeded" ? "OpenAgent updated to 2026.9.2" : `OpenAgent update ${status}`,
         );
         if (status !== "succeeded") {
           const recovery = row("Recovery");

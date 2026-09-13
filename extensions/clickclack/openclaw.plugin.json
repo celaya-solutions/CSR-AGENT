@@ -2,7 +2,7 @@
   "id": "clickclack",
   "categories": ["channels"],
   "name": "ClickClack",
-  "description": "Zero to Agent ClickClack channel plugin.",
+  "description": "OpenAgent ClickClack channel plugin.",
   "doctorContract": {
     "configRepair": true
   },

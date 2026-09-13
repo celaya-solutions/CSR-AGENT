@@ -60,7 +60,7 @@ export interface BeforeToolCallResult {
 export interface InternalToolBatchCall {
   toolCall: AgentToolCall;
   args: unknown;
-  /** Resolved tool identity for Zero to Agent-owned argument canonicalization. */
+  /** Resolved tool identity for OpenAgent-owned argument canonicalization. */
   tool?: AgentTool;
 }
 
@@ -82,14 +82,14 @@ export interface ToolLoopWarning {
   count: number;
 }
 
-/** Context for Zero to Agent-owned whole-batch tool admission. */
+/** Context for OpenAgent-owned whole-batch tool admission. */
 export interface InternalBeforeToolBatchContext {
   assistantMessage: AssistantMessage;
   calls: InternalToolBatchCall[];
   context: AgentContext;
 }
 
-/** Result of Zero to Agent-owned whole-batch tool admission. */
+/** Result of OpenAgent-owned whole-batch tool admission. */
 export type InternalBeforeToolBatchResult =
   | { intervention: ToolLoopIntervention; warnings?: never }
   | { intervention?: never; warnings?: ToolLoopWarning[] };
@@ -355,7 +355,7 @@ export interface AgentLoopConfig extends SimpleStreamOptions {
     signal?: AbortSignal,
   ) => Promise<BeforeToolCallResult | undefined>;
 
-  /** @internal Zero to Agent-owned batch admission. Not a plugin or session SDK hook. */
+  /** @internal OpenAgent-owned batch admission. Not a plugin or session SDK hook. */
   beforeToolBatch?: (
     context: InternalBeforeToolBatchContext,
     signal?: AbortSignal,

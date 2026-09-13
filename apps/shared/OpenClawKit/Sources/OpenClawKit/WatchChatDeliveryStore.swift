@@ -263,7 +263,7 @@ public actor OpenClawWatchChatDeliveryStore {
             case 1:
                 break
             default:
-                throw OpenClawNativeStateError("Update OpenClaw to open this Watch delivery database")
+                throw OpenClawNativeStateError("Update OpenAgent to open this Watch delivery database")
             }
         }
         guard try database.scalarText("PRAGMA journal_mode = WAL") == "wal" else {

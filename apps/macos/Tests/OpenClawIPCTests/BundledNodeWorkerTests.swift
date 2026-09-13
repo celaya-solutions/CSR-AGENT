@@ -1,14 +1,14 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 struct BundledNodeWorkerTests {
     private func makeBundle(at root: URL, builtAt: String, command: String) throws -> URL {
         let info: [String: Any] = [
             "CFBundleIdentifier": "ai.openclaw.mac.debug",
-            "CFBundleExecutable": "OpenClaw",
+            "CFBundleExecutable": "OpenAgent",
             "CFBundlePackageType": "APPL",
             "CFBundleShortVersionString": "2026.8.1",
             "CFBundleVersion": "1",

@@ -7,7 +7,7 @@ read_when:
 title: "Discovery and transports"
 ---
 
-Zero to Agent has two related but distinct discovery problems:
+OpenAgent has two related but distinct discovery problems:
 
 1. **Operator remote control**: the macOS menu bar app controlling a Gateway running elsewhere.
 2. **Node pairing**: iOS/Android (and future nodes) finding a Gateway and pairing securely.
@@ -41,7 +41,7 @@ Protocol details: [Gateway protocol](/gateway/protocol).
 
 ### 1) Bonjour / DNS-SD
 
-Multicast Bonjour is best-effort and does not cross networks. Zero to Agent also
+Multicast Bonjour is best-effort and does not cross networks. OpenAgent also
 supports browsing the same Gateway beacon via a configured wide-area DNS-SD
 domain, so discovery can cover both `local.` on the same LAN and a configured
 unicast DNS-SD domain for cross-network discovery.

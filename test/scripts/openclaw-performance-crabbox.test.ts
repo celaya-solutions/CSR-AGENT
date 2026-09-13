@@ -245,7 +245,7 @@ printf handoff > "$ROOT/handoff"
   };
 }
 
-describe("Zero to Agent performance Crabbox boundary", () => {
+describe("OpenAgent performance Crabbox boundary", () => {
   it.each([false, true])(
     "requires verified dual-stack IMDS denial before handoff (runner=%s)",
     (runner) => {

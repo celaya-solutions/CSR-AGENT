@@ -55,7 +55,7 @@ describe("custodian page session lifecycle", () => {
           if (invalidated) {
             throw new GatewayProtocolRequestError({
               code: "UNAVAILABLE",
-              message: "Zero to Agent inference became unavailable.",
+              message: "OpenAgent inference became unavailable.",
               details: buildSystemAgentSessionInvalidatedErrorDetails(),
             });
           }
@@ -193,7 +193,7 @@ describe("custodian page session lifecycle", () => {
       const question = {
         id: "credentials",
         header: "Credentials",
-        question: "How should Zero to Agent authenticate?",
+        question: "How should OpenAgent authenticate?",
         options: [{ label: "Enter credential" }, { label: "Use environment" }],
       };
       const request = vi
@@ -276,7 +276,7 @@ describe("custodian page session lifecycle", () => {
       .mockRejectedValueOnce(
         new GatewayProtocolRequestError({
           code: "INVALID_REQUEST",
-          message: "No active Zero to Agent chat session is awaiting that wizard answer.",
+          message: "No active OpenAgent chat session is awaiting that wizard answer.",
           details: buildSystemAgentSessionInvalidatedErrorDetails(),
         }),
       )
@@ -327,7 +327,7 @@ describe("custodian page session lifecycle", () => {
       .mockRejectedValueOnce(
         new GatewayProtocolRequestError({
           code: "INVALID_REQUEST",
-          message: "No active Zero to Agent chat session is awaiting that wizard cancel.",
+          message: "No active OpenAgent chat session is awaiting that wizard cancel.",
           details: buildSystemAgentSessionInvalidatedErrorDetails(),
         }),
       )

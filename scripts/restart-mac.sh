@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reset OpenClaw like Trimmy: kill running instances, rebuild, repackage, relaunch, verify.
+# Reset OpenAgent like Trimmy: kill running instances, rebuild, repackage, relaunch, verify.
 
 set -euo pipefail
 
@@ -125,7 +125,7 @@ for arg in "$@"; do
       log "  --attach-only    Launch app with --attach-only (skip launchd install)"
       log "  --no-attach-only Launch app without attach-only override"
       log "  --background-only Launch app without automatic windows or prompts"
-      log "  --target-only    Restart only this checkout's dist app; fail if another OpenClaw app is active"
+      log "  --target-only    Restart only this checkout's dist app; fail if another OpenAgent app is active"
       log ""
       log "Env:"
       log "  OPENCLAW_GATEWAY_WAIT_SECONDS=0  Wait time before gateway port check (unsigned only)"
@@ -369,14 +369,14 @@ if [[ "$TARGET_ONLY" -eq 1 ]]; then
     fail "Unable to inspect loaded launchd jobs before target-only restart"
   fi
   if [[ -n "${managed_supervisors}" ]]; then
-    fail "Managed OpenClaw app is supervised by launchd job(s): ${managed_supervisors}; stop those jobs before a target-only restart"
+    fail "Managed OpenAgent app is supervised by launchd job(s): ${managed_supervisors}; stop those jobs before a target-only restart"
   fi
   if [[ -n "$(foreign_openclaw_process_pids)" ]]; then
-    fail "Another OpenClaw app or test process is active; target-only restart deferred"
+    fail "Another OpenAgent app or test process is active; target-only restart deferred"
   fi
-  log "==> Keeping managed OpenClaw running while the replacement builds"
+  log "==> Keeping managed OpenAgent running while the replacement builds"
 else
-  log "==> Keeping existing OpenClaw instances running while the replacement builds"
+  log "==> Keeping existing OpenAgent instances running while the replacement builds"
 fi
 
 # Bundle Gateway-hosted plugin assets.
@@ -477,17 +477,17 @@ fi
 
 if [[ "$TARGET_ONLY" -eq 1 ]]; then
   if [[ -n "$(foreign_openclaw_process_pids)" ]]; then
-    fail "Another OpenClaw app or test process appeared during build; target-only restart deferred"
+    fail "Another OpenAgent app or test process appeared during build; target-only restart deferred"
   fi
-  log "==> Switching managed installed and exact target OpenClaw instances"
+  log "==> Switching managed installed and exact target OpenAgent instances"
   if ! kill_managed_openclaw; then
-    fail "Managed OpenClaw instances did not exit after cleanup attempts"
+    fail "Managed OpenAgent instances did not exit after cleanup attempts"
   fi
 else
   stop_launch_agent
-  log "==> Killing existing OpenClaw instances"
+  log "==> Killing existing OpenAgent instances"
   if ! kill_all_openclaw; then
-    fail "OpenClaw instances did not exit after cleanup attempts"
+    fail "OpenAgent instances did not exit after cleanup attempts"
   fi
 fi
 
@@ -514,7 +514,7 @@ run_step "launch app" env -i "${LAUNCH_ENV[@]}" /usr/bin/open "${OPEN_ARGS[@]}"
 # 5) Verify the app is alive.
 sleep 1.5
 if [[ -n "$(process_pids_matching "${APP_BUNDLE}/${APP_EXECUTABLE_RELATIVE_PATH}")" ]]; then
-  log "OK: OpenClaw is running."
+  log "OK: OpenAgent is running."
 else
   fail "App exited immediately. Check ${LOG_PATH} or Console.app (User Reports)."
 fi

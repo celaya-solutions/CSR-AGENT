@@ -1,6 +1,6 @@
 # Evidence-Driven Backport Discovery
 
-Use this before selecting backports for any OpenClaw release line: regular
+Use this before selecting backports for any OpenAgent release line: regular
 beta/stable, extended-stable, alpha/nightly when it reuses an older release
 base, or a release-repair branch. It is an audit before the candidate is
 mutated, not a title search and not permission to expand a frozen release.
@@ -32,7 +32,7 @@ cursor.
 
 ## Reconcile Stable-Maturity Issues
 
-At the pinned `origin/main` SHA, snapshot all OpenClaw issues carrying
+At the pinned `origin/main` SHA, snapshot all OpenAgent issues carrying
 `maturity:stable` and record the query time with the audit bounds. This is a
 secondary completeness and priority check over the commit inventory, not a
 replacement for it. The label means the current issue review matched broken

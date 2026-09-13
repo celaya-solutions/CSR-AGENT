@@ -25,7 +25,7 @@ describe("Gateway RPC account health producer", () => {
       enabled: true,
       baseUrl: "http://127.0.0.1:43125",
       botUserId: "openclaw",
-      botDisplayName: "Zero to Agent QA",
+      botDisplayName: "OpenAgent QA",
       allowFrom: ["*"],
       pollTimeoutMs: 250,
       accounts: {

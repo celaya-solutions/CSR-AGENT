@@ -1,8 +1,8 @@
-# Zero to Agent Parallel Plugin
+# OpenAgent Parallel Plugin
 
-Official Zero to Agent plugin for Parallel.
+Official OpenAgent plugin for Parallel.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/parallel-plugin

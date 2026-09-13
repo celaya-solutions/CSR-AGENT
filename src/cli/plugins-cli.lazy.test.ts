@@ -73,7 +73,7 @@ describe("plugins cli lazy runtime boundary", () => {
     {
       name: "plugins",
       argv: ["plugins"],
-      description: "Manage Zero to Agent plugins and extensions",
+      description: "Manage OpenAgent plugins and extensions",
     },
     {
       name: "plugins marketplace",

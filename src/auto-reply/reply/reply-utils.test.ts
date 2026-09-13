@@ -814,14 +814,14 @@ describe("resolveResponsePrefixTemplate", () => {
       {
         name: "identity.name",
         template: "[{identity.name}]",
-        values: { identityName: "Zero to Agent" },
-        expected: "[Zero to Agent]",
+        values: { identityName: "OpenAgent" },
+        expected: "[OpenAgent]",
       },
       {
         name: "identityName alias",
         template: "[{identityName}]",
-        values: { identityName: "Zero to Agent" },
-        expected: "[Zero to Agent]",
+        values: { identityName: "OpenAgent" },
+        expected: "[OpenAgent]",
       },
       {
         name: "case-insensitive variables",
@@ -833,12 +833,12 @@ describe("resolveResponsePrefixTemplate", () => {
         name: "all variables",
         template: "[{identity.name}] {provider}/{model} (think:{thinkingLevel})",
         values: {
-          identityName: "Zero to Agent",
+          identityName: "OpenAgent",
           provider: "anthropic",
           model: "claude-opus-4-6",
           thinkingLevel: "high",
         },
-        expected: "[Zero to Agent] anthropic/claude-opus-4-6 (think:high)",
+        expected: "[OpenAgent] anthropic/claude-opus-4-6 (think:high)",
       },
     ] as const;
     expectResolvedTemplateCases(cases);

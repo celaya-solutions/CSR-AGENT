@@ -34,11 +34,11 @@ export type ApiKeyCredential = {
   metadata?: Record<string, string>;
 };
 
-/** Static token credential that Zero to Agent does not refresh. */
+/** Static token credential that OpenAgent does not refresh. */
 type TokenCredential = {
   /**
    * Static bearer-style token (often OAuth access token / PAT).
-   * Not refreshable by Zero to Agent (unlike `type: "oauth"`).
+   * Not refreshable by OpenAgent (unlike `type: "oauth"`).
    */
   type: "token";
   provider: string;

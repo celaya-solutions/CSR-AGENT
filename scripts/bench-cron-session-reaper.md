@@ -14,7 +14,7 @@ node --import ./scripts/tsx.mjs scripts/bench-cron-session-reaper.ts 632
 ```
 
 Run contributor code only in an appropriately isolated environment. The harness
-creates disposable state, binds the OpenClaw state/config paths before runtime
+creates disposable state, binds the OpenAgent state/config paths before runtime
 imports, and removes its fixture tree afterward. It accepts 1–1000 agents.
 
 ## What it measures

@@ -296,7 +296,7 @@ ${run.transcript}
     })
     .join("\n\n");
 
-  const prompt = `You are grading Zero to Agent natural character conversation transcripts for naturalness, vibes, and funniness.
+  const prompt = `You are grading OpenAgent natural character conversation transcripts for naturalness, vibes, and funniness.
 
 Scenario id: ${params.scenarioId}
 
@@ -420,7 +420,7 @@ function renderCharacterEvalReport(params: {
   judgments: readonly QaCharacterEvalJudgeResult[];
 }) {
   const lines = [
-    "# Zero to Agent Character Eval Report",
+    "# OpenAgent Character Eval Report",
     "",
     `- Started: ${params.startedAt.toISOString()}`,
     `- Finished: ${params.finishedAt.toISOString()}`,

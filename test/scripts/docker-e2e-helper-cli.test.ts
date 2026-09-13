@@ -659,7 +659,7 @@ describe("Docker E2E helper CLIs", () => {
           "    headSha: 'abc123',",
           "    status: 'completed',",
           "    url: 'https://github.com/openclaw/openclaw/actions/runs/12345',",
-          "    workflowName: 'Zero to Agent Live and E2E Checks',",
+          "    workflowName: 'OpenAgent Live and E2E Checks',",
           "  }));",
           "  process.exit(0);",
           "}",

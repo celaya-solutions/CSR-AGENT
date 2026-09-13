@@ -1,5 +1,5 @@
 import { expectDefined } from "@openclaw/normalization-core";
-/** Config mutation helpers used by chat commands that edit Zero to Agent config. */
+/** Config mutation helpers used by chat commands that edit OpenAgent config. */
 import { setConfigValueAtPath, unsetConfigValueAtPath } from "../../config/config-paths.js";
 import {
   mutateConfigFileWithRetry,

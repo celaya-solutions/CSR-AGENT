@@ -2,7 +2,7 @@ import Foundation
 import OpenClawIPC
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct DeviceSettingsBridgeTests {
     private static let toggleKeys: [(String, DeviceSettingKey)] = [

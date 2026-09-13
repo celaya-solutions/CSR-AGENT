@@ -44,7 +44,7 @@ SHA supplied in `RELEASE_VALIDATION_TAG`,
    `{{RESTART_GATEWAY}}` for its restart command. Do not assume OCM, add other
    execution placeholders, or say only "use" or "verify."
 
-6. Replace the issue title with `OpenClaw <YYYY.M.D> beta feedback`. Render the
+6. Replace the issue title with `OpenAgent <YYYY.M.D> beta feedback`. Render the
    body in this order, with no beta-history section:
 
    ```md
@@ -85,7 +85,7 @@ SHA supplied in `RELEASE_VALIDATION_TAG`,
      "releaseUrl": "https://github.com/openclaw/openclaw/releases/tag/<tag>",
      "releaseCommit": "<exact supplied release commit>",
      "guidanceMainSha": "<exact supplied guidance SHA>",
-     "title": "OpenClaw <YYYY.M.D> beta feedback",
+     "title": "OpenAgent <YYYY.M.D> beta feedback",
      "body": "<rendered body>"
    }
    ```

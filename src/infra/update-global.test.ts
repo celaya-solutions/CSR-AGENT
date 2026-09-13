@@ -349,14 +349,14 @@ describe("update global helpers", () => {
         const trustedLocalAppData = path.join(base, "trusted-local-app-data");
         const injectedGitDir = path.join(
           injectedLocalAppData,
-          "Zero to Agent",
+          "OpenAgent",
           "deps",
           "portable-git",
           "cmd",
         );
         const trustedGitDir = path.join(
           trustedLocalAppData,
-          "Zero to Agent",
+          "OpenAgent",
           "deps",
           "portable-git",
           "cmd",

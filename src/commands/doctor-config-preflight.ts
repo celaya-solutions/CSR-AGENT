@@ -207,7 +207,7 @@ export async function runDoctorConfigPreflight(
         startupMigrationHeartbeatError =
           error instanceof Error
             ? error
-            : new Error("Zero to Agent startup migration lease heartbeat failed.");
+            : new Error("OpenAgent startup migration lease heartbeat failed.");
       }
     }, 60_000);
     startupMigrationHeartbeat.unref?.();
@@ -711,7 +711,7 @@ export async function runDoctorConfigPreflight(
           persistedIdentity.pluginDoctorConfigFingerprint
       ) {
         throw new Error(
-          'Zero to Agent config identity changed while persisting the refreshed plugin registry; refusing to write the migration checkpoint. Run "openclaw doctor --fix" and retry.',
+          'OpenAgent config identity changed while persisting the refreshed plugin registry; refusing to write the migration checkpoint. Run "openclaw doctor --fix" and retry.',
         );
       }
       // The durable reread supplies the accepted inventory. Replace both the

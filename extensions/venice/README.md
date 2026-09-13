@@ -1,6 +1,6 @@
-# Venice Zero to Agent provider
+# Venice OpenAgent provider
 
-Official Zero to Agent provider plugin for Venice.
+Official OpenAgent provider plugin for Venice.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/venice-provider
 
 ## Docs
 
-See `docs/providers/venice.md` in the Zero to Agent repository, or the published docs at `https://docs.openclaw.ai/providers/venice`.
+See `docs/providers/venice.md` in the OpenAgent repository, or the published docs at `https://docs.openclaw.ai/providers/venice`.

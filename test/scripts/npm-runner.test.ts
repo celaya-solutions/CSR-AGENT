@@ -177,6 +177,6 @@ describe("resolveNpmRunner", () => {
         existsSync: () => false,
         platform: "win32",
       }),
-    ).toThrow("Zero to Agent refuses to shell out to bare npm on Windows");
+    ).toThrow("OpenAgent refuses to shell out to bare npm on Windows");
   });
 });

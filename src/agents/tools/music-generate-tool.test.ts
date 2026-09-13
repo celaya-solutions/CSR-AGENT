@@ -1124,7 +1124,7 @@ describe("createMusicGenerateTool", () => {
     }
 
     const result = await tool.execute("call-google-generate", {
-      prompt: "Zero to Agent anthem",
+      prompt: "OpenAgent anthem",
       instrumental: true,
       durationSeconds: 30,
       format: "wav",

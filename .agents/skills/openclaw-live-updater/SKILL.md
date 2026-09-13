@@ -1,9 +1,9 @@
 ---
 name: openclaw-live-updater
-description: "Maintain the canonical live OpenClaw main checkout, managed Gateway, local macOS app, exact-head main CI, and recurring full release validation. Use for fast-forward update heartbeats, post-update runtime verification, attributable CI repair and repo-native landing, or non-publishing Full Release Validation of current main."
+description: "Maintain the canonical live OpenAgent main checkout, managed Gateway, local macOS app, exact-head main CI, and recurring full release validation. Use for fast-forward update heartbeats, post-update runtime verification, attributable CI repair and repo-native landing, or non-publishing Full Release Validation of current main."
 ---
 
-# OpenClaw Live Updater
+# OpenAgent Live Updater
 
 Keep one operator-selected canonical live checkout as a read-only-to-the-agent deployment mirror: clean, standalone, full, on `main`, and fast-forwarded only. Make every repair in the controlling Codex project worktree.
 
@@ -43,9 +43,9 @@ Keep one operator-selected canonical live checkout as a read-only-to-the-agent d
 
    Re-run the canonical freshness check immediately before every `pnpm openclaw` restart or probe so the source runner cannot hide stale output with an implicit auto-build. Every pass, including a no-update/current-build pass, must run deep RPC status and verbose health. If that first probe fails while the build is already exact-current, perform one managed Gateway restart and repeat both probes once. Do not rebuild a current exact-SHA artifact merely to self-heal the managed process; fail and diagnose if the one restart does not recover it.
 
-3. If changed paths can affect macOS, the helper runs `scripts/restart-mac.sh --sign --wait --target-only` with `SKIP_TSC=1` and `SKIP_UI_BUILD=1` only after the exact-SHA JS/UI build completes. Reusing those artifacts keeps the live app bundle out of any later JavaScript build cleanup. Target-only mode may stop the canonical `/Applications/OpenClaw.app` process and this checkout's exact `dist` process before launching the rebuilt `dist` app. It defers when another worktree, temporary bundle, test, or agent-owned OpenClaw process is active; it never kills that process. The script's immediate `OK` is not proof. The helper waits and requires the exact executable `<canonical-live-checkout>/dist/OpenClaw.app/Contents/MacOS/OpenClaw`, derived from the verified checkout, then repeats Gateway RPC and health proof.
+3. If changed paths can affect macOS, the helper runs `scripts/restart-mac.sh --sign --wait --target-only` with `SKIP_TSC=1` and `SKIP_UI_BUILD=1` only after the exact-SHA JS/UI build completes. Reusing those artifacts keeps the live app bundle out of any later JavaScript build cleanup. Target-only mode may stop the canonical `/Applications/OpenClaw.app` process and this checkout's exact `dist` process before launching the rebuilt `dist` app. It defers when another worktree, temporary bundle, test, or agent-owned OpenAgent process is active; it never kills that process. The script's immediate `OK` is not proof. The helper waits and requires the exact executable `<canonical-live-checkout>/dist/OpenClaw.app/Contents/MacOS/OpenClaw`, derived from the verified checkout, then repeats Gateway RPC and health proof.
 
-   Never kill another worktree, temporary bundle, test, or agent-owned OpenClaw process. If a foreign app prevents the exact target from staying alive, record the pending Mac attempt, report it, and retry on the next heartbeat. Escalate only after the conflict persists across repeated heartbeats; never claim Mac proof from another bundle or the short launch check. If `actions.macUiVerification` is true, exercise the changed behavior with the existing macOS/UI automation workflow after delayed exact-bundle proof.
+   Never kill another worktree, temporary bundle, test, or agent-owned OpenAgent process. If a foreign app prevents the exact target from staying alive, record the pending Mac attempt, report it, and retry on the next heartbeat. Escalate only after the conflict persists across repeated heartbeats; never claim Mac proof from another bundle or the short launch check. If `actions.macUiVerification` is true, exercise the changed behavior with the existing macOS/UI automation workflow after delayed exact-bundle proof.
 
 4. Load `$openclaw-testing`. Resolve exact current `origin/main`, then inspect only relevant required checks and workflow jobs whose `headSha` equals it. Ignore skipped jobs and routine noise such as Auto response, Labeler, docs agents, performance advisory jobs, and stale/cancelled runs superseded by a newer run for the same SHA.
 

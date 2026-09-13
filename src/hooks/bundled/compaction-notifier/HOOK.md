@@ -14,7 +14,7 @@ metadata:
 
 # Compaction Notifier
 
-Sends short user-visible status messages when Zero to Agent compacts a session transcript. Enable with:
+Sends short user-visible status messages when OpenAgent compacts a session transcript. Enable with:
 
 ```bash
 openclaw hooks enable compaction-notifier

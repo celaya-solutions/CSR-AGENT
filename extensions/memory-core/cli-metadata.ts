@@ -4,7 +4,7 @@ import type { OpenKeyedStoreOptions } from "openclaw/plugin-sdk/plugin-state-run
 
 export default definePluginEntry({
   id: "memory-core",
-  name: "Zero to Agent Memory",
+  name: "OpenAgent Memory",
   description: "File-backed memory search tools and CLI",
   register(api) {
     api.registerCli(

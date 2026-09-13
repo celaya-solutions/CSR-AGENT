@@ -214,7 +214,7 @@ function normalizeBootstrapReceipt(value: {
   }
   return {
     bundleHash,
-    openclawVersion: required(value.openclawVersion, "bootstrap Zero to Agent version"),
+    openclawVersion: required(value.openclawVersion, "bootstrap OpenAgent version"),
     protocolFeatures: normalizeSortedUniqueTrimmedStringList(value.protocolFeatures),
     ...(value.installKind ? { installKind: value.installKind } : {}),
   };

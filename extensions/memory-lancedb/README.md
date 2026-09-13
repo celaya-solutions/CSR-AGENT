@@ -1,6 +1,6 @@
 # @openclaw/memory-lancedb
 
-Official LanceDB-backed long-term memory plugin for Zero to Agent.
+Official LanceDB-backed long-term memory plugin for OpenAgent.
 
 This plugin adds persistent memory tools backed by LanceDB, vector search, auto-recall, and auto-capture.
 
@@ -29,7 +29,7 @@ Use the memory plugin docs for embedding provider setup, storage paths, indexing
 
 - Plugin id: `memory-lancedb`
 - Package: `@openclaw/memory-lancedb`
-- Enforced minimum Zero to Agent host (`openclaw.install.minHostVersion`): `>=2026.5.31`
+- Enforced minimum OpenAgent host (`openclaw.install.minHostVersion`): `>=2026.5.31`
 - Enforced plugin API compatibility (`openclaw.compat.pluginApi`): `>=2026.9.3`
 
 The installer checks these ranges independently. Both must be satisfied.

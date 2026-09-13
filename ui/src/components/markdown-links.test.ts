@@ -219,9 +219,9 @@ describe("toSanitizedMarkdownHtml links", () => {
     });
 
     it("does NOT rewrite explicit markdown links with CJK display text", () => {
-      const html = toSanitizedMarkdownHtml("[Zero to Agent中文](https://docs.openclaw.ai)");
+      const html = toSanitizedMarkdownHtml("[OpenAgent中文](https://docs.openclaw.ai)");
       expect(html).toBe(
-        '<p><a href="https://docs.openclaw.ai" rel="noreferrer noopener" target="_blank">Zero to Agent中文</a></p>\n',
+        '<p><a href="https://docs.openclaw.ai" rel="noreferrer noopener" target="_blank">OpenAgent中文</a></p>\n',
       );
     });
 
@@ -572,7 +572,7 @@ describe("toSanitizedMarkdownHtml links", () => {
     it("keeps the bundled GitHub mark and skips image-only links", () => {
       const fragment = htmlFragment(
         toSanitizedMarkdownHtml(
-          "[Zero to Agent](https://github.com/openclaw/openclaw) [![badge](data:image/png;base64,iVBORw0KGgo=)](https://example.com)",
+          "[OpenAgent](https://github.com/openclaw/openclaw) [![badge](data:image/png;base64,iVBORw0KGgo=)](https://example.com)",
           { linkFavicons: true },
         ),
       );

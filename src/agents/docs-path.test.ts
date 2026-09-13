@@ -1,4 +1,4 @@
-// Covers locating Zero to Agent docs and source paths from package roots.
+// Covers locating OpenAgent docs and source paths from package roots.
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";

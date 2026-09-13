@@ -1,9 +1,9 @@
 ---
 name: release-openclaw-announcement
-description: "Draft or post OpenClaw beta, stable, or extended-stable Discord release announcements from changelog, tag, registry, and validation evidence. Use when announcing a release, release candidate, or asking what users should test after an OpenClaw release."
+description: "Draft or post OpenAgent beta, stable, or extended-stable Discord release announcements from changelog, tag, registry, and validation evidence. Use when announcing a release, release candidate, or asking what users should test after an OpenAgent release."
 ---
 
-# OpenClaw Release Announcement
+# OpenAgent Release Announcement
 
 Use with `release-openclaw-maintainer` after a release is live.
 Use with `$discord-user-post` when actually posting to Discord as the logged-in
@@ -48,7 +48,7 @@ fixes in their natural category.
 
 Every beta announcement must make beta status explicit and include:
 
-- exact version, e.g. `OpenClaw 2026.5.25-beta.1`
+- exact version, e.g. `OpenAgent 2026.5.25-beta.1`
 - one-sentence risk framing: beta, useful for testing, not stable promotion
 - focused test areas derived from evidence, not guesswork
 - update command promoted near the top:
@@ -102,4 +102,4 @@ macOS, Windows, ClawHub, `latest`, or website claims.
 When asked to post, use `$discord-user-post` to operate the logged-in Discord
 desktop app as the user. Resolve and visibly verify the exact server/channel,
 inspect the final body, and request action-time confirmation before entering or
-sending it. Never use OpenClaw channel sends, bots, webhooks, relays, or tokens.
+sending it. Never use OpenAgent channel sends, bots, webhooks, relays, or tokens.

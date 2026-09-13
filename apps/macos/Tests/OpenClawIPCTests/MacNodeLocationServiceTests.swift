@@ -2,7 +2,7 @@ import CoreLocation
 import Foundation
 import Testing
 import XCTest
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 @MainActor

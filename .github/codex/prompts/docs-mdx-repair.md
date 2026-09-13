@@ -1,6 +1,6 @@
-# OpenClaw Docs MDX Repair Agent
+# OpenAgent Docs MDX Repair Agent
 
-You are repairing generated OpenClaw documentation after a fast MDX validation failure.
+You are repairing generated OpenAgent documentation after a fast MDX validation failure.
 
 Goal: fix only the MDX syntax errors reported by the checker.
 

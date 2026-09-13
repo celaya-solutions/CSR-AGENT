@@ -15,7 +15,7 @@ Adds video generation provider support.
 ## Distribution
 
 - Package: `@openclaw/runway-provider`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

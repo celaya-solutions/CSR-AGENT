@@ -1,4 +1,4 @@
-// Phase Runner script supports OpenClaw repository automation.
+// Phase Runner script supports OpenAgent repository automation.
 import { appendFileSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";

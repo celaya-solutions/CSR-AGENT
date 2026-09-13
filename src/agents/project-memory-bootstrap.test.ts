@@ -30,9 +30,9 @@ describe("project memory bootstrap", () => {
       endLine: 2,
       score: 0.8,
       snippet:
-        "Use the release helper. <!-- trigger: release helper --> <!-- importance: 8 --> <!-- project: github.com/Zero to Agent/Zero to Agent -->",
+        "Use the release helper. <!-- trigger: release helper --> <!-- importance: 8 --> <!-- project: github.com/OpenAgent/OpenAgent -->",
       source: "memory" as const,
-      projectKey: "github.com/Zero to Agent/Zero to Agent",
+      projectKey: "github.com/OpenAgent/OpenAgent",
       importance: 8,
       provenance: {
         originClass: "owner" as const,
@@ -59,7 +59,7 @@ describe("project memory bootstrap", () => {
 
   async function prepareEntries(
     candidates: typeof entries,
-    activeProjectKeys: string[] = ["github.com/Zero to Agent/Zero to Agent"],
+    activeProjectKeys: string[] = ["github.com/OpenAgent/OpenAgent"],
   ): Promise<string[]> {
     runtimeMocks.listCurated.mockResolvedValue(candidates);
     runtimeMocks.getManager.mockResolvedValue({
@@ -99,10 +99,7 @@ describe("project memory bootstrap", () => {
 
   it("includes entries from every project retained in the session active set", async () => {
     const rendered = (
-      await prepareEntries(entries, [
-        "github.com/example/other",
-        "github.com/Zero to Agent/Zero to Agent",
-      ])
+      await prepareEntries(entries, ["github.com/example/other", "github.com/OpenAgent/OpenAgent"])
     ).join("\n");
     expect(rendered).toContain("Use the release helper.");
     expect(rendered).toContain("Foreign fact.");
@@ -220,22 +217,20 @@ describe("project memory bootstrap", () => {
       await prepareProjectMemoryBootstrap({
         cfg: {},
         agentId: "main",
-        activeProjectKeys: ["github.com/Zero to Agent/Zero to Agent"],
+        activeProjectKeys: ["github.com/OpenAgent/OpenAgent"],
       })
     ).join("\n");
     expect(rendered).toContain("Use the release helper.");
     expect(runtimeMocks.search).not.toHaveBeenCalled();
     expect(runtimeMocks.listCurated).toHaveBeenCalledWith({
-      activeProjectKeys: ["github.com/Zero to Agent/Zero to Agent"],
+      activeProjectKeys: ["github.com/OpenAgent/OpenAgent"],
       limit: 48,
     });
   });
 
   it("builds scoped write guidance without capturing global memory", () => {
-    const instruction = buildProjectMemoryWriteInstruction(
-      "github.com/Zero to Agent/Zero to Agent",
-    );
-    expect(instruction).toContain("<!-- project: github.com/Zero to Agent/Zero to Agent -->");
+    const instruction = buildProjectMemoryWriteInstruction("github.com/OpenAgent/OpenAgent");
+    expect(instruction).toContain("<!-- project: github.com/OpenAgent/OpenAgent -->");
     expect(instruction).toContain("Do not project-scope user-level preferences");
     expect(buildProjectMemoryWriteInstruction("path:/tmp/unsafe-->note")).toBe("");
   });

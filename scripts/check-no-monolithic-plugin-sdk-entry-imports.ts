@@ -1,4 +1,4 @@
-// Check No Monolithic Plugin Sdk Entry Imports script supports OpenClaw repository automation.
+// Check No Monolithic Plugin Sdk Entry Imports script supports OpenAgent repository automation.
 import fs from "node:fs";
 import path from "node:path";
 import { discoverOpenClawPlugins } from "../src/plugins/discovery.js";

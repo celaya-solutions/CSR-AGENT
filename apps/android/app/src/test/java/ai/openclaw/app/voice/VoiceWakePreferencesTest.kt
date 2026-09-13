@@ -25,8 +25,8 @@ class VoiceWakePreferencesTest {
     assertNull(VoiceWakePhraseMatcher.match("openclaw", listOf("openclaw")))
     assertNull(VoiceWakePhraseMatcher.match("tell openclaw show status", listOf("openclaw")))
     assertEquals(
-      VoiceWakeMatch(trigger = "OpenClaw", command = "show status"),
-      VoiceWakePhraseMatcher.match("Hey OpenClaw, show status", listOf("openclaw")),
+      VoiceWakeMatch(trigger = "OpenAgent", command = "show status"),
+      VoiceWakePhraseMatcher.match("Hey OpenAgent, show status", listOf("openclaw")),
     )
   }
 
@@ -53,8 +53,8 @@ class VoiceWakePreferencesTest {
   @Test
   fun matcherNormalizesSpokenPunctuationAndWhitespace() {
     assertEquals(
-      VoiceWakeMatch(trigger = "Hey OpenClaw", command = "show status"),
-      VoiceWakePhraseMatcher.match("Hey OpenClaw show status", listOf("hey,\nopenclaw")),
+      VoiceWakeMatch(trigger = "Hey OpenAgent", command = "show status"),
+      VoiceWakePhraseMatcher.match("Hey OpenAgent show status", listOf("hey,\nopenclaw")),
     )
   }
 }

@@ -26,7 +26,7 @@ pub enum CliError {
 impl fmt::Display for CliError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Missing => write!(formatter, "OpenClaw CLI not found"),
+            Self::Missing => write!(formatter, "OpenAgent CLI not found"),
             Self::Environment(message)
             | Self::Spawn(message)
             | Self::CommandFailed(message)
@@ -78,7 +78,7 @@ impl OpenClawCli {
             return Ok(());
         }
         Err(CliError::Spawn(format!(
-            "OpenClaw CLI exited with {}",
+            "OpenAgent CLI exited with {}",
             output.status
         )))
     }
@@ -104,10 +104,10 @@ impl OpenClawCli {
         command.stdout(Stdio::piped()).stderr(Stdio::piped());
         let child = command.spawn().map_err(|error| {
             self.available.store(false, Ordering::Release);
-            CliError::Spawn(format!("Failed to run OpenClaw CLI: {error}"))
+            CliError::Spawn(format!("Failed to run OpenAgent CLI: {error}"))
         })?;
         child.wait_with_output().map_err(|error| {
-            CliError::Spawn(format!("Failed to read OpenClaw CLI output: {error}"))
+            CliError::Spawn(format!("Failed to read OpenAgent CLI output: {error}"))
         })
     }
 
@@ -123,11 +123,11 @@ impl OpenClawCli {
         if !output.status.success() {
             let message = output_tail(&output.stderr)
                 .or_else(|| output_tail(&output.stdout))
-                .unwrap_or_else(|| format!("OpenClaw CLI exited with {}", output.status));
+                .unwrap_or_else(|| format!("OpenAgent CLI exited with {}", output.status));
             return Err(CliError::CommandFailed(message));
         }
         serde_json::from_slice(&output.stdout).map_err(|error| {
-            CliError::InvalidJson(format!("OpenClaw CLI returned invalid JSON: {error}"))
+            CliError::InvalidJson(format!("OpenAgent CLI returned invalid JSON: {error}"))
         })
     }
 

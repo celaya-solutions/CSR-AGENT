@@ -127,7 +127,7 @@ function requireEmbeddedAgentCall(): {
       }
     | undefined;
   if (!call) {
-    throw new Error("Expected embedded Zero to Agent agent call for toolsAllow passthrough");
+    throw new Error("Expected embedded OpenAgent agent call for toolsAllow passthrough");
   }
   return call;
 }

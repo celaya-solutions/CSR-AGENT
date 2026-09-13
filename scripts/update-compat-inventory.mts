@@ -45,13 +45,13 @@ function checkRegistryCoverage(inventory: UpdateCompatibilityInventory, output: 
   const entries = resolveNpmJsonEntries(npmView("openclaw", "dist-tags"));
   const tags = entries.length === 1 ? entries[0] : undefined;
   if (typeof tags !== "object" || tags === null || Array.isArray(tags)) {
-    throw new Error("npm returned invalid OpenClaw dist-tags; expected latest and beta versions");
+    throw new Error("npm returned invalid OpenAgent dist-tags; expected latest and beta versions");
   }
   const taggedVersions: string[] = [];
   for (const tag of ["latest", "beta"]) {
     const version: unknown = Reflect.get(tags, tag);
     if (typeof version !== "string" || parseReleaseVersion(version)?.version !== version) {
-      throw new Error(`npm OpenClaw dist-tag ${tag} is missing or invalid`);
+      throw new Error(`npm OpenAgent dist-tag ${tag} is missing or invalid`);
     }
     taggedVersions.push(version);
   }

@@ -1,12 +1,12 @@
 ---
 name: openclaw-ci-limits
-description: Manage OpenClaw GitHub Actions and Blacksmith CI capacity, runner-registration budgets, fanout caps, main-push single-flight, shard sizing, hosted-runner offload, queue health, and safe ramp-down/ramp-up changes. Use when tuning `.github/workflows/*`, `docs/ci.md`, CI runner labels, matrix `max-parallel`, ClawSweeper/Blacksmith burst protection, CodeQL runner placement, or investigating slow/queued OpenClaw CI.
+description: Manage OpenAgent GitHub Actions and Blacksmith CI capacity, runner-registration budgets, fanout caps, main-push single-flight, shard sizing, hosted-runner offload, queue health, and safe ramp-down/ramp-up changes. Use when tuning `.github/workflows/*`, `docs/ci.md`, CI runner labels, matrix `max-parallel`, ClawSweeper/Blacksmith burst protection, CodeQL runner placement, or investigating slow/queued OpenAgent CI.
 ---
 
-# OpenClaw CI Limits
+# OpenAgent CI Limits
 
 Use this skill for CI capacity changes, not ordinary test failure triage. The
-goal is to keep OpenClaw fast while distinguishing runner registration, runner
+goal is to keep OpenAgent fast while distinguishing runner registration, runner
 availability, Blacksmith control-plane health, and downstream queue drains.
 
 ## Core Facts
@@ -105,7 +105,7 @@ Classify the issue before changing caps:
 - **Workflow dependency wait:** the job is queued but required predecessors are
   not terminal. Fix or wait for the dependency; do not call the whole delay
   runner queue pressure.
-- **OpenClaw test runtime:** jobs start quickly but one lane dominates wall time.
+- **OpenAgent test runtime:** jobs start quickly but one lane dominates wall time.
   Use `$openclaw-test-performance` instead of runner tuning.
 - **Real failing CI:** one job fails after starting. Use `$github:gh-fix-ci` or
   `$openclaw-testing`, not this skill.
@@ -144,7 +144,7 @@ admission wave, not every intermediate merge.
 Reject a change unless the org-level worst case stays below about 60% of the
 live bucket. With the current 10,000-registration bucket, keep planned
 Blacksmith burst load under 6,000 registrations per 5 minutes with headroom for
-ClawSweeper, ClawHub, Clownfish, OpenClaw RTT, and Clawbench.
+ClawSweeper, ClawHub, Clownfish, OpenAgent RTT, and Clawbench.
 
 ## Safe Levers
 
@@ -174,7 +174,7 @@ Do not:
 - cancel old queued runs from a stale snapshot; re-query the exact run first and
   preserve any current run that still owns live work.
 
-## Current OpenClaw Knobs
+## Current OpenAgent Knobs
 
 These are intentionally guarded by `test/scripts/ci-workflow-guards.test.ts`:
 

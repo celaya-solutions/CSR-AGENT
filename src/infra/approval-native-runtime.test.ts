@@ -194,7 +194,7 @@ describe("createChannelNativeApprovalRuntime", () => {
     await runtime.handleRequested({
       id: "system-agent:native-1",
       request: {
-        title: "Zero to Agent change",
+        title: "OpenAgent change",
         description: "restart the Gateway",
         command: "restart the Gateway",
         proposalHash: "a".repeat(64),

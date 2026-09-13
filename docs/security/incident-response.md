@@ -1,5 +1,5 @@
 ---
-summary: "How Zero to Agent triages, responds to, and follows up on security incidents"
+summary: "How OpenAgent triages, responds to, and follows up on security incidents"
 title: "Incident response"
 read_when:
   - Responding to a security report or suspected security incident
@@ -26,7 +26,7 @@ Initial triage:
 | Severity | Definition                                                                                                                                                                                 |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Critical | Package/release/repository compromise, active exploitation, or unauthenticated trust-boundary bypass with high-impact control or data exposure.                                            |
-| High     | Verified trust-boundary bypass requiring limited preconditions (for example, authenticated but unauthorized high-impact action), or exposure of Zero to Agent-owned sensitive credentials. |
+| High     | Verified trust-boundary bypass requiring limited preconditions (for example, authenticated but unauthorized high-impact action), or exposure of OpenAgent-owned sensitive credentials. |
 | Medium   | Significant security weakness with practical impact but constrained exploitability or substantial prerequisites.                                                                           |
 | Low      | Defense-in-depth findings, narrowly scoped denial-of-service, or hardening/parity gaps without a demonstrated trust-boundary bypass.                                                       |
 

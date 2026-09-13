@@ -170,7 +170,7 @@ function createTestRuntime(params: {
         state: "active",
         createdAt,
         updatedAt: createdAt,
-        participantIdentity: "Zero to Agent",
+        participantIdentity: "OpenAgent",
         realtime: { enabled: false, toolPolicy: "none" },
         notes: [],
       };

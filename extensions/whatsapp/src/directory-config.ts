@@ -138,7 +138,7 @@ async function completeStandaloneCleanup(cleanup: ManagedStandaloneCleanup): Pro
   if (cleanup.sock && !cleanup.socketClosed) {
     await closeWhatsAppSocketAndWait(
       cleanup.sock,
-      "Zero to Agent WhatsApp standalone directory socket close",
+      "OpenAgent WhatsApp standalone directory socket close",
     );
     cleanup.socketClosed = true;
   }

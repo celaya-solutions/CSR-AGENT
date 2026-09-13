@@ -549,7 +549,7 @@ describe("CodexAppServerEventProjector native tool finalization", () => {
         | undefined
     )?.output;
     expect(output).toHaveLength(10_000);
-    expect(output).toContain("Zero to Agent truncated Codex native tool output");
+    expect(output).toContain("OpenAgent truncated Codex native tool output");
     expect(output).toContain("original 12345 chars");
     expect(output).toContain("showing 10000");
 
@@ -563,9 +563,7 @@ describe("CodexAppServerEventProjector native tool finalization", () => {
     );
     const toolResultContentItem = requireRecord(toolResultContent[0], "tool result content item");
     expect(toolResultContentItem.content).toHaveLength(10_000);
-    expect(toolResultContentItem.content).toContain(
-      "Zero to Agent truncated Codex native tool output",
-    );
+    expect(toolResultContentItem.content).toContain("OpenAgent truncated Codex native tool output");
   });
 
   it("delivers completed assistant text when a native tool call finishes without a matching result", async () => {

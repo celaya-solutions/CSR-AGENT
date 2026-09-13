@@ -1,5 +1,5 @@
 /**
- * Zero to Agent plugin tool resolver.
+ * OpenAgent plugin tool resolver.
  *
  * This module builds runtime plugin tools from config/options, delivery context,
  * auth profiles, and the current runtime config snapshot.

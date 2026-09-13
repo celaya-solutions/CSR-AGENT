@@ -185,13 +185,12 @@ export function createCodexUserInputBridge(params: {
           requestId: request.id,
           abort: new AbortController(),
           cancelValue,
-          failureValue: declineElicitation("Zero to Agent could not handle this elicitation."),
+          failureValue: declineElicitation("OpenAgent could not handle this elicitation."),
           run: async (signal) => {
             const result = await execute(
               {
                 kind: "unsupported",
-                message:
-                  "Zero to Agent declined a malformed or over-limit MCP elicitation request.",
+                message: "OpenAgent declined a malformed or over-limit MCP elicitation request.",
               },
               params.paramsForRun.timeoutMs ?? DEFAULT_USER_INPUT_TIMEOUT_MS,
               signal,
@@ -219,7 +218,7 @@ export function createCodexUserInputBridge(params: {
         requestId: request.id,
         abort: new AbortController(),
         cancelValue,
-        failureValue: declineElicitation("Zero to Agent could not handle this elicitation."),
+        failureValue: declineElicitation("OpenAgent could not handle this elicitation."),
         run: async (signal) => {
           const result = await execute(compiled.input, timeoutMs, signal);
           if (result.status === "answered") {

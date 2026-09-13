@@ -1,4 +1,4 @@
-// Zero to Agent live rescue channel tests cover live-channel rescue message delivery.
+// OpenAgent live rescue channel tests cover live-channel rescue message delivery.
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -50,7 +50,7 @@ async function runRescue(params: {
   });
 }
 
-describeLive("Zero to Agent live rescue channel smoke", () => {
+describeLive("OpenAgent live rescue channel smoke", () => {
   afterEach(() => {
     resetPluginStateStoreForTests();
     clearConfigCache();

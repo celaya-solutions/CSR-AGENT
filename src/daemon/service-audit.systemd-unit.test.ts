@@ -25,7 +25,7 @@ async function writeSystemdUnitForAudit(
     unitPath,
     [
       "[Unit]",
-      "Description=Zero to Agent Gateway",
+      "Description=OpenAgent Gateway",
       "[Service]",
       ...lines,
       "ExecStart=/usr/bin/node gateway",

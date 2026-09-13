@@ -210,7 +210,7 @@ async function runRegister(output: ReefCliOutput, options: RegisterOptions): Pro
   ) {
     return await fail(
       output,
-      `This Zero to Agent state already holds the Reef identity @${identity.handle} on ${identity.relayUrl}. Re-register the same handle and relay.`,
+      `This OpenAgent state already holds the Reef identity @${identity.handle} on ${identity.relayUrl}. Re-register the same handle and relay.`,
     );
   }
   const requestedHandle = explicitHandle ?? identity?.handle;

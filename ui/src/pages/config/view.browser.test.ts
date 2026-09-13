@@ -116,7 +116,7 @@ describe("config view", () => {
     catalogOpenTarget: "viewer" as const,
     setCatalogOpenTarget: vi.fn(),
     gatewayUrl: "",
-    assistantName: "Zero to Agent",
+    assistantName: "OpenAgent",
   });
 
   it("lets config pages grow with their content instead of creating an inner viewport", async () => {
@@ -1969,7 +1969,7 @@ describe("config view", () => {
       "Using default: Enabled",
       "Using default: 48rem",
       "Using default: Enter",
-      "Using default: Zero to Agent viewer",
+      "Using default: OpenAgent viewer",
       "Using default: Disabled",
     ]) {
       expect(text).toContain(expected);

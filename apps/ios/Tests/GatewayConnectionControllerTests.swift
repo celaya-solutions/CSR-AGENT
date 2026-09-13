@@ -4,7 +4,7 @@ import OpenClawChatUI
 import os
 import Testing
 import UIKit
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawKit
 
 private func percentEncodedPath(of url: URL?) -> String? {
@@ -389,15 +389,15 @@ private func waitUntil(
         let appModel = NodeAppModel()
         let withoutApprovalScope = appModel._test_makeOperatorConnectOptions(
             clientId: "openclaw-ios",
-            displayName: "OpenClaw iOS",
+            displayName: "OpenAgent iOS",
             includeApprovalScope: false)
         let withApprovalScope = appModel._test_makeOperatorConnectOptions(
             clientId: "openclaw-ios",
-            displayName: "OpenClaw iOS",
+            displayName: "OpenAgent iOS",
             includeApprovalScope: true)
         let withAdminScope = appModel._test_makeOperatorConnectOptions(
             clientId: "openclaw-ios",
-            displayName: "OpenClaw iOS",
+            displayName: "OpenAgent iOS",
             includeAdminScope: true,
             includeApprovalScope: false)
 
@@ -423,7 +423,7 @@ private func waitUntil(
         let appModel = NodeAppModel()
         let options = appModel._test_makeOperatorConnectOptions(
             clientId: "openclaw-ios",
-            displayName: "OpenClaw iOS",
+            displayName: "OpenAgent iOS",
             includeApprovalScope: false,
             forceExplicitScopes: true)
 

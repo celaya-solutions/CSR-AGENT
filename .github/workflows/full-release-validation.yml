@@ -461,7 +461,7 @@ jobs:
           import { resolveReleaseContextIdentity } from './workflow/scripts/lib/release-context.mjs';
           const env = process.env;
           const identity = resolveReleaseContextIdentity(env.TARGET_CONTEXT_REF || env.TARGET_REF, env.TARGET_VERSION);
-          if (!identity && env.TARGET_CONTEXT_REF) throw new Error('target_context_ref must be a canonical OpenClaw release branch or tag.');
+          if (!identity && env.TARGET_CONTEXT_REF) throw new Error('target_context_ref must be a canonical OpenAgent release branch or tag.');
           console.log(JSON.stringify(identity ?? { kind: '', releaseTag: `v${env.TARGET_VERSION}`, baseTag: null }));
           NODE
           )"
@@ -676,7 +676,7 @@ jobs:
             if [[ "$COVERAGE_POLICY" == "npm-beta-v1" ]]; then
               echo "- Product performance: not run; deferred to postpublish confidence"
             elif [[ "$RERUN_GROUP" == "all" || "$RERUN_GROUP" == "performance" ]]; then
-              echo "- Product performance: \`OpenClaw Performance\` with \`target_ref=${TARGET_SHA}\`"
+              echo "- Product performance: \`OpenAgent Performance\` with \`target_ref=${TARGET_SHA}\`"
             else
               echo "- Product performance: skipped by rerun group"
             fi
@@ -687,7 +687,7 @@ jobs:
               echo "- Plugin prerelease: skipped by rerun group"
             fi
             if [[ "$RERUN_GROUP" == "all" || "$RERUN_GROUP" == "install-smoke" || "$RERUN_GROUP" == "cross-os" || "$RERUN_GROUP" == "live-e2e" || "$RERUN_GROUP" == "package" || "$RERUN_GROUP" == "qa-parity" || "$RERUN_GROUP" == "qa-live" ]]; then
-              echo "- Release/live/Docker/package/QA: \`OpenClaw Release Checks\`"
+              echo "- Release/live/Docker/package/QA: \`OpenAgent Release Checks\`"
             else
               echo "- Release/live/Docker/package/QA: skipped by rerun group"
             fi
@@ -706,7 +706,7 @@ jobs:
               if [[ "$SKIP_PACKAGE_TELEGRAM_E2E" == "true" ]]; then
                 echo "- Package Telegram E2E: deferred by \`skip_package_telegram_e2e\`"
               else
-                echo "- Package Telegram E2E: OpenClaw Release Checks Package Acceptance"
+                echo "- Package Telegram E2E: OpenAgent Release Checks Package Acceptance"
               fi
             else
               echo "- Package Telegram E2E: skipped by rerun group"
@@ -1236,7 +1236,7 @@ jobs:
                 args+=(-f candidate_artifact_json="$CANDIDATE_ARTIFACT_JSON")
               fi
               dispatch_id="full-release-validation-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-release-checks-${PHASE}"
-              dispatch_run_name="OpenClaw Release Checks ${dispatch_id}"
+              dispatch_run_name="OpenAgent Release Checks ${dispatch_id}"
               args+=(-f dispatch_id="$dispatch_id")
               dispatch_child openclaw-release-checks.yml "$dispatch_run_name" "${args[@]}"
               ;;
@@ -1272,7 +1272,7 @@ jobs:
                 fi
               } >> "$GITHUB_STEP_SUMMARY"
               dispatch_id="full-release-validation-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-              dispatch_run_name="OpenClaw Performance ${dispatch_id}"
+              dispatch_run_name="OpenAgent Performance ${dispatch_id}"
               args=(
                 -f target_ref="$TARGET_SHA"
                 -f profile=release
@@ -1457,7 +1457,7 @@ jobs:
       run_attempt: ${{ steps.dispatch.outputs.run_attempt }}
       url: ${{ steps.dispatch.outputs.url }}
     steps:
-      - name: Dispatch OpenClaw Performance
+      - name: Dispatch OpenAgent Performance
         id: dispatch
         env:
           GH_TOKEN: ${{ github.token }}

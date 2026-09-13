@@ -158,7 +158,7 @@ final class DashboardWindowController: NSWindowController, WKNavigationDelegate,
         tlsParams: GatewayTLSParams? = nil,
         browserSessionLease: DashboardBrowserSessionStore.Lease? = nil,
         gatewaySnapshot: DashboardGatewaySnapshot? = nil,
-        windowTitle: String = "OpenClaw",
+        windowTitle: String = "OpenAgent",
         windowAutosaveName: String,
         reusingWindow: NSWindow? = nil,
         requestBrowserProfileImportOffer:
@@ -1083,7 +1083,7 @@ extension DashboardWindowController {
 
     private static func makeJavaScriptConfirmAlert(message: String, host: String?) -> NSAlert {
         let alert = NSAlert()
-        alert.messageText = "OpenClaw Dashboard"
+        alert.messageText = "OpenAgent Dashboard"
         if let host, !host.isEmpty {
             alert.informativeText = "\(host) is asking:\n\n\(message)"
         } else {

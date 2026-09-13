@@ -1,11 +1,11 @@
-/** Prevents daemon write actions when the config belongs to a newer Zero to Agent. */
+/** Prevents daemon write actions when the config belongs to a newer OpenAgent. */
 import {
   formatFutureConfigActionBlock,
   resolveFutureConfigActionBlock,
   type FutureConfigActionBlock,
 } from "../config/future-version-guard.js";
 
-// Blocks daemon mutations when config was written by a newer Zero to Agent.
+// Blocks daemon mutations when config was written by a newer OpenAgent.
 async function readFutureConfigActionBlock(
   action: string,
 ): Promise<FutureConfigActionBlock | null> {

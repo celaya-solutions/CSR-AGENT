@@ -1,4 +1,4 @@
-// Diffs Shiki Curated script supports OpenClaw repository automation.
+// Diffs Shiki Curated script supports OpenAgent repository automation.
 import {
   createBundledHighlighter,
   createCssVariablesTheme,

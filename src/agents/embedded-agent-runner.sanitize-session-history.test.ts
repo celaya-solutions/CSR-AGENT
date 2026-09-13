@@ -1586,7 +1586,7 @@ describe("sanitizeSessionHistory", () => {
           text: [
             markInboundContextLabel("Conversation info:"),
             "```json",
-            '{"chat_id":"channel:123","sender":"Zero to Agent"}',
+            '{"chat_id":"channel:123","sender":"OpenAgent"}',
             "```",
             "",
             "Pong",
@@ -1621,7 +1621,7 @@ describe("sanitizeSessionHistory", () => {
     const metadataOnlyText = [
       markInboundContextLabel("Conversation info:"),
       "```json",
-      '{"chat_id":"channel:123","sender":"Zero to Agent"}',
+      '{"chat_id":"channel:123","sender":"OpenAgent"}',
       "```",
     ].join("\n");
     const messages = castAgentMessages([

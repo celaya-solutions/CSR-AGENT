@@ -13,16 +13,16 @@ type ResolveBonjourCliPathOptions = {
   statSync?: (path: string) => fs.Stats;
 };
 
-/** Formats the Bonjour instance name while preserving user-provided Zero to Agent names. */
+/** Formats the Bonjour instance name while preserving user-provided OpenAgent names. */
 export function formatBonjourInstanceName(displayName: string) {
   const trimmed = displayName.trim();
   if (!trimmed) {
-    return "Zero to Agent";
+    return "OpenAgent";
   }
   if (/openclaw/i.test(trimmed)) {
     return trimmed;
   }
-  return `${trimmed} (Zero to Agent)`;
+  return `${trimmed} (OpenAgent)`;
 }
 
 /** Resolves the CLI path advertised to Bonjour clients, preferring explicit env config. */

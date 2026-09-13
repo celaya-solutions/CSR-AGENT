@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { expandPolicyToolRequirement, toolListCoversTool } from "./tool-policy-conformance.js";
 
 describe("policy tool group conformance", () => {
-  it("keeps computer control in both node and Zero to Agent policy groups", () => {
+  it("keeps computer control in both node and OpenAgent policy groups", () => {
     expect(expandPolicyToolRequirement("group:nodes")).toEqual(
       expect.arrayContaining(["computer", "mobile_ui"]),
     );
@@ -56,7 +56,7 @@ describe("policy tool group conformance", () => {
     }
   });
 
-  it("uses the current image tool name in media and Zero to Agent groups", () => {
+  it("uses the current image tool name in media and OpenAgent groups", () => {
     expect(toolListCoversTool(["group:media", "group:openclaw"], "image")).toBe(false);
   });
 

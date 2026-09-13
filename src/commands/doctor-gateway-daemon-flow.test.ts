@@ -345,7 +345,7 @@ describe("maybeRepairGatewayDaemon", () => {
   });
 
   it.each([
-    { environment: "container without a Zero to Agent service", detected: true },
+    { environment: "container without an OpenAgent service", detected: true },
     { environment: "Kubernetes pod without container markers", kubernetes: true },
     { environment: "globally external supervisor", external: true },
   ])(
@@ -862,7 +862,7 @@ describe("maybeRepairGatewayDaemon", () => {
     expect(note).toHaveBeenCalledWith(EXTERNAL_SERVICE_REPAIR_NOTE, "Gateway");
   });
 
-  it("skips gateway service install when a system Zero to Agent gateway service exists", async () => {
+  it("skips gateway service install when a system OpenAgent gateway service exists", async () => {
     setPlatform("linux");
     service.isLoaded.mockResolvedValue(false);
     findSystemGatewayServices.mockResolvedValue([
@@ -883,9 +883,9 @@ describe("maybeRepairGatewayDaemon", () => {
     expect(service.restart).not.toHaveBeenCalled();
     expect(note).toHaveBeenCalledWith(
       [
-        "System-level Zero to Agent gateway service detected while the user gateway service is not installed.",
+        "System-level OpenAgent gateway service detected while the user gateway service is not installed.",
         "- openclaw-gateway.service (unit: /etc/systemd/system/openclaw-gateway.service)",
-        "Zero to Agent will not install a second user-level gateway service automatically.",
+        "OpenAgent will not install a second user-level gateway service automatically.",
         "Run `openclaw gateway status --deep` or `openclaw doctor --deep` to inspect duplicate services.",
         `Set ${SERVICE_REPAIR_POLICY_ENV}=external if a system supervisor owns the gateway lifecycle.`,
       ].join("\n"),

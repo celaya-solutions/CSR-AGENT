@@ -845,7 +845,7 @@ describe("OpenAI realtime voice provider routing", () => {
         "quicksilver request",
       );
       expect(quicksilverRequest.instructions).toMatch(
-        /^You are Zero to Agent's realtime voice layer\./,
+        /^You are OpenAgent's realtime voice layer\./,
       );
       expect(quicksilverRequest.instructions).toContain(
         "Delegate each user request once and wait for its result.",

@@ -1,7 +1,7 @@
 import AppKit
 import Testing
 import WebKit
-@testable import OpenClaw
+@testable import OpenAgent
 
 @MainActor
 extension DashboardWindowOwnershipTests {

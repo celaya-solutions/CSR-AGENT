@@ -22,7 +22,7 @@ describe("update config snapshot isolation", () => {
           `const { runUpdateSnapshotIsolationProof } = await import(${JSON.stringify(support.href)});
            await runUpdateSnapshotIsolationProof(${JSON.stringify(root)}, ${JSON.stringify(selection)});`,
         ],
-        // No inherited Zero to Agent selectors, credentials, NODE_OPTIONS, or fast-test shortcuts.
+        // No inherited OpenAgent selectors, credentials, NODE_OPTIONS, or fast-test shortcuts.
         env: {
           PATH: process.env.PATH,
           SystemRoot: process.env.SystemRoot,

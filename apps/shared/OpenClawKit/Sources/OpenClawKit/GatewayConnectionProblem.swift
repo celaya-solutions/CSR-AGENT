@@ -645,10 +645,10 @@ extension GatewayConnectionProblemMapper {
                 kind: .tlsCertificateUnavailable,
                 owner: .network,
                 title: "Gateway certificate unavailable",
-                message: "OpenClaw could not read the gateway certificate for \(failure.host).",
+                message: "OpenAgent could not read the gateway certificate for \(failure.host).",
                 actionLabel: "Retry",
                 messagePresentation: .localizedFormat(
-                    "OpenClaw could not read the gateway certificate for %@.",
+                    "OpenAgent could not read the gateway certificate for %@.",
                     [failure.host]),
                 actionCommand: nil,
                 docsURL: URL(string: "https://docs.openclaw.ai/gateway/troubleshooting"),
@@ -675,11 +675,11 @@ extension GatewayConnectionProblemMapper {
                 kind: .tlsCertificateUnavailable,
                 owner: .unknown,
                 title: "Gateway certificate unavailable",
-                message: "OpenClaw could not securely save the TLS certificate pin for \(failure.host).",
+                message: "OpenAgent could not securely save the TLS certificate pin for \(failure.host).",
                 actionLabel: "Retry",
                 titlePresentation: .localized("Gateway certificate unavailable"),
                 messagePresentation: .localizedFormat(
-                    "OpenClaw could not securely save the TLS certificate pin for %@.",
+                    "OpenAgent could not securely save the TLS certificate pin for %@.",
                     [failure.host]),
                 actionLabelPresentation: .localized("Retry"),
                 actionCommand: nil,
@@ -754,7 +754,7 @@ extension GatewayConnectionProblemMapper {
         case .reachabilityFailed:
             (
                 "Gateway is not reachable",
-                "OpenClaw could not reach the gateway over the current network.",
+                "OpenAgent could not reach the gateway over the current network.",
                 "Check network")
         case .websocketCancelled:
             ("Connection interrupted", "The connection to the gateway was interrupted before setup completed.", "Retry")
@@ -822,7 +822,7 @@ extension GatewayConnectionProblemMapper {
            clientMax < expected
         {
             title = "App update required"
-            message = "This app is older than the gateway. Update OpenClaw on this device, then retry."
+            message = "This app is older than the gateway. Update OpenAgent on this device, then retry."
             owner = .iphone
             actionLabel = "Update app"
             actionCommand = nil
@@ -831,15 +831,15 @@ extension GatewayConnectionProblemMapper {
                   clientMin > expected
         {
             title = "Gateway update required"
-            message = "The gateway is older than this app. Update OpenClaw on the gateway host, then retry."
+            message = "The gateway is older than this app. Update OpenAgent on the gateway host, then retry."
             owner = .gateway
             actionLabel = "Copy update command"
             actionCommand = "openclaw update"
         } else {
-            title = "OpenClaw update required"
-            message = "The app and gateway use incompatible protocol versions. Update OpenClaw on both, then retry."
+            title = "OpenAgent update required"
+            message = "The app and gateway use incompatible protocol versions. Update OpenAgent on both, then retry."
             owner = .both
-            actionLabel = "Update OpenClaw"
+            actionLabel = "Update OpenAgent"
             actionCommand = nil
         }
         return self.problem(

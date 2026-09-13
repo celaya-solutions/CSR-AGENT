@@ -1,4 +1,4 @@
-// Zero to Agent npm release check tests validate package release checks.
+// OpenAgent npm release check tests validate package release checks.
 import { execFileSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -34,7 +34,7 @@ const REQUIRED_PACKED_PATHS = [
   ...WORKSPACE_TEMPLATE_PACK_PATHS,
 ] as const;
 
-describe("prepared Zero to Agent AI dependency", () => {
+describe("prepared OpenAgent AI dependency", () => {
   it("requires the packed root to depend on the exact prepared AI version", () => {
     expect(() =>
       assertPreparedOpenClawAiDependency({

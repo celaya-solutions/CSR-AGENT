@@ -1,4 +1,4 @@
-// Mcp Code Mode Gateway Client script supports OpenClaw repository automation.
+// Mcp Code Mode Gateway Client script supports OpenAgent repository automation.
 import path from "node:path";
 import { setTimeout as setNodeTimeout, clearTimeout as clearNodeTimeout } from "node:timers";
 import { pathToFileURL } from "node:url";

@@ -1,6 +1,6 @@
 # Compiled OpenGrep super-configs
 
-`precise.yml` is OpenClaw's shipped precise OpenGrep rulepack. Each rule is tied
+`precise.yml` is OpenAgent's shipped precise OpenGrep rulepack. Each rule is tied
 to a source advisory, vulnerability report, or review identifier through metadata
 and is intended to have concrete coverage of the original vulnerable behavior or
 a verified variant.
@@ -130,6 +130,6 @@ uses it.
 
 ## Why `--no-git-ignore`?
 
-Some OpenClaw paths are excluded by `.gitignore` for build reasons even though
+Some OpenAgent paths are excluded by `.gitignore` for build reasons even though
 they contain meaningful source code we want scanned. `--no-git-ignore` keeps
 opengrep from skipping them.

@@ -53,7 +53,7 @@ export type AgentHarnessTaskRuntimeScopeParams = {
   | {
       // Core identifies harness-owned subagent rows by the taskKind stamped here
       // (isHarnessOwnedSubagentTask); a subagent row created without one would be
-      // read as a Zero to Agent-owned child session and reclaimed on the short grace.
+      // read as an OpenAgent-owned child session and reclaimed on the short grace.
       runtime: Extract<AgentHarnessTaskRuntimeId, "subagent">;
       taskKind: string;
     }

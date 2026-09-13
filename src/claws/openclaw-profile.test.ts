@@ -7,7 +7,7 @@ import { parseClawOpenClawProfile } from "./schema.js";
 
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 
-describe("Zero to Agent profile schema", () => {
+describe("OpenAgent profile schema", () => {
   it("accepts typed settings", () => {
     const result = parseClawOpenClawProfile({
       schemaVersion: 1,
@@ -90,7 +90,7 @@ describe("Zero to Agent profile schema", () => {
   });
 });
 
-describe("Zero to Agent profile reader", () => {
+describe("OpenAgent profile reader", () => {
   it.each([
     ["anchor", "agent: &agent {}", "anchors"],
     ["alias", "agent: *agent", "aliases"],
@@ -115,7 +115,7 @@ describe("Zero to Agent profile reader", () => {
             phase: "parse",
             path: "$",
             code: "unsupported_openclaw_profile_yaml_feature",
-            message: `profiles/openclaw.yml uses ${feature}; Zero to Agent profile YAML must map directly to JSON data.`,
+            message: `profiles/openclaw.yml uses ${feature}; OpenAgent profile YAML must map directly to JSON data.`,
           },
         ],
       });
@@ -199,7 +199,7 @@ describe("Zero to Agent profile reader", () => {
       },
     });
     if (!first.ok) {
-      throw new Error("expected Zero to Agent profile to parse");
+      throw new Error("expected OpenAgent profile to parse");
     }
 
     await writeFile(
@@ -210,7 +210,7 @@ describe("Zero to Agent profile reader", () => {
     const second = await readClawManifestFile(root);
     expect(second.ok).toBe(true);
     if (!second.ok) {
-      throw new Error("expected changed Zero to Agent profile to parse");
+      throw new Error("expected changed OpenAgent profile to parse");
     }
     expect(second.source.integrity).not.toBe(first.source.integrity);
   });

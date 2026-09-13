@@ -32,7 +32,7 @@ enum ChromeExtensionSetup {
 
         var errorDescription: String? {
             switch self {
-            case .missingCLI: "Install the OpenClaw CLI on this Mac, then try setup again."
+            case .missingCLI: "Install the OpenAgent CLI on this Mac, then try setup again."
             case .unavailable:
                 "Chrome setup could not finish. Run openclaw browser extension install on this Mac for details."
             case .retired: "The device settings document is no longer available."

@@ -1,4 +1,4 @@
-// Npm Update Scripts script supports OpenClaw repository automation.
+// Npm Update Scripts script supports OpenAgent repository automation.
 import { posixAgentWorkspaceScript, windowsAgentWorkspaceScript } from "./agent-workspace.ts";
 import { shellQuote } from "./host-command.ts";
 import {
@@ -28,7 +28,7 @@ interface NpmUpdateScriptInput {
 
 const windowsStalePostSwapImportRegex = String.raw`node_modules\\openclaw\\dist\\[^\\]+-[A-Za-z0-9_-]+\.m?js`;
 const startupMigrationRestartPrefix =
-  "OpenClaw plugin migration inputs changed during startup convergence;";
+  "OpenAgent plugin migration inputs changed during startup convergence;";
 const macosGuestPath =
   "/opt/homebrew/bin:/opt/homebrew/opt/node/bin:/usr/local/bin:/usr/local/sbin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin";
 const macosOpenClawCommand = '"$OPENCLAW_BIN"';

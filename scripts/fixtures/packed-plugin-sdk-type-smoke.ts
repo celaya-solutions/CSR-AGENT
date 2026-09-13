@@ -1,4 +1,4 @@
-// Packed Plugin Sdk Type Smoke script supports OpenClaw repository automation.
+// Packed Plugin Sdk Type Smoke script supports OpenAgent repository automation.
 import { defineToolPlugin } from "openclaw/plugin-sdk/tool-plugin";
 import "./packed-plugin-sdk-setup-consumer.js";
 type PublicPluginSdkModules = [

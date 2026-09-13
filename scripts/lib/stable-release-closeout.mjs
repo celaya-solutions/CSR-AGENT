@@ -181,7 +181,7 @@ export function verifyStableMainCloseout(params) {
 
   if (mainVersion && !isStableMainVersionAtLeast(mainVersion, version)) {
     errors.push(
-      `main package.json version is ${mainVersion}, expected shipped version ${version} or a later stable OpenClaw CalVer.`,
+      `main package.json version is ${mainVersion}, expected shipped version ${version} or a later stable OpenAgent CalVer.`,
     );
   }
   if (tagPackageVersion && tagPackageVersion !== version) {

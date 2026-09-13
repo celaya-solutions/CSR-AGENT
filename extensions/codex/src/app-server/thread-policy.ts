@@ -45,11 +45,11 @@ export async function refreshCodexThreadPolicy(params: {
   assertCurrent: () => void;
 }): Promise<void> {
   const notice =
-    "The following is the complete current Zero to Agent-supplied generic instruction policy. It replaces earlier Zero to Agent-supplied generic policy, including sections removed from that generic policy. Parent-local instructions supplied for the current inference request are outside this policy replacement. Independently supplied native managed, guardian, security, collaboration, and project instructions retain their authority. User requests retain their own authority.\n\n";
+    "The following is the complete current OpenAgent-supplied generic instruction policy. It replaces earlier OpenAgent-supplied generic policy, including sections removed from that generic policy. Parent-local instructions supplied for the current inference request are outside this policy replacement. Independently supplied native managed, guardian, security, collaboration, and project instructions retain their authority. User requests retain their own authority.\n\n";
   const text =
     notice +
     (params.developerInstructions === ""
-      ? "The current Zero to Agent generic policy is empty; earlier Zero to Agent generic policy is withdrawn."
+      ? "The current OpenAgent generic policy is empty; earlier OpenAgent generic policy is withdrawn."
       : params.developerInstructions);
   let outcome: CodexThreadPolicyHandoffError["outcome"] = "unknown";
   try {

@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --import tsx
-// Test Force script supports OpenClaw repository automation.
+// Test Force script supports OpenAgent repository automation.
 import { spawnSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
@@ -13,7 +13,7 @@ function usage(): string {
   return [
     "Usage: node --import tsx scripts/test-force.ts",
     "",
-    "Clears the configured OpenClaw gateway port, then runs the local test suite.",
+    "Clears the configured OpenAgent gateway port, then runs the local test suite.",
     "",
     "Options:",
     "  -h, --help    Show this help.",

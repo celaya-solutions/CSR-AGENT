@@ -65,7 +65,7 @@ automaticSetup.addEventListener("change", () => {
 useLocal.addEventListener("click", () => {
   void showResult(
     () => chrome.runtime.sendMessage({ type: "setNativeBootstrapEnabled", enabled: true }),
-    "Looking for local Zero to Agent…",
+    "Looking for local OpenAgent…",
   );
 });
 accessMode.addEventListener("change", () => {

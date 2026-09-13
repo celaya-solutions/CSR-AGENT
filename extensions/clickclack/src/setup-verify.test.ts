@@ -87,7 +87,7 @@ describe("ClickClack post-write setup verification", () => {
     );
     expect(runtime.log).toHaveBeenNthCalledWith(
       2,
-      "Zero to Agent is running — ClickClack will connect automatically.",
+      "OpenAgent is running — ClickClack will connect automatically.",
     );
   });
 
@@ -120,7 +120,7 @@ describe("ClickClack post-write setup verification", () => {
     expect(runtime.log).toHaveBeenNthCalledWith(1, expected);
     expect(runtime.log).toHaveBeenNthCalledWith(
       2,
-      "Zero to Agent is running — ClickClack will connect automatically.",
+      "OpenAgent is running — ClickClack will connect automatically.",
     );
   });
 
@@ -146,7 +146,7 @@ describe("ClickClack post-write setup verification", () => {
     {
       name: "running",
       arrange: () => mocks.callGatewayFromCli.mockResolvedValue({ ok: true }),
-      expected: "Zero to Agent is running — ClickClack will connect automatically.",
+      expected: "OpenAgent is running — ClickClack will connect automatically.",
     },
     {
       name: "not running",
@@ -158,13 +158,13 @@ describe("ClickClack post-write setup verification", () => {
             code: 1006,
           }),
         ),
-      expected: "Start Zero to Agent to connect: openclaw gateway",
+      expected: "Start OpenAgent to connect: openclaw gateway",
     },
     {
       name: "unavailable",
       arrange: () => mocks.callGatewayFromCli.mockRejectedValue(new Error("probe failed")),
       expected:
-        "If Zero to Agent is running it connects automatically; otherwise start it with: openclaw gateway",
+        "If OpenAgent is running it connects automatically; otherwise start it with: openclaw gateway",
     },
   ])("prints the gateway next step when status is $name", async ({ arrange, expected }) => {
     arrange();

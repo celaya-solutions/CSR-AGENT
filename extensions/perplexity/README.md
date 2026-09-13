@@ -1,8 +1,8 @@
-# Zero to Agent Perplexity Plugin
+# OpenAgent Perplexity Plugin
 
-Official Zero to Agent plugin for Perplexity.
+Official OpenAgent plugin for Perplexity.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/perplexity-plugin

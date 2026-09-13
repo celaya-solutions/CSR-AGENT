@@ -75,7 +75,7 @@ afterEach(() => {
   resetAppHostTestGlobals();
 });
 
-describe("Zero to Agent native shell", () => {
+describe("OpenAgent native shell", () => {
   it.each(["MacIntel", "Win32", "Linux x86_64"])(
     "uses only the platform sidebar modifier on %s without consuming text navigation",
     (platform) => {
@@ -574,7 +574,7 @@ describe("Zero to Agent native shell", () => {
   });
 });
 
-describe("Zero to Agent shell update affordance", () => {
+describe("OpenAgent shell update affordance", () => {
   it("renders floating attention while keeping update actions in navigation", async () => {
     const container = document.createElement("div");
     document.body.append(container);

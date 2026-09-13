@@ -331,7 +331,7 @@ describe("buildEmbeddedSystemPrompt", () => {
     });
 
     expect(prompt).toContain("- sessions_spawn");
-    expect(prompt).not.toContain("Zero to Agent lists the standard tools above");
+    expect(prompt).not.toContain("OpenAgent lists the standard tools above");
     expect(prompt).not.toContain("For long waits, avoid rapid poll loops");
     expect(prompt).not.toContain("Larger work: use `sessions_spawn`");
     expect(prompt).not.toContain("Do not poll `subagents list` / `sessions_list` in a loop");
@@ -452,7 +452,7 @@ describe("buildEmbeddedSystemPrompt", () => {
     "preserves the fixed embedded prompt in %s mode",
     (promptMode) => {
       const prompt = buildEmbeddedSystemPrompt({ ...fixedEmbeddedPromptInputs(), promptMode });
-      expect(prompt).toContain("You are a personal assistant running inside Zero to Agent.");
+      expect(prompt).toContain("You are a personal assistant running inside OpenAgent.");
       if (promptMode === "none") {
         expect(prompt).not.toContain("Fixture");
         expect(prompt).not.toContain("## Tooling");

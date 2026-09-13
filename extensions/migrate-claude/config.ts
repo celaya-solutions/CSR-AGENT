@@ -153,8 +153,7 @@ export async function buildConfigItems(params: {
           id: `manual:hooks:${sanitizeName(settingsPath)}`,
           source: settingsPath,
           message: "Claude hooks were found but are not enabled automatically.",
-          recommendation:
-            "Review hook commands before recreating equivalent Zero to Agent automation.",
+          recommendation: "Review hook commands before recreating equivalent OpenAgent automation.",
         }),
       );
     }
@@ -176,7 +175,7 @@ export async function buildConfigItems(params: {
           source: settingsPath,
           message: "Claude environment defaults were found but are not copied automatically.",
           recommendation:
-            "Move non-secret values manually and store credentials through Zero to Agent credential flows.",
+            "Move non-secret values manually and store credentials through OpenAgent credential flows.",
         }),
       );
     }

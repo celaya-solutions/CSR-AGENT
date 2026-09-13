@@ -99,7 +99,7 @@ final class WatchRealtimeCallController {
         return self
             .end(
                 message: String(
-                    localized: "Connection stopped in the background. Keep OpenClaw on screen until connected."))
+                    localized: "Connection stopped in the background. Keep OpenAgent on screen until connected."))
     }
 
     private func resetPresentation() {
@@ -187,7 +187,7 @@ final class WatchRealtimeCallController {
             permissions: [:],
             clientId: "openclaw-watchos",
             clientMode: "node",
-            clientDisplayName: "OpenClaw Watch Voice",
+            clientDisplayName: "OpenAgent Watch Voice",
             deviceIdentityProfile: .primary,
             deviceAuthGatewayID: attempt.call.connection.gatewayID)
         let events = attempt.continuation

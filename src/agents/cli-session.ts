@@ -184,7 +184,7 @@ export type CliSessionReuseResult =
   | { mode: "invalidate"; invalidatedReason: CliSessionInvalidatedReason };
 
 const CLI_SESSION_DRIFT_NOTE_PREFIX =
-  "Zero to Agent resumed this CLI session after prompt content changed.";
+  "OpenAgent resumed this CLI session after prompt content changed.";
 
 /** User-turn note telling a resumed CLI session that its prompt content drifted. */
 export function buildCliSessionDriftNote(reasons: readonly CliSessionContentDriftReason[]): string {

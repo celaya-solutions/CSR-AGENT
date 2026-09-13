@@ -70,11 +70,11 @@ function noteCliGatewayVersionSkew(status: StatusSummary | undefined): void {
   }
   note(
     [
-      `This command is Zero to Agent ${VERSION}; the running Gateway is Zero to Agent ${gatewayVersion}.`,
+      `This command is OpenAgent ${VERSION}; the running Gateway is OpenAgent ${gatewayVersion}.`,
       "Check `openclaw --version`, `which openclaw`, and `openclaw gateway status --deep`.",
-      "If this mismatch is unexpected, update PATH so `openclaw` points to the version you want, or reinstall the Gateway service from that same Zero to Agent install.",
+      "If this mismatch is unexpected, update PATH so `openclaw` points to the version you want, or reinstall the Gateway service from that same OpenAgent install.",
     ].join("\n"),
-    "Zero to Agent version mismatch",
+    "OpenAgent version mismatch",
   );
 }
 

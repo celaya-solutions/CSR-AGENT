@@ -116,19 +116,19 @@ def exercise(app, Atspi, GLib, *, remote_only, local_start_failure, inline_fixtu
         inline_fixture.exercise(app, binary, wait, Atspi)
         return
 
-    wait("Welcome to OpenClaw", "heading")
+    wait("Welcome to OpenAgent", "heading")
     if local_start_failure:
         for attempt in range(2):
             click("Get started")
             wait("Where should your assistant live?", "heading")
             click("On this computer", "toggle button", prefix=True)
             click("Continue")
-            wait("OpenClaw needs attention", "heading")
+            wait("OpenAgent needs attention", "heading")
             wait(START_FAILURE)
             wait("Try again", "push button")
             if attempt == 0:
                 click("Try again")
-                wait("Welcome to OpenClaw", "heading")
+                wait("Welcome to OpenAgent", "heading")
         calls = Path("cli-calls.log").read_text().splitlines()
         if calls.count("gateway install --json") != 2:
             raise RuntimeError(f"Expected two failed Gateway installs, observed {calls!r}")
@@ -151,7 +151,7 @@ def exercise(app, Atspi, GLib, *, remote_only, local_start_failure, inline_fixtu
         print("PASS: native first-run remote choices", flush=True)
         return
     click("Back")
-    wait("Welcome to OpenClaw", "heading")
+    wait("Welcome to OpenAgent", "heading")
     click("Get started")
     click("On this computer", "toggle button", prefix=True)
     click("Continue")
@@ -164,7 +164,7 @@ def exercise(app, Atspi, GLib, *, remote_only, local_start_failure, inline_fixtu
         "Development",
         predicate=lambda node: node.get_state_set().contains(Atspi.StateType.SELECTED),
     )
-    wait("Install OpenClaw", "push button")
+    wait("Install OpenAgent", "push button")
     print("PASS: native first-run remote choices and local development channel", flush=True)
 
 
@@ -293,7 +293,7 @@ def main():
     if not os.access(binary, os.X_OK):
         parser.error("The native app binary must be executable")
     if shutil.which("openclaw", path="/usr/bin:/bin"):
-        parser.error("The minimal system PATH must not contain an OpenClaw CLI")
+        parser.error("The minimal system PATH must not contain an OpenAgent CLI")
     if args.inline_browser and not os.access("/usr/bin/xdotool", os.X_OK):
         parser.error("Inline browser pointer proof requires xdotool")
     if args.artifacts_dir:
@@ -354,7 +354,7 @@ def main():
                 "command = ' '.join(sys.argv[1:])\n"
                 "with Path('cli-calls.log').open('a') as log: log.write(command + '\\n')\n"
                 "if command == '--version':\n"
-                "    print('OpenClaw fixture')\n"
+                "    print('OpenAgent fixture')\n"
                 "elif command == 'gateway status --json':\n"
                 "    print(json.dumps({'service': {'loaded': False}, 'rpc': {'ok': False}}))\n"
                 "elif command == 'gateway install --json':\n"

@@ -236,7 +236,7 @@ async function stageWorkerWorkspaceResult(params: {
   }
   chunks.push(
     Buffer.from(
-      `commit ${stagedResultRef}\nauthor Zero to Agent <openclaw@localhost> 0 +0000\ncommitter Zero to Agent <openclaw@localhost> 0 +0000\ndata ${message.byteLength}\n`,
+      `commit ${stagedResultRef}\nauthor OpenAgent <openclaw@localhost> 0 +0000\ncommitter OpenAgent <openclaw@localhost> 0 +0000\ndata ${message.byteLength}\n`,
     ),
     message,
     Buffer.from("\ndeleteall\n"),

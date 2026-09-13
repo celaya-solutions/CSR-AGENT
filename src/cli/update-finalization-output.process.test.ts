@@ -20,7 +20,7 @@ const fixture = fileURLToPath(
   new URL("./update-finalization-output.test-support.ts", import.meta.url),
 );
 const doctorDiagnostics = [
-  "Zero to Agent doctor",
+  "OpenAgent doctor",
   "Doctor panel diagnostic",
   "Doctor workspace diagnostic",
   "Doctor console diagnostic",

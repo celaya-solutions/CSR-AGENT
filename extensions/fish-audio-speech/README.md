@@ -1,6 +1,6 @@
 # Fish Audio speech plugin
 
-Official Zero to Agent speech provider for Fish Audio's hosted S2.1 API.
+Official OpenAgent speech provider for Fish Audio's hosted S2.1 API.
 
 Install it with:
 

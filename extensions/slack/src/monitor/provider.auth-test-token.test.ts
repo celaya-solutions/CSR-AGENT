@@ -186,7 +186,7 @@ describe("auth.test boot call", () => {
       user_id: "UUSER",
       user: "human-installer",
       team_id: "T1",
-      team: "Zero to Agent",
+      team: "OpenAgent",
       is_enterprise_install: false,
     });
 
@@ -226,7 +226,7 @@ describe("auth.test boot call", () => {
       user_id: "UUSER",
       user: "human-installer",
       team_id: "T1",
-      team: "Zero to Agent",
+      team: "OpenAgent",
       is_enterprise_install: false,
     });
     client.conversations.info.mockResolvedValueOnce({

@@ -15,7 +15,7 @@ Manage Talk voice selection (list/set).
 ## Distribution
 
 - Package: `openclaw`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

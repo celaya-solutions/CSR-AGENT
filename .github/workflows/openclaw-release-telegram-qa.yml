@@ -1,6 +1,6 @@
-name: OpenClaw Release Telegram QA
+name: OpenAgent Release Telegram QA
 
-run-name: ${{ github.event_name == 'workflow_dispatch' && format('OpenClaw Release Telegram QA {0}', inputs.dispatch_id) || 'OpenClaw Release Telegram QA' }}
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('OpenAgent Release Telegram QA {0}', inputs.dispatch_id) || 'OpenAgent Release Telegram QA' }}
 
 on:
   workflow_call:

@@ -2,11 +2,11 @@ import ConcurrencyExtras
 import Foundation
 import SQLite3
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct PortGuardianRecordStoreTests {
     @Test
-    func `storage marker distinguishes older OpenClaw writers from aligned copies`() {
+    func `storage marker distinguishes older OpenAgent writers from aligned copies`() {
         #expect(!PortGuardian.usesLegacyPortGuardianStorage(
             bundleIdentifier: "com.example.unrelated",
             storageVersion: nil))

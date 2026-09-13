@@ -1,5 +1,5 @@
 ---
-summary: "Read-only Zero to Agent sessions on paired gateways."
+summary: "Read-only OpenAgent sessions on paired gateways."
 read_when:
   - You are installing, configuring, or auditing the session-share plugin
 title: "Session Share plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Read-only Zero to Agent sessions on paired gateways.
+Read-only OpenAgent sessions on paired gateways.
 
 ## Distribution
 
 - Package: `@openclaw/session-share`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

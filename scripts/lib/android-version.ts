@@ -1,4 +1,4 @@
-// Android Version script supports OpenClaw repository automation.
+// Android Version script supports OpenAgent repository automation.
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { decodeIosAppStoreVersion } from "./ios-release-plan.ts";

@@ -79,7 +79,7 @@ describe("createNewerSqliteSchemaVersionError", () => {
     const error = createNewerSqliteSchemaVersionError("test database", "/tmp/test.sqlite", 12, 11);
 
     expect(error.message).not.toContain("Do not downgrade");
-    expect(error.message).not.toContain("Upgrade Zero to Agent");
+    expect(error.message).not.toContain("Upgrade OpenAgent");
   });
 });
 

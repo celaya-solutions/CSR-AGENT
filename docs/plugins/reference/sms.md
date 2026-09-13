@@ -1,5 +1,5 @@
 ---
-summary: "Twilio SMS/MMS channel plugin for Zero to Agent messages."
+summary: "Twilio SMS/MMS channel plugin for OpenAgent messages."
 read_when:
   - You are installing, configuring, or auditing the sms plugin
 title: "Sms plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Twilio SMS/MMS channel plugin for Zero to Agent messages.
+Twilio SMS/MMS channel plugin for OpenAgent messages.
 
 ## Distribution
 

@@ -120,7 +120,7 @@ PLUGIN_ID="e2e-slug-tool"
 PLUGIN_NAME="@openclaw/e2e-slug-tool"
 PLUGIN_VERSION="0.0.0-e2e.1"
 TOOL_NAME="e2e_slug_probe"
-SEED="OpenClaw E2E Plugin Tool $(date +%s)-$RANDOM"
+SEED="OpenAgent E2E Plugin Tool $(date +%s)-$RANDOM"
 EXPECTED_SLUG="$(printf '%s' "$SEED" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
 export MODEL_REF PLUGIN_ID PLUGIN_NAME PLUGIN_VERSION TOOL_NAME SEED EXPECTED_SLUG
 

@@ -172,7 +172,7 @@ private fun sharedAttachments(
       }.orEmpty()
 
   // Only provider-backed content URIs use the sender's temporary read grant. Rejecting file://
-  // prevents an external intent from turning OpenClaw into a reader for its own private files.
+  // prevents an external intent from turning OpenAgent into a reader for its own private files.
   val validUris =
     (streamUris + clipUris)
       .filter { uri -> uri.scheme.equals(ContentResolver.SCHEME_CONTENT, ignoreCase = true) }

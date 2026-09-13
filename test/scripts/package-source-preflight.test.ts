@@ -177,12 +177,12 @@ function runLiveSourcePackageBuildAndValidation(packageEnv: Record<string, strin
   const pack = workflowStep(
     workflow,
     "prepare_docker_e2e_image",
-    "Pack Zero to Agent package for Docker E2E",
+    "Pack OpenAgent package for Docker E2E",
   );
   const validate = workflowStep(
     workflow,
     "prepare_docker_e2e_image",
-    "Validate Zero to Agent Docker E2E package",
+    "Validate OpenAgent Docker E2E package",
   );
   const artifactTuple = runLiveArtifactTupleValidation(packageEnv);
   const tempDir = mkdtempSync(path.join(os.tmpdir(), "openclaw-live-source-package-"));
@@ -668,7 +668,7 @@ describe("package source preflight", () => {
     const pack = workflowStep(
       workflow,
       "prepare_docker_e2e_image",
-      "Pack Zero to Agent package for Docker E2E",
+      "Pack OpenAgent package for Docker E2E",
     );
 
     expect(

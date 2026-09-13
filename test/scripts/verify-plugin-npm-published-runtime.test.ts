@@ -241,7 +241,7 @@ describe("collectPluginNpmPublishedRuntimeErrors", () => {
     ).toStrictEqual([]);
   });
 
-  it("flags plugin npm packages without a Zero to Agent plugin manifest", () => {
+  it("flags plugin npm packages without an OpenAgent plugin manifest", () => {
     expect(
       collectPluginNpmPublishedRuntimeErrors({
         packageJson: {

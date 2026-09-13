@@ -456,7 +456,7 @@ describe.skipIf(!LIVE)("ollama live", () => {
       }
 
       const result = (await tool.execute({
-        query: "Zero to Agent documentation",
+        query: "OpenAgent documentation",
         count: 1,
       })) as {
         provider?: string;

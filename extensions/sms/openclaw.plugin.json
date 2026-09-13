@@ -2,7 +2,7 @@
   "id": "sms",
   "categories": ["channels"],
   "name": "SMS",
-  "description": "Twilio SMS/MMS channel plugin for Zero to Agent messages.",
+  "description": "Twilio SMS/MMS channel plugin for OpenAgent messages.",
   "activation": {
     "onStartup": false
   },

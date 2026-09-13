@@ -26,7 +26,7 @@ type ConfiguredBindingConversation = ConversationRef;
 export type ConfiguredBindingChannel = ChannelId;
 
 /**
- * Raw binding config entry from Zero to Agent config.
+ * Raw binding config entry from OpenAgent config.
  */
 export type ConfiguredBindingRuleConfig = AgentBinding;
 

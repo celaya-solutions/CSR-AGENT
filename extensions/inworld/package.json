@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/inworld-speech",
   "version": "2026.9.4",
-  "description": "Zero to Agent Inworld speech plugin.",
+  "description": "OpenAgent Inworld speech plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

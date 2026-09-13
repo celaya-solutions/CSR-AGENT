@@ -7,7 +7,7 @@ read_when:
 title: "MiniMax search"
 ---
 
-Zero to Agent supports MiniMax as a `web_search` provider through the MiniMax
+OpenAgent supports MiniMax as a `web_search` provider through the MiniMax
 Token Plan search API. It returns structured search results with titles, URLs,
 snippets, and related queries.
 
@@ -29,7 +29,7 @@ snippets, and related queries.
   </Step>
 </Steps>
 
-Zero to Agent also accepts `MINIMAX_CODING_API_KEY`, `MINIMAX_OAUTH_TOKEN`, and
+OpenAgent also accepts `MINIMAX_CODING_API_KEY`, `MINIMAX_OAUTH_TOKEN`, and
 `MINIMAX_API_KEY` as env aliases, checked in that order after
 `MINIMAX_CODE_PLAN_KEY`. `MINIMAX_API_KEY` should point at a search-enabled
 Token Plan credential; ordinary MiniMax model API keys may not be accepted by
@@ -72,7 +72,7 @@ MiniMax Search uses these endpoints:
 - Global: `https://api.minimax.io/v1/coding_plan/search`
 - CN: `https://api.minimaxi.com/v1/coding_plan/search`
 
-Zero to Agent resolves the region in this order:
+OpenAgent resolves the region in this order:
 
 1. Plugin-owned `plugins.entries.minimax.config.webSearch.region`, when set.
 2. `MINIMAX_API_HOST`, when it points at a `minimaxi.com` host.
@@ -93,7 +93,7 @@ can satisfy the MiniMax Search bearer credential.
 | Parameter | Type    | Constraints     | Description                                                                      |
 | --------- | ------- | --------------- | -------------------------------------------------------------------------------- |
 | `query`   | string  | required        | Search query string.                                                             |
-| `count`   | integer | 1-10, default 5 | Number of results to return. Zero to Agent trims the returned list to this size. |
+| `count`   | integer | 1-10, default 5 | Number of results to return. OpenAgent trims the returned list to this size. |
 
 Provider-specific filters are not currently supported.
 

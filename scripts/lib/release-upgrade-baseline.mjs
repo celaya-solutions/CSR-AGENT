@@ -12,7 +12,7 @@ function parseVersion(version) {
 function compareOpenClawVersions(leftVersion, rightVersion) {
   const comparison = compareReleaseVersions(leftVersion, rightVersion);
   if (comparison === null) {
-    throw new Error(`cannot compare OpenClaw versions: ${leftVersion} ${rightVersion}`);
+    throw new Error(`cannot compare OpenAgent versions: ${leftVersion} ${rightVersion}`);
   }
   return comparison;
 }
@@ -36,7 +36,9 @@ export function resolveReleaseUpgradeBaseline(candidateVersion, publishedVersion
   const targetContextRef = normalizeTargetContextRef(context.targetContextRef);
   const candidate = parseVersion(candidateVersion);
   if (!candidate) {
-    throw new Error(`invalid candidate OpenClaw version: ${String(candidateVersion ?? "").trim()}`);
+    throw new Error(
+      `invalid candidate OpenAgent version: ${String(candidateVersion ?? "").trim()}`,
+    );
   }
   const allPublished = [
     ...new Set(
@@ -69,7 +71,7 @@ export function resolveReleaseUpgradeBaseline(candidateVersion, publishedVersion
       throw new Error(
         requestedBaseline
           ? `previous_version ${requestedBaseline.version} is not a published stable predecessor of ${candidate.version}`
-          : `no published stable OpenClaw baseline predates candidate ${candidate.version}`,
+          : `no published stable OpenAgent baseline predates candidate ${candidate.version}`,
       );
     }
     return `openclaw@${baseline}`;

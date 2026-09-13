@@ -275,7 +275,7 @@ async function expectNextRunUsesTargetSession(
   );
 
   expect(params.runEmbeddedAgentMock).toHaveBeenCalledOnce();
-  const runParams = firstMockCallArg(params.runEmbeddedAgentMock, "embedded Zero to Agent agent");
+  const runParams = firstMockCallArg(params.runEmbeddedAgentMock, "embedded OpenAgent agent");
   for (const [key, value] of Object.entries(expected)) {
     expect(runParams[key]).toEqual(value);
   }
@@ -546,7 +546,7 @@ describe("trigger handling", () => {
         expect(runEmbeddedAgentMock, testCase.label).toHaveBeenCalledOnce();
         if (testCase.expectedPrompt !== undefined) {
           const prompt =
-            firstMockCallArg(runEmbeddedAgentMock, "embedded Zero to Agent agent").prompt ?? "";
+            firstMockCallArg(runEmbeddedAgentMock, "embedded OpenAgent agent").prompt ?? "";
           expect(prompt, testCase.label).toBe(testCase.expectedPrompt);
         }
       }
@@ -586,7 +586,7 @@ describe("trigger handling", () => {
         testCase.setup(cfg);
         await getReplyFromConfig(BASE_MESSAGE, { isHeartbeat: true }, cfg);
 
-        const call = firstMockCallArg(runEmbeddedAgentMock, "embedded Zero to Agent agent");
+        const call = firstMockCallArg(runEmbeddedAgentMock, "embedded OpenAgent agent");
         expect(call?.provider).toBe(testCase.expected.provider);
         expect(call?.model).toBe(testCase.expected.model);
       }
@@ -654,7 +654,7 @@ describe("trigger handling", () => {
       expect(getCompactEmbeddedAgentSessionMock()).toHaveBeenCalledOnce();
       const call = firstMockCallArg(
         getCompactEmbeddedAgentSessionMock(),
-        "embedded Zero to Agent compaction",
+        "embedded OpenAgent compaction",
       );
       expect(call.sessionTarget).toMatchObject({
         agentId: "worker1",

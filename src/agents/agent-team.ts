@@ -65,7 +65,7 @@ export async function createAgentTeam(
     if (!snapshot.valid) {
       return {
         status: "error",
-        message: "Cannot create a team from an invalid Zero to Agent config.",
+        message: "Cannot create a team from an invalid OpenAgent config.",
       };
     }
     if (

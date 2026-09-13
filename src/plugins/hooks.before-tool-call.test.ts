@@ -754,7 +754,7 @@ describe("before_tool_call matcher scoping", () => {
         { toolName: "spawn_agent", params: {} },
         { ...stubCtx, toolName: "spawn_agent" },
       ),
-    ).rejects.toThrow("tool hook matcher entries must use canonical Zero to Agent tool ids");
+    ).rejects.toThrow("tool hook matcher entries must use canonical OpenAgent tool ids");
     expect(handler).not.toHaveBeenCalled();
   });
 

@@ -89,16 +89,16 @@ suite.define(() => {
       await page.getByRole("button", { name: "Send message" }).click();
       const download = await downloadPromise;
 
-      expect(download.suggestedFilename()).toMatch(/^chat-Zero to Agent-.+\.md$/);
+      expect(download.suggestedFilename()).toMatch(/^chat-OpenAgent-.+\.md$/);
       const stream = await download.createReadStream();
       if (!stream) {
         throw new Error("chat export did not provide a readable download");
       }
       const markdown = await text(stream);
-      expect(markdown).toContain("# Chat with Zero to Agent");
+      expect(markdown).toContain("# Chat with OpenAgent");
       expect(markdown).toContain("## You");
       expect(markdown).toContain(question);
-      expect(markdown).toContain("## Zero to Agent");
+      expect(markdown).toContain("## OpenAgent");
       expect(markdown).toContain(answer);
       expect(await gateway.getRequests("chat.send")).toHaveLength(0);
     });
@@ -126,7 +126,7 @@ suite.define(() => {
           methodResponses: {
             "chat.startup": {
               agentsList: {
-                agents: [{ id: "main", name: "Zero to Agent" }],
+                agents: [{ id: "main", name: "OpenAgent" }],
                 defaultId: "main",
                 mainKey: "main",
                 scope: "agent",
@@ -251,7 +251,7 @@ suite.define(() => {
           methodResponses: {
             "chat.startup": {
               agentsList: {
-                agents: [{ id: "main", name: "Zero to Agent" }],
+                agents: [{ id: "main", name: "OpenAgent" }],
                 defaultId: "main",
                 mainKey: "main",
                 scope: "agent",

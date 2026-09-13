@@ -1,4 +1,4 @@
-// Zero to Agent agent database stores agent-scoped persisted runtime state.
+// OpenAgent agent database stores agent-scoped persisted runtime state.
 import { existsSync } from "node:fs";
 import path from "node:path";
 import type { DatabaseSync } from "node:sqlite";
@@ -546,9 +546,7 @@ export function getOpenClawAgentDatabaseIfOpen(
     isIncognitoOpenClawAgentSqlitePath(pathname, options) &&
     readAgentDeletionJournal(agentId, { env: options.env })
   ) {
-    throw new Error(
-      `Zero to Agent agent database is unavailable while agent ${agentId} is deleted.`,
-    );
+    throw new Error(`OpenAgent agent database is unavailable while agent ${agentId} is deleted.`);
   }
   const database = cache.databases.get(pathname);
   if (!database?.db.isOpen) {
@@ -560,7 +558,7 @@ export function getOpenClawAgentDatabaseIfOpen(
   }
   if (database.agentId !== agentId) {
     throw new Error(
-      `Zero to Agent agent database ${pathname} is already open for agent ${database.agentId}; requested agent ${agentId}.`,
+      `OpenAgent agent database ${pathname} is already open for agent ${database.agentId}; requested agent ${agentId}.`,
     );
   }
   assertAgentDeletionDatabaseCleanupAccess(database, options);

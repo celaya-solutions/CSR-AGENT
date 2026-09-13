@@ -1,4 +1,4 @@
-// Wraps fs-safe atomic replacement and move helpers for Zero to Agent install flows.
+// Wraps fs-safe atomic replacement and move helpers for OpenAgent install flows.
 import "./fs-safe-defaults.js";
 import { replaceFileAtomic as replaceFileAtomicBase } from "@openclaw/fs-safe/atomic";
 

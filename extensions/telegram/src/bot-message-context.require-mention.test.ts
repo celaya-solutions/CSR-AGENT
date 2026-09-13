@@ -238,7 +238,7 @@ describe("buildTelegramMessageContext requireMention precedence", () => {
         [
           { sender: "Alice", body: "before self marker", timestamp: 1, messageId: "1" },
           {
-            sender: buildTelegramSelfSenderName("Zero to Agent"),
+            sender: buildTelegramSelfSenderName("OpenAgent"),
             body: "self marker body",
             timestamp: 2,
             messageId: "2",
@@ -312,7 +312,7 @@ describe("buildTelegramMessageContext requireMention precedence", () => {
     expect(roomEvent?.ctxPayload.InboundHistory).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ body: "before self marker" }),
-        expect.objectContaining({ body: "self marker body", sender: "Zero to Agent (you)" }),
+        expect.objectContaining({ body: "self marker body", sender: "OpenAgent (you)" }),
         expect.objectContaining({ body: "after watermark" }),
       ]),
     );

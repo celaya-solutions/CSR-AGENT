@@ -1,12 +1,12 @@
-# OpenClaw for the Omarchy bar
+# OpenAgent for the Omarchy bar
 
-This optional Omarchy 4 plugin shows OpenClaw agents, recent and active sessions,
+This optional Omarchy 4 plugin shows OpenAgent agents, recent and active sessions,
 attention indicators, and a quick prompt. Its animated mascot uses the bar’s
 foreground color, so it follows your theme without adding colors.
 
 ## Install
 
-From this directory in an OpenClaw checkout:
+From this directory in an OpenAgent checkout:
 
 ```bash
 ./install.sh
@@ -22,7 +22,7 @@ existing placement is preserved. Before replacing plugin files or enabling the
 plugin, it backs up the affected existing files under Omarchy’s `backups`
 directory and prints the location.
 
-Other user plugins, including earlier private OpenClaw widgets, are left alone.
+Other user plugins, including earlier private OpenAgent widgets, are left alone.
 If you previously installed one, disable its separate bar entry yourself to
 avoid showing both widgets.
 
@@ -48,7 +48,7 @@ With a matching Linux desktop app running, the widget uses that app’s selected
 Gateway and exposes **Quick Chat**, **Dashboard**, **Updates**, and **Quit app**.
 The desktop app and widget coordinate their icons so there is one entry point.
 An older desktop app retains its tray icon and the widget hides until it exits.
-Without the app, the widget uses the installed OpenClaw CLI and its Gateway.
+Without the app, the widget uses the installed OpenAgent CLI and its Gateway.
 
 When the Gateway route changes, the widget clears the old session selection,
 keeps your draft, and asks you to choose **Use this Gateway** before sending if

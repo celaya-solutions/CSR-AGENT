@@ -2914,7 +2914,7 @@ struct GatewayNodeSessionTests {
         let gateway = GatewayNodeSession()
         let options = nodeConnectOptions(
             clientId: "openclaw-ios",
-            clientDisplayName: "OpenClaw Share",
+            clientDisplayName: "OpenAgent Share",
             deviceIdentityProfile: .shareExtension,
             includeDeviceIdentity: true,
             deviceAuthGatewayID: gatewayID)
@@ -3004,7 +3004,7 @@ struct GatewayNodeSessionTests {
             #expect(problem?.kind == .protocolMismatch)
             #expect(problem?.owner == .iphone)
             #expect(problem?
-                .message == "This app is older than the gateway. Update OpenClaw on this device, then retry.")
+                .message == "This app is older than the gateway. Update OpenAgent on this device, then retry.")
             #expect(problem?.pauseReconnect == true)
             #expect(problem?.retryable == false)
         } catch {

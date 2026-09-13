@@ -1,4 +1,4 @@
-// Verifies installed packages can bootstrap the default OpenClaw workspace files.
+// Verifies installed packages can bootstrap the default OpenAgent workspace files.
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdtempSync, mkdirSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";

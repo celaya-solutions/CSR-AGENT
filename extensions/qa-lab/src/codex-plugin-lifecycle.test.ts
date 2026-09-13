@@ -91,19 +91,19 @@ describe("codex plugin lifecycle: doctor migration safety matrix", () => {
       config: {},
     },
     {
-      name: "mixed profile with defaults Zero to Agent pin",
+      name: "mixed profile with defaults OpenAgent pin",
       profileShape: "mixed" as const,
       config: { agents: { defaults: { agentRuntime: { id: "openclaw" } } } },
       expectedRemovedRuntimePins: ["agentRuntime.id=openclaw"],
     },
     {
-      name: "mixed profile with main-agent Zero to Agent pin",
+      name: "mixed profile with main-agent OpenAgent pin",
       profileShape: "mixed" as const,
       config: { agents: { list: { main: { agentRuntime: { id: "openclaw" } } } } },
       expectedRemovedRuntimePins: ["agentRuntime.id=openclaw"],
     },
   ])(
-    "keeps codex auth and strips stale Zero to Agent runtime pins for $name",
+    "keeps codex auth and strips stale OpenAgent runtime pins for $name",
     async ({ profileShape, config, expectedRemovedRuntimePins = [] }) => {
       const { agentDir, agentId, stateDir } = await createAgentState("qa-codex-doctor-matrix-");
       await installCodexPluginFixture(agentDir);

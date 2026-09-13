@@ -1,8 +1,8 @@
-# Zero to Agent Cerebras Provider
+# OpenAgent Cerebras Provider
 
-Official Zero to Agent provider plugin for Cerebras.
+Official OpenAgent provider plugin for Cerebras.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/cerebras-provider

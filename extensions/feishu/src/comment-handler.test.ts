@@ -462,7 +462,7 @@ describe("handleFeishuCommentEvent", () => {
       file_type: "docx",
       comment_id: "comment_1",
       content: [
-        "Zero to Agent: access not configured.",
+        "OpenAgent: access not configured.",
         "",
         "Your Feishu user id: ou_sender",
         "Pairing code:",

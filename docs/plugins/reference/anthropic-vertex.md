@@ -1,5 +1,5 @@
 ---
-summary: "Zero to Agent Anthropic Vertex provider plugin for Claude models on Google Vertex AI."
+summary: "OpenAgent Anthropic Vertex provider plugin for Claude models on Google Vertex AI."
 read_when:
   - You are installing, configuring, or auditing the anthropic-vertex plugin
 title: "Anthropic Vertex plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Zero to Agent Anthropic Vertex provider plugin for Claude models on Google Vertex AI.
+OpenAgent Anthropic Vertex provider plugin for Claude models on Google Vertex AI.
 
 ## Distribution
 
@@ -26,14 +26,14 @@ Zero to Agent Anthropic Vertex provider plugin for Claude models on Google Verte
 ## Claude Fable 5
 
 Use `anthropic-vertex/claude-fable-5` where the model is available in your Google Cloud region.
-Fable 5 always uses adaptive thinking; Zero to Agent defaults to `medium` effort. Stored `off`
+Fable 5 always uses adaptive thinking; OpenAgent defaults to `medium` effort. Stored `off`
 and `minimal` settings map to `low` because the model does not support disabling thinking.
 
 ## Claude Sonnet 5
 
 Use `anthropic-vertex/claude-sonnet-5` with Vertex's `global`, `us`, or `eu`
 endpoint. Sonnet 5 defaults to adaptive thinking at `high` effort and supports
-`/think off` or the native `/think xhigh|max` levels. Zero to Agent publishes its
+`/think off` or the native `/think xhigh|max` levels. OpenAgent publishes its
 1,000,000-token context window and 128,000-token output limit automatically.
 
 Catalog pricing follows [Google's current Vertex pricing](https://cloud.google.com/gemini-enterprise-agent-platform/generative-ai/pricing#anthropics-claude-models):

@@ -1,4 +1,4 @@
-// Prompt adapter from OpenAI Responses input items to Zero to Agent agent messages.
+// Prompt adapter from OpenAI Responses input items to OpenAgent agent messages.
 import {
   buildAgentMessageFromConversationEntries,
   type ConversationEntry,

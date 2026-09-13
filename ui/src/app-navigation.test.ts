@@ -168,18 +168,18 @@ describe("settingsSearchTextMatches", () => {
 
 describe("formatDocumentTitle", () => {
   it("does not duplicate a context ending in the brand", () => {
-    expect(formatDocumentTitle({ context: "Ask Zero to Agent" })).toBe("Ask Zero to Agent");
-    expect(formatDocumentTitle({ context: "Zero to Agent" })).toBe("Zero to Agent");
+    expect(formatDocumentTitle({ context: "Ask OpenAgent" })).toBe("Ask OpenAgent");
+    expect(formatDocumentTitle({ context: "OpenAgent" })).toBe("OpenAgent");
   });
 
   it("names the disconnected gateway without implying internet loss", () => {
     expect(
       formatDocumentTitle({ context: "Usage", gatewayDisconnected: true, queuedCount: 0 }),
-    ).toBe("(Disconnected) Usage — Zero to Agent");
+    ).toBe("(Disconnected) Usage — OpenAgent");
   });
 
   it("ignores a queued count while online", () => {
-    expect(formatDocumentTitle({ context: "Usage", queuedCount: 3 })).toBe("Usage — Zero to Agent");
+    expect(formatDocumentTitle({ context: "Usage", queuedCount: 3 })).toBe("Usage — OpenAgent");
   });
 });
 
@@ -199,7 +199,7 @@ describe("titleForRoute", () => {
       Object.fromEntries(ALL_ROUTES.map((routeId) => [routeId, titleForRoute(routeId)])),
     ).toEqual({
       chat: "Chat",
-      custodian: "Zero to Agent",
+      custodian: "OpenAgent",
       activity: "Activity",
       meetings: "Meetings",
       apps: "Apps",

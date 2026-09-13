@@ -1,5 +1,5 @@
 /**
- * Runtime store for host-provided Zero to Agent services used by the ClickClack
+ * Runtime store for host-provided OpenAgent services used by the ClickClack
  * bundled plugin.
  */
 import { createPluginRuntimeStore } from "openclaw/plugin-sdk/runtime-store";

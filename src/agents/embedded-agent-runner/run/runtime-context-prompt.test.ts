@@ -43,9 +43,9 @@ describe("runtime context prompt submission", () => {
     expect(
       resolveRuntimeContextPromptParts({
         effectivePrompt: "Check the deployment.",
-        transcriptPrompt: "[Zero to Agent heartbeat poll]",
+        transcriptPrompt: "[OpenAgent heartbeat poll]",
       }),
-    ).toEqual({ prompt: "[Zero to Agent heartbeat poll]", modelPrompt: "Check the deployment." });
+    ).toEqual({ prompt: "[OpenAgent heartbeat poll]", modelPrompt: "Check the deployment." });
   });
 
   it("requires producer context for the runtime-only continuation prompt", () => {
@@ -57,7 +57,7 @@ describe("runtime context prompt submission", () => {
       transcriptPrompt: "",
       fragments,
     });
-    expect(parts.prompt).toBe("Continue the Zero to Agent runtime event.");
+    expect(parts.prompt).toBe("Continue the OpenAgent runtime event.");
     expect(parts.runtimeOnly).toBe(true);
     expect(
       resolveRuntimeContextPromptParts({ effectivePrompt: "ordinary input", transcriptPrompt: "" }),

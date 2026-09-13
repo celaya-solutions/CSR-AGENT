@@ -24,7 +24,7 @@ describe("option card", () => {
       html`<openclaw-option-card
         .props=${{
           header: "Access",
-          question: "How should Zero to Agent help?",
+          question: "How should OpenAgent help?",
           options: [
             { value: "guarded", label: "Ask first" },
             {

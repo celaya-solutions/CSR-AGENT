@@ -229,7 +229,7 @@ function resolveSessionRuntime(params: {
     acpBackend: acpMeta?.backend,
   });
   const id = normalizeOptionalLowercaseString(runtime.id);
-  // Zero to Agent/auto are generic labels; concrete harness ids give better operator signal.
+  // OpenAgent/auto are generic labels; concrete harness ids give better operator signal.
   const resolvedHarness = id && id !== "openclaw" && id !== "auto" ? id : undefined;
   return {
     id,

@@ -15,7 +15,7 @@ Adds media understanding provider support.
 ## Distribution
 
 - Package: `@openclaw/senseaudio-provider`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

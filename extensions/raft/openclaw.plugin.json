@@ -2,7 +2,7 @@
   "id": "raft",
   "categories": ["channels"],
   "name": "Raft",
-  "description": "Zero to Agent Raft channel plugin for secure CLI wake bridges.",
+  "description": "OpenAgent Raft channel plugin for secure CLI wake bridges.",
   "activation": {
     "onStartup": false
   },

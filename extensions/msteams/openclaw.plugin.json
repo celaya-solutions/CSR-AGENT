@@ -12,7 +12,7 @@
     ]
   },
   "name": "Microsoft Teams",
-  "description": "Zero to Agent Microsoft Teams channel plugin for bot conversations.",
+  "description": "OpenAgent Microsoft Teams channel plugin for bot conversations.",
   "activation": {
     "onStartup": false
   },

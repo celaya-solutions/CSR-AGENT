@@ -256,7 +256,7 @@ describeLive("xai live", () => {
 
       const webSearchTool = requireLiveValue(tool, "grok web search tool");
       const result = await webSearchTool.execute("web-search:grok-live", {
-        query: "Zero to Agent GitHub",
+        query: "OpenAgent GitHub",
         count: 3,
       });
 

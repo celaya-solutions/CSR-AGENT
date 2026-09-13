@@ -4,7 +4,7 @@ import type {
   CodexDynamicToolDiagnosticTerminalReason,
 } from "./protocol.js";
 
-/** Zero to Agent-only dynamic-tool facts that never cross into the Codex protocol. */
+/** OpenAgent-only dynamic-tool facts that never cross into the Codex protocol. */
 export type CodexDynamicToolRuntimeResponse = CodexDynamicToolCallResponse & {
   executionStarted?: boolean;
   executedArguments?: Record<string, unknown>;
@@ -67,7 +67,7 @@ export function withDynamicToolExecutionState<T extends CodexDynamicToolRuntimeR
     sideEffectEvidence?: boolean;
   },
 ): T {
-  // Keep post-hook arguments non-enumerable so only Zero to Agent terminal-outcome
+  // Keep post-hook arguments non-enumerable so only OpenAgent terminal-outcome
   // bookkeeping sees them; Codex receives contentItems + success.
   Object.defineProperties(response, {
     executedArguments: {

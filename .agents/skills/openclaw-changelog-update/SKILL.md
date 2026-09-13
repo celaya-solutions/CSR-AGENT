@@ -1,9 +1,9 @@
 ---
 name: openclaw-changelog-update
-description: Regenerate OpenClaw release changelog sections from git history before beta, stable, or extended-stable releases.
+description: Regenerate OpenAgent release changelog sections from git history before beta, stable, or extended-stable releases.
 ---
 
-# OpenClaw Changelog Update
+# OpenAgent Changelog Update
 
 Use this for changelog rewrites and GitHub release-note source text. For regular
 beta/stable, prepare complete notes before final-source qualification when

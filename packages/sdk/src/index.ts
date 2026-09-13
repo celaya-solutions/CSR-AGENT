@@ -1,4 +1,4 @@
-// Public Zero to Agent SDK entrypoint. Re-export client namespaces, event helpers,
+// Public OpenAgent SDK entrypoint. Re-export client namespaces, event helpers,
 // transport, and stable SDK types from focused modules.
 export {
   Agent,
@@ -7,7 +7,7 @@ export {
   ArtifactsNamespace,
   EnvironmentsNamespace,
   ModelsNamespace,
-  OpenClaw,
+  OpenAgent,
   Run,
   RunsNamespace,
   Session,

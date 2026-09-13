@@ -11,30 +11,30 @@ const delegationTools: CodexDynamicToolSpec[] = [
   {
     type: "function",
     name: "sessions_spawn",
-    description: "Spawn a Zero to Agent session",
+    description: "Spawn an OpenAgent session",
     inputSchema: { type: "object" },
   },
   {
     type: "function",
     name: "sessions_send",
-    description: "Send to a Zero to Agent session",
+    description: "Send to an OpenAgent session",
     inputSchema: { type: "object" },
   },
   {
     type: "function",
     name: "subagents",
-    description: "List Zero to Agent subagents",
+    description: "List OpenAgent subagents",
     inputSchema: { type: "object" },
   },
   {
     type: "namespace",
     name: CODEX_OPENCLAW_DIRECT_DYNAMIC_TOOL_NAMESPACE,
-    description: "Direct Zero to Agent tools",
+    description: "Direct OpenAgent tools",
     tools: [
       {
         type: "function",
         name: "sessions_yield",
-        description: "Yield for Zero to Agent session events",
+        description: "Yield for OpenAgent session events",
         inputSchema: { type: "object" },
       },
     ],
@@ -214,7 +214,7 @@ describe("buildDeveloperInstructions UI presentation guidance", () => {
         {
           type: "namespace",
           name: "openclaw",
-          description: "Zero to Agent tools",
+          description: "OpenAgent tools",
           tools: uiTools.map((tool) => ({ ...tool, deferLoading: true })),
         },
       ],

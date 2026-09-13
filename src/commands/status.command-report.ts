@@ -32,7 +32,7 @@ export async function buildStatusCommandReportLines(params: {
   footerLines: string[];
 }) {
   const lines: string[] = [];
-  lines.push(params.heading("Zero to Agent status"));
+  lines.push(params.heading("OpenAgent status"));
 
   const report = {
     lines,

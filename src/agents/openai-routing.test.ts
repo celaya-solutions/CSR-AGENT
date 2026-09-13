@@ -1,4 +1,4 @@
-// Verifies OpenAI model selections route between Zero to Agent and Codex runtimes.
+// Verifies OpenAI model selections route between OpenAgent and Codex runtimes.
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import {
@@ -88,7 +88,7 @@ describe("OpenAI runtime routing policy", () => {
     ["provider-native thinking", { thinking: { type: "enabled", budget_tokens: 2_048 } }],
     ["invalid fast mode", { fastMode: { enabled: true } }],
     ["invalid fast cutoff", { fastAutoOnSeconds: "30" }],
-  ])("keeps %s values on the Zero to Agent runtime", (_label, params) => {
+  ])("keeps %s values on the OpenAgent runtime", (_label, params) => {
     const config = {
       agents: {
         defaults: {
@@ -157,7 +157,7 @@ describe("OpenAI runtime routing policy", () => {
     ).toBe("openclaw");
   });
 
-  it("fails closed to Zero to Agent when the provider artifact is unavailable", () => {
+  it("fails closed to OpenAgent when the provider artifact is unavailable", () => {
     vi.stubEnv("OPENCLAW_DISABLE_BUNDLED_PLUGINS", "1");
     expect(resolveOpenAIImplicitAgentRuntime({ provider: "openai", modelId: "gpt-5.5" })).toBe(
       "openclaw",
@@ -265,7 +265,7 @@ describe("OpenAI runtime routing policy", () => {
     ).toBe(false);
   });
 
-  it("honors the deprecated whole-agent Zero to Agent runtime opt-out", () => {
+  it("honors the deprecated whole-agent OpenAgent runtime opt-out", () => {
     const config = {
       agents: {
         defaults: { agentRuntime: { id: "openclaw" } },
@@ -283,7 +283,7 @@ describe("OpenAI runtime routing policy", () => {
     ).toBe(false);
   });
 
-  it("keeps per-model Codex policy above the whole-agent Zero to Agent opt-out", () => {
+  it("keeps per-model Codex policy above the whole-agent OpenAgent opt-out", () => {
     const config = {
       agents: {
         defaults: {
@@ -298,7 +298,7 @@ describe("OpenAI runtime routing policy", () => {
     expect(modelSelectionShouldEnsureCodexPlugin({ model: "openai/gpt-5.5", config })).toBe(true);
   });
 
-  it("keeps per-model auto policy above the whole-agent Zero to Agent opt-out", () => {
+  it("keeps per-model auto policy above the whole-agent OpenAgent opt-out", () => {
     const config = {
       agents: {
         defaults: {
@@ -359,7 +359,7 @@ describe("OpenAI runtime routing policy", () => {
     ).toBe("openai");
   });
 
-  it("keeps explicit Zero to Agent plus Codex auth profile under the unified OpenAI provider", () => {
+  it("keeps explicit OpenAgent plus Codex auth profile under the unified OpenAI provider", () => {
     // OpenAI auth now stays canonical even when the runtime is not Codex.
     expect(
       listOpenAIAuthProfileProvidersForAgentRuntime({
@@ -409,7 +409,7 @@ describe("OpenAI runtime routing policy", () => {
     ).toBe("openai");
   });
 
-  it("keeps explicit OpenAI Zero to Agent API-key auth order ahead of Codex backups", () => {
+  it("keeps explicit OpenAI OpenAgent API-key auth order ahead of Codex backups", () => {
     const config = {
       auth: {
         order: {
@@ -434,7 +434,7 @@ describe("OpenAI runtime routing policy", () => {
     ).toBe("openai");
   });
 
-  it("does not route custom OpenAI-compatible Zero to Agent configs through Codex auth order", () => {
+  it("does not route custom OpenAI-compatible OpenAgent configs through Codex auth order", () => {
     const config = {
       models: {
         providers: {

@@ -3591,7 +3591,7 @@ rules:
       - typescript
       - javascript
     severity: WARNING
-    message: Workspace dotenv loading should not be followed by reads of OpenClaw bundled trust-root env vars; block them in the workspace loader instead.
+    message: Workspace dotenv loading should not be followed by reads of OpenAgent bundled trust-root env vars; block them in the workspace loader instead.
     patterns:
       - pattern-either:
           - pattern: |

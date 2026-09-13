@@ -103,7 +103,7 @@ function expectPolicyHandoff(
         content: [
           {
             type: "input_text",
-            text: expect.stringContaining(body || "current Zero to Agent generic policy is empty"),
+            text: expect.stringContaining(body || "current OpenAgent generic policy is empty"),
           },
         ],
       },

@@ -70,7 +70,7 @@ export function createContext(
       subscribe: options?.gatewaySubscribe ?? subscribe,
     },
     config: {
-      current: { assistantIdentity: { name: "Zero to Agent" } },
+      current: { assistantIdentity: { name: "OpenAgent" } },
       subscribe,
     },
     agents: {

@@ -197,7 +197,7 @@ validate_baseline_package_spec() {
   if [[ "$spec" =~ ^openclaw@(alpha|beta|latest|[0-9]{4}\.[1-9][0-9]*\.[1-9][0-9]*(-[1-9][0-9]*|-(alpha|beta)\.[1-9][0-9]*)?)$ ]]; then
     return 0
   fi
-  echo "OPENCLAW_UPGRADE_SURVIVOR_BASELINE must be openclaw@latest, openclaw@beta, openclaw@alpha, an exact OpenClaw release version, or a bare release version; got: $spec" >&2
+  echo "OPENCLAW_UPGRADE_SURVIVOR_BASELINE must be openclaw@latest, openclaw@beta, openclaw@alpha, an exact OpenAgent release version, or a bare release version; got: $spec" >&2
   return 1
 }
 
@@ -1043,7 +1043,7 @@ configure_watchos_tls_fixture() {
   mkdir -p "$WATCH_TLS_ROOT"
   chmod 700 "$WATCH_TLS_ROOT"
   openssl req -x509 -newkey rsa:2048 -nodes -sha256 -days 1 \
-    -subj "/CN=OpenClaw watchOS survivor CA" \
+    -subj "/CN=OpenAgent watchOS survivor CA" \
     -addext "basicConstraints=critical,CA:TRUE" \
     -addext "keyUsage=critical,keyCertSign,cRLSign" \
     -keyout "$WATCH_TLS_CA_KEY" \

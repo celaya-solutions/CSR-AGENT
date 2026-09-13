@@ -386,7 +386,7 @@ export function recordUpdateCompatibilityRelease(params: {
     !/^sha512-[A-Za-z0-9+/]+=*$/.test(params.integrity)
   ) {
     throw new Error(
-      "Update compatibility inventory requires an OpenClaw release build and npm SHA-512 integrity",
+      "Update compatibility inventory requires an OpenAgent release build and npm SHA-512 integrity",
     );
   }
   const historicalRegistryChunk = COALESCED_REGISTRY_RELEASES.find(

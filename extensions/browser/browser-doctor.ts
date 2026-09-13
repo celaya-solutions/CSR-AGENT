@@ -1,6 +1,6 @@
 /**
  * Browser doctor API barrel. It exposes legacy profile cleanup and Chrome MCP
- * readiness helpers for Zero to Agent doctor.
+ * readiness helpers for OpenAgent doctor.
  */
 export {
   detectLegacyClawdBrowserProfileResidue,

@@ -475,7 +475,7 @@ suite.define(() => {
       const worktreeModal = await waitForConfirmModal(page);
       await expect
         .poll(() => worktreeModal.textContent())
-        .toContain("Zero to Agent could not create a safety snapshot");
+        .toContain("OpenAgent could not create a safety snapshot");
       await expect.poll(() => worktreeModal.textContent()).toContain("Remove?");
       await captureUiProof(
         suite,

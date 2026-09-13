@@ -1,8 +1,8 @@
-# Zero to Agent Exa Plugin
+# OpenAgent Exa Plugin
 
-Official Zero to Agent plugin for Exa.
+Official OpenAgent plugin for Exa.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/exa-plugin

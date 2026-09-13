@@ -531,7 +531,7 @@ describe("Tencent QQBot 2.0 config migrations", () => {
     });
   });
 
-  it("maps current Zero to Agent group tool policies to Tencent scalar policies", () => {
+  it("maps current OpenAgent group tool policies to Tencent scalar policies", () => {
     const result = migrate({
       channels: {
         qqbot: {

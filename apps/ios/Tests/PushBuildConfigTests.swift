@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct PushBuildConfigTests {
     @Test func `app store mode derives production relay contract`() {

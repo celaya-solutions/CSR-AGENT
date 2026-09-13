@@ -336,7 +336,7 @@ export async function prepareProviderChannelLogin(params: {
     return {
       status: "rejected",
       reply: {
-        text: "No chat owner is configured. Ask the Zero to Agent owner to add your chat account to `commands.ownerAllowFrom` in the Zero to Agent configuration, then send `/login` again.",
+        text: "No chat owner is configured. Ask the OpenAgent owner to add your chat account to `commands.ownerAllowFrom` in the OpenAgent configuration, then send `/login` again.",
       },
     };
   }
@@ -344,7 +344,7 @@ export async function prepareProviderChannelLogin(params: {
     return {
       status: "rejected",
       reply: {
-        text: "Only a Zero to Agent owner can sign in here. Ask the owner to connect this provider or grant you owner access.",
+        text: "Only an OpenAgent owner can sign in here. Ask the owner to connect this provider or grant you owner access.",
       },
     };
   }
@@ -352,7 +352,7 @@ export async function prepareProviderChannelLogin(params: {
     return {
       status: "reply",
       reply: {
-        text: "Provider login requires a private chat or Control UI session. Open a private chat with Zero to Agent and send `/login` there.",
+        text: "Provider login requires a private chat or Control UI session. Open a private chat with OpenAgent and send `/login` there.",
       },
     };
   }

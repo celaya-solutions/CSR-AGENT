@@ -1,4 +1,4 @@
-// Provider-neutral live inference ladder for Zero to Agent sessions.
+// Provider-neutral live inference ladder for OpenAgent sessions.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { resolveAmbientOwnerAgentId } from "../agents/agent-scope-config.js";
 import { listAgentIds } from "../agents/agent-scope.js";
@@ -198,7 +198,7 @@ export async function verifySystemAgentInferenceWithFallback(
       ok: false,
       status: "unknown",
       error:
-        "Zero to Agent could not verify a usable inference route. Check model setup and try again.",
+        "OpenAgent could not verify a usable inference route. Check model setup and try again.",
     }
   );
 }

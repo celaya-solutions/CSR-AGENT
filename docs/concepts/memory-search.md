@@ -13,7 +13,7 @@ searches them with embeddings, keywords, or both.
 
 ## Quick start
 
-Zero to Agent uses OpenAI embeddings by default. To use another provider, set it
+OpenAgent uses OpenAI embeddings by default. To use another provider, set it
 explicitly:
 
 ```json5
@@ -37,7 +37,7 @@ llama.cpp provider, then set `provider: "local"`:
 openclaw plugins install @openclaw/llama-cpp-provider
 ```
 
-Choose llama.cpp once in interactive setup. Zero to Agent installs a verified
+Choose llama.cpp once in interactive setup. OpenAgent installs a verified
 `llama-server`, downloads the embedding GGUF, and writes its managed service
 configuration.
 
@@ -64,7 +64,7 @@ chunks. Set these with `queryInputType` and `documentInputType`; see
 
 ## How search works
 
-Zero to Agent runs two retrieval paths in parallel and merges the results:
+OpenAgent runs two retrieval paths in parallel and merges the results:
 
 ```mermaid
 flowchart LR
@@ -80,7 +80,7 @@ flowchart LR
 ```
 
 - **Vector search** matches similar meaning ("gateway host" matches "the
-  machine running Zero to Agent").
+  machine running OpenAgent").
 - **BM25 keyword search** matches exact terms (IDs, error strings, config
   keys).
 - **Filename search** indexes paths separately from note bodies. Exact full

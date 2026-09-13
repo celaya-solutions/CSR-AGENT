@@ -76,7 +76,7 @@ const LEGACY_CHILD_DISPATCHES = [
   },
   {
     manifestKey: "releaseChecks",
-    name: "OpenClaw Release Checks",
+    name: "OpenAgent Release Checks",
     parentJobName: "Run release/live/Docker/QA validation",
     suffix: "-release-checks",
     trustedRef: "parent",
@@ -100,7 +100,7 @@ const LEGACY_CHILD_DISPATCHES = [
   },
   {
     manifestKey: "productPerformance",
-    name: "OpenClaw Performance",
+    name: "OpenAgent Performance",
     parentJobName: "Run product performance evidence",
     suffix: "",
     trustedRef: "parent",
@@ -128,7 +128,7 @@ const PHASED_CHILD_DISPATCHES = [
   },
   {
     manifestKey: "releaseChecksIndependent",
-    name: "OpenClaw Release Checks",
+    name: "OpenAgent Release Checks",
     parentJobName: "Run release checks independent validation",
     suffix: "-release-checks-independent",
     trustedRef: "parent",
@@ -136,7 +136,7 @@ const PHASED_CHILD_DISPATCHES = [
   },
   {
     manifestKey: "releaseChecksCandidate",
-    name: "OpenClaw Release Checks",
+    name: "OpenAgent Release Checks",
     parentJobName: "Run release checks candidate validation",
     suffix: "-release-checks-candidate",
     trustedRef: "parent",

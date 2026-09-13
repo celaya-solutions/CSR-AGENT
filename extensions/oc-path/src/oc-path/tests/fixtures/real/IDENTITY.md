@@ -4,7 +4,7 @@ Example Org / Platform Team
 
 ## Team
 
-Zero to Agent infrastructure & tooling
+OpenAgent infrastructure & tooling
 
 ## Trust Level
 

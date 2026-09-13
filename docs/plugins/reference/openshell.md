@@ -1,5 +1,5 @@
 ---
-summary: "Zero to Agent sandbox backend for the NVIDIA OpenShell CLI with mirrored local workspaces and SSH command execution."
+summary: "OpenAgent sandbox backend for the NVIDIA OpenShell CLI with mirrored local workspaces and SSH command execution."
 read_when:
   - You are installing, configuring, or auditing the openshell plugin
 title: "Openshell plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Zero to Agent sandbox backend for the NVIDIA OpenShell CLI with mirrored local workspaces and SSH command execution.
+OpenAgent sandbox backend for the NVIDIA OpenShell CLI with mirrored local workspaces and SSH command execution.
 
 ## Distribution
 

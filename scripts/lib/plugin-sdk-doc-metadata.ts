@@ -1,4 +1,4 @@
-// Plugin Sdk Doc Metadata script supports OpenClaw repository automation.
+// Plugin Sdk Doc Metadata script supports OpenAgent repository automation.
 export type PluginSdkDocCategory =
   | "channel"
   | "core"

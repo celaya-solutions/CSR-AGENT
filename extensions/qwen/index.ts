@@ -1,4 +1,4 @@
-// Qwen plugin entrypoint registers its Zero to Agent integration.
+// Qwen plugin entrypoint registers its OpenAgent integration.
 import { createProviderApiKeyAuthMethod } from "openclaw/plugin-sdk/provider-auth-api-key";
 import { buildOpenAICompatibleLiveProviderCatalog } from "openclaw/plugin-sdk/provider-catalog-live-runtime";
 import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";

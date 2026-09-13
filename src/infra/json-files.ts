@@ -1,4 +1,4 @@
-// Wraps fs-safe JSON reads and atomic writes with Zero to Agent defaults.
+// Wraps fs-safe JSON reads and atomic writes with OpenAgent defaults.
 import "./fs-safe-defaults.js";
 import { replaceFileAtomic } from "./replace-file.js";
 

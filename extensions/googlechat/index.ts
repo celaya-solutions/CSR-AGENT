@@ -1,10 +1,10 @@
-// Googlechat plugin entrypoint registers its Zero to Agent integration.
+// Googlechat plugin entrypoint registers its OpenAgent integration.
 import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
 
 export default defineBundledChannelEntry({
   id: "googlechat",
   name: "Google Chat",
-  description: "Zero to Agent Google Chat channel plugin",
+  description: "OpenAgent Google Chat channel plugin",
   importMetaUrl: import.meta.url,
   plugin: {
     specifier: "./channel-plugin-api.js",

@@ -40,12 +40,12 @@ import type {
   ToolInvokeResult,
 } from "./types.js";
 
-// High-level Zero to Agent SDK client. Namespaces below translate friendly SDK calls
+// High-level OpenAgent SDK client. Namespaces below translate friendly SDK calls
 // into current Gateway RPC methods and normalize event streams for consumers.
 const MAX_REPLAY_RUNS = 100;
 const MAX_REPLAY_EVENTS_PER_RUN = 500;
 
-/** Connection and transport options for the Zero to Agent SDK client. */
+/** Connection and transport options for the OpenAgent SDK client. */
 export type OpenClawOptions = {
   gateway?: "auto" | (string & {});
   url?: string;
@@ -108,7 +108,7 @@ function assertNoUnsupportedRunOptions(params: AgentRunParams): void {
     return;
   }
   throw new Error(
-    `Zero to Agent Gateway does not support per-run SDK option${
+    `OpenAgent Gateway does not support per-run SDK option${
       unsupported.length === 1 ? "" : "s"
     } yet: ${unsupported.join(", ")}`,
   );
@@ -135,7 +135,7 @@ function buildAgentParams(params: AgentRunParams): Record<string, unknown> {
 }
 
 function unsupportedGatewayApi(api: string): never {
-  throw new Error(`${api} is not supported by the current Zero to Agent Gateway yet`);
+  throw new Error(`${api} is not supported by the current OpenAgent Gateway yet`);
 }
 
 type ChatProjectionState = "delta" | "final" | "error" | "aborted";
@@ -263,7 +263,7 @@ function normalizeChatProjectionEvent(
 }
 
 /** Root SDK client with namespaces for agents, sessions, runs, and gateway APIs. */
-export class OpenClaw {
+export class OpenAgent {
   readonly agents: AgentsNamespace;
   readonly sessions: SessionsNamespace;
   readonly runs: RunsNamespace;
@@ -374,7 +374,7 @@ export class OpenClaw {
 
   private assertOpen(): void {
     if (this.closed) {
-      throw new Error("Zero to Agent SDK client is closed");
+      throw new Error("OpenAgent SDK client is closed");
     }
   }
 
@@ -560,7 +560,7 @@ export class OpenClaw {
 /** Agent-scoped helper for runs and identity lookups. */
 export class Agent {
   constructor(
-    private readonly client: OpenClaw,
+    private readonly client: OpenAgent,
     readonly id: string,
   ) {}
 
@@ -581,7 +581,7 @@ export class Agent {
 /** Run handle for streaming events, waiting, and cancellation. */
 export class Run {
   constructor(
-    private readonly client: OpenClaw,
+    private readonly client: OpenAgent,
     readonly id: string,
     readonly sessionKey?: string,
   ) {}
@@ -629,7 +629,7 @@ export class Run {
 /** Session handle for sending messages and session-scoped mutations. */
 export class Session {
   constructor(
-    private readonly client: OpenClaw,
+    private readonly client: OpenAgent,
     readonly key: string,
     readonly info?: unknown,
   ) {}
@@ -676,7 +676,7 @@ export class Session {
 
 /** Agent management namespace. */
 export class AgentsNamespace {
-  constructor(private readonly client: OpenClaw) {}
+  constructor(private readonly client: OpenAgent) {}
 
   async list(params?: Record<string, unknown>): Promise<unknown> {
     return await this.client.request("agents.list", params === undefined ? {} : params);
@@ -701,7 +701,7 @@ export class AgentsNamespace {
 
 /** Session management namespace. */
 export class SessionsNamespace {
-  constructor(private readonly client: OpenClaw) {}
+  constructor(private readonly client: OpenAgent) {}
 
   async list(params?: Record<string, unknown>): Promise<unknown> {
     return await this.client.request("sessions.list", params === undefined ? {} : params);
@@ -734,7 +734,7 @@ export class SessionsNamespace {
 
 /** Run creation and lifecycle namespace. */
 export class RunsNamespace {
-  constructor(private readonly client: OpenClaw) {}
+  constructor(private readonly client: OpenAgent) {}
 
   async create(params: RunCreateParams): Promise<Run> {
     const timeoutMs = normalizeTimeoutMs(params.timeoutMs);
@@ -770,7 +770,7 @@ export class RunsNamespace {
 
 class RpcNamespace {
   constructor(
-    protected readonly client: OpenClaw,
+    protected readonly client: OpenAgent,
     private readonly prefix: string,
   ) {}
 
@@ -785,7 +785,7 @@ class RpcNamespace {
 
 /** Task query and cancellation namespace. */
 export class TasksNamespace extends RpcNamespace {
-  constructor(client: OpenClaw) {
+  constructor(client: OpenAgent) {
     super(client, "tasks");
   }
 
@@ -807,7 +807,7 @@ export class TasksNamespace extends RpcNamespace {
 
 /** Model catalog and auth status namespace. */
 export class ModelsNamespace extends RpcNamespace {
-  constructor(client: OpenClaw) {
+  constructor(client: OpenAgent) {
     super(client, "models");
   }
 
@@ -822,7 +822,7 @@ export class ModelsNamespace extends RpcNamespace {
 
 /** Tool catalog, effective tool, and direct invocation namespace. */
 export class ToolsNamespace extends RpcNamespace {
-  constructor(client: OpenClaw) {
+  constructor(client: OpenAgent) {
     super(client, "tools");
   }
 
@@ -849,7 +849,7 @@ export class ToolsNamespace extends RpcNamespace {
 
 /** Run/session artifact listing and download namespace. */
 export class ArtifactsNamespace extends RpcNamespace {
-  constructor(client: OpenClaw) {
+  constructor(client: OpenAgent) {
     super(client, "artifacts");
   }
 
@@ -874,7 +874,7 @@ export class ArtifactsNamespace extends RpcNamespace {
 
 /** Approval request listing and response namespace. */
 export class ApprovalsNamespace {
-  constructor(private readonly client: OpenClaw) {}
+  constructor(private readonly client: OpenAgent) {}
 
   async list(params?: unknown): Promise<unknown> {
     return await this.client.request("exec.approval.list", params === undefined ? {} : params);
@@ -890,7 +890,7 @@ export class ApprovalsNamespace {
 
 /** Environment discovery namespace. */
 export class EnvironmentsNamespace extends RpcNamespace {
-  constructor(client: OpenClaw) {
+  constructor(client: OpenAgent) {
     super(client, "environments");
   }
 

@@ -46,15 +46,15 @@ export function writeAndroidFixture(params: {
     "utf8",
   );
   const releaseNotes =
-    "Zero to Agent is now available on Android.\n\nConnect to your Zero to Agent Gateway.\n";
+    "OpenAgent is now available on Android.\n\nConnect to your OpenAgent Gateway.\n";
   fs.writeFileSync(
     path.join(rootDir, "apps", "android", "CHANGELOG.md"),
-    params.changelog ?? `# Zero to Agent Android Changelog\n\n## Unreleased\n\n${releaseNotes}`,
+    params.changelog ?? `# OpenAgent Android Changelog\n\n## Unreleased\n\n${releaseNotes}`,
     "utf8",
   );
   fs.writeFileSync(
     path.join(rootDir, "apps", "ios", "CHANGELOG.md"),
-    params.iosChangelog ?? `# Zero to Agent iOS Changelog\n\n## Unreleased\n\n${releaseNotes}`,
+    params.iosChangelog ?? `# OpenAgent iOS Changelog\n\n## Unreleased\n\n${releaseNotes}`,
     "utf8",
   );
   fs.writeFileSync(

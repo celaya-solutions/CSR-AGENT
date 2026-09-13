@@ -291,14 +291,14 @@ Runtime:
 
 Backends:
   --backend mock          (default) basic deterministic mock-openai
-  --backend qa-mock       OpenClaw QA mock with tool and delayed-response fixtures
+  --backend qa-mock       OpenAgent QA mock with tool and delayed-response fixtures
   --backend claude-cli    real Claude CLI backend; no mock provider, uses your Claude
                         CLI credentials. Model via E2E_TELEGRAM_CLI_MODEL
                         (default claude-haiku-4-5).
 
 Credentials are acquired and released through the shared Convex pool.
 
-Run from the OpenClaw repo under test. The runner restores one bot and
+Run from the OpenAgent repo under test. The runner restores one bot and
 independent TDLib session. It starts mock-openai and a temporary SUT
 gateway, drives the bot as the real QA user, then removes credential state.
 Recording captures evidence without applying probe expectations.`);
@@ -965,7 +965,9 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const repoRoot = process.cwd();
   if (!fs.existsSync(path.join(repoRoot, "scripts/e2e/mock-openai-server.mjs"))) {
-    throw new Error("Run from the OpenClaw repo root; missing scripts/e2e/mock-openai-server.mjs.");
+    throw new Error(
+      "Run from the OpenAgent repo root; missing scripts/e2e/mock-openai-server.mjs.",
+    );
   }
 
   const credentialPromise = ownCredentialAcquisition(acquireTelegramTestCredential());

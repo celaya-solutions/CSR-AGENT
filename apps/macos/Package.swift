@@ -1,17 +1,17 @@
 // swift-tools-version: 6.3
-// Package manifest for the OpenClaw macOS companion (menu bar app + IPC library).
+// Package manifest for the OpenAgent macOS companion (menu bar app + IPC library).
 
 import PackageDescription
 
 let package = Package(
-    name: "OpenClaw",
+    name: "OpenAgent",
     platforms: [
         .macOS(.v15),
     ],
     products: [
         .library(name: "OpenClawIPC", targets: ["OpenClawIPC"]),
         .library(name: "OpenClawDiscovery", targets: ["OpenClawDiscovery"]),
-        .executable(name: "OpenClaw", targets: ["OpenClaw"]),
+        .executable(name: "OpenAgent", targets: ["OpenAgent"]),
         .executable(name: "openclaw-mac", targets: ["OpenClawMacCLI"]),
     ],
     dependencies: [
@@ -53,7 +53,7 @@ let package = Package(
                 .enableUpcomingFeature("StrictConcurrency"),
             ]),
         .executableTarget(
-            name: "OpenClaw",
+            name: "OpenAgent",
             dependencies: [
                 "OpenClawIPC",
                 "OpenClawDiscovery",
@@ -102,7 +102,7 @@ let package = Package(
             name: "OpenClawIPCTests",
             dependencies: [
                 "OpenClawIPC",
-                "OpenClaw",
+                "OpenAgent",
                 "OpenClawMacCLI",
                 "OpenClawDiscovery",
                 .product(name: "OpenClawChatUI", package: "OpenClawKit"),

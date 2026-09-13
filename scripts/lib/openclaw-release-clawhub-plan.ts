@@ -1,4 +1,4 @@
-// OpenClaw release ClawHub plan script supports release workflow routing.
+// OpenAgent release ClawHub plan script supports release workflow routing.
 import { resolve } from "node:path";
 import { resolvePreparedClawHubMatrix } from "../clawhub-prepared-artifact.mjs";
 import {

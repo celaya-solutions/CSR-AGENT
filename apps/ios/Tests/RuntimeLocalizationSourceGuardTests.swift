@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct RuntimeLocalizationSourceGuardTests {
     @Test func `live activity state persists semantics and external detail`() throws {

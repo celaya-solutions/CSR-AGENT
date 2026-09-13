@@ -6,7 +6,7 @@ import { migrateVoiceCallLegacyConfigInput } from "./src/config-migration.js";
 
 // Setup-time entrypoint for voice-call config migrations.
 
-/** Migrate voice-call plugin config inside the full Zero to Agent config object. */
+/** Migrate voice-call plugin config inside the full OpenAgent config object. */
 function migrateVoiceCallPluginConfig(config: OpenClawConfig): {
   config: OpenClawConfig;
   changes: string[];

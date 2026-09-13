@@ -267,8 +267,8 @@ export async function maybeSendNodeWakeNudge(
             result = await sendApnsAlert({
               registration,
               nodeId,
-              title: "Zero to Agent needs a quick reopen",
-              body: "Tap to reopen Zero to Agent and restore the node connection.",
+              title: "OpenAgent needs a quick reopen",
+              body: "Tap to reopen OpenAgent and restore the node connection.",
               relayConfig: relay.relayConfig,
               signal: lifecycle,
               isCurrent: isAttemptCurrent,
@@ -289,8 +289,8 @@ export async function maybeSendNodeWakeNudge(
             result = await sendApnsAlert({
               registration,
               nodeId,
-              title: "Zero to Agent needs a quick reopen",
-              body: "Tap to reopen Zero to Agent and restore the node connection.",
+              title: "OpenAgent needs a quick reopen",
+              body: "Tap to reopen OpenAgent and restore the node connection.",
               auth: auth.auth,
               signal: lifecycle,
               isCurrent: isAttemptCurrent,

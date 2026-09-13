@@ -26,7 +26,7 @@ When the tester says `finish validation`:
    attributes, resource values, timestamps, trace/span IDs, hostnames, file
    paths, session identifiers, request identifiers, prompts, responses, tool
    inputs, tool outputs, or credentials. A permitted snippet contains only an
-   aggregate signal count, a known OpenClaw operation name, a span status, or a
+   aggregate signal count, a known OpenAgent operation name, a span status, or a
    low-cardinality error category. If relevance or redaction is uncertain, omit
    the telemetry. Label included prose **Local telemetry evidence** and keep it
    immediately below the finding it corroborates. Do not put telemetry in the

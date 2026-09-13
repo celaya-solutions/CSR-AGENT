@@ -3,7 +3,7 @@ import Foundation
 import OpenClawKit
 import Testing
 import UIKit
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized) struct OpenClawAppDelegateTests {
     @Test func `live voice description is available to App Intents consumers`() {

@@ -3,7 +3,7 @@
 if [[ ${OSTYPE:-} == darwin* && $BASH != /bin/bash ]] && ((BASH_VERSINFO[0] > 5 || (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] >= 3))); then
   exec /bin/bash "$0" "$@"
 fi
-# Verifies embedded OpenClaw bundle MCP tool materialization and tool-policy behavior
+# Verifies embedded OpenAgent bundle MCP tool materialization and tool-policy behavior
 # inside the package-installed functional E2E image.
 set -euo pipefail
 
@@ -62,7 +62,7 @@ fi
 docker_e2e_build_or_reuse "$IMAGE_NAME" agent-bundle-mcp-tools
 OPENCLAW_TEST_STATE_SCRIPT_B64="$(docker_e2e_test_state_shell_b64 agent-bundle-mcp-tools empty)"
 
-echo "Running in-container OpenClaw bundle MCP tool availability smoke..."
+echo "Running in-container OpenAgent bundle MCP tool availability smoke..."
 # Harness files are mounted read-only; the app under test comes from /app/dist.
 set +e
 docker_e2e_run_with_harness \
@@ -79,7 +79,7 @@ status=${PIPESTATUS[0]}
 set -e
 
 if [ "$status" -ne 0 ]; then
-  echo "Docker OpenClaw bundle MCP tool availability smoke failed"
+  echo "Docker OpenAgent bundle MCP tool availability smoke failed"
   docker_e2e_print_log "$RUN_LOG"
   exit "$status"
 fi

@@ -1,8 +1,8 @@
 ---
-summary: "Zero to Agent impact threats (AML.TA0011): T-IMPACT-001, T-IMPACT-002, T-IMPACT-003"
+summary: "OpenAgent impact threats (AML.TA0011): T-IMPACT-001, T-IMPACT-002, T-IMPACT-003"
 title: "Impact (AML.TA0011)"
 read_when:
-  - Reviewing impact threats against a Zero to Agent deployment
+  - Reviewing impact threats against an OpenAgent deployment
   - Working on mitigations for T-IMPACT-001, T-IMPACT-002, T-IMPACT-003
 ---
 

@@ -33,14 +33,14 @@ read_when:
 
   </Step>
   <Step title="Try it in chat">
-    `/tts status` shows the current state. `/tts audio Hello from Zero to Agent`
+    `/tts status` shows the current state. `/tts audio Hello from OpenAgent`
     sends a one-off audio reply.
   </Step>
 </Steps>
 
 <Note>
 Auto-TTS is **off** by default. When `tts.provider` is unset,
-Zero to Agent picks the first configured provider in registry auto-select order.
+OpenAgent picks the first configured provider in registry auto-select order.
 The built-in `tts` agent tool is explicit-intent only: ordinary chat stays
 text unless the user asks for audio, uses `/tts`, or enables Auto-TTS/directive
 speech.

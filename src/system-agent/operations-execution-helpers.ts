@@ -272,7 +272,7 @@ export async function applyPersistentOperation(params: {
     // The mutation already committed. Keep success truthful while making the
     // missing audit record visible to every CLI/chat capture surface.
     runtime.error(
-      `${outcome.summary}, but Zero to Agent could not record its audit entry: ${formatErrorMessage(error)}`,
+      `${outcome.summary}, but OpenAgent could not record its audit entry: ${formatErrorMessage(error)}`,
     );
   }
   runtime.log(`[openclaw] done: ${auditOperation}`);
@@ -378,7 +378,7 @@ export async function assertConfigWriteDoesNotBypassInferenceVerification(
       return;
     }
     throw new Error(
-      `Direct config writes cannot change plugin "${pluginId}" because it may back Zero to Agent's own active inference route. Editing it is a human-only change, made with Zero to Agent stopped from a trusted shell on the machine running it.`,
+      `Direct config writes cannot change plugin "${pluginId}" because it may back OpenAgent's own active inference route. Editing it is a human-only change, made with OpenAgent stopped from a trusted shell on the machine running it.`,
     );
   }
   const deniedRoot = segments[0]?.trim().toLowerCase() ?? "";
@@ -386,7 +386,7 @@ export async function assertConfigWriteDoesNotBypassInferenceVerification(
   throw new Error(
     denialReason
       ? `Direct config writes cannot change \`${deniedRoot}\` (${denialReason}).`
-      : "Direct config writes cannot change the default inference route or include alternate config. Use `set_default_model` (optionally with agentId) for an already configured route; changing provider or auth access is `openclaw onboard` on the machine running Zero to Agent.",
+      : "Direct config writes cannot change the default inference route or include alternate config. Use `set_default_model` (optionally with agentId) for an already configured route; changing provider or auth access is `openclaw onboard` on the machine running OpenAgent.",
   );
 }
 
@@ -402,14 +402,14 @@ async function verifyCurrentSetupInference(
   const before = await readConfigFileSnapshot();
   if (!before.exists || !before.valid) {
     throw new Error(
-      "Zero to Agent setup requires a valid configured inference route. Run `openclaw onboard` on the machine running Zero to Agent, then retry.",
+      "OpenAgent setup requires a valid configured inference route. Run `openclaw onboard` on the machine running OpenAgent, then retry.",
     );
   }
   const beforeConfig = before.runtimeConfig ?? before.config;
   const beforeRoute = await projectDefaultInferenceRoute(beforeConfig);
   if (!beforeRoute.route) {
     throw new Error(
-      "Zero to Agent setup requires working inference first. Run `openclaw onboard` on the machine running Zero to Agent, then retry.",
+      "OpenAgent setup requires working inference first. Run `openclaw onboard` on the machine running OpenAgent, then retry.",
     );
   }
   const verifyInferenceConfig =
@@ -418,7 +418,7 @@ async function verifyCurrentSetupInference(
   const verification = await verifyInferenceConfig({ config: beforeConfig, runtime });
   if (!verification.ok) {
     throw new Error(
-      `Zero to Agent setup requires working inference first. The configured route failed a live check: ${verification.error} Run \`openclaw onboard\` on the machine running Zero to Agent, then retry.`,
+      `OpenAgent setup requires working inference first. The configured route failed a live check: ${verification.error} Run \`openclaw onboard\` on the machine running OpenAgent, then retry.`,
     );
   }
 
@@ -454,13 +454,13 @@ export async function executeSetup(
   const defaultModel = overview.defaultModel?.trim();
   if (!defaultModel) {
     throw new Error(
-      "Zero to Agent setup requires working inference first. Run `openclaw onboard` on the machine running Zero to Agent to configure and verify a default model, then start Zero to Agent again.",
+      "OpenAgent setup requires working inference first. Run `openclaw onboard` on the machine running OpenAgent to configure and verify a default model, then start OpenAgent again.",
     );
   }
   const requestedModel = operation.model?.trim();
   if (requestedModel && requestedModel !== defaultModel) {
     throw new Error(
-      `Zero to Agent setup will preserve the verified default model ${defaultModel}. Staging, live-testing, and saving a different inference route is \`openclaw onboard\` on the machine running Zero to Agent.`,
+      `OpenAgent setup will preserve the verified default model ${defaultModel}. Staging, live-testing, and saving a different inference route is \`openclaw onboard\` on the machine running OpenAgent.`,
     );
   }
   if (!opts.approved) {
@@ -474,7 +474,7 @@ export async function executeSetup(
   const verified = await verifyCurrentSetupInference(runtime, opts.deps);
   if (requestedModel && requestedModel !== verified.modelRef) {
     throw new Error(
-      `The verified default model is now ${verified.modelRef}, not ${requestedModel}. Review the current route, or run \`openclaw onboard\` on the machine running Zero to Agent, before retrying setup.`,
+      `The verified default model is now ${verified.modelRef}, not ${requestedModel}. Review the current route, or run \`openclaw onboard\` on the machine running OpenAgent, before retrying setup.`,
     );
   }
   return await applyPersistentOperation({
@@ -634,7 +634,7 @@ export async function executeSetDefaultModel(
                 "The final live inference test did not return a reusable session binding, so the requested model was not saved. Retry the model change.",
               );
             }
-            // The live probe can outlive the original Zero to Agent authority.
+            // The live probe can outlive the original OpenAgent authority.
             // Re-check it last, immediately before the writer crosses to disk.
             ctx.assertPersistentApply?.();
             persistedVerification = latestVerification;

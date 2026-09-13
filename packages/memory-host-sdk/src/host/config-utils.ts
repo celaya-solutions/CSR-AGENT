@@ -8,7 +8,7 @@ import {
 import type { MemoryExtraPath } from "./types.js";
 export { normalizeAgentId };
 
-// Shared Zero to Agent config helpers used by memory host and agent context code.
+// Shared OpenAgent config helpers used by memory host and agent context code.
 
 type DmScope = "main" | "per-peer" | "per-channel-peer" | "per-account-channel-peer";
 /** Citation injection behavior for memory search results. */
@@ -70,7 +70,7 @@ type AgentConfig = {
   contextLimits?: AgentContextLimitsConfig;
 };
 
-/** Narrow Zero to Agent config shape consumed by memory host utilities. */
+/** Narrow OpenAgent config shape consumed by memory host utilities. */
 export type OpenClawConfig = {
   agents?: {
     defaults?: {

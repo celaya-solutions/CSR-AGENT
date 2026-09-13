@@ -1,5 +1,5 @@
 /**
- * Shared identifiers for representing Codex native subagents as Zero to Agent task
+ * Shared identifiers for representing Codex native subagents as OpenAgent task
  * runtime rows.
  */
 /** Task runtime namespace for Codex native subagent task rows. */

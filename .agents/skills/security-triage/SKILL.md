@@ -1,11 +1,11 @@
 ---
 name: security-triage
-description: "Triage OpenClaw security advisories, drafts, and GHSA reports with shipped-tag and trust-model proof."
+description: "Triage OpenAgent security advisories, drafts, and GHSA reports with shipped-tag and trust-model proof."
 ---
 
 # Security Triage
 
-Use when reviewing OpenClaw security advisories, drafts, or GHSA reports.
+Use when reviewing OpenAgent security advisories, drafts, or GHSA reports.
 
 Goal: high-confidence maintainers' triage without over-closing real issues or shipping unnecessary regressions.
 

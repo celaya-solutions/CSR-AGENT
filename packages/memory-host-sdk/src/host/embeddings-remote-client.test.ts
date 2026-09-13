@@ -163,7 +163,7 @@ describe("resolveRemoteEmbeddingBearerClient", () => {
     ).rejects.toThrow(/memory\.search\.remote\.apiKey|Authorization header/);
   });
 
-  it("adds Zero to Agent attribution to native OpenAI embedding requests", async () => {
+  it("adds OpenAgent attribution to native OpenAI embedding requests", async () => {
     vi.stubEnv("OPENCLAW_VERSION", "2026.3.22");
     const client = await resolveRemoteEmbeddingBearerClient({
       provider: "openai",

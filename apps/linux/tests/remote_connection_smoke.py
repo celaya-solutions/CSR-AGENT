@@ -55,7 +55,7 @@ CHECK_LABELS = {
 # script can supply it; verification returns booleans, never submitted values.
 PAGE = """<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<title>OpenClaw - synthetic reconnect fixture</title>
+<title>OpenAgent - synthetic reconnect fixture</title>
 <style>
 body { margin: 0; background: #f6f7f8; color: #202326;
        font: 18px sans-serif; }
@@ -66,7 +66,7 @@ p { color: #53585c; line-height: 1.5; }
 li { margin: 14px 0; }
 .pass { color: #176b3e; } .fail { color: #ab2028; }
 </style></head><body><main>
-<h1>OpenClaw</h1>
+<h1>OpenAgent</h1>
 <p>Synthetic Gateway fixture | Native WebKit | __FIXTURE_LABEL__</p>
 <h2 id="outcome">Waiting for native saved reconnect</h2>
 <ul id="checks"></ul>
@@ -436,7 +436,7 @@ def main():
     if not os.access(binary, os.X_OK):
         parser.error("The native app binary must be executable")
     if shutil.which("openclaw", path="/usr/bin:/bin"):
-        parser.error("The minimal system PATH must not contain an OpenClaw CLI")
+        parser.error("The minimal system PATH must not contain an OpenAgent CLI")
     if not all(os.access(f"/usr/bin/{tool}", os.X_OK) for tool in ("import", "identify")):
         parser.error("Screenshot capture requires ImageMagick's import and identify")
     artifacts = args.artifacts_dir.resolve()

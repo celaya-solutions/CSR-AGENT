@@ -53,7 +53,7 @@ function buildContainerEnv(env: OpenClawContainerEnv): Record<string, string> {
 
 export class OpenClawContainer extends Container<OpenClawContainerEnv> {
   override defaultPort = 8080;
-  // /healthz exists in every published OpenClaw image and answers as soon as the
+  // /healthz exists in every published OpenAgent image and answers as soon as the
   // Gateway's listener is up, which is exactly what this readiness poll asks.
   // Do not point this at a route the pinned image may not serve: the Control UI
   // answers unknown paths with a catch-all 200, so a missing route would look

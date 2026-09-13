@@ -2336,7 +2336,7 @@ describe("Codex plugin thread config", () => {
     ]);
   });
 
-  it("does not expose apps for plugins that Zero to Agent policy leaves disabled", async () => {
+  it("does not expose apps for plugins that OpenAgent policy leaves disabled", async () => {
     const appCache = new CodexAppInventoryCache();
     await appCache.refreshNow({
       key: "runtime",
@@ -3022,7 +3022,7 @@ describe("Codex plugin thread config", () => {
     expect(third).not.toBe(second);
   });
 
-  it("uses app-level destructive policy for plugins without Zero to Agent tool-name knowledge", async () => {
+  it("uses app-level destructive policy for plugins without OpenAgent tool-name knowledge", async () => {
     const appCache = new CodexAppInventoryCache();
     await appCache.refreshNow({
       key: "runtime",

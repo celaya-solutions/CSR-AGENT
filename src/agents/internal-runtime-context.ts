@@ -5,9 +5,9 @@
  */
 import { escapeRegExp } from "../shared/regexp.js";
 
-/** Opening delimiter for protected Zero to Agent runtime context blocks. */
+/** Opening delimiter for protected OpenAgent runtime context blocks. */
 export const INTERNAL_RUNTIME_CONTEXT_BEGIN = "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>";
-/** Closing delimiter for protected Zero to Agent runtime context blocks. */
+/** Closing delimiter for protected OpenAgent runtime context blocks. */
 export const INTERNAL_RUNTIME_CONTEXT_END = "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>";
 
 const ESCAPED_INTERNAL_RUNTIME_CONTEXT_BEGIN = "[[OPENCLAW_INTERNAL_CONTEXT_BEGIN]]";
@@ -26,8 +26,7 @@ export type RuntimeContextFragment = {
 };
 
 const LEGACY_INTERNAL_CONTEXT_HEADER =
-  ["Zero to Agent runtime context (internal):", OPENCLAW_RUNTIME_CONTEXT_NOTICE, ""].join("\n") +
-  "\n";
+  ["OpenAgent runtime context (internal):", OPENCLAW_RUNTIME_CONTEXT_NOTICE, ""].join("\n") + "\n";
 
 const LEGACY_INTERNAL_EVENT_MARKER = "[Internal task completion event]";
 const LEGACY_INTERNAL_EVENT_SEPARATOR = "\n\n---\n\n";
@@ -212,9 +211,9 @@ function stripLegacyInternalRuntimeContext(text: string): string {
 
 // Prefaces of carriers persisted before the system prompt explained the markers; kept for stripping.
 const RUNTIME_CONTEXT_PROMPT_HEADERS: readonly string[] = [
-  "Zero to Agent runtime context for the active user request in this turn. Do not reply to or describe this context. Use it to continue answering the active user request now. Do not wait for another message.",
-  "Zero to Agent runtime context for the immediately preceding user message.",
-  "Zero to Agent runtime event.",
+  "OpenAgent runtime context for the active user request in this turn. Do not reply to or describe this context. Use it to continue answering the active user request now. Do not wait for another message.",
+  "OpenAgent runtime context for the immediately preceding user message.",
+  "OpenAgent runtime event.",
 ];
 
 const RUNTIME_CONTEXT_NOTICE_PATTERN = new RegExp(

@@ -107,7 +107,7 @@ describe("openclaw plugin tool context", () => {
   });
 
   it("forwards host-prepared active project keys", () => {
-    const activeProjectKeys = ["github.com/Zero to Agent/Zero to Agent"];
+    const activeProjectKeys = ["github.com/OpenAgent/OpenAgent"];
     const result = resolveOpenClawPluginToolInputs({
       options: { config: {} as never, activeProjectKeys },
     });

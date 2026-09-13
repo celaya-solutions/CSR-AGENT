@@ -604,7 +604,7 @@ export function createCommandHandlers(context: CommandHandlerContext) {
     queue: async (_args, raw) => await sendMessage(raw),
     openclaw: (args) => {
       chatLog.addSystem(
-        args ? `returning to Zero to Agent with request: ${args}` : "returning to Zero to Agent",
+        args ? `returning to OpenAgent with request: ${args}` : "returning to OpenAgent",
       );
       requestExit({
         exitReason: "return-to-system-agent",

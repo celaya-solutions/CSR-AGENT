@@ -118,7 +118,7 @@ class ChatControllerReconnectRestoreTest {
       runCurrent()
       gateway.calls.clear()
       controller.prepareAndSelectMainSessionKey(sessionKey)
-      controller.onGatewayConnected(MainSessionBinding(sessionKey, "OpenClaw App · Pixel · device"))
+      controller.onGatewayConnected(MainSessionBinding(sessionKey, "OpenAgent App · Pixel · device"))
       runCurrent()
 
       val describeIndex = gateway.calls.indexOfFirst { it.method == "sessions.describe" }
@@ -130,7 +130,7 @@ class ChatControllerReconnectRestoreTest {
       assertEquals(sessionKey, controller.sessionKey.value)
       val patchParams = json.parseToJsonElement(gateway.calls[patchIndex].paramsJson.orEmpty()).jsonObject
       assertEquals(sessionKey, patchParams["key"]?.jsonPrimitive?.content)
-      assertEquals("OpenClaw App · Pixel · device", patchParams["autoLabel"]?.jsonPrimitive?.content)
+      assertEquals("OpenAgent App · Pixel · device", patchParams["autoLabel"]?.jsonPrimitive?.content)
       assertFalse("label" in patchParams)
     }
 
@@ -138,7 +138,7 @@ class ChatControllerReconnectRestoreTest {
   fun connectedRefreshContinuesWhenGatewayRejectsAutoLabelWithoutWritingManualLabel() =
     runTest {
       val sessionKey = "agent:main:node-device"
-      val deviceTitle = "OpenClaw App · Pixel · device"
+      val deviceTitle = "OpenAgent App · Pixel · device"
       val gateway = ScriptedGateway(json)
       gateway.respondWith("sessions.describe", """{"session":null}""")
       gateway.respond("sessions.patch") {
@@ -189,7 +189,7 @@ class ChatControllerReconnectRestoreTest {
       val controller = newScopedController(gateway)
 
       controller.prepareMainSessionKey(sessionKey)
-      controller.onGatewayConnected(MainSessionBinding(sessionKey, "OpenClaw App · Pixel · device"))
+      controller.onGatewayConnected(MainSessionBinding(sessionKey, "OpenAgent App · Pixel · device"))
       runCurrent()
 
       assertEquals(0, gateway.callCount("sessions.create"))
@@ -199,7 +199,7 @@ class ChatControllerReconnectRestoreTest {
       assertTrue(historyIndex > patchIndex)
       val patchParams = json.parseToJsonElement(gateway.calls[patchIndex].paramsJson.orEmpty()).jsonObject
       assertEquals(sessionKey, patchParams["key"]?.jsonPrimitive?.content)
-      assertEquals("OpenClaw App · Pixel · device", patchParams["autoLabel"]?.jsonPrimitive?.content)
+      assertEquals("OpenAgent App · Pixel · device", patchParams["autoLabel"]?.jsonPrimitive?.content)
       assertFalse("label" in patchParams)
       assertEquals(listOf("keep working"), controller.messages.value.map { it.content.first().text })
     }
@@ -211,7 +211,7 @@ class ChatControllerReconnectRestoreTest {
       val gateway = ScriptedGateway(json)
       gateway.respondWith(
         "sessions.describe",
-        """{"session":{"key":"$sessionKey","autoLabel":"OpenClaw App · Pixel · device"}}""",
+        """{"session":{"key":"$sessionKey","autoLabel":"OpenAgent App · Pixel · device"}}""",
       )
       gateway.respondWith("sessions.patch", """{"ok":true,"key":"$sessionKey"}""")
       gateway.respondWith("chat.history", history(emptyList()))
@@ -222,7 +222,7 @@ class ChatControllerReconnectRestoreTest {
       )
 
       controller.prepareAndSelectMainSessionKey(sessionKey)
-      controller.onGatewayConnected(MainSessionBinding(sessionKey, "OpenClaw App · Pixel · device"))
+      controller.onGatewayConnected(MainSessionBinding(sessionKey, "OpenAgent App · Pixel · device"))
       runCurrent()
 
       val patchParams =
@@ -265,7 +265,7 @@ class ChatControllerReconnectRestoreTest {
       }
       gateway.respondWith("chat.history", history(emptyList()))
       val controller = newScopedController(gateway)
-      val binding = MainSessionBinding(sessionKey, "OpenClaw App · Pixel · device")
+      val binding = MainSessionBinding(sessionKey, "OpenAgent App · Pixel · device")
 
       controller.prepareMainSessionKey(sessionKey)
       controller.onGatewayConnected(binding)
@@ -277,19 +277,19 @@ class ChatControllerReconnectRestoreTest {
       assertEquals(1, gateway.callCount("sessions.patch"))
       assertEquals(2, gateway.callCount("sessions.describe"))
       assertEquals(2, gateway.callCount("chat.history"))
-      assertEquals("OpenClaw App · Pixel · device", storedAutoLabel)
+      assertEquals("OpenAgent App · Pixel · device", storedAutoLabel)
       assertNull(storedLabel)
 
-      storedLabel = "OpenClaw App · Release planning · device"
-      val renamedBinding = binding.copy(autoLabel = "OpenClaw App · Renamed · device")
+      storedLabel = "OpenAgent App · Release planning · device"
+      val renamedBinding = binding.copy(autoLabel = "OpenAgent App · Renamed · device")
       controller.onGatewayConnected(renamedBinding)
       runCurrent()
 
       assertEquals(2, gateway.callCount("sessions.patch"))
       assertEquals(3, gateway.callCount("sessions.describe"))
       assertEquals(3, gateway.callCount("chat.history"))
-      assertEquals("OpenClaw App · Release planning · device", storedLabel)
-      assertEquals("OpenClaw App · Renamed · device", storedAutoLabel)
+      assertEquals("OpenAgent App · Release planning · device", storedLabel)
+      assertEquals("OpenAgent App · Renamed · device", storedAutoLabel)
 
       controller.onGatewayConnected(renamedBinding)
       runCurrent()
@@ -323,10 +323,10 @@ class ChatControllerReconnectRestoreTest {
       val controller = newScopedController(gateway)
 
       controller.prepareAndSelectMainSessionKey("agent:first:node-device")
-      controller.onGatewayConnected(MainSessionBinding("agent:first:node-device", "OpenClaw App · Pixel · device"))
+      controller.onGatewayConnected(MainSessionBinding("agent:first:node-device", "OpenAgent App · Pixel · device"))
       runCurrent()
       controller.prepareAndSelectMainSessionKey("agent:second:node-device")
-      controller.onGatewayConnected(MainSessionBinding("agent:second:node-device", "OpenClaw App · Pixel · device"))
+      controller.onGatewayConnected(MainSessionBinding("agent:second:node-device", "OpenAgent App · Pixel · device"))
       controller.refresh()
       runCurrent()
 
@@ -369,12 +369,12 @@ class ChatControllerReconnectRestoreTest {
         if (reconnecting) {
           reconnectDescribe.await()
         } else {
-          """{"session":{"key":"$sessionKey","autoLabel":"OpenClaw App · Pixel · device"}}"""
+          """{"session":{"key":"$sessionKey","autoLabel":"OpenAgent App · Pixel · device"}}"""
         }
       }
       gateway.respondWith("chat.history", history(emptyList()))
       val controller = newScopedController(gateway)
-      val binding = MainSessionBinding(sessionKey, "OpenClaw App · Pixel · device")
+      val binding = MainSessionBinding(sessionKey, "OpenAgent App · Pixel · device")
 
       controller.prepareMainSessionKey(sessionKey)
       controller.onGatewayConnected(binding)
@@ -388,7 +388,7 @@ class ChatControllerReconnectRestoreTest {
 
       assertEquals(historyCallsBeforeReconnect, gateway.callCount("chat.history"))
       reconnectDescribe.complete(
-        """{"session":{"key":"$sessionKey","autoLabel":"OpenClaw App · Pixel · device"}}""",
+        """{"session":{"key":"$sessionKey","autoLabel":"OpenAgent App · Pixel · device"}}""",
       )
       runCurrent()
       assertTrue(gateway.callCount("chat.history") > historyCallsBeforeReconnect)
@@ -406,12 +406,12 @@ class ChatControllerReconnectRestoreTest {
         if (describeCalls == 1) {
           staleDescribe.await()
         } else {
-          """{"session":{"key":"$sessionKey","autoLabel":"OpenClaw App · Pixel · device"}}"""
+          """{"session":{"key":"$sessionKey","autoLabel":"OpenAgent App · Pixel · device"}}"""
         }
       }
       gateway.respondWith("chat.history", history(emptyList()))
       val controller = newScopedController(gateway)
-      val binding = MainSessionBinding(sessionKey, "OpenClaw App · Pixel · device")
+      val binding = MainSessionBinding(sessionKey, "OpenAgent App · Pixel · device")
 
       controller.prepareMainSessionKey(sessionKey)
       controller.onGatewayConnected(binding)
@@ -435,7 +435,7 @@ class ChatControllerReconnectRestoreTest {
       var sessionExists = false
       gateway.respond("sessions.describe") {
         if (sessionExists) {
-          """{"session":{"key":"$sessionKey","autoLabel":"OpenClaw App · Pixel · device"}}"""
+          """{"session":{"key":"$sessionKey","autoLabel":"OpenAgent App · Pixel · device"}}"""
         } else {
           """{"session":null}"""
         }
@@ -446,7 +446,7 @@ class ChatControllerReconnectRestoreTest {
       }
       gateway.respondWith("chat.history", history(emptyList()))
       val controller = newScopedController(gateway)
-      val binding = MainSessionBinding(sessionKey, "OpenClaw App · Pixel · device")
+      val binding = MainSessionBinding(sessionKey, "OpenAgent App · Pixel · device")
 
       controller.prepareMainSessionKey(sessionKey)
       controller.onGatewayConnected(binding)

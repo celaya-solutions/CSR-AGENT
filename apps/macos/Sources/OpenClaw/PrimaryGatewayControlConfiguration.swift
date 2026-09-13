@@ -25,7 +25,7 @@ enum PrimaryGatewayControlError: LocalizedError {
         case .persistenceFailed:
             "The app could not save the primary Gateway configuration."
         case .localHostingRequiresRestart:
-            "Restart OpenClaw, then enable local Gateway hosting again to use the repaired local port."
+            "Restart OpenAgent, then enable local Gateway hosting again to use the repaired local port."
         }
     }
 }

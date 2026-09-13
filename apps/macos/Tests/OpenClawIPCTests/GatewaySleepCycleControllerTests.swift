@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 private struct PrepareFailure: Error {}
 

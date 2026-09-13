@@ -38,8 +38,8 @@ Usage: scripts/e2e/parallels-windows-prepare.sh <command> [options]
 
 Commands:
   inventory   List the VM, hardware facts, and snapshots.
-  prepare     Create a clean snapshot, provision the reusable OpenClaw baseline, and snapshot it.
-  verify      Verify base prerequisites and prove the guest contains no OpenClaw product state.
+  prepare     Create a clean snapshot, provision the reusable OpenAgent baseline, and snapshot it.
+  verify      Verify base prerequisites and prove the guest contains no OpenAgent product state.
   restore     Restore a snapshot by exact name or id.
 
 Options:
@@ -50,8 +50,8 @@ Options:
   -h, --help                  Show this help.
 
 prepare assumes Parallels Desktop is installed/activated and a Windows 11 VM already exists.
-It installs only reusable OpenClaw prerequisites: WSL platform/package, Git, and Node/npm.
-It refuses to create the baseline when the guest contains an OpenClaw CLI, app package, process,
+It installs only reusable OpenAgent prerequisites: WSL platform/package, Git, and Node/npm.
+It refuses to create the baseline when the guest contains an OpenAgent CLI, app package, process,
 tray state, or WSL distro.
 EOF
 }
@@ -355,7 +355,7 @@ create_clean_snapshot_if_raw() {
     say "Skipping clean-OS snapshot because reusable prerequisites are already installed"
     return
   fi
-  create_snapshot "$CLEAN_SNAPSHOT" "Clean Windows baseline before OpenClaw development prerequisites."
+  create_snapshot "$CLEAN_SNAPSHOT" "Clean Windows baseline before OpenAgent development prerequisites."
 }
 
 restore_snapshot() {
@@ -382,20 +382,20 @@ clean_state_script() {
   cat <<'PS'
 $dirty = [System.Collections.Generic.List[string]]::new()
 if (Get-Command openclaw.cmd -ErrorAction SilentlyContinue) { $dirty.Add('openclaw.cmd on PATH') }
-if (Test-Path (Join-Path $env:USERPROFILE '.openclaw')) { $dirty.Add('OpenClaw CLI state directory exists') }
+if (Test-Path (Join-Path $env:USERPROFILE '.openclaw')) { $dirty.Add('OpenAgent CLI state directory exists') }
 if (Test-Path (Join-Path $env:APPDATA 'OpenClawTray')) { $dirty.Add('OpenClawTray AppData exists') }
 if (Test-Path (Join-Path $env:APPDATA 'OpenClawTray-Dev')) { $dirty.Add('OpenClawTray-Dev AppData exists') }
-if (Test-Path (Join-Path $env:LOCALAPPDATA 'OpenClawTray')) { $dirty.Add('OpenClaw Companion install/state directory exists') }
-if (Test-Path (Join-Path $env:LOCALAPPDATA 'OpenClawTray-Dev')) { $dirty.Add('OpenClaw Companion dev install/state directory exists') }
-if (Get-AppxPackage -Name '*OpenClaw*' -ErrorAction SilentlyContinue) { $dirty.Add('OpenClaw app package installed') }
-if (Get-Process -Name '*OpenClaw*' -ErrorAction SilentlyContinue) { $dirty.Add('OpenClaw process running') }
+if (Test-Path (Join-Path $env:LOCALAPPDATA 'OpenClawTray')) { $dirty.Add('OpenAgent Companion install/state directory exists') }
+if (Test-Path (Join-Path $env:LOCALAPPDATA 'OpenClawTray-Dev')) { $dirty.Add('OpenAgent Companion dev install/state directory exists') }
+if (Get-AppxPackage -Name '*OpenAgent*' -ErrorAction SilentlyContinue) { $dirty.Add('OpenAgent app package installed') }
+if (Get-Process -Name '*OpenAgent*' -ErrorAction SilentlyContinue) { $dirty.Add('OpenAgent process running') }
 $uninstallRoots = @(
   'HKCU:/Software/Microsoft/Windows/CurrentVersion/Uninstall/*',
   'HKLM:/Software/Microsoft/Windows/CurrentVersion/Uninstall/*',
   'HKLM:/Software/WOW6432Node/Microsoft/Windows/CurrentVersion/Uninstall/*'
 )
-if (Get-ItemProperty $uninstallRoots -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -like 'OpenClaw Companion*' }) {
-  $dirty.Add('OpenClaw Companion uninstall registration exists')
+if (Get-ItemProperty $uninstallRoots -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -like 'OpenAgent Companion*' }) {
+  $dirty.Add('OpenAgent Companion uninstall registration exists')
 }
 $distros = @(wsl.exe -l -q 2>$null | Where-Object { $_.Trim() })
 if ($distros.Count -gt 0) { $dirty.Add('WSL distro exists: ' + ($distros -join ', ')) }
@@ -646,7 +646,7 @@ ensure_node() {
   run_windows_installer msiexec.exe /i "$installer" /qn /norestart
   finish_installer_reboot
   wait_for_check Node.js 'where node.exe'
-  guest_node_supported || die "installed Node.js does not satisfy the OpenClaw runtime requirement"
+  guest_node_supported || die "installed Node.js does not satisfy the OpenAgent runtime requirement"
 }
 
 cleanup_installers() {
@@ -690,7 +690,7 @@ prepare() {
   restart_guest
   ensure_wsl_default_version
   verify_baseline
-  create_snapshot "$BASELINE_SNAPSHOT" "E2E-ready OpenClaw Windows baseline with WSL 2, Git, Node/npm, and no OpenClaw product state."
+  create_snapshot "$BASELINE_SNAPSHOT" "E2E-ready OpenAgent Windows baseline with WSL 2, Git, Node/npm, and no OpenAgent product state."
   say "Baseline ready: $BASELINE_SNAPSHOT"
 }
 

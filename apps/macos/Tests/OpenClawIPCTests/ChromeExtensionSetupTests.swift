@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct ChromeExtensionSetupTests {
     @Test func `registration and pending Chrome approval do not imply installed or connected`() throws {

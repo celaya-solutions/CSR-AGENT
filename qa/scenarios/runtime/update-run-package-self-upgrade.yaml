@@ -9,7 +9,7 @@ scenario:
       - gateway.update-and-setup-apis
     secondary:
       - cli.managed-gateway-restart
-  objective: Verify authenticated setup RPC compatibility before and after an installed OpenClaw 2026.4.26 package upgrades to the resolved latest package through update.run and returns healthy after restart.
+  objective: Verify authenticated setup RPC compatibility before and after an installed OpenAgent 2026.4.26 package upgrades to the resolved latest package through update.run and returns healthy after restart.
   successCriteria:
     - The package-backed Docker lane builds an isolated production install of openclaw@2026.4.26, overlays its exact-tag private dist, preflight-imports the linked historical QA channel, and separately installs the published source Gateway before invoking update.run.
     - Authenticated wizard.start and wizard.status return valid sanitized projections, the running historical session remains usable by wizard.next, and wizard.cancel terminates the setup flow.

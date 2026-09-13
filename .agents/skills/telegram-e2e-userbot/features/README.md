@@ -1,6 +1,6 @@
 # Telegram E2E verification map
 
-This map is the maintained source for proving what an OpenClaw Telegram user
+This map is the maintained source for proving what an OpenAgent Telegram user
 sees through the dedicated QA user account.
 
 ## Baseline preconditions

@@ -76,10 +76,10 @@ function parseArgs(argv: string[]) {
       continue;
     }
     if (arg.startsWith("-")) {
-      throw new Error(`Unknown OpenClaw package tarball check option: ${arg}`);
+      throw new Error(`Unknown OpenAgent package tarball check option: ${arg}`);
     }
     if (tarball) {
-      throw new Error(`Unexpected OpenClaw package tarball check argument: ${arg}`);
+      throw new Error(`Unexpected OpenAgent package tarball check argument: ${arg}`);
     }
     tarball = arg;
   }
@@ -102,7 +102,7 @@ if (cliArgs.help) {
 
 const { tarball } = cliArgs;
 if (!fs.existsSync(tarball)) {
-  fail(`OpenClaw package tarball does not exist: ${tarball}`);
+  fail(`OpenAgent package tarball does not exist: ${tarball}`);
 }
 
 const PACKAGE_DEPENDENCY_SECTIONS = [
@@ -313,7 +313,7 @@ function collectRequiredBundledWorkspaceDependencyErrors(
     }
     if (!bundledDependencies.has(name)) {
       errors.push(
-        `package.json dependencies.${name} must be listed in bundleDependencies because it is private to the OpenClaw workspace`,
+        `package.json dependencies.${name} must be listed in bundleDependencies because it is private to the OpenAgent workspace`,
       );
     }
     if (!entrySet.has(`node_modules/${name}/package.json`)) {
@@ -617,7 +617,7 @@ try {
   );
 } catch (error) {
   fs.rmSync(archiveRoot, { recursive: true, force: true });
-  fail(`OpenClaw package tarball preflight failed:\n${coerceErrorMessage(error)}`);
+  fail(`OpenAgent package tarball preflight failed:\n${coerceErrorMessage(error)}`);
 }
 const entrySet = new Set(normalized);
 const errors: string[] = [];
@@ -956,11 +956,11 @@ errors.push(
 
 if (errors.length > 0) {
   fs.rmSync(archiveRoot, { recursive: true, force: true });
-  fail(`OpenClaw package tarball integrity failed:\n${errors.join("\n")}`);
+  fail(`OpenAgent package tarball integrity failed:\n${errors.join("\n")}`);
 }
 
 for (const warning of warnings) {
-  console.warn(`OpenClaw package tarball integrity warning: ${warning}`);
+  console.warn(`OpenAgent package tarball integrity warning: ${warning}`);
 }
 fs.rmSync(archiveRoot, { recursive: true, force: true });
-console.log("OpenClaw package tarball integrity passed.");
+console.log("OpenAgent package tarball integrity passed.");

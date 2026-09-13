@@ -1,6 +1,6 @@
 import QtQuick
 
-// Geometry adapted from OpenClaw's macOS CritterIconRenderer (18-point template).
+// Geometry adapted from OpenAgent's macOS CritterIconRenderer (18-point template).
 // Eyes are transparent cutouts so the icon also works on a transparent bar.
 Canvas {
   id: root

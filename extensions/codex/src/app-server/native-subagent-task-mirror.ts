@@ -1,5 +1,5 @@
 /**
- * Mirrors Codex native subagent thread lifecycle events into Zero to Agent task
+ * Mirrors Codex native subagent thread lifecycle events into OpenAgent task
  * runtime rows so parent sessions can observe child progress.
  */
 import type { AgentHarnessTaskRuntime } from "openclaw/plugin-sdk/agent-harness-task-runtime";
@@ -439,7 +439,7 @@ export class CodexNativeSubagentTaskMirror {
   }
 }
 
-/** Converts a Codex child thread id into the Zero to Agent task-runtime run id. */
+/** Converts a Codex child thread id into the OpenAgent task-runtime run id. */
 export function codexNativeSubagentRunId(threadId: string): string {
   return `${CODEX_NATIVE_SUBAGENT_RUN_ID_PREFIX}${threadId.trim()}`;
 }

@@ -1,8 +1,8 @@
 ---
-summary: "Zero to Agent collection and exfiltration threats (AML.TA0009, AML.TA0010): T-EXFIL-001, T-EXFIL-002, T-EXFIL-003"
+summary: "OpenAgent collection and exfiltration threats (AML.TA0009, AML.TA0010): T-EXFIL-001, T-EXFIL-002, T-EXFIL-003"
 title: "Collection and exfiltration (AML.TA0009, AML.TA0010)"
 read_when:
-  - Reviewing collection and exfiltration threats against a Zero to Agent deployment
+  - Reviewing collection and exfiltration threats against an OpenAgent deployment
   - Working on mitigations for T-EXFIL-001, T-EXFIL-002, T-EXFIL-003
 ---
 

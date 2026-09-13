@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --import tsx
-// Sparkle Build script supports OpenClaw repository automation.
+// Sparkle Build script supports OpenAgent repository automation.
 
 import { realpathSync } from "node:fs";
 import { isDirectRunUrl } from "./lib/direct-run.mjs";

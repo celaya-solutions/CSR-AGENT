@@ -1,7 +1,7 @@
 ---
-summary: "Use Mistral models and Voxtral transcription with Zero to Agent"
+summary: "Use Mistral models and Voxtral transcription with OpenAgent"
 read_when:
-  - You want to use Mistral models in Zero to Agent
+  - You want to use Mistral models in OpenAgent
   - You want Voxtral realtime transcription for Voice Call
   - You need Mistral API key onboarding and model refs
 title: "Mistral"
@@ -151,7 +151,7 @@ The `mistral` plugin registers Voxtral Realtime as a Voice Call streaming STT pr
 ```
 
 <Note>
-Zero to Agent defaults Mistral realtime STT to `pcm_mulaw` at 8 kHz so Voice Call can forward Twilio media frames directly. Use `encoding: "pcm_s16le"` and a matching `sampleRate` only if your upstream stream is already raw PCM.
+OpenAgent defaults Mistral realtime STT to `pcm_mulaw` at 8 kHz so Voice Call can forward Twilio media frames directly. Use `encoding: "pcm_s16le"` and a matching `sampleRate` only if your upstream stream is already raw PCM.
 </Note>
 
 ## Advanced configuration
@@ -160,15 +160,15 @@ Zero to Agent defaults Mistral realtime STT to `pcm_mulaw` at 8 kHz so Voice Cal
   <Accordion title="Adjustable reasoning">
     `mistral/mistral-small-latest`, `mistral/mistral-small-2603`, and `mistral/mistral-medium-3-5` support [adjustable reasoning](https://docs.mistral.ai/studio-api/conversations/reasoning) on the Chat Completions API via `reasoning_effort` (`none` minimizes extra thinking in the output; `high` surfaces full thinking traces before the final answer).
 
-    Zero to Agent maps the session **thinking** level to Mistral's API:
+    OpenAgent maps the session **thinking** level to Mistral's API:
 
-    | Zero to Agent thinking level                                              | Mistral `reasoning_effort` |
+    | OpenAgent thinking level                                              | Mistral `reasoning_effort` |
     | ----------------------------------------------------------------------- | --------------------------- |
     | **off** / **minimal**                                                 | `none`                      |
     | **low** / **medium** / **high** / **xhigh** / **adaptive** / **max** | `high`                       |
 
     <Warning>
-    Avoid combining Medium 3.5 reasoning mode with `temperature: 0`. The Mistral HTTP API has been reported to reject `reasoning_effort="high"` plus `temperature: 0` with a 400 response. Leave temperature unset, or turn thinking off/minimal so Zero to Agent sends `reasoning_effort: "none"` before you set a low temperature.
+    Avoid combining Medium 3.5 reasoning mode with `temperature: 0`. The Mistral HTTP API has been reported to reject `reasoning_effort="high"` plus `temperature: 0` with a 400 response. Leave temperature unset, or turn thinking off/minimal so OpenAgent sends `reasoning_effort: "none"` before you set a low temperature.
     </Warning>
 
     Example model-scoped config for Medium 3.5 reasoning:

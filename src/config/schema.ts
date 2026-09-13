@@ -1,4 +1,4 @@
-// Builds and validates the canonical Zero to Agent configuration schema.
+// Builds and validates the canonical OpenAgent configuration schema.
 import crypto from "node:crypto";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { CHANNEL_IDS } from "../channels/ids.js";

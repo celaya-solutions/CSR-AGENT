@@ -12,7 +12,7 @@ export class OpenClawStateDatabaseSchemaMigrationRequiredError extends StartupMa
   ) {
     super(
       kind,
-      `Zero to Agent state database schema migration required (${kind}) at ${pathname}; run openclaw doctor --fix to migrate it.`,
+      `OpenAgent state database schema migration required (${kind}) at ${pathname}; run openclaw doctor --fix to migrate it.`,
     );
     this.name = "OpenClawStateDatabaseSchemaMigrationRequiredError";
   }

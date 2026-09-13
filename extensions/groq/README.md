@@ -1,8 +1,8 @@
-# Zero to Agent Groq Provider
+# OpenAgent Groq Provider
 
-Official Zero to Agent provider plugin for Groq.
+Official OpenAgent provider plugin for Groq.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/groq-provider

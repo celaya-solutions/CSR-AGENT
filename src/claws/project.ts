@@ -243,7 +243,7 @@ export async function createClawProject(
     `  id: ${JSON.stringify(agentId)}`,
     `  name: ${JSON.stringify(displayName(agentId))}`,
     "---",
-    `You are ${displayName(agentId)}, a purpose-built Zero to Agent agent.`,
+    `You are ${displayName(agentId)}, a purpose-built OpenAgent agent.`,
     "",
   ].join("\n");
 

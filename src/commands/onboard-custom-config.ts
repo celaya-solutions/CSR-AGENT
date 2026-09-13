@@ -187,7 +187,7 @@ export type CustomApiResult = {
   providerIdRenamedFrom?: string;
 };
 
-/** Inputs used to persist a custom provider in the Zero to Agent config. */
+/** Inputs used to persist a custom provider in the OpenAgent config. */
 type ApplyCustomApiConfigParams = {
   config: OpenClawConfig;
   baseUrl: string;

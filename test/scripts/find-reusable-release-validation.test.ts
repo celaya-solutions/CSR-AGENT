@@ -324,7 +324,7 @@ function normalizedEvidence(options: {
       "203",
       1,
       1,
-      "Zero to Agent Release Checks",
+      "OpenAgent Release Checks",
       "openclaw-release-checks.yml",
       "-release-checks-independent",
     ],
@@ -333,7 +333,7 @@ function normalizedEvidence(options: {
       "207",
       1,
       2,
-      "Zero to Agent Release Checks",
+      "OpenAgent Release Checks",
       "openclaw-release-checks.yml",
       "-release-checks-candidate",
     ],
@@ -350,15 +350,7 @@ function normalizedEvidence(options: {
           ],
         ] as const)
       : []),
-    [
-      "productPerformance",
-      "204",
-      3,
-      2,
-      "Zero to Agent Performance",
-      "openclaw-performance.yml",
-      "",
-    ],
+    ["productPerformance", "204", 3, 2, "OpenAgent Performance", "openclaw-performance.yml", ""],
   ] as const;
   const children = roles
     .filter(([role]) => !npmBetaCoverage || role !== "productPerformance")

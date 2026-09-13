@@ -42,7 +42,7 @@ describe("resolveRealtimeBootstrapContextInstructions", () => {
       sessionKey: "agent:main:discord:channel:1001",
     });
 
-    expect(instructions).toContain("Zero to Agent realtime voice profile context");
+    expect(instructions).toContain("OpenAgent realtime voice profile context");
     expect(instructions).toContain("### IDENTITY.md");
     expect(instructions).toContain("Name: Wilfred");
     expect(instructions).toContain("### USER.md");

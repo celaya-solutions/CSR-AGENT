@@ -228,7 +228,7 @@ describe("createSlackBoltApp", () => {
     }
   });
 
-  it("applies Zero to Agent self-event filtering through installed Bolt middleware", async () => {
+  it("applies OpenAgent self-event filtering through installed Bolt middleware", async () => {
     const { app } = createSlackBoltApp({
       interop: {
         App: FakeApp as never,

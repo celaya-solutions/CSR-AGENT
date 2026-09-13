@@ -187,7 +187,7 @@ describe("skills.detail handler", () => {
       },
       owner: {
         handle: "openclaw",
-        displayName: "Zero to Agent",
+        displayName: "OpenAgent",
         image: ownerImage,
       },
     };

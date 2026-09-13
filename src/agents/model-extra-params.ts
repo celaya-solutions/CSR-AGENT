@@ -70,7 +70,7 @@ export function resolveModelExtraParamSources(params: {
   return { defaultParams, modelParams, agentModelParams, agentParams: agent?.params };
 }
 
-/** Returns whether embedded Zero to Agent would apply authored provider request parameters. */
+/** Returns whether embedded OpenAgent would apply authored provider request parameters. */
 export function hasAuthoredProviderRequestParams(
   params: Parameters<typeof resolveModelExtraParamSources>[0],
 ): boolean {

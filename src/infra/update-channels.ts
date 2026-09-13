@@ -1,4 +1,4 @@
-// Resolves Zero to Agent update channels from config, tags, and versions.
+// Resolves OpenAgent update channels from config, tags, and versions.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { parse as parseSemver } from "semver";
 import { compareOpenClawReleaseVersions } from "./npm-registry-spec.js";
@@ -51,7 +51,7 @@ export function normalizeUpdateChannel(value?: string | null): UpdateChannel | n
   return null;
 }
 
-/** Maps a Zero to Agent update channel to the npm dist-tag used for package lookups. */
+/** Maps an OpenAgent update channel to the npm dist-tag used for package lookups. */
 export function channelToNpmTag(channel: UpdateChannel): string {
   if (channel === "extended-stable") {
     return "extended-stable";

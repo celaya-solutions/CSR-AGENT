@@ -80,7 +80,7 @@ export const en = {
       bindTailnetHint: "Reachable over Tailscale and local loopback",
       existingPasswordConfirm: "Use existing gateway password ({password})?",
       passwordPrompt: "Gateway password",
-      plaintextPasswordHint: "Stores the password directly in Zero to Agent config",
+      plaintextPasswordHint: "Stores the password directly in OpenAgent config",
       plaintextPasswordLabel: "Enter password now",
       plaintextTokenHint: "Default",
       plaintextTokenLabel: "Generate/store plaintext secret",
@@ -91,7 +91,7 @@ export const en = {
       tailscaleExposure: "Tailscale exposure",
       tokenPrompt: "Gateway token",
       tokenStoreProvisioned:
-        "Generated a Gateway secret and stored it in the Zero to Agent secret store as {name}. Config keeps only a reference; inspect it with `openclaw secrets store list`.",
+        "Generated a Gateway secret and stored it in the OpenAgent secret store as {name}. Config keeps only a reference; inspect it with `openclaw secrets store list`.",
       trustedProxyAllowLoopback: "Allow loopback trusted-proxy authentication?",
       trustedProxyLoopbackTitle: "Loopback proxy security warning",
       trustedProxyLoopbackWarning:
@@ -143,7 +143,7 @@ export const en = {
     memoryImport: {
       applyFailed:
         "{label} memory import failed: {reason}\nRetry from the dashboard's Memory import page (Settings → Import Memory).",
-      confirm: "Import these memories into your Zero to Agent workspace?",
+      confirm: "Import these memories into your OpenAgent workspace?",
       conflictSuffix: ", {count} already imported",
       errorTitle: "Memory import failed",
       failureLine: "{label} failed: {reason}. Retry from the Memory import page.",
@@ -260,7 +260,7 @@ export const en = {
       loopbackSshHint:
         "If your gateway is loopback-only, choose SSH tunnel and keep ws://127.0.0.1:18789.",
       noGatewaysFound: "No gateways found",
-      plaintextTokenHint: "Stores the secret directly in Zero to Agent config",
+      plaintextTokenHint: "Stores the secret directly in OpenAgent config",
       plaintextTokenLabel: "Enter secret now",
       searchProgress: "Searching for gateways...",
       selectGateway: "Select gateway",
@@ -277,7 +277,7 @@ export const en = {
     guided: {
       laneQuestion: "How would you like to start?",
       laneSecurityLine:
-        "Zero to Agent runs an AI agent with real access to this machine. Security guide: https://docs.openclaw.ai/gateway/security",
+        "OpenAgent runs an AI agent with real access to this machine. Security guide: https://docs.openclaw.ai/gateway/security",
       laneQuickLabel: "Quick start (recommended)",
       laneQuickHint: "Find AI access, choose a connection to verify, then open the web dashboard.",
       laneCustomLabel: "Custom setup",
@@ -312,7 +312,7 @@ export const en = {
       codingAgentQuip:
         "I can see {labels} on this machine — good taste. Once your AI works I can bring their memories along too.",
       controlUiPreparing: "Preparing the Control UI…",
-      custodianIntro: "Hi — I'm Zero to Agent. I keep this system running. Let's get you set up.",
+      custodianIntro: "Hi — I'm OpenAgent. I keep this system running. Let's get you set up.",
       findMeLater:
         "You can always find me later — run `openclaw` in a terminal, or open Settings in the dashboard.",
       hatchingNow: "Hatching your agent now…",
@@ -321,8 +321,8 @@ export const en = {
       lookAroundYes: "Yes, take a look",
       settingUp: "Setting up your workspace, gateway, and sessions…",
       setupDone: "Everything's in place.",
-      complete: "Zero to Agent is ready.",
-      completeWithoutAi: "Zero to Agent setup is saved. Connect AI before opening chat.",
+      complete: "OpenAgent is ready.",
+      completeWithoutAi: "OpenAgent setup is saved. Connect AI before opening chat.",
       detected: "AI detection complete.",
       detectedCandidate: "{label} — {detail}{recommended}",
       detectedGroupLabel: "Detected on this machine",
@@ -343,7 +343,7 @@ export const en = {
       recommendedInstall: "{label} — {hint}\n  {website}",
       recommendedInstallsTitle: "Recommended installs",
       intro: "Connect your AI",
-      invalidConfigDetails: "Zero to Agent config {path} is invalid:\n{issues}",
+      invalidConfigDetails: "OpenAgent config {path} is invalid:\n{issues}",
       invalidConfigRepair:
         "Nothing was changed. Repair with {fixCommand}, inspect with {inspectCommand}, then retry onboarding.",
       invalidConfigUnknown: "- The config could not be parsed.",
@@ -386,7 +386,7 @@ export const en = {
       flowKeepModelHint: "Skip model/auth setup and keep the current default model.",
       flowQuickstart: "QuickStart (recommended)",
       flowQuickstartHint: "Recommended local setup. Change details later with {command}.",
-      intro: "Zero to Agent setup",
+      intro: "OpenAgent setup",
       invalidConfigTitle: "Invalid config",
       keepCurrent: "Keep current values",
       localGateway: "Local gateway (this machine)",
@@ -441,7 +441,7 @@ export const en = {
       askForHelp:
         "Ask someone experienced to help before enabling tools or exposing it to the internet.",
       attribution:
-        "Zero to Agent is an open-source assistant that learns and grows with you, by the OpenClaw Foundation (a non-profit).",
+        "OpenAgent is an open-source assistant that learns and grows with you, by the Celaya Solutions (a non-profit).",
       baselineDmSessions:
         "Shared inboxes: isolate DM sessions (session.dmScope: per-channel-peer) and keep tool access minimal.",
       baselinePairing: "Use pairing or allowlists; require mentions in group chats.",
@@ -454,10 +454,10 @@ export const en = {
       confirm:
         "I understand this is personal-by-default and shared/multi-user use requires lock-down. Continue?",
       hardeningRequired:
-        "If you're not comfortable managing access controls and security hardening, don't run Zero to Agent without help.",
+        "If you're not comfortable managing access controls and security hardening, don't run OpenAgent without help.",
       learnMore: "Learn more at",
-      notMultitenant: "Zero to Agent is not designed to safely separate multiple users by default.",
-      personalAgent: "By default, Zero to Agent is a personal agent for one operator.",
+      notMultitenant: "OpenAgent is not designed to safely separate multiple users by default.",
+      personalAgent: "By default, OpenAgent is a personal agent for one operator.",
       promptRisk: "A bad prompt can trick it into doing unsafe things.",
       recommendedBaseline: "Recommended safer setup",
       runRegularly: "Run regularly",
@@ -471,7 +471,7 @@ export const en = {
       decline: "No thanks",
       description:
         "Share which features you use (channels, providers, plugin count) as part of the daily update check. Never messages, never identifiers. See exactly what is sent: `openclaw telemetry show`. Change anytime: `openclaw telemetry on|off`.",
-      title: "Help make Zero to Agent better?",
+      title: "Help make OpenAgent better?",
     },
     skills: {
       configure: "Configure skills now? (recommended)",
@@ -505,7 +505,7 @@ export const en = {
       account: "{label} account",
       commandOwnerTitle: "Administration from chat",
       commandOwnerHelp:
-        "Chat access lets someone talk to your agent. A command owner can also update Zero to Agent, restart the Gateway, change configuration, and approve commands. Choose only your own trusted operator account. This works in servers and groups without DM pairing; it does not grant chat access or change channel access rules.",
+        "Chat access lets someone talk to your agent. A command owner can also update OpenAgent, restart the Gateway, change configuration, and approve commands. Choose only your own trusted operator account. This works in servers and groups without DM pairing; it does not grant chat access or change channel access rules.",
       commandOwnerSetup: "Set up administration from your own chat account?",
       commandOwnerOwnAccount: "Set up my operator account",
       commandOwnerChannel: "Which channel has your operator account?",
@@ -760,7 +760,7 @@ export const en = {
       connected: "Connected as @{handle} — workspace {workspace} resolved.",
       envPrompt: "CLICKCLACK_BOT_TOKEN detected. Use env var?",
       helpCreateToken:
-        "In ClickClack: Workspace settings → Integrations → Zero to Agent → create bot → copy token",
+        "In ClickClack: Workspace settings → Integrations → OpenAgent → create bot → copy token",
       invalidToken:
         "ClickClack rejected the bot token (401). Copy a current token and rerun setup.",
       validationWarningTitle: "ClickClack connection check",
@@ -785,7 +785,7 @@ export const en = {
       helpEnableRoom: "4) Enable the bot in your Nextcloud Talk room settings",
       helpEnvTip: "Tip: you can also set NEXTCLOUD_TALK_BOT_SECRET in your env.",
       helpInstallCommand:
-        '2) Run: ./occ talk:bot:install "Zero to Agent" "<shared-secret>" "<webhook-url>" --feature webhook --feature response --feature reaction',
+        '2) Run: ./occ talk:bot:install "OpenAgent" "<shared-secret>" "<webhook-url>" --feature webhook --feature response --feature reaction',
       helpSsh: "1) SSH into your Nextcloud server",
       instanceUrlPrompt: "Enter Nextcloud instance URL (e.g., https://cloud.example.com)",
       setupTitle: "Nextcloud Talk bot setup",
@@ -843,7 +843,7 @@ export const en = {
       linkNowPrompt: "Link WhatsApp now (QR)?",
       linkingTitle: "WhatsApp linking",
       numberTitle: "WhatsApp number",
-      ownerNumberNote: "We need the sender/owner number so Zero to Agent can allowlist you.",
+      ownerNumberNote: "We need the sender/owner number so OpenAgent can allowlist you.",
       personalNumberPrompt: "Your personal WhatsApp number (the phone you will message from)",
       personalPhoneLabel: "This is my personal phone number",
       personalPhoneModeEnabled: "Personal phone mode enabled.",
@@ -851,7 +851,7 @@ export const en = {
       phoneSetupPrompt: "WhatsApp phone setup",
       relinkPrompt: "WhatsApp already linked. Re-link now?",
       scanQr: "Scan the QR with WhatsApp on your phone.",
-      separatePhoneLabel: "Separate phone just for Zero to Agent",
+      separatePhoneLabel: "Separate phone just for OpenAgent",
       setAllowFromNumbers: "Set allowFrom to specific numbers",
       unsetAllowFromDefault: "Unset allowFrom (default)",
       unsetAllowFromPairing: "Unset allowFrom (use pairing approvals only)",
@@ -944,8 +944,7 @@ export const en = {
       helpIncomingWebhook: "1) Create an incoming webhook in Synology Chat and copy its URL",
       helpOutgoingWebhook: "2) Create an outgoing webhook and copy its secret token",
       helpPointWebhook: "3) Point the outgoing webhook to https://<gateway-host>{path}",
-      incomingWebhookHelpReplies:
-        "This is the URL Zero to Agent uses to send replies back to Chat.",
+      incomingWebhookHelpReplies: "This is the URL OpenAgent uses to send replies back to Chat.",
       incomingWebhookHelpUseUrl: "Use the incoming webhook URL from Synology Chat integrations.",
       incomingWebhookKeep: "Incoming webhook URL already configured. Keep it?",
       incomingWebhookTitle: "Synology Chat incoming webhook",
@@ -961,7 +960,7 @@ export const en = {
       publicWebhookUrlKeep: "Public attachment webhook URL already configured. Keep it?",
       publicWebhookUrlPrompt: "Public attachment webhook URL (optional)",
       publicWebhookUrlScope:
-        "Expose only this webhook route; Zero to Agent uses it for short-lived attachment downloads.",
+        "Expose only this webhook route; OpenAgent uses it for short-lived attachment downloads.",
       publicWebhookUrlTitle: "Synology Chat public attachment route",
       setupTitle: "Synology Chat webhook setup",
       tokenEnvPrompt: "SYNOLOGY_CHAT_TOKEN detected. Use env var?",
@@ -978,7 +977,7 @@ export const en = {
       examples: "Examples:",
       installPrompt: "signal-cli not found. Install now?",
       multipleEntries: "Multiple entries: comma-separated.",
-      nextLinkDevice: 'Link device with: signal-cli link -n "Zero to Agent"',
+      nextLinkDevice: 'Link device with: signal-cli link -n "OpenAgent"',
       nextScanQr: "Scan QR in Signal -> Linked Devices",
       nextStepsTitle: "Signal next steps",
       reinstallPrompt: "signal-cli detected. Reinstall/update now?",
@@ -1093,8 +1092,7 @@ export const en = {
         qqbot: "Connect to QQ via official QQ Bot API",
         signal: 'signal-cli linked device; more setup (David Reagans: "Hop on Discord.").',
         slack: "supported (Socket Mode).",
-        synologyChat:
-          "Connect your Synology NAS Chat to Zero to Agent with full agent capabilities.",
+        synologyChat: "Connect your Synology NAS Chat to OpenAgent with full agent capabilities.",
         telegram: "simplest way to get started — register a bot with @BotFather and get going.",
         tlon: "decentralized messaging on Urbit; install the plugin to enable.",
         twitch: "Twitch chat integration",
@@ -1129,9 +1127,8 @@ export const en = {
       codexNativeSearchTitle: "Codex native search",
       controlUiTitle: "Control UI",
       controlUiDocs: "Docs: https://docs.openclaw.ai/web/control-ui",
-      dashboardCopyPaste:
-        "Copy/paste this URL in a browser on this machine to control Zero to Agent.",
-      dashboardOpened: "Opened in your browser. Keep that tab to control Zero to Agent.",
+      dashboardCopyPaste: "Copy/paste this URL in a browser on this machine to control OpenAgent.",
+      dashboardOpened: "Opened in your browser. Keep that tab to control OpenAgent.",
       dashboardOpenAnytime: "Open the dashboard anytime: {command}",
       dashboardReady: "Dashboard ready",
       dashboardWhenReady: "When you're ready: {command}",
@@ -1184,10 +1181,9 @@ export const en = {
       nodeIos: "iOS app (camera/canvas)",
       nodeMac: "macOS app (system + notifications)",
       optionalApps: "Optional apps",
-      outroDashboardLink:
-        "Onboarding complete. Use the dashboard link above to control Zero to Agent.",
+      outroDashboardLink: "Onboarding complete. Use the dashboard link above to control OpenAgent.",
       outroDashboardOpened:
-        "Onboarding complete. Dashboard opened; keep that tab to control Zero to Agent.",
+        "Onboarding complete. Dashboard opened; keep that tab to control OpenAgent.",
       outroHealthCheckFailed:
         "Onboarding complete, but the gateway health check failed. Fix the issue above, then verify with {command}.",
       outroSeeded:
@@ -1198,7 +1194,7 @@ export const en = {
       restart: "Restart",
       containerRuntimeTitle: "Container runtime",
       containerSystemdUnavailable:
-        "Systemd user services are not available inside this container. Zero to Agent is skipping only the background service install; run the Gateway in the foreground or use your container supervisor.",
+        "Systemd user services are not available inside this container. OpenAgent is skipping only the background service install; run the Gateway in the foreground or use your container supervisor.",
       securityReminder:
         "Running agents on your computer is risky — harden your setup: https://docs.openclaw.ai/security",
       secretRefAuthFailed: "Could not resolve {field} SecretRef for setup auth.",

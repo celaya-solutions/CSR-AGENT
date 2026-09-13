@@ -1,4 +1,4 @@
-title: OpenClaw tool policy gates
+title: OpenAgent tool policy gates
 
 scenario:
   id: openclaw-tool-policy-gates
@@ -7,7 +7,7 @@ scenario:
     primary:
       - tools.tool-policy
       - tools.sandbox-tool-gates
-  objective: Verify OpenClaw exposes only tools permitted by every configured policy layer.
+  objective: Verify OpenAgent exposes only tools permitted by every configured policy layer.
   successCriteria:
     - The coding profile includes filesystem and execution tools while excluding messaging tools.
     - Global policy expands group:fs and applies explicit allow and deny entries.
@@ -25,4 +25,4 @@ scenario:
   execution:
     kind: vitest
     path: test/e2e/qa-lab/runtime/openclaw-tool-policy-gates.e2e.test.ts
-    summary: Run the production OpenClaw tool constructor through profile, global, provider, agent, and sandbox policy layers.
+    summary: Run the production OpenAgent tool constructor through profile, global, provider, agent, and sandbox policy layers.

@@ -1,4 +1,4 @@
-// Discord plugin entrypoint registers its Zero to Agent integration.
+// Discord plugin entrypoint registers its OpenAgent integration.
 import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
 import { registerDiscordActivities } from "./activities-api.js";
 import { registerDiscordSubagentHooks } from "./subagent-hooks-api.js";

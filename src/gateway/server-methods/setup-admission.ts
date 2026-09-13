@@ -17,7 +17,7 @@ import {
 import type { RespondFn } from "./types.js";
 
 const SETUP_ADMISSION_BUSY_MESSAGE =
-  "Zero to Agent setup is already in progress; try again when it finishes.";
+  "OpenAgent setup is already in progress; try again when it finishes.";
 
 let wizardSessionInProgress = false;
 const wizardSessionAdmissionSettlements = new WeakMap<object, Promise<unknown>>();

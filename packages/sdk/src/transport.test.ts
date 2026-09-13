@@ -1,4 +1,4 @@
-// Zero to Agent SDK tests cover transport behavior.
+// OpenAgent SDK tests cover transport behavior.
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { GatewayClientTransport } from "./transport.js";
 

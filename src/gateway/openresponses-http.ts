@@ -1,7 +1,7 @@
 /**
  * OpenResponses HTTP Handler
  *
- * Implements the OpenResponses `/v1/responses` endpoint for Zero to Agent Gateway.
+ * Implements the OpenResponses `/v1/responses` endpoint for OpenAgent Gateway.
  *
  * @see https://www.open-responses.com/
  */
@@ -812,7 +812,7 @@ export async function handleOpenResponsesHttpRequest(
         output: [
           createAssistantOutputItem({
             id: outputItemId,
-            text: assistantText || "No response from Zero to Agent.",
+            text: assistantText || "No response from OpenAgent.",
             phase: "final_answer",
             status,
           }),
@@ -899,7 +899,7 @@ export async function handleOpenResponsesHttpRequest(
         pending: pendingAssistantText,
         resultText: finalResultText,
         streamedText: streamedAssistantText.text,
-        fallbackText: finalToolCalls ? "" : "No response from Zero to Agent.",
+        fallbackText: finalToolCalls ? "" : "No response from OpenAgent.",
       });
       if (!finalText.startsWith(streamedAssistantText.text)) {
         finalizeUnrepresentableAssistantReplacement();

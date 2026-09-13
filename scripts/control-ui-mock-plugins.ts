@@ -60,7 +60,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/whatsapp",
         name: "WhatsApp",
-        summary: "OpenClaw WhatsApp channel plugin for WhatsApp Web chats.",
+        summary: "OpenAgent WhatsApp channel plugin for WhatsApp Web chats.",
         author: "openclaw",
         official: true,
         downloads: 176_431,
@@ -71,7 +71,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/matrix",
         name: "Matrix",
-        summary: "OpenClaw Matrix channel plugin for rooms and direct messages.",
+        summary: "OpenAgent Matrix channel plugin for rooms and direct messages.",
         author: "openclaw",
         official: true,
         downloads: 52_201,
@@ -81,7 +81,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/codex",
         name: "Codex",
-        summary: "OpenClaw Codex app-server harness and native session supervision plugin.",
+        summary: "OpenAgent Codex app-server harness and native session supervision plugin.",
         author: "openclaw",
         official: true,
         downloads: 36_956,
@@ -91,7 +91,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@gendigital/sage-openclaw",
         name: "Gen Sage",
-        summary: "Safety for Agents — ADR layer for OpenClaw.",
+        summary: "Safety for Agents — ADR layer for OpenAgent.",
         author: "gendigital",
         official: false,
         downloads: 19_609,
@@ -101,7 +101,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/discord",
         name: "Discord",
-        summary: "OpenClaw Discord channel plugin for channels, DMs, commands, and app events.",
+        summary: "OpenAgent Discord channel plugin for channels, DMs, commands, and app events.",
         author: "openclaw",
         official: true,
         downloads: 13_253,
@@ -113,7 +113,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/telegram",
         name: "Telegram",
-        summary: "OpenClaw Telegram channel plugin for groups and direct messages.",
+        summary: "OpenAgent Telegram channel plugin for groups and direct messages.",
         author: "openclaw",
         official: true,
         downloads: 12_847,
@@ -124,8 +124,8 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       }),
       entry({
         packageName: "@openclaw/deepseek-provider",
-        name: "OpenClaw DeepSeek Provider",
-        summary: "OpenClaw DeepSeek provider plugin.",
+        name: "OpenAgent DeepSeek Provider",
+        summary: "OpenAgent DeepSeek provider plugin.",
         author: "openclaw",
         official: true,
         downloads: 10_742,
@@ -264,7 +264,7 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     entry({
       id: "whatsapp",
       name: "WhatsApp",
-      description: "OpenClaw WhatsApp channel plugin for WhatsApp Web chats.",
+      description: "OpenAgent WhatsApp channel plugin for WhatsApp Web chats.",
       category: "channel",
       origin: "bundled",
       installed: true,
@@ -273,7 +273,7 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     entry({
       id: "telegram",
       name: "Telegram",
-      description: "OpenClaw Telegram channel plugin.",
+      description: "OpenAgent Telegram channel plugin.",
       category: "channel",
       origin: "bundled",
       installed: true,
@@ -293,7 +293,7 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     entry({
       id: "googlechat",
       name: "Google Chat",
-      description: "OpenClaw Google Chat channel plugin for spaces and direct messages.",
+      description: "OpenAgent Google Chat channel plugin for spaces and direct messages.",
       category: "channel",
       origin: "bundled",
       installed: true,
@@ -302,7 +302,7 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     entry({
       id: "slack",
       name: "Slack",
-      description: "OpenClaw Slack channel plugin for channels, DMs, commands, and app events.",
+      description: "OpenAgent Slack channel plugin for channels, DMs, commands, and app events.",
       category: "channel",
       origin: "bundled",
       installed: true,
@@ -311,7 +311,7 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     entry({
       id: "signal",
       name: "Signal",
-      description: "OpenClaw Signal channel plugin.",
+      description: "OpenAgent Signal channel plugin.",
       category: "channel",
       origin: "bundled",
       installed: true,
@@ -320,7 +320,7 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     entry({
       id: "imessage",
       name: "iMessage",
-      description: "OpenClaw iMessage channel plugin using imsg on a signed-in Mac.",
+      description: "OpenAgent iMessage channel plugin using imsg on a signed-in Mac.",
       category: "channel",
       origin: "bundled",
       installed: true,
@@ -329,7 +329,7 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     entry({
       id: "nostr",
       name: "Nostr",
-      description: "OpenClaw Nostr channel plugin for NIP-04 encrypted direct messages.",
+      description: "OpenAgent Nostr channel plugin for NIP-04 encrypted direct messages.",
       category: "channel",
       origin: "bundled",
       installed: true,

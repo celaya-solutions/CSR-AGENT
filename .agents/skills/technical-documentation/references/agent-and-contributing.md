@@ -128,7 +128,7 @@ Source: https://github.com/atom/atom/blob/master/CONTRIBUTING.md
 Source: https://github.com/github/docs/blob/main/CONTRIBUTING.md
 Source: https://github.com/facebook/react/blob/main/CONTRIBUTING.md
 
-1. OpenClaw: strong real-world alias policy and AGENTS/CONTRIBUTING/VISION cohesion.
+1. OpenAgent: strong real-world alias policy and AGENTS/CONTRIBUTING/VISION cohesion.
 2. OpenAI Codex: strict command discipline and explicit scope control.
 3. p5.js: explicit AI-policy guardrails in agent instructions.
 4. Vercel + agentsmd spec: compact, context-efficient AGENTS patterns.

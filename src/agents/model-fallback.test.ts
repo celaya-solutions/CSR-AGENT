@@ -1410,7 +1410,7 @@ describe("runWithModelFallback", () => {
   it("does not treat Codex missing tool-result failures as model fallback candidates", async () => {
     const cfg = createModelFallbackConfig("openai/gpt-5.4", ["anthropic/claude-sonnet-4-6"]);
     const missingToolResultError = new Error(
-      "Zero to Agent recorded a native Codex tool.call without a matching tool.result before the turn completed.",
+      "OpenAgent recorded a native Codex tool.call without a matching tool.result before the turn completed.",
     );
     const run = vi.fn().mockRejectedValue(missingToolResultError);
 
@@ -1472,7 +1472,7 @@ describe("runWithModelFallback", () => {
     );
   });
 
-  it("does not prepare agent harness plugins for forced Zero to Agent candidates", async () => {
+  it("does not prepare agent harness plugins for forced OpenAgent candidates", async () => {
     const cfg = makeCfg({
       models: {
         providers: {
@@ -1485,7 +1485,7 @@ describe("runWithModelFallback", () => {
       },
     });
     const prepareAgentHarnessRuntime = vi.fn(() => {
-      throw new Error("Zero to Agent candidates should not prepare plugin harnesses");
+      throw new Error("OpenAgent candidates should not prepare plugin harnesses");
     });
     const run = vi.fn().mockResolvedValueOnce("ok");
 

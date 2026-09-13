@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Development runner that rebuilds OpenClaw, runs runtime postbuild steps, and
+// Development runner that rebuilds OpenAgent, runs runtime postbuild steps, and
 // restarts the CLI when watched source or metadata changes.
 import {
   spawn,

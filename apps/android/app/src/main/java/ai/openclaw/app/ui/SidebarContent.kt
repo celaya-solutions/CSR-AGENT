@@ -575,7 +575,7 @@ internal fun OpenClawSidebar(
       } else {
         OpenClawMascot(modifier = Modifier.size(28.dp))
         Text(
-          text = "OpenClaw",
+          text = "OpenAgent",
           modifier = Modifier.weight(1f),
           style = ClawTheme.type.title.copy(fontSize = 18.sp, lineHeight = 22.sp),
           color = palette.text,

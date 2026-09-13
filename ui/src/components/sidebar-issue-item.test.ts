@@ -199,7 +199,7 @@ describe("renderSidebarUpdateSurface", () => {
         )!;
         await card.updateComplete;
         expect(container.textContent).toContain(
-          state === "visible" ? "Zero to Agent updated" : "3.0.0",
+          state === "visible" ? "OpenAgent updated" : "3.0.0",
         );
         container.querySelector<HTMLButtonElement>(".sidebar-issues-panel__dismiss")!.click();
         expect(dismiss).toHaveBeenCalledExactlyOnceWith(expected);

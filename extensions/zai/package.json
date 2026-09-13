@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/zai-provider",
   "version": "2026.9.4",
-  "description": "Zero to Agent Z.AI provider plugin",
+  "description": "OpenAgent Z.AI provider plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

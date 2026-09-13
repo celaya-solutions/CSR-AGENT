@@ -307,7 +307,7 @@ export function registerOnboardCommand(program: Command): void {
     )
     .option("--reset-scope <scope>", "Reset scope: config|config+creds+sessions|full")
     .option("--non-interactive", "Run without prompts", false)
-    .option("--modern", "Open inference-gated Zero to Agent (kept for compatibility)", false)
+    .option("--modern", "Open inference-gated OpenAgent (kept for compatibility)", false)
     .option("--classic", "Use the classic multi-step setup wizard", false)
     .option("--tui", "Use the terminal hatch instead of the browser handoff", false)
     .option(
@@ -405,7 +405,7 @@ export function registerOnboardCommand(program: Command): void {
           rejectOption(
             [
               `--modern cannot be combined with: ${unsupportedOptions.join(", ")}.`,
-              "Run those setup options without --modern, or remove them to open Zero to Agent.",
+              "Run those setup options without --modern, or remove them to open OpenAgent.",
             ].join("\n"),
           );
           return;

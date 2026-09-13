@@ -4158,7 +4158,9 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
         expect(readFileSync(receipt, "utf8")).toBe(fixture.expected);
       } else {
         expect(result.status).not.toBe(0);
-        expect(result.stderr).toContain("no published stable OpenClaw baseline predates candidate");
+        expect(result.stderr).toContain(
+          "no published stable OpenAgent baseline predates candidate",
+        );
         expect(existsSync(receipt)).toBe(false);
       }
     } finally {
@@ -4512,7 +4514,7 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
       const result = runCiReleaseRefValidation({ ref: contextRef, targetSha });
       expect(result.status, contextRef).toBe(1);
       expect(result.output).toContain(
-        "target_context_ref must be a canonical OpenClaw release branch.",
+        "target_context_ref must be a canonical OpenAgent release branch.",
       );
     }
 
@@ -4581,7 +4583,7 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
   ] as const)("rejects wrong-namespace $kind ref $ref before remote admission", (identity) => {
     const result = runCiReleaseRefValidation({ ...identity, targetSha: "a".repeat(40) });
     expect(result.status).not.toBe(0);
-    expect(result.output).toContain("must be a canonical OpenClaw release");
+    expect(result.output).toContain("must be a canonical OpenAgent release");
     expect(result.outputs).not.toHaveProperty("eligible");
   });
 
@@ -4792,7 +4794,7 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
     expect(codeqlInitializeIndex).toBeLessThan(codeqlBuildIndex);
     expect(codeqlBuildIndex).toBeLessThan(codeqlAnalyzeIndex);
     expect(codeqlBuild.run).toBe(
-      "swift build --package-path apps/macos --product OpenClaw --arch arm64 --disable-index-store -debug-info-format none",
+      "swift build --package-path apps/macos --product OpenAgent --arch arm64 --disable-index-store -debug-info-format none",
     );
     expect(codeqlSelect.run).toContain("/Applications/Xcode_26.6.app/Contents/Developer");
     expect(codeqlSelect.run).toContain('if [[ "$xcode_version" != 26.6* ]]; then');
@@ -10584,7 +10586,7 @@ exit 1
     };
 
     const releaseBuildCommand =
-      "build --package-path apps/macos --product OpenClaw --configuration release";
+      "build --package-path apps/macos --product OpenAgent --configuration release";
     const packageResetCommand = "package --package-path apps/macos reset";
 
     const absentFramework = runBuildFixture("absent", "fail");
@@ -16557,7 +16559,7 @@ printf '%s\n' "\${CURL_SUCCESS_IP:-203.0.113.7}"
         type: "string",
       },
       ref: {
-        description: "OpenClaw branch, tag, or SHA containing the maturity score source",
+        description: "OpenAgent branch, tag, or SHA containing the maturity score source",
         required: true,
         type: "string",
       },
@@ -19849,8 +19851,8 @@ it("pins every Performance Git owner before checkout and preserves Git deadlines
   const workflow = parse(source);
   const targets = [
     ["resolve_target", "Checkout target metadata", undefined, 10],
-    ["kova", "Checkout OpenClaw", "Decide lane", 240],
-    ["source_performance", "Checkout OpenClaw source target", undefined, 120],
+    ["kova", "Checkout OpenAgent", "Decide lane", 240],
+    ["source_performance", "Checkout OpenAgent source target", undefined, 120],
     ["publish", "Checkout performance publisher helper", "Decide report publication lane", 30],
   ] as const;
   for (const [jobId, checkout, decision, timeout] of targets) {

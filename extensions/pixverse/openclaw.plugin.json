@@ -2,7 +2,7 @@
   "id": "pixverse",
   "categories": ["media"],
   "name": "PixVerse",
-  "description": "Zero to Agent PixVerse video generation provider plugin.",
+  "description": "OpenAgent PixVerse video generation provider plugin.",
   "activation": {
     "onStartup": false
   },

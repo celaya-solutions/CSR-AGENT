@@ -36,7 +36,7 @@ import {
 } from "./channel-shared.js";
 
 /**
- * Runtime bridge between MCP tools and the Zero to Agent Gateway channel APIs.
+ * Runtime bridge between MCP tools and the OpenAgent Gateway channel APIs.
  *
  * The bridge owns readiness, event cursoring, pending approval state, and the
  * narrow request methods that channel MCP tools expose to external clients.
@@ -154,7 +154,7 @@ export class OpenClawChannelBridge {
       preauthHandshakeTimeoutMs: bootstrap.preauthHandshakeTimeoutMs,
       tlsFingerprint: bootstrap.tlsFingerprint,
       clientName: GATEWAY_CLIENT_NAMES.CLI,
-      clientDisplayName: "Zero to Agent MCP",
+      clientDisplayName: "OpenAgent MCP",
       clientVersion: VERSION,
       mode: GATEWAY_CLIENT_MODES.CLI,
       caps: [GATEWAY_CLIENT_CAPS.APPROVALS],

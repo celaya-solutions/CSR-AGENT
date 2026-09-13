@@ -81,7 +81,7 @@ describeControlUiE2e("Control UI image lightbox", () => {
             {
               type: "image",
               url: dataUrl,
-              alt: "Zero to Agent banner",
+              alt: "OpenAgent banner",
             },
           ],
           timestamp: Date.now(),
@@ -125,7 +125,7 @@ describeControlUiE2e("Control UI image lightbox", () => {
       await gateway.waitForRequest("chat.startup");
 
       const transcriptTrigger = page.getByRole("button", {
-        name: "Open image Zero to Agent banner",
+        name: "Open image OpenAgent banner",
       });
       await transcriptTrigger.waitFor({ state: "visible", timeout: 10_000 });
       const transcriptImage = transcriptTrigger.getByRole("img");
@@ -145,7 +145,7 @@ describeControlUiE2e("Control UI image lightbox", () => {
       await page.keyboard.press("Escape");
       await transcriptTrigger.click();
 
-      const dialog = page.getByRole("dialog", { name: "Image preview: Zero to Agent banner" });
+      const dialog = page.getByRole("dialog", { name: "Image preview: OpenAgent banner" });
       await dialog.waitFor({ state: "visible" });
       const closeButton = page.getByRole("button", { name: "Close image preview" });
       const openOriginal = page.getByRole("link", { name: "Open in new tab" });
@@ -213,7 +213,7 @@ describeControlUiE2e("Control UI image lightbox", () => {
       await expect
         .poll(() => closeButton.evaluate((element) => element.matches(":focus")))
         .toBe(true);
-      const displayedImage = page.getByAltText("Zero to Agent banner").last();
+      const displayedImage = page.getByAltText("OpenAgent banner").last();
       await expect
         .poll(() =>
           displayedImage.evaluate((image) =>

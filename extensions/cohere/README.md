@@ -1,9 +1,9 @@
-# Zero to Agent Cohere Provider
+# OpenAgent Cohere Provider
 
-Official Zero to Agent provider plugin for Cohere's OpenAI-compatible Compatibility
+Official OpenAgent provider plugin for Cohere's OpenAI-compatible Compatibility
 API.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/cohere-provider

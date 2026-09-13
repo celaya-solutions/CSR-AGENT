@@ -653,7 +653,7 @@ describe("CodexAppServerTurnRouter", () => {
         contentItems: [
           {
             type: "inputText",
-            text: "Zero to Agent did not register a handler for this app-server tool call.",
+            text: "OpenAgent did not register a handler for this app-server tool call.",
           },
         ],
         success: false,

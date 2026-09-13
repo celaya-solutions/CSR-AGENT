@@ -244,7 +244,7 @@ const ANDROID_LANGUAGE_PICKER_PATH =
   "apps/android/app/src/main/java/ai/openclaw/app/AppLanguage.kt";
 const ANDROID_LANGUAGE_PICKER_SOURCES = new Set([
   "Follow Android · $systemLanguageTag",
-  "OpenClaw translations · $languageTag",
+  "OpenAgent translations · $languageTag",
 ]);
 
 function isAsciiLowercaseLetter(character: string): boolean {

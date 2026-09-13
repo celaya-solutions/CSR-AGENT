@@ -1,4 +1,4 @@
-// Tts Local Cli plugin entrypoint registers its Zero to Agent integration.
+// Tts Local Cli plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { buildCliSpeechProvider } from "./speech-provider.js";
 

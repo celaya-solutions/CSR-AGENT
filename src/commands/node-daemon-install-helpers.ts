@@ -94,6 +94,6 @@ export async function buildNodeInstallPlan(params: {
     workingDirectory,
     environment,
     environmentValueSources: buildNodeInstallEnvironmentValueSources(),
-    description: "Zero to Agent Node Host",
+    description: "OpenAgent Node Host",
   };
 }

@@ -1,5 +1,5 @@
 ---
-summary: "Zero to Agent Signal channel plugin."
+summary: "OpenAgent Signal channel plugin."
 read_when:
   - You are installing, configuring, or auditing the signal plugin
 title: "Signal plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Zero to Agent Signal channel plugin.
+OpenAgent Signal channel plugin.
 
 ## Distribution
 

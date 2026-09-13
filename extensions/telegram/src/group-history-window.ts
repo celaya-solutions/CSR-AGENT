@@ -15,7 +15,7 @@ export function buildTelegramSelfSenderName(
     configuredName?.trim() ||
     telegramIdentity?.first_name?.trim() ||
     telegramIdentity?.username?.trim() ||
-    "Zero to Agent";
+    "OpenAgent";
   return `${name}${TELEGRAM_SELF_SENDER_SUFFIX}`;
 }
 

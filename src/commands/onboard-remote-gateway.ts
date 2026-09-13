@@ -208,7 +208,7 @@ function toVerifiedActivationResult(params: {
 
 /**
  * Configure missing inference on the selected remote Gateway, then let that
- * Gateway's Zero to Agent finish setup before handing off to its normal TUI.
+ * Gateway's OpenAgent finish setup before handing off to its normal TUI.
  * The local config is routing input only; every setup mutation runs through
  * Gateway RPC.
  */
@@ -411,7 +411,7 @@ export async function runRemoteGatewayInferenceOnboarding(
         import("../wizard/clack-prompter.js").then(({ createClackPrompter }) =>
           createClackPrompter(),
         ));
-      await prompter.intro("Zero to Agent");
+      await prompter.intro("OpenAgent");
       // One-shot RPCs have different connections. Preserve a signed device
       // owner across chat replies even when loopback shared auth needs no device.
       const deviceIdentity = resolveDeviceIdentityForGatewayCall();
@@ -426,9 +426,9 @@ export async function runRemoteGatewayInferenceOnboarding(
       let agentDraft: SystemAgentChatResult["agentDraft"];
       try {
         for (;;) {
-          await prompter.note(reply.reply, "Zero to Agent");
+          await prompter.note(reply.reply, "OpenAgent");
           if (reply.action === "exit") {
-            await prompter.outro("Zero to Agent setup finished.");
+            await prompter.outro("OpenAgent setup finished.");
             return;
           }
           if (reply.action === "open-agent") {
@@ -437,7 +437,7 @@ export async function runRemoteGatewayInferenceOnboarding(
             break;
           }
           const message = await prompter.text({
-            message: "Reply to Zero to Agent",
+            message: "Reply to OpenAgent",
             ...(reply.sensitive ? { sensitive: true } : {}),
             validate: (value) => (value.trim() ? undefined : "Required"),
           });
@@ -450,7 +450,7 @@ export async function runRemoteGatewayInferenceOnboarding(
         }
       } catch (error) {
         if (error instanceof WizardCancelledError) {
-          await prompter.outro("Zero to Agent setup paused.");
+          await prompter.outro("OpenAgent setup paused.");
           return;
         }
         throw error;

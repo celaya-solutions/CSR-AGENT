@@ -1,4 +1,4 @@
-// Qa E2E script supports OpenClaw repository automation.
+// Qa E2E script supports OpenAgent repository automation.
 import { pathToFileURL } from "node:url";
 
 type QaE2eRuntime = Pick<

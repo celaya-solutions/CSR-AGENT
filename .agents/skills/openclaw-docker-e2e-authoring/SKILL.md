@@ -1,9 +1,9 @@
 ---
 name: openclaw-docker-e2e-authoring
-description: "Author OpenClaw Docker E2E and live provider Docker lanes."
+description: "Author OpenAgent Docker E2E and live provider Docker lanes."
 ---
 
-# OpenClaw Docker E2E Authoring
+# OpenAgent Docker E2E Authoring
 
 Use this when adding or changing Docker E2E lanes, release-path Docker tests,
 or live-provider Docker proof.

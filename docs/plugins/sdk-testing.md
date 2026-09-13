@@ -1,5 +1,5 @@
 ---
-summary: "Testing utilities and patterns for Zero to Agent plugins"
+summary: "Testing utilities and patterns for OpenAgent plugins"
 title: "Plugin testing"
 sidebarTitle: "Testing"
 read_when:
@@ -8,7 +8,7 @@ read_when:
   - You want to understand contract tests for bundled plugins
 ---
 
-Reference for test utilities, patterns, and lint enforcement for Zero to Agent
+Reference for test utilities, patterns, and lint enforcement for OpenAgent
 plugins.
 
 <Tip>
@@ -19,7 +19,7 @@ plugins.
 
 ## Test utilities
 
-These subpaths are repo-local source entrypoints for Zero to Agent's own bundled
+These subpaths are repo-local source entrypoints for OpenAgent's own bundled
 plugin tests. They are not published `package.json` exports for third-party
 plugins, and they may import Vitest or other repo-only test dependencies.
 
@@ -99,7 +99,7 @@ the focused test subpaths above.
 | `mockSuccessfulDashscopeVideoTask`                                        | Install a successful DashScope-compatible video task response. Import from `plugin-sdk/provider-test-contracts`                                  |
 | `getProviderHttpMocks`                                                    | Access opt-in provider HTTP/auth Vitest mocks. Import from `plugin-sdk/provider-http-test-mocks`                                                 |
 | `installProviderHttpMockCleanup`                                          | Reset provider HTTP/auth mocks after each test. Import from `plugin-sdk/provider-http-test-mocks`                                                |
-| `createOpenClawTestState` / `withOpenClawTestState` / `OpenClawTestState` | Create and clean up isolated Zero to Agent state, config, workspace, environment, and auth-profile fixtures. Import from `plugin-sdk/test-state` |
+| `createOpenClawTestState` / `withOpenClawTestState` / `OpenClawTestState` | Create and clean up isolated OpenAgent state, config, workspace, environment, and auth-profile fixtures. Import from `plugin-sdk/test-state` |
 | `installCommonResolveTargetErrorCases`                                    | Shared test cases for target resolution error handling. Import from `plugin-sdk/channel-target-testing`                                          |
 | `shouldAckReaction`                                                       | Check whether a channel should add an ack reaction. Import from `plugin-sdk/channel-feedback`                                                    |
 | `removeAckReactionAfterReply`                                             | Remove ack reaction after reply delivery. Import from `plugin-sdk/channel-feedback`                                                              |
@@ -135,7 +135,7 @@ the focused test subpaths above.
 
 Bundled-plugin contract suites also use these SDK testing subpaths for
 test-only registry, manifest, public-artifact, and runtime fixture helpers.
-Core-only suites that depend on bundled Zero to Agent inventory stay under
+Core-only suites that depend on bundled OpenAgent inventory stay under
 `src/plugins/contracts` instead.
 
 For channel account-policy tests, `createAccountPolicyInheritanceCases()` from
@@ -193,7 +193,7 @@ describe("my-channel target resolution", () => {
 ### Testing registration contracts
 
 Unit tests that pass a hand-written `api` mock to `register(api)` do not
-exercise Zero to Agent's loader acceptance gates. Add at least one loader-backed
+exercise OpenAgent's loader acceptance gates. Add at least one loader-backed
 smoke test for each registration surface your plugin depends on, especially
 hooks and exclusive capabilities such as memory.
 
@@ -366,7 +366,7 @@ patterns is recommended.
 
 ## Test configuration
 
-Zero to Agent uses Vitest 5 with informational V8 coverage reporting. For plugin tests:
+OpenAgent uses Vitest 5 with informational V8 coverage reporting. For plugin tests:
 
 ```bash
 # Run all tests

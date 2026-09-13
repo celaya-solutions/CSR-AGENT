@@ -1,12 +1,12 @@
 ---
-summary: "Hubs that link the main Zero to Agent docs"
+summary: "Hubs that link the main OpenAgent docs"
 read_when:
   - You want a complete map of the documentation
 title: "Docs hubs"
 ---
 
 <Note>
-If you are new to Zero to Agent, start with [Getting Started](/start/getting-started).
+If you are new to OpenAgent, start with [Getting Started](/start/getting-started).
 </Note>
 
 Use these hubs to discover more of the documentation, including deep dives and reference docs that don't appear in the left nav.
@@ -23,7 +23,7 @@ Use these hubs to discover more of the documentation, including deep dives and r
 - [Docs directory](/start/docs-directory)
 - [Configuration](/gateway/configuration)
 - [Configuration examples](/gateway/configuration-examples)
-- [Zero to Agent assistant](/start/openclaw)
+- [OpenAgent assistant](/start/openclaw)
 - [Showcase](/start/showcase)
 - [Lore](/start/lore)
 

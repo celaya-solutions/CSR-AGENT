@@ -1,4 +1,4 @@
-/** Tests merging bundled MCP defaults with Zero to Agent user MCP configuration. */
+/** Tests merging bundled MCP defaults with OpenAgent user MCP configuration. */
 import { describe, expect, it, vi } from "vitest";
 import { loadMergedBundleMcpConfig, toCliBundleMcpServerConfig } from "./bundle-mcp-config.js";
 
@@ -24,7 +24,7 @@ vi.mock("../plugins/bundle-mcp.js", () => ({
 }));
 
 describe("loadMergedBundleMcpConfig", () => {
-  it("lets Zero to Agent mcp.servers override bundle defaults while preserving raw transport shape", () => {
+  it("lets OpenAgent mcp.servers override bundle defaults while preserving raw transport shape", () => {
     const merged = loadMergedBundleMcpConfig({
       workspaceDir: "/workspace",
       cfg: {
@@ -63,7 +63,7 @@ describe("loadMergedBundleMcpConfig", () => {
     });
   });
 
-  it("maps Zero to Agent transports to downstream CLI types when requested", () => {
+  it("maps OpenAgent transports to downstream CLI types when requested", () => {
     expect(
       toCliBundleMcpServerConfig({
         transport: "streamable-http",
@@ -78,7 +78,7 @@ describe("loadMergedBundleMcpConfig", () => {
     });
   });
 
-  it("keeps disabled Zero to Agent MCP servers out of embedded runtimes", () => {
+  it("keeps disabled OpenAgent MCP servers out of embedded runtimes", () => {
     const merged = loadMergedBundleMcpConfig({
       workspaceDir: "/workspace",
       cfg: {
@@ -97,7 +97,7 @@ describe("loadMergedBundleMcpConfig", () => {
     expect(merged.config.mcpServers).not.toHaveProperty("disabledDocs");
   });
 
-  it("lets disabled Zero to Agent MCP servers tombstone bundle defaults with the same name", () => {
+  it("lets disabled OpenAgent MCP servers tombstone bundle defaults with the same name", () => {
     const merged = loadMergedBundleMcpConfig({
       workspaceDir: "/workspace",
       cfg: {

@@ -357,7 +357,7 @@ final class DashboardManager {
                 auth: DashboardWindowAuth(gatewayUrl: nil, token: nil, password: nil),
                 tlsParams: nil,
                 mode: .unconfigured,
-                displayName: "OpenClaw"),
+                displayName: "OpenAgent"),
             target: .primary,
             present: false)
         replacement?.showFailure(
@@ -411,7 +411,7 @@ final class DashboardManager {
         let previousController = self.controller
         self.presentDashboard(
             configuration: WindowConfiguration(
-                url: url, auth: auth, tlsParams: endpoint.tls?.params, mode: mode, displayName: "OpenClaw"),
+                url: url, auth: auth, tlsParams: endpoint.tls?.params, mode: mode, displayName: "OpenAgent"),
             endpoint: endpoint,
             target: .primary,
             source: previousController)
@@ -1001,7 +1001,7 @@ extension DashboardManager {
     {
         self.makeController(
             configuration: WindowConfiguration(
-                url: url, auth: auth, tlsParams: tlsParams, mode: mode, displayName: "OpenClaw"),
+                url: url, auth: auth, tlsParams: tlsParams, mode: mode, displayName: "OpenAgent"),
             target: .primary,
             windowAutosaveName: self.mainWindowAutosaveName,
             auxiliary: false,

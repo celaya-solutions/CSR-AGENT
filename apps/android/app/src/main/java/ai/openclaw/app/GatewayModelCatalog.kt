@@ -36,7 +36,7 @@ data class GatewayModelSummary(
           "codex", "codex-cli" -> "Codex"
           "claude-cli" -> "Claude CLI"
           "google-gemini-cli" -> "Gemini CLI"
-          "openclaw" -> "OpenClaw"
+          "openclaw" -> "OpenAgent"
           else -> null
         }
       } else {

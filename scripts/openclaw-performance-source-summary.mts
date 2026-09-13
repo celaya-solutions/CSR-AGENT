@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Summarizes OpenClaw performance source fixtures for reports.
+// Summarizes OpenAgent performance source fixtures for reports.
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
@@ -873,7 +873,7 @@ export function buildMarkdown(sourceDir: string, baselineSourceDir: string | nul
   const memoryDeltaRows = buildMemoryDeltaRows(current, baseline);
 
   const lines = [
-    "# OpenClaw Source Performance",
+    "# OpenAgent Source Performance",
     "",
     `Generated: ${new Date().toISOString()}`,
     "",

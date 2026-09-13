@@ -46,7 +46,7 @@ export class OpenClawStateOwnershipMetadataError extends OpenClawStateOwnershipE
     message: string,
   ) {
     super(
-      `Zero to Agent shared state ownership metadata is invalid at ${databasePath}: ${message}. ` +
+      `OpenAgent shared state ownership metadata is invalid at ${databasePath}: ${message}. ` +
         "Repair it with OPENCLAW_SUPERVISOR_MODE=external openclaw database ownership claim --manager <manager-id>.",
     );
     this.name = "OpenClawStateOwnershipMetadataError";
@@ -59,7 +59,7 @@ export class OpenClawStateExternalOwnershipError extends OpenClawStateOwnershipE
     readonly managerId: string,
   ) {
     super(
-      `Zero to Agent shared state database ${databasePath} is externally supervised by ${managerId}. ` +
+      `OpenAgent shared state database ${databasePath} is externally supervised by ${managerId}. ` +
         "Use that external supervisor with OPENCLAW_SUPERVISOR_MODE=external for writable operations.",
     );
     this.name = "OpenClawStateExternalOwnershipError";

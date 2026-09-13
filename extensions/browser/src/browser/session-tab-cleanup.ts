@@ -1,5 +1,5 @@
 /**
- * Periodic cleanup for browser tabs tracked to primary Zero to Agent sessions.
+ * Periodic cleanup for browser tabs tracked to primary OpenAgent sessions.
  */
 import {
   isAcpSessionKey,

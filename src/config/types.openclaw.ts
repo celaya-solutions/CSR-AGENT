@@ -1,4 +1,4 @@
-// Defines the top-level Zero to Agent configuration type.
+// Defines the top-level OpenAgent configuration type.
 import type { SilentReplyPolicyShape } from "../shared/silent-reply-policy.js";
 import type { TranscriptsConfig } from "../transcripts/config.js";
 import type { ConfigIncludeOwnership } from "./includes.js";
@@ -78,14 +78,14 @@ export type SurfaceConfigEntry = {
   silentReply?: SilentReplyPolicyShape;
 };
 
-/** Top-level Zero to Agent config as read from user/project config files. */
+/** Top-level OpenAgent config as read from user/project config files. */
 export type OpenClawConfig = {
   /** @deprecated Doctor-only legacy input. */
   audit?: AuditConfig;
   /** JSON schema URL used by editors and generated config files. */
   $schema?: string;
   meta?: {
-    /** Last Zero to Agent version that wrote this config. */
+    /** Last OpenAgent version that wrote this config. */
     lastTouchedVersion?: string;
     /** One-time doctor migrations already applied to this config. */
     migrations?: { modelPolicyAllowlist?: true };
@@ -146,7 +146,7 @@ export type OpenClawConfig = {
   /** Browser automation and browser plugin integration settings. */
   browser?: BrowserConfig;
   ui?: {
-    /** Accent color for Zero to Agent UI chrome (hex). */
+    /** Accent color for OpenAgent UI chrome (hex). */
     seamColor?: string;
     /**
      * Operator display preferences. Canonical config home so agents can

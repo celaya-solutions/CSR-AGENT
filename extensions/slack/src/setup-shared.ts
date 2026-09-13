@@ -8,12 +8,12 @@ import type { OpenClawConfig } from "./channel-api.js";
 
 export const SLACK_CHANNEL = "slack" as const;
 
-export function buildSlackManifest(botName = "Zero to Agent") {
-  const safeName = botName.trim() || "Zero to Agent";
+export function buildSlackManifest(botName = "OpenAgent") {
+  const safeName = botName.trim() || "OpenAgent";
   const manifest = {
     display_information: {
       name: safeName,
-      description: `${safeName} connector for Zero to Agent`,
+      description: `${safeName} connector for OpenAgent`,
     },
     features: {
       bot_user: {
@@ -26,7 +26,7 @@ export function buildSlackManifest(botName = "Zero to Agent") {
         messages_tab_read_only_enabled: false,
       },
       agent_view: {
-        agent_description: `${safeName} connects Slack Agent View conversations to Zero to Agent agents.`,
+        agent_description: `${safeName} connects Slack Agent View conversations to OpenAgent agents.`,
         suggested_prompts: [
           {
             title: "What can you do?",
@@ -45,7 +45,7 @@ export function buildSlackManifest(botName = "Zero to Agent") {
       slash_commands: [
         {
           command: "/openclaw",
-          description: "Send a message to Zero to Agent",
+          description: "Send a message to OpenAgent",
           should_escape: false,
         },
       ],

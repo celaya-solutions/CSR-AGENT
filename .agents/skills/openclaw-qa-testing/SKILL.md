@@ -1,9 +1,9 @@
 ---
 name: openclaw-qa-testing
-description: Run, watch, debug, extend, or explain OpenClaw qa-lab and qa-channel scenarios, artifacts, and live lanes.
+description: Run, watch, debug, extend, or explain OpenAgent qa-lab and qa-channel scenarios, artifacts, and live lanes.
 ---
 
-# OpenClaw QA Testing
+# OpenAgent QA Testing
 
 Use this skill for `qa-lab` / `qa-channel` work. Repo-local QA only.
 
@@ -70,7 +70,7 @@ op account list
 ```
 
 - Direct Telegram npm live test secrets currently live in 1Password item:
-  - vault: `OpenClaw`
+  - vault: `OpenAgent`
   - item: `Telegram E2E`
 - That item is the first place to look for:
   - `OPENCLAW_QA_TELEGRAM_DRIVER_BOT_TOKEN`
@@ -78,7 +78,7 @@ op account list
   - `OPENCLAW_QA_PROVIDER_MODE`
   - `OPENCLAW_NPM_TELEGRAM_PACKAGE_SPEC`
 - Convex QA secrets currently live in 1Password items:
-  - vault: `OpenClaw`
+  - vault: `OpenAgent`
   - item: `OPENCLAW_QA_CONVEX_SITE_URL`
   - item: `OPENCLAW_QA_CONVEX_SECRET_MAINTAINER`
   - item: `OPENCLAW_QA_CONVEX_SECRET_CI`
@@ -139,7 +139,7 @@ gh api repos/openclaw/openclaw/actions/runs/<run-id>/artifacts
 Use this when setting up or replacing Convex `kind=whatsapp` credentials.
 
 - Treat WhatsApp QA credentials as operator-owned live accounts, not generated fixtures.
-- Use two dedicated WhatsApp-capable test numbers: one driver account and one SUT account. Do not use personal numbers or personal OpenClaw WhatsApp accounts in the shared pool.
+- Use two dedicated WhatsApp-capable test numbers: one driver account and one SUT account. Do not use personal numbers or personal OpenAgent WhatsApp accounts in the shared pool.
 - Register and link each account manually with WhatsApp or WhatsApp Business, storing Web auth only in isolated local auth dirs outside the repo.
 - For group coverage, create a dedicated test group that includes both QA accounts and store its JID as `groupJid`; otherwise the group mention-gating scenario should be skipped by default and fail when explicitly requested.
 - Package the two Baileys auth dirs into base64 `.tgz` payload fields and add a new active Convex credential row. Prefer adding a fresh row and disabling stale/broken rows over overwriting credentials in place.
@@ -172,7 +172,7 @@ pnpm openclaw qa character-eval \
 - Scenario source is YAML-only under `qa/scenarios/`: use `index.yaml` and
   per-scenario `*.yaml` files with top-level `title`, `scenario`, and optional
   `flow`. Never add fenced `qa-scenario` / `qa-flow` Markdown files.
-- For isolated character/persona evals, write the persona into `SOUL.md` and blank `IDENTITY.md` in the scenario flow. Use `SOUL.md + IDENTITY.md` only when intentionally testing how the normal OpenClaw identity combines with the character.
+- For isolated character/persona evals, write the persona into `SOUL.md` and blank `IDENTITY.md` in the scenario flow. Use `SOUL.md + IDENTITY.md` only when intentionally testing how the normal OpenAgent identity combines with the character.
 - Keep prompts natural and task-shaped. The candidate model should receive character setup through `SOUL.md`, then normal user turns such as chat, workspace help, and small file tasks; do not ask "how would you react?" or tell the model it is in an eval.
 - Prefer at least one real task, such as creating or editing a tiny workspace artifact, so the transcript captures character under normal tool use instead of pure roleplay.
 

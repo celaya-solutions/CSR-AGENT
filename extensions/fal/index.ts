@@ -1,4 +1,4 @@
-// Fal plugin entrypoint registers its Zero to Agent integration.
+// Fal plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { buildFalImageGenerationProvider } from "./image-generation-provider.js";
 import { buildFalMusicGenerationProvider } from "./music-generation-provider.js";

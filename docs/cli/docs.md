@@ -1,14 +1,14 @@
 ---
 summary: "CLI reference for `openclaw docs` (search the live docs index)"
 read_when:
-  - You want to search the live Zero to Agent docs from the terminal
+  - You want to search the live OpenAgent docs from the terminal
   - You need to know which hosted search API the docs CLI calls
 title: "Docs"
 ---
 
 # `openclaw docs`
 
-Search the live Zero to Agent docs index from the terminal.
+Search the live OpenAgent docs index from the terminal.
 
 ## Usage
 

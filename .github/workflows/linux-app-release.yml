@@ -915,7 +915,7 @@ jobs:
               --repo "${GITHUB_REPOSITORY}" \
               --target "${TAG_SHA}" \
               --prerelease \
-              --title "OpenClaw desktop test update channel" \
+              --title "OpenAgent desktop test update channel" \
               --notes "Opt-in updater manifest for unsigned macOS and Windows Tauri test builds."
           fi
           gh release upload "${DESKTOP_TEST_CHANNEL_TAG}" \

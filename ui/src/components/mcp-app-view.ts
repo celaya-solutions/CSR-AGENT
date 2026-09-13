@@ -364,7 +364,7 @@ export class McpAppView extends LitElement {
 
       const bridge = new OpenClawAppBridge(
         null,
-        { name: "Zero to Agent", version: "1.0.0" },
+        { name: "OpenAgent", version: "1.0.0" },
         buildMcpAppHostCapabilities(
           payload.csp,
           payload.messageSupported === true,

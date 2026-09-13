@@ -1,11 +1,11 @@
 ---
 name: openclaw-debugging
-description: Debug OpenClaw model, provider, tool-surface, code-mode, streaming, and live/Crabbox behavior by choosing the right logs, probes, and proof path before changing code, including fetching stored sessions, transcripts, and attachments as evidence.
+description: Debug OpenAgent model, provider, tool-surface, code-mode, streaming, and live/Crabbox behavior by choosing the right logs, probes, and proof path before changing code, including fetching stored sessions, transcripts, and attachments as evidence.
 ---
 
-# OpenClaw Debugging
+# OpenAgent Debugging
 
-Use this skill when OpenClaw behavior differs between local tests, live models,
+Use this skill when OpenAgent behavior differs between local tests, live models,
 providers, code mode, Tool Search, Crabbox, or CI, and the next move should be a
 debug signal rather than a guess.
 

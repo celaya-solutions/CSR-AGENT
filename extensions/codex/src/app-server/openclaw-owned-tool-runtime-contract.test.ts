@@ -75,7 +75,7 @@ function expectAfterToolCall(
   expectHookContext(call[1], contextFields);
 }
 
-describe("Zero to Agent-owned tool runtime contract — Codex app-server adapter", () => {
+describe("OpenAgent-owned tool runtime contract — Codex app-server adapter", () => {
   afterEach(() => {
     resetOpenClawOwnedToolHooks();
   });

@@ -16,7 +16,7 @@ const STARTUP_MIGRATION_FOLLOW_UP =
 
 export function formatStartupMigrationFailure(errors: readonly string[]): string {
   return [
-    "Zero to Agent startup migrations did not complete cleanly; refusing to report the gateway ready.",
+    "OpenAgent startup migrations did not complete cleanly; refusing to report the gateway ready.",
     ...errors.map((error) => `- ${error}`),
     STARTUP_MIGRATION_FOLLOW_UP,
   ].join("\n");

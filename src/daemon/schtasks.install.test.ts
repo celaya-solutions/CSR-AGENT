@@ -104,11 +104,11 @@ describe("installScheduledTask", () => {
     });
   }
 
-  function expectInitialTaskQuery(taskName = "Zero to Agent Gateway"): void {
+  function expectInitialTaskQuery(taskName = "OpenAgent Gateway"): void {
     expect(schtasksCalls[0]).toEqual(["/Query", "/TN", taskName]);
   }
 
-  function expectTaskRunCall(index: number, taskName = "Zero to Agent Gateway"): void {
+  function expectTaskRunCall(index: number, taskName = "OpenAgent Gateway"): void {
     expect(schtasksCalls[index]).toEqual(["/Run", "/TN", taskName]);
   }
 
@@ -161,30 +161,30 @@ describe("installScheduledTask", () => {
       const gatewayScript = decodeWindowsLauncherScript({
         buffer: await fs.readFile(gateway.scriptPath),
       });
-      expect(gatewayScript).toContain("rem Zero to Agent Gateway");
+      expect(gatewayScript).toContain("rem OpenAgent Gateway");
       expect(gatewayScript).not.toContain("OPENCLAW_SERVICE_VERSION");
       expect(xmlPayloadCaptures.at(-1)?.xml).toContain(
-        "<Description>Zero to Agent Gateway</Description>",
+        "<Description>OpenAgent Gateway</Description>",
       );
 
       const node = await installScheduledTask({
         env: {
           ...env,
-          OPENCLAW_WINDOWS_TASK_NAME: "Zero to Agent Node",
+          OPENCLAW_WINDOWS_TASK_NAME: "OpenAgent Node",
           OPENCLAW_TASK_SCRIPT_NAME: "node.cmd",
         },
         stdout: new PassThrough(),
         programArguments: ["node", "node-host.js"],
-        description: "Zero to Agent Node Host",
+        description: "OpenAgent Node Host",
         environment: {},
       });
       const nodeScript = decodeWindowsLauncherScript({
         buffer: await fs.readFile(node.scriptPath),
       });
-      expect(nodeScript).toContain("rem Zero to Agent Node Host");
+      expect(nodeScript).toContain("rem OpenAgent Node Host");
       expect(nodeScript).not.toContain("OPENCLAW_SERVICE_VERSION");
       expect(xmlPayloadCaptures.at(-1)?.xml).toContain(
-        "<Description>Zero to Agent Node Host</Description>",
+        "<Description>OpenAgent Node Host</Description>",
       );
     });
   });
@@ -210,7 +210,7 @@ describe("installScheduledTask", () => {
           OC_CARET: "a^b",
           OC_PERCENT: "%TEMP%",
           OC_BANG: "!token!",
-          OC_SOURCE_PATH: "C:\\Zero to Agent source & ^ %USERPROFILE%!",
+          OC_SOURCE_PATH: "C:\\OpenAgent source & ^ %USERPROFILE%!",
           OC_QUOTE: 'he said "hi"',
           OC_EMPTY: "",
           NODE_OPTIONS: "",
@@ -226,9 +226,7 @@ describe("installScheduledTask", () => {
       expect(script).toContain('set "OC_CARET=a^^b"');
       expect(script).toContain('set "OC_PERCENT=%%TEMP%%"');
       expect(script).toContain('set "OC_BANG=^!token^!"');
-      expect(script).toContain(
-        'set "OC_SOURCE_PATH=C:\\Zero to Agent source & ^^ %%USERPROFILE%%^!"',
-      );
+      expect(script).toContain('set "OC_SOURCE_PATH=C:\\OpenAgent source & ^^ %%USERPROFILE%%^!"');
       expect(script).toContain('set "OC_QUOTE=he said ^"hi^""');
       expect(script).not.toContain('set "OC_EMPTY=');
       expect(script).toContain('set "NODE_OPTIONS="');
@@ -252,7 +250,7 @@ describe("installScheduledTask", () => {
           OC_CARET: "a^b",
           OC_PERCENT: "%TEMP%",
           OC_BANG: "!token!",
-          OC_SOURCE_PATH: "C:\\Zero to Agent source & ^ %USERPROFILE%!",
+          OC_SOURCE_PATH: "C:\\OpenAgent source & ^ %USERPROFILE%!",
           OC_QUOTE: 'he said "hi"',
           NODE_OPTIONS: "",
         },
@@ -268,17 +266,17 @@ describe("installScheduledTask", () => {
         sourcePath: scriptPath,
       });
 
-      expect(schtasksCalls[0]).toEqual(["/Query", "/TN", "Zero to Agent Gateway"]);
+      expect(schtasksCalls[0]).toEqual(["/Query", "/TN", "OpenAgent Gateway"]);
       expect(schtasksCalls[1]?.[0]).toBe("/Change");
       // Battery-flag XML re-apply runs between /Change and /Run on upgrades.
       expect(schtasksCalls[2]?.slice(0, 5)).toEqual([
         "/Create",
         "/F",
         "/TN",
-        "Zero to Agent Gateway",
+        "OpenAgent Gateway",
         "/XML",
       ]);
-      expect(schtasksCalls[3]).toEqual(["/Run", "/TN", "Zero to Agent Gateway"]);
+      expect(schtasksCalls[3]).toEqual(["/Run", "/TN", "OpenAgent Gateway"]);
     });
   });
 
@@ -347,7 +345,7 @@ describe("installScheduledTask", () => {
         expect(schtasksCalls[1]).toEqual([
           "/Change",
           "/TN",
-          "Zero to Agent Gateway",
+          "OpenAgent Gateway",
           "/TR",
           expect.stringContaining("gateway.vbs"),
         ]);
@@ -359,7 +357,7 @@ describe("installScheduledTask", () => {
         "/Create",
         "/F",
         "/TN",
-        "Zero to Agent Gateway",
+        "OpenAgent Gateway",
         "/XML",
       ]);
       expect(schtasksCalls[xmlIndex]).not.toContain("/RU");
@@ -419,7 +417,7 @@ describe("installScheduledTask", () => {
         HOME: env.USERPROFILE,
         USERDOMAIN: "WORKSTATION",
         USERNAME: "alice",
-        OPENCLAW_WINDOWS_TASK_NAME: "Zero to Agent Custom Gateway",
+        OPENCLAW_WINDOWS_TASK_NAME: "OpenAgent Custom Gateway",
       };
       const gatewayEnv = buildServiceEnvironment({
         env: callerEnv,
@@ -429,7 +427,7 @@ describe("installScheduledTask", () => {
 
       expect(callerEnv.OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER).toBeUndefined();
       expect(gatewayEnv.OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER).toBe("1");
-      expect(gatewayEnv.OPENCLAW_WINDOWS_TASK_NAME).toBe("Zero to Agent Gateway");
+      expect(gatewayEnv.OPENCLAW_WINDOWS_TASK_NAME).toBe("OpenAgent Gateway");
 
       const { scriptPath } = await installScheduledTask({
         env: callerEnv,
@@ -449,7 +447,7 @@ describe("installScheduledTask", () => {
         "/Create",
         "/F",
         "/TN",
-        "Zero to Agent Custom Gateway",
+        "OpenAgent Custom Gateway",
         "/XML",
       ]);
       expect(schtasksCalls[1]).not.toContain("/RU");
@@ -458,14 +456,14 @@ describe("installScheduledTask", () => {
       expect(captured?.xml).toContain("gateway.vbs</Command>");
       expect(captured?.xml).toContain("<UserId>WORKSTATION\\alice</UserId>");
       expect(captured?.xml).toContain("<LogonType>InteractiveToken</LogonType>");
-      expect(script).toContain('set "OPENCLAW_WINDOWS_TASK_NAME=Zero to Agent Custom Gateway"');
+      expect(script).toContain('set "OPENCLAW_WINDOWS_TASK_NAME=OpenAgent Custom Gateway"');
       expect(script).not.toContain('set "OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER=');
       expect(launcher).toContain(
         'shell.Environment("Process")("OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER") = "wscript"',
       );
       expect(launcher).toContain("WScript.Shell");
       expect(launcher).toContain(`WScript.Quit shell.Run("""${scriptPath}""", 0, True)`);
-      expectTaskRunCall(2, "Zero to Agent Custom Gateway");
+      expectTaskRunCall(2, "OpenAgent Custom Gateway");
     });
   });
 
@@ -548,7 +546,7 @@ describe("installScheduledTask", () => {
           "/Create",
           "/F",
           "/TN",
-          "Zero to Agent Gateway",
+          "OpenAgent Gateway",
           "/XML",
         ]);
         expect(createCall).not.toContain("/RU");

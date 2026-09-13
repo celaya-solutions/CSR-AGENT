@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EventHub, OpenClaw } from "./index.js";
+import { EventHub, OpenAgent } from "./index.js";
 import type { GatewayEvent, OpenClawEvent, OpenClawTransport } from "./types.js";
 
 const runId = "sdk-observed-run";
@@ -16,7 +16,7 @@ async function collectSdkRunFixture(
     events: (filter) => hub.stream(filter, { replay: true }),
     close: () => hub.close(),
   };
-  const oc = new OpenClaw({ transport });
+  const oc = new OpenAgent({ transport });
   const run = await oc.runs.get(runId);
   const iterator = run.events()[Symbol.asyncIterator]();
   const observed: OpenClawEvent[] = [];

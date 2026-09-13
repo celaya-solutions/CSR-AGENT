@@ -585,7 +585,7 @@ describe("validateConfigObjectRawWithPlugins channel metadata", () => {
           appId: "app-id",
           appSecret: "secret",
           replyMode: "thread",
-          footer: "Zero to Agent",
+          footer: "OpenAgent",
         },
       },
     });

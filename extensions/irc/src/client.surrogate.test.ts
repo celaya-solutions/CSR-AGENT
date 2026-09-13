@@ -93,7 +93,7 @@ async function connectReadyClient(messageChunkMaxChars: number) {
     tls: false,
     nick: "bot",
     username: "bot",
-    realname: "Zero to Agent Bot",
+    realname: "OpenAgent Bot",
     connectTimeoutMs: 1000,
     messageChunkMaxChars,
   });

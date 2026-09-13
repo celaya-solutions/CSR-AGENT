@@ -27,7 +27,7 @@ const IOS_SOURCE_PREFIXES = [
 ] as const;
 const IOS_CATALOG_EXCLUSIONS = new Set([
   // Product names and preview-only single-character fixtures are intentionally verbatim.
-  "OpenClaw",
+  "OpenAgent",
   "z",
 ]);
 const MACOS_SOURCE_PREFIXES = [
@@ -37,7 +37,7 @@ const MACOS_SOURCE_PREFIXES = [
 ] as const;
 const MACOS_CATALOG_EXCLUSIONS = new Set([
   // Product names are intentionally verbatim.
-  "OpenClaw",
+  "OpenAgent",
 ]);
 const IOS_INFO_PLIST_TARGETS = [
   {
@@ -406,7 +406,7 @@ type InfoPlistTranslation = {
 function parseStringsFile(source: string): Map<string, InfoPlistTranslation> {
   const values = new Map<string, InfoPlistTranslation>();
   for (const match of source.matchAll(
-    /(?:^\/\* OpenClaw source: ("(?:\\.|[^"\\])*") \*\/\n)?^\s*("(?:\\.|[^"\\])*")\s*=\s*("(?:\\.|[^"\\])*");/gmu,
+    /(?:^\/\* OpenAgent source: ("(?:\\.|[^"\\])*") \*\/\n)?^\s*("(?:\\.|[^"\\])*")\s*=\s*("(?:\\.|[^"\\])*");/gmu,
   )) {
     values.set(JSON.parse(match[2] ?? '""') as string, {
       source: match[1] ? (JSON.parse(match[1]) as string) : undefined,
@@ -464,7 +464,7 @@ function renderInfoPlistStrings(
     const candidates = infoPlistTranslationCandidates(artifact, sourceId, source);
     const value = selectInfoPlistTranslation(source, candidates, existing.get(key));
     return [
-      `/* OpenClaw source: ${stringsLiteral(source)} */`,
+      `/* OpenAgent source: ${stringsLiteral(source)} */`,
       `${stringsLiteral(key)} = ${stringsLiteral(value)};`,
     ].join("\n");
   });

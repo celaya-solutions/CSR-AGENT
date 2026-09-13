@@ -1,4 +1,4 @@
-/** Persists hosted official external plugin catalog snapshots in Zero to Agent state. */
+/** Persists hosted official external plugin catalog snapshots in OpenAgent state. */
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import {

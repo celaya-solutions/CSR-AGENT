@@ -73,7 +73,7 @@ export interface CreateAgentSessionOptions {
   /**
    * Optional allowlist of tool names.
    *
-   * When omitted, Zero to Agent enables the default built-in tools (read, bash, edit, write)
+   * When omitted, OpenAgent enables the default built-in tools (read, bash, edit, write)
    * and leaves extension/custom tools enabled unless `noTools` changes that default.
    * When provided, only the listed tool names are enabled.
    */
@@ -200,7 +200,7 @@ function getAttributionHeaders(
   if (model.provider === "openrouter" || baseUrl.includes("openrouter.ai")) {
     return {
       "HTTP-Referer": "https://openclaw.ai",
-      "X-OpenRouter-Title": "Zero to Agent",
+      "X-OpenRouter-Title": "OpenAgent",
       "X-OpenRouter-Categories": "cli-agent",
     };
   }

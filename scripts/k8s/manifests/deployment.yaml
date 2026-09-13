@@ -30,7 +30,7 @@ spec:
             - -c
             - |
               # Seed-if-missing: the PVC copy owns config after first boot so edits made
-              # through OpenClaw (onboard, channels add, doctor --fix, Control UI) survive
+              # through OpenAgent (onboard, channels add, doctor --fix, Control UI) survive
               # restarts. ConfigMap edits need an explicit reseed (see docs/install/kubernetes.md).
               [ -f /home/node/.openclaw/openclaw.json ] || cp /config/openclaw.json /home/node/.openclaw/openclaw.json
               mkdir -p /home/node/.openclaw/workspace
@@ -52,7 +52,7 @@ spec:
               mountPath: /config
       containers:
         - name: gateway
-          # Bump this immutable versioned tag when upgrading OpenClaw.
+          # Bump this immutable versioned tag when upgrading OpenAgent.
           image: ghcr.io/openclaw/openclaw:2026.7.1-2-slim
           imagePullPolicy: IfNotPresent
           command:

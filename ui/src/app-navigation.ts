@@ -444,16 +444,16 @@ export function titleForRoute(routeId: NavigationRouteId): string {
 /** Window/tab title, markers leftmost because tabs truncate from the right.
  * A disconnected Gateway replaces the approval count (a stale queue is not
  * actionable) and carries the pending-outbox total; titles already ending in the brand
- * ("Ask Zero to Agent") skip the suffix so it never reads "… Zero to Agent — Zero to Agent". */
+ * ("Ask OpenAgent") skip the suffix so it never reads "… OpenAgent — OpenAgent". */
 export function formatDocumentTitle(options: {
   context: string;
   attentionCount?: number;
   gatewayDisconnected?: boolean;
   queuedCount?: number;
 }): string {
-  const base = options.context.endsWith("Zero to Agent")
+  const base = options.context.endsWith("OpenAgent")
     ? options.context
-    : `${options.context} — Zero to Agent`;
+    : `${options.context} — OpenAgent`;
   if (options.gatewayDisconnected) {
     const queued =
       options.queuedCount && options.queuedCount > 0

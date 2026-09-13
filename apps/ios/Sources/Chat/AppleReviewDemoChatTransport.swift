@@ -15,7 +15,7 @@ enum AppleReviewDemoMode {
 }
 
 enum ScreenshotFixtureMode {
-    static let gatewayName = "OpenClaw Gateway"
+    static let gatewayName = "OpenAgent Gateway"
     static let gatewayAddress = "Gateway on local network"
     static let gatewayID = "screenshot-fixture-gateway"
 }
@@ -84,7 +84,7 @@ struct LocalChatFixture {
                 provider: "anthropic",
                 contextWindow: 200_000),
         ],
-        responsePrefix: "OpenClaw is connected to your gateway.",
+        responsePrefix: "OpenAgent is connected to your gateway.",
         seedMessages: ProcessInfo.processInfo.arguments.contains("--openclaw-empty-chat-fixture")
             ? []
             : ["Ready when you are. I can check a project, coordinate an agent, or prepare the next step."],
@@ -93,7 +93,7 @@ struct LocalChatFixture {
                 id: "main",
                 name: "Molty",
                 identity: ["emoji": AnyCodable("M")],
-                workspace: "OpenClaw",
+                workspace: "OpenAgent",
                 workspacegit: false,
                 model: ["provider": AnyCodable("openai"), "model": AnyCodable("gpt-6-astra")],
                 agentruntime: ["kind": AnyCodable("gateway")],
@@ -104,7 +104,7 @@ struct LocalChatFixture {
                 id: "research",
                 name: "Research",
                 identity: ["emoji": AnyCodable("RS")],
-                workspace: "OpenClaw",
+                workspace: "OpenAgent",
                 workspacegit: false,
                 model: ["provider": AnyCodable("openai"), "model": AnyCodable("gpt-6-astra")],
                 agentruntime: ["kind": AnyCodable("gateway")],
@@ -115,7 +115,7 @@ struct LocalChatFixture {
                 id: "automation",
                 name: "Automation",
                 identity: ["emoji": AnyCodable("AU")],
-                workspace: "OpenClaw",
+                workspace: "OpenAgent",
                 workspacegit: false,
                 model: ["provider": AnyCodable("openai"), "model": AnyCodable("gpt-6-astra")],
                 agentruntime: ["kind": AnyCodable("gateway")],
@@ -149,7 +149,7 @@ struct LocalFixtureChatTransport: OpenClawChatTransport {
                     blocked: false),
                 OpenClawChatComposerSkill(
                     key: "release",
-                    name: "Release OpenClaw",
+                    name: "Release OpenAgent",
                     baseEnabled: true,
                     missingDependencies: false,
                     blocked: false),

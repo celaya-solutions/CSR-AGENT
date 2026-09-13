@@ -23,7 +23,7 @@ import {
 
 export type SystemEvent = {
   /**
-   * Zero to Agent-assigned opaque identity for one queued occurrence. Preserve it when returning a
+   * OpenAgent-assigned opaque identity for one queued occurrence. Preserve it when returning a
    * snapshot to consume. It changes on replacement or re-enqueue; optional only for legacy
    * ID-less compatibility.
    */

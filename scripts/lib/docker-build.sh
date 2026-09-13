@@ -63,7 +63,7 @@ docker_build_resource_exhausted_failure() {
 docker_build_print_resource_exhausted_hint() {
   cat >&2 <<'EOF'
 Docker build failed because the builder ran out of memory.
-Try increasing the Docker/BuildKit memory limit, closing other memory-heavy processes, or rebuilding with a smaller OpenClaw build heap, for example:
+Try increasing the Docker/BuildKit memory limit, closing other memory-heavy processes, or rebuilding with a smaller OpenAgent build heap, for example:
   OPENCLAW_DOCKER_BUILD_NODE_OPTIONS=--max-old-space-size=4096 OPENCLAW_DOCKER_BUILD_TSDOWN_MAX_OLD_SPACE_MB=4096 ./scripts/docker/setup.sh
 EOF
 }

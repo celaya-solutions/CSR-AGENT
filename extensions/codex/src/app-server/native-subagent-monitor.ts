@@ -1,5 +1,5 @@
 /**
- * Mirrors Codex native subagent lifecycle and completion into Zero to Agent task
+ * Mirrors Codex native subagent lifecycle and completion into OpenAgent task
  * runtime records, with app-server history as the recovery source.
  */
 import {

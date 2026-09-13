@@ -162,7 +162,7 @@ describe("UI protocol freshness health mapping", () => {
     const finding = uiProtocolFreshnessIssueToHealthFinding(issue({ canBuild: false }));
 
     expect(finding.message).not.toContain("pnpm ui:build");
-    expect(finding.fixHint).toContain("Reinstall Zero to Agent");
+    expect(finding.fixHint).toContain("Reinstall OpenAgent");
   });
 
   it("keeps healthy packaged UI assets quiet without probing unpublished protocol history", async () => {

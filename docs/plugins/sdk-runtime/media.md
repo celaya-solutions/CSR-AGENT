@@ -19,13 +19,13 @@ Speech, media understanding, generation, web search, and the low-level media uti
     ```typescript
     // Standard TTS
     const clip = await api.runtime.tts.textToSpeech({
-      text: "Hello from Zero to Agent",
+      text: "Hello from OpenAgent",
       cfg: api.config,
     });
 
     // Telephony-optimized TTS
     const telephonyClip = await api.runtime.tts.textToSpeechTelephony({
-      text: "Hello from Zero to Agent",
+      text: "Hello from OpenAgent",
       cfg: api.config,
     });
 
@@ -158,7 +158,7 @@ Speech, media understanding, generation, web search, and the low-level media uti
 
     const result = await api.runtime.webSearch.search({
       config: api.config,
-      args: { query: "Zero to Agent plugin SDK", count: 5 },
+      args: { query: "OpenAgent plugin SDK", count: 5 },
     });
     ```
 

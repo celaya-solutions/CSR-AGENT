@@ -20,7 +20,7 @@ import "./ai-transport-host.js";
 
 afterEach(resetSecretRedactionRegistryForTest);
 
-describe("Zero to Agent Anthropic inline images", () => {
+describe("OpenAgent Anthropic inline images", () => {
   it("keeps complete canonical user and tool-result images through the installed host", async () => {
     const jpeg = Buffer.alloc(FILE_TYPE_SNIFF_MAX_BYTES + 32);
     createTinyJpegBuffer().copy(jpeg);
@@ -135,7 +135,7 @@ describe("Zero to Agent Anthropic inline images", () => {
   });
 });
 
-describe("Zero to Agent provider error redaction", () => {
+describe("OpenAgent provider error redaction", () => {
   it("preserves a nested transport code after installed host redaction", () => {
     const cause = Object.assign(new Error("getaddrinfo failed at fixture.invalid"), {
       code: "EAI_AGAIN",
@@ -170,7 +170,7 @@ describe("Zero to Agent provider error redaction", () => {
   });
 });
 
-describe("Zero to Agent provider tool-result redaction", () => {
+describe("OpenAgent provider tool-result redaction", () => {
   const toolResultContent = [
     {
       type: "resource" as const,

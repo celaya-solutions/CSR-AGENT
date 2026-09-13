@@ -98,7 +98,7 @@ describe("verifyBuzzAfterSetup", () => {
     });
 
     expect(runtime.log).toHaveBeenCalledWith(
-      "Buzz config was saved. Start Zero to Agent to connect: openclaw gateway",
+      "Buzz config was saved. Start OpenAgent to connect: openclaw gateway",
     );
   });
 

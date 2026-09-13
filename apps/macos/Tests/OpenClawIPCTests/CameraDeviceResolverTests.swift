@@ -1,7 +1,7 @@
 import AVFoundation
 import CoreMedia
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct CameraDeviceResolverTests {
     @Test func `external portrait photos select the transposed format with the same encoding`() throws {

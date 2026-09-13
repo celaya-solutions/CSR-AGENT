@@ -1,5 +1,5 @@
 /**
- * Fast Zero to Agent tool-bundle mock.
+ * Fast OpenAgent tool-bundle mock.
  *
  * Provides lightweight built-in tool stubs for inventory-heavy tests.
  */

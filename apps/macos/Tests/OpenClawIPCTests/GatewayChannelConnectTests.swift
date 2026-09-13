@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawKit
 
 @Suite(.serialized)
@@ -647,7 +647,7 @@ struct GatewayChannelConnectTests {
                     permissions: [:],
                     clientId: "openclaw-macos",
                     clientMode: "ui",
-                    clientDisplayName: "OpenClaw macOS Debug CLI"))
+                    clientDisplayName: "OpenAgent macOS Debug CLI"))
 
             try await self.withChannel(channel) { channel in
                 try await channel.connect()

@@ -12,14 +12,14 @@ read_when:
 ### Mental model
 
 - **Chat surface** - where people keep talking (Discord channel, Telegram topic, iMessage chat).
-- **ACP session** - the durable Codex/Claude/Gemini runtime state Zero to Agent routes to.
+- **ACP session** - the durable Codex/Claude/Gemini runtime state OpenAgent routes to.
 - **Child thread/topic** - an optional extra messaging surface created only by `--thread ...`.
 - **Runtime workspace** - the filesystem location (`cwd`, repo checkout, backend workspace) where the harness runs. Independent of the chat surface.
 
 ### Current-conversation binds
 
 `/acp spawn <harness> --bind here` pins the current conversation to the
-spawned ACP session - no child thread, same chat surface. Zero to Agent keeps
+spawned ACP session - no child thread, same chat surface. OpenAgent keeps
 owning transport, auth, safety, and delivery. Follow-up messages in that
 conversation route to the same session; `/new` and `/reset` reset the session
 in place; `/acp close` removes the binding.
@@ -38,16 +38,16 @@ Examples:
 <AccordionGroup>
   <Accordion title="Binding rules and exclusivity">
     - `--bind here` and `--thread ...` are mutually exclusive.
-    - `--bind here` only works on channels that advertise current-conversation binding; Zero to Agent returns a clear unsupported message otherwise. Bindings persist across gateway restarts.
+    - `--bind here` only works on channels that advertise current-conversation binding; OpenAgent returns a clear unsupported message otherwise. Bindings persist across gateway restarts.
     - On Discord, `spawnSessions` gates child thread creation for `--thread auto|here` - not `--bind here`.
-    - If you spawn to a different ACP agent without `--cwd`, Zero to Agent inherits the **target agent's** workspace by default. Missing inherited paths (`ENOENT`/`ENOTDIR`) fall back to the backend default; other access errors (e.g. `EACCES`) surface as spawn errors.
-    - Gateway management commands stay local in bound conversations - `/acp ...` commands are handled by Zero to Agent even when normal follow-up text routes to the bound ACP session; `/status` and `/session` also stay local whenever command handling is enabled for that surface.
+    - If you spawn to a different ACP agent without `--cwd`, OpenAgent inherits the **target agent's** workspace by default. Missing inherited paths (`ENOENT`/`ENOTDIR`) fall back to the backend default; other access errors (e.g. `EACCES`) surface as spawn errors.
+    - Gateway management commands stay local in bound conversations - `/acp ...` commands are handled by OpenAgent even when normal follow-up text routes to the bound ACP session; `/status` and `/session` also stay local whenever command handling is enabled for that surface.
 
   </Accordion>
   <Accordion title="Thread-bound sessions">
     When thread bindings are enabled for a channel adapter:
 
-    - Zero to Agent binds a thread to a target ACP session.
+    - OpenAgent binds a thread to a target ACP session.
     - Follow-up messages in that thread route to the bound ACP session.
     - ACP output is delivered back to the same thread.
     - `/session unbind`, close, archive, idle timeout, or max-age expiry removes the binding. `/session unbind` detaches only the current conversation and leaves the ACP session running.
@@ -61,7 +61,7 @@ Examples:
       - Discord/Telegram: `session.threadBindings.spawnSessions=true`
 
     Thread binding support is adapter-specific. If the active channel adapter
-    does not support thread bindings, Zero to Agent returns a clear
+    does not support thread bindings, OpenAgent returns a clear
     unsupported/unavailable message.
 
   </Accordion>
@@ -94,7 +94,7 @@ For non-ephemeral workflows, configure persistent ACP bindings in top-level
 
 </ParamField>
 <ParamField path="bindings[].agentId" type="string">
-  The owning Zero to Agent agent id.
+  The owning OpenAgent agent id.
 </ParamField>
 <ParamField path="bindings[].acp.mode" type='"persistent" | "oneshot"'>
   Optional ACP override.
@@ -136,7 +136,7 @@ before its next turn without replacing the conversation. Each option is saved
 only after the harness accepts it; a rejected option returns an error and keeps
 that option's previous selection. Model and thinking changes are independent,
 not an atomic batch. Removing a default
-uses any remaining configured policy; if none remains, Zero to Agent retains the
+uses any remaining configured policy; if none remains, OpenAgent retains the
 session's last selection. Omission is not a backend reset. To change thinking
 explicitly, use `/acp set thinking <level>` with a level supported by the harness.
 For Codex ACP, `off` only omits a fresh session's startup override. Switching an
@@ -224,10 +224,10 @@ its current reasoning effort or conversation.
 
 ### Behavior
 
-- Zero to Agent ensures the configured ACP session exists after channel-specific admission and before use.
+- OpenAgent ensures the configured ACP session exists after channel-specific admission and before use.
 - Messages in that channel, topic, or chat route to the configured ACP session.
 - Configured ACP bindings own their session route. Channel broadcast fan-out does not replace the configured ACP session for a matched binding.
 - In bound conversations, `/new` and `/reset` reset the same ACP session key in place.
 - Runtime bindings created by thread-bound spawns still apply where present.
-- For cross-agent ACP spawns without an explicit `cwd`, Zero to Agent inherits the target agent workspace from agent config.
+- For cross-agent ACP spawns without an explicit `cwd`, OpenAgent inherits the target agent workspace from agent config.
 - Missing inherited workspace paths fall back to the backend default cwd; non-missing access failures surface as spawn errors.

@@ -555,7 +555,7 @@ suite.define(() => {
             },
             {
               id: "recorded-openclaw",
-              displayName: "Recorded Zero to Agent",
+              displayName: "Recorded OpenAgent",
               repoRoot: "/recorded/openclaw",
               source: "registered",
             },
@@ -580,9 +580,9 @@ suite.define(() => {
       const trigger = page.locator("#new-session-project-trigger");
       const place = page.locator("wa-popover.new-session-page__project-popover");
       await trigger.click();
-      await place.getByRole("button", { name: "Recorded Zero to Agent", exact: true }).click();
+      await place.getByRole("button", { name: "Recorded OpenAgent", exact: true }).click();
       await pollLocatorText(trigger.locator(".new-session-page__trigger-label")).toBe(
-        "Recorded Zero to Agent",
+        "Recorded OpenAgent",
       );
       expect(await trigger.getAttribute("data-project-id")).toBe("recorded-openclaw");
       await expect

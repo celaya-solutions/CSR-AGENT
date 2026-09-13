@@ -15,7 +15,7 @@ Adds text-to-speech provider support.
 ## Distribution
 
 - Package: `@openclaw/tts-local-cli`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

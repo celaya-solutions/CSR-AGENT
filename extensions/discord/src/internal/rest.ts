@@ -80,7 +80,7 @@ const defaultOptions = {
   tokenHeader: "Bot" as const,
   baseUrl: "https://discord.com/api",
   apiVersion: 10,
-  userAgent: "Zero to Agent Discord",
+  userAgent: "OpenAgent Discord",
   timeout: 15_000,
   queueRequests: true,
   maxQueueSize: 1000,

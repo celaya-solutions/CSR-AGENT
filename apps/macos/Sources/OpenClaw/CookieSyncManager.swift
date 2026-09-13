@@ -177,7 +177,7 @@ final class CookieSyncManager: NSObject {
               generation == self.reconcileGeneration
         else {
             if !Task.isCancelled, generation == self.reconcileGeneration {
-                self.state = .error("OpenClaw CLI not found locally; cookie sync needs the CLI on this Mac")
+                self.state = .error("OpenAgent CLI not found locally; cookie sync needs the CLI on this Mac")
             }
             return
         }

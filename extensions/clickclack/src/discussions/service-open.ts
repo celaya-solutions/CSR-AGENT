@@ -178,7 +178,7 @@ export async function openClickClackDiscussionBinding(
     return undefined;
   }
   if (!entry.sessionId?.trim()) {
-    throw new Error("Zero to Agent session does not yet have a concrete session id");
+    throw new Error("OpenAgent session does not yet have a concrete session id");
   }
   const client = params.clientFactory(account);
   const workspaces = await client.workspaces();
@@ -404,9 +404,7 @@ export async function openClickClackDiscussionBinding(
         expectedGeneration: bindingGeneration,
       });
       params.warn(`unattached discussion channel remains quarantined: ${channel.id}`);
-      throw new Error(
-        "Zero to Agent session became inactive while opening its ClickClack discussion",
-      );
+      throw new Error("OpenAgent session became inactive while opening its ClickClack discussion");
     }
     const currentLabel = resolveDiscussionLabel(currentEntry, sessionKey, agentId);
     const currentDisplayTitle =

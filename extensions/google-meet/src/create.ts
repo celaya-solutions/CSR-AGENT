@@ -154,7 +154,7 @@ export async function createAndJoinMeetFromParams(params: {
     ...created,
     joined: true,
     nextAction:
-      "Share meetingUri with participants; the Zero to Agent agent has started the join flow.",
+      "Share meetingUri with participants; the OpenAgent agent has started the join flow.",
     join,
   };
 }

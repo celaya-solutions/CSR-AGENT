@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-// Release Beta Verifier script supports OpenClaw repository automation.
+// Release Beta Verifier script supports OpenAgent repository automation.
 import { createHash, randomUUID } from "node:crypto";
 import {
   linkSync,
@@ -2141,9 +2141,9 @@ export async function verifyBetaRelease(
       workflowRuns.push(
         verifyWorkflowRun({
           id: args.workflowRuns.openclawNpm,
-          label: "OpenClaw NPM Release",
+          label: "OpenAgent NPM Release",
           repo: args.repo,
-          expectedWorkflowName: "OpenClaw NPM Release",
+          expectedWorkflowName: "OpenAgent NPM Release",
           expectedHeadBranch: args.workflowRef,
           rerunFailed: false,
           observe: (run, count) => diagnostic.observeRun("openclawNpm", run, count),

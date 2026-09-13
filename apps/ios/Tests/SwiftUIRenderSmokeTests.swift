@@ -2,7 +2,7 @@ import OpenClawKit
 import SwiftUI
 import Testing
 import UIKit
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawChatUI
 
 struct SwiftUIRenderSmokeTests {
@@ -129,7 +129,7 @@ struct SwiftUIRenderSmokeTests {
                 markdownVariant: .standard,
                 userAccent: nil,
                 displayOptions: [],
-                assistantName: "OpenClaw",
+                assistantName: "OpenAgent",
                 assistantAvatarText: "OC",
                 assistantAvatarTint: nil,
                 showsAssistantAvatar: true,
@@ -169,7 +169,7 @@ struct SwiftUIRenderSmokeTests {
             markdownVariant: .standard,
             userAccent: nil,
             displayOptions: [],
-            assistantName: "OpenClaw",
+            assistantName: "OpenAgent",
             assistantAvatarText: "OC",
             assistantAvatarTint: nil,
             showsAssistantAvatar: true,
@@ -216,7 +216,7 @@ struct SwiftUIRenderSmokeTests {
             text: text,
             markdownVariant: .standard,
             showsReasoning: false,
-            assistantName: "OpenClaw",
+            assistantName: "OpenAgent",
             assistantAvatarText: "OC",
             assistantAvatarTint: nil,
             showsAssistantAvatar: true,
@@ -253,7 +253,7 @@ struct SwiftUIRenderSmokeTests {
                 markdownVariant: .standard,
                 userAccent: nil,
                 displayOptions: [],
-                assistantName: "OpenClaw",
+                assistantName: "OpenAgent",
                 assistantAvatarText: "OC",
                 assistantAvatarTint: nil,
                 showsAssistantAvatar: true,

@@ -602,7 +602,7 @@ function buildLogger(): TsLogger<LogObj> {
   inheritLogLevel(logger, () => levelToMinLevel(getRuntimeSettings().level));
   let activeFile: string | undefined;
   logger.attachTransport({
-    // Zero to Agent owns redacted serialization; tslog's formatted line is unused.
+    // OpenAgent owns redacted serialization; tslog's formatted line is unused.
     format: () => "",
     write: (logObj: LogObj) => {
       try {

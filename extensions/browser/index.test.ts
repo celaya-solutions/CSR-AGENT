@@ -486,7 +486,7 @@ describe("browser plugin", () => {
       descriptors: [
         {
           name: "browser",
-          description: "Manage Zero to Agent's dedicated browser (Chrome/Chromium)",
+          description: "Manage OpenAgent's dedicated browser (Chrome/Chromium)",
           hasSubcommands: true,
           machineOutput: expect.any(Function),
         },

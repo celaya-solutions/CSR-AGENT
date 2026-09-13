@@ -15,7 +15,7 @@ Guarded end-to-end encrypted claw channel.
 ## Distribution
 
 - Package: `@openclaw/reef`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

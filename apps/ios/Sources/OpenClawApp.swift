@@ -568,7 +568,7 @@ enum WatchPromptNotificationBridge {
         }
 
         let content = UNMutableNotificationContent()
-        content.title = title.isEmpty ? "OpenClaw" : title
+        content.title = title.isEmpty ? "OpenAgent" : title
         content.body = body
         content.sound = .default
         content.userInfo = userInfo
@@ -605,8 +605,8 @@ enum WatchPromptNotificationBridge {
         let content = UNMutableNotificationContent()
         content.title = String(localized: "Watch reply was not saved")
         content.body = upgradeRequired
-            ? String(localized: "Update OpenClaw on iPhone and Apple Watch, then request a new prompt.")
-            : String(localized: "Open OpenClaw on iPhone and try the action again.")
+            ? String(localized: "Update OpenAgent on iPhone and Apple Watch, then request a new prompt.")
+            : String(localized: "Open OpenAgent on iPhone and try the action again.")
         content.userInfo = [self.typeKey: self.typeValue]
         do {
             try await notificationCenter.add(UNNotificationRequest(
@@ -810,7 +810,7 @@ struct OpenClawApp: App {
 
 extension OpenClawApp {
     private static func installUncaughtExceptionLogger() {
-        NSLog("OpenClaw: installing uncaught exception handler")
+        NSLog("OpenAgent: installing uncaught exception handler")
         NSSetUncaughtExceptionHandler { exception in
             // Useful when the app hits NSExceptions from SwiftUI/WebKit internals; these do not
             // produce a normal Swift error backtrace.

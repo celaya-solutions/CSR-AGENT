@@ -23,7 +23,7 @@ stream
 ${content}endstream`,
   ];
 
-  let pdf = "%PDF-1.4\n% Zero to Agent QA fixture\n";
+  let pdf = "%PDF-1.4\n% OpenAgent QA fixture\n";
   const offsets: number[] = [];
   for (const [index, object] of objects.entries()) {
     offsets.push(Buffer.byteLength(pdf));

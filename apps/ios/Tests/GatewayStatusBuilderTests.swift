@@ -1,6 +1,6 @@
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct GatewayStatusBuilderTests {
     @Test(arguments: [nil, "gateway.example.com"] as [String?])

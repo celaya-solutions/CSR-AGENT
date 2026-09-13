@@ -62,8 +62,8 @@ extension OnboardingView {
         installingCLI = true
         cliInstallPhase = .startingService
         OnboardingController.shared.setWindowCloseEnabled(false)
-        OnboardingController.shared.busyReason = "OpenClaw is starting the Gateway service."
-        cliStatus = "Starting OpenClaw Gateway…"
+        OnboardingController.shared.busyReason = "OpenAgent is starting the Gateway service."
+        cliStatus = "Starting OpenAgent Gateway…"
         Task { @MainActor in await self.finishExistingCLIActivation() }
     }
 
@@ -144,12 +144,12 @@ extension OnboardingView {
     {
         switch result {
         case .ready:
-            (true, "OpenClaw Gateway is ready.")
+            (true, "OpenAgent Gateway is ready.")
         case .deferred:
-            (false, "OpenClaw is paused. Resume it, then retry setup to start the Gateway.")
+            (false, "OpenAgent is paused. Resume it, then retry setup to start the Gateway.")
         case let .failed(reason):
             (false, Self.gatewayStartFailureMessage(
-                prefix: "OpenClaw \(afterFreshInstall ? "was" : "is") installed, " +
+                prefix: "OpenAgent \(afterFreshInstall ? "was" : "is") installed, " +
                     "but the Gateway did not start. Retry setup.",
                 reason: reason))
         }
@@ -194,7 +194,7 @@ extension OnboardingView {
         self.cliInstallPhase = .installing
         OnboardingController.shared.setWindowCloseEnabled(false)
         // Cmd-W bypasses the disabled close button; the delegate asks first.
-        OnboardingController.shared.busyReason = "OpenClaw is installing the Gateway service."
+        OnboardingController.shared.busyReason = "OpenAgent is installing the Gateway service."
         let installed = await CLIInstaller.install(target: target) { message in
             self.cliStatus = message
         }
@@ -202,7 +202,7 @@ extension OnboardingView {
         cliExecutableReady = true
         cliInstallLocation = CLIInstaller.managedExecutableLocation()
         guard self.requiresLocalCLI else { return }
-        cliStatus = "Starting OpenClaw Gateway…"
+        cliStatus = "Starting OpenAgent Gateway…"
         // The step checklist shows one spinner at a time: install first,
         // then the service start.
         self.cliInstallPhase = .startingService

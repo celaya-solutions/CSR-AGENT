@@ -78,7 +78,7 @@ export const TEAMS_MEETINGS_PLATFORM_ADAPTER = MeetingPlatformAdapter.create<
     participantIdentity: (transport) =>
       transport === "chrome-node"
         ? "Microsoft Teams guest in Chrome on a paired node"
-        : "Microsoft Teams guest in the Zero to Agent Chrome profile",
+        : "Microsoft Teams guest in the OpenAgent Chrome profile",
   },
   nodeCommandName: TEAMS_MEETINGS_NODE_COMMAND,
   nodeConfigPath: "plugins.entries.teams-meetings.config.chromeNode.node",
@@ -119,7 +119,7 @@ export const TEAMS_MEETINGS_PLATFORM_ADAPTER = MeetingPlatformAdapter.create<
       category: "browser-control-unavailable",
       reason: "browser-control-unavailable",
       message:
-        "Open the Zero to Agent browser profile, finish the Teams sign-in, admission, or permission prompt, then retry.",
+        "Open the OpenAgent browser profile, finish the Teams sign-in, admission, or permission prompt, then retry.",
     }),
     buildLeaveScript: (meetingUrl) =>
       teamsMeetingLeaveScript({

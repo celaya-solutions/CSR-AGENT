@@ -200,7 +200,7 @@ export async function commitMemoryContent(
         ) {
           throw new MemoryWriteConflictError(params.conflictMessage);
         }
-        // Zero to Agent writers are serialized. The recoverable preimage covers the
+        // OpenAgent writers are serialized. The recoverable preimage covers the
         // accepted race with external editors between this check and rename.
       },
       fileSystem: {

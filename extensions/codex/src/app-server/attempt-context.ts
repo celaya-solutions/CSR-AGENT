@@ -195,8 +195,8 @@ export async function prepareCodexWorkspaceDeveloperInstructions(params: {
   });
   return renderCodexWorkspaceDeveloperInstructions({
     files: selectCodexWorkspaceAgentProjectInstructionFiles(contextFiles, params.workspaceDir),
-    header: "## Zero to Agent Agent Workspace Instructions",
-    preamble: "Zero to Agent loaded this bounded snapshot from the configured agent workspace.",
+    header: "## OpenAgent Agent Workspace Instructions",
+    preamble: "OpenAgent loaded this bounded snapshot from the configured agent workspace.",
   });
 }
 
@@ -305,8 +305,8 @@ export async function buildCodexWorkspaceBootstrapContext(params: {
       promptContext: renderCodexWorkspaceBootstrapPromptContext(promptContextFiles),
       threadDeveloperInstructions: renderCodexWorkspaceDeveloperInstructions({
         files: threadDeveloperInstructionFiles,
-        header: "## Zero to Agent Agent Workspace Instructions",
-        preamble: "Zero to Agent loaded this bounded snapshot from the configured agent workspace.",
+        header: "## OpenAgent Agent Workspace Instructions",
+        preamble: "OpenAgent loaded this bounded snapshot from the configured agent workspace.",
       }),
       turnScopedDeveloperInstructions: renderCodexWorkspaceCollaborationDeveloperInstructions(
         turnScopedDeveloperInstructionFiles,
@@ -582,7 +582,7 @@ function readPositiveNumber(value: unknown): number | undefined {
 }
 
 /**
- * Builds Zero to Agent-provided workspace prompt context for the current Codex turn.
+ * Builds OpenAgent-provided workspace prompt context for the current Codex turn.
  */
 export function buildCodexOpenClawPromptContext(params: {
   params: EmbeddedRunAttemptParams;
@@ -594,7 +594,7 @@ export function buildCodexOpenClawPromptContext(params: {
   }
   const sections = [
     params.workspacePromptContext?.trim()
-      ? ["## Zero to Agent Workspace Context", "", params.workspacePromptContext.trim()].join("\n")
+      ? ["## OpenAgent Workspace Context", "", params.workspacePromptContext.trim()].join("\n")
       : undefined,
     params.watchedSessionsContext?.trim() || undefined,
   ].filter(isNonEmptyString);
@@ -602,8 +602,8 @@ export function buildCodexOpenClawPromptContext(params: {
     return undefined;
   }
   return [
-    "Zero to Agent runtime context for this turn:",
-    "Treat this Zero to Agent-provided context as supporting project/user reference for the current request.",
+    "OpenAgent runtime context for this turn:",
+    "Treat this OpenAgent-provided context as supporting project/user reference for the current request.",
     "",
     ...sections,
   ].join("\n");
@@ -642,7 +642,7 @@ function shouldInjectCodexOpenClawPromptContext(params: EmbeddedRunAttemptParams
   );
 }
 
-/** Renders loaded Zero to Agent skill prompts as Codex collaboration instructions. */
+/** Renders loaded OpenAgent skill prompts as Codex collaboration instructions. */
 export function renderCodexSkillsCollaborationInstructions(params: {
   attempt: EmbeddedRunAttemptParams;
   skillsPrompt?: string;
@@ -651,12 +651,12 @@ export function renderCodexSkillsCollaborationInstructions(params: {
     return undefined;
   }
   return params.skillsPrompt?.trim()
-    ? ["## Zero to Agent Skills", "", params.skillsPrompt.trim()].join("\n")
+    ? ["## OpenAgent Skills", "", params.skillsPrompt.trim()].join("\n")
     : undefined;
 }
 
 /**
- * Prepends Zero to Agent context while preserving leading delivery metadata as
+ * Prepends OpenAgent context while preserving leading delivery metadata as
  * routing guidance instead of user request text.
  */
 export function prependCodexOpenClawPromptContext(
@@ -669,13 +669,13 @@ export function prependCodexOpenClawPromptContext(
     return prompt;
   }
   const promptSection = promptWithoutDeliveryHint.startsWith(
-    "Zero to Agent assembled context for this turn:",
+    "OpenAgent assembled context for this turn:",
   )
     ? promptWithoutDeliveryHint
     : ["Current user request:", promptWithoutDeliveryHint].join("\n");
   const deliverySection = deliveryHint
     ? [
-        "Zero to Agent delivery metadata:",
+        "OpenAgent delivery metadata:",
         "This delivery metadata is runtime routing guidance, not the user's request.",
         deliveryHint,
       ].join("\n")
@@ -754,7 +754,7 @@ function renderCodexWorkspaceBootstrapPromptContext(
     return undefined;
   }
   const lines = [
-    "Zero to Agent loaded these user-editable workspace files for the current turn. Codex loads project-local AGENTS.md natively. When execution uses another folder, Zero to Agent supplies the agent workspace AGENTS.md as thread-level developer instructions. SOUL.md, IDENTITY.md, and USER.md are prepared separately from user input and are not repeated here.",
+    "OpenAgent loaded these user-editable workspace files for the current turn. Codex loads project-local AGENTS.md natively. When execution uses another folder, OpenAgent supplies the agent workspace AGENTS.md as thread-level developer instructions. SOUL.md, IDENTITY.md, and USER.md are prepared separately from user input and are not repeated here.",
     "",
     "# Project Context",
     "",
@@ -832,9 +832,9 @@ function renderCodexWorkspaceCollaborationDeveloperInstructions(
 ): string | undefined {
   return renderCodexWorkspaceDeveloperInstructions({
     files,
-    header: "## Zero to Agent Agent Soul",
+    header: "## OpenAgent Agent Soul",
     preamble:
-      "Zero to Agent loaded these workspace instruction files from the active agent workspace. They are the canonical definitions of who you are, how you think and work, and the human you work alongside. Internalize and follow them accordingly.",
+      "OpenAgent loaded these workspace instruction files from the active agent workspace. They are the canonical definitions of who you are, how you think and work, and the human you work alongside. Internalize and follow them accordingly.",
     wrapperTag: "AGENT_SOUL",
   });
 }
@@ -895,9 +895,9 @@ function renderCodexWorkspaceMemoryReference(params: {
     ? params.toolNames
     : Array.from(CODEX_MEMORY_TOOL_NAMES);
   const lines = [
-    "## Zero to Agent Workspace Memory",
+    "## OpenAgent Workspace Memory",
     "",
-    `MEMORY.md exists in the active agent workspace as a memory file, not an instruction file. Zero to Agent does not paste its contents into native Codex turns; use ${toolNames.join(" or ")} when durable memory is relevant and the tools are available.`,
+    `MEMORY.md exists in the active agent workspace as a memory file, not an instruction file. OpenAgent does not paste its contents into native Codex turns; use ${toolNames.join(" or ")} when durable memory is relevant and the tools are available.`,
     "",
   ];
   for (const file of params.files) {

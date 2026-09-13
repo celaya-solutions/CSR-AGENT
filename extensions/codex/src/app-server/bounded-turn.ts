@@ -260,7 +260,7 @@ async function runBoundedCodexAppServerTurnInWorkspace(
           cwd: workspace.cwd,
           approvalPolicy: "on-request",
           sandbox: "read-only",
-          serviceName: "Zero to Agent",
+          serviceName: "OpenAgent",
           ...(params.requireNoExternalCapabilities ? { baseInstructions: "" } : {}),
           developerInstructions: params.developerInstructions,
           config: threadConfig,
@@ -433,7 +433,7 @@ function buildPrivateCodexAppServerStartOptions(
   });
   return {
     ...start,
-    // A fresh private home has no native account; bridge Zero to Agent auth even
+    // A fresh private home has no native account; bridge OpenAgent auth even
     // when the operator's ordinary harness uses their native Codex home.
     homeScope: "agent",
     args: ["app-server", ...providerArgs, "--listen", "stdio://"],
@@ -453,7 +453,7 @@ function createCodexBoundedApprovalHandler(taskLabel: string) {
     ) {
       return {
         decision: "decline",
-        reason: `Zero to Agent Codex ${taskLabel} does not grant tool or file approvals.`,
+        reason: `OpenAgent Codex ${taskLabel} does not grant tool or file approvals.`,
       };
     }
     if (request.method === "item/permissions/requestApproval") {
@@ -462,12 +462,12 @@ function createCodexBoundedApprovalHandler(taskLabel: string) {
     if (request.method.includes("requestApproval")) {
       return {
         decision: "decline",
-        reason: `Zero to Agent Codex ${taskLabel} does not grant native approvals.`,
+        reason: `OpenAgent Codex ${taskLabel} does not grant native approvals.`,
       };
     }
     if (request.method === "mcpServer/elicitation/request") {
       return createCodexElicitationResponse("decline", null, {
-        message: `Zero to Agent Codex ${taskLabel} does not support interactive input.`,
+        message: `OpenAgent Codex ${taskLabel} does not support interactive input.`,
       });
     }
     return undefined;

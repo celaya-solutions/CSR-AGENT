@@ -4,7 +4,7 @@ import Foundation
 @MainActor
 protocol CuaDriverProcessControlling: AnyObject {
     var isRunning: Bool { get }
-    /// Spawned daemon pid. OpenClaw records this itself because `serve` ignores
+    /// Spawned daemon pid. OpenAgent records this itself because `serve` ignores
     /// `--pid-file` and writes only the machine-global default path.
     var processIdentifier: pid_t { get }
     func closeLiveness()
@@ -58,7 +58,7 @@ final class CuaDriverStderrRelay: @unchecked Sendable {
     static let managedModeNotice =
         """
         CUA embedded driver running in managed unrestricted mode; \
-        OpenClaw command arming and pairing are the authorization boundary.
+        OpenAgent command arming and pairing are the authorization boundary.
         """
 
     private static let dangerBannerPrefix = "DANGER: Cua Driver is running in unrestricted mode"

@@ -1,5 +1,5 @@
 ---
-summary: "Menu bar icon states and animations for Zero to Agent on macOS"
+summary: "Menu bar icon states and animations for OpenAgent on macOS"
 read_when:
   - Changing menu bar icon behavior
 title: "Menu bar icon"
@@ -27,9 +27,9 @@ choose **Dark → Auto** there; the default icon style can otherwise stay light
 even when app windows are dark. On older macOS versions, Original follows light/dark
 appearance while the app runs.
 
-The other designs follow macOS light/dark appearance while Zero to Agent is running.
+The other designs follow macOS light/dark appearance while OpenAgent is running.
 
-The selection is saved separately for each Zero to Agent profile and applies immediately.
+The selection is saved separately for each OpenAgent profile and applies immediately.
 Custom designs change the running app's Dock icon; Finder and the Dock tile after
 quitting use the bundled Original icon. The menu bar critter and its animations are independent.
 

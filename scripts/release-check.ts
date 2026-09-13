@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --import tsx
-// Release Check script supports OpenClaw repository automation.
+// Release Check script supports OpenAgent repository automation.
 
 import { execFileSync, type ExecFileSyncOptions } from "node:child_process";
 import {

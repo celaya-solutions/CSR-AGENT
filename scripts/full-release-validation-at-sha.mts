@@ -525,7 +525,7 @@ export function parseArgs(argv: string[]) {
   }
   const targetContext = parseReleaseContextRef(args.targetRef);
   if (args.targetRef && !targetContext) {
-    throw new Error("--target-ref must be a canonical OpenClaw release branch or tag");
+    throw new Error("--target-ref must be a canonical OpenAgent release branch or tag");
   }
   args.targetRef = targetContext?.ref ?? args.targetRef;
   if (
@@ -559,7 +559,7 @@ export function resolveRemoteTargetRefSha(
 ) {
   const context = parseReleaseContextRef(targetRef);
   if (!context) {
-    throw new Error("Target ref must be a canonical OpenClaw release branch or tag");
+    throw new Error("Target ref must be a canonical OpenAgent release branch or tag");
   }
   if (context.kind !== "release tag") {
     return (
@@ -592,7 +592,7 @@ export function verifyTargetRef(
   }
   const identity = resolveReleaseContextIdentity(targetRef, targetVersion);
   if (!identity) {
-    throw new Error("Target ref must be a canonical OpenClaw release branch or tag");
+    throw new Error("Target ref must be a canonical OpenAgent release branch or tag");
   }
   const remoteSha = resolveRemoteSha(targetRef);
   if (!remoteSha) {
@@ -629,7 +629,7 @@ function fetchTargetRef(targetRef: string) {
   }
   const context = parseReleaseContextRef(targetRef);
   if (!context) {
-    throw new Error("Target ref must be a canonical OpenClaw release branch or tag");
+    throw new Error("Target ref must be a canonical OpenAgent release branch or tag");
   }
   const sourceRef = `refs/${context.kind === "release tag" ? "tags" : "heads"}/${context.ref}`;
   run("git", ["fetch", "--no-tags", "origin", sourceRef], {

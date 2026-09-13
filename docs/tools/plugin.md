@@ -1,5 +1,5 @@
 ---
-summary: "Install, configure, and manage Zero to Agent plugins"
+summary: "Install, configure, and manage OpenAgent plugins"
 read_when:
   - Installing or configuring plugins
   - Understanding plugin discovery and load rules
@@ -9,7 +9,7 @@ sidebarTitle: "Getting Started"
 doc-schema-version: 1
 ---
 
-Plugins extend Zero to Agent with channels, model providers, agent harnesses, tools,
+Plugins extend OpenAgent with channels, model providers, agent harnesses, tools,
 skills, speech, realtime transcription, voice, media understanding, generation,
 web fetch, web search, and other runtime capabilities.
 
@@ -21,7 +21,7 @@ bundled, official external, and source-only plugins, see
 
 ## Requirements
 
-- a Zero to Agent checkout or installation with the `openclaw` CLI available
+- an OpenAgent checkout or installation with the `openclaw` CLI available
 - network access to the selected source (ClawHub, npm, or a git host)
 - any plugin-specific credentials, config keys, or OS tools named by that
   plugin's setup docs
@@ -62,7 +62,7 @@ bundled, official external, and source-only plugins, see
     ```
 
     Treat plugin installs like running code. Prefer pinned versions for
-    reproducible production installs. ClawHub packages and Zero to Agent's
+    reproducible production installs. ClawHub packages and OpenAgent's
     bundled/official catalog are trusted sources. New arbitrary npm, git,
     local path/archive, `npm-pack:`, or marketplace sources require
     `--force` in noninteractive installs after you
@@ -119,7 +119,7 @@ bundled, official external, and source-only plugins, see
 
 | Source      | Use when                                                                            | Example                                                        |
 | ----------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| ClawHub     | You want Zero to Agent-native discovery, scans, version metadata, and install hints | `openclaw plugins install clawhub:<package>`                   |
+| ClawHub     | You want OpenAgent-native discovery, scans, version metadata, and install hints | `openclaw plugins install clawhub:<package>`                   |
 | npm         | You need direct npm registry or dist-tag workflows                                  | `openclaw plugins install npm:<package>`                       |
 | git         | You need a branch, tag, or commit from a repository                                 | `openclaw plugins install git:github.com/<owner>/<repo>@<ref>` |
 | local path  | You are developing or testing a plugin on the same machine                          | `openclaw plugins install --link ./my-plugin`                  |
@@ -136,9 +136,9 @@ external npm package instead of the bundled copy. Use `clawhub:`, `npm:`,
 [`openclaw plugins`](/cli/plugins#install) for the full command contract.
 
 For npm installs, unpinned specs and `@latest` choose the newest stable
-package that advertises compatibility with this Zero to Agent build. If npm's
+package that advertises compatibility with this OpenAgent build. If npm's
 current latest release declares a newer `openclaw.compat.pluginApi` or
-`openclaw.install.minHostVersion` than this build supports, Zero to Agent scans
+`openclaw.install.minHostVersion` than this build supports, OpenAgent scans
 older stable versions and installs the newest one that fits. Exact versions
 and explicit channel tags such as `@beta` stay pinned to the selected package
 and fail when incompatible.
@@ -165,7 +165,7 @@ exists, use that command to review and approve the warning. Otherwise, change
 the managed flow. Neither `--force` nor the deprecated plugin
 install/update flag `--dangerously-force-unsafe-install` approves a policy
 warning. Plugin
-`before_install` hooks run later, and only in Zero to Agent processes where plugin
+`before_install` hooks run later, and only in OpenAgent processes where plugin
 hooks are loaded, so use `security.installPolicy` for operator-owned install
 decisions instead. The flag does not override a block or policy failure.
 It also does not bypass `before_install` hook blocks.
@@ -233,7 +233,7 @@ or [`openclaw plugins inspect <id>`](/cli/plugins#inspect) on the listed
 plugin id before copying trusted plugins into `openclaw.json`. The same
 trust-pinning applies when diagnostics say a plugin loaded
 `without install/load-path provenance`: inspect that plugin id, then pin it in
-`plugins.allow` or reinstall from a trusted source so Zero to Agent records install
+`plugins.allow` or reinstall from a trusted source so OpenAgent records install
 provenance.
 
 Run `openclaw doctor` or `openclaw doctor --fix` when config validation
@@ -242,12 +242,12 @@ paths.
 
 ## Understand plugin formats
 
-Zero to Agent recognizes two plugin formats:
+OpenAgent recognizes two plugin formats:
 
 | Format                      | How it loads                                                                                     | Use when                                                                   |
 | --------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| Native Zero to Agent plugin | `openclaw.plugin.json` plus a runtime module loaded in process                                   | You are installing or building Zero to Agent-specific runtime capabilities |
-| Compatible bundle           | Agent Plugins, Codex, Claude, or Cursor plugin layout mapped into Zero to Agent plugin inventory | You are reusing compatible skills, commands, hooks, or bundle metadata     |
+| Native OpenAgent plugin | `openclaw.plugin.json` plus a runtime module loaded in process                                   | You are installing or building OpenAgent-specific runtime capabilities |
+| Compatible bundle           | Agent Plugins, Codex, Claude, or Cursor plugin layout mapped into OpenAgent plugin inventory | You are reusing compatible skills, commands, hooks, or bundle metadata     |
 
 Both formats appear in `openclaw plugins list`, `openclaw plugins inspect`,
 `openclaw plugins enable`, and `openclaw plugins disable`. See
@@ -323,7 +323,7 @@ compiled bundled code and cleanup limitations.
 | Dependency import fails at runtime                             | Check whether the plugin was installed through npm/git/ClawHub or loaded from a local path                                                 | Run `openclaw plugins update <id>`, reinstall the source, or install local plugin dependencies yourself                          |
 
 When an enabled managed plugin fails payload verification during Gateway
-startup, Zero to Agent quarantines that exact installed plugin root for the boot and
+startup, OpenAgent quarantines that exact installed plugin root for the boot and
 continues serving other plugins. `openclaw status --all`, `openclaw health`,
 and `openclaw doctor` report it as `configured-unavailable`. Fix or reinstall
 the plugin, then restart the Gateway. A healthy explicit `plugins.load.paths`
@@ -338,13 +338,13 @@ stay visible.
 
 For intentional channel replacement, the preferred plugin should declare
 `channelConfigs.<channel-id>.preferOver` with the legacy or lower-priority
-plugin id. If both plugins are explicitly enabled, Zero to Agent keeps that request
+plugin id. If both plugins are explicitly enabled, OpenAgent keeps that request
 and reports duplicate channel/tool diagnostics instead of silently choosing
 one owner.
 
 If an installed package reports that it `requires compiled runtime output for
 TypeScript entry ...`, the package was published without the JavaScript files
-Zero to Agent needs at runtime. Update or reinstall after the publisher ships
+OpenAgent needs at runtime. Update or reinstall after the publisher ships
 compiled JavaScript, or disable/uninstall the plugin until then.
 
 ### Trusted plugin state refused
@@ -382,20 +382,20 @@ does not fall back to trusting package-authored metadata.
 
 If diagnostics say
 `blocked plugin candidate: suspicious ownership (... uid=1000, expected uid=0 or root)`
-and validation follows with `plugin present but blocked`, Zero to Agent found
+and validation follows with `plugin present but blocked`, OpenAgent found
 plugin files owned by a different Unix user than the process loading them.
-Keep the plugin config in place; fix the filesystem ownership or run Zero to Agent
+Keep the plugin config in place; fix the filesystem ownership or run OpenAgent
 as the same user that owns the state directory.
 
 For Docker installs, the official image runs as `node` (uid `1000`), so the
-host bind-mounted Zero to Agent config and workspace directories should normally be
+host bind-mounted OpenAgent config and workspace directories should normally be
 owned by uid `1000`:
 
 ```bash
 sudo chown -R 1000:1000 /path/to/openclaw-config /path/to/openclaw-workspace
 ```
 
-If you intentionally run Zero to Agent as root, repair the managed plugin root to
+If you intentionally run OpenAgent as root, repair the managed plugin root to
 root ownership instead:
 
 ```bash
@@ -427,7 +427,7 @@ including plugin id, declared tool names, result shape, and whether the tool
 is optional. Slow lines are promoted to warnings when a single factory takes
 at least 1s or total plugin tool factory prep takes at least 5s.
 
-Zero to Agent caches successful plugin tool factory results for repeated
+OpenAgent caches successful plugin tool factory results for repeated
 resolutions with the same effective request context. The cache key includes
 the effective runtime config, workspace and agent id, sandbox policy, browser
 settings, delivery context, requester identity, and ownership state, so

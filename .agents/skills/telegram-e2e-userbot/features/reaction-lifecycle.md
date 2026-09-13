@@ -1,6 +1,6 @@
 # Reaction lifecycle
 
-Reaction lifecycle proves that the OpenClaw bot acknowledges a group mention on
+Reaction lifecycle proves that the OpenAgent bot acknowledges a group mention on
 the user's own Telegram message and that the user observes the emoji state.
 
 ## Sub-features
@@ -12,7 +12,7 @@ the user's own Telegram message and that the user observes the emoji state.
 ## How to get to it (user POV)
 
 - In the QA group, mention the bot in a message.
-- Watch reactions on that sent message while OpenClaw handles the turn.
+- Watch reactions on that sent message while OpenAgent handles the turn.
 
 ## Driving it with the Telegram userbot runner
 
@@ -20,7 +20,7 @@ Preconditions:
 
 - Baseline doctor passes.
 - The configured QA group permits reactions from the SUT bot.
-- OpenClaw's repo `mock-openai` fixture supports `OPENCLAW_E2E_DRAFTPROOF`.
+- OpenAgent's repo `mock-openai` fixture supports `OPENCLAW_E2E_DRAFTPROOF`.
 - Use the group path; Telegram only reports these events to the user for the user's own message.
 
 - **Drive an acknowledgement.** Run:

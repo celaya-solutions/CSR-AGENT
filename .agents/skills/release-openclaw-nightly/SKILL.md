@@ -1,6 +1,6 @@
 ---
 name: release-openclaw-nightly
-description: "OpenClaw Tideclaw alpha/nightly release automation: isolated branches, local fixes, release CI, branch retention, and forward-port to main."
+description: "OpenAgent Tideclaw alpha/nightly release automation: isolated branches, local fixes, release CI, branch retention, and forward-port to main."
 ---
 
 # Nightly Release
@@ -42,7 +42,7 @@ baseline worktree and record whether it is clean, conflicted,
 empty/already-covered, or failed. A clean patch is triage evidence, not an
 automatic backport.
 
-Also snapshot OpenClaw issues carrying `maturity:stable` at the pinned source
+Also snapshot OpenAgent issues carrying `maturity:stable` at the pinned source
 SHA and record the label query time with the audit bounds. Reconcile every
 labelled issue, whether open or closed, whose fixing PR or commit actually
 landed in the scan range with a commit-ledger decision, and give every open

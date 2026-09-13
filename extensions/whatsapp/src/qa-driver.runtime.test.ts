@@ -211,21 +211,21 @@ describe("startWhatsAppQaDriverSession", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-06-04T23:42:32.036Z"));
     const session = await startSession();
-    emitMessages(incoming({ conversation: "Zero to Agent status stale" }, { id: "stale-message" }));
+    emitMessages(incoming({ conversation: "OpenAgent status stale" }, { id: "stale-message" }));
 
     const observedAfter = new Date("2026-06-04T23:46:59.166Z");
     vi.setSystemTime(observedAfter);
     const waited = session.waitForMessage({
       observedAfter,
       timeoutMs: 1_000,
-      match: (message) => message.text.includes("Zero to Agent status"),
+      match: (message) => message.text.includes("OpenAgent status"),
     });
     vi.setSystemTime(new Date("2026-06-04T23:47:00.000Z"));
-    emitMessages(incoming({ conversation: "Zero to Agent status fresh" }, { id: "fresh-message" }));
+    emitMessages(incoming({ conversation: "OpenAgent status fresh" }, { id: "fresh-message" }));
 
     await expect(waited).resolves.toMatchObject({
       messageId: "fresh-message",
-      text: "Zero to Agent status fresh",
+      text: "OpenAgent status fresh",
     });
   });
 

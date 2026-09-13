@@ -1,12 +1,12 @@
 ---
-summary: "Developer workflow for Zero to Agent agent runtime: build, test, and live validation"
-title: "Zero to Agent agent runtime workflow"
+summary: "Developer workflow for OpenAgent agent runtime: build, test, and live validation"
+title: "OpenAgent agent runtime workflow"
 read_when:
-  - Working on Zero to Agent agent runtime code or tests
+  - Working on OpenAgent agent runtime code or tests
   - Running agent-runtime lint, typecheck, and live test flows
 ---
 
-Developer workflow for the agent runtime (`src/agents/`) in the Zero to Agent repo.
+Developer workflow for the agent runtime (`src/agents/`) in the OpenAgent repo.
 
 ## Type checking and linting
 
@@ -46,7 +46,7 @@ tool streaming and payload handling.
 
 ## Clean slate reset
 
-State lives in the Zero to Agent state directory: `~/.openclaw` by default, or
+State lives in the OpenAgent state directory: `~/.openclaw` by default, or
 `$OPENCLAW_STATE_DIR` when set. Paths relative to that directory:
 
 | Path                                           | Holds                                                              |
@@ -71,6 +71,6 @@ Legacy `auth-profiles.json` files are no longer read at runtime;
 
 ## Related
 
-- [Zero to Agent agent runtime architecture](/agent-runtime-architecture)
+- [OpenAgent agent runtime architecture](/agent-runtime-architecture)
 - [Testing](/help/testing)
 - [Getting Started](/start/getting-started)

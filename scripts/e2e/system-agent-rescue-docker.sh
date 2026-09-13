@@ -3,7 +3,7 @@
 if [[ ${OSTYPE:-} == darwin* && $BASH != /bin/bash ]] && ((BASH_VERSINFO[0] > 5 || (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] >= 3))); then
   exec /bin/bash "$0" "$@"
 fi
-# Runs the OpenClaw rescue-message Docker smoke against the package-installed
+# Runs the OpenAgent rescue-message Docker smoke against the package-installed
 # functional E2E image, with only the test harness mounted from the checkout.
 set -euo pipefail
 
@@ -18,7 +18,7 @@ trap 'docker_e2e_cleanup_container_run "$CONTAINER_NAME" "$RUN_LOG"' EXIT
 docker_e2e_build_or_reuse "$IMAGE_NAME" system-agent-rescue
 OPENCLAW_TEST_STATE_SCRIPT_B64="$(docker_e2e_test_state_shell_b64 system-agent-rescue empty)"
 
-echo "Running in-container OpenClaw rescue smoke..."
+echo "Running in-container OpenAgent rescue smoke..."
 # Harness files are mounted read-only; the app under test comes from /app/dist.
 set +e
 docker_e2e_run_with_harness \
@@ -35,7 +35,7 @@ status=${PIPESTATUS[0]}
 set -e
 
 if [ "$status" -ne 0 ]; then
-  echo "Docker OpenClaw rescue smoke failed"
+  echo "Docker OpenAgent rescue smoke failed"
   docker_e2e_print_log "$RUN_LOG"
   exit "$status"
 fi

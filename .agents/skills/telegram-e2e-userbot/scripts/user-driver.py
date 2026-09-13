@@ -93,7 +93,7 @@ def valid_base64(value):
 
 
 # TDLib 1.8.67. Older TDLib (e.g. 1.8.0) reports messageUnsupported for some
-# current OpenClaw message types; keep the pin and hashes in one move.
+# current OpenAgent message types; keep the pin and hashes in one move.
 TDLIB_PACKAGE_VERSION = "0.1008067.0"
 TDLIB_PREBUILT = {
     ("darwin", "arm64"): (
@@ -405,7 +405,7 @@ class UserDriver:
             "api_id": int(api_id),
             "api_hash": api_hash,
             "system_language_code": "en",
-            "device_model": "OpenClaw Telegram User Driver",
+            "device_model": "OpenAgent Telegram User Driver",
             "system_version": sys.platform,
             "application_version": "1",
             "enable_storage_optimizer": True,

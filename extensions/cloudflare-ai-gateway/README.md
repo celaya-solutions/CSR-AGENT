@@ -1,8 +1,8 @@
-# Zero to Agent Cloudflare AI Gateway Provider
+# OpenAgent Cloudflare AI Gateway Provider
 
-Official Zero to Agent provider plugin for Cloudflare AI Gateway.
+Official OpenAgent provider plugin for Cloudflare AI Gateway.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/cloudflare-ai-gateway-provider

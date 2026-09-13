@@ -172,7 +172,7 @@ async function resolveNativeHookRelayPreToolUseApproval(
       handled: true,
       outcome: "denied",
       reason:
-        "Zero to Agent tool policy rewrote Codex app-server approval params; refusing original request.",
+        "OpenAgent tool policy rewrote Codex app-server approval params; refusing original request.",
     };
   }
   return { handled: true, outcome: "approved-once" };
@@ -243,7 +243,7 @@ export async function runNativeHookRelayPermissionRequest(params: {
       }));
     params.registration.assertActive?.();
     if ((decision === "allow" || decision === "allow-always") && mutableFileBinding.binding) {
-      // PermissionRequest is Zero to Agent's last boundary before the native runtime
+      // PermissionRequest is OpenAgent's last boundary before the native runtime
       // owns spawn; recheck after the wait before returning its allow response.
       const current = await revalidateSystemRunMutableFileBinding({
         binding: mutableFileBinding.binding,

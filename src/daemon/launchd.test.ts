@@ -1097,7 +1097,7 @@ describe("launchd runtime state", () => {
 });
 
 describe("launchctl list detection", () => {
-  it("parses stale Zero to Agent updater jobs from launchctl list", () => {
+  it("parses stale OpenAgent updater jobs from launchctl list", () => {
     const jobs = parseLaunchctlListOpenClawUpdateJobs(
       [
         "123 0 ai.openclaw.gateway",
@@ -1128,7 +1128,7 @@ describe("launchctl list detection", () => {
   });
 
   it.runIf(process.platform === "darwin")(
-    "finds stale Zero to Agent updater jobs via launchctl list",
+    "finds stale OpenAgent updater jobs via launchctl list",
     async () => {
       state.listOutput = "- 127 ai.openclaw.update.2026.5.12\n";
 
@@ -1346,7 +1346,7 @@ describe("launchctl list detection", () => {
   );
 
   it.runIf(process.platform === "darwin")(
-    "disables the current legacy updater launchd job from Zero to Agent label env",
+    "disables the current legacy updater launchd job from OpenAgent label env",
     async () => {
       await expect(
         disableCurrentOpenClawUpdateLaunchdJob({
@@ -1363,7 +1363,7 @@ describe("launchctl list detection", () => {
   );
 
   it.runIf(process.platform === "darwin")(
-    "does not let non-update launchd markers mask the Zero to Agent update label",
+    "does not let non-update launchd markers mask the OpenAgent update label",
     async () => {
       await expect(
         disableCurrentOpenClawUpdateLaunchdJob({
@@ -2264,12 +2264,12 @@ describe("launchd install", () => {
     };
     await installLaunchAgent(
       launchAgentFixture(env, ["node", "node-host.js"], {
-        description: "Zero to Agent Node Host",
+        description: "OpenAgent Node Host",
       }),
     );
 
     const plist = state.files.get(resolveLaunchAgentPlistPath(env)) ?? "";
-    expect(plist).toContain("<key>Comment</key>\n    <string>Zero to Agent Node Host</string>");
+    expect(plist).toContain("<key>Comment</key>\n    <string>OpenAgent Node Host</string>");
     expect(plist).not.toContain("OPENCLAW_SERVICE_VERSION");
   });
 

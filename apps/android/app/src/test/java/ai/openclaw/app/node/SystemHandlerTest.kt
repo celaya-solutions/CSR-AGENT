@@ -35,7 +35,7 @@ class SystemHandlerTest {
       }
       Shadows.shadowOf(manager).setNotificationsEnabled(!permissionGranted)
 
-      val result = handler.handleSystemNotify("""{"title":"OpenClaw","body":"hi"}""")
+      val result = handler.handleSystemNotify("""{"title":"OpenAgent","body":"hi"}""")
 
       assertFalse(result.ok)
       assertEquals("NOT_AUTHORIZED", result.error?.code)
@@ -58,7 +58,7 @@ class SystemHandlerTest {
   fun handleSystemNotify_rejectsInvalidRequestObject() {
     val handler = SystemHandler(poster = FakePoster())
 
-    val result = handler.handleSystemNotify("""{"title":"OpenClaw"}""")
+    val result = handler.handleSystemNotify("""{"title":"OpenAgent"}""")
 
     assertFalse(result.ok)
     assertEquals("INVALID_REQUEST", result.error?.code)
@@ -69,7 +69,7 @@ class SystemHandlerTest {
     val poster = FakePoster()
     val handler = SystemHandler(poster = poster)
 
-    val result = handler.handleSystemNotify("""{"title":"OpenClaw","body":"done","priority":"active"}""")
+    val result = handler.handleSystemNotify("""{"title":"OpenAgent","body":"done","priority":"active"}""")
 
     assertTrue(result.ok)
     assertEquals(1, poster.posts)
@@ -89,7 +89,7 @@ class SystemHandlerTest {
       manager.createNotificationChannel(NotificationChannel(channelId, "Blocked", NotificationManager.IMPORTANCE_NONE))
       val priorityField = priority?.let { ",\"priority\":\"$it\"" }.orEmpty()
 
-      val result = handler.handleSystemNotify("""{"title":"OpenClaw","body":"blocked"$priorityField}""")
+      val result = handler.handleSystemNotify("""{"title":"OpenAgent","body":"blocked"$priorityField}""")
 
       assertFalse("priority=$priority must not report a blocked post as successful", result.ok)
       assertEquals("NOT_AUTHORIZED", result.error?.code)
@@ -107,7 +107,7 @@ class SystemHandlerTest {
     )
     val handler = SystemHandler(context)
 
-    val result = handler.handleSystemNotify("""{"title":"OpenClaw","body":"allowed","priority":"passive"}""")
+    val result = handler.handleSystemNotify("""{"title":"OpenAgent","body":"allowed","priority":"passive"}""")
 
     assertTrue(result.ok)
     assertEquals(NotificationManager.IMPORTANCE_LOW, manager.getNotificationChannel("openclaw.system.notify.passive").importance)
@@ -123,11 +123,11 @@ class SystemHandlerTest {
 
     val result =
       handler.handleSystemNotify(
-        """{"title":" OpenClaw ","body":" done ","priority":" passive ","sound":" silent "}""",
+        """{"title":" OpenAgent ","body":" done ","priority":" passive ","sound":" silent "}""",
       )
 
     assertTrue(result.ok)
-    assertEquals("OpenClaw", poster.lastRequest?.title)
+    assertEquals("OpenAgent", poster.lastRequest?.title)
     assertEquals("done", poster.lastRequest?.body)
     assertEquals("passive", poster.lastRequest?.priority)
     assertEquals("silent", poster.lastRequest?.sound)
@@ -140,7 +140,7 @@ class SystemHandlerTest {
       buildSystemNotification(
         appContext = context,
         channelId = "test",
-        request = SystemNotifyRequest("OpenClaw", "done", sound = null, priority = null),
+        request = SystemNotifyRequest("OpenAgent", "done", sound = null, priority = null),
       )
 
     val pendingIntent = notification.contentIntent
@@ -157,7 +157,7 @@ class SystemHandlerTest {
   fun handleSystemNotify_returnsUnauthorizedWhenPostFailsPermission() {
     val handler = SystemHandler(poster = ThrowingPoster(error = SecurityException("denied")))
 
-    val result = handler.handleSystemNotify("""{"title":"OpenClaw","body":"done"}""")
+    val result = handler.handleSystemNotify("""{"title":"OpenAgent","body":"done"}""")
 
     assertFalse(result.ok)
     assertEquals("NOT_AUTHORIZED", result.error?.code)
@@ -167,7 +167,7 @@ class SystemHandlerTest {
   fun handleSystemNotify_returnsUnavailableWhenPostFailsUnexpectedly() {
     val handler = SystemHandler(poster = ThrowingPoster(error = IllegalStateException("boom")))
 
-    val result = handler.handleSystemNotify("""{"title":"OpenClaw","body":"done"}""")
+    val result = handler.handleSystemNotify("""{"title":"OpenAgent","body":"done"}""")
 
     assertFalse(result.ok)
     assertEquals("UNAVAILABLE", result.error?.code)

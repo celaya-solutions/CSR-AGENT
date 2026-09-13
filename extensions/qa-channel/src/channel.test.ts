@@ -117,7 +117,7 @@ function createQaChannelConfig(params: {
       "qa-channel": {
         baseUrl: params.baseUrl,
         botUserId: "openclaw",
-        botDisplayName: "Zero to Agent QA",
+        botDisplayName: "OpenAgent QA",
         allowFrom: params.allowFrom,
         mediaMaxMb: params.mediaMaxMb,
       },

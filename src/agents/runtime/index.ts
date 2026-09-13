@@ -1,4 +1,4 @@
-/** Zero to Agent-owned agent runtime facade; the plugin SDK module owns the adapter. */
+/** OpenAgent-owned agent runtime facade; the plugin SDK module owns the adapter. */
 export {
   Agent,
   bashExecutionToText,

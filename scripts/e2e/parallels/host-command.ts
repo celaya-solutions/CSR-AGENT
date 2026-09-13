@@ -1,4 +1,4 @@
-// Host Command script supports OpenClaw repository automation.
+// Host Command script supports OpenAgent repository automation.
 import { spawnSync, type SpawnSyncReturns } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

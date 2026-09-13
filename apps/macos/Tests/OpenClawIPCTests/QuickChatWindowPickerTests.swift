@@ -1,6 +1,6 @@
 import CoreGraphics
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 @MainActor

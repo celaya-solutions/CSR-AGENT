@@ -258,7 +258,7 @@ const CODEX_WORKSPACE_TURN_SCOPED_DEVELOPER_CONTEXT_FILES = [
 ] as const;
 
 const CODEX_WORKSPACE_BOOTSTRAP_PROMPT_CONTEXT = [
-  "Zero to Agent loaded these user-editable workspace files for the current turn. Codex loads AGENTS.md natively. SOUL.md, IDENTITY.md, and USER.md are prepared separately from user input and are not repeated here.",
+  "OpenAgent loaded these user-editable workspace files for the current turn. Codex loads AGENTS.md natively. SOUL.md, IDENTITY.md, and USER.md are prepared separately from user input and are not repeated here.",
   "",
   "# Project Context",
   "",
@@ -275,9 +275,9 @@ const CODEX_WORKSPACE_BOOTSTRAP_PROMPT_CONTEXT = [
   .trim();
 
 const CODEX_WORKSPACE_TURN_SCOPED_DEVELOPER_INSTRUCTIONS = [
-  "## Zero to Agent Agent Soul",
+  "## OpenAgent Agent Soul",
   "",
-  "Zero to Agent loaded these workspace instruction files from the active agent workspace. They are the canonical definitions of who you are, how you think and work, and the human you work alongside. Internalize and follow them accordingly.",
+  "OpenAgent loaded these workspace instruction files from the active agent workspace. They are the canonical definitions of who you are, how you think and work, and the human you work alongside. Internalize and follow them accordingly.",
   "",
   ...CODEX_WORKSPACE_TURN_SCOPED_DEVELOPER_CONTEXT_FILES.flatMap((file) => [
     `### ${file.path}`,
@@ -552,10 +552,10 @@ async function createScenarios(codexApi: CodexPromptSnapshotApi): Promise<Prompt
     SenderId: "424242",
     SenderName: "Pash",
     SenderUsername: "pash",
-    GroupSubject: "Zero to Agent maintainers",
+    GroupSubject: "OpenAgent maintainers",
     GroupChannel: "#agent-sandbox",
-    GroupSpace: "Zero to Agent",
-    ConversationLabel: "Zero to Agent/#agent-sandbox",
+    GroupSpace: "OpenAgent",
+    ConversationLabel: "OpenAgent/#agent-sandbox",
     WasMentioned: true,
     InboundHistory: [
       {
@@ -564,10 +564,10 @@ async function createScenarios(codexApi: CodexPromptSnapshotApi): Promise<Prompt
       },
       {
         sender: "Pash",
-        body: "@Zero to Agent please verify the Codex happy path too.",
+        body: "@OpenAgent please verify the Codex happy path too.",
       },
     ],
-    Body: "@Zero to Agent can you audit whether this prompt path has conflicting silence instructions?",
+    Body: "@OpenAgent can you audit whether this prompt path has conflicting silence instructions?",
     BodyStripped: "can you audit whether this prompt path has conflicting silence instructions?",
   };
   const heartbeatCtx: TemplateContext = {
@@ -598,7 +598,7 @@ async function createScenarios(codexApi: CodexPromptSnapshotApi): Promise<Prompt
       title: "Telegram Direct Codex Message Tool Turn",
       notes: [
         "Default happy path: OpenAI model through the Codex harness/runtime, Telegram direct conversation, and message-tool-only visible replies.",
-        "A quiet turn is represented by not calling `message(action=send)`; the normal final assistant text is private to Zero to Agent/Codex.",
+        "A quiet turn is represented by not calling `message(action=send)`; the normal final assistant text is private to OpenAgent/Codex.",
       ],
       trigger: "user",
       ctx: telegramDirectCtx,
@@ -737,7 +737,7 @@ function renderModelBoundPromptLayers(params: {
       const role = entry.kind === "application" ? "Developer" : "User";
       const tag = entry.kind === "application" ? key : `external_${key}`;
       return {
-        heading: `### ${role}: Zero to Agent Additional Context (${key})`,
+        heading: `### ${role}: OpenAgent Additional Context (${key})`,
         text: `<${tag}>${entry.value}</${tag}>`,
       };
     });
@@ -759,7 +759,7 @@ function renderModelBoundPromptLayers(params: {
   return [
     "## Reconstructed Model-Bound Prompt Layers",
     "",
-    "This is the deterministic model-bound layer stack Zero to Agent can snapshot for the Codex happy path. It uses a pinned Codex `gpt-5.5` prompt fixture generated from Codex's model catalog/cache shape, appends the current parent-local context to the model request instructions, then adds the Codex permission developer text, Codex thread config instructions when present, Zero to Agent developer instructions, native collaboration-mode instructions, supplied additional context with its native role, turn input with Zero to Agent runtime context, and the Zero to Agent dynamic tool catalog. Codex can still add runtime-owned context such as native workspace `AGENTS.md`, environment context, memories, app/plugin instructions, and built-in collaboration-mode instructions inside the Codex runtime.",
+    "This is the deterministic model-bound layer stack OpenAgent can snapshot for the Codex happy path. It uses a pinned Codex `gpt-5.5` prompt fixture generated from Codex's model catalog/cache shape, appends the current parent-local context to the model request instructions, then adds the Codex permission developer text, Codex thread config instructions when present, OpenAgent developer instructions, native collaboration-mode instructions, supplied additional context with its native role, turn input with OpenAgent runtime context, and the OpenAgent dynamic tool catalog. Codex can still add runtime-owned context such as native workspace `AGENTS.md`, environment context, memories, app/plugin instructions, and built-in collaboration-mode instructions inside the Codex runtime.",
     "",
     "### Layer Metadata",
     "",
@@ -778,7 +778,7 @@ function renderModelBoundPromptLayers(params: {
         openClawRuntime: {
           configInstructionsFrom: "extensions/codex app-server thread/start config.instructions",
           workspaceBootstrapContextFrom:
-            "extensions/codex app-server turn/start input Zero to Agent runtime context",
+            "extensions/codex app-server turn/start input OpenAgent runtime context",
           developerInstructionsFrom:
             "extensions/codex app-server thread/start developerInstructions",
           parentLocalInstructionsFrom: "extensions/codex inference relay Responses.instructions",
@@ -819,7 +819,7 @@ function renderModelBoundPromptLayers(params: {
     "",
     markdownFence("text", codexModelInstructions),
     "",
-    "### Request Instructions: Zero to Agent Parent-Local Context",
+    "### Request Instructions: OpenAgent Parent-Local Context",
     "",
     "Appended to the same top-level model request instructions, not to native conversation history.",
     "",
@@ -833,7 +833,7 @@ function renderModelBoundPromptLayers(params: {
     "",
     markdownFence("text", codexConfigInstructions),
     "",
-    "### Developer: Zero to Agent Runtime Instructions",
+    "### Developer: OpenAgent Runtime Instructions",
     "",
     markdownFence("text", openClawDeveloperInstructions),
     "",
@@ -878,10 +878,10 @@ function readCodexTurnInputText(turnStartParams: { input?: unknown }): string {
 
 function buildCodexOpenClawRuntimeContext(): string {
   return [
-    "Zero to Agent runtime context for this turn:",
-    "Treat this Zero to Agent-provided context as supporting project/user reference for the current request.",
+    "OpenAgent runtime context for this turn:",
+    "Treat this OpenAgent-provided context as supporting project/user reference for the current request.",
     "",
-    "## Zero to Agent Workspace Context",
+    "## OpenAgent Workspace Context",
     "",
     CODEX_WORKSPACE_BOOTSTRAP_PROMPT_CONTEXT,
   ].join("\n");
@@ -929,7 +929,7 @@ function renderScenarioSnapshot(
     "## Scope",
     "",
     ...scenario.notes.map((note) => `- ${note}`),
-    "- This captures the Zero to Agent-owned Codex app-server inputs and reconstructs the stable Codex model/permission layers from committed Codex prompt fixtures.",
+    "- This captures the OpenAgent-owned Codex app-server inputs and reconstructs the stable Codex model/permission layers from committed Codex prompt fixtures.",
     "- This also simulates Codex workspace bootstrap routing: `AGENTS.md` through native project-doc discovery, `SOUL.md`, `IDENTITY.md`, and `USER.md` as parent-local request instructions, and `MEMORY.md` in turn input.",
     "",
     "## Scenario Metadata",
@@ -955,7 +955,7 @@ function renderScenarioSnapshot(
       }),
     ),
     "",
-    "## Effective Zero to Agent Config",
+    "## Effective OpenAgent Config",
     "",
     markdownFence("json", stableJson(baseConfig)),
     "",
@@ -1007,11 +1007,11 @@ function renderReadme(scenarios: PromptScenario[]): string {
     "- Codex harness default coverage for tool-only visible source replies.",
     "- Telegram direct chat, Discord group chat, and a heartbeat turn with `heartbeat_respond` available through searchable dynamic tools.",
     "",
-    "The materialized Markdown snapshots show selected app-server thread/turn params plus a reconstructed model-bound prompt layer stack: Codex `gpt-5.5` model instructions from a pinned Codex model catalog fixture, Codex permission developer instructions for the happy-path yolo profile, Zero to Agent developer instructions, turn input with simulated Zero to Agent workspace bootstrap runtime context, and references to the complete dynamic tool catalog.",
+    "The materialized Markdown snapshots show selected app-server thread/turn params plus a reconstructed model-bound prompt layer stack: Codex `gpt-5.5` model instructions from a pinned Codex model catalog fixture, Codex permission developer instructions for the happy-path yolo profile, OpenAgent developer instructions, turn input with simulated OpenAgent workspace bootstrap runtime context, and references to the complete dynamic tool catalog.",
     "",
-    "The workspace bootstrap simulation includes dummy workspace contents so prompt reviewers can see how managed Zero to Agent inference adds profile files to parent-only request instructions and keeps `MEMORY.md` in turn input. `AGENTS.md` is intentionally not repeated here because Codex loads it natively.",
+    "The workspace bootstrap simulation includes dummy workspace contents so prompt reviewers can see how managed OpenAgent inference adds profile files to parent-only request instructions and keeps `MEMORY.md` in turn input. `AGENTS.md` is intentionally not repeated here because Codex loads it natively.",
     "",
-    "The tool catalog is pinned to the canonical happy-path Zero to Agent tools so optional locally installed plugin tools do not create fixture churn.",
+    "The tool catalog is pinned to the canonical happy-path OpenAgent tools so optional locally installed plugin tools do not create fixture churn.",
     "",
     "The Telegram Markdown file is the complete canonical prompt snapshot. Discord and heartbeat are readable, SHA-bound zero-context `.md.diff` files with complete lossless differences from that base. Materialize one with `node --import tsx scripts/generate-prompt-snapshots.ts --materialize-prompt discord-group`; replace the scenario with `heartbeat-turn` or `telegram-direct` as needed.",
     "",
@@ -1030,7 +1030,7 @@ function renderReadme(scenarios: PromptScenario[]): string {
     "",
     markdownFence("sh", "pnpm prompt:snapshots:sync-codex-model"),
     "",
-    "These snapshots are still not a byte-for-byte raw OpenAI request capture. Codex-owned native `AGENTS.md`, environment context, memories, app/plugin instructions, and built-in collaboration-mode instructions can be added inside the Codex runtime after Zero to Agent sends thread and turn params.",
+    "These snapshots are still not a byte-for-byte raw OpenAI request capture. Codex-owned native `AGENTS.md`, environment context, memories, app/plugin instructions, and built-in collaboration-mode instructions can be added inside the Codex runtime after OpenAgent sends thread and turn params.",
     "",
     "Regenerate with:",
     "",

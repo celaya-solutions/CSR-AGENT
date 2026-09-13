@@ -349,7 +349,7 @@ async function compactEmbeddedAgentSessionPrepared(
   const runtimeSelection = resolveCompactionRuntimeSelection(requestedSelection);
   // Native control operations reuse the backend's existing authenticated session.
   // Run them before generic model preparation so subscription-only CLI sessions do
-  // not incorrectly require a Zero to Agent model API credential.
+  // not incorrectly require an OpenAgent model API credential.
   const nativeCliResult = await compactNativeCliSession({
     runtime: runtimeSelection.selectedHarnessRuntime,
     compactParams: {

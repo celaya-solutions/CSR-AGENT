@@ -1,6 +1,6 @@
 # Basic turns
 
-Basic turns prove that a dedicated Telegram user can reach the OpenClaw bot and
+Basic turns prove that a dedicated Telegram user can reach the OpenAgent bot and
 receive the deterministic provider response in the same chat.
 
 ## Sub-features

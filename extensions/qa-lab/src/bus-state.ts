@@ -34,7 +34,7 @@ import type {
 } from "./runtime-api.js";
 
 const DEFAULT_BOT_ID = "openclaw";
-const DEFAULT_BOT_NAME = "Zero to Agent QA";
+const DEFAULT_BOT_NAME = "OpenAgent QA";
 
 function normalizeInboundConversation(conversation: QaBusConversation): QaBusConversation {
   const rawKind = (conversation as { kind?: unknown }).kind;

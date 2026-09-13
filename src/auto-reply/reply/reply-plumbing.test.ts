@@ -459,7 +459,7 @@ describe("subagents utils", () => {
     const run = {
       ...baseRun,
       label: [
-        "Zero to Agent runtime context (internal):",
+        "OpenAgent runtime context (internal):",
         "This context is runtime-generated, not user-authored. Keep internal details private.",
         "",
         "[Internal task completion event]",

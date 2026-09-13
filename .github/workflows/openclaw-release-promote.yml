@@ -1,10 +1,10 @@
-name: OpenClaw Release Button
+name: OpenAgent Release Button
 
 on:
   workflow_dispatch:
     inputs:
       prepared_artifact:
-        description: Exact readiness artifact JSON from a successful OpenClaw Release Prepare run
+        description: Exact readiness artifact JSON from a successful OpenAgent Release Prepare run
         required: true
         type: string
       openclaw_npm_resume_run_id:

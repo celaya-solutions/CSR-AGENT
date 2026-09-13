@@ -15,7 +15,7 @@ Adds policy-backed doctor checks for workspace conformance.
 ## Distribution
 
 - Package: `@openclaw/policy`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 
@@ -25,16 +25,16 @@ Adds policy-backed doctor checks for workspace conformance.
 
 ## Behavior
 
-The Policy plugin contributes doctor health checks for policy-managed Zero to Agent
+The Policy plugin contributes doctor health checks for policy-managed OpenAgent
 settings and governed workspace declarations. Policy currently covers channel
 conformance, governed tool metadata, MCP server posture, model-provider posture,
 private-network access posture, Gateway exposure posture, agent workspace/tool
 posture, configured global/per-agent tool posture, configured sandbox runtime
-posture, ingress/channel access posture, data-handling posture, and Zero to Agent config secret
+posture, ingress/channel access posture, data-handling posture, and OpenAgent config secret
 provider/auth profile posture.
 
 Policy stores authored requirements in `policy.jsonc`, observes existing
-Zero to Agent settings and workspace declarations as evidence, and reports drift
+OpenAgent settings and workspace declarations as evidence, and reports drift
 through `openclaw policy check` and `openclaw doctor --lint`. A clean policy
 check emits policy, evidence, findings, and attestation hashes that operators
 can record for audit.

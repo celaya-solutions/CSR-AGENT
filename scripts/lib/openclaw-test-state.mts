@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Creates isolated OpenClaw test HOME/state directories and shell snippets.
+// Creates isolated OpenAgent test HOME/state directories and shell snippets.
 import { randomBytes } from "node:crypto";
 import fs from "node:fs/promises";
 import os from "node:os";
@@ -332,7 +332,7 @@ function buildCreatePlan(options: TestStateOptions = {}) {
   };
 }
 
-/** Create an isolated OpenClaw test state directory and optional scenario config. */
+/** Create an isolated OpenAgent test state directory and optional scenario config. */
 async function createState(options: TestStateOptions = {}) {
   const label = normalizeLabel(options.label);
   const root = await fs.mkdtemp(path.join(os.tmpdir(), `openclaw-${label}-`));
@@ -350,7 +350,7 @@ function renderEnvFile(plan: ReturnType<typeof buildCreatePlan>) {
   return `${renderExports(plan.env)}\n`;
 }
 
-/** Render shell commands that create and export an isolated OpenClaw test state. */
+/** Render shell commands that create and export an isolated OpenAgent test state. */
 function renderShellSnippet(options: TestStateOptions = {}) {
   const label = normalizeLabel(options.label);
   const scenario = requireScenario(options.scenario);
@@ -383,7 +383,7 @@ function renderShellSnippet(options: TestStateOptions = {}) {
   return `${lines.join("\n")}\n`;
 }
 
-/** Render a reusable shell function for creating isolated OpenClaw test state. */
+/** Render a reusable shell function for creating isolated OpenAgent test state. */
 function renderShellFunction() {
   return `openclaw_test_state_create() {
   local raw_label="\${1:-state}"
@@ -392,7 +392,7 @@ function renderShellFunction() {
   case "$scenario" in
     empty|minimal|update-stable|upgrade-survivor|gateway-loopback|external-service) ;;
     *)
-      echo "unknown OpenClaw test-state scenario: $scenario" >&2
+      echo "unknown OpenAgent test-state scenario: $scenario" >&2
       return 1
       ;;
   esac

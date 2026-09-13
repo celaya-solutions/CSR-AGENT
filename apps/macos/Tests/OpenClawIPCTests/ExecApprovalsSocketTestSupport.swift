@@ -1,7 +1,7 @@
 import Darwin
 import Dispatch
 import Foundation
-@testable import OpenClaw
+@testable import OpenAgent
 
 enum ExecApprovalsSocketTestSupport {
     private static let blockingSocketQueue = DispatchQueue(label: "exec-approvals-test.socket", attributes: .concurrent)

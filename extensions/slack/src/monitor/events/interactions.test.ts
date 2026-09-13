@@ -930,7 +930,7 @@ describe("registerSlackInteractionEvents", () => {
     });
   });
 
-  it("registers a matcher that accepts plugin action ids beyond the Zero to Agent prefix", () => {
+  it("registers a matcher that accepts plugin action ids beyond the OpenAgent prefix", () => {
     const { ctx, getActionMatcher } = createContext();
     registerSlackInteractionEvents({ ctx: ctx as never });
 

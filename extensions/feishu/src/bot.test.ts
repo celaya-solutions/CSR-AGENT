@@ -1805,7 +1805,7 @@ describe("handleFeishuMessage command authorization", () => {
         text: mentionedOpenId ? "@_openclaw /status" : "/status",
         message: {
           mentions: mentionedOpenId
-            ? [{ key: "@_openclaw", id: { open_id: mentionedOpenId }, name: "Zero to Agent" }]
+            ? [{ key: "@_openclaw", id: { open_id: mentionedOpenId }, name: "OpenAgent" }]
             : undefined,
         },
       });
@@ -1830,7 +1830,7 @@ describe("handleFeishuMessage command authorization", () => {
                         key: "@_openclaw",
                         id: "ou-openclaw",
                         id_type: "open_id",
-                        name: "Zero to Agent",
+                        name: "OpenAgent",
                       },
                     ]
                   : [],
@@ -1939,7 +1939,7 @@ describe("handleFeishuMessage command authorization", () => {
         chatType: "group",
         text: "@_openclaw ping",
         message: {
-          mentions: [{ key: "@_openclaw", id: { open_id: "ou-loop-self" }, name: "Zero to Agent" }],
+          mentions: [{ key: "@_openclaw", id: { open_id: "ou-loop-self" }, name: "OpenAgent" }],
         },
       });
 

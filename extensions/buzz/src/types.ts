@@ -138,7 +138,7 @@ export function resolveBuzzAccount(params: {
   }
   return {
     accountId,
-    name: normalizeOptionalString(config.name) ?? "Zero to Agent",
+    name: normalizeOptionalString(config.name) ?? "OpenAgent",
     enabled: config.enabled !== false,
     configured: Boolean(relayUrl && (privateKey || privateKeyResolution.ref)),
     relayUrl,

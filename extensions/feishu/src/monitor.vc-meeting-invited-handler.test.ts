@@ -278,7 +278,7 @@ describe("monitorSingleAccount VC event registration", () => {
       botOpenIdSource: {
         kind: "prefetched",
         botOpenId: "ou_bot",
-        botName: "Zero to Agent Bot",
+        botName: "OpenAgent Bot",
       },
       fireAndForget: false,
       channelRuntime: buildChannelRuntime(),
@@ -296,7 +296,7 @@ describe("monitorSingleAccount VC event registration", () => {
       botOpenIdSource: {
         kind: "prefetched",
         botOpenId: "ou_bot",
-        botName: "Zero to Agent Bot",
+        botName: "OpenAgent Bot",
       },
       fireAndForget: false,
       channelRuntime: buildChannelRuntime(),

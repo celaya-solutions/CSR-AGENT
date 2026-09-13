@@ -671,8 +671,8 @@ describe("Discord model picker rendering", () => {
             },
             {
               id: "openclaw",
-              label: "Zero to Agent Default",
-              description: "Use the built-in Zero to Agent runtime.",
+              label: "OpenAgent Default",
+              description: "Use the built-in OpenAgent runtime.",
             },
           ],
         ],
@@ -727,8 +727,8 @@ describe("Discord model picker rendering", () => {
             },
             {
               id: "openclaw",
-              label: "Zero to Agent Default",
-              description: "Use the built-in Zero to Agent runtime.",
+              label: "OpenAgent Default",
+              description: "Use the built-in OpenAgent runtime.",
             },
           ],
         ],
@@ -1047,8 +1047,8 @@ describe("Discord model picker rendering", () => {
             },
             {
               id: "openclaw",
-              label: "Zero to Agent Default",
-              description: "Use the built-in Zero to Agent runtime.",
+              label: "OpenAgent Default",
+              description: "Use the built-in OpenAgent runtime.",
             },
           ],
         ],
@@ -1110,8 +1110,8 @@ describe("Discord model picker rendering", () => {
             },
             {
               id: "openclaw",
-              label: "Zero to Agent Default",
-              description: "Use the built-in Zero to Agent runtime.",
+              label: "OpenAgent Default",
+              description: "Use the built-in OpenAgent runtime.",
             },
           ],
         ],
@@ -1480,7 +1480,7 @@ describe("Discord model picker recents view", () => {
 /* oxlint-disable max-lines -- TODO: split this grandfathered oversized file. */
 
 describe("model-specific runtime view", () => {
-  const builtin = { id: "openclaw", label: "Zero to Agent", description: "Built-in runtime" };
+  const builtin = { id: "openclaw", label: "OpenAgent", description: "Built-in runtime" };
   const native = { id: "codex", label: "Codex", description: "Native runtime" };
   it("renders the selected model's choices instead of the provider union", () => {
     const data = {

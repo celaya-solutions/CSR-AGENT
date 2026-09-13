@@ -235,7 +235,7 @@ export async function prepareSystemAgentPluginArtifact(
   await assertArtifactConfigPublicationSupported();
   if (await isPluginBackingDefaultInferenceRoute(review.pluginId)) {
     throw new Error(
-      "This plugin backs Zero to Agent's active inference route. Stop Zero to Agent and install the artifact from a trusted shell.",
+      "This plugin backs OpenAgent's active inference route. Stop OpenAgent and install the artifact from a trusted shell.",
     );
   }
   return await withArtifactImports(async (files, assertOwned) => {
@@ -295,7 +295,7 @@ export async function executePluginArtifactActivation(
             await assertArtifactConfigPublicationSupported();
             if (await isPluginBackingDefaultInferenceRoute(review.pluginId)) {
               throw new Error(
-                "Artifact activation stopped: this plugin now backs the active inference route. Stop Zero to Agent and install it from a trusted shell.",
+                "Artifact activation stopped: this plugin now backs the active inference route. Stop OpenAgent and install it from a trusted shell.",
               );
             }
             assertPersistentApply();

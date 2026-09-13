@@ -232,14 +232,11 @@ describe("fetchBrowserJson loopback auth", () => {
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
       contains: [
         "Chrome CDP handshake timeout",
-        "Restart the Zero to Agent gateway",
+        "Restart the OpenAgent gateway",
         "Retry the browser tool once",
         "If the same error persists",
       ],
-      omits: [
-        "Can't reach the Zero to Agent browser control service",
-        "Do NOT retry the browser tool",
-      ],
+      omits: ["Can't reach the OpenAgent browser control service", "Do NOT retry the browser tool"],
     });
   });
 
@@ -247,7 +244,7 @@ describe("fetchBrowserJson loopback auth", () => {
     mocks.dispatch.mockRejectedValueOnce(new DOMException("operation aborted", "AbortError"));
 
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
-      contains: ["operation aborted", "Restart the Zero to Agent gateway"],
+      contains: ["operation aborted", "Restart the OpenAgent gateway"],
       omits: ["Do NOT retry the browser tool"],
     });
   });
@@ -273,12 +270,12 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "Chrome CDP handshake timeout",
-          "browser profile is external to Zero to Agent",
-          "Restarting the Zero to Agent gateway will not launch it",
+          "browser profile is external to OpenAgent",
+          "Restarting the OpenAgent gateway will not launch it",
           "Retry the browser tool once",
           "If the same error persists",
         ],
-        omits: ["Restart the Zero to Agent gateway", "Do NOT retry the browser tool"],
+        omits: ["Restart the OpenAgent gateway", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -301,10 +298,10 @@ describe("fetchBrowserJson loopback auth", () => {
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
       contains: [
         "operation aborted",
-        "browser profile is external to Zero to Agent",
-        "Restarting the Zero to Agent gateway will not launch it",
+        "browser profile is external to OpenAgent",
+        "Restarting the OpenAgent gateway will not launch it",
       ],
-      omits: ["Restart the Zero to Agent gateway", "Do NOT retry the browser tool"],
+      omits: ["Restart the OpenAgent gateway", "Do NOT retry the browser tool"],
     });
   });
 
@@ -327,12 +324,12 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "timed out",
-          "browser profile is external to Zero to Agent",
-          "Restarting the Zero to Agent gateway will not launch it",
+          "browser profile is external to OpenAgent",
+          "Restarting the OpenAgent gateway will not launch it",
           "Retry the browser tool once",
           "If the same error persists",
         ],
-        omits: ["Restart the Zero to Agent gateway", "Do NOT retry the browser tool"],
+        omits: ["Restart the OpenAgent gateway", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -356,11 +353,11 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "Chrome CDP handshake timeout",
-          "Restart the Zero to Agent gateway",
+          "Restart the OpenAgent gateway",
           "Retry the browser tool once",
           "If the same error persists",
         ],
-        omits: ["browser profile is external to Zero to Agent", "Do NOT retry the browser tool"],
+        omits: ["browser profile is external to OpenAgent", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -376,11 +373,11 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "Chrome CDP handshake timeout",
-          "Restart the Zero to Agent gateway",
+          "Restart the OpenAgent gateway",
           "Retry the browser tool once",
           "If the same error persists",
         ],
-        omits: ["browser profile is external to Zero to Agent", "Do NOT retry the browser tool"],
+        omits: ["browser profile is external to OpenAgent", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -404,11 +401,11 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "Chrome CDP handshake timeout",
-          "Restart the Zero to Agent gateway",
+          "Restart the OpenAgent gateway",
           "Retry the browser tool once",
           "If the same error persists",
         ],
-        omits: ["browser profile is external to Zero to Agent", "Do NOT retry the browser tool"],
+        omits: ["browser profile is external to OpenAgent", "Do NOT retry the browser tool"],
       },
     );
   });
@@ -431,12 +428,12 @@ describe("fetchBrowserJson loopback auth", () => {
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
       contains: [
         "Chrome CDP handshake timeout",
-        "browser profile is external to Zero to Agent",
-        "Restarting the Zero to Agent gateway will not launch it",
+        "browser profile is external to OpenAgent",
+        "Restarting the OpenAgent gateway will not launch it",
         "Retry the browser tool once",
         "If the same error persists",
       ],
-      omits: ["Restart the Zero to Agent gateway", "Do NOT retry the browser tool"],
+      omits: ["Restart the OpenAgent gateway", "Do NOT retry the browser tool"],
     });
   });
 
@@ -461,10 +458,10 @@ describe("fetchBrowserJson loopback auth", () => {
       {
         contains: [
           "Chrome CDP connection refused",
-          "browser profile is external to Zero to Agent",
+          "browser profile is external to OpenAgent",
           "Do NOT retry the browser tool",
         ],
-        omits: ["Restart the Zero to Agent gateway"],
+        omits: ["Restart the OpenAgent gateway"],
       },
     );
   });
@@ -474,7 +471,7 @@ describe("fetchBrowserJson loopback auth", () => {
 
     await expectThrownBrowserFetchError(() => fetchBrowserJson<{ ok: boolean }>("/tabs"), {
       contains: ["Chrome CDP connection refused", "Do NOT retry the browser tool"],
-      omits: ["Can't reach the Zero to Agent browser control service"],
+      omits: ["Can't reach the OpenAgent browser control service"],
     });
   });
 
@@ -751,7 +748,7 @@ describe("fetchBrowserJson loopback auth", () => {
       () => fetchBrowserJson<{ ok: boolean }>("http://example.com/"),
       {
         contains: [
-          "Can't reach the Zero to Agent browser control service",
+          "Can't reach the OpenAgent browser control service",
           "Retry the browser tool once",
           "If the same error persists",
         ],

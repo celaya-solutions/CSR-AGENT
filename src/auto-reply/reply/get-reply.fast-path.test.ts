@@ -190,7 +190,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
         agentThinkingDefault ??
         status.cfg.agents?.defaults?.thinkingDefault ??
         (await status.resolveDefaultThinkingLevel());
-      return { text: `Zero to Agent\nThink: ${thinkLevel ?? "off"}` };
+      return { text: `OpenAgent\nThink: ${thinkLevel ?? "off"}` };
     });
     mocks.ensureAgentWorkspace.mockReset();
     mocks.handleCommands.mockReset();
@@ -495,7 +495,7 @@ describe("getReplyFromConfig fast test bootstrap", () => {
     if (!reply || Array.isArray(reply) || typeof reply.text !== "string") {
       throw new Error("expected status reply text");
     }
-    expect(reply.text.includes("Zero to Agent")).toBe(true);
+    expect(reply.text.includes("OpenAgent")).toBe(true);
     expect(reply.text.includes("Think: medium")).toBe(true);
     expect(mocks.loadModelCatalog).toHaveBeenCalledWith(
       expect.objectContaining({

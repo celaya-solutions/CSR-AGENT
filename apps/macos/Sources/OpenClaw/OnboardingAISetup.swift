@@ -273,7 +273,7 @@ final class OnboardingAISetupModel {
             guard activationOwner.isUnbound || currentFingerprint != nil else {
                 self.phase = .ready
                 self.detectError = Self.transportFailure(
-                    "Secure storage is unavailable, so OpenClaw cannot verify which Gateway completed AI setup.")
+                    "Secure storage is unavailable, so OpenAgent cannot verify which Gateway completed AI setup.")
                 return .notConnected
             }
             if activationOwner.isUnbound || activationOwner.routeFingerprint != currentFingerprint {

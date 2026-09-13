@@ -285,7 +285,7 @@ function writeProviderAcceptanceObserver<T extends object>(
   return options;
 }
 
-/** Attach a Zero to Agent-internal provider acceptance observer to one model call. */
+/** Attach an OpenAgent-internal provider acceptance observer to one model call. */
 export function withProviderAcceptanceObserver<T extends object>(
   options: T,
   observer: ProviderAcceptanceObserver,

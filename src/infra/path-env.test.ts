@@ -1,4 +1,4 @@
-// Covers Zero to Agent CLI PATH construction.
+// Covers OpenAgent CLI PATH construction.
 import fs from "node:fs";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";

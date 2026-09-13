@@ -1,6 +1,6 @@
-# OpenClaw Documentation Overlay
+# OpenAgent Documentation Overlay
 
-Use this reference only for OpenClaw docs work. It layers OpenClaw-specific page
+Use this reference only for OpenAgent docs work. It layers OpenClaw-specific page
 types, navigation, preservation, and validation rules on top of the general
 technical-documentation skill.
 
@@ -20,7 +20,7 @@ Choose the page type before writing or reviewing:
 
 - Overview: route readers to the right product area, integration path, or guide.
 - Quickstart: get a new user to a working result with the fewest safe steps.
-- Topic page: explain a major OpenClaw entity or surface end to end.
+- Topic page: explain a major OpenAgent entity or surface end to end.
 - Guide: walk through one workflow from prerequisites to production readiness.
 - API/SDK/CLI reference: define every object, method, command, option, response,
   error, enum, default, and version rule in scope.
@@ -28,7 +28,7 @@ Choose the page type before writing or reviewing:
   differences.
 - Troubleshooting guide: map observable symptoms to checks, causes, and fixes.
 - Governance file: keep agent/contributor policy concrete, scoped, and aligned
-  with current OpenClaw repo behavior.
+  with current OpenAgent repo behavior.
 
 ## Topic Pages
 

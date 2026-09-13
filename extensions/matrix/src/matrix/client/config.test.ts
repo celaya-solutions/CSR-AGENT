@@ -332,7 +332,7 @@ describe("Matrix auth/config live surfaces", () => {
               homeserver: "https://matrix.gumadeiras.com",
               userId: "@pinguini:matrix.gumadeiras.com",
               password: "cfg-pass", // pragma: allowlist secret
-              deviceName: "Zero to Agent Gateway Pinguini",
+              deviceName: "OpenAgent Gateway Pinguini",
               encryption: true,
             },
           },
@@ -354,7 +354,7 @@ describe("Matrix auth/config live surfaces", () => {
       accessToken: undefined,
       password: "cfg-pass",
       deviceId: undefined,
-      deviceName: "Zero to Agent Gateway Pinguini",
+      deviceName: "OpenAgent Gateway Pinguini",
       initialSyncLimit: undefined,
       encryption: true,
       allowPrivateNetwork: undefined,

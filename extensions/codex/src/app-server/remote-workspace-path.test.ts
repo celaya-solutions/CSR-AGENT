@@ -141,6 +141,6 @@ describe("Codex remote workspace paths", () => {
         localWorkspaceRoot,
         remoteWorkspaceRoot,
       }),
-    ).toThrow("outside Zero to Agent workspace root");
+    ).toThrow("outside OpenAgent workspace root");
   });
 });

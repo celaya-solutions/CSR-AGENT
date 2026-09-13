@@ -2,7 +2,7 @@ import Foundation
 import OpenClawKit
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawChatUI
 
 struct IOSGatewayChatTransportTests {

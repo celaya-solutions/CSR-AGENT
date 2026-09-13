@@ -131,7 +131,7 @@ export default defineSingleProviderPluginEntry({
         noteTitle: "ClawRouter",
         noteMessage: [
           "Use the proxy key issued by your ClawRouter administrator.",
-          "Zero to Agent discovers only the models granted to that key.",
+          "OpenAgent discovers only the models granted to that key.",
         ].join("\n"),
       },
       catalog: {

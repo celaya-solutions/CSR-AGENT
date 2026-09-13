@@ -2057,7 +2057,7 @@ internal val starterPrompts =
       mark = "1",
       title = nativeText("Catch me up"),
       subtitle = nativeText("Summarize recent threads and next steps."),
-      message = nativeText("Catch me up on my recent OpenClaw threads and suggest next steps."),
+      message = nativeText("Catch me up on my recent OpenAgent threads and suggest next steps."),
     ),
     StarterPrompt(
       mark = "2",
@@ -2068,7 +2068,7 @@ internal val starterPrompts =
     StarterPrompt(
       mark = "3",
       title = nativeText("Use this phone"),
-      subtitle = nativeText("Ask OpenClaw to use Android capabilities."),
+      subtitle = nativeText("Ask OpenAgent to use Android capabilities."),
       message = nativeText("What can you help me do from this phone right now?"),
     ),
   )
@@ -2102,11 +2102,11 @@ internal fun ChatBubble(
     when {
       isUser -> peerSenderLabel ?: nativeString("You")
       normalizedRole == "system" -> nativeString("System")
-      else -> nativeString("OpenClaw")
+      else -> nativeString("OpenAgent")
     }
   val caption =
     when {
-      live -> nativeString("OpenClaw · Live")
+      live -> nativeString("OpenAgent · Live")
       normalizedRole == "system" -> nativeString("System")
       peerSenderLabel != null -> peerSenderLabel
       else -> null
@@ -2415,7 +2415,7 @@ private fun ToolBubble(toolCalls: List<ChatPendingToolCall>) {
       toolCalls.take(4).forEach { tool ->
         ClawListItem(
           title = tool.name,
-          subtitle = nativeString("OpenClaw is working"),
+          subtitle = nativeString("OpenAgent is working"),
           trailing = { tool.liveDiff?.let { DiffStatChips(it) } },
         )
       }
@@ -4295,7 +4295,7 @@ private fun ChatInputPill(
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterStart) {
               if (value.isEmpty()) {
                 // BasicTextField's line limit does not constrain its decoration.
-                Text(text = nativeString("Message OpenClaw"), style = draftStyle, color = ClawTheme.colors.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(text = nativeString("Message OpenAgent"), style = draftStyle, color = ClawTheme.colors.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
               }
               innerTextField()
             }

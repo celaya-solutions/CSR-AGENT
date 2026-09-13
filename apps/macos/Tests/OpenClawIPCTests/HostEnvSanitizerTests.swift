@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct HostEnvSanitizerTests {
     @Test(arguments: ["cat", ""])

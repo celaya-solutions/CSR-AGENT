@@ -24,7 +24,7 @@ it("respects another migration owner even when the state database is already ope
     try {
       await expect(
         migrateLegacySkillWorkshopProposals({ config: {}, env: state.env }),
-      ).rejects.toThrow("another Zero to Agent process owns state-lifecycle");
+      ).rejects.toThrow("another OpenAgent process owns state-lifecycle");
     } finally {
       otherOwner?.release();
     }

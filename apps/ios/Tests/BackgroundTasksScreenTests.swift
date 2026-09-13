@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct BackgroundTasksScreenTests {
     @Test func `decodes bounded prompt and derives terminal output`() throws {

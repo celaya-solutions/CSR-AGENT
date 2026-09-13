@@ -1,4 +1,4 @@
-// QA OTEL Smoke runtime supports Zero to Agent repository automation.
+// QA OTEL Smoke runtime supports OpenAgent repository automation.
 
 import { spawn } from "node:child_process";
 /* oxlint-disable typescript/unbound-method -- the original stream method is invoked with process.stdout through Reflect.apply below. */

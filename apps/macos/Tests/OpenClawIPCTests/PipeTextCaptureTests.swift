@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct PipeTextCaptureTests {
     @Test(arguments: [false, true])

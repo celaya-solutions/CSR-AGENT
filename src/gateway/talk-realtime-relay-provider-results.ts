@@ -119,7 +119,7 @@ export function submitFinalProviderToolResult(params: {
       await params.session.bridge.submitToolResult(
         providerCallId,
         buildRealtimeVoiceAgentCancelProviderResult(
-          "Zero to Agent cancelled this consult before completion. Do not restart it.",
+          "OpenAgent cancelled this consult before completion. Do not restart it.",
         ),
         suppressedToolResultOptions(params.session),
       );

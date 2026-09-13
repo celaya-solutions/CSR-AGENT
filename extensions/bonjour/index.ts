@@ -7,19 +7,19 @@ import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 function formatBonjourInstanceName(displayName: string) {
   const trimmed = displayName.trim();
   if (!trimmed) {
-    return "Zero to Agent";
+    return "OpenAgent";
   }
   if (/openclaw/i.test(trimmed)) {
     return trimmed;
   }
-  return `${trimmed} (Zero to Agent)`;
+  return `${trimmed} (OpenAgent)`;
 }
 
 /** Plugin entry for Bonjour/mDNS gateway discovery. */
 export default definePluginEntry({
   id: "bonjour",
   name: "Bonjour Gateway Discovery",
-  description: "Advertise the local Zero to Agent gateway over Bonjour/mDNS.",
+  description: "Advertise the local OpenAgent gateway over Bonjour/mDNS.",
   register(api) {
     api.registerGatewayDiscoveryService({
       id: "bonjour",

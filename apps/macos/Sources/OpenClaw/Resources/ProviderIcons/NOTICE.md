@@ -1,6 +1,6 @@
 # Third-party provider artwork notices
 
-This directory ships with the OpenClaw macOS app. Brand names and logos remain
+This directory ships with the OpenAgent macOS app. Brand names and logos remain
 trademarks of their respective owners and are used solely to identify the
 corresponding products and services.
 

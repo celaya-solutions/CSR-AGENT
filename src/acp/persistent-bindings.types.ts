@@ -23,7 +23,7 @@ export type ConfiguredAcpBindingSpec = {
   accountId: string;
   conversationId: string;
   parentConversationId?: string;
-  /** Owning Zero to Agent agent id (used for session identity/storage). */
+  /** Owning OpenAgent agent id (used for session identity/storage). */
   agentId: string;
   /** ACP harness agent id override (falls back to agentId when omitted). */
   acpAgentId?: string;

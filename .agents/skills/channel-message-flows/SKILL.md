@@ -5,7 +5,7 @@ description: "Use when running QA Lab channel message flow evidence."
 
 # Channel Message Flows
 
-Use this from the OpenClaw repo root to run the QA Lab evidence for Telegram
+Use this from the OpenAgent repo root to run the QA Lab evidence for Telegram
 draft/final delivery sequencing. The behavior is owned by one transport-native
 QA flow that can run through QA Channel or Crabline Telegram.
 

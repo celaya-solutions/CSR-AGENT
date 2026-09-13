@@ -236,7 +236,7 @@ export function validateExtendedStableRunIdentity({
   }
   const expectedWorkflowName =
     kind === "preflight" && !fullReleasePreflight
-      ? "OpenClaw NPM Release"
+      ? "OpenAgent NPM Release"
       : kind === "plugin"
         ? "Plugin NPM Release"
         : "Full Release Validation";

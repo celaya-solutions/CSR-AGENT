@@ -151,7 +151,7 @@ function renderMarkdown(report: NpmPackageLocksReport) {
   return `${[
     "# npm package-lock mirrors",
     "",
-    `Source: \`${report.sourceSha}\` (OpenClaw ${report.packageVersion}).`,
+    `Source: \`${report.sourceSha}\` (OpenAgent ${report.packageVersion}).`,
     `pnpm lock SHA-256: \`${report.pnpmLockSha256}\`.`,
     "",
     `Total packages: ${report.packages.length}`,
@@ -160,7 +160,7 @@ function renderMarkdown(report: NpmPackageLocksReport) {
     "",
     "Entries with non-empty omittedWorkspaceDependencies are partial locks: sibling workspace packages publish in the same release and are omitted by the generator. Consumers must reject these entries instead of installing them.",
     "Select the exact name and version in npm-package-locks.json, require an empty omittedWorkspaceDependencies array, and write entry.lock as package-lock.json.",
-    "Verify dependency-evidence-manifest.json releaseSha equals sourceSha and the OpenClaw commit you pin.",
+    "Verify dependency-evidence-manifest.json releaseSha equals sourceSha and the OpenAgent commit you pin.",
     "These generated locks are release evidence only and are never included in npm tarballs.",
     "",
     "| Package directory | Name | Version | Bundles runtime dependencies | Dependencies | Optional dependencies | Omitted workspace dependencies |",

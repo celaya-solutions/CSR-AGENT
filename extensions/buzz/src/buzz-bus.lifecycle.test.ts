@@ -217,7 +217,7 @@ describe("Buzz bus lifecycle", () => {
       setBuzzRuntime(runtime);
       const account: ResolvedBuzzAccount = {
         accountId: ACCOUNT_ID,
-        name: "Zero to Agent",
+        name: "OpenAgent",
         enabled: true,
         configured: true,
         relayUrl: "wss://buzz.example.com",
@@ -705,7 +705,7 @@ describe("Buzz bus lifecycle", () => {
     ];
 
     const bus = await startTestBus({
-      profileName: "Zero to Agent",
+      profileName: "OpenAgent",
     });
 
     await vi.waitFor(() =>

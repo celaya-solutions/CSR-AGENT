@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds the canonical OpenClaw package artifact used by Docker E2E.
+// Builds the canonical OpenAgent package artifact used by Docker E2E.
 import { spawn } from "node:child_process";
 import { closeSync, openSync } from "node:fs";
 import fs from "node:fs/promises";
@@ -215,7 +215,7 @@ function resolvePackedOpenClawFileName(value: string) {
     filename !== path.basename(filename) ||
     filename !== path.win32.basename(filename)
   ) {
-    throw new Error(`npm pack reported unsafe OpenClaw tarball filename: ${filename}`);
+    throw new Error(`npm pack reported unsafe OpenAgent tarball filename: ${filename}`);
   }
   return filename;
 }
@@ -464,11 +464,11 @@ export async function buildPackageArtifacts(
   );
   const distDir = path.join(sourceDir, "dist");
   assertRealOutputRoot(distDir);
-  console.error("==> Cleaning OpenClaw package artifacts");
+  console.error("==> Cleaning OpenAgent package artifacts");
   await fs.rm(distDir, { force: true, recursive: true });
 
   // Frozen sources own their build entrypoint and may predate clean:dist.
-  console.error("==> Building OpenClaw package artifacts");
+  console.error("==> Building OpenAgent package artifacts");
   await runImpl("pnpm", ["run", "build"], sourceDir, { env: buildEnv, timeoutMs });
 }
 
@@ -502,7 +502,7 @@ async function newestOpenClawTarball(outputDir: string, packOutput: string) {
     .toSorted()
     .at(-1);
   if (!packed) {
-    throw new Error(`missing packed OpenClaw tarball in ${outputDir}`);
+    throw new Error(`missing packed OpenAgent tarball in ${outputDir}`);
   }
   return path.join(outputDir, packed);
 }
@@ -816,7 +816,7 @@ async function normalizeOpenClawTarballModes(tarballPath: string) {
     };
     await normalizeStagedModes(stageDir);
     if (stagedFileCount === 0) {
-      throw new Error(`packed OpenClaw tarball has no file entries: ${tarballPath}`);
+      throw new Error(`packed OpenAgent tarball has no file entries: ${tarballPath}`);
     }
     const stageRootEntries = await fs.readdir(stageDir);
     const normalizedPath = `${tarballPath}.modes-tmp`;
@@ -924,7 +924,7 @@ export async function packOpenClawPackageForDocker(
   if (packageOptions.packJsonPath && packageOptions.pnpmPack) {
     throw new Error("packJsonPath cannot be combined with pnpmPack");
   }
-  console.error("==> Packing OpenClaw package");
+  console.error("==> Packing OpenAgent package");
   // This receipt is the package lifecycle lock; acquire it before touching CHANGELOG.md.
   await prepareDocsMap(sourcePath);
   const deferSignalExit: KillChild = () => {};
@@ -936,7 +936,7 @@ export async function packOpenClawPackageForDocker(
     }
   };
   try {
-    console.error("==> Writing OpenClaw package inventory");
+    console.error("==> Writing OpenAgent package inventory");
     await writePackageInventoryForDocker(sourcePath, packageOptions.runImpl ?? run);
 
     await prepareManifest(sourcePath);
@@ -1116,7 +1116,7 @@ async function main() {
     pnpmPack: options.pnpmPack,
   });
 
-  console.error("==> Checking OpenClaw package tarball");
+  console.error("==> Checking OpenAgent package tarball");
   const checkStartedAt = Date.now();
   await run(
     "node",
@@ -1134,7 +1134,7 @@ async function main() {
     },
   );
   console.error(
-    `==> OpenClaw package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
+    `==> OpenAgent package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
   );
 
   process.stdout.write(`${tarball}\n`);

@@ -10,7 +10,7 @@ import plugin from "./index.js";
 
 function toolCallMessage(
   name: string,
-  argumentsValue: Record<string, unknown> = { query: "Zero to Agent" },
+  argumentsValue: Record<string, unknown> = { query: "OpenAgent" },
 ): AssistantMessage {
   return {
     role: "assistant",

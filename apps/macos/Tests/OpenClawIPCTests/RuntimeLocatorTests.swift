@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct RuntimeLocatorTests {
     private func makeExecutable(in directory: URL, contents: String) throws -> URL {

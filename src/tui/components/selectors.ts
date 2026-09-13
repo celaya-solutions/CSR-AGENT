@@ -1,4 +1,4 @@
-// Selector components adapt Pi TUI list controls for Zero to Agent settings.
+// Selector components adapt Pi TUI list controls for OpenAgent settings.
 import { type SettingItem, SettingsList } from "@earendil-works/pi-tui";
 import {
   filterableSelectListTheme,

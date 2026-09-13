@@ -536,7 +536,7 @@ function writeToolPluginScaffold(params: { rootDir: string; id: string; name: st
   };
   const idLiteral = jsStringLiteral(params.id);
   const nameLiteral = jsStringLiteral(params.name);
-  const description = `Add ${params.name} tools to Zero to Agent.`;
+  const description = `Add ${params.name} tools to OpenAgent.`;
   const descriptionLiteral = jsStringLiteral(description);
   const indexSource = `import { Type } from "typebox";
 import { defineToolPlugin } from "openclaw/plugin-sdk/tool-plugin";
@@ -569,7 +569,7 @@ describe(${idLiteral}, () => {
 `;
   const readmeSource = `# ${params.name}
 
-Simple Zero to Agent tool plugin.
+Simple OpenAgent tool plugin.
 
 ## Build
 
@@ -603,11 +603,11 @@ function writeProviderPluginScaffold(params: { rootDir: string; id: string; name
   const flagName = `--${params.id}-api-key`;
   const defaultModelId = "example-chat";
   const defaultModelRef = `${params.id}/${defaultModelId}`;
-  const description = `Add ${params.name} models to Zero to Agent.`;
+  const description = `Add ${params.name} models to OpenAgent.`;
   const packageManifest = {
     name: packageName,
     version: "0.1.0",
-    description: `Zero to Agent provider plugin for ${params.name}.`,
+    description: `OpenAgent provider plugin for ${params.name}.`,
     type: "module",
     scripts: {
       build: "tsc -p tsconfig.json",
@@ -803,7 +803,7 @@ describe(${idLiteral}, () => {
 `;
   const readmeSource = `# ${params.name}
 
-Zero to Agent provider plugin for ${params.name}.
+OpenAgent provider plugin for ${params.name}.
 
 ## Commands
 

@@ -15,7 +15,7 @@ Anthropic models, Claude CLI, and native Claude session catalog.
 ## Distribution
 
 - Package: `@openclaw/anthropic-provider`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

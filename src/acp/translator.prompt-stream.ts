@@ -586,7 +586,7 @@ export class AcpTranslatorPromptStream {
       await this.emitPromptChunk(
         pending,
         "agent_message_chunk",
-        `[Zero to Agent interruption] ${options.interruption}`,
+        `[OpenAgent interruption] ${options.interruption}`,
         false,
       );
     }
@@ -665,7 +665,7 @@ export class AcpTranslatorPromptStream {
     await this.emitPromptChunk(
       pending,
       "agent_message_chunk",
-      `[Zero to Agent interruption] ${message}`,
+      `[OpenAgent interruption] ${message}`,
       false,
     );
     await this.rejectPendingPrompt(pending, new Error(message), { claimed: true });
@@ -723,8 +723,8 @@ export class AcpTranslatorPromptStream {
     try {
       if (options.recordDisconnectNotice) {
         const text = pending.sendAccepted
-          ? "[Zero to Agent interruption] The Gateway disconnected after accepting this message, so its final outcome is unknown. Check the session before retrying."
-          : "[Zero to Agent interruption] The Gateway disconnected before Zero to Agent could confirm whether this message was accepted, so its final outcome is unknown. Check the session before retrying.";
+          ? "[OpenAgent interruption] The Gateway disconnected after accepting this message, so its final outcome is unknown. Check the session before retrying."
+          : "[OpenAgent interruption] The Gateway disconnected before OpenAgent could confirm whether this message was accepted, so its final outcome is unknown. Check the session before retrying.";
         await this.emitPromptChunk(pending, "agent_message_chunk", text, false);
       }
     } catch (noticeError) {

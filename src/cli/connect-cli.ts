@@ -281,7 +281,7 @@ export function registerConnectCli(program: Command): void {
   addNodeCommandOptions(
     program
       .command("connect")
-      .description("Connect this machine to a Zero to Agent Gateway as a node"),
+      .description("Connect this machine to an OpenAgent Gateway as a node"),
   )
     .argument("[target]", "oc-pair URL, setup code, or HTTPS Gateway join URL")
     .option("--service", "Install and run the node host as an OS service", false)

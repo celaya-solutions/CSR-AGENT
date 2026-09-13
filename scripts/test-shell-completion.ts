@@ -191,7 +191,7 @@ async function main() {
   if (status.profileInstalled && status.cacheExists && !options.force) {
     console.log(theme.muted("Shell completion is fully configured. To test the prompt:"));
     console.log(
-      theme.muted("  1. Remove the '# OpenClaw Completion' block from your shell profile"),
+      theme.muted("  1. Remove the '# OpenAgent Completion' block from your shell profile"),
     );
     console.log(theme.muted("  2. Re-run this script"));
     console.log(theme.muted("  Or use --force to prompt anyway"));

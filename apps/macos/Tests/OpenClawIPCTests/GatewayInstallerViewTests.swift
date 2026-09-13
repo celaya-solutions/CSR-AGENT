@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 @MainActor
@@ -78,7 +78,7 @@ struct GatewayInstallerViewTests {
             failure: nil,
             existingGatewayDetails: nil,
             isInstalling: isInstalling,
-            installStatus: isInstalling ? "Installing OpenClaw CLI…" : nil,
+            installStatus: isInstalling ? "Installing OpenAgent CLI…" : nil,
             onInstall: onInstall,
             onRecheck: onRecheck)
     }

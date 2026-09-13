@@ -1,7 +1,7 @@
 <resources>
     <string-array name="ask_openclaw_query_patterns">
-        <item>"tanya OpenClaw %1$s"</item>
-        <item>"minta OpenClaw untuk %1$s"</item>
-        <item>"buka OpenClaw dan tanyakan %1$s"</item>
+        <item>"tanya OpenAgent %1$s"</item>
+        <item>"minta OpenAgent untuk %1$s"</item>
+        <item>"buka OpenAgent dan tanyakan %1$s"</item>
     </string-array>
 </resources>

@@ -1,6 +1,6 @@
 ---
 name: wiki-maintainer
-description: Maintain the Zero to Agent memory wiki vault with deterministic pages, managed blocks, and source-backed updates.
+description: Maintain the OpenAgent memory wiki vault with deterministic pages, managed blocks, and source-backed updates.
 ---
 
 Use this skill when working inside a memory-wiki vault.

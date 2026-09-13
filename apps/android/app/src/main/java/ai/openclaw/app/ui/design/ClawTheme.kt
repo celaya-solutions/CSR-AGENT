@@ -339,7 +339,7 @@ private val LocalClawRadii = staticCompositionLocalOf { ClawRadii() }
 private val LocalClawTypography = staticCompositionLocalOf { clawTypography(clawFontFamily) }
 
 /**
- * Composition-local access point for OpenClaw Android design tokens.
+ * Composition-local access point for OpenAgent Android design tokens.
  */
 internal object ClawTheme {
   val colors: ClawColors
@@ -364,7 +364,7 @@ internal object ClawTheme {
 }
 
 /**
- * Installs OpenClaw design tokens and maps them into MaterialTheme for Material3 controls.
+ * Installs OpenAgent design tokens and maps them into MaterialTheme for Material3 controls.
  */
 @Composable
 internal fun ClawDesignTheme(

@@ -97,9 +97,7 @@ describe("CUA Driver artifact verification", () => {
     });
 
     expect(result).toMatchObject({ ok: false, code: "COMPUTER_DRIVER_PACKAGE_MISSING" });
-    expect(result.ok ? "" : result.diagnostic).toContain(
-      "Reinstall Zero to Agent on this node host",
-    );
+    expect(result.ok ? "" : result.diagnostic).toContain("Reinstall OpenAgent on this node host");
   });
 
   it("refuses SDK and platform package version skew", () => {

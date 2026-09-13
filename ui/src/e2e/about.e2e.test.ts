@@ -273,9 +273,7 @@ suite.define(() => {
         .toContain("separate from this Control UI build");
 
       const hero = page.locator(".about-hero");
-      await expect
-        .poll(() => hero.locator(".about-hero__name").textContent())
-        .toBe("Zero to Agent");
+      await expect.poll(() => hero.locator(".about-hero__name").textContent()).toBe("OpenAgent");
       await expect
         .poll(() => hero.locator(".about-hero__version").textContent())
         .toBe("v2026.7.10");

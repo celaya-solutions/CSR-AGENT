@@ -1,8 +1,8 @@
 ---
-summary: "Zero to Agent discovery threats (AML.TA0008): T-DISC-001, T-DISC-002"
+summary: "OpenAgent discovery threats (AML.TA0008): T-DISC-001, T-DISC-002"
 title: "Discovery (AML.TA0008)"
 read_when:
-  - Reviewing discovery threats against a Zero to Agent deployment
+  - Reviewing discovery threats against an OpenAgent deployment
   - Working on mitigations for T-DISC-001, T-DISC-002
 ---
 

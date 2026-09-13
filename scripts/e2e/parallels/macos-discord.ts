@@ -1,4 +1,4 @@
-// Macos Discord script supports OpenClaw repository automation.
+// Macos Discord script supports OpenAgent repository automation.
 import { randomUUID } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";

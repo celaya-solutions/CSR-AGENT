@@ -39,12 +39,12 @@ describe("resolveGatewaySystemdServiceName", () => {
 describe("resolveGatewayWindowsTaskName", () => {
   it("returns default task name when no profile is set", () => {
     const result = resolveGatewayWindowsTaskName();
-    expect(result).toBe("Zero to Agent Gateway");
+    expect(result).toBe("OpenAgent Gateway");
   });
 
   it("returns profile-specific task name when profile is set", () => {
     const result = resolveGatewayWindowsTaskName("dev");
-    expect(result).toBe("Zero to Agent Gateway (dev)");
+    expect(result).toBe("OpenAgent Gateway (dev)");
   });
 });
 
@@ -63,7 +63,7 @@ describe("resolveGatewayNativeServiceIdentityConflict", () => {
     {
       platform: "win32" as const,
       envKey: "OPENCLAW_WINDOWS_TASK_NAME",
-      value: "Zero to Agent Gateway",
+      value: "OpenAgent Gateway",
     },
   ])("rejects $envKey overrides for named profiles on $platform", ({ platform, envKey, value }) => {
     expect(
@@ -111,19 +111,19 @@ describe("resolveGatewayProfileSuffix", () => {
 
 describe("resolveGatewayServiceDescription", () => {
   it("returns default description when no profile", () => {
-    expect(resolveGatewayServiceDescription({ env: {} })).toBe("Zero to Agent Gateway");
+    expect(resolveGatewayServiceDescription({ env: {} })).toBe("OpenAgent Gateway");
   });
 
   it("includes profile when set", () => {
     expect(resolveGatewayServiceDescription({ env: { OPENCLAW_PROFILE: "work" } })).toBe(
-      "Zero to Agent Gateway (profile: work)",
+      "OpenAgent Gateway (profile: work)",
     );
   });
 
   it("ignores legacy install-time version metadata", () => {
     expect(
       resolveGatewayServiceDescription({ env: { OPENCLAW_SERVICE_VERSION: "2026.1.10" } }),
-    ).toBe("Zero to Agent Gateway");
+    ).toBe("OpenAgent Gateway");
   });
 
   it("prefers explicit description override", () => {

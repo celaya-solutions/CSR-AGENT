@@ -1012,7 +1012,7 @@ describe("modelsAuthLoginCommand", () => {
       [
         "Scope: System / agent",
         "Agent: coder",
-        "Location: the machine running Zero to Agent",
+        "Location: the machine running OpenAgent",
         "For personal model accounts on a Gateway, run openclaw models accounts login --help.",
       ].join("\n"),
       "Provider sign-in",
@@ -1506,7 +1506,7 @@ describe("modelsAuthLoginCommand", () => {
     await expect(
       modelsAuthLoginCommand({ provider: "openai", force: true }, runtime),
     ).rejects.toThrow(
-      'Could not clear cached profiles for "openai" before re-login: auth store is busy; close other Zero to Agent commands using this state directory and retry',
+      'Could not clear cached profiles for "openai" before re-login: auth store is busy; close other OpenAgent commands using this state directory and retry',
     );
 
     expect(runtime.error).not.toHaveBeenCalled();
@@ -1580,7 +1580,7 @@ describe("modelsAuthLoginCommand", () => {
     await modelsAuthLoginCommand({ provider: "claude-cli" }, runtime);
 
     expect(prompter.note).toHaveBeenCalledWith(
-      'Provider "claude-cli" uses its own CLI login. Select a provider with a Zero to Agent auth flow.',
+      'Provider "claude-cli" uses its own CLI login. Select a provider with an OpenAgent auth flow.',
       "Provider auth",
     );
     expect(prompter.select).toHaveBeenCalledWith(
@@ -1666,13 +1666,13 @@ describe("modelsAuthLoginCommand", () => {
       agentDir: "/tmp/openclaw/agents/main",
     });
     expect(runtime.log).toHaveBeenCalledWith(
-      "Anthropic setup-token auth is supported in Zero to Agent.",
+      "Anthropic setup-token auth is supported in OpenAgent.",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Zero to Agent prefers Claude CLI reuse when it is available on the host.",
+      "OpenAgent prefers Claude CLI reuse when it is available on the host.",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Anthropic staff told us this Zero to Agent path is allowed again.",
+      "Anthropic staff told us this OpenAgent path is allowed again.",
     );
   });
 

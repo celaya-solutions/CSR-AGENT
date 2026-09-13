@@ -98,7 +98,7 @@ drive_typed_onboarding() {
   wait_for_log "Continue?" 60
   send $'y\r' 0.4
   if [[ "$hook_mode" != "interactive" ]]; then
-    wait_for_log "Help make OpenClaw better?" 60
+    wait_for_log "Help make OpenAgent better?" 60
     send $'\r' 0.4
     wait_for_first_agent_prompt onboarding_log_contains 60 0.4
     send $'\r' 0.4

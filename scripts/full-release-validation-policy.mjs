@@ -114,7 +114,7 @@ const LEGACY_CHILD_SPECS = Object.freeze([
   },
   {
     dispatchName: "Dispatch release checks",
-    displayName: "OpenClaw Release Checks",
+    displayName: "OpenAgent Release Checks",
     key: "releaseChecks",
     parentJobName: "Run release/live/Docker/QA validation",
     rerunGroups: [
@@ -160,7 +160,7 @@ const CHILD_SPECS = Object.freeze([
   },
   {
     dispatchName: "Dispatch release checks independent phase",
-    displayName: "OpenClaw Release Checks",
+    displayName: "OpenAgent Release Checks",
     key: "releaseChecksIndependent",
     parentJobName: "Run release checks independent validation",
     rerunGroups: ["all", "install-smoke", "live-e2e", "qa-parity", "qa-live"],
@@ -169,7 +169,7 @@ const CHILD_SPECS = Object.freeze([
   },
   {
     dispatchName: "Dispatch release checks candidate phase",
-    displayName: "OpenClaw Release Checks",
+    displayName: "OpenAgent Release Checks",
     key: "releaseChecksCandidate",
     parentJobName: "Run release checks candidate validation",
     rerunGroups: ["all", "cross-os", "live-e2e", "package"],
@@ -186,8 +186,8 @@ const CHILD_SPECS = Object.freeze([
     workflow: "npm-telegram-beta-e2e.yml",
   },
   {
-    dispatchName: "Dispatch OpenClaw Performance",
-    displayName: "OpenClaw Performance",
+    dispatchName: "Dispatch OpenAgent Performance",
+    displayName: "OpenAgent Performance",
     key: "productPerformance",
     parentJobName: "Run product performance evidence",
     rerunGroups: ["all", "performance"],

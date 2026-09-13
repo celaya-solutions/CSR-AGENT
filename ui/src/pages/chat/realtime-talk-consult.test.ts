@@ -496,7 +496,7 @@ describe("RealtimeTalkSession consult handoff", () => {
       timeoutMs: 120_000,
     });
     expect(submit).toHaveBeenCalledWith("call-1", {
-      result: "Zero to Agent finished with no text.",
+      result: "OpenAgent finished with no text.",
     });
   });
 
@@ -691,7 +691,7 @@ describe("RealtimeTalkSession consult handoff", () => {
 
     expect(submit).toHaveBeenCalledWith("call-1", {
       status: "cancelled",
-      message: "Cancelled the active Zero to Agent run.",
+      message: "Cancelled the active OpenAgent run.",
     });
   });
 
@@ -739,7 +739,7 @@ describe("RealtimeTalkSession consult handoff", () => {
       mode: "status",
       sessionKey: "agent:main:main",
       active: true,
-      message: "Zero to Agent is working in read (running).",
+      message: "OpenAgent is working in read (running).",
       speak: true,
       show: true,
       suppress: false,
@@ -757,7 +757,7 @@ describe("RealtimeTalkSession consult handoff", () => {
     });
 
     expect(speakControlResult).toHaveBeenCalledWith(
-      expect.stringContaining('Status: "Zero to Agent is working in read (running)."'),
+      expect.stringContaining('Status: "OpenAgent is working in read (running)."'),
     );
   });
 
@@ -768,7 +768,7 @@ describe("RealtimeTalkSession consult handoff", () => {
       sessionKey: "agent:main:main",
       active: true,
       aborted: true,
-      message: "Cancelled the active Zero to Agent run.",
+      message: "Cancelled the active OpenAgent run.",
       speak: true,
       show: true,
       suppress: false,

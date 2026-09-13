@@ -1,6 +1,6 @@
 import CoreMotion
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct MotionServiceTests {
     @Test func `first motion query can request authorization`() {

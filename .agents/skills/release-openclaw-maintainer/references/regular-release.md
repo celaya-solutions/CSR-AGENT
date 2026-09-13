@@ -21,7 +21,7 @@ A confirmed code defect creates a new Code SHA. Tooling, credentials,
 infrastructure or wrapper failure keeps the candidate and recovers the failed
 surface. Use [publication recovery](publication-recovery.md) for classification.
 
-An early `OpenClaw Performance` run is optional beta confidence:
+An early `OpenAgent Performance` run is optional beta confidence:
 `target_ref=<code-sha>`, `profile=release`, `repeat=3`, deep profiling/live OpenAI
 off, `fail_on_regression=false`. It may overlap validation; stable/full keeps
 its blocking performance child. Compare available agent-turn/resource,

@@ -50,7 +50,7 @@ export function hasToolModelConfig(model: ToolModelConfig | undefined): boolean 
   );
 }
 
-/** Resolves the configured default model ref, falling back to Zero to Agent defaults. */
+/** Resolves the configured default model ref, falling back to OpenAgent defaults. */
 export function resolveDefaultModelRef(cfg?: OpenClawConfig): { provider: string; model: string } {
   if (cfg) {
     const resolved = resolveConfiguredModelRef({

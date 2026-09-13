@@ -763,7 +763,7 @@ describe("runCapability auto audio entries", () => {
     }
     await runCase({
       enabled: true,
-      prompt: "Zero to Agent, Whisper, and Groq.",
+      prompt: "OpenAgent, Whisper, and Groq.",
       models: [{ provider: "openai", model: "whisper-1" }],
     });
 
@@ -774,7 +774,7 @@ describe("runCapability auto audio entries", () => {
       "Transcribe the audio.",
       "Transcribe the audio.",
       "Transcribe the audio.",
-      "Zero to Agent, Whisper, and Groq.",
+      "OpenAgent, Whisper, and Groq.",
     ]);
   });
 

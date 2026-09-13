@@ -104,9 +104,7 @@ export function checkpointDoctorSqliteFile(database: DatabaseSync, sqlitePath: s
     throw new Error(`SQLite checkpoint returned an invalid result for ${sqlitePath}.`);
   }
   if (busy !== 0) {
-    throw new Error(
-      `SQLite checkpoint remained busy for ${sqlitePath}. Stop Zero to Agent and retry.`,
-    );
+    throw new Error(`SQLite checkpoint remained busy for ${sqlitePath}. Stop OpenAgent and retry.`);
   }
 }
 

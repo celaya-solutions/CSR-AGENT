@@ -248,7 +248,7 @@ export function registerGenerationRecoveryTests(
         expect(record.downtimeMs).toBeGreaterThanOrEqual(0);
         expect(record.confirmedAtMs).toBeGreaterThanOrEqual(before.stoppedAtMs!);
         expect(renderUpdateRunReport(record).headline).toBe(
-          `↩️ Zero to Agent update rolled back to ${VERSION}: restart-unhealthy.`,
+          `↩️ OpenAgent update rolled back to ${VERSION}: restart-unhealthy.`,
         );
       }
     },

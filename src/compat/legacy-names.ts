@@ -1,4 +1,4 @@
-// Product/package naming constants that bridge current Zero to Agent manifests with
+// Product/package naming constants that bridge current OpenAgent manifests with
 // legacy Clawdbot keys still seen in older configs and packages.
 const PROJECT_NAME = "openclaw" as const;
 

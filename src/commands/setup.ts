@@ -132,7 +132,7 @@ export async function setupCommand(
         import("../config/issue-format.js"),
       ]);
       writeRuntimeJson(runtime, {
-        ...formatCliJsonFailure(`Zero to Agent config is invalid: ${shortenHomePath(configPath)}`),
+        ...formatCliJsonFailure(`OpenAgent config is invalid: ${shortenHomePath(configPath)}`),
         issues: normalizeConfigIssues(snapshot.issues),
       });
     }

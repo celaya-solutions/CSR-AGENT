@@ -88,7 +88,7 @@ describe("check-changelog-attributions", () => {
       "- Internal cleanup. Thanks @codex.",
       "- Org-owned fix. Thanks @openclaw.",
       "- Maintainer-owned fix. Thanks @steipete.",
-      "- Mixed credit. Thanks @contributor and @Zero to Agent.",
+      "- Mixed credit. Thanks @contributor and @OpenAgent.",
       "- Bot repair. Thanks @clawsweeper[bot].",
       "- Dependency bump. Thanks @dependabot[bot].",
       "- App repair. Thanks @app/clawsweeper.",
@@ -101,7 +101,7 @@ describe("check-changelog-attributions", () => {
       {
         line: 4,
         handle: "openclaw",
-        text: "- Mixed credit. Thanks @contributor and @Zero to Agent.",
+        text: "- Mixed credit. Thanks @contributor and @OpenAgent.",
       },
       { line: 5, handle: "clawsweeper[bot]", text: "- Bot repair. Thanks @clawsweeper[bot]." },
       { line: 6, handle: "dependabot[bot]", text: "- Dependency bump. Thanks @dependabot[bot]." },

@@ -1,6 +1,6 @@
 ---
 name: control-ui-e2e
-description: Use when designing, testing, fixing, or extending the OpenClaw Control UI GUI, including UI stress-test galleries with feedback inputs, Vitest + Playwright end-to-end checks, mocked Gateway flows, screenshots/videos, or agent-verifiable browser proof.
+description: Use when designing, testing, fixing, or extending the OpenAgent Control UI GUI, including UI stress-test galleries with feedback inputs, Vitest + Playwright end-to-end checks, mocked Gateway flows, screenshots/videos, or agent-verifiable browser proof.
 ---
 
 # Control UI E2E

@@ -121,7 +121,7 @@ describe("system agent setup-flow operations", () => {
     expect(output).toContain("openclaw channels add --channel slack");
     expect(output).toContain("openclaw configure --section web");
     expect(output).toContain("openclaw configure --section gateway");
-    expect(output).toContain("on the machine running Zero to Agent");
+    expect(output).toContain("on the machine running OpenAgent");
   });
 
   it("prints one-shot pointers for hosted skills, search, and Gateway setup", async () => {
@@ -145,16 +145,14 @@ describe("system agent setup-flow operations", () => {
     expect(lines.join("\n")).toContain("openclaw onboard");
   });
 
-  it("routes one-shot model setup through the verified Zero to Agent flow", async () => {
+  it("routes one-shot model setup through the verified OpenAgent flow", async () => {
     const { runtime, lines } = createSystemAgentTestRuntime();
 
     const result = await executeSystemAgentOperation({ kind: "model-setup" }, runtime);
 
     expect(result.applied).toBe(false);
-    expect(lines.join("\n")).toContain(
-      "Run `openclaw onboard` on the machine running Zero to Agent",
-    );
-    expect(lines.join("\n")).toContain("Stop the Zero to Agent host");
+    expect(lines.join("\n")).toContain("Run `openclaw onboard` on the machine running OpenAgent");
+    expect(lines.join("\n")).toContain("Stop the OpenAgent host");
     expect(lines.join("\n")).toContain("restart the host");
     expect(lines.join("\n")).not.toContain("openclaw configure --section model");
   });

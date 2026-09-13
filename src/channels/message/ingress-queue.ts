@@ -1,7 +1,7 @@
 /**
  * Durable channel ingress queue.
  *
- * Stores, claims, completes, and tombstones inbound channel events in Zero to Agent state.
+ * Stores, claims, completes, and tombstones inbound channel events in OpenAgent state.
  */
 import { randomUUID } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
@@ -627,7 +627,7 @@ export async function listChannelIngressQueueAccountIdsReadOnly(params: {
   }
 }
 
-/** Creates a durable channel/account-scoped ingress queue backed by the Zero to Agent state database. */
+/** Creates a durable channel/account-scoped ingress queue backed by the OpenAgent state database. */
 export function createChannelIngressQueue<
   TPayload,
   TMetadata = unknown,

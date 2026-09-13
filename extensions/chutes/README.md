@@ -1,8 +1,8 @@
-# Zero to Agent Chutes Provider
+# OpenAgent Chutes Provider
 
-Official Zero to Agent provider plugin for Chutes.
+Official OpenAgent provider plugin for Chutes.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/chutes-provider

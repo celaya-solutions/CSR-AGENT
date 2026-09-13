@@ -113,7 +113,7 @@ suite.define(() => {
                 };
               };
               if (!app.runtime) {
-                throw new Error("Zero to Agent application runtime is unavailable");
+                throw new Error("OpenAgent application runtime is unavailable");
               }
               app.runtime.context.navigate(targetRouteId, { search: targetSearch });
             },

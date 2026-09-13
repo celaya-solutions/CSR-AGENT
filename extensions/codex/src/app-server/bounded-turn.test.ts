@@ -501,7 +501,7 @@ describe("runBoundedCodexAppServerTurn settled finalization isolation", () => {
     ).resolves.toEqual({
       action: "decline",
       content: null,
-      _meta: { message: "Zero to Agent Codex hosted search does not support interactive input." },
+      _meta: { message: "OpenAgent Codex hosted search does not support interactive input." },
     });
 
     await fake.notify({

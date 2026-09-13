@@ -45,7 +45,7 @@ describe.each(platforms)("$name meeting status source parity", (platform) => {
     autoJoin: false,
     captureCaptions: false,
     expectedIdentity: `${platform.token}:meeting`,
-    guestName: "Zero to Agent",
+    guestName: "OpenAgent",
     pageIdentitySource: "const meetingIdentity = () => undefined;",
     selectors: "{}",
     toggleStateFunction: "() => undefined",

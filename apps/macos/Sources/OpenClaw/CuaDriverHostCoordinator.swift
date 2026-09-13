@@ -388,7 +388,7 @@ final class CuaDriverHostCoordinator {
         environment["CUA_DRIVER_EMBEDDED_HOST_PID"] = String(ProcessInfo.processInfo.processIdentifier)
         // Unrestricted is deliberate: CUA bounded mode accepts only exact launch-time resource grants
         // (cua-driver-core/src/session_manifest.rs), not arbitrary runtime-discovered windows/elements.
-        // OpenClaw command arming, pairing, and tool policy own authorization upstream, matching the
+        // OpenAgent command arming, pairing, and tool policy own authorization upstream, matching the
         // shipped Peekaboo fulfiller; the owner-only 0700 socket directory is the local trust boundary.
         return CuaDriverProcessLaunch(
             executableURL: executableURL,
@@ -401,7 +401,7 @@ final class CuaDriverHostCoordinator {
                 socketPath,
                 // No --pid-file: `serve` ignores it and always writes the driver's
                 // global default path, which every cua-driver on the machine shares.
-                // OpenClaw records the spawned pid itself so reaping can attribute
+                // OpenAgent records the spawned pid itself so reaping can attribute
                 // exactly the daemon this app owns.
                 "--host-bundle-id",
                 hostBundleID,
@@ -466,7 +466,7 @@ final class CuaDriverHostCoordinator {
     }
 
     static func createSocketDirectory(in applicationSupportURL: URL) throws -> CuaDriverSocketDirectory {
-        let openClawRoot = applicationSupportURL.appendingPathComponent("OpenClaw", isDirectory: true)
+        let openClawRoot = applicationSupportURL.appendingPathComponent("OpenAgent", isDirectory: true)
         let root = openClawRoot.appendingPathComponent("cua", isDirectory: true)
         for directory in [applicationSupportURL, openClawRoot, root] {
             var status = stat()

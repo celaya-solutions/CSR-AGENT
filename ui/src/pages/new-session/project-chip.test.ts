@@ -4,7 +4,7 @@ import { projectCloneInput, resolveProjectChip } from "./project-chip.ts";
 const projects = [
   {
     id: "openclaw",
-    displayName: "Zero to Agent",
+    displayName: "OpenAgent",
     repoRoot: "/workspace/openclaw",
     source: "registered" as const,
   },
@@ -58,7 +58,7 @@ describe("What chip state", () => {
       selectedRemoteProject: null,
       projects,
       recents: [
-        { kind: "project", projectId: "openclaw", displayName: "Zero to Agent" },
+        { kind: "project", projectId: "openclaw", displayName: "OpenAgent" },
         folderRecent,
         repositoryRecent,
       ],

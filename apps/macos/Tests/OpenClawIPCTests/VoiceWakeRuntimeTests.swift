@@ -1,6 +1,6 @@
 import SwabbleKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct VoiceWakeRuntimeTests {
     @Test func `cancelled runtime delay does not continue`() async {

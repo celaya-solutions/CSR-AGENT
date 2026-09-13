@@ -3,14 +3,14 @@ summary: "Progress drafts: one visible work-in-progress message that updates whi
 read_when:
   - Configuring visible progress updates for long-running chat turns
   - Choosing between partial, block, and progress streaming modes
-  - Explaining how Zero to Agent updates one channel message while work is in progress
+  - Explaining how OpenAgent updates one channel message while work is in progress
   - Troubleshooting progress drafts, standalone progress messages, or finalization fallback
 title: "Progress drafts"
 ---
 
 Progress drafts turn one channel message into a live status line while an
 agent works, instead of a stack of temporary "still working" replies. Set
-`channels.<channel>.streaming.mode: "progress"` and Zero to Agent creates the
+`channels.<channel>.streaming.mode: "progress"` and OpenAgent creates the
 message once real work starts, edits it as the agent reads, plans, calls
 tools, or waits for approval, then delivers the final answer.
 
@@ -79,7 +79,7 @@ replies never show a progress draft; a line appears only for real work updates,
 for example `🛠️ Bash: run tests`, `🔎 Web Search: for "discord edit message"`,
 or `✍️ Write: to /tmp/file`.
 
-Final delivery depends on the channel and transport. Zero to Agent either finalizes
+Final delivery depends on the channel and transport. OpenAgent either finalizes
 the draft or sends a separate answer and cleans up or stops updating the draft
 (see [Finalization](#finalization)).
 
@@ -198,7 +198,7 @@ empty model content and explicit public channel metadata:
 }
 ```
 
-Zero to Agent renders only `progress.text` in the channel progress UI. The normal
+OpenAgent renders only `progress.text` in the channel progress UI. The normal
 tool result still arrives later as `content`/`details` and is the only part
 returned to the model.
 
@@ -228,7 +228,7 @@ fetched content, command output, or page text.
 
 ### Detail mode
 
-Zero to Agent uses the same formatter for progress drafts and `/verbose`:
+OpenAgent uses the same formatter for progress drafts and `/verbose`:
 
 ```json5
 {
@@ -369,7 +369,7 @@ the tool log hidden, tool failures and nonzero exits are hidden too; approval
 requests remain visible.
 
 Progress lines are compacted automatically to reduce chat-bubble reflow while
-the draft is edited, and Zero to Agent truncates long lines so repeated draft edits
+the draft is edited, and OpenAgent truncates long lines so repeated draft edits
 do not wrap differently on every update. The default per-line budget is 120
 characters; prose cuts at a word boundary, while long details such as paths or
 raw commands are shortened with a middle ellipsis so the suffix stays visible.
@@ -412,7 +412,7 @@ Add the rolling tool log to the single progress draft:
 }
 ```
 
-With the default `toolProgress: false`, Zero to Agent still suppresses the older
+With the default `toolProgress: false`, OpenAgent still suppresses the older
 standalone tool-progress messages for that turn; the draft shows the headline,
 authored text, plan milestones, and approval requests only. Tool diagnostics
 remain available in the session transcript.
@@ -434,21 +434,21 @@ full runtime-behavior breakdown per channel.
 
 ## Finalization
 
-When the final answer is ready, Zero to Agent tries to keep the chat clean:
+When the final answer is ready, OpenAgent tries to keep the chat clean:
 
 - In `progress` mode on Discord, the final answer is sent as a fresh message
   and the status draft is deleted once that answer is delivered. Busy channels
   keep no orphaned tool log above the reply; error finals keep the draft as the
   visible record of the failed turn.
 - If the draft can safely become the final answer (`partial`/`block` modes),
-  Zero to Agent edits it in place.
+  OpenAgent edits it in place.
 - Slack's compact progress style posts the final answer as a new message and
   deletes its temporary drafts after confirmed delivery. Failed delivery keeps
   the draft visible.
-- If the channel uses native progress streaming, Zero to Agent finalizes that
+- If the channel uses native progress streaming, OpenAgent finalizes that
   stream when the native transport accepts the final text.
 - Otherwise (media, an approval prompt, an explicit reply target, too many
-  chunks, or a failed edit/send) Zero to Agent sends the final answer through the
+  chunks, or a failed edit/send) OpenAgent sends the final answer through the
   normal channel delivery path instead of overwriting the draft.
 
 The fallback is intentional: sending a fresh final answer beats losing text,

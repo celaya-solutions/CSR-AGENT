@@ -658,7 +658,7 @@ describe("openclaw live updater", () => {
     });
   });
 
-  test("ignores restart-window logs emitted by a foreign Zero to Agent checkout", () => {
+  test("ignores restart-window logs emitted by a foreign OpenAgent checkout", () => {
     const root = tempDirs.make("openclaw-log-attribution-");
     const sourceRoot = path.join(root, "managed/openclaw/dist");
     const foreignRoot = path.join(root, "worktree/openclaw");
@@ -1282,7 +1282,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
     expect(result.url).toBeNull();
   });
 
-  test("accepts supported Zero to Agent GitHub origins", () => {
+  test("accepts supported OpenAgent GitHub origins", () => {
     expect(originMatches("https://github.com/openclaw/openclaw.git")).toBe(true);
     expect(originMatches("git@github.com:openclaw/openclaw.git")).toBe(true);
     expect(originMatches("https://github.com/example/openclaw.git")).toBe(false);
@@ -1620,7 +1620,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
 
   test("fast-forwards, builds exact SHA, restarts Gateway, then proves exact Mac target", async () => {
     const { root, mirror, seed } = makeFixture({ includeSeed: true });
-    mkdirSync(path.join(seed, "apps/macos/Sources/Zero to Agent"), { recursive: true });
+    mkdirSync(path.join(seed, "apps/macos/Sources/OpenAgent"), { recursive: true });
     writeFileSync(path.join(seed, "apps/macos/Sources/OpenClaw/App.swift"), "// changed\n");
     git(seed, "add", ".");
     git(seed, "commit", "-m", "mac change");
@@ -3541,7 +3541,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
 
   test("retains failed exact-bundle Mac proof for the next heartbeat", async () => {
     const { root, mirror, seed } = makeFixture({ includeSeed: true });
-    mkdirSync(path.join(seed, "apps/macos/Sources/Zero to Agent"), { recursive: true });
+    mkdirSync(path.join(seed, "apps/macos/Sources/OpenAgent"), { recursive: true });
     writeFileSync(path.join(seed, "apps/macos/Sources/OpenClaw/App.swift"), "// changed\n");
     git(seed, "add", ".");
     git(seed, "commit", "-m", "mac change");
@@ -3588,7 +3588,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
 
   test("records pending Mac work before Gateway maintenance can fail", async () => {
     const { root, mirror, seed } = makeFixture({ includeSeed: true });
-    mkdirSync(path.join(seed, "apps/macos/Sources/Zero to Agent"), { recursive: true });
+    mkdirSync(path.join(seed, "apps/macos/Sources/OpenAgent"), { recursive: true });
     writeFileSync(path.join(seed, "apps/macos/Sources/OpenClaw/App.swift"), "// changed\n");
     git(seed, "add", ".");
     git(seed, "commit", "-m", "mac change");

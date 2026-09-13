@@ -878,7 +878,7 @@ jobs:
               priority: "high",
               repo: "local",
               seams: inferSeams(pluginManifest, packageJson),
-              why: "bundled OpenClaw plugin prerelease advisory fixture",
+              why: "bundled OpenAgent plugin prerelease advisory fixture",
             });
           }
           fixtures.sort((left, right) => left.id.localeCompare(right.id));

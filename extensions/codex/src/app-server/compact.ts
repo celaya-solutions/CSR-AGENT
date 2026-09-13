@@ -374,7 +374,7 @@ function warnIfIgnoringOpenClawCompactionOverrides(
     return;
   }
   embeddedAgentLog.warn(
-    "ignoring Zero to Agent compaction overrides for Codex app-server compaction; Codex uses native server-side compaction",
+    "ignoring OpenAgent compaction overrides for Codex app-server compaction; Codex uses native server-side compaction",
     {
       sessionId: params.sessionId,
       sessionKey: params.sessionKey,
@@ -624,7 +624,7 @@ async function compactCodexNativeThread(
             }
             if (usesSupervisionConnection) {
               // A supervised thread is native user-home state, not an
-              // Zero to Agent-owned remote binding. Keep the lifecycle fence held
+              // OpenAgent-owned remote binding. Keep the lifecycle fence held
               // rather than detach and permit a second writer.
               throw new Error("cannot detach an unconfirmed supervised codex thread");
             }

@@ -499,7 +499,7 @@ describe("createVoiceCallRuntime lifecycle", () => {
       from: "+15550001111",
       to: "+15550002222",
     });
-    expect(unknownRegistration.instructions).not.toContain("Zero to Agent agent voice context:");
+    expect(unknownRegistration.instructions).not.toContain("OpenAgent agent voice context:");
   });
 
   it("selects realtime provider readiness from the routed call owner", async () => {
@@ -701,8 +701,8 @@ describe("createVoiceCallRuntime lifecycle", () => {
     });
     expect(runEmbeddedAgent).toHaveBeenCalledOnce();
     const consultParams = requireRecord(
-      firstCallParam(runEmbeddedAgent.mock.calls as unknown[][], "embedded Zero to Agent consult"),
-      "embedded Zero to Agent consult params",
+      firstCallParam(runEmbeddedAgent.mock.calls as unknown[][], "embedded OpenAgent consult"),
+      "embedded OpenAgent consult params",
     );
     expect(consultParams.agentId).toBe("support");
     expect(consultParams.sessionKey).toBe("agent:support:voice:15550009999");
@@ -857,9 +857,9 @@ describe("createVoiceCallRuntime lifecycle", () => {
     const consultParams = requireRecord(
       firstCallParam(
         runEmbeddedAgent.mock.calls as unknown[][],
-        "per-call embedded Zero to Agent consult",
+        "per-call embedded OpenAgent consult",
       ),
-      "per-call embedded Zero to Agent consult params",
+      "per-call embedded OpenAgent consult params",
     );
     expect(consultParams.sessionKey).toBe("agent:main:voice:call:call-1");
   });
@@ -943,7 +943,7 @@ describe("createVoiceCallRuntime lifecycle", () => {
     mocks.resolveRealtimeFastContextConsult.mockResolvedValue({
       handled: true,
       result: {
-        text: "Fast Zero to Agent memory or session context found.\nThe caller's basement lights are on.",
+        text: "Fast OpenAgent memory or session context found.\nThe caller's basement lights are on.",
       },
     });
 
@@ -1029,9 +1029,9 @@ describe("createVoiceCallRuntime lifecycle", () => {
     const consultParams = requireRecord(
       firstCallParam(
         runEmbeddedAgent.mock.calls as unknown[][],
-        "configured embedded Zero to Agent consult",
+        "configured embedded OpenAgent consult",
       ),
-      "configured embedded Zero to Agent consult params",
+      "configured embedded OpenAgent consult params",
     );
     expect(consultParams.thinkLevel).toBe("ultra");
     expect(consultParams.fastMode).toBe(true);

@@ -93,7 +93,7 @@ describe("configured meeting node host", () => {
     expect(result).toEqual({
       ok: true,
       audioBackend: "pipewire-pulse",
-      audioDeviceLabel: "Zero to Agent Meeting Audio",
+      audioDeviceLabel: "OpenAgent Meeting Audio",
     });
     expect(childProcessMocks.spawnSync).toHaveBeenCalledWith(
       "/bin/sh",

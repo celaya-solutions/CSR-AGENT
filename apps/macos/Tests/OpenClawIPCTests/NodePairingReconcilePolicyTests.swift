@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct NodePairingReconcilePolicyTests {
     @Test func `policy polls only while requests are pending`() {

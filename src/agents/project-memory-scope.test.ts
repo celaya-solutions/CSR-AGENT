@@ -32,12 +32,9 @@ async function makeRepo(remote?: string): Promise<string> {
 
 describe("project memory scope", () => {
   it.each([
-    [
-      "https://GitHub.COM/Zero to Agent/Zero to Agent.git",
-      "github.com/Zero to Agent/Zero to Agent",
-    ],
-    ["git@GITHUB.com:Zero to Agent/Zero to Agent.git", "github.com/Zero to Agent/Zero to Agent"],
-    ["https://github.com/Zero to Agent/Repo;Prod.git", "github.com/Zero to Agent/Repo%3bProd"],
+    ["https://GitHub.COM/OpenAgent/OpenAgent.git", "github.com/OpenAgent/OpenAgent"],
+    ["git@GITHUB.com:OpenAgent/OpenAgent.git", "github.com/OpenAgent/OpenAgent"],
+    ["https://github.com/OpenAgent/Repo;Prod.git", "github.com/OpenAgent/Repo%3bProd"],
   ])("normalizes origin %s", async (remote, expected) => {
     await expect(resolveProjectKey(await makeRepo(remote))).resolves.toBe(expected);
   });
@@ -85,7 +82,7 @@ describe("project memory scope", () => {
   });
 
   it("converges a linked worktree and its source repository", async () => {
-    const repo = await makeRepo("https://github.com/Zero to Agent/Zero to Agent.git");
+    const repo = await makeRepo("https://github.com/OpenAgent/OpenAgent.git");
     await git(repo, "config", "user.email", "test@example.com");
     await git(repo, "config", "user.name", "Test");
     await fs.writeFile(path.join(repo, "README.md"), "test\n");
@@ -96,10 +93,7 @@ describe("project memory scope", () => {
     await git(repo, "worktree", "add", worktree, "-b", "test-worktree");
     await expect(
       Promise.all([resolveProjectKey(repo), resolveProjectKey(worktree)]),
-    ).resolves.toEqual([
-      "github.com/Zero to Agent/Zero to Agent",
-      "github.com/Zero to Agent/Zero to Agent",
-    ]);
+    ).resolves.toEqual(["github.com/OpenAgent/OpenAgent", "github.com/OpenAgent/OpenAgent"]);
   });
 
   it.runIf(process.platform !== "win32")(
@@ -119,13 +113,7 @@ describe("project memory scope", () => {
       const repo = path.join(parent, "repo");
       await fs.mkdir(repo);
       await git(repo, "init");
-      await git(
-        repo,
-        "remote",
-        "add",
-        "origin",
-        "https://github.com/Zero to Agent/Zero to Agent.git",
-      );
+      await git(repo, "remote", "add", "origin", "https://github.com/OpenAgent/OpenAgent.git");
 
       const started = Date.now();
       const key = await withEnvAsync(

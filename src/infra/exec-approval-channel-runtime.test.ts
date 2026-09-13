@@ -322,7 +322,7 @@ describe("createExecApprovalChannelRuntime", () => {
     await runtime.handleRequested({
       id: "system-agent:expired",
       request: {
-        title: "Zero to Agent change",
+        title: "OpenAgent change",
         description: "restart the Gateway",
         command: "restart the Gateway",
         proposalHash: "a".repeat(64),

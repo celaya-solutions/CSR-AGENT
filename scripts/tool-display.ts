@@ -1,4 +1,4 @@
-// Tool Display script supports OpenClaw repository automation.
+// Tool Display script supports OpenAgent repository automation.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

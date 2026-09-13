@@ -1,9 +1,9 @@
 ---
 name: openclaw-update
-description: "Route routine updates of an existing local or remote OpenClaw Gateway to its installation owner, with automatic session recovery. Defer to deployment-specific skills when available."
+description: "Route routine updates of an existing local or remote OpenAgent Gateway to its installation owner, with automatic session recovery. Defer to deployment-specific skills when available."
 ---
 
-# Update OpenClaw
+# Update OpenAgent
 
 Use for general requests to update an existing Claw/Gateway. Select the existing update workflow; do not create another deployer or scheduler. Release validation, publication, new installations, and unrelated hosts are outside this workflow.
 

@@ -278,7 +278,7 @@ internal fun OnboardingErrorCode.nativeTextOrNull(): NativeText? {
     }
 
     OnboardingErrorCode.InvalidSetupQr -> {
-      nativeText("That QR code is not an OpenClaw setup QR. Generate a fresh code with openclaw qr, then try again.")
+      nativeText("That QR code is not an OpenAgent setup QR. Generate a fresh code with openclaw qr, then try again.")
     }
 
     OnboardingErrorCode.ManualTokenLooksLikeSetupCode -> {
@@ -1080,8 +1080,8 @@ internal fun WelcomeScreen(
       ) {
         OnboardingHeroTopSpacer(afterHeader = false)
         OnboardingIntroHero(
-          title = nativeString("Welcome to OpenClaw"),
-          subtitle = nativeString("Turn this device into a secure OpenClaw node for chat, voice, camera, and device tools."),
+          title = nativeString("Welcome to OpenAgent"),
+          subtitle = nativeString("Turn this device into a secure OpenAgent node for chat, voice, camera, and device tools."),
           mark = { WelcomeLogo(mood = mascotMood, announceLogo = true) },
         )
         Spacer(modifier = Modifier.height(24.dp))
@@ -1113,7 +1113,7 @@ private fun WelcomeLogo(
   ) {
     Box(modifier = Modifier.fillMaxSize().padding(12.dp), contentAlignment = Alignment.Center) {
       OpenClawMascot(
-        contentDescription = if (announceLogo) nativeString("OpenClaw logo") else null,
+        contentDescription = if (announceLogo) nativeString("OpenAgent logo") else null,
         modifier = Modifier.fillMaxSize(),
         mood = mood,
       )
@@ -1174,7 +1174,7 @@ private fun WelcomeChecklist() {
     Column(verticalArrangement = Arrangement.spacedBy(13.dp)) {
       WelcomeChecklistRow(icon = Icons.Default.Link, text = nativeString("Connect to your Gateway"))
       WelcomeChecklistRow(icon = Icons.Default.Security, text = nativeString("Choose device permissions"))
-      WelcomeChecklistRow(icon = Icons.Default.CheckCircle, text = nativeString("Use OpenClaw from your phone"))
+      WelcomeChecklistRow(icon = Icons.Default.CheckCircle, text = nativeString("Use OpenAgent from your phone"))
     }
   }
 }
@@ -1198,7 +1198,7 @@ private fun SecurityNotice() {
       Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(text = nativeString("Security notice"), style = ClawTheme.type.section, color = ClawTheme.colors.text)
         Text(
-          text = nativeString("The connected OpenClaw agent can use device capabilities you enable. Continue only if you trust the Gateway and agent you connect to."),
+          text = nativeString("The connected OpenAgent agent can use device capabilities you enable. Continue only if you trust the Gateway and agent you connect to."),
           style = ClawTheme.type.body,
           color = ClawTheme.colors.textMuted,
         )
@@ -1244,7 +1244,7 @@ internal fun GatewaySetupScreen(
         OnboardingHeroTopSpacer(afterHeader = true)
         OnboardingIntroHero(
           title = nativeString("Connect Gateway"),
-          subtitle = nativeString("Scan a QR code or use the setup code from your OpenClaw Gateway."),
+          subtitle = nativeString("Scan a QR code or use the setup code from your OpenAgent Gateway."),
           mark = { GatewayLogo() },
         )
         Spacer(modifier = Modifier.height(24.dp))
@@ -1296,7 +1296,7 @@ private fun GatewayPrerequisites(onOpenSetupGuide: () -> Unit) {
     )
     GatewayPrerequisiteRow(
       title = nativeString("Access to the Gateway device"),
-      body = nativeString("Have a terminal open on the device running OpenClaw."),
+      body = nativeString("Have a terminal open on the device running OpenAgent."),
     )
     GatewayPrerequisiteRow(
       title = nativeString("Phone can reach the Gateway"),
@@ -2182,7 +2182,7 @@ private fun copyGatewayDiagnostic(
   diagnosticText: String,
 ) {
   val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-  clipboard.setPrimaryClip(ClipData.newPlainText("OpenClaw gateway diagnostic", diagnosticText))
+  clipboard.setPrimaryClip(ClipData.newPlainText("OpenAgent gateway diagnostic", diagnosticText))
   Toast.makeText(context, nativeString("Details copied"), Toast.LENGTH_SHORT).show()
 }
 
@@ -2230,7 +2230,7 @@ private fun NodeApprovalScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-          text = nativeString("Gateway pairing is complete. Approve this phone as a node so OpenClaw can use the device capabilities you enable."),
+          text = nativeString("Gateway pairing is complete. Approve this phone as a node so OpenAgent can use the device capabilities you enable."),
           style = ClawTheme.type.body,
           color = ClawTheme.colors.textMuted,
           textAlign = TextAlign.Center,
@@ -2470,7 +2470,7 @@ private fun PermissionSetupScreen(
         }
         item {
           Text(
-            text = nativeString("Only enable access you are comfortable letting OpenClaw use while this phone is connected. You can change these later in Android Settings."),
+            text = nativeString("Only enable access you are comfortable letting OpenAgent use while this phone is connected. You can change these later in Android Settings."),
             style = ClawTheme.type.body,
             color = ClawTheme.colors.textMuted,
             textAlign = TextAlign.Center,
@@ -2639,7 +2639,7 @@ internal enum class GatewayRecoveryUiState(
   ),
   Finishing(
     title = nativeText("Connecting Gateway"),
-    message = nativeText("OpenClaw is checking gateway and node access."),
+    message = nativeText("OpenAgent is checking gateway and node access."),
   ),
   Failed(
     title = nativeText("Connection issue"),
@@ -2709,7 +2709,7 @@ internal fun gatewayRecoveryDiagnosticText(
 ): String =
   // Diagnostic labels are UI copy; values stay verbatim so copied evidence matches gateway state.
   listOf(
-    localizeLabel("OpenClaw Android gateway diagnostic"),
+    localizeLabel("OpenAgent Android gateway diagnostic"),
     "${localizeLabel("Gateway")}: $gatewayName",
     "${localizeLabel("Status")}: $statusText",
     "${localizeLabel("Gateway paired")}: $gatewayPaired",
@@ -2844,7 +2844,7 @@ internal fun recoveryGatewayAuthDetail(gatewayConnectionProblem: GatewayConnecti
   when (gatewayConnectionProblem.code) {
     "NETWORK_UNREACHABLE" -> {
       if (gatewayConnectionProblem.isTailscaleRoute && gatewayConnectionProblem.reason != "transport-cleanup") {
-        nativeString("This address may use Tailscale. Open Tailscale and connect to the Gateway's tailnet, then retry. Check that the Gateway computer is online and OpenClaw is running.")
+        nativeString("This address may use Tailscale. Open Tailscale and connect to the Gateway's tailnet, then retry. Check that the Gateway computer is online and OpenAgent is running.")
       } else {
         gatewayConnectionStatusForDisplay(gatewayConnectionProblem.message)
       }
@@ -2904,15 +2904,15 @@ private fun recoveryGatewayProtocolMismatchDetail(gatewayConnectionProblem: Gate
   val summary =
     when {
       clientMax != null && expected != null && clientMax < expected -> {
-        nativeString("This app is older than the Gateway. Update OpenClaw on this device, then retry.")
+        nativeString("This app is older than the Gateway. Update OpenAgent on this device, then retry.")
       }
 
       clientMin != null && expected != null && clientMin > expected -> {
-        nativeString("The Gateway is older than this app. Update OpenClaw on the Gateway host, then retry.")
+        nativeString("The Gateway is older than this app. Update OpenAgent on the Gateway host, then retry.")
       }
 
       else -> {
-        nativeString("The app and Gateway use incompatible protocol versions. Update OpenClaw on both, then retry.")
+        nativeString("The app and Gateway use incompatible protocol versions. Update OpenAgent on both, then retry.")
       }
     }
   return protocolMismatchVersions(clientMin, clientMax, expected)?.let { nativeString("\$summary \$details", summary, it) } ?: summary
@@ -3045,7 +3045,7 @@ private fun copyApprovalCommand(
   command: String,
 ) {
   val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-  clipboard.setPrimaryClip(ClipData.newPlainText("OpenClaw pairing approval command", command))
+  clipboard.setPrimaryClip(ClipData.newPlainText("OpenAgent pairing approval command", command))
   Toast.makeText(context, nativeString("Approval command copied"), Toast.LENGTH_SHORT).show()
 }
 
@@ -3054,7 +3054,7 @@ private fun copyGatewayCommand(
   command: String,
 ) {
   val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-  clipboard.setPrimaryClip(ClipData.newPlainText("OpenClaw gateway command", command))
+  clipboard.setPrimaryClip(ClipData.newPlainText("OpenAgent gateway command", command))
   Toast.makeText(context, nativeString("Command copied"), Toast.LENGTH_SHORT).show()
 }
 
@@ -3309,7 +3309,7 @@ private fun rememberPermissionState(
       PermissionRowModel(PermissionRowId.Calendar, nativeText("Calendar"), nativeText("Read and update events"), Icons.Default.CalendarMonth, calendarGranted) {
         request(*requiredCalendarPermissions.toTypedArray())
       },
-      PermissionRowModel(PermissionRowId.Notifications, nativeText("Notifications"), nativeText("Show OpenClaw alerts"), Icons.Default.Notifications, notificationsGranted) {
+      PermissionRowModel(PermissionRowId.Notifications, nativeText("Notifications"), nativeText("Show OpenAgent alerts"), Icons.Default.Notifications, notificationsGranted) {
         if (Build.VERSION.SDK_INT >= 33) request(Manifest.permission.POST_NOTIFICATIONS)
       },
       PermissionRowModel(PermissionRowId.NotificationListener, nativeText("Notification listener"), nativeText("Read selected app notifications"), Icons.Default.Sensors, notificationListenerGranted) {

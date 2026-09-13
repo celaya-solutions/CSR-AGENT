@@ -70,7 +70,7 @@ describe("resolveRealtimeFastContextConsult", () => {
       logger,
       labels: {
         audienceLabel: "caller",
-        contextName: "Zero to Agent memory or session context",
+        contextName: "OpenAgent memory or session context",
       },
     });
   });

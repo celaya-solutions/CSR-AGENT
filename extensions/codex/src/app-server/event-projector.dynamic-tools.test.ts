@@ -57,7 +57,7 @@ describe("CodexAppServerEventProjector dynamic tool projection", () => {
     expect(protocolResponse).not.toHaveProperty("details");
   });
 
-  it("records dynamic Zero to Agent tool calls in mirrored transcript snapshots", async () => {
+  it("records dynamic OpenAgent tool calls in mirrored transcript snapshots", async () => {
     const projector = await createProjector(undefined, {
       resolveDynamicToolResultContentSource: (toolName) =>
         toolName === "browser" ? "network" : undefined,
@@ -474,11 +474,11 @@ describe("CodexAppServerEventProjector dynamic tool projection", () => {
         arguments: { action: "send", text: "hello" },
         executionStarted: false,
         outcome: "failure",
-        failure: { error: "Unknown Zero to Agent tool: message" },
+        failure: { error: "Unknown OpenAgent tool: message" },
       }),
       success: false,
       terminalType: "error",
-      contentItems: [{ type: "inputText", text: "Unknown Zero to Agent tool: message" }],
+      contentItems: [{ type: "inputText", text: "Unknown OpenAgent tool: message" }],
     });
 
     const result = projector.buildResult(buildEmptyToolTelemetry());

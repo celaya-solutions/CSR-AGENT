@@ -264,7 +264,7 @@ describe("runRemoteGatewayInferenceOnboarding", () => {
       secret: "selected-password",
     },
   ])(
-    "pins $label across detect, activate, verify, Zero to Agent, and in-process TUI",
+    "pins $label across detect, activate, verify, OpenAgent, and in-process TUI",
     async ({ auth, secret }) => {
       const localConfig = makeLocalConfig();
       const localConfigBefore = structuredClone(localConfig);
@@ -673,7 +673,7 @@ describe("runRemoteGatewayInferenceOnboarding", () => {
       verification: { ok: true, modelRef: "openai/other", latencyMs: 100 },
       error: "Gateway verified openai/other, not the activated claude-cli/opus",
     },
-  ])("fails closed on $label before Zero to Agent", async ({ verification, error }) => {
+  ])("fails closed on $label before OpenAgent", async ({ verification, error }) => {
     const localConfig = makeLocalConfig();
     const localConfigBefore = structuredClone(localConfig);
     const methods: string[] = [];
@@ -806,7 +806,7 @@ describe("runRemoteGatewayInferenceOnboarding", () => {
               ? "authenticated-profile"
               : (options.deviceIdentity?.deviceId ?? `connection:${++connections}`);
           if (chatOwner && chatOwner !== owner) {
-            throw new Error("Zero to Agent session belongs to another caller.");
+            throw new Error("OpenAgent session belongs to another caller.");
           }
           chatOwner = owner;
           return {
@@ -845,7 +845,7 @@ describe("runRemoteGatewayInferenceOnboarding", () => {
         "openclaw.chat",
         "openclaw.chat",
       ]);
-      expect(prompter.outro).toHaveBeenCalledWith("Zero to Agent setup paused.");
+      expect(prompter.outro).toHaveBeenCalledWith("OpenAgent setup paused.");
       expect(runTui).not.toHaveBeenCalled();
     },
   );

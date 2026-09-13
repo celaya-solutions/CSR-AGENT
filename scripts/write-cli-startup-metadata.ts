@@ -1,4 +1,4 @@
-// Write Cli Startup Metadata script supports OpenClaw repository automation.
+// Write Cli Startup Metadata script supports OpenAgent repository automation.
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import fs, {

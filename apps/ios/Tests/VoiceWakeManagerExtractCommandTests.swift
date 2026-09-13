@@ -1,7 +1,7 @@
 import Foundation
 import SwabbleKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 private let openclawTranscript = "hey openclaw do thing"
 

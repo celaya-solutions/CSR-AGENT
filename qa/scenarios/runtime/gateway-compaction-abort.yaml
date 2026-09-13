@@ -46,7 +46,7 @@ scenario:
     kind: script
     path: test/e2e/qa-lab/runtime/gateway-compaction-abort.ts
     timeoutMs: 660000
-    summary: Run on Blacksmith Testbox after OPENCLAW_BUILD_PRIVATE_QA=1 pnpm build. The producer launches an environment-isolated child before importing OpenClaw and uses a built dist Gateway with owned state and ports. Pending cancellation, real writer replacement, independent summary failure, success, and cancellation during a loaded internal after hook record SQLite snapshots, held-hook accounting, provider checkpoints, QA Channel delivery, owned-process settlement, and a standard evidence verdict.
+    summary: Run on Blacksmith Testbox after OPENCLAW_BUILD_PRIVATE_QA=1 pnpm build. The producer launches an environment-isolated child before importing OpenAgent and uses a built dist Gateway with owned state and ports. Pending cancellation, real writer replacement, independent summary failure, success, and cancellation during a loaded internal after hook record SQLite snapshots, held-hook accounting, provider checkpoints, QA Channel delivery, owned-process settlement, and a standard evidence verdict.
     config:
       requiredProviderMode: mock-openai
     args:

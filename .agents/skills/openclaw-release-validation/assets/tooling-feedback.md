@@ -1,4 +1,4 @@
-# OpenClaw release-validation tooling feedback
+# OpenAgent release-validation tooling feedback
 
 > Private, redacted, optional-report packet. This is not candidate feedback and
 > must never be posted automatically or included in the release campaign.

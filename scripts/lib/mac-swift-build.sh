@@ -509,7 +509,7 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   PEEKABOO_LOCKED_SOURCE_COMMIT="$6"
   SKIP_MLX_TTS="$7"
   SWIFT_WORK_ROOT="$8"
-  PRODUCT=OpenClaw
+  PRODUCT=OpenAgent
   MLX_TTS_HELPER_PRODUCT=openclaw-mlx-tts
   BUILD_ROOT="$ROOT_DIR/apps/macos/.build"
   MLX_TTS_HELPER_BUILD_ROOT="$ROOT_DIR/apps/macos-mlx-tts/.build"

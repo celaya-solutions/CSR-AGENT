@@ -20,7 +20,7 @@ type RuntimePluginInstallDescriptor = {
   label: string;
   npmSpec: string;
   warningLabel: string;
-  /** Keep this official runtime package on the same release cohort as Zero to Agent. */
+  /** Keep this official runtime package on the same release cohort as OpenAgent. */
   versionBoundToOpenClaw?: boolean;
 };
 

@@ -13,7 +13,7 @@ export type SessionMessageProjectionState = {
   turnBoundaryPending: boolean;
 };
 
-/** Attach Zero to Agent metadata to a transcript message without dropping existing metadata. */
+/** Attach OpenAgent metadata to a transcript message without dropping existing metadata. */
 export function attachOpenClawTranscriptMeta(
   message: unknown,
   meta: Record<string, unknown>,

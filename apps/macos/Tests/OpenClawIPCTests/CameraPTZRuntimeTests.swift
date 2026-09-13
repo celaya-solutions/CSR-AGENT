@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct CameraPTZRuntimeTests {
     private actor FakePTZService: CameraPTZServicing {

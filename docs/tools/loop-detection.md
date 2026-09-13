@@ -8,7 +8,7 @@ read_when:
   - You hit `compaction_loop_persisted` aborts after a context-overflow retry
 ---
 
-Zero to Agent has two cooperating guardrails against repetitive tool-call patterns,
+OpenAgent has two cooperating guardrails against repetitive tool-call patterns,
 both configured under `tools.loopDetection`:
 
 1. **Loop detection** (`enabled`) - disabled by default. Watches the rolling
@@ -134,11 +134,11 @@ so a no-config user still gets the protection.
 
 ## Logs and expected behavior
 
-When a loop is detected, Zero to Agent logs a loop event and either warns or blocks
+When a loop is detected, OpenAgent logs a loop event and either warns or blocks
 the next tool-cycle depending on severity, protecting against runaway token
 spend and lockups while preserving normal tool access.
 
-- Warnings come first. On Zero to Agent-executed tool calls, a short system note is
+- Warnings come first. On OpenAgent-executed tool calls, a short system note is
   appended to the affected tool result so the model can change approach before
   a critical block. Warnings share the diagnostic log's rate limit, rather than
   appearing on every repeated call. The raw outcome is recorded before the note

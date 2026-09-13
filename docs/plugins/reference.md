@@ -1,7 +1,7 @@
 ---
-summary: "Pointer to the generated Zero to Agent plugin reference pages"
+summary: "Pointer to the generated OpenAgent plugin reference pages"
 read_when:
-  - You need a reference page for a specific Zero to Agent plugin
+  - You need a reference page for a specific OpenAgent plugin
   - You are auditing plugin docs coverage
 title: "Plugin reference"
 ---
@@ -9,7 +9,7 @@ title: "Plugin reference"
 <!-- Generated file. Do not edit by hand.
 Run `pnpm plugins:inventory:gen` to rebuild it. -->
 
-This section holds one reference page for each Zero to Agent plugin. Each page states
+This section holds one reference page for each OpenAgent plugin. Each page states
 the package, the install route, and the surface the plugin adds.
 
 This page is a pointer, not the index. The browsable list of all
@@ -19,7 +19,7 @@ and description.
 
 ## How this page is built
 
-Zero to Agent generates this page from the top-level
+OpenAgent generates this page from the top-level
 `extensions/*/openclaw.plugin.json` manifests. Package metadata enriches
 entries when `package.json` is present. Regenerate the page with:
 

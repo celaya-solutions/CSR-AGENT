@@ -1,5 +1,5 @@
 # Replace the placeholder with an immutable linux/amd64 digest from the official
-# Docker Hub repository. Cloudflare Containers cannot pull OpenClaw from GHCR.
+# Docker Hub repository. Cloudflare Containers cannot pull OpenAgent from GHCR.
 ARG OPENCLAW_IMAGE=openclaw/openclaw@sha256:<official-openclaw-image-digest>
 FROM ${OPENCLAW_IMAGE}
 

@@ -27,11 +27,11 @@ export function createPolicyDataAuthChecks(deps: PolicyDoctorCheckDeps): readonl
     ],
     [
       CHECK_IDS.policySecretsUnmanagedProvider,
-      "Zero to Agent config SecretRefs use configured secret providers when policy requires managed providers.",
+      "OpenAgent config SecretRefs use configured secret providers when policy requires managed providers.",
     ],
     [
       CHECK_IDS.policySecretsDeniedProviderSource,
-      "Zero to Agent config secret providers and SecretRefs do not use sources denied by policy.",
+      "OpenAgent config secret providers and SecretRefs do not use sources denied by policy.",
     ],
     [
       CHECK_IDS.policySecretsInsecureProvider,
@@ -39,11 +39,11 @@ export function createPolicyDataAuthChecks(deps: PolicyDoctorCheckDeps): readonl
     ],
     [
       CHECK_IDS.policyAuthProfileInvalidMetadata,
-      "Zero to Agent config auth profiles declare required provider and mode metadata.",
+      "OpenAgent config auth profiles declare required provider and mode metadata.",
     ],
     [
       CHECK_IDS.policyAuthProfileUnapprovedMode,
-      "Zero to Agent config auth profile modes stay within the policy allowlist.",
+      "OpenAgent config auth profile modes stay within the policy allowlist.",
     ],
   ]);
 }

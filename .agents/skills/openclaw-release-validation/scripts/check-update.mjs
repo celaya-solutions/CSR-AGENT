@@ -99,8 +99,8 @@ async function collectOpenClawTreeEntries(directory, root = directory) {
   return collected;
 }
 
-// Keep this byte-compatible with OpenClaw's ClawHub update guard so the prompt
-// never offers an unforced update that OpenClaw will refuse as locally modified.
+// Keep this byte-compatible with OpenAgent's ClawHub update guard so the prompt
+// never offers an unforced update that OpenAgent will refuse as locally modified.
 async function digestOpenClawSkillTree(directory) {
   const entries = await collectOpenClawTreeEntries(directory);
   return `sha256:${createHash("sha256").update(JSON.stringify(entries)).digest("hex")}`;
@@ -146,7 +146,7 @@ function compareSemver(leftValue, rightValue) {
   return 0;
 }
 
-// Installed skill copies run outside OpenClaw's package graph, so mirror only
+// Installed skill copies run outside OpenAgent's package graph, so mirror only
 // the ClawHub metadata trimming needed for update-command equivalence here.
 function trimClawHubMetadataText(value) {
   if (typeof value !== "string") return undefined;
@@ -242,7 +242,7 @@ function resolveConfiguredPath(value) {
 }
 
 // Match the CLI's CONFIG_DIR precedence so --global targets the same workspace:
-// state override, config-file directory, then the effective OpenClaw home.
+// state override, config-file directory, then the effective OpenAgent home.
 function configuredGlobalInstallRoot() {
   const stateDirectory = process.env.OPENCLAW_STATE_DIR?.trim();
   if (stateDirectory) return resolveConfiguredPath(stateDirectory);

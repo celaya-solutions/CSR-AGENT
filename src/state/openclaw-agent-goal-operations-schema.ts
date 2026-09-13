@@ -17,7 +17,7 @@ export function ensureSessionGoalOperationsSchema(db: DatabaseSync): void {
     {
       endMarker: "CREATE TABLE IF NOT EXISTS transcript_events (",
       includeEndMarker: false,
-      errorMessage: "Zero to Agent Goal operation schema markers are missing.",
+      errorMessage: "OpenAgent Goal operation schema markers are missing.",
     },
   );
   runSqliteImmediateTransactionSync(db, () => {

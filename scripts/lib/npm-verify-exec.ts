@@ -1,4 +1,4 @@
-// Npm Verify Exec script supports OpenClaw repository automation.
+// Npm Verify Exec script supports OpenAgent repository automation.
 import { execFileSync, type ExecFileSyncOptionsWithStringEncoding } from "node:child_process";
 import { readPositiveEnvInt } from "./numeric-options.mjs";
 

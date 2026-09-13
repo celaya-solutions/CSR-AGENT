@@ -117,7 +117,7 @@ cd "${IOS_DIR}"
 if [[ "${push_sandbox_simulator}" == "1" ]]; then
   "${XCODEBUILD_BIN}" \
     -project OpenClaw.xcodeproj \
-    -scheme OpenClaw \
+    -scheme OpenAgent \
     -destination "${IOS_DESTINATION}" \
     -configuration "${CONFIGURATION}" \
     -derivedDataPath "${DERIVED_DATA_DIR}" \
@@ -126,7 +126,7 @@ if [[ "${push_sandbox_simulator}" == "1" ]]; then
 else
   "${XCODEBUILD_BIN}" \
     -project OpenClaw.xcodeproj \
-    -scheme OpenClaw \
+    -scheme OpenAgent \
     -destination "${IOS_DESTINATION}" \
     -configuration "${CONFIGURATION}" \
     -derivedDataPath "${DERIVED_DATA_DIR}" \

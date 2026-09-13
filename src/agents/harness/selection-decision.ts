@@ -49,17 +49,17 @@ export type AgentHarnessSelectionDecision = {
   selectedReason:
     | "forced_openclaw"
     | "forced_plugin"
-    // Implicit Codex preference found no registered Codex harness, so Zero to Agent handled the run.
+    // Implicit Codex preference found no registered Codex harness, so OpenAgent handled the run.
     | "implicit_plugin_unavailable_openclaw"
-    // Implicit Codex preference cannot reproduce the prepared transport, so Zero to Agent handled it.
+    // Implicit Codex preference cannot reproduce the prepared transport, so OpenAgent handled it.
     | "implicit_plugin_unsupported_openclaw"
-    // The requested plugin declared Zero to Agent as a lossless fallback for this prepared request.
+    // The requested plugin declared OpenAgent as a lossless fallback for this prepared request.
     | "plugin_declared_fallback_openclaw"
     // Provider-owned CLI runtime aliases have no agent harness plugin counterpart.
     | "cli_runtime_passthrough_openclaw"
     // Auto mode chose a registered plugin harness that supports the provider/model.
     | "auto_plugin"
-    // Auto mode found no supporting plugin harness, so Zero to Agent handled the run.
+    // Auto mode found no supporting plugin harness, so OpenAgent handled the run.
     | "auto_openclaw";
   candidates: AgentHarnessSelectionCandidate[];
 } & (
@@ -95,8 +95,8 @@ export function resolveAgentHarnessSelectionDecision(
       }),
   });
   const policy = availability.policy;
-  // Zero to Agent's built-in harness is intentionally not part of the plugin candidate list. Explicit plugin
-  // runtimes fail closed unless the selected plugin declares Zero to Agent as a lossless fallback.
+  // OpenAgent's built-in harness is intentionally not part of the plugin candidate list. Explicit plugin
+  // runtimes fail closed unless the selected plugin declares OpenAgent as a lossless fallback.
   const runtime = policy.runtime;
   if (runtime === "openclaw") {
     const selectedReason =

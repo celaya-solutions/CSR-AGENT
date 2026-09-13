@@ -114,13 +114,13 @@ async function runAudioStatus(
       return [];
     },
   };
-  const outputLabel = label.includes("Zero to Agent") ? "Zero to Agent Meeting Audio" : label;
+  const outputLabel = label.includes("OpenAgent") ? "OpenAgent Meeting Audio" : label;
   const result = await runInNewContext(
     `(${meetStatusScript({
       allowMicrophone: true,
       autoJoin: false,
       captureCaptions: false,
-      guestName: "Zero to Agent Agent",
+      guestName: "OpenAgent Agent",
     })})()`,
     {
       Event: globalThis.Event,
@@ -161,7 +161,7 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER captions", () => {
 });
 
 describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
-  it.each(["BlackHole 2ch", "Monitor of Zero to Agent Meeting Audio"])(
+  it.each(["BlackHole 2ch", "Monitor of OpenAgent Meeting Audio"])(
     "selects and verifies %s for bidirectional Meet audio",
     async (label) => {
       const { health, media, microphone, select } = await runAudioStatus(label);
@@ -170,9 +170,7 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
         audioInputRouted: true,
         audioInputDeviceLabel: label,
         audioOutputRouted: true,
-        audioOutputDeviceLabel: label.includes("Zero to Agent")
-          ? "Zero to Agent Meeting Audio"
-          : label,
+        audioOutputDeviceLabel: label.includes("OpenAgent") ? "OpenAgent Meeting Audio" : label,
         micMuted: false,
       });
       expect(health.manualAction).toBeUndefined();
@@ -188,7 +186,7 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
         inCall: true,
         micMuted: false,
         audioInputRouted: true,
-        audioInputDeviceLabel: "Zero to Agent Meeting Audio",
+        audioInputDeviceLabel: "OpenAgent Meeting Audio",
         audioOutputRouted: false,
         manualAction: {
           reason: "meet-audio-choice-required",
@@ -199,7 +197,7 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
 
     expect(pending).toMatchObject({
       audioInputRouted: true,
-      audioInputDeviceLabel: "Zero to Agent Meeting Audio",
+      audioInputDeviceLabel: "OpenAgent Meeting Audio",
       audioOutputRouted: false,
     });
     if (!pending) {
@@ -218,14 +216,14 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
 
   it("keeps Meet muted and reports manual action when input selection cannot be verified", async () => {
     const { health, microphone } = await runAudioStatus(
-      "Zero to Agent Meeting Audio",
+      "OpenAgent Meeting Audio",
       ["MacBook Microphone"],
       "Turn off microphone",
     );
 
     expect(health).toMatchObject({
       audioInputRouted: false,
-      audioInputRouteError: "Meet did not confirm Zero to Agent Meeting Audio as its microphone.",
+      audioInputRouteError: "Meet did not confirm OpenAgent Meeting Audio as its microphone.",
       audioOutputRouted: true,
       micMuted: true,
       manualAction: { reason: "meet-audio-choice-required" },

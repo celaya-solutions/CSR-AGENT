@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct ComputerControlSettingsTests {
     @Test func `computer control defaults on while preserving explicit choices`() throws {
@@ -34,8 +34,8 @@ struct ComputerControlSettingsTests {
         let suiteName = "ComputerControlElevationHostTests.\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
-        let interactivePlan = AppLaunchRuntimePlan(arguments: ["OpenClaw"])
-        let elevationPlan = AppLaunchRuntimePlan(arguments: ["OpenClaw", "--elevation-host"])
+        let interactivePlan = AppLaunchRuntimePlan(arguments: ["OpenAgent"])
+        let elevationPlan = AppLaunchRuntimePlan(arguments: ["OpenAgent", "--elevation-host"])
         defaults.set(true, forKey: computerControlEnabledKey)
         defaults.set(ComputerControlProvider.cua.rawValue, forKey: computerControlProviderKey)
 

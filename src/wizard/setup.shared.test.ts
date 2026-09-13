@@ -33,10 +33,10 @@ describe("requestTelemetryConsent", () => {
     expect(config.telemetry).toEqual({ enabled, consentedAt: expect.any(String) });
     expect(prompter.note).toHaveBeenCalledWith(
       expect.stringContaining("Never messages, never identifiers"),
-      "Help make Zero to Agent better?",
+      "Help make OpenAgent better?",
     );
     expect(select).toHaveBeenCalledWith({
-      message: "Help make Zero to Agent better?",
+      message: "Help make OpenAgent better?",
       options: [
         { value: false, label: "No thanks" },
         { value: true, label: "Yes, share feature stats" },

@@ -52,12 +52,12 @@ export function formatChannelApprovalResolvedLabel(
 export function buildSystemAgentApprovalResolvedText(view: SystemAgentResolvedView): string {
   const outcome = interpretApprovalTerminalOutcome(view, "denial");
   return outcome === "cancelled"
-    ? "⚠️ Zero to Agent change was cancelled because its run ended. No change was made. Retry."
+    ? "⚠️ OpenAgent change was cancelled because its run ended. No change was made. Retry."
     : outcome === "deny"
-      ? "❌ Zero to Agent change denied. No change was made."
+      ? "❌ OpenAgent change denied. No change was made."
       : outcome === "applied"
-        ? `✅ Zero to Agent change approved and applied: ${view.operationSummary}`
+        ? `✅ OpenAgent change approved and applied: ${view.operationSummary}`
         : outcome === "not-applied"
-          ? "⚠️ Zero to Agent change approved, but it was not applied. Check the Gateway and retry."
-          : `✅ Zero to Agent change approved. Applying: ${view.operationSummary}`;
+          ? "⚠️ OpenAgent change approved, but it was not applied. Check the Gateway and retry."
+          : `✅ OpenAgent change approved. Applying: ${view.operationSummary}`;
 }

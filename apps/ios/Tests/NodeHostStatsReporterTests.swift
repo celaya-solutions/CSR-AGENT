@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct NodeHostStatsReporterTests {
     @Test func `snapshot and node event envelope match the wire contract`() throws {

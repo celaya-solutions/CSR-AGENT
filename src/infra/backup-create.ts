@@ -448,8 +448,8 @@ export async function createBackupArchive(
   if (plan.included.length === 0) {
     throw new Error(
       onlyConfig
-        ? "No Zero to Agent config file was found to back up."
-        : "No local Zero to Agent state was found to back up.",
+        ? "No OpenAgent config file was found to back up."
+        : "No local OpenAgent state was found to back up.",
     );
   }
 

@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 /// Opt-in, process-isolated proof of real native execution after caller response loss.
 @Suite(.serialized)

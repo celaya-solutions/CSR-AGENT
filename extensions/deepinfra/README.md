@@ -1,8 +1,8 @@
-# Zero to Agent DeepInfra Provider
+# OpenAgent DeepInfra Provider
 
-Official Zero to Agent provider plugin for DeepInfra.
+Official OpenAgent provider plugin for DeepInfra.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/deepinfra-provider

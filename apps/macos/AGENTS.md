@@ -8,7 +8,7 @@
 - Native browser tabs reach the web only through `openclawBrowser`; canonical contract: `ui/src/app/native-browser-bridge.ts`; keep wire keys aligned.
 - Bridge mutations use existing native owners; never write `openclaw.json`.
 - Preserve `AppLaunchPresentationPolicy` and `--background-only` startup behavior.
-- Build app: `swift build --package-path apps/macos --build-system native --product OpenClaw`.
+- Build app: `swift build --package-path apps/macos --build-system native --product OpenAgent`.
 - Compile tests: `swift build --package-path apps/macos --build-system native --build-tests`.
 - Swift checks: `scripts/lint-swift.sh macos`; `scripts/format-swift.sh macos`.
 - Other checks: `node scripts/check-changed.mjs`; `pnpm native:i18n:verify`.

@@ -1,4 +1,4 @@
-// Bench Model script supports OpenClaw repository automation.
+// Bench Model script supports OpenAgent repository automation.
 import { pathToFileURL } from "node:url";
 import type { Model } from "openclaw/plugin-sdk/llm";
 import { expectDefined } from "../packages/normalization-core/src/expect.js";
@@ -87,7 +87,7 @@ function parseArgs(argv = process.argv.slice(2)): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`OpenClaw model latency benchmark
+  console.log(`OpenAgent model latency benchmark
 
 Usage:
   node --import tsx scripts/bench-model.ts [options]

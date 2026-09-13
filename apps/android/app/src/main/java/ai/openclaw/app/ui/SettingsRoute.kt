@@ -44,7 +44,7 @@ internal enum class SettingsRoute(
   Usage(nativeText("Usage"), Icons.Default.Storage, SettingsCategory.AgentsAutomation),
   Skills(nativeText("Skills"), Icons.Default.Settings, SettingsCategory.AgentsAutomation),
   SkillWorkshop(nativeText("Skill Workshop"), Icons.Default.Settings, SettingsCategory.AgentsAutomation),
-  SystemAgent(nativeText("OpenClaw"), Icons.Default.Bolt, SettingsCategory.AgentsAutomation),
+  SystemAgent(nativeText("OpenAgent"), Icons.Default.Bolt, SettingsCategory.AgentsAutomation),
   NodesDevices(nativeText("Nodes & Devices"), Icons.Default.Cloud, SettingsCategory.Connection),
   Channels(nativeText("Channels"), Icons.Default.Notifications, SettingsCategory.Connection),
   Dreaming(nativeText("Dreaming"), Icons.Default.Storage, SettingsCategory.AgentsAutomation),

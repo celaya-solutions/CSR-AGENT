@@ -251,7 +251,7 @@ export const TOOL_DISPLAY_CONFIG: ToolDisplayConfig = {
     },
     openclaw: {
       emoji: "🦀",
-      title: "Zero to Agent",
+      title: "OpenAgent",
       detailKeys: ["action", "path", "model"],
     },
     gateway: {

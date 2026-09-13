@@ -133,7 +133,7 @@ export function openUnpublishedStateDatabase(params: {
     if (errors.length > 0) {
       throw createSqliteLifecycleAggregateError(
         [error, ...errors],
-        `Zero to Agent state database acquisition and cleanup failed for ${params.pathname}.`,
+        `OpenAgent state database acquisition and cleanup failed for ${params.pathname}.`,
         error,
       );
     }

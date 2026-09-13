@@ -23,7 +23,7 @@ describe("project protocol schemas", () => {
     expect(validateProjectsListParams({ includeObserved: false })).toBe(true);
     expect(validateProjectsListParams({ includeObserved: "yes" })).toBe(false);
     expect(validateProjectsListParams({ extra: true })).toBe(false);
-    expect(validateProjectsRegisterParams({ path: "/repo", name: "Zero to Agent" })).toBe(true);
+    expect(validateProjectsRegisterParams({ path: "/repo", name: "OpenAgent" })).toBe(true);
     expect(validateProjectsRegisterParams({ path: "" })).toBe(false);
     expect(validateProjectsAddParams({ gitUrl: "https://github.com/openclaw/openclaw.git" })).toBe(
       true,
@@ -38,7 +38,7 @@ describe("project protocol schemas", () => {
   it("accepts bounded remote search and clone results", () => {
     const project = {
       id: "openclaw",
-      displayName: "Zero to Agent",
+      displayName: "OpenAgent",
       repoRoot: "/state/projects/fingerprint/openclaw",
       originUrl: "https://github.com/openclaw/openclaw.git",
       source: "cloned",
@@ -75,14 +75,14 @@ describe("project protocol schemas", () => {
         projects: [
           {
             id: "openclaw",
-            displayName: "Zero to Agent",
+            displayName: "OpenAgent",
             repoRoot: "/repo/openclaw",
             originUrl: "https://github.com/openclaw/openclaw.git",
             source: "registered",
           },
         ],
         recents: [
-          { kind: "project", projectId: "openclaw", displayName: "Zero to Agent" },
+          { kind: "project", projectId: "openclaw", displayName: "OpenAgent" },
           { kind: "folder", folder: "/repo/scratch", displayName: "scratch" },
         ],
         observedProjects: [],

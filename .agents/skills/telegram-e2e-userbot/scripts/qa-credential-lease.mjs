@@ -100,7 +100,7 @@ async function resolveBrokerConfig({ env, cwd, runConvexCliImpl, convexProjectDi
     return parseBrokerConfig({ siteUrl: CONVEX_BROKER_SITE_URL, secret: cliSecret });
   } catch (error) {
     throw new Error(
-      "Could not load the QA broker through the Convex CLI. Ask the user to install and authenticate the convex command, then request access to the OpenClaw broker project.",
+      "Could not load the QA broker through the Convex CLI. Ask the user to install and authenticate the convex command, then request access to the OpenAgent broker project.",
       { cause: error },
     );
   }

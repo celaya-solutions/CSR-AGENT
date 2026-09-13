@@ -11,7 +11,7 @@ describe("exportChatMarkdown", () => {
     const createObjectURL = vi.spyOn(URL, "createObjectURL");
     const click = vi.spyOn(HTMLAnchorElement.prototype, "click");
 
-    expect(exportChatMarkdown([], "Zero to Agent")).toBe("empty");
+    expect(exportChatMarkdown([], "OpenAgent")).toBe("empty");
     expect(createObjectURL).not.toHaveBeenCalled();
     expect(click).not.toHaveBeenCalled();
   });
@@ -28,7 +28,7 @@ describe("exportChatMarkdown", () => {
           { role: "user", content: "What can you export?", timestamp: 1_000 },
           { role: "assistant", content: "A readable conversation.", timestamp: 2_000 },
         ],
-        "Zero to Agent",
+        "OpenAgent",
       ),
     ).toBe("downloaded");
 
@@ -39,10 +39,10 @@ describe("exportChatMarkdown", () => {
     expect(revokeObjectURL).toHaveBeenCalledWith("blob:chat-export");
     expect((createObjectURL.mock.calls[0]![0] as Blob).type).toBe("text/markdown");
     const markdown = await (createObjectURL.mock.calls[0]![0] as Blob).text();
-    expect(markdown).toContain("# Chat with Zero to Agent");
+    expect(markdown).toContain("# Chat with OpenAgent");
     expect(markdown).toContain("## You");
     expect(markdown).toContain("What can you export?");
-    expect(markdown).toContain("## Zero to Agent");
+    expect(markdown).toContain("## OpenAgent");
     expect(markdown).toContain("A readable conversation.");
   });
 
@@ -63,11 +63,11 @@ describe("exportChatMarkdown", () => {
         { role: "tool_result", content: "exit 0" },
         { role: "assistant", content: "NO_REPLY" },
       ],
-      "Zero to Agent",
+      "OpenAgent",
     );
 
     expect(markdown).toBe(
-      "# Chat with Zero to Agent\n\n" +
+      "# Chat with OpenAgent\n\n" +
         "## Kai\n\nPlease check the build.\n\n" +
         "## Build assistant (1970-01-01T00:00:01.000Z)\n\nThe build passed.\n\n" +
         "## Tool\n\nexit 0\n",
@@ -91,11 +91,11 @@ describe("exportChatMarkdown", () => {
     {
       name: "non-string tool envelope",
       message: { role: "assistant", toolCallId: 0, content: "Visible body" },
-      speaker: "Zero to Agent",
+      speaker: "OpenAgent",
     },
   ])("keeps canonical speaker classification for $name", ({ message, speaker }) => {
-    expect(buildChatMarkdown([message], "Zero to Agent")).toBe(
-      `# Chat with Zero to Agent\n\n## ${speaker}\n\nVisible body\n`,
+    expect(buildChatMarkdown([message], "OpenAgent")).toBe(
+      `# Chat with OpenAgent\n\n## ${speaker}\n\nVisible body\n`,
     );
   });
 
@@ -118,8 +118,8 @@ describe("exportChatMarkdown", () => {
       };
       const original = structuredClone(message);
 
-      expect(buildChatMarkdown([message], "Zero to Agent")).toBe(
-        `# Chat with Zero to Agent\n\n## Imported assistant\n\n${body}\n`,
+      expect(buildChatMarkdown([message], "OpenAgent")).toBe(
+        `# Chat with OpenAgent\n\n## Imported assistant\n\n${body}\n`,
       );
       expect(message).toEqual(original);
     },

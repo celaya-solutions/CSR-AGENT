@@ -3,7 +3,7 @@
   "categories": ["channels"],
   "doctorContract": {},
   "name": "Zalo",
-  "description": "Zero to Agent Zalo channel plugin for bot and webhook chats.",
+  "description": "OpenAgent Zalo channel plugin for bot and webhook chats.",
   "activation": {
     "onStartup": false
   },

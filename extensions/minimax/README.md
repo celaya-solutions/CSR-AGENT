@@ -1,4 +1,4 @@
-# MiniMax (Zero to Agent plugin)
+# MiniMax (OpenAgent plugin)
 
 Bundled MiniMax plugin for both:
 

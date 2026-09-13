@@ -1,8 +1,8 @@
-# Zero to Agent StepFun Provider
+# OpenAgent StepFun Provider
 
-Official Zero to Agent provider plugin for StepFun.
+Official OpenAgent provider plugin for StepFun.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/stepfun-provider

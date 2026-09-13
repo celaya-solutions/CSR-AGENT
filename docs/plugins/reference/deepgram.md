@@ -15,7 +15,7 @@ Deepgram audio transcription with Nova and Flux models, plus realtime speech rec
 ## Distribution
 
 - Package: `@openclaw/deepgram-provider`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

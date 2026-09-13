@@ -115,7 +115,7 @@ on:
         default: ""
         type: string
       published_upgrade_survivor_baseline:
-        description: Published OpenClaw package baseline for the published-upgrade-survivor Docker lane
+        description: Published OpenAgent package baseline for the published-upgrade-survivor Docker lane
         required: false
         default: openclaw@latest
         type: string
@@ -267,7 +267,7 @@ on:
         default: ""
         type: string
       published_upgrade_survivor_baseline:
-        description: Published OpenClaw package baseline for the published-upgrade-survivor Docker lane
+        description: Published OpenAgent package baseline for the published-upgrade-survivor Docker lane
         required: false
         default: openclaw@latest
         type: string
@@ -316,10 +316,10 @@ on:
         description: Source commit recorded in the canonical package
         value: ${{ jobs.resolve_package.outputs.package_source_sha }}
       package_sha256:
-        description: Canonical OpenClaw package SHA-256
+        description: Canonical OpenAgent package SHA-256
         value: ${{ jobs.resolve_package.outputs.package_sha256 }}
       package_version:
-        description: Canonical OpenClaw package version
+        description: Canonical OpenAgent package version
         value: ${{ jobs.resolve_package.outputs.package_version }}
     secrets:
       OPENCLAW_TRUSTED_PACKAGE_TOKEN:
@@ -1308,7 +1308,7 @@ jobs:
           source scripts/docker/install-sh-common/version-parse.sh
           installed_version="$(extract_openclaw_semver "$("$install_prefix/bin/openclaw" --version)")"
           [[ "$installed_version" == "$EXPECTED_PACKAGE_VERSION" ]] || {
-            echo "Installed OpenClaw version $installed_version differs from expected $EXPECTED_PACKAGE_VERSION." >&2
+            echo "Installed OpenAgent version $installed_version differs from expected $EXPECTED_PACKAGE_VERSION." >&2
             exit 1
           }
           pending="$install_prefix/lib/node_modules/openclaw/.openclaw-lifecycle-pending"

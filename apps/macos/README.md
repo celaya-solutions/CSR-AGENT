@@ -1,4 +1,4 @@
-# OpenClaw macOS app (dev + signing)
+# OpenAgent macOS app (dev + signing)
 
 ## Quick dev run
 
@@ -44,7 +44,7 @@ Keychain services, duplicate-instance lock, and the CLI-managed Gateway service
 `ai.openclaw.<name>`. Unless config or environment selects a port, each profile
 derives a stable port in the profile `20000...59999` range. The app does not
 install or modify the host-global Mac node
-service or OpenClaw login item while a profile is active. The runtime child node
+service or OpenAgent login item while a profile is active. The runtime child node
 still runs in process as usual. App relocation, Sparkle updates, and post-update
 service repair are disabled in profile mode; update the installed app through
 the normal default-profile workflow.
@@ -97,7 +97,7 @@ scripts/package-mac-dist.sh
 
 For an unattended Peekaboo elevation host, use the closed Foundation signing
 profile and source-addressed ZIP workflow. `package` is an internal release
-operator command: it requires the OpenClaw Foundation signing identity and
+operator command: it requires the Celaya Solutions signing identity and
 notarization credentials, and its archive is not a general-download artifact.
 
 ```bash

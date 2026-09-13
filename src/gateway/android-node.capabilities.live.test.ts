@@ -219,7 +219,7 @@ const COMMAND_PROFILES: Record<string, CommandProfile> = {
   },
   "system.notify": {
     buildParams: () => ({
-      title: "Zero to Agent Android E2E",
+      title: "OpenAgent Android E2E",
       body: "Live node integration check",
       sound: "none",
       priority: "passive",

@@ -628,7 +628,7 @@ describeLive("gateway live (cli backend)", () => {
             sessionKey,
           });
           if (!history.sessionId) {
-            throw new Error("Claude CLI cache probe could not resolve its Zero to Agent session");
+            throw new Error("Claude CLI cache probe could not resolve its OpenAgent session");
           }
           cacheProbeOwner = {
             backendId: providerId,
@@ -749,7 +749,7 @@ describeLive("gateway live (cli backend)", () => {
             expect(continuityEntry?.sessionId).toBe(continuitySessionId);
             if (!continuitySessionId) {
               throw new Error(
-                "Claude CLI continuity probe could not resolve its Zero to Agent session",
+                "Claude CLI continuity probe could not resolve its OpenAgent session",
               );
             }
             // chat.history also displays native CLI imports. Check the canonical replay

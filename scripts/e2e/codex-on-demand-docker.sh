@@ -3,7 +3,7 @@
 if [[ ${OSTYPE:-} == darwin* && $BASH != /bin/bash ]] && ((BASH_VERSINFO[0] > 5 || (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] >= 3))); then
   exec /bin/bash "$0" "$@"
 fi
-# Installs OpenClaw and Codex from npm artifacts with explicit capability consent,
+# Installs OpenAgent and Codex from npm artifacts with explicit capability consent,
 # then verifies OpenAI onboarding, managed dependencies, and doctor in Docker.
 set -euo pipefail
 

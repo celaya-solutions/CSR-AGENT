@@ -75,9 +75,9 @@ function git(cwd: string, args: string[], extraEnv: Record<string, string> = {})
     encoding: "utf8",
     env: {
       ...process.env,
-      GIT_AUTHOR_NAME: "Zero to Agent Test",
+      GIT_AUTHOR_NAME: "OpenAgent Test",
       GIT_AUTHOR_EMAIL: "test@openclaw.invalid",
-      GIT_COMMITTER_NAME: "Zero to Agent Test",
+      GIT_COMMITTER_NAME: "OpenAgent Test",
       GIT_COMMITTER_EMAIL: "test@openclaw.invalid",
       ...extraEnv,
     },
@@ -969,8 +969,7 @@ describe("release-note verification", () => {
     },
     {
       name: "qualified references beside CSS values",
-      source:
-        "Zero to Agent/Zero to Agent#123 --bg #262624; openclaw/openclaw#456 and Other/Repo#123456.",
+      source: "OpenAgent/OpenAgent#123 --bg #262624; openclaw/openclaw#456 and Other/Repo#123456.",
       expected: [123, 456],
     },
     {

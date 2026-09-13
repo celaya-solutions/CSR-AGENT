@@ -1,6 +1,6 @@
 ---
 name: telegram-e2e-userbot
-description: "Prove user-visible OpenClaw Telegram behavior on Telegram's Test Server with Convex-leased team credentials; drive real-user turns and record messages, edits, deletions, reactions, typing, or rich content."
+description: "Prove user-visible OpenAgent Telegram behavior on Telegram's Test Server with Convex-leased team credentials; drive real-user turns and record messages, edits, deletions, reactions, typing, or rich content."
 metadata:
   short-description: Telegram E2E via real-user driver
   argument-hint: "<message-or-command?>"
@@ -8,7 +8,7 @@ metadata:
 
 # Telegram E2E (Userbot)
 
-Prove OpenClaw behavior against Telegram's Test Server as a dedicated QA user.
+Prove OpenAgent behavior against Telegram's Test Server as a dedicated QA user.
 The user driver sees edits, deletions, reactions, and typing that a second bot
 cannot observe.
 
@@ -28,7 +28,7 @@ TDLib session or any Telegram Test Bot API method.
 
 ## 1. Prepare
 
-Run from the OpenClaw checkout and ref under test. Point to the repository skill:
+Run from the OpenAgent checkout and ref under test. Point to the repository skill:
 
 ```bash
 TELEGRAM_E2E_SKILL_DIR="${TELEGRAM_E2E_SKILL_DIR:-$PWD/.agents/skills/telegram-e2e-userbot}"
@@ -53,7 +53,7 @@ export TELEGRAM_GATEWAY_PORT TELEGRAM_MOCK_PORT
 ```
 
 Team and ClawSweeper runs use Convex. A maintainer with Convex CLI access to the
-OpenClaw broker project needs no local broker settings. The lease helper uses
+OpenAgent broker project needs no local broker settings. The lease helper uses
 `qa/convex-credential-broker` in the checkout, reads the production site and
 CI role through the authenticated CLI, and keeps them in process memory. Run
 the same doctor and runner commands below; no credential export is required.

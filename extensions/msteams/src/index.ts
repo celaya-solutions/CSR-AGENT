@@ -1,2 +1,2 @@
-// Msteams plugin entrypoint registers its Zero to Agent integration.
+// Msteams plugin entrypoint registers its OpenAgent integration.
 export { monitorMSTeamsProvider } from "./monitor.js";

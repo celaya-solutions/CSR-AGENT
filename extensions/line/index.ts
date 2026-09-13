@@ -1,4 +1,4 @@
-// Line plugin entrypoint registers its Zero to Agent integration.
+// Line plugin entrypoint registers its OpenAgent integration.
 import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
 import { createLazyRuntimeModule } from "openclaw/plugin-sdk/lazy-runtime";
 

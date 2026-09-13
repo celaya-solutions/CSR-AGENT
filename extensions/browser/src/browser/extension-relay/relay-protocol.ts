@@ -1,11 +1,11 @@
 /**
- * Wire protocol between the extension relay server and the Zero to Agent Chrome
+ * Wire protocol between the extension relay server and the OpenAgent Chrome
  * extension. The extension owns tab eligibility/access, attaches chrome.debugger,
  * and forwards CDP traffic. All CDP target semantics (Target.* synthesis for
  * Playwright) live server-side in the bridge.
  */
 
-/** Tab snapshot reported by the extension for tabs currently accessible to Zero to Agent. */
+/** Tab snapshot reported by the extension for tabs currently accessible to OpenAgent. */
 export type RelayTabInfo = {
   tabId: number;
   url: string;

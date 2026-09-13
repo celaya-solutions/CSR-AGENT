@@ -1,4 +1,4 @@
-// Generates setup codes used to pair external channels with Zero to Agent.
+// Generates setup codes used to pair external channels with OpenAgent.
 import os from "node:os";
 import {
   isCarrierGradeNatIpv4Address,

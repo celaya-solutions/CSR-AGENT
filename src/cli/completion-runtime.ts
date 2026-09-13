@@ -156,7 +156,7 @@ export function formatCompletionReloadCommand(shell: CompletionShell, scriptPath
 }
 
 function isCompletionProfileHeader(line: string): boolean {
-  return line.trim() === "# Zero to Agent Completion";
+  return line.trim() === "# OpenAgent Completion";
 }
 
 function isCompletionProfileLine(line: string, binName: string, cachePath: string): boolean {
@@ -412,7 +412,7 @@ function updateCompletionProfile(
     return { next, changed: next !== content, hadExisting };
   }
   const trimmed = filtered.join("\n").trimEnd();
-  const block = `# Zero to Agent Completion\n${formatCompletionSourceLine(shell, cachePath)}`;
+  const block = `# OpenAgent Completion\n${formatCompletionSourceLine(shell, cachePath)}`;
   const next = trimmed ? `${trimmed}\n\n${block}\n` : `${block}\n`;
   return { next, changed: next !== content, hadExisting };
 }
@@ -449,7 +449,7 @@ async function resolveCompletionProfileWritePath(profilePath: string): Promise<s
   return path.join(await fs.realpath(targetDir), path.basename(targetPath));
 }
 
-/** Resolves the shell startup profile path that should contain the Zero to Agent completion block. */
+/** Resolves the shell startup profile path that should contain the OpenAgent completion block. */
 export function resolveCompletionProfilePath(
   shell: CompletionShell,
   options: {
@@ -521,7 +521,7 @@ export function resolveCompletionProfileHint(shell: CompletionShell): string {
     : profilePath;
 }
 
-/** Returns whether a shell profile already contains a Zero to Agent completion block or source line. */
+/** Returns whether a shell profile already contains an OpenAgent completion block or source line. */
 export async function isCompletionInstalled(
   shell: CompletionShell,
   binName = "openclaw",

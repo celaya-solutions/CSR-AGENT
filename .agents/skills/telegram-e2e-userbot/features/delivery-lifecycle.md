@@ -20,7 +20,7 @@ creation, edits, tool activity, receipt finalization, and persistent answer deli
 Preconditions:
 
 - Baseline doctor passes.
-- OpenClaw's repo `mock-openai` fixture supports `OPENCLAW_E2E_DRAFTPROOF`.
+- OpenAgent's repo `mock-openai` fixture supports `OPENCLAW_E2E_DRAFTPROOF`.
 
 - **Drive progress and finalization.** Run:
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --import tsx
-// Openclaw Npm Postpublish Verify script supports OpenClaw repository automation.
+// Openclaw Npm Postpublish Verify script supports OpenAgent repository automation.
 
 import { createHash } from "node:crypto";
 import {
@@ -325,7 +325,7 @@ function resolveNpmProvenanceVerificationPolicy(
     statement.predicate?.runDetails?.builder?.id !== NPM_PROVENANCE_BUILDER_ID
   ) {
     throw new Error(
-      `npm provenance attestation does not bind ${version} to the trusted OpenClaw GitHub release workflow.`,
+      `npm provenance attestation does not bind ${version} to the trusted OpenAgent GitHub release workflow.`,
     );
   }
 

@@ -367,7 +367,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     }
   });
 
-  it("adds the Zero to Agent session key to both managed tools MCP bridges", () => {
+  it("adds the OpenAgent session key to both managed tools MCP bridges", () => {
     const baseStore: TestSessionStore = makeEmptySessionStore();
     const { runtime } = makeRuntime(baseStore, {
       pluginToolsMcpBridgeEnabled: true,
@@ -414,7 +414,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     });
   });
 
-  it("keeps managed Zero to Agent tools MCP delegates reachable for fresh sessions", async () => {
+  it("keeps managed OpenAgent tools MCP delegates reachable for fresh sessions", async () => {
     const baseStore: TestSessionStore = makeEmptySessionStore();
     const { runtime } = makeRuntime(baseStore, {
       openclawToolsMcpBridgeEnabled: true,
@@ -442,7 +442,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     expect(exposedRuntime.resolveManagedToolsDelegateForSession(target)).toBe(firstDelegate);
   });
 
-  it("uses the no-MCP delegate for startup probes when the Zero to Agent tools bridge is enabled", async () => {
+  it("uses the no-MCP delegate for startup probes when the OpenAgent tools bridge is enabled", async () => {
     const baseStore: TestSessionStore = makeEmptySessionStore();
     const { runtime, delegate, bridgeSafeDelegate } = makeRuntime(baseStore, {
       openclawToolsMcpBridgeEnabled: true,
@@ -469,10 +469,10 @@ describe("AcpxRuntime fresh reset wrapper", () => {
   it.each([
     { wrapperRoot: "/tmp/openclaw/acpx", command: CODEX_ACP_WRAPPER_COMMAND },
     {
-      wrapperRoot: String.raw`C:\Zero to Agent State\acpx`,
+      wrapperRoot: String.raw`C:\OpenAgent State\acpx`,
       command: [
         String.raw`C:\Program Files\node.exe`,
-        String.raw`C:\Zero to Agent State\acpx\codex-acp-wrapper.mjs`,
+        String.raw`C:\OpenAgent State\acpx\codex-acp-wrapper.mjs`,
       ],
     },
   ])(
@@ -718,7 +718,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     expect(leaseStore.store.markState).not.toHaveBeenCalledWith(expect.any(String), "lost");
   });
 
-  it("normalizes Zero to Agent Codex model ids for ACP startup", async () => {
+  it("normalizes OpenAgent Codex model ids for ACP startup", async () => {
     const baseStore: TestSessionStore = makeEmptySessionStore();
     const { runtime, delegate } = makeRuntime(baseStore, {
       agentRegistry: {
@@ -750,7 +750,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
 
   it.each([
     {
-      name: "strips the Zero to Agent Anthropic provider prefix for Claude ACP startup",
+      name: "strips the OpenAgent Anthropic provider prefix for Claude ACP startup",
       model: "anthropic/claude-sonnet-4-6",
       expectedModel: "claude-sonnet-4-6",
     },
@@ -761,7 +761,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     },
     {
       // Issue #121034: Bedrock rejects provider-qualified refs.
-      name: "strips the Zero to Agent Bedrock provider prefix for Claude ACP startup",
+      name: "strips the OpenAgent Bedrock provider prefix for Claude ACP startup",
       model: "amazon-bedrock/global.anthropic.claude-sonnet-5",
       expectedModel: "global.anthropic.claude-sonnet-5",
     },
@@ -772,7 +772,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     },
     {
       // Bare inference-profile ids and ARNs are native Bedrock values the SDK
-      // accepts as-is; only the documented Zero to Agent prefixes may be stripped.
+      // accepts as-is; only the documented OpenAgent prefixes may be stripped.
       name: "preserves native Bedrock inference-profile ids",
       model: "global.anthropic.claude-sonnet-5",
       expectedModel: "global.anthropic.claude-sonnet-5",
@@ -1141,7 +1141,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     },
   );
 
-  it("disables delegate prompt timeout for Zero to Agent-managed turns", async () => {
+  it("disables delegate prompt timeout for OpenAgent-managed turns", async () => {
     const baseStore: TestSessionStore = {
       load: vi.fn(async () => ({
         acpxRecordId: "agent:codex:acp:test",
@@ -1709,7 +1709,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
 
   it.each([
     {
-      name: "normalizes Zero to Agent-qualified Codex ACP model controls",
+      name: "normalizes OpenAgent-qualified Codex ACP model controls",
       value: "openai/gpt-5.4",
     },
     { name: "passes bare Codex ACP model controls through", value: "gpt-5.4" },
@@ -2217,7 +2217,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     }
   });
 
-  it("cleans up Zero to Agent-owned ACPX process trees after close", async () => {
+  it("cleans up OpenAgent-owned ACPX process trees after close", async () => {
     const baseStore: TestSessionStore = {
       load: vi.fn(async () => ({
         acpxRecordId: "agent:codex:acp:binding:test",
@@ -4198,7 +4198,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
 
     const { runtime, delegate, bridgeSafeDelegate } = makeRuntime(baseStore, {
       mcpServers: [{ name: "tools", command: "mcp-tools" }] as never,
-      probeAgent: "  Zero to Agent  ",
+      probeAgent: "  OpenAgent  ",
       agentRegistry: {
         resolve: (agentName: string) =>
           agentName === "openclaw" ? DOCUMENTED_OPENCLAW_BRIDGE_COMMAND : agentName,

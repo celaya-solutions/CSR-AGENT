@@ -519,7 +519,7 @@ export function resolveCatalogDecisionRuntime(params: {
         };
       })();
   // Route projection must retain the native owner that supplied availability. Recomputing
-  // implicit policy from its API-key route alone would relabel that owner as Zero to Agent.
+  // implicit policy from its API-key route alone would relabel that owner as OpenAgent.
   const runtime =
     selected.policy.runtimeSource === "implicit" &&
     !selected.policy.forcedByEnvironment &&

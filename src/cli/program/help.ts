@@ -134,9 +134,7 @@ export function configureProgramHelp(
   if (isRootVersionInvocation(process.argv)) {
     const commit = resolveCommitHash({ moduleUrl: import.meta.url });
     console.log(
-      commit
-        ? `Zero to Agent ${ctx.programVersion} (${commit})`
-        : `Zero to Agent ${ctx.programVersion}`,
+      commit ? `OpenAgent ${ctx.programVersion} (${commit})` : `OpenAgent ${ctx.programVersion}`,
     );
     process.exit(0);
   }

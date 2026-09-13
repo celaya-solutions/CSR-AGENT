@@ -1,8 +1,8 @@
 ---
-summary: "Zero to Agent initial access threats (AML.TA0004): T-ACCESS-001, T-ACCESS-002, T-ACCESS-003"
+summary: "OpenAgent initial access threats (AML.TA0004): T-ACCESS-001, T-ACCESS-002, T-ACCESS-003"
 title: "Initial access (AML.TA0004)"
 read_when:
-  - Reviewing initial access threats against a Zero to Agent deployment
+  - Reviewing initial access threats against an OpenAgent deployment
   - Working on mitigations for T-ACCESS-001, T-ACCESS-002, T-ACCESS-003
 ---
 

@@ -516,7 +516,7 @@ describe("Client gateway event queue", () => {
     );
   }
 
-  it("uses Zero to Agent Discord event queue defaults", () => {
+  it("uses OpenAgent Discord event queue defaults", () => {
     const client = createQueuedClient({
       listeners: [],
       eventQueue: {},

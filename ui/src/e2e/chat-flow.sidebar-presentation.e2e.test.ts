@@ -732,7 +732,7 @@ suite.define(() => {
       methodResponses: {
         "agent.identity.get": {
           agentId: "main",
-          name: "Zero to Agent",
+          name: "OpenAgent",
           avatar: "/avatar/main?v=fixture",
           avatarStatus: "local",
         },

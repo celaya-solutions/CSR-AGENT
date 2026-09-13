@@ -1,6 +1,6 @@
 /**
  * Publishes ClickClack's native ephemeral agent.progress signal for one
- * Zero to Agent turn. ClickClack renders this as its compact "Agent is
+ * OpenAgent turn. ClickClack renders this as its compact "Agent is
  * responding" status and the detailed progress lines above the composer.
  */
 import { buildChannelProgressDraftLine } from "openclaw/plugin-sdk/channel-outbound";

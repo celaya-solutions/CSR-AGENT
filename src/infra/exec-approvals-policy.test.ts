@@ -792,7 +792,7 @@ describe("exec approvals policy helpers", () => {
     });
   });
 
-  it("reports askFallback from the Zero to Agent default when approvals omit it", () => {
+  it("reports askFallback from the OpenAgent default when approvals omit it", () => {
     const summary = summarizeExecPolicyScopeSnapshot({
       approvals: {
         version: 1,
@@ -804,7 +804,7 @@ describe("exec approvals policy helpers", () => {
 
     expect(summary.askFallback).toEqual({
       effective: "deny",
-      source: "Zero to Agent default (deny)",
+      source: "OpenAgent default (deny)",
     });
   });
 

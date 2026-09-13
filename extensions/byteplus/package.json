@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/byteplus-provider",
   "version": "2026.9.4",
-  "description": "Zero to Agent BytePlus provider plugin.",
+  "description": "OpenAgent BytePlus provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

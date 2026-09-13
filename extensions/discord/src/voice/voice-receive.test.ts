@@ -103,7 +103,7 @@ defineDiscordVoiceTests(
         if (mode === "agent-proxy") {
           await emitFinalRealtimeUserTranscript(
             lastRealtimeBridgeParams(),
-            "Zero to Agent, what changed?",
+            "OpenAgent, what changed?",
           );
         } else {
           await lastRealtimeBridgeParams().onToolCall?.(

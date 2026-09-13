@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawIPC
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct MacControlRequestAuthenticatorTests {
     @Test func `rejects wrong user without consuming request and rejects replay`() async throws {

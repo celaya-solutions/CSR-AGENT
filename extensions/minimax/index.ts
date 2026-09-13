@@ -1,4 +1,4 @@
-// Minimax plugin entrypoint registers its Zero to Agent integration.
+// Minimax plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import {
   buildMinimaxImageGenerationProvider,

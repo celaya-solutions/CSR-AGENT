@@ -36,7 +36,7 @@ export const codexNativeHookRelayResponseCodec = {
               ? { behavior: "allow" }
               : {
                   behavior: "deny",
-                  message: message?.trim() || "Denied by Zero to Agent",
+                  message: message?.trim() || "Denied by OpenAgent",
                 },
         },
       })}\n`,

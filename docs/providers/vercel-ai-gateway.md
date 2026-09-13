@@ -2,7 +2,7 @@
 summary: "Vercel AI Gateway setup (auth + model selection)"
 title: "Vercel AI gateway"
 read_when:
-  - You want to use Vercel AI Gateway with Zero to Agent
+  - You want to use Vercel AI Gateway with OpenAgent
   - You need the API key env var or CLI auth choice
 ---
 
@@ -19,7 +19,7 @@ access hundreds of models through a single endpoint.
 | Model catalog | Auto-discovered via `/v1/models`       |
 
 <Tip>
-Zero to Agent auto-discovers the Gateway `/v1/models` catalog, so both the
+OpenAgent auto-discovers the Gateway `/v1/models` catalog, so both the
 `/models vercel-ai-gateway` chat command and
 `openclaw models list --provider vercel-ai-gateway` include current model
 refs such as `vercel-ai-gateway/openai/gpt-5.5` and
@@ -72,7 +72,7 @@ openclaw onboard --non-interactive --accept-risk --skip-health \
 
 ## Model ID shorthand
 
-Zero to Agent normalizes Claude shorthand model refs at runtime:
+OpenAgent normalizes Claude shorthand model refs at runtime:
 
 | Shorthand input                     | Normalized model ref                          |
 | ----------------------------------- | --------------------------------------------- |
@@ -80,7 +80,7 @@ Zero to Agent normalizes Claude shorthand model refs at runtime:
 | `vercel-ai-gateway/opus-4.6`        | `vercel-ai-gateway/anthropic/claude-opus-4-6` |
 
 <Tip>
-Use either form in your configuration; Zero to Agent resolves the canonical
+Use either form in your configuration; OpenAgent resolves the canonical
 `anthropic/...` ref automatically.
 </Tip>
 
@@ -88,7 +88,7 @@ Use either form in your configuration; Zero to Agent resolves the canonical
 
 <AccordionGroup>
   <Accordion title="Environment variable for daemon processes">
-    If the Zero to Agent Gateway runs as a daemon (launchd/systemd), make sure
+    If the OpenAgent Gateway runs as a daemon (launchd/systemd), make sure
     `AI_GATEWAY_API_KEY` is available to that process.
 
     <Warning>
@@ -108,7 +108,7 @@ Use either form in your configuration; Zero to Agent resolves the canonical
     MoonshotAI. One `AI_GATEWAY_API_KEY` authenticates all upstream providers.
   </Accordion>
   <Accordion title="Thinking levels">
-    `/think` options follow the upstream model prefix when Zero to Agent recognizes
+    `/think` options follow the upstream model prefix when OpenAgent recognizes
     it. `vercel-ai-gateway/anthropic/...` uses the Claude thinking profile,
     including the adaptive default for Claude 4.6 models. Trusted
     `vercel-ai-gateway/openai/...` refs (`gpt-5.2` and newer, plus Codex

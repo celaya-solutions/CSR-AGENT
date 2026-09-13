@@ -48,7 +48,7 @@ export type RunEmbeddedAgentInternalParams = RunEmbeddedAgentParams & {
   agentHarnessRuntimePreparationHint?: string;
   /** Keep staged setup config and credentials outside configured Gateway ownership. */
   preparedModelRuntimeMode?: "isolated-read-only";
-  /** Ring-zero tool override, supplied only by the Zero to Agent orchestrator. */
+  /** Ring-zero tool override, supplied only by the OpenAgent orchestrator. */
   systemAgentTool?: SystemAgentToolOptions;
   /** Gateway-private lifecycle generation selected before command admission. */
   pluginGeneration?: PreparedModelRuntimePluginGeneration;

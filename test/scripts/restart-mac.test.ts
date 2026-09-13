@@ -75,9 +75,9 @@ function runCleanupFunction(fakePs: string) {
       'ROOT_DIR="/worktree"',
       'APP_BUNDLE=""',
       'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/OpenClaw"',
-      'DEBUG_PROCESS_PATTERN="/worktree/apps/macos/.build/debug/Zero to Agent"',
-      'LOCAL_PROCESS_PATTERN="/worktree/apps/macos/.build-local/debug/Zero to Agent"',
-      'RELEASE_PROCESS_PATTERN="/worktree/apps/macos/.build/release/Zero to Agent"',
+      'DEBUG_PROCESS_PATTERN="/worktree/apps/macos/.build/debug/OpenAgent"',
+      'LOCAL_PROCESS_PATTERN="/worktree/apps/macos/.build-local/debug/OpenAgent"',
+      'RELEASE_PROCESS_PATTERN="/worktree/apps/macos/.build/release/OpenAgent"',
       "kill() {",
       '  printf "%s\\n" "$*" >> "$OPENCLAW_TEST_KILL_CALLS"',
       "  return 0",
@@ -383,7 +383,7 @@ afterEach(() => {
 
 describe("scripts/restart-mac.sh", () => {
   it("preserves an explicit signing identity through signed packaging", () => {
-    const identity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+    const identity = "Developer ID Application: Celaya Solutions (FWJYW4S8P8)";
     const result = runSigningEnvironmentBlock(identity);
 
     expect(result.status).toBe(0);
@@ -524,7 +524,7 @@ describe("scripts/restart-mac.sh", () => {
     );
   });
 
-  it("keeps restart cleanup scoped to known Zero to Agent app and build paths", () => {
+  it("keeps restart cleanup scoped to known OpenAgent app and build paths", () => {
     const script = readFileSync(restartScriptPath, "utf8");
     const cleanupBlock = script.slice(
       script.indexOf("kill_all_openclaw()"),
@@ -541,9 +541,9 @@ describe("scripts/restart-mac.sh", () => {
     expect(cleanupBlock).toContain('"${RELEASE_PROCESS_PATTERN}"');
     expect(cleanupBlock).not.toContain("APP_PROCESS_PATTERN");
     expect(cleanupBlock).not.toContain("pkill");
-    expect(cleanupBlock).not.toContain('pkill -x "Zero to Agent"');
+    expect(cleanupBlock).not.toContain('pkill -x "OpenClaw"');
     expect(cleanupBlock).not.toContain("pgrep");
-    expect(cleanupBlock).not.toContain('pgrep -x "Zero to Agent"');
+    expect(cleanupBlock).not.toContain('pgrep -x "OpenClaw"');
   });
 
   it("stops launchd supervision before killing app processes", () => {
@@ -790,7 +790,7 @@ describe("scripts/restart-mac.sh", () => {
     expect(result.stderr).toBe("");
   });
 
-  it("does not kill unrelated Zero to Agent app bundles", () => {
+  it("does not kill unrelated OpenAgent app bundles", () => {
     const { killCalls, result } = runCleanupFunction(
       [
         "#!/usr/bin/env bash",

@@ -244,7 +244,7 @@ export const overflowServerMiscCases = [
   {
     id: "errors-malformed-streaming-fragment",
     source: errorsSource,
-    signal: { message: "Zero to Agent transport error: malformed_streaming_fragment" },
+    signal: { message: "OpenAgent transport error: malformed_streaming_fragment" },
     expected: null,
   },
   {

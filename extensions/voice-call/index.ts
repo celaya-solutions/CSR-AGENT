@@ -1,4 +1,4 @@
-// Voice Call plugin entrypoint registers its Zero to Agent integration.
+// Voice Call plugin entrypoint registers its OpenAgent integration.
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
 import { ErrorCodes, errorShape } from "openclaw/plugin-sdk/gateway-runtime";
@@ -51,9 +51,7 @@ const VoiceCallToolSchema = Type.Union([
     to: Type.Optional(Type.String({ description: "Call target" })),
     message: Type.String({ description: "Intro message" }),
     mode: Type.Optional(Type.Union([Type.Literal("notify"), Type.Literal("conversation")])),
-    sessionKey: Type.Optional(
-      Type.String({ description: "Zero to Agent session key for the call" }),
-    ),
+    sessionKey: Type.Optional(Type.String({ description: "OpenAgent session key for the call" })),
     dtmfSequence: Type.Optional(Type.String({ description: "DTMF digits to play before connect" })),
   }),
   Type.Object({
@@ -84,9 +82,7 @@ const VoiceCallToolSchema = Type.Union([
     to: Type.Optional(Type.String({ description: "Call target" })),
     sid: Type.Optional(Type.String({ description: "Call SID" })),
     message: Type.Optional(Type.String({ description: "Optional intro message" })),
-    sessionKey: Type.Optional(
-      Type.String({ description: "Zero to Agent session key for the call" }),
-    ),
+    sessionKey: Type.Optional(Type.String({ description: "OpenAgent session key for the call" })),
     dtmfSequence: Type.Optional(Type.String({ description: "DTMF digits to play before connect" })),
   }),
 ]);

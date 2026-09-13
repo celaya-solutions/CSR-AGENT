@@ -245,7 +245,7 @@ async function assertFullResetPreservesOnboardingLock(workspaceDir: string): Pro
   ) {
     throw new Error(
       "Full reset workspace overlaps the active onboarding lock directory. " +
-        "Choose a workspace outside the Zero to Agent state migration directory or use a narrower reset scope.",
+        "Choose a workspace outside the OpenAgent state migration directory or use a narrower reset scope.",
     );
   }
 }

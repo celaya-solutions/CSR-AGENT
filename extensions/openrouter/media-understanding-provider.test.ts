@@ -92,7 +92,7 @@ describe("openrouter media understanding provider", () => {
         Authorization: "Bearer sk-openrouter",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://openclaw.ai",
-        "X-OpenRouter-Title": "Zero to Agent",
+        "X-OpenRouter-Title": "OpenAgent",
       },
       provider: "openrouter",
       api: "openrouter-stt",
@@ -122,7 +122,7 @@ describe("openrouter media understanding provider", () => {
     }
     expect(headers.get("authorization")).toBe("Bearer sk-openrouter");
     expect(headers.get("http-referer")).toBe("https://openclaw.ai");
-    expect(headers.get("x-openrouter-title")).toBe("Zero to Agent");
+    expect(headers.get("x-openrouter-title")).toBe("OpenAgent");
     expect(release).toHaveBeenCalledOnce();
   });
 

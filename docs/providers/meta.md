@@ -2,12 +2,12 @@
 summary: "Meta setup, authentication, and Muse Spark model selection"
 title: "Meta"
 read_when:
-  - You want to use Meta with Zero to Agent
+  - You want to use Meta with OpenAgent
   - You need the MODEL_API_KEY env var or CLI auth choice
 ---
 
 The **Meta API** uses the OpenAI-compatible **Responses API** (`POST /v1/responses`)
-for the Muse Spark reasoning models. Zero to Agent provides Meta as an official external
+for the Muse Spark reasoning models. OpenAgent provides Meta as an official external
 plugin.
 
 | Property                        | Value                              |
@@ -20,7 +20,7 @@ plugin.
 | API                             | Responses API (`openai-responses`) |
 | Base URL                        | `https://api.meta.ai/v1`           |
 | Default model                   | `meta/muse-spark-1.3`              |
-| Zero to Agent reasoning default | `high` (`reasoning.effort`)        |
+| OpenAgent reasoning default | `high` (`reasoning.effort`)        |
 
 ## Getting started
 
@@ -88,7 +88,7 @@ documentation.
 Meta's [model catalog](https://dev.meta.ai/docs/models) identifies Muse Spark 1.3
 as the latest version and recommends it for new work.
 
-| Model ref                         | Name                       | Zero to Agent input | Reasoning | Context window | Input / cached input / output per 1M tokens |
+| Model ref                         | Name                       | OpenAgent input | Reasoning | Context window | Input / cached input / output per 1M tokens |
 | --------------------------------- | -------------------------- | ------------------- | --------- | -------------- | ------------------------------------------- |
 | `meta/muse-spark-1.3`             | Muse Spark 1.3             | text, image         | yes       | 1,048,576      | $1.25 / $0.15 / $4.25                       |
 | `meta/muse-spark-1.3-contributor` | Muse Spark 1.3 Contributor | text, image         | yes       | 1,048,576      | $0.10 / $0.002 / $0.20                      |
@@ -117,23 +117,23 @@ Standard Services.
 
 Capabilities:
 
-- Text and image input through Zero to Agent
+- Text and image input through OpenAgent
 - Tool calling and streaming
-- Reasoning effort: `minimal`, `low`, `medium`, `high`, `xhigh` (Zero to Agent default: `high`)
+- Reasoning effort: `minimal`, `low`, `medium`, `high`, `xhigh` (OpenAgent default: `high`)
 - Stateless encrypted reasoning replay (`store: false`, `include: ["reasoning.encrypted_content"]`)
 
 Meta's [model catalog](https://dev.meta.ai/docs/models) lists text, image, video,
-audio, and PDF input for these models. Zero to Agent's model catalog directly represents
+audio, and PDF input for these models. OpenAgent's model catalog directly represents
 text and image input only; the other upstream modalities are not model-manifest input
 values.
 
-Zero to Agent explicitly selects `high` when no thinking level is configured. This is an
-Zero to Agent default, not Meta's omitted-parameter behavior: Meta's
+OpenAgent explicitly selects `high` when no thinking level is configured. This is an
+OpenAgent default, not Meta's omitted-parameter behavior: Meta's
 [reasoning documentation](https://dev.meta.ai/docs/reasoning/) says that when
 `reasoning.effort` is omitted, the model reasons at a model-determined level.
 
 <Warning>
-Muse Spark does not accept `reasoning.effort: "none"`. Zero to Agent maps
+Muse Spark does not accept `reasoning.effort: "none"`. OpenAgent maps
 `--thinking off` to `minimal` for this provider.
 </Warning>
 

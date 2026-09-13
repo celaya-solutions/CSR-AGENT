@@ -73,7 +73,7 @@ describe("exec safe bin trust", () => {
   });
 
   it("matches trusted dirs through path-local case folding on case-insensitive filesystems", async () => {
-    await withTestDir({ prefix: "Zero to Agent-Safe-Bin-" }, async (dir) => {
+    await withTestDir({ prefix: "OpenAgent-Safe-Bin-" }, async (dir) => {
       const swapped = swapAsciiCase(dir);
       if (swapped === dir) {
         return;

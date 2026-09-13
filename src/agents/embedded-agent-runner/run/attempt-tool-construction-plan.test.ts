@@ -314,7 +314,7 @@ describe("resolveEmbeddedAttemptToolConstructionPlan", () => {
     });
   });
 
-  it("materializes Zero to Agent tools when a plugin-only allowlist forces message", () => {
+  it("materializes OpenAgent tools when a plugin-only allowlist forces message", () => {
     expectConstructionPlan(
       resolveEmbeddedAttemptToolConstructionPlan({
         toolsAllow: ["memory_search"],

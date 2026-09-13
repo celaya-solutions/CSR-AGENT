@@ -256,7 +256,7 @@ defineDiscordVoiceTests(
       try {
         beginSpeakerTurn(entry).close();
         const owner = lastRealtimeBridge();
-        await emitFinalRealtimeUserTranscript(owner.bridgeParams, "Zero to Agent");
+        await emitFinalRealtimeUserTranscript(owner.bridgeParams, "OpenAgent");
         beginSpeakerTurn(entry, { senderIsOwner: false }).close();
         const guest = lastRealtimeBridge();
         await emitFinalRealtimeUserTranscript(guest.bridgeParams, "A separate conversation.");

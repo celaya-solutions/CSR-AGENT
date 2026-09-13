@@ -972,7 +972,7 @@ describe.skipIf(process.platform !== "darwin")(
     );
 
     it.concurrent.for([
-      ["sourceCommit", "Zero to Agent source"],
+      ["sourceCommit", "OpenAgent source"],
       ["peekabooCommit", "Peekaboo source"],
       ["version", "version"],
       ["build", "build"],

@@ -1,4 +1,4 @@
-name: OpenClaw Scheduled Live And E2E Checks
+name: OpenAgent Scheduled Live And E2E Checks
 
 on:
   schedule:

@@ -24,7 +24,7 @@ function createQaChannelConfig(baseUrl: string) {
       "qa-channel": {
         baseUrl,
         botUserId: "openclaw",
-        botDisplayName: "Zero to Agent QA",
+        botDisplayName: "OpenAgent QA",
       },
     },
   };

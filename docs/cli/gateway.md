@@ -1,5 +1,5 @@
 ---
-summary: "Zero to Agent Gateway CLI (`openclaw gateway`) — run, query, and discover gateways"
+summary: "OpenAgent Gateway CLI (`openclaw gateway`) — run, query, and discover gateways"
 read_when:
   - Running the Gateway from the CLI (dev or servers)
   - Debugging Gateway auth, bind modes, and connectivity
@@ -9,7 +9,7 @@ title: "Gateway"
 sidebarTitle: "Gateway"
 ---
 
-The Gateway is Zero to Agent's WebSocket server (channels, nodes, sessions, hooks). All subcommands on the pages listed here live under `openclaw gateway ...`.
+The Gateway is OpenAgent's WebSocket server (channels, nodes, sessions, hooks). All subcommands on the pages listed here live under `openclaw gateway ...`.
 
 `openclaw daemon ...` is a legacy alias for the service-control subcommands; see [`openclaw daemon`](/cli/daemon).
 
@@ -18,7 +18,7 @@ The Gateway is Zero to Agent's WebSocket server (channels, nodes, sessions, hook
     Local mDNS + wide-area DNS-SD setup.
   </Card>
   <Card title="Discovery overview" href="/gateway/discovery">
-    How Zero to Agent advertises and finds gateways.
+    How OpenAgent advertises and finds gateways.
   </Card>
   <Card title="Configuration" href="/gateway/configuration">
     Top-level gateway config keys.

@@ -1539,7 +1539,7 @@ describe("release candidate checklist", () => {
       databaseId: 456,
       runAttempt: 2,
       repository: repo,
-      workflowName: "Zero to Agent NPM Release",
+      workflowName: "OpenAgent NPM Release",
       workflowPath: ".github/workflows/openclaw-npm-release.yml",
       event: "workflow_dispatch",
       status: "completed",
@@ -2289,9 +2289,7 @@ describe("release candidate checklist", () => {
         "--plugins",
         "@openclaw/diffs",
       ]),
-    ).toThrow(
-      "release candidates publish Zero to Agent with --plugin-publish-scope all-publishable",
-    );
+    ).toThrow("release candidates publish OpenAgent with --plugin-publish-scope all-publishable");
   });
 
   it("extracts a workflow run id from gh dispatch output", () => {

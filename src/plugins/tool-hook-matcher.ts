@@ -48,7 +48,7 @@ export function normalizePluginToolMatcher(matcher: unknown): PluginToolMatcher 
       NON_CANONICAL_TOOL_MATCHER_NAMES.has(canonicalToolName) ||
       NON_CANONICAL_TOOL_MATCHER_NAMES.has(toolName.trim())
     ) {
-      throw new TypeError("tool hook matcher entries must use canonical Zero to Agent tool ids");
+      throw new TypeError("tool hook matcher entries must use canonical OpenAgent tool ids");
     }
     normalized.add(canonicalToolName);
   }

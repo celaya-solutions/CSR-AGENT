@@ -68,7 +68,7 @@ describe("zaloPlugin pairing.notifyApproval", () => {
       "token-beta",
       {
         chat_id: "paired-user",
-        text: "✅ Zero to Agent access approved. Send a message to start chatting.",
+        text: "✅ OpenAgent access approved. Send a message to start chatting.",
       },
       fetcher,
     );

@@ -33,7 +33,7 @@ describe("system-agent chat input", () => {
         wizardAnswer: { stepId: "secret", value: "not-forwarded" },
         delegation: { agentId: "main", sessionKey: "agent:main:main" },
       },
-      error: "Delegated Zero to Agent sessions cannot submit structured wizard answers.",
+      error: "Delegated OpenAgent sessions cannot submit structured wizard answers.",
     },
     {
       input: {
@@ -41,7 +41,7 @@ describe("system-agent chat input", () => {
         wizardAnswer: { stepId: "channel", value: "twitch" },
         reset: true,
       },
-      error: "A wizard answer cannot reset its Zero to Agent chat session.",
+      error: "A wizard answer cannot reset its OpenAgent chat session.",
     },
     {
       input: {
@@ -65,7 +65,7 @@ describe("system-agent chat input", () => {
         wizardCancel: { stepId: "channel" },
         delegation: { agentId: "main", sessionKey: "agent:main:main" },
       },
-      error: "Delegated Zero to Agent sessions cannot cancel hosted wizards.",
+      error: "Delegated OpenAgent sessions cannot cancel hosted wizards.",
     },
     {
       input: {
@@ -73,7 +73,7 @@ describe("system-agent chat input", () => {
         wizardCancel: { stepId: "channel" },
         reset: true,
       },
-      error: "A wizard cancel cannot reset its Zero to Agent chat session.",
+      error: "A wizard cancel cannot reset its OpenAgent chat session.",
     },
   ])("rejects invalid mixed input: $error", ({ input, error }) => {
     expect(getSystemAgentChatInputError(input)).toBe(error);

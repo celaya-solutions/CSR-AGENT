@@ -1,4 +1,4 @@
-name: OpenClaw NPM Preflight
+name: OpenAgent NPM Preflight
 
 on:
   workflow_call:

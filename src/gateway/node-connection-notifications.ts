@@ -194,7 +194,7 @@ class NodeConnectionNotificationRouter {
         command: "system.notify",
         params: {
           title: "Node connected",
-          body: `${connectionLabel(source)} connected to Zero to Agent.`,
+          body: `${connectionLabel(source)} connected to OpenAgent.`,
           priority: "active",
           delivery: "auto",
         },

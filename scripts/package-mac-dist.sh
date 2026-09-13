@@ -46,7 +46,7 @@ if [[ "$RESUME_NOTARIZATION" == "0" && -e "$RECOVERY_DIR" ]]; then
 fi
 
 BUILD_ROOT="$ROOT_DIR/apps/macos/.build"
-PRODUCT="OpenClaw"
+PRODUCT="OpenAgent"
 BUILD_CONFIG="${BUILD_CONFIG:-release}"
 APP_VERSION_INPUT="${APP_VERSION:-}"
 

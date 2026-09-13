@@ -207,7 +207,7 @@ describe("Discord REST API helpers", () => {
     const rest = createFakeRestClient([{ id: "wh1", token: "token1" }]);
 
     await expect(
-      createChannelWebhook(rest, "c1", { body: { name: "Zero to Agent" } }),
+      createChannelWebhook(rest, "c1", { body: { name: "OpenAgent" } }),
     ).resolves.toEqual({
       id: "wh1",
       token: "token1",
@@ -217,7 +217,7 @@ describe("Discord REST API helpers", () => {
       {
         method: "POST",
         path: Routes.channelWebhooks("c1"),
-        data: { body: { name: "Zero to Agent" } },
+        data: { body: { name: "OpenAgent" } },
       },
     ]);
   });

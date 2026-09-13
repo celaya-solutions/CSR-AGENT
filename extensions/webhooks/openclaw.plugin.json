@@ -5,7 +5,7 @@
     "onStartup": true
   },
   "name": "Webhooks",
-  "description": "Authenticated inbound webhooks that bind external automation to Zero to Agent TaskFlows.",
+  "description": "Authenticated inbound webhooks that bind external automation to OpenAgent TaskFlows.",
   "configContracts": {
     "secretInputs": {
       "paths": [

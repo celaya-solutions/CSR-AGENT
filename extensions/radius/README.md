@@ -1,6 +1,6 @@
-# Zero to Agent Radius Provider
+# OpenAgent Radius Provider
 
-Connect Zero to Agent to Earendil's Radius gateway with browser sign-in or an
+Connect OpenAgent to Earendil's Radius gateway with browser sign-in or an
 organization API key. The plugin discovers account-visible models and supports
 native Pi message streaming, reasoning, images on supported models, and tool calls.
 

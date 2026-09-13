@@ -503,9 +503,7 @@ describe("createAcpxRuntimeService", () => {
       wrapperRoot,
       deps: processCleanupDeps,
     });
-    expect(ctx.logger.info).toHaveBeenCalledWith(
-      "reaped 2 stale Zero to Agent-owned ACPX processes",
-    );
+    expect(ctx.logger.info).toHaveBeenCalledWith("reaped 2 stale OpenAgent-owned ACPX processes");
 
     await service.stop?.(ctx);
   });
@@ -595,9 +593,7 @@ describe("createAcpxRuntimeService", () => {
       wrapperRoot,
       deps: processCleanupDeps,
     });
-    expect(ctx.logger.info).toHaveBeenCalledWith(
-      "reaped 2 stale Zero to Agent-owned ACPX processes",
-    );
+    expect(ctx.logger.info).toHaveBeenCalledWith("reaped 2 stale OpenAgent-owned ACPX processes");
     await expect(openProcessLeaseStore(ctx).lookup("lease-pending")).resolves.toBeUndefined();
 
     await service.stop?.(ctx);

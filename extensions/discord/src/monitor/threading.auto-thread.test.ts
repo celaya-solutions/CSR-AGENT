@@ -227,7 +227,7 @@ describe("maybeCreateDiscordAutoThread autoThreadName", () => {
         baseText: "Need help with deploy rollout",
         combinedBody: "Need help with deploy rollout",
         channelName: "openclaw",
-        channelDescription: "Zero to Agent development coordination and release planning",
+        channelDescription: "OpenAgent development coordination and release planning",
         channelConfig: { allowed: true, autoThread: true, autoThreadName: "generated" },
         cfg,
         agentId: "main",
@@ -241,7 +241,7 @@ describe("maybeCreateDiscordAutoThread autoThreadName", () => {
     expectGeneratedTitleField("channelName", "openclaw");
     expectGeneratedTitleField(
       "channelDescription",
-      "Zero to Agent development coordination and release planning",
+      "OpenAgent development coordination and release planning",
     );
     expectRestBodyField(patchMock, "name", "Deploy rollout summary");
   });

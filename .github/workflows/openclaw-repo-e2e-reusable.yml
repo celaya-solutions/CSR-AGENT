@@ -1,4 +1,4 @@
-name: OpenClaw Repo E2E (Reusable)
+name: OpenAgent Repo E2E (Reusable)
 
 on:
   workflow_call:

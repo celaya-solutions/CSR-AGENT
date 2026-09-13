@@ -1,5 +1,5 @@
 ---
-summary: "Imports Hermes configuration, memories, skills, and supported credentials into Zero to Agent."
+summary: "Imports Hermes configuration, memories, skills, and supported credentials into OpenAgent."
 read_when:
   - You are installing, configuring, or auditing the migrate-hermes plugin
 title: "Migrate Hermes plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Imports Hermes configuration, memories, skills, and supported credentials into Zero to Agent.
+Imports Hermes configuration, memories, skills, and supported credentials into OpenAgent.
 
 ## Distribution
 
 - Package: `@openclaw/migrate-hermes`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Omarchy presentation adapter for OpenClaw's public Gateway CLI."""
+"""Omarchy presentation adapter for OpenAgent's public Gateway CLI."""
 import hashlib
 import json
 import os
@@ -27,7 +27,7 @@ def cli_path():
 
 def cli_json(cli, arguments):
     if not cli:
-        raise GatewayError("OpenClaw is not on PATH. Install it from Omarchy Menu → Install → AI → OpenClaw.")
+        raise GatewayError("OpenAgent is not on PATH. Install it from Omarchy Menu → Install → AI → OpenAgent.")
     try:
         result = subprocess.run(
             [cli, *arguments],
@@ -44,7 +44,7 @@ def cli_json(cli, arguments):
             raise ValueError("Expected object")
         return value
     except (ValueError, TypeError) as error:
-        raise GatewayError("Unrecognized Gateway response. Check the installed OpenClaw version.") from error
+        raise GatewayError("Unrecognized Gateway response. Check the installed OpenAgent version.") from error
 
 
 
@@ -229,13 +229,13 @@ class Worker:
             if refresh_cli or self.cli_state is None or self.cli_state.get("cli") != cli:
                 state = {"desktop": False, "yield": False, "cli": cli, "ready": False,
                          "routeId": "cli:unavailable:" + hashlib.sha256((cli or "").encode()).hexdigest(),
-                         "error": "Install OpenClaw from Omarchy Menu → Install → AI → OpenClaw."}
+                         "error": "Install OpenAgent from Omarchy Menu → Install → AI → OpenAgent."}
                 if cli:
                     try:
                         status = cli_json(cli, ["status", "--json", "--timeout", "1000"])
                         url = status.get("gateway", {}).get("url")
                         if not isinstance(url, str) or not url.startswith(("ws://", "wss://")):
-                            raise GatewayError("Could not identify the CLI Gateway. Update OpenClaw and open diagnostics.")
+                            raise GatewayError("Could not identify the CLI Gateway. Update OpenAgent and open diagnostics.")
                         route = hashlib.sha256(json.dumps([cli, url]).encode()).hexdigest()
                         state.update(routeId="cli:" + route, cliUrl=url, ready=True, error="")
                     except (GatewayError, AttributeError, TypeError) as error:
@@ -293,7 +293,7 @@ class Worker:
         else:
             cli = cli_path()
             if not cli:
-                raise GatewayError("Install OpenClaw first.")
+                raise GatewayError("Install OpenAgent first.")
             if action == "dashboard":
                 command = ["omarchy-launch-terminal", cli, "dashboard"]
             elif action == "session" and isinstance(key, str) and key:
@@ -306,7 +306,7 @@ class Worker:
             elif action == "diagnostics":
                 command = ["omarchy-launch-terminal", cli, "gateway", "status"]
             else:
-                raise GatewayError("This action needs the OpenClaw desktop app.")
+                raise GatewayError("This action needs the OpenAgent desktop app.")
             subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
                              stderr=subprocess.DEVNULL, start_new_session=True)
         return {"ok": True}
@@ -334,7 +334,7 @@ class Worker:
                 raise GatewayError("Unknown widget action.")
         except (GatewayError, ValueError, TypeError, KeyError, AttributeError, OSError) as error:
             result = {"ok": False, "uncertain": False,
-                      "error": str(error) if isinstance(error, GatewayError) else "Could not read OpenClaw data. Open the app to check its connection."}
+                      "error": str(error) if isinstance(error, GatewayError) else "Could not read OpenAgent data. Open the app to check its connection."}
         self.emit({**result, "id": request.get("id"), "op": operation, "routeId": request.get("routeId", "")})
 
     def serve(self):

@@ -31,7 +31,7 @@ describe("gateway stale install errors", () => {
     vi.unstubAllEnvs();
   });
 
-  it("turns a missing module from the Zero to Agent install into restart guidance", async () => {
+  it("turns a missing module from the OpenAgent install into restart guidance", async () => {
     vi.stubEnv("OPENCLAW_PROFILE", "sd1");
     const missingChunk = path.join(
       path.dirname(fileURLToPath(import.meta.url)),
@@ -54,7 +54,7 @@ describe("gateway stale install errors", () => {
     );
   });
 
-  it("does not rewrite a missing module outside the Zero to Agent install", async () => {
+  it("does not rewrite a missing module outside the OpenAgent install", async () => {
     const outsideInstall = path.join(
       path.parse(process.cwd()).root,
       "outside-openclaw",

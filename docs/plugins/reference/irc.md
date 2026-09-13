@@ -1,5 +1,5 @@
 ---
-summary: "Zero to Agent IRC channel plugin."
+summary: "OpenAgent IRC channel plugin."
 read_when:
   - You are installing, configuring, or auditing the irc plugin
 title: "IRC plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Zero to Agent IRC channel plugin.
+OpenAgent IRC channel plugin.
 
 ## Distribution
 

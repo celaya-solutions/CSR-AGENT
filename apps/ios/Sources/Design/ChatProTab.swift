@@ -193,7 +193,7 @@ struct ChatProTab: View {
                         .font(OpenClawType.body)
                 }
             } message: {
-                Text("OpenClaw could not prepare the Markdown file.")
+                Text("OpenAgent could not prepare the Markdown file.")
                     .font(OpenClawType.body)
             }
     }
@@ -941,8 +941,8 @@ struct ChatProTab: View {
     nonisolated static let emptyAssistantPrompts: [OpenClawChatView.StarterPrompt] = [
         OpenClawChatView.StarterPrompt(
             id: "summarize-status",
-            title: String(localized: "Check OpenClaw status"),
-            prompt: String(localized: "Summarize the current OpenClaw status and tell me what needs attention.")),
+            title: String(localized: "Check OpenAgent status"),
+            prompt: String(localized: "Summarize the current OpenAgent status and tell me what needs attention.")),
         OpenClawChatView.StarterPrompt(
             id: "show-controls",
             title: String(localized: "What can I control here?"),

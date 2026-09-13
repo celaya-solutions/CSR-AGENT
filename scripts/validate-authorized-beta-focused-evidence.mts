@@ -556,7 +556,7 @@ function assertHistoricalAndFocusedEvidence(policy: AuthorizedBetaFocusedPolicy)
   requireRun({
     runId: historical.releaseChecksRunId,
     attempt: 1,
-    name: `OpenClaw Release Checks full-release-validation-${historical.runId}-${historical.runAttempt}-release-checks`,
+    name: `OpenAgent Release Checks full-release-validation-${historical.runId}-${historical.runAttempt}-release-checks`,
     path: ".github/workflows/openclaw-release-checks.yml",
     headBranch: historical.workflowRef,
     headSha: policy.historicalToolingSha,
@@ -571,7 +571,7 @@ function assertHistoricalAndFocusedEvidence(policy: AuthorizedBetaFocusedPolicy)
   requireRun({
     runId: historical.performanceRunId,
     attempt: 1,
-    name: `OpenClaw Performance full-release-validation-${historical.runId}-${historical.runAttempt}`,
+    name: `OpenAgent Performance full-release-validation-${historical.runId}-${historical.runAttempt}`,
     path: ".github/workflows/openclaw-performance.yml",
     headBranch: historical.workflowRef,
     headSha: policy.historicalToolingSha,
@@ -580,7 +580,7 @@ function assertHistoricalAndFocusedEvidence(policy: AuthorizedBetaFocusedPolicy)
   requireJob({
     jobId: historical.performanceFailedJobId,
     runId: historical.performanceRunId,
-    name: "OpenClaw source performance probes",
+    name: "OpenAgent source performance probes",
     conclusion: "failure",
     headSha: policy.historicalToolingSha,
   });

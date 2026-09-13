@@ -1,4 +1,4 @@
-// Duckduckgo plugin entrypoint registers its Zero to Agent integration.
+// Duckduckgo plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { createDuckDuckGoWebSearchProvider } from "./src/ddg-search-provider.js";
 

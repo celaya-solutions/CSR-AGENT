@@ -1,10 +1,10 @@
 import { resolveAgentEntry } from "../agents/agent-scope-config.js";
-// Zero to Agent rescue policy gates remote writes by owner, DM, sandbox, and YOLO posture.
+// OpenAgent rescue policy gates remote writes by owner, DM, sandbox, and YOLO posture.
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { resolveExecModePolicy } from "../infra/exec-approvals.js";
 
 /**
- * Policy checks for remote Zero to Agent rescue commands.
+ * Policy checks for remote OpenAgent rescue commands.
  *
  * Rescue intentionally opens only for owner-controlled, non-sandboxed YOLO host
  * posture because remote commands can write local state.
@@ -88,7 +88,7 @@ export function resolveSystemAgentRescuePolicy(
       sandboxActive,
       reason: "sandbox-active",
       message:
-        "Zero to Agent rescue is blocked because Zero to Agent sandboxing is active. Fix the install locally or disable sandboxing before using remote rescue.",
+        "OpenAgent rescue is blocked because OpenAgent sandboxing is active. Fix the install locally or disable sandboxing before using remote rescue.",
     };
   }
   if (!enabled) {
@@ -100,7 +100,7 @@ export function resolveSystemAgentRescuePolicy(
       yolo,
       sandboxActive,
       reason: "disabled",
-      message: "Zero to Agent rescue requires YOLO host posture with sandboxing off.",
+      message: "OpenAgent rescue requires YOLO host posture with sandboxing off.",
     };
   }
   if (!input.senderIsOwner) {
@@ -112,7 +112,7 @@ export function resolveSystemAgentRescuePolicy(
       yolo,
       sandboxActive,
       reason: "not-owner",
-      message: "Zero to Agent rescue only accepts commands from a Zero to Agent owner.",
+      message: "OpenAgent rescue only accepts commands from an OpenAgent owner.",
     };
   }
   if (ownerDmOnly && !input.isDirectMessage) {
@@ -124,7 +124,7 @@ export function resolveSystemAgentRescuePolicy(
       yolo,
       sandboxActive,
       reason: "not-direct-message",
-      message: "Zero to Agent rescue is restricted to owner DMs by default.",
+      message: "OpenAgent rescue is restricted to owner DMs by default.",
     };
   }
   return {

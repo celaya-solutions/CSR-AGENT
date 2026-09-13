@@ -277,7 +277,7 @@ describe("readTranscriptState", () => {
     ]);
   });
 
-  it("preserves Zero to Agent-authored non-model content blocks", async () => {
+  it("preserves OpenAgent-authored non-model content blocks", async () => {
     const sessionFile = await writeTranscriptFixture("openclaw-transcript-state-openclaw-blocks-", [
       JSON.stringify({
         type: "message",

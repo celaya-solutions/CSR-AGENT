@@ -53,7 +53,7 @@ export async function buildStatusAllReportLines(params: {
       "",
     );
   }
-  lines.push(heading("Zero to Agent status --all"));
+  lines.push(heading("OpenAgent status --all"));
   const report = { lines, heading, width: tableWidth, renderTable };
   const overviewColumns = [...statusOverviewTableColumns];
   const overviewRows = params.overviewRows;

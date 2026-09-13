@@ -51,7 +51,7 @@ describeLive("azure speech plugin live", () => {
     };
 
     const audioFile = await provider.synthesize({
-      text: "Zero to Agent Azure Speech text to speech integration test OK.",
+      text: "OpenAgent Azure Speech text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       target: "audio-file",
@@ -64,7 +64,7 @@ describeLive("azure speech plugin live", () => {
     expect(audioFile.audioBuffer.byteLength).toBeGreaterThan(512);
 
     const voiceNote = await provider.synthesize({
-      text: "Zero to Agent Azure Speech voice note integration test OK.",
+      text: "OpenAgent Azure Speech voice note integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       target: "voice-note",
@@ -78,7 +78,7 @@ describeLive("azure speech plugin live", () => {
     expect(voiceNote.audioBuffer.subarray(0, 4).toString("ascii")).toBe("OggS");
 
     const telephony = await provider.synthesizeTelephony?.({
-      text: "Zero to Agent Azure Speech telephony check OK.",
+      text: "OpenAgent Azure Speech telephony check OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig,
       timeoutMs: 90_000,

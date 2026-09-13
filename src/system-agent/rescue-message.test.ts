@@ -1,4 +1,4 @@
-// Zero to Agent rescue message tests cover generated rescue message content.
+// OpenAgent rescue message tests cover generated rescue message content.
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -202,7 +202,7 @@ async function runRescue(
   });
 }
 
-describe("Zero to Agent rescue message", () => {
+describe("OpenAgent rescue message", () => {
   beforeAll(async () => {
     tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "system-agent-rescue-"));
   });
@@ -223,7 +223,7 @@ describe("Zero to Agent rescue message", () => {
     resetPluginStateStoreForTests();
   });
 
-  it("recognizes the Zero to Agent rescue command", () => {
+  it("recognizes the OpenAgent rescue command", () => {
     expect(extractSystemAgentRescueMessage("/openclaw status")).toBe("status");
     expect(extractSystemAgentRescueMessage("/openclaw")).toBe("");
     expect(extractSystemAgentRescueMessage("/status")).toBeNull();
@@ -297,11 +297,11 @@ describe("Zero to Agent rescue message", () => {
       };
 
       const reply = await runRescue("/openclaw doctor fix", cfg, commandContext(), deps);
-      expect(reply).toContain("machine running Zero to Agent");
-      expect(reply).toContain("with Zero to Agent stopped");
+      expect(reply).toContain("machine running OpenAgent");
+      expect(reply).toContain("with OpenAgent stopped");
       expect(reply).toContain("run `openclaw doctor --fix`");
       await expect(runRescue("/openclaw yes", cfg, commandContext(), deps)).resolves.toBe(
-        "No pending Zero to Agent rescue change is waiting for approval.",
+        "No pending OpenAgent rescue change is waiting for approval.",
       );
       expect(deps.runDoctor).not.toHaveBeenCalled();
     });
@@ -316,10 +316,10 @@ describe("Zero to Agent rescue message", () => {
         runRescue("/openclaw restart gateway", cfg, commandContext(), deps),
       ).resolves.toContain("Reply /openclaw yes to apply");
       await expect(runRescue("/openclaw no", cfg, commandContext(), deps)).resolves.toContain(
-        "Dropped the pending Zero to Agent rescue change",
+        "Dropped the pending OpenAgent rescue change",
       );
       await expect(runRescue("/openclaw yes", cfg, commandContext(), deps)).resolves.toBe(
-        "No pending Zero to Agent rescue change is waiting for approval.",
+        "No pending OpenAgent rescue change is waiting for approval.",
       );
       expect(deps.runGatewayRestart).not.toHaveBeenCalled();
     });
@@ -340,7 +340,7 @@ describe("Zero to Agent rescue message", () => {
         "plugin rows",
       );
       await expect(runRescue("/openclaw yes", cfg, commandContext(), deps)).resolves.toBe(
-        "No pending Zero to Agent rescue change is waiting for approval.",
+        "No pending OpenAgent rescue change is waiting for approval.",
       );
       expect(deps.runGatewayRestart).not.toHaveBeenCalled();
     });
@@ -358,7 +358,7 @@ describe("Zero to Agent rescue message", () => {
       ]);
 
       expect(deps.runGatewayRestart).toHaveBeenCalledTimes(1);
-      expect(replies).toContain("No pending Zero to Agent rescue change is waiting for approval.");
+      expect(replies).toContain("No pending OpenAgent rescue change is waiting for approval.");
       expect(replies.some((reply) => reply?.includes("[openclaw] done: gateway.restart"))).toBe(
         true,
       );
@@ -379,7 +379,7 @@ describe("Zero to Agent rescue message", () => {
         "restart failed",
       );
       await expect(runRescue("/openclaw yes", cfg, commandContext(), deps)).resolves.toBe(
-        "No pending Zero to Agent rescue change is waiting for approval.",
+        "No pending OpenAgent rescue change is waiting for approval.",
       );
       expect(deps.runGatewayRestart).toHaveBeenCalledTimes(1);
     });
@@ -469,7 +469,7 @@ describe("Zero to Agent rescue message", () => {
         commandContext({ from: "user:other", senderId: "user:other" }),
       ]) {
         await expect(runRescue("/openclaw yes", cfg, isolated, deps)).resolves.toBe(
-          "No pending Zero to Agent rescue change is waiting for approval.",
+          "No pending OpenAgent rescue change is waiting for approval.",
         );
       }
       await expect(runRescue("/openclaw yes", cfg, original, deps)).resolves.toContain(
@@ -493,7 +493,7 @@ describe("Zero to Agent rescue message", () => {
           commandContext({ accountId: undefined, to: "bot:secondary" }),
           deps,
         ),
-      ).resolves.toBe("No pending Zero to Agent rescue change is waiting for approval.");
+      ).resolves.toBe("No pending OpenAgent rescue change is waiting for approval.");
       await expect(runRescue("/openclaw yes", cfg, original, deps)).resolves.toContain(
         "[openclaw] done: gateway.restart",
       );
@@ -624,7 +624,7 @@ describe("Zero to Agent rescue message", () => {
       vi.advanceTimersByTime(15 * 60_000 + 1);
 
       await expect(runRescue("/openclaw yes", cfg, commandContext(), deps)).resolves.toBe(
-        "No pending Zero to Agent rescue change is waiting for approval.",
+        "No pending OpenAgent rescue change is waiting for approval.",
       );
       expect(deps.runGatewayRestart).not.toHaveBeenCalled();
     });
@@ -648,10 +648,10 @@ describe("Zero to Agent rescue message", () => {
       );
 
       await expect(runRescue("/openclaw yes", cfg, commandContext(), deps)).resolves.toBe(
-        "No pending Zero to Agent rescue change is waiting for approval.",
+        "No pending OpenAgent rescue change is waiting for approval.",
       );
       await expect(runRescue("/openclaw yes", cfg, commandContext(), deps)).resolves.toBe(
-        "No pending Zero to Agent rescue change is waiting for approval.",
+        "No pending OpenAgent rescue change is waiting for approval.",
       );
       expect(deps.runGatewayRestart).not.toHaveBeenCalled();
     });

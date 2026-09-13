@@ -1,4 +1,4 @@
-/** Summarizes installed service command paths and Zero to Agent package layout. */
+/** Summarizes installed service command paths and OpenAgent package layout. */
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathExists } from "../infra/fs-safe.js";

@@ -1,5 +1,5 @@
 /**
- * Resolves Claude CLI project storage directories for Zero to Agent workspaces.
+ * Resolves Claude CLI project storage directories for OpenAgent workspaces.
  */
 import fs from "node:fs";
 import os from "node:os";

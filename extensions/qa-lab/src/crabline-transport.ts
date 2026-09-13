@@ -145,7 +145,7 @@ function readTelegramLifecycleEvent(params: {
       kind: chatId.startsWith("-") ? "group" : "direct",
     },
     senderId: "openclaw",
-    senderName: "Zero to Agent QA",
+    senderName: "OpenAgent QA",
     text,
     timestamp: Date.now(),
     ...(threadId ? { threadId } : {}),
@@ -411,7 +411,7 @@ class QaCrablineTransport extends QaStateBackedTransportAdapter {
   };
 
   createReportNotes = (_params: QaTransportReportParams) => [
-    `Runs Zero to Agent's ${this.#selection.channel} channel plugin against a Crabline local provider server.`,
+    `Runs OpenAgent's ${this.#selection.channel} channel plugin against a Crabline local provider server.`,
     "No live channel service or external credential lease is required.",
   ];
 

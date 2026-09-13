@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct GatewayAccentColorTests {
     @Test func `user accent wins over seam color`() {

@@ -177,7 +177,7 @@ export function addGatewayServiceCommands(parent: Command, opts?: { statusDescri
     .option("--force", "Restart immediately without waiting for active gateway work", false)
     .option(
       "--safe",
-      "Request a Zero to Agent-aware restart after active work drains " +
+      "Request an OpenAgent-aware restart after active work drains " +
         "(bounded wait; may force after the timeout expires)",
       false,
     )

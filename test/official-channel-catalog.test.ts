@@ -323,7 +323,7 @@ describe("buildOfficialChannelCatalog", () => {
       ),
     ).toEqual({
       name: "openclaw-plugin-yuanbao",
-      description: "Zero to Agent Yuanbao channel plugin by the Tencent Yuanbao team.",
+      description: "OpenAgent Yuanbao channel plugin by the Tencent Yuanbao team.",
       source: "external",
       plugin: {
         id: "openclaw-plugin-yuanbao",
@@ -726,7 +726,7 @@ describe("buildOfficialChannelCatalog", () => {
     }
   });
 
-  it("allows official Zero to Agent channel npm specs without integrity during launch", () => {
+  it("allows official OpenAgent channel npm specs without integrity during launch", () => {
     const repoRoot = makeRepoRoot("openclaw-official-channel-catalog-openclaw-policy-");
     writeJson(path.join(repoRoot, "extensions", "twitch", "package.json"), {
       name: "@openclaw/twitch",

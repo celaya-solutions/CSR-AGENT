@@ -93,7 +93,7 @@ export class VisitorAccessService {
         {
           headers: {
             Accept: "application/vnd.github+json",
-            "User-Agent": "Zero to Agent-visitor-access",
+            "User-Agent": "OpenAgent-visitor-access",
           },
           redirect: "error",
           signal: this.signal

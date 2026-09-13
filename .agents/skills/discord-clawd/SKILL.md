@@ -1,6 +1,6 @@
 ---
 name: discord-clawd
-description: Use to talk to the Discord-backed OpenClaw agent/session; not for archive search.
+description: Use to talk to the Discord-backed OpenAgent agent/session; not for archive search.
 ---
 
 # Discord Clawd
@@ -11,7 +11,7 @@ For Discord archive/history/search, use `$discrawl` instead.
 
 ## Transport
 
-Use the OpenClaw relay helper:
+Use the OpenAgent relay helper:
 
 ```bash
 cd ~/Projects/agent-scripts

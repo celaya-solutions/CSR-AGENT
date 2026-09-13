@@ -29,7 +29,7 @@ describe("probeSlack", () => {
       bot_id: "B123",
       user: "openclaw-bot",
       team_id: "T123",
-      team: "Zero to Agent",
+      team: "OpenAgent",
     });
 
     await expect(probeSlack("xoxb-test", 2500)).resolves.toEqual({
@@ -37,7 +37,7 @@ describe("probeSlack", () => {
       status: 200,
       elapsedMs: 45,
       bot: { id: "U123", name: "openclaw-bot" },
-      team: { id: "T123", name: "Zero to Agent" },
+      team: { id: "T123", name: "OpenAgent" },
     });
     expect(createSlackReadClientMock).toHaveBeenCalledWith("xoxb-test", {
       rejectRateLimitedCalls: true,
@@ -53,7 +53,7 @@ describe("probeSlack", () => {
       user_id: "UUSER",
       user: "human-installer",
       team_id: "T123",
-      team: "Zero to Agent",
+      team: "OpenAgent",
     });
 
     await expect(probeSlack("xoxp-user-token", 2500, { accountId: "work" })).resolves.toMatchObject(
@@ -71,13 +71,13 @@ describe("probeSlack", () => {
       user_id: "UUSER",
       user: "test-human",
       team_id: "T123",
-      team: "Zero to Agent",
+      team: "OpenAgent",
     });
 
     await expect(probeSlack("test-user-token", 2500, { identity: "user" })).resolves.toMatchObject({
       ok: true,
       user: { id: "UUSER", name: "test-human" },
-      team: { id: "T123", name: "Zero to Agent" },
+      team: { id: "T123", name: "OpenAgent" },
     });
   });
 

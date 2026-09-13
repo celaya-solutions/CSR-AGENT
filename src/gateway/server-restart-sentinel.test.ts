@@ -1206,7 +1206,7 @@ describe("scheduleRestartSentinelWake", () => {
         const finishedRun = updateRun ? getUpdateRun(updateRun.runId) : undefined;
         const report = finishedRun
           ? renderUpdateRunReport(finishedRun).markdown
-          : "✅ Zero to Agent updated.";
+          : "✅ OpenAgent updated.";
         if (updateRun) {
           expect.soft(finishedRun?.verification.noticeDelivered).toBe(true);
           expect.soft(mocks.enqueueSessionDelivery).not.toHaveBeenCalled();
@@ -1303,17 +1303,17 @@ describe("scheduleRestartSentinelWake", () => {
   );
 
   it.each([
-    { kind: "update", status: "ok", notice: "✅ Zero to Agent updated." },
+    { kind: "update", status: "ok", notice: "✅ OpenAgent updated." },
     {
       kind: "update",
       status: "skipped",
-      notice: "ℹ️ Zero to Agent update skipped: already-current.",
+      notice: "ℹ️ OpenAgent update skipped: already-current.",
     },
     {
       kind: "update",
       status: "error",
       notice:
-        "⚠️ Zero to Agent update failed: verification failed.\nRun openclaw triage to diagnose and repair the failed update.",
+        "⚠️ OpenAgent update failed: verification failed.\nRun openclaw triage to diagnose and repair the failed update.",
     },
     {
       kind: "restart",
@@ -3739,7 +3739,7 @@ describe("scheduleRestartSentinelWake", () => {
           to: "123",
           accountId: "bot",
           threadId: "7",
-          payloads: [{ text: "✅ Zero to Agent updated." }],
+          payloads: [{ text: "✅ OpenAgent updated." }],
         }),
       );
       const eventOptions = mocks.enqueueSystemEvent.mock.calls[0]?.[1];

@@ -195,7 +195,7 @@ function mockCommunityClawHubPackageDetail() {
 function mockClawHubSecurity(
   trust: Record<string, unknown>,
   releaseVersion = "2026.3.22",
-  overview = "The plugin can modify local Zero to Agent state.",
+  overview = "The plugin can modify local OpenAgent state.",
 ) {
   fetchClawHubPackageSecurityMock.mockResolvedValueOnce({
     package: { name: "demo", displayName: "Demo", family: "code-plugin" },
@@ -792,7 +792,7 @@ describe("installPluginFromClawHub", () => {
     const failure = expectInstallFailure(result);
     expect(failure.code).toBe(CLAWHUB_INSTALL_ERROR_CODE.CLAWHUB_DOWNLOAD_BLOCKED);
     expect(failure.warning).toContain("Blocked");
-    expect(failure.warning).toContain("The plugin can modify local Zero to Agent state.");
+    expect(failure.warning).toContain("The plugin can modify local OpenAgent state.");
     expect(downloadClawHubPackageArchiveMock).not.toHaveBeenCalled();
     expect(installPluginFromArchiveMock).not.toHaveBeenCalled();
   });
@@ -1887,7 +1887,7 @@ describe("installPluginFromClawHub", () => {
     const failure = expectInstallFailure(result);
     expect(failure.code).toBe(CLAWHUB_INSTALL_ERROR_CODE.INCOMPATIBLE_PLUGIN_API);
     expect(failure.error).toBe(
-      'Plugin "demo" requires plugin API *, but this Zero to Agent runtime exposes invalid.',
+      'Plugin "demo" requires plugin API *, but this OpenAgent runtime exposes invalid.',
     );
     expect(downloadClawHubPackageArchiveMock).not.toHaveBeenCalled();
     expect(installPluginFromArchiveMock).not.toHaveBeenCalled();
@@ -2678,7 +2678,7 @@ describe("installPluginFromClawHub", () => {
         ok: false,
         code: CLAWHUB_INSTALL_ERROR_CODE.INCOMPATIBLE_PLUGIN_API,
         error:
-          'Plugin "demo" requires plugin API >=2026.3.22, but this Zero to Agent runtime exposes 2026.3.21.',
+          'Plugin "demo" requires plugin API >=2026.3.22, but this OpenAgent runtime exposes 2026.3.21.',
       },
     },
     {

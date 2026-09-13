@@ -49,14 +49,14 @@ class VoiceWakeManagerTest {
       assertTrue(manager.isListening.value)
       assertEquals("Listening", manager.statusText.value)
 
-      recognizer.emit(VoiceWakeRecognitionEvent.Transcript("OpenClaw, show", isFinal = false))
+      recognizer.emit(VoiceWakeRecognitionEvent.Transcript("OpenAgent, show", isFinal = false))
       runCurrent()
       assertEquals(emptyList<VoiceWakeMatch>(), commands)
 
-      recognizer.emit(VoiceWakeRecognitionEvent.Transcript("OpenClaw, show status", isFinal = true))
+      recognizer.emit(VoiceWakeRecognitionEvent.Transcript("OpenAgent, show status", isFinal = true))
       runCurrent()
 
-      assertEquals(listOf(VoiceWakeMatch("OpenClaw", "show status")), commands)
+      assertEquals(listOf(VoiceWakeMatch("OpenAgent", "show status")), commands)
       assertEquals("show status", manager.lastTriggeredCommand.value)
       assertEquals(1, recognizer.stopCount)
 

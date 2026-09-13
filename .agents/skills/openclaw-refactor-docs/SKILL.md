@@ -1,13 +1,13 @@
 ---
 name: openclaw-refactor-docs
-description: Refactor an existing OpenClaw docs page with source-audited preservation, restructuring, and verification.
+description: Refactor an existing OpenAgent docs page with source-audited preservation, restructuring, and verification.
 ---
 
-# OpenClaw Refactor Docs
+# OpenAgent Refactor Docs
 
 ## Overview
 
-Use this skill when the user gives a target OpenClaw docs page and asks to
+Use this skill when the user gives a target OpenAgent docs page and asks to
 rewrite, refactor, reorganize, split, shorten, or improve it.
 
 This skill builds on `technical-documentation`: use that skill for style, page types,

@@ -366,7 +366,7 @@ export function renderTestSkipInventoryReport(
   const limit = options.limit === 0 ? Number.POSITIVE_INFINITY : (options.limit ?? 120);
   const reasonCounts = renderReasonCounts(report.summary.reasonCounts) || "none";
   const lines = [
-    "OpenClaw test skip inventory",
+    "OpenAgent test skip inventory",
     `Scanned files: ${report.summary.scannedFileCount}`,
     `Findings: ${report.summary.findingCount} in ${report.summary.touchedFileCount} file(s)`,
     `Reasons: ${reasonCounts}`,
@@ -439,7 +439,7 @@ function parseArgs(argv: string[]): {
 }
 
 function printHelp(): void {
-  process.stdout.write(`OpenClaw test skip inventory
+  process.stdout.write(`OpenAgent test skip inventory
 
 Usage:
   pnpm test:skip-inventory:report [options]

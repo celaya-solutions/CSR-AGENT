@@ -44,7 +44,7 @@ try {
   // package loaders so omitted optional packages and wrong slices fail staging.
   const require = createRequire(path.join(packageRoot, "package.json"));
   // Keep required native mode and bundled module identity in a fresh process;
-  // worker readiness below must still use OpenClaw's normal defaults.
+  // worker readiness below must still use OpenAgent's normal defaults.
   execFileSync(
     node,
     [fileURLToPath(new URL("./verify-mac-node-worker-fs.mjs", import.meta.url)), packageRoot, home],

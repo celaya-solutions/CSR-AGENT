@@ -1,4 +1,4 @@
-// Diffs plugin entrypoint registers its Zero to Agent integration.
+// Diffs plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "./api.js";
 import { diffsPluginConfigSchema } from "./src/config.js";
 import { registerDiffsPlugin } from "./src/plugin.js";

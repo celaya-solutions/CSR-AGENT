@@ -1,8 +1,8 @@
 ---
-summary: "Alibaba Model Studio Wan video generation in Zero to Agent"
+summary: "Alibaba Model Studio Wan video generation in OpenAgent"
 title: "Alibaba Model Studio"
 read_when:
-  - You want to use Alibaba Wan video generation in Zero to Agent
+  - You want to use Alibaba Wan video generation in OpenAgent
   - You need Model Studio or DashScope API key setup for video generation
 ---
 
@@ -128,7 +128,7 @@ A request that omits `durationSeconds` gets DashScope's accepted default of **5 
   </Accordion>
 
   <Accordion title="Auth env priority">
-    Zero to Agent resolves the Alibaba API key from environment variables in this order, taking the first non-empty value:
+    OpenAgent resolves the Alibaba API key from environment variables in this order, taking the first non-empty value:
 
     1. `MODELSTUDIO_API_KEY`
     2. `DASHSCOPE_API_KEY`

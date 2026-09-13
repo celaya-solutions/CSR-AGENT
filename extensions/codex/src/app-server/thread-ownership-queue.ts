@@ -8,7 +8,7 @@ const nativeThreadOwners = resolveGlobalSingleton(
   () => new KeyedAsyncQueue(),
 );
 
-/** Serialize Zero to Agent-owned lifecycle changes, not native-internal thread controllers. */
+/** Serialize OpenAgent-owned lifecycle changes, not native-internal thread controllers. */
 export async function withCodexAppServerThreadMutation<T>(
   threadId: string,
   run: () => Promise<T>,

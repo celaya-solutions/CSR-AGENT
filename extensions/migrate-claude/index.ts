@@ -1,11 +1,11 @@
-// Migrate Claude plugin entrypoint registers its Zero to Agent integration.
+// Migrate Claude plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { buildClaudeMigrationProvider } from "./provider.js";
 
 export default definePluginEntry({
   id: "migrate-claude",
   name: "Claude Migration",
-  description: "Imports Claude state into Zero to Agent.",
+  description: "Imports Claude state into OpenAgent.",
   register(api) {
     api.registerMigrationProvider(buildClaudeMigrationProvider({ runtime: api.runtime }));
   },

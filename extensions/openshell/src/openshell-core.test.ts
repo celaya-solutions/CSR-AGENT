@@ -505,7 +505,7 @@ describe("openshell backend manager", () => {
     },
   );
 
-  it("checks runtime status with config override from Zero to Agent config", async () => {
+  it("checks runtime status with config override from OpenAgent config", async () => {
     cliMocks.runOpenShellCli.mockResolvedValue({
       code: 0,
       stdout: JSON.stringify({ phase: "Ready" }),

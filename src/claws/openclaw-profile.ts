@@ -1,4 +1,4 @@
-// Safe loader for the conventional package-local Zero to Agent profile.
+// Safe loader for the conventional package-local OpenAgent profile.
 import { asOptionalRecord as record } from "@openclaw/normalization-core/record-coerce";
 import type { ToolProfileId } from "../agents/tool-policy-shared.js";
 import { FsSafeError, root as fsSafeRoot } from "../infra/fs-safe.js";
@@ -106,7 +106,7 @@ async function readProfileFile(packageRoot: string, path: string): Promise<Buffe
 }
 
 /**
- * Resolves the Zero to Agent profile for a package.
+ * Resolves the OpenAgent profile for a package.
  *
  * `profiles/openclaw.yml` is the conventional location. The retired
  * `metadata.openclaw.config` pointer is still read for compatibility with
@@ -196,9 +196,9 @@ export async function readClawOpenClawProfile(params: {
               ? "openclaw_profile_too_large"
               : "openclaw_profile_read_failed",
           unsafe
-            ? "The Zero to Agent profile must be a regular, non-symlinked, non-hardlinked file."
+            ? "The OpenAgent profile must be a regular, non-symlinked, non-hardlinked file."
             : tooLarge
-              ? `The Zero to Agent profile exceeds ${MAX_PROFILE_BYTES} bytes.`
+              ? `The OpenAgent profile exceeds ${MAX_PROFILE_BYTES} bytes.`
               : `Could not read ${declaredPath}: ${(error as Error).message}`,
           diagnosticPath,
         ),

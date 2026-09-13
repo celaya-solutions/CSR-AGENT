@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct GatewayEnvironmentTests {
     @Test func `semver parses common forms`() {
@@ -21,22 +21,22 @@ struct GatewayEnvironmentTests {
         #expect(Semver.parse("1.2.x") == nil)
         // Product-prefixed output from `openclaw --version` should NOT parse as semver
         // (the prefix must be stripped by the caller, not the parser).
-        #expect(Semver.parse("OpenClaw 2026.3.23-1") == nil)
+        #expect(Semver.parse("OpenAgent 2026.3.23-1") == nil)
     }
 
     @Test func `gateway version output strips product prefix before parsing`() {
-        let normalized = GatewayEnvironment.normalizeGatewayVersionOutput("  OpenClaw 2026.3.23-1 \n")
+        let normalized = GatewayEnvironment.normalizeGatewayVersionOutput("  OpenAgent 2026.3.23-1 \n")
         #expect(normalized == "2026.3.23-1")
         #expect(Semver.parse(normalized) == Semver(major: 2026, minor: 3, patch: 23))
     }
 
     @Test func `gateway version output strips trailing commit hash`() {
-        let normalized = GatewayEnvironment.normalizeGatewayVersionOutput("OpenClaw 2026.4.2 (d74a122)")
+        let normalized = GatewayEnvironment.normalizeGatewayVersionOutput("OpenAgent 2026.4.2 (d74a122)")
         #expect(normalized == "2026.4.2")
         #expect(Semver.parse(normalized) == Semver(major: 2026, minor: 4, patch: 2))
 
         // Pre-release suffix + commit hash combined
-        let normalized2 = GatewayEnvironment.normalizeGatewayVersionOutput("OpenClaw 2026.4.2-1 (d74a122)")
+        let normalized2 = GatewayEnvironment.normalizeGatewayVersionOutput("OpenAgent 2026.4.2-1 (d74a122)")
         #expect(normalized2 == "2026.4.2-1")
         #expect(Semver.parse(normalized2) == Semver(major: 2026, minor: 4, patch: 2))
     }
@@ -65,7 +65,7 @@ struct GatewayEnvironmentTests {
         let root = try makeTempDirForTests()
         defer { try? FileManager.default.removeItem(at: root) }
         let gateway = root.appendingPathComponent("openclaw")
-        try "#!/bin/sh\necho OpenClaw 2026.7.30\nexit 1\n"
+        try "#!/bin/sh\necho OpenAgent 2026.7.30\nexit 1\n"
             .write(to: gateway, atomically: true, encoding: .utf8)
         try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: gateway.path)
 
@@ -112,7 +112,7 @@ struct GatewayEnvironmentTests {
         let root = try makeTempDirForTests()
         defer { try? FileManager.default.removeItem(at: root) }
         let gateway = root.appendingPathComponent("openclaw")
-        try "#!/bin/sh\nsleep 2.1\necho OpenClaw 2026.7.30\n"
+        try "#!/bin/sh\nsleep 2.1\necho OpenAgent 2026.7.30\n"
             .write(to: gateway, atomically: true, encoding: .utf8)
         try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: gateway.path)
 

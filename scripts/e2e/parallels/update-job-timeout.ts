@@ -1,4 +1,4 @@
-// Update Job Timeout script supports OpenClaw repository automation.
+// Update Job Timeout script supports OpenAgent repository automation.
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 
 interface TimedUpdateJobOptions {

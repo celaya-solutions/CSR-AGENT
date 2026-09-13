@@ -45,12 +45,12 @@ struct OpenClawApp: App {
         let launchPlan = AppLaunchRuntimePlan.current
         if let error = AppProfile.current.validationError {
             if launchPlan.isElevationHost {
-                fputs("OpenClaw elevation host profile is invalid: \(error.localizedDescription)\n", stderr)
+                fputs("OpenAgent elevation host profile is invalid: \(error.localizedDescription)\n", stderr)
                 Darwin.exit(2)
             }
             let alert = NSAlert()
             alert.alertStyle = .critical
-            alert.messageText = "OpenClaw profile is invalid"
+            alert.messageText = "OpenAgent profile is invalid"
             alert.informativeText = error.localizedDescription
             alert.runModal()
             Darwin.exit(2)
@@ -104,7 +104,7 @@ struct OpenClawApp: App {
                 }
             }
             CommandGroup(replacing: .appInfo) {
-                Button("About OpenClaw") {
+                Button("About OpenAgent") {
                     AppNavigationActions.openAbout()
                 }
             }
@@ -178,14 +178,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let isReplacementHandoff = hasReplacementMetadata &&
             ApplicationRelocator.acceptReplacementHandoff(environment: environment)
         if hasReplacementMetadata, !isReplacementHandoff {
-            fputs("OpenClaw replacement handoff authentication failed.\n", stderr)
+            fputs("OpenAgent replacement handoff authentication failed.\n", stderr)
             Darwin.exit(2)
         }
         let ownership = AppInstanceLock.acquire(
             url: AppProfile.current.instanceLockURL(),
             waitMilliseconds: isReplacementHandoff ? 5000 : 0)
         if let exitCode = Self.processExitCode(for: ownership) {
-            fputs("OpenClaw profile is already running.\n", stderr)
+            fputs("OpenAgent profile is already running.\n", stderr)
             Darwin.exit(exitCode)
         }
         var profileInstanceLock: AppInstanceLock?
@@ -206,13 +206,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if let instanceOwnershipFailure {
             if AppLaunchRuntimePlan.current.isElevationHost {
                 fputs(
-                    "OpenClaw elevation host could not claim its instance lock: \(instanceOwnershipFailure)\n",
+                    "OpenAgent elevation host could not claim its instance lock: \(instanceOwnershipFailure)\n",
                     stderr)
                 Darwin.exit(2)
             }
             let alert = NSAlert()
             alert.alertStyle = .critical
-            alert.messageText = "OpenClaw could not claim its instance lock"
+            alert.messageText = "OpenAgent could not claim its instance lock"
             alert.informativeText = instanceOwnershipFailure
             alert.runModal()
             Darwin.exit(2)

@@ -1,5 +1,5 @@
 ---
-summary: "Use Synthetic's Anthropic-compatible API in Zero to Agent"
+summary: "Use Synthetic's Anthropic-compatible API in OpenAgent"
 read_when:
   - You want to use Synthetic as a model provider
   - You need a Synthetic API key or base URL setup
@@ -7,7 +7,7 @@ title: "Synthetic"
 ---
 
 [Synthetic](https://synthetic.new) exposes Anthropic-compatible endpoints.
-Zero to Agent provides it through the official `@openclaw/synthetic-provider`
+OpenAgent provides it through the official `@openclaw/synthetic-provider`
 plugin and uses the Anthropic Messages API.
 
 | Property | Value                                 |
@@ -50,7 +50,7 @@ plugin and uses the Anthropic Messages API.
 </Steps>
 
 <Warning>
-Zero to Agent's Anthropic client appends `/v1` to the base URL automatically, so use
+OpenAgent's Anthropic client appends `/v1` to the base URL automatically, so use
 `https://api.synthetic.new/anthropic` (not `/anthropic/v1`). If Synthetic
 changes its base URL, override `models.providers.synthetic.baseUrl`.
 </Warning>
@@ -92,10 +92,10 @@ changes its base URL, override `models.providers.synthetic.baseUrl`.
 
 ## Model discovery
 
-With a Synthetic credential, Zero to Agent discovers current text models from
+With a Synthetic credential, OpenAgent discovers current text models from
 Synthetic's [`/openai/v1/models` API](https://dev.synthetic.new/docs/openai/models).
 Inference still uses the Anthropic Messages API. Newly advertised models, including
-small models and `syn:` aliases, do not need a Zero to Agent catalog update.
+small models and `syn:` aliases, do not need an OpenAgent catalog update.
 
 The live catalog supplies context and output limits, image input, reasoning,
 tool support, and usage-based token prices. Those prices are estimates, not a
@@ -104,7 +104,7 @@ for availability and its recommended aliases.
 
 Offline catalog generation and unavailable or unusable discovery responses use
 the bundled seed models. Your selected model is not changed automatically.
-When you override the inference base URL, Zero to Agent skips Synthetic's fixed
+When you override the inference base URL, OpenAgent skips Synthetic's fixed
 discovery URL so a proxy credential is not sent to Synthetic.
 
 <Tip>
@@ -134,7 +134,7 @@ Model refs use the form `synthetic/<modelId>`. Use
     }
     ```
 
-    Zero to Agent still appends `/v1` automatically.
+    OpenAgent still appends `/v1` automatically.
 
   </Accordion>
 </AccordionGroup>

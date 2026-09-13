@@ -1,6 +1,6 @@
 /**
  * Resolves whether Codex app-server profiling instrumentation is enabled by
- * Zero to Agent diagnostic flags.
+ * OpenAgent diagnostic flags.
  */
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { isDiagnosticFlagEnabled } from "openclaw/plugin-sdk/diagnostic-flags";

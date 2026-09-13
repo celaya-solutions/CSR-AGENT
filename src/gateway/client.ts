@@ -1,5 +1,5 @@
-// Zero to Agent Gateway client facade.
-// Injects Zero to Agent host dependencies into the shared gateway-client package.
+// OpenAgent Gateway client facade.
+// Injects OpenAgent host dependencies into the shared gateway-client package.
 import { GatewayClient as BaseGatewayClient } from "../../packages/gateway-client/src/index.js";
 import type {
   GatewayClientConnectionMetadata,
@@ -110,7 +110,7 @@ function createOpenClawGatewayClientHostDeps(
     ? { ...deviceAuthDeps, loadDeviceAuthToken: () => preparedDeviceAuth }
     : deviceAuthDeps;
   return {
-    // This wrapper is the only place the package reaches into Zero to Agent runtime
+    // This wrapper is the only place the package reaches into OpenAgent runtime
     // state. Keep device identity, token storage, proxy, and redaction here.
     loadOrCreateDeviceIdentity,
     signDevicePayload,

@@ -27,7 +27,7 @@ if [[ -n "${OPENCLAW_INSTALLER_REEXEC_FILE:-}" && "${BASH_SOURCE[0]:-}" == "$OPE
 fi
 unset OPENCLAW_INSTALLER_REEXEC_FILE
 
-# OpenClaw Installer for macOS and Linux
+# OpenAgent Installer for macOS and Linux
 # Usage: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash
 
 BOLD='\033[1m'
@@ -41,7 +41,7 @@ ERROR='\033[38;2;230;57;70m'        # coral-mid     #e63946
 MUTED='\033[38;2;90;100;128m'       # text-muted    #5a6480
 NC='\033[0m' # No Color
 
-DEFAULT_TAGLINE="All your chats, one OpenClaw."
+DEFAULT_TAGLINE="All your chats, one OpenAgent."
 NODE_DEFAULT_MAJOR=26
 # Homebrew ships the current Node line as plain "node" (no versioned node@26
 # formula exists); versioned formulas only cover LTS lines like node@24.
@@ -422,7 +422,7 @@ print_gum_status() {
 print_installer_banner() {
     if [[ -n "$GUM" ]]; then
         local title tagline hint card
-        title="$("$GUM" style --foreground "#ff4d4d" --bold "🦞 OpenClaw Installer")"
+        title="$("$GUM" style --foreground "#ff4d4d" --bold "🦞 OpenAgent Installer")"
         tagline="$("$GUM" style --foreground "#8892b0" "$TAGLINE")"
         hint="$("$GUM" style --foreground "#5a6480" "modern installer mode")"
         card="$(printf '%s\n%s\n%s' "$title" "$tagline" "$hint")"
@@ -432,7 +432,7 @@ print_installer_banner() {
     fi
 
     echo -e "${ACCENT}${BOLD}"
-    echo "  🦞 OpenClaw Installer"
+    echo "  🦞 OpenAgent Installer"
     echo -e "${NC}${INFO}  ${TAGLINE}${NC}"
     echo ""
 }
@@ -1124,7 +1124,7 @@ verify_npm_lifecycle_completed() {
     npm_root="$("$npm_cmd" root -g 2>/dev/null | awk 'NF { value = $0 } END { print value }')" || true
     [[ -n "$npm_root" ]] || { echo "Unable to resolve npm global root after install." >&2; return 1; }
     [[ ! -e "${npm_root%/}/openclaw/.openclaw-lifecycle-pending" && ! -e "${npm_root%/}/openclaw/dist/openclaw-install-guard" ]] || {
-      echo "OpenClaw lifecycle scripts did not complete; refusing installer success." >&2
+      echo "OpenAgent lifecycle scripts did not complete; refusing installer success." >&2
       return 1
     }
 }
@@ -1167,9 +1167,9 @@ run_npm_global_install() {
         local log_quoted=""
         printf -v cmd_quoted '%q ' "${cmd[@]}"
         printf -v log_quoted '%q' "$log"
-        run_with_spinner "Installing OpenClaw package" bash -c "${cmd_quoted}>${log_quoted} 2>&1" || install_status=$?
+        run_with_spinner "Installing OpenAgent package" bash -c "${cmd_quoted}>${log_quoted} 2>&1" || install_status=$?
     else
-        ui_info "Installing OpenClaw package"
+        ui_info "Installing OpenAgent package"
         "${cmd[@]}" < /dev/null >"$log" 2>&1 || install_status=$?
     fi
     (( install_status == 0 )) || return "$install_status"
@@ -1270,7 +1270,7 @@ install_openclaw_npm() {
             attempted_build_tool_fix=true
             ui_info "Retrying npm install after build tools setup"
             if run_verified_npm_global_install "$spec" "$log"; then
-                ui_success "OpenClaw npm package installed"
+                ui_success "OpenAgent npm package installed"
                 return 0
             fi
         fi
@@ -1290,7 +1290,7 @@ install_openclaw_npm() {
             ui_warn "npm left stale directory; cleaning and retrying"
             cleanup_npm_stale_rename_dirs || return 1
             if run_verified_npm_global_install "$spec" "$log"; then
-                ui_success "OpenClaw npm package installed"
+                ui_success "OpenAgent npm package installed"
                 return 0
             fi
             return 1
@@ -1300,7 +1300,7 @@ install_openclaw_npm() {
             conflict="$(extract_openclaw_conflict_path "$log" || true)"
             if [[ -n "$conflict" ]] && cleanup_openclaw_bin_conflict "$conflict"; then
                 if run_verified_npm_global_install "$spec" "$log"; then
-                    ui_success "OpenClaw npm package installed"
+                    ui_success "OpenAgent npm package installed"
                     return 0
                 fi
                 return 1
@@ -1313,7 +1313,7 @@ install_openclaw_npm() {
         fi
         return 1
     fi
-    ui_success "OpenClaw npm package installed"
+    ui_success "OpenAgent npm package installed"
     return 0
 }
 
@@ -1448,7 +1448,7 @@ HELP=0
 
 print_usage() {
     cat <<EOF
-OpenClaw installer (macOS + Linux)
+OpenAgent installer (macOS + Linux)
 
 Usage:
   curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- [options]
@@ -1609,7 +1609,7 @@ choose_install_method_interactive() {
 
     if [[ -n "$GUM" ]] && gum_is_tty; then
         local header selection
-        header="Detected OpenClaw checkout in: ${detected_checkout}
+        header="Detected OpenAgent checkout in: ${detected_checkout}
 Choose install method"
         selection="$("$GUM" choose \
             --header "$header" \
@@ -1632,7 +1632,7 @@ Choose install method"
 
     local choice=""
     choice="$(prompt_choice "$(cat <<EOF
-${WARN}→${NC} Detected a OpenClaw source checkout in: ${INFO}${detected_checkout}${NC}
+${WARN}→${NC} Detected an OpenAgent source checkout in: ${INFO}${detected_checkout}${NC}
 Choose install method:
   1) Update this checkout (git) and use it
   2) Install global via npm (migrate away from git)
@@ -1727,7 +1727,7 @@ parse_node_version_components_for_binary() {
     version="${version#"${version%%[![:space:]]*}"}"
     version="${version%"${version##*[![:space:]]}"}"
 
-    # This standalone installer runs before OpenClaw exists on disk. Mirror the
+    # This standalone installer runs before OpenAgent exists on disk. Mirror the
     # release grammar in node-version.mjs; parity cases guard this boundary.
     if [[ ! "$version" =~ ^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
         return 1
@@ -2588,7 +2588,7 @@ fix_npm_permissions() {
     ui_info "Configuring npm for user-local installs"
     mkdir -p "$HOME/.npm-global"
     npm config set prefix "$HOME/.npm-global" < /dev/null
-    ui_warn "Avoid sudo npm i -g for future OpenClaw updates; use npm i -g openclaw@latest so npm keeps using this user prefix instead of a different global prefix."
+    ui_warn "Avoid sudo npm i -g for future OpenAgent updates; use npm i -g openclaw@latest so npm keeps using this user prefix instead of a different global prefix."
 
     persist_shell_path_prepend "$HOME/.npm-global/bin" "\$HOME/.npm-global/bin" || true
 
@@ -2622,10 +2622,10 @@ ensure_openclaw_bin_link() {
     "$target" --version >/dev/null 2>&1
 }
 
-# Check for existing OpenClaw installation
+# Check for existing OpenAgent installation
 check_existing_openclaw() {
     if [[ -n "$(type -P openclaw 2>/dev/null || true)" ]]; then
-        ui_info "Existing OpenClaw installation detected, upgrading"
+        ui_info "Existing OpenAgent installation detected, upgrading"
         return 0
     fi
     return 1
@@ -2895,7 +2895,7 @@ clone_git_checkout_transactionally() {
     fi
     TMPFILES+=("$staging_dir")
 
-    run_quiet_step "Cloning OpenClaw" git clone "$@" "$repo_url" "$staging_dir" || clone_status=$?
+    run_quiet_step "Cloning OpenAgent" git clone "$@" "$repo_url" "$staging_dir" || clone_status=$?
     if (( clone_status != 0 )); then
         return "$clone_status"
     fi
@@ -3114,8 +3114,8 @@ warn_duplicate_openclaw_global_installs() {
         return 0
     fi
 
-    ui_warn "Multiple OpenClaw global installs detected"
-    echo "  Different Node/npm environments can run different OpenClaw versions."
+    ui_warn "Multiple OpenAgent global installs detected"
+    echo "  Different Node/npm environments can run different OpenAgent versions."
 
     local active_node active_npm active_openclaw
     active_node="$(command -v node 2>/dev/null || true)"
@@ -3171,7 +3171,7 @@ warn_shell_path_missing_dir() {
     if [[ -n "${NVM_DIR:-}" && "$dir" == "$NVM_DIR"/versions/node/*/bin ]]; then
         local version="${dir%/bin}"
         version="${version##*/}"
-        ui_info "OpenClaw was installed under nvm Node.js ${version}"
+        ui_info "OpenAgent was installed under nvm Node.js ${version}"
         echo "  For this shell and future shells, run: nvm use ${version}"
         echo "  Shell profiles were not changed."
         return 0
@@ -3415,9 +3415,9 @@ install_openclaw_from_git() {
     fi
 
     if [[ -d "$repo_dir/.git" ]]; then
-        ui_info "Installing OpenClaw from git checkout: ${repo_dir}"
+        ui_info "Installing OpenAgent from git checkout: ${repo_dir}"
     else
-        ui_info "Installing OpenClaw from GitHub (${repo_url})"
+        ui_info "Installing OpenAgent from GitHub (${repo_url})"
     fi
 
     if ! check_git; then
@@ -3461,7 +3461,7 @@ install_openclaw_from_git() {
     if ! run_quiet_step "Building UI" run_pnpm -C "$repo_dir" ui:build; then
         ui_warn "UI build failed; continuing (CLI may still work)"
     fi
-    run_quiet_step "Building OpenClaw" run_pnpm -C "$repo_dir" build
+    run_quiet_step "Building OpenAgent" run_pnpm -C "$repo_dir" build
 
     ensure_user_local_bin_on_path
 
@@ -3490,11 +3490,11 @@ install_openclaw_from_git() {
 set -euo pipefail
 exec ${node_bin_quoted} ${entry_path_quoted} "\$@"
 EOF
-    ui_success "OpenClaw wrapper installed to \$HOME/.local/bin/openclaw"
+    ui_success "OpenAgent wrapper installed to \$HOME/.local/bin/openclaw"
     ui_info "Manual builds need the checkout-pinned pnpm launcher; installer bootstrap is temporary: https://docs.openclaw.ai/install/installer#source-build-toolchain"
 }
 
-# Install OpenClaw
+# Install OpenAgent
 resolve_beta_version() {
     local beta=""
     beta="$(npm view openclaw dist-tags.beta 2>/dev/null || true)"
@@ -3587,7 +3587,7 @@ install_openclaw() {
     fi
 
     if is_openclaw_source_package_install_spec "${OPENCLAW_VERSION}"; then
-        ui_error "npm installs do not support OpenClaw GitHub source targets like '${OPENCLAW_VERSION}'."
+        ui_error "npm installs do not support OpenAgent GitHub source targets like '${OPENCLAW_VERSION}'."
         ui_info "Use --install-method git --version main for the moving main checkout, or use latest, beta, an exact version, or a built .tgz package."
         return 1
     fi
@@ -3597,17 +3597,17 @@ install_openclaw() {
         resolved_version="$(npm view "${package_name}@${OPENCLAW_VERSION}" version 2>/dev/null || true)"
     fi
     if [[ -n "$resolved_version" ]]; then
-        ui_info "Installing OpenClaw v${resolved_version}"
+        ui_info "Installing OpenAgent v${resolved_version}"
     else
-        ui_info "Installing OpenClaw (${OPENCLAW_VERSION})"
+        ui_info "Installing OpenAgent (${OPENCLAW_VERSION})"
     fi
     local install_spec=""
     install_spec="$(resolve_package_install_spec "${package_name}" "${OPENCLAW_VERSION}")"
 
     if ! install_openclaw_npm "${install_spec}" || ! ensure_openclaw_bin_link; then
-        ui_warn "npm install did not produce a usable OpenClaw package; retrying"
+        ui_warn "npm install did not produce a usable OpenAgent package; retrying"
         if ! install_openclaw_npm "${install_spec}" || ! ensure_openclaw_bin_link; then
-            ui_error "npm install did not produce a usable OpenClaw package"
+            ui_error "npm install did not produce a usable OpenAgent package"
             restore_openclaw_bin_backup || ui_error "Could not restore the previous openclaw command"
             return 1
         fi
@@ -3818,7 +3818,7 @@ verify_installation() {
         return 1
     fi
 
-    run_quiet_step "Checking OpenClaw version" "$claw" --version || return 1
+    run_quiet_step "Checking OpenAgent version" "$claw" --version || return 1
 
     if [[ "$verify_gateway" != "true" ]]; then
         ui_info "Setup not complete; skipping gateway service check"
@@ -3928,7 +3928,7 @@ main() {
 
     if [[ -z "$INSTALL_METHOD" && -n "$detected_checkout" ]]; then
         if ! is_promptable; then
-            ui_info "Found OpenClaw checkout but no TTY; defaulting to npm install"
+            ui_info "Found OpenAgent checkout but no TTY; defaulting to npm install"
             INSTALL_METHOD="npm"
         else
             local selected_method=""
@@ -3992,7 +3992,7 @@ main() {
         exit 1
     fi
 
-    ui_stage "Installing OpenClaw"
+    ui_stage "Installing OpenAgent"
 
     local final_git_dir=""
     if [[ "$INSTALL_METHOD" == "git" ]]; then
@@ -4018,7 +4018,7 @@ main() {
         # Step 4: npm permissions (Linux)
         fix_npm_permissions || exit 1
 
-        # Step 5: OpenClaw
+        # Step 5: OpenAgent
         prepare_git_wrapper_backup_for_npm || return $?
         install_openclaw
         local npm_candidate=""
@@ -4032,7 +4032,7 @@ main() {
             restore_openclaw_bin_backup || ui_error "Could not restore the previous openclaw command"
             return 1
         fi
-        ui_success "OpenClaw installed"
+        ui_success "OpenAgent installed"
         retire_git_wrapper_after_npm_install || return $?
     fi
 
@@ -4143,9 +4143,9 @@ main() {
     installed_version="$(resolve_openclaw_version)"
     echo ""
     if [[ -n "$installed_version" ]]; then
-        ui_celebrate "🦞 OpenClaw installed successfully (${installed_version})!"
+        ui_celebrate "🦞 OpenAgent installed successfully (${installed_version})!"
     else
-        ui_celebrate "🦞 OpenClaw installed successfully!"
+        ui_celebrate "🦞 OpenAgent installed successfully!"
     fi
     if [[ "$is_upgrade" == "true" ]]; then
         ui_info "Upgrade complete"

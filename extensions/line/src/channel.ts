@@ -177,7 +177,7 @@ export const linePlugin: LineChannelPlugin = createChatChannelPlugin({
   pairing: {
     text: {
       idLabel: "lineUserId",
-      message: "Zero to Agent: your access has been approved.",
+      message: "OpenAgent: your access has been approved.",
       normalizeAllowEntry: createPairingPrefixStripper(/^line:(?:user:)?/i),
       notify: async ({ cfg, id, message, accountId }) => {
         const account = (getLineRuntime().channel.line?.resolveLineAccount ?? resolveLineAccount)({

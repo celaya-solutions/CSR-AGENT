@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Secret scanning alert handler for OpenClaw maintainers.
+ * Secret scanning alert handler for OpenAgent maintainers.
  * Usage: node secret-scanning.mjs <command> [options]
  */
 
@@ -707,7 +707,7 @@ function cmdNotify(target, author, locationType, secretTypes, replyToNodeId) {
   }
 
   const body = [
-    `> **Note:** This is an automated message sent by the OpenClaw maintainer team. **NO_REPLY.**`,
+    `> **Note:** This is an automated message sent by the OpenAgent maintainer team. **NO_REPLY.**`,
     "",
     `@${author} :warning: **Security Notice: Secret Leakage Detected**`,
     "",

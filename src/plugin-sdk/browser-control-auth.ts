@@ -1,4 +1,4 @@
-// Browser control auth helpers resolve plugin browser credentials from Zero to Agent config.
+// Browser control auth helpers resolve plugin browser credentials from OpenAgent config.
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { loadBundledPluginPublicSurfaceModuleSyncCore } from "./facade-loader.js";
 

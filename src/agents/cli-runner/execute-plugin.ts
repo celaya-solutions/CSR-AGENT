@@ -69,19 +69,15 @@ function createPluginToolPermissionHandler(params: {
     try {
       assertActive();
     } catch {
-      return denyTool(
-        "Zero to Agent denied native tool use: the admitted run is no longer active.",
-      );
+      return denyTool("OpenAgent denied native tool use: the admitted run is no longer active.");
     }
 
     const toolName = request.toolName.trim();
     if (!toolName) {
-      return denyTool("Zero to Agent denied an unnamed native tool.");
+      return denyTool("OpenAgent denied an unnamed native tool.");
     }
     if (run.cliToolAvailability && !run.cliToolAvailability.native.includes(toolName)) {
-      return denyTool(
-        `Zero to Agent denied native tool ${toolName}: it is unavailable to this run.`,
-      );
+      return denyTool(`OpenAgent denied native tool ${toolName}: it is unavailable to this run.`);
     }
 
     // Provider schemas are not policy schemas: match canonical names and file operands.
@@ -95,16 +91,16 @@ function createPluginToolPermissionHandler(params: {
     if (nativeFileTool) {
       const nativePath = request.toolInput.file_path;
       if (typeof nativePath !== "string") {
-        return denyTool("Zero to Agent denied native file tool use: invalid file path.");
+        return denyTool("OpenAgent denied native file tool use: invalid file path.");
       }
       if (Object.hasOwn(request.toolInput, "path") && request.toolInput.path !== nativePath) {
-        return denyTool("Zero to Agent denied native file tool use: conflicting file paths.");
+        return denyTool("OpenAgent denied native file tool use: conflicting file paths.");
       }
       policyInput = { ...request.toolInput, path: nativePath };
       if (canonicalToolName === "edit") {
         const { old_string: oldText, new_string: newText, edits } = request.toolInput;
         if (typeof oldText !== "string" || typeof newText !== "string") {
-          return denyTool("Zero to Agent denied native edit tool use: invalid replacement.");
+          return denyTool("OpenAgent denied native edit tool use: invalid replacement.");
         }
         if (
           edits !== undefined &&
@@ -114,7 +110,7 @@ function createPluginToolPermissionHandler(params: {
             edits[0].oldText !== oldText ||
             edits[0].newText !== newText)
         ) {
-          return denyTool("Zero to Agent denied native edit tool use: conflicting replacements.");
+          return denyTool("OpenAgent denied native edit tool use: conflicting replacements.");
         }
         policyInput.edits = [{ oldText, newText }];
       }
@@ -160,23 +156,19 @@ function createPluginToolPermissionHandler(params: {
     try {
       assertActive();
     } catch {
-      return denyTool(
-        "Zero to Agent denied native tool use: the admitted run closed during policy.",
-      );
+      return denyTool("OpenAgent denied native tool use: the admitted run closed during policy.");
     }
     if (hookResult.blocked) {
       return denyTool(hookResult.reason);
     }
     if (!isRecord(hookResult.params)) {
-      return denyTool(
-        "Zero to Agent denied native tool use: before_tool_call returned invalid input.",
-      );
+      return denyTool("OpenAgent denied native tool use: before_tool_call returned invalid input.");
     }
     let toolInput = hookResult.params;
     // SDK permission replies must return the native schema, never policy-only aliases.
     if (nativeFileTool) {
       if (typeof toolInput.path !== "string") {
-        return denyTool("Zero to Agent denied native file tool use: invalid rewritten file path.");
+        return denyTool("OpenAgent denied native file tool use: invalid rewritten file path.");
       }
       if (toolInput === policyInput) {
         toolInput = request.toolInput;
@@ -194,7 +186,7 @@ function createPluginToolPermissionHandler(params: {
             typeof edits[0].oldText !== "string" ||
             typeof edits[0].newText !== "string"
           ) {
-            return denyTool("Zero to Agent denied an unrepresentable native edit rewrite.");
+            return denyTool("OpenAgent denied an unrepresentable native edit rewrite.");
           }
           toolInput.old_string = edits[0].oldText;
           toolInput.new_string = edits[0].newText;
@@ -208,7 +200,7 @@ function createPluginToolPermissionHandler(params: {
     const plan = resolveCliNativeToolApprovalPlan(permission);
     if (plan === "deny") {
       return denyTool(
-        `Zero to Agent exec policy denied native tool use (security=${permission.security}, ask=${permission.ask}).`,
+        `OpenAgent exec policy denied native tool use (security=${permission.security}, ask=${permission.ask}).`,
       );
     }
     const currentGrants = getCliLiveSessionApprovalGrants(params.context) ?? grants;
@@ -249,16 +241,14 @@ function createPluginToolPermissionHandler(params: {
     try {
       assertActive();
     } catch {
-      return denyTool(
-        "Zero to Agent denied native tool use: the admitted run closed during approval.",
-      );
+      return denyTool("OpenAgent denied native tool use: the admitted run closed during approval.");
     }
     if (outcome.kind !== "allow") {
       return denyTool(
         outcome.message ??
           (outcome.reason === "user"
-            ? `Zero to Agent user denied native tool use (${toolName}).`
-            : `Zero to Agent approval was not granted for native tool use (${toolName}).`),
+            ? `OpenAgent user denied native tool use (${toolName}).`
+            : `OpenAgent approval was not granted for native tool use (${toolName}).`),
       );
     }
     if (outcome.grantAlways) {
@@ -287,7 +277,7 @@ function createPluginUserInputHandler(params: {
       assertActive();
     } catch {
       return cancelUserInput(
-        "Zero to Agent cancelled operator input: the admitted run is no longer active.",
+        "OpenAgent cancelled operator input: the admitted run is no longer active.",
       );
     }
 
@@ -298,12 +288,12 @@ function createPluginUserInputHandler(params: {
     ) {
       return cancelUserInput(
         toolName
-          ? `Zero to Agent cancelled operator input from ${toolName}: it is unavailable to this run.`
-          : "Zero to Agent cancelled an unnamed operator input request.",
+          ? `OpenAgent cancelled operator input from ${toolName}: it is unavailable to this run.`
+          : "OpenAgent cancelled an unnamed operator input request.",
       );
     }
     if (request.questions.length === 0 || request.questions.length > 12) {
-      return cancelUserInput("Zero to Agent cancelled an invalid operator input request.");
+      return cancelUserInput("OpenAgent cancelled an invalid operator input request.");
     }
 
     const questionAuthority = params.context.bindQuestionAnswerAuthority?.(assertActive);
@@ -346,18 +336,18 @@ function createPluginUserInputHandler(params: {
         assertQuestionActive();
       } catch {
         return cancelUserInput(
-          "Zero to Agent cancelled operator input: the admitted run closed before the answer was committed.",
+          "OpenAgent cancelled operator input: the admitted run closed before the answer was committed.",
         );
       }
       return result.status === "answered"
         ? { status: "answered", answers: result.answers }
         : cancelUserInput(
             result.message ??
-              "Zero to Agent cancelled operator input; continue with your best judgment.",
+              "OpenAgent cancelled operator input; continue with your best judgment.",
           );
     } catch {
       return cancelUserInput(
-        "Zero to Agent could not collect operator input; continue with your best judgment.",
+        "OpenAgent could not collect operator input; continue with your best judgment.",
       );
     } finally {
       params.onPendingInput(-1);

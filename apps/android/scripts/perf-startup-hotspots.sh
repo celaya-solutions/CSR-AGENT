@@ -15,7 +15,7 @@ Usage:
   ./scripts/perf-startup-hotspots.sh [--package <pkg>] [--activity <activity>] [--duration <sec>] [--out <perf.data>]
 
 Captures startup CPU profile via simpleperf (app_profiler.py), then prints concise hotspot summaries.
-Default package/activity target OpenClaw Android startup.
+Default package/activity target OpenAgent Android startup.
 EOF
 }
 

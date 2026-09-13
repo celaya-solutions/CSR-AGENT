@@ -1,4 +1,4 @@
-// Control Ui Mock Dev script supports OpenClaw repository automation.
+// Control Ui Mock Dev script supports OpenAgent repository automation.
 import { createHash } from "node:crypto";
 import fs, { rmSync } from "node:fs";
 import { mkdir, mkdtemp } from "node:fs/promises";
@@ -309,7 +309,7 @@ const boardFixtureHtml = `<!doctype html>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
-    <title>OpenClaw Board Fixture</title>
+    <title>OpenAgent Board Fixture</title>
     <script>
       // This standalone fixture bypasses app bootstrap, so mirror its root theme contract.
       const mediaQuery = matchMedia("(prefers-color-scheme: light)");
@@ -1013,7 +1013,7 @@ function buildConfigMocks(options: { swarmEnabled?: boolean; workboardEnabled?: 
   };
   const schema = {
     type: "object",
-    title: "OpenClaw config",
+    title: "OpenAgent config",
     properties: {
       logging: {
         type: "object",
@@ -2148,7 +2148,7 @@ async function createChatPickerScenario(
       ],
       status: "running",
     }),
-    sessionRow("agent:main:work-openclaw", "OpenClaw work checkout", baseTime - 85_000, {
+    sessionRow("agent:main:work-openclaw", "OpenAgent work checkout", baseTime - 85_000, {
       createdActor: MOCK_ACTOR_PETER,
       execCwd: "/Users/demo/Work/openclaw",
       lastReadAt: baseTime - 120_000,

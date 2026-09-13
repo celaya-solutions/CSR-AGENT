@@ -876,7 +876,7 @@ module.exports = { stateMigrations: [{
         await expect(execution).rejects.toBe(failure);
       } else {
         await expect(execution).rejects.toThrow(
-          "Zero to Agent startup migrations did not complete cleanly",
+          "OpenAgent startup migrations did not complete cleanly",
         );
       }
       expectBlockedTailInPlanOrder({ plan, receipts: emittedReceipts, blockerId });

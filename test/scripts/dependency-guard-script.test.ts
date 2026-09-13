@@ -268,8 +268,7 @@ describe("dependency guard script", () => {
       }),
     ).resolves.toEqual({
       login: "maintainer",
-      reason:
-        "pull request author; Zero to Agent organization member with repository maintain role",
+      reason: "pull request author; OpenAgent organization member with repository maintain role",
     });
 
     const rejectedAuthorRoles: Array<[string, string]> = [
@@ -311,8 +310,7 @@ describe("dependency guard script", () => {
     const body = renderTrustedDependencyComment({
       actor: {
         login: "maintainer",
-        reason:
-          "pull request author; Zero to Agent organization member with repository maintain role",
+        reason: "pull request author; OpenAgent organization member with repository maintain role",
       },
       headSha,
     });
@@ -321,7 +319,7 @@ describe("dependency guard script", () => {
     expect(body).toContain("Dependency graph changes noted");
     expect(body).toContain("informational");
     expect(body).toContain(
-      "Zero to Agent organization member with Maintain or Admin repository access",
+      "OpenAgent organization member with Maintain or Admin repository access",
     );
     expect(body).toContain("@maintainer");
     expect(body).toContain(headSha);

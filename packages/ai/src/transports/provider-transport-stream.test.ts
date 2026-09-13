@@ -68,7 +68,7 @@ function buildModel<TApi extends Api>(
 
 describe("provider transport stream contracts", () => {
   it("covers the supported transport api alias matrix", () => {
-    // Supported APIs can be projected to Zero to Agent transport aliases when needed.
+    // Supported APIs can be projected to OpenAgent transport aliases when needed.
     const cases = [
       {
         api: "openai-responses" as const,
@@ -222,7 +222,7 @@ describe("provider transport stream contracts", () => {
     expect(prepareTransportAwareSimpleModel(model)).toBe(model);
   });
 
-  it("keeps OpenAI API-key default streams on Zero to Agent transport", () => {
+  it("keeps OpenAI API-key default streams on OpenAgent transport", () => {
     const cases = [
       buildModel("openai-responses", {
         id: "gpt-5.4",
@@ -245,7 +245,7 @@ describe("provider transport stream contracts", () => {
     }
   });
 
-  it("routes localService models through the Zero to Agent simple-completion transport", () => {
+  it("routes localService models through the OpenAgent simple-completion transport", () => {
     const model = attachModelProviderLocalService(
       buildModel("openai-completions", {
         id: "gemma4",
@@ -266,7 +266,7 @@ describe("provider transport stream contracts", () => {
     expect(preparedModel.id).toBe("gemma4");
   });
 
-  it("keeps Codex defaults on the Zero to Agent transport until Zero to Agent preserves attribution", () => {
+  it("keeps Codex defaults on the OpenAgent transport until OpenAgent preserves attribution", () => {
     const model = buildModel("openai-chatgpt-responses", {
       id: "gpt-5.4",
       provider: "openai",

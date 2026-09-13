@@ -2,7 +2,7 @@
   "name": "@openclaw/logbook",
   "version": "2026.9.4",
   "private": true,
-  "description": "Zero to Agent automatic work journal plugin",
+  "description": "OpenAgent automatic work journal plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*",

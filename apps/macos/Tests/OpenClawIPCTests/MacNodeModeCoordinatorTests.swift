@@ -2,7 +2,7 @@ import Foundation
 import OpenClawIPC
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 private actor CoordinatorInvokeLifecycleProbe {
     private var invokeStarted = false

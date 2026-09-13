@@ -23,7 +23,7 @@ enum CloudflareAccessLogin {
             case .invalidGateway:
                 "Enter an HTTPS gateway address without credentials, a query, or a fragment."
             case .helperUnavailable:
-                "The browser sign-in helper is missing. Install a complete copy of OpenClaw and try again."
+                "The browser sign-in helper is missing. Install a complete copy of OpenAgent and try again."
             case .invalidApplication:
                 "This gateway did not provide valid browser sign-in details. Contact its administrator."
             case .connectionFailed:

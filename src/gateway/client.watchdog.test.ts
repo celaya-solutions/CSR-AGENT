@@ -1,5 +1,5 @@
 // Gateway client watchdog tests ensure managed proxy mode does not block direct
-// loopback WebSocket connections needed by the Zero to Agent wrapper.
+// loopback WebSocket connections needed by the OpenAgent wrapper.
 import { describe, expect, test, vi } from "vitest";
 import { WebSocketServer } from "ws";
 import { GatewayClient } from "./client.js";
@@ -10,7 +10,7 @@ function isIpv6UnavailableError(err: unknown): boolean {
   return code === "EAFNOSUPPORT" || code === "EADDRNOTAVAIL";
 }
 
-describe("GatewayClient Zero to Agent wrapper watchdog integration", () => {
+describe("GatewayClient OpenAgent wrapper watchdog integration", () => {
   test("connects to IPv6 loopback while managed proxy Gateway-only mode is active", async () => {
     let wss: WebSocketServer | null = new WebSocketServer({ host: "::1", port: 0 });
     const bind = await new Promise<{ port: number } | null>((resolve, reject) => {

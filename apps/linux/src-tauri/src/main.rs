@@ -268,7 +268,7 @@ mod native_browser_tests {
         let output = Command::new("node")
             .args(["-e", runner, &initialization_script])
             .output()
-            .expect("Node is required by the OpenClaw workspace");
+            .expect("Node is required by the OpenAgent workspace");
         assert!(
             output.status.success(),
             "native auth handoff failed: {}",
@@ -499,7 +499,7 @@ impl DesktopState {
             .map_err(|_| "Installer lock is unavailable.".to_string())?;
         installer::install(app, channel)?;
         let cli = OpenClawCli::discover().map_err(|error| {
-            format!("OpenClaw is installed, but the CLI could not be found: {error}")
+            format!("OpenAgent is installed, but the CLI could not be found: {error}")
         })?;
         *self.inner.cli.lock().expect("CLI mutex poisoned") = Some(cli.clone());
 
@@ -508,9 +508,9 @@ impl DesktopState {
         let repair_error = match cli.output(["doctor", "--fix", "--non-interactive"]) {
             Ok(output) if !output.status.success() => Some(
                 cli::output_tail(&output.stderr)
-                    .unwrap_or_else(|| format!("OpenClaw repair exited with {}", output.status)),
+                    .unwrap_or_else(|| format!("OpenAgent repair exited with {}", output.status)),
             ),
-            Err(error) => Some(format!("OpenClaw repair could not start: {error}")),
+            Err(error) => Some(format!("OpenAgent repair could not start: {error}")),
             _ => None,
         };
         if let Some(error) = repair_error {
@@ -527,17 +527,17 @@ impl DesktopState {
             .navigation
             .lock()
             .map_err(|_| {
-                "OpenClaw is installed, but preparing the Gateway dashboard failed: \
+                "OpenAgent is installed, but preparing the Gateway dashboard failed: \
                  Dashboard navigation lock is unavailable."
                     .to_string()
             })?
             .mark_onboarding_pending();
         let ready = gateway::ensure_ready(&cli).map_err(|error| {
-            format!("OpenClaw is installed, but connecting to the Gateway failed: {error}")
+            format!("OpenAgent is installed, but connecting to the Gateway failed: {error}")
         })?;
         self.finish_local_connection(app, cli, ready)
             .map_err(|error| {
-                format!("OpenClaw is installed, but opening the Gateway dashboard failed: {error}")
+                format!("OpenAgent is installed, but opening the Gateway dashboard failed: {error}")
             })
     }
 
@@ -806,7 +806,7 @@ impl DesktopState {
         }
         // Notifications are a doorbell only; approval stays in the dashboard or CLI.
         for request in diff.new {
-            notify::notify(app, "OpenClaw", &request.notification_body());
+            notify::notify(app, "OpenAgent", &request.notification_body());
         }
     }
 
@@ -1289,7 +1289,7 @@ async fn gateway_action(
 fn main() {
     // AppIndicator uses the GTK application name for the tray menu heading.
     #[cfg(target_os = "linux")]
-    gtk::glib::set_application_name("OpenClaw");
+    gtk::glib::set_application_name("OpenAgent");
 
     let global_shortcuts_supported = tray::global_shortcuts_supported();
     let quickchat_state = quickchat::QuickChatState::new(global_shortcuts_supported);
@@ -1481,7 +1481,7 @@ fn main() {
             }
         })
         .build(tauri::generate_context!())
-        .expect("OpenClaw desktop app failed");
+        .expect("OpenAgent desktop app failed");
     app.run(|app, event| {
         #[cfg(target_os = "linux")]
         if matches!(event, tauri::RunEvent::Exit) {

@@ -47,7 +47,7 @@ describe("buildCopilotPromptGuidance", () => {
     },
   );
 
-  it("composes ordered Zero to Agent policy from the final callable capabilities", () => {
+  it("composes ordered OpenAgent policy from the final callable capabilities", () => {
     const guidance = buildGuidance();
 
     expect(guidance).toContain("policy-filtered for this turn");
@@ -106,7 +106,7 @@ describe("buildCopilotPromptGuidance", () => {
     ]);
     expect(unavailable).toContain("remains private");
     expect(unavailable).not.toContain("Use `message`");
-    expect(unavailable).not.toContain("Zero to Agent delivers your final response automatically");
+    expect(unavailable).not.toContain("OpenAgent delivers your final response automatically");
   });
 
   it.each([false, true])(

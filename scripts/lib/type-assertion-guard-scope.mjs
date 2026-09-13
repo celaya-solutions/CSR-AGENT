@@ -50,7 +50,7 @@ export const CHAINED_ASSERTION_EXCLUDED_ROOTS = [
   "extensions/codex/src/app-server/run-attempt-runtime.ts", // supervised Codex models bridge the agent-harness model generic
   "extensions/copilot/harness.ts", // test support
   "extensions/copilot/src/attempt-execution.ts", // Copilot SDK session implementations expose incompatible private shapes
-  "extensions/copilot/src/attempt-transcript-journal.ts", // OpenClaw transcript metadata extends the public AgentMessage union
+  "extensions/copilot/src/attempt-transcript-journal.ts", // OpenAgent transcript metadata extends the public AgentMessage union
   "extensions/copilot/src/byok-proxy.ts", // DOM and Node readable streams use distinct type namespaces
   "extensions/copilot/src/isolated-completion.ts", // Copilot SDK isolated sessions expose a narrower private shape
   "extensions/copilot/src/runtime.ts", // staged Copilot client state initializes after async acquisition

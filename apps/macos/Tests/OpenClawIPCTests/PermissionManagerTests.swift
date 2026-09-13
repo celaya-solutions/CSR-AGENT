@@ -3,7 +3,7 @@ import OpenClawIPC
 import Speech
 import Testing
 import UserNotifications
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 @MainActor

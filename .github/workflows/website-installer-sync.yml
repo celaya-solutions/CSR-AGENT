@@ -363,7 +363,7 @@ jobs:
         if: env.OPENCLAW_GH_TOKEN == ''
         run: echo "OPENCLAW_GH_TOKEN is not configured; installer verification passed, skipping website sync."
 
-      - name: Checkout OpenClaw
+      - name: Checkout OpenAgent
         if: env.OPENCLAW_GH_TOKEN != ''
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

@@ -269,7 +269,7 @@ git_repo_url="file://$git_repo"
 write_fixture_plugin_with_cli "$git_repo" demo-plugin-git 0.0.1 demo.git "Demo Plugin Git" demo-git "demo-plugin-git:pong"
 git -C "$git_repo" init -q
 git -C "$git_repo" config user.email "docker-e2e@openclaw.local"
-git -C "$git_repo" config user.name "OpenClaw Docker E2E"
+git -C "$git_repo" config user.name "OpenAgent Docker E2E"
 git -C "$git_repo" add -A
 git -C "$git_repo" commit -qm "test fixture"
 git_ref="$(git -C "$git_repo" rev-parse HEAD)"
@@ -292,7 +292,7 @@ git_update_repo_url="file://$git_update_repo"
 write_fixture_plugin_with_cli "$git_update_repo" demo-plugin-git-update 0.0.1 demo.git.update.v1 "Demo Plugin Git Update" demo-git-update "demo-plugin-git-update:pong-v1"
 git -C "$git_update_repo" init -q
 git -C "$git_update_repo" config user.email "docker-e2e@openclaw.local"
-git -C "$git_update_repo" config user.name "OpenClaw Docker E2E"
+git -C "$git_update_repo" config user.name "OpenAgent Docker E2E"
 git -C "$git_update_repo" checkout -qb main
 git -C "$git_update_repo" add -A
 git -C "$git_update_repo" commit -qm "test fixture v1"

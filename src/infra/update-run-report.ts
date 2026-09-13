@@ -51,7 +51,7 @@ export function renderUpdateRunNotice(
   const target = run.after.version ?? run.target.version;
   const to = target ? bounded(target, 120) : undefined;
   if (kind === "ack") {
-    return `⬆️ Updating Zero to Agent ${from ?? "the current version"} → ${to ?? "the latest release"}. The gateway stays available while the update is validated; you'll get a message here when it finishes.`;
+    return `⬆️ Updating OpenAgent ${from ?? "the current version"} → ${to ?? "the latest release"}. The gateway stays available while the update is validated; you'll get a message here when it finishes.`;
   }
   if (kind === "activating" || kind === "parking") {
     return `⏳ Restarting the gateway now${from && to ? ` (v${from} → v${to})` : ""}…`;
@@ -119,23 +119,23 @@ export function renderUpdateRunReport(
   switch (run.status) {
     case "succeeded":
       headline = after
-        ? `✅ Zero to Agent updated to ${after}${before ? ` (from ${before})` : ""}.`
-        : "✅ Zero to Agent updated.";
+        ? `✅ OpenAgent updated to ${after}${before ? ` (from ${before})` : ""}.`
+        : "✅ OpenAgent updated.";
       break;
     case "failed":
       headline =
         run.reason === LEGACY_UPDATE_RUN_EXPIRED_REASON
-          ? `ℹ️ Zero to Agent update abandoned: ${reason}.`
-          : `⚠️ Zero to Agent update failed: ${reason}.${running ? ` The gateway is running ${running}.` : ""}`;
+          ? `ℹ️ OpenAgent update abandoned: ${reason}.`
+          : `⚠️ OpenAgent update failed: ${reason}.${running ? ` The gateway is running ${running}.` : ""}`;
       break;
     case "skipped":
-      headline = `ℹ️ Zero to Agent update skipped: ${reason}.`;
+      headline = `ℹ️ OpenAgent update skipped: ${reason}.`;
       break;
     case "rolled-back":
-      headline = `↩️ Zero to Agent update rolled back to ${after ?? running ?? before ?? "the previous version"}: ${reason}.`;
+      headline = `↩️ OpenAgent update rolled back to ${after ?? running ?? before ?? "the previous version"}: ${reason}.`;
       break;
     case "running":
-      headline = `⬆️ Zero to Agent update in progress: ${run.phase}.`;
+      headline = `⬆️ OpenAgent update in progress: ${run.phase}.`;
       break;
   }
   headline = bounded(headline, 500);

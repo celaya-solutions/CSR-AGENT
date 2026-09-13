@@ -90,7 +90,7 @@ vi.mock("../harness/runtime-plugin.js", () => ({
 vi.mock("../harness/selection.js", () => ({
   selectAgentHarness: vi.fn(() => ({
     id: "openclaw",
-    label: "Zero to Agent",
+    label: "OpenAgent",
     supports: () => ({ supported: true }),
     runAttempt: vi.fn(),
   })),

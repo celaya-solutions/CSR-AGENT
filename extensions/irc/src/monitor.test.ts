@@ -371,7 +371,7 @@ describe("irc monitor reconnect", () => {
             tls: false,
             nick: "bot",
             username: "bot",
-            realname: "Zero to Agent",
+            realname: "OpenAgent",
             channels: ["#openclaw"],
           },
         },
@@ -383,7 +383,7 @@ describe("irc monitor reconnect", () => {
         server.disconnectFirst();
         await withTimeout(reconnected, 3000, "IRC recovery after a failed reconnect attempt");
         expect(
-          server.lines.filter((line) => line === "USER bot 0 * :Zero to Agent").length,
+          server.lines.filter((line) => line === "USER bot 0 * :OpenAgent").length,
         ).toBeGreaterThanOrEqual(3);
         expect(server.connectionCount).toBeGreaterThanOrEqual(3);
         expect(
@@ -434,7 +434,7 @@ describe("irc monitor reconnect", () => {
                 tls: false,
                 nick: "receipt-bot",
                 username: "bot",
-                realname: "Zero to Agent",
+                realname: "OpenAgent",
                 dmPolicy: "pairing",
               },
             },
@@ -513,7 +513,7 @@ describe("irc monitor inbound target", () => {
                   tls: false,
                   nick: "bot",
                   username: "bot",
-                  realname: "Zero to Agent",
+                  realname: "OpenAgent",
                 },
               },
             } as CoreConfig,
@@ -572,7 +572,7 @@ describe("irc monitor inbound target", () => {
                 tls: false,
                 nick: "reconnected-bot",
                 username: "bot",
-                realname: "Zero to Agent",
+                realname: "OpenAgent",
               },
             },
           } as CoreConfig,
@@ -623,7 +623,7 @@ describe("irc monitor inbound target", () => {
                 tls: false,
                 nick: "receipt-bot",
                 username: "bot",
-                realname: "Zero to Agent",
+                realname: "OpenAgent",
               },
             },
           } as CoreConfig,
@@ -661,7 +661,7 @@ describe("irc monitor inbound target", () => {
                 tls: false,
                 nick: "bot",
                 username: "bot",
-                realname: "Zero to Agent",
+                realname: "OpenAgent",
               },
             },
           } as CoreConfig,

@@ -47,7 +47,7 @@ async function initializeRepository(
   const repo = path.join(root, name);
   await fs.mkdir(repo, { recursive: true });
   await execFileAsync("git", ["init", "-b", "main", `--object-format=${objectFormat}`, repo]);
-  await execFileAsync("git", ["-C", repo, "config", "user.name", "Zero to Agent Tests"]);
+  await execFileAsync("git", ["-C", repo, "config", "user.name", "OpenAgent Tests"]);
   await execFileAsync("git", ["-C", repo, "config", "user.email", "tests@openclaw.invalid"]);
   await fs.writeFile(path.join(repo, "README.md"), `${name}\n`);
   await execFileAsync("git", ["-C", repo, "add", "README.md"]);
@@ -57,20 +57,11 @@ async function initializeRepository(
 
 describe("project registry", () => {
   it.each([
-    ["https://github.com/Zero to Agent/Zero to Agent", "https://github.com/openclaw/openclaw.git"],
-    [
-      "https://github.com/Zero to Agent/Zero to Agent.git",
-      "https://github.com/openclaw/openclaw.git",
-    ],
-    ["git@github.com:Zero to Agent/Zero to Agent.git", "https://github.com/openclaw/openclaw.git"],
-    [
-      "ssh://git@github.com/Zero to Agent/Zero to Agent.git",
-      "https://github.com/openclaw/openclaw.git",
-    ],
-    [
-      "ssh://git@github.com:22/Zero to Agent/Zero to Agent",
-      "https://github.com/openclaw/openclaw.git",
-    ],
+    ["https://github.com/OpenAgent/OpenAgent", "https://github.com/openclaw/openclaw.git"],
+    ["https://github.com/OpenAgent/OpenAgent.git", "https://github.com/openclaw/openclaw.git"],
+    ["git@github.com:OpenAgent/OpenAgent.git", "https://github.com/openclaw/openclaw.git"],
+    ["ssh://git@github.com/OpenAgent/OpenAgent.git", "https://github.com/openclaw/openclaw.git"],
+    ["ssh://git@github.com:22/OpenAgent/OpenAgent", "https://github.com/openclaw/openclaw.git"],
   ])("canonicalizes accepted GitHub clone URL %s", (input, expected) => {
     expect(parseProjectGitUrl(input)?.url).toBe(expected);
   });
@@ -126,11 +117,11 @@ describe("project registry", () => {
     await fs.symlink(repo, alias, "dir");
     const options = { path: path.join(root, "state.sqlite") };
 
-    const first = await registerProjectRegistry({ path: alias, name: "Zero to Agent" }, options);
-    const second = await registerProjectRegistry({ path: repo, name: "Zero to Agent" }, options);
+    const first = await registerProjectRegistry({ path: alias, name: "OpenAgent" }, options);
+    const second = await registerProjectRegistry({ path: repo, name: "OpenAgent" }, options);
     expect(first).toMatchObject({
       id: "openclaw",
-      displayName: "Zero to Agent",
+      displayName: "OpenAgent",
       repoRoot: repo,
       source: "registered",
     });
@@ -146,7 +137,7 @@ describe("project registry", () => {
     } as OpenClawConfig;
     expect(listProjectRegistry(cfg, options).map((project) => project.displayName)).toEqual([
       "alpha",
-      "Zero to Agent",
+      "OpenAgent",
       "zeta",
     ]);
     const sharedWorkspaceCfg = {

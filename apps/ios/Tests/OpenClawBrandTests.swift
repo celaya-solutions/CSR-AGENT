@@ -1,6 +1,6 @@
 import Testing
 import UIKit
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct OpenClawBrandTests {
     @Test func `brand colors meet text contrast in both appearances`() {

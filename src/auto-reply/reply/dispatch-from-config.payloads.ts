@@ -23,7 +23,7 @@ import type { ReplyOperation } from "./reply-run-registry.js";
 const ttsRuntimeLoader = createLazyImportLoader(() => import("../../tts/tts.runtime.js"));
 
 const NO_VISIBLE_REPLY_FALLBACK_TEXT =
-  "⚠️ Zero to Agent couldn't produce or deliver a reply. Please try again. If this keeps happening, ask the operator to check the gateway logs.";
+  "⚠️ OpenAgent couldn't produce or deliver a reply. Please try again. If this keeps happening, ask the operator to check the gateway logs.";
 
 export function buildNoVisibleReplyFallbackText(runId?: string): string {
   const reference = normalizeOptionalString(runId);

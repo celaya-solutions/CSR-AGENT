@@ -1,6 +1,6 @@
 /**
- * Zero to Agent ACPX runtime adapter. It wraps the upstream acpx runtime with
- * Zero to Agent session metadata, lease tracking, model scoping, and cleanup policy.
+ * OpenAgent ACPX runtime adapter. It wraps the upstream acpx runtime with
+ * OpenAgent session metadata, lease tracking, model scoping, and cleanup policy.
  */
 import { AsyncLocalStorage } from "node:async_hooks";
 import { randomUUID } from "node:crypto";
@@ -373,7 +373,7 @@ const OPENCLAW_BRIDGE_EXECUTABLE = "openclaw";
 const OPENCLAW_BRIDGE_SUBCOMMAND = "acp";
 const CODEX_ACP_AGENT_ID = "codex";
 const CODEX_ACP_OPENCLAW_PREFIX = "openai/";
-// Documented Zero to Agent provider prefixes the Claude Agent SDK does not understand.
+// Documented OpenAgent provider prefixes the Claude Agent SDK does not understand.
 // Strip only these; a generic first-slash split would corrupt native Bedrock
 // inference-profile ids and ARNs the SDK accepts as-is.
 const CLAUDE_ACP_OPENCLAW_PREFIX = /^(?:anthropic|amazon-bedrock)\//i;
@@ -734,7 +734,7 @@ function withManagedToolsMcpSessionEnv(params: {
   return changed ? nextServers : params.mcpServers;
 }
 
-/** Zero to Agent-managed ACP runtime implementation backed by the upstream acpx runtime. */
+/** OpenAgent-managed ACP runtime implementation backed by the upstream acpx runtime. */
 export class AcpxRuntime implements CompleteAcpRuntime {
   readonly ownerAwareSessions = 1 as const;
   private readonly legacyBareSessionKeys: Set<string>;
@@ -1539,7 +1539,7 @@ export class AcpxRuntime implements CompleteAcpRuntime {
         command,
         turn: delegate.startTurn({
           ...toAcpxResourceInput(input),
-          // Zero to Agent owns deadlines; acpx timeouts can report partial output as completed.
+          // OpenAgent owns deadlines; acpx timeouts can report partial output as completed.
           timeoutMs: 0,
         }),
       }));

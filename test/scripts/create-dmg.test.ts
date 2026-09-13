@@ -42,7 +42,7 @@ function makeApp(plistEntries: string[]): string {
 function makeValidApp(): string {
   return makeApp([
     "<key>CFBundleName</key>",
-    "<string>Zero to Agent</string>",
+    "<string>OpenAgent</string>",
     "<key>CFBundleShortVersionString</key>",
     "<string>2026.6.16</string>",
   ]);
@@ -253,7 +253,7 @@ describe("create-dmg plist validation", () => {
   it.runIf(process.platform === "darwin")(
     "fails before hdiutil when required plist keys are missing",
     () => {
-      const app = makeApp(["<key>CFBundleName</key>", "<string>Zero to Agent</string>"]);
+      const app = makeApp(["<key>CFBundleName</key>", "<string>OpenAgent</string>"]);
       const result = runScript([app, path.join(path.dirname(app), "out.dmg")]);
 
       expect(result.status).toBe(1);
@@ -269,7 +269,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
     const output = path.join(outputDir, "OpenClaw.dmg");
-    const sibling = path.join(outputDir, "Zero to Agent-rw.dmg");
+    const sibling = path.join(outputDir, "OpenAgent-rw.dmg");
     writeFileSync(output, "previous output", "utf8");
     writeFileSync(sibling, "caller owned", "utf8");
     const tools = makeFakeDmgTools();
@@ -437,7 +437,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     expect(applescript).toContain('set dmgRoot to POSIX file "');
     expect(applescript).toContain('/mount" as alias');
     expect(applescript).toContain("set dmgDisk to disk of dmgRoot");
-    expect(applescript).not.toContain('tell disk "Zero to Agent"');
+    expect(applescript).not.toContain('tell disk "OpenAgent"');
     expect(applescript).not.toContain("close every window");
   });
 });

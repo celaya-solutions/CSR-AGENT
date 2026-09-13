@@ -525,7 +525,7 @@ export async function fetchMinimaxUsage(
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "MM-API-Source": "Zero to Agent",
+        "MM-API-Source": "OpenAgent",
       },
     },
     timeoutMs,

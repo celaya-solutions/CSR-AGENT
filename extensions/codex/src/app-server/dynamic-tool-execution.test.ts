@@ -386,7 +386,7 @@ describe("dynamic tool execution helpers", () => {
       contentItems: [
         {
           type: "inputText",
-          text: "Zero to Agent dynamic tool call timed out after 1ms while running tool message.",
+          text: "OpenAgent dynamic tool call timed out after 1ms while running tool message.",
         },
       ],
     });
@@ -401,12 +401,12 @@ describe("dynamic tool execution helpers", () => {
         content: [
           {
             type: "text",
-            text: "Zero to Agent dynamic tool call timed out after 1ms while running tool message.",
+            text: "OpenAgent dynamic tool call timed out after 1ms while running tool message.",
           },
         ],
         details: {
           status: "timed_out",
-          error: "Zero to Agent dynamic tool call timed out after 1ms while running tool message.",
+          error: "OpenAgent dynamic tool call timed out after 1ms while running tool message.",
         },
       },
       isError: true,
@@ -640,7 +640,7 @@ describe("dynamic tool execution helpers", () => {
     expect(result).toEqual({
       success: false,
       contentItems: [
-        { type: "inputText", text: "Zero to Agent dynamic tool call aborted before execution." },
+        { type: "inputText", text: "OpenAgent dynamic tool call aborted before execution." },
       ],
     });
     expect(result.diagnosticTerminalReason).toBe("cancelled");
@@ -650,12 +650,10 @@ describe("dynamic tool execution helpers", () => {
     expect(onAgentToolResult).toHaveBeenCalledWith({
       toolName: "memory_search",
       result: {
-        content: [
-          { type: "text", text: "Zero to Agent dynamic tool call aborted before execution." },
-        ],
+        content: [{ type: "text", text: "OpenAgent dynamic tool call aborted before execution." }],
         details: {
           status: "cancelled",
-          error: "Zero to Agent dynamic tool call aborted before execution.",
+          error: "OpenAgent dynamic tool call aborted before execution.",
         },
       },
       isError: true,

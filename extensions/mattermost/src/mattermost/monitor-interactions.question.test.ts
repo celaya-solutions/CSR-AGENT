@@ -153,7 +153,7 @@ describe("mattermost question interactions", () => {
     const response = await captureDispatcher()(questionInteraction(questionContext));
 
     expect(resolveOptionMock).not.toHaveBeenCalled();
-    expect(response?.ephemeral_text).toBe("Zero to Agent ignored this action for #town-square.");
+    expect(response?.ephemeral_text).toBe("OpenAgent ignored this action for #town-square.");
     expect(response?.update).toBeUndefined();
   });
 
@@ -173,9 +173,7 @@ describe("mattermost question interactions", () => {
     } as never);
 
     expect(result.ok).toBe(false);
-    expect(result.response?.ephemeral_text).toBe(
-      "Zero to Agent ignored this action for #town-square.",
-    );
+    expect(result.response?.ephemeral_text).toBe("OpenAgent ignored this action for #town-square.");
     expect(result.response?.update).toBeUndefined();
   });
 
@@ -193,7 +191,7 @@ describe("mattermost question interactions", () => {
 
     const response = await captureDispatcher()(questionInteraction(questionContext));
 
-    expect(response?.ephemeral_text).toBe("Zero to Agent ignored this action for #town-square.");
+    expect(response?.ephemeral_text).toBe("OpenAgent ignored this action for #town-square.");
     expect(response?.update).toBeUndefined();
   });
 

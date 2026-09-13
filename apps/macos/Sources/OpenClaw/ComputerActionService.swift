@@ -392,15 +392,15 @@ struct ComputerControlPermissionSnapshot: Equatable, Sendable {
                 "Accessibility, Event Posting, and Screen Recording are granted."
             case let .missing(buckets):
                 "Missing: \(buckets.map(\.displayName).joined(separator: ", ")). "
-                    + "Grant access in System Settings → Privacy & Security, then reopen OpenClaw."
+                    + "Grant access in System Settings → Privacy & Security, then reopen OpenAgent."
             case .accessibilityGrantMayBeStale:
                 Self.staleAccessibilityRemediation
             }
         }
 
         static let staleAccessibilityRemediation = """
-        OpenClaw may already appear enabled under System Settings → Privacy & Security → Accessibility. \
-        If so, the grant is pinned to an older build: select OpenClaw, remove it with −, then re-add \
+        OpenAgent may already appear enabled under System Settings → Privacy & Security → Accessibility. \
+        If so, the grant is pinned to an older build: select OpenAgent, remove it with −, then re-add \
         /Applications/OpenClaw.app.
         """
     }

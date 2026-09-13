@@ -62,7 +62,7 @@ export function createConnectedContext(
     config: {
       current: {
         assistantIdentity: {
-          name: "Zero to Agent",
+          name: "OpenAgent",
           avatar: null,
           avatarSource: null,
           avatarStatus: null,

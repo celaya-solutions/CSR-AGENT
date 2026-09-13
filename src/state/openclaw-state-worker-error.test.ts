@@ -61,7 +61,7 @@ describe("shared-state worker error transport", () => {
     {
       error: new SqliteSchemaVersionError("newer schema"),
       constructor: SqliteSchemaVersionError,
-      fields: { kind: "newer-schema", reason: "a newer Zero to Agent build" },
+      fields: { kind: "newer-schema", reason: "a newer OpenAgent build" },
     },
     {
       error: new OpenClawStateDatabaseSchemaMigrationRequiredError(

@@ -1,4 +1,4 @@
-// Deepinfra plugin entrypoint registers its Zero to Agent integration.
+// Deepinfra plugin entrypoint registers its OpenAgent integration.
 import type { ProviderCatalogContext } from "openclaw/plugin-sdk/provider-catalog-shared";
 import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
 import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";

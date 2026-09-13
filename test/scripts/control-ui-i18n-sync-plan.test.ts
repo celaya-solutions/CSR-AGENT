@@ -247,7 +247,7 @@ describe("createControlUiLocaleSyncPlan", () => {
     expect(plan.newFallbackCount).toBe(1);
 
     const artifacts = plan.render({
-      defaultGlossary: [{ source: "Zero to Agent", target: "Zero to Agent" }],
+      defaultGlossary: [{ source: "OpenAgent", target: "OpenAgent" }],
       generatedAt: "2026-02-02T00:00:00.000Z",
       glossary: [],
       workflow: 1,
@@ -269,7 +269,7 @@ describe("createControlUiLocaleSyncPlan", () => {
       )}\n`,
     );
     expect(artifacts.glossary).toBe(
-      `${JSON.stringify([{ source: "Zero to Agent", target: "Zero to Agent" }], null, 2)}\n`,
+      `${JSON.stringify([{ source: "OpenAgent", target: "OpenAgent" }], null, 2)}\n`,
     );
     const reusedCache = {
       ...memoryEntry(),

@@ -558,7 +558,7 @@ describe.skipIf(process.platform === "win32")("embedded triage installation targ
                 expect
                   .soft(
                     childTarget,
-                    "child Zero to Agent must select the original config and default workspace",
+                    "child OpenAgent must select the original config and default workspace",
                   )
                   .toEqual(before);
               } finally {

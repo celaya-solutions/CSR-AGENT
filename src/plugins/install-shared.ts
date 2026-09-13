@@ -46,7 +46,7 @@ type PluginCompatibilityRuntime = Pick<
 export const defaultLogger: PluginInstallLogger = {};
 
 export function formatUnresolvedOpenClawPeerLinkError(packageName: string): string {
-  return `Installed plugin ${packageName} declares an openclaw dependency, but Zero to Agent could not create a plugin-local node_modules/openclaw link. Run from a packaged Zero to Agent install or reinstall Zero to Agent, then retry.`;
+  return `Installed plugin ${packageName} declares an openclaw dependency, but OpenAgent could not create a plugin-local node_modules/openclaw link. Run from a packaged OpenAgent install or reinstall OpenAgent, then retry.`;
 }
 
 const MISSING_EXTENSIONS_ERROR =
@@ -68,7 +68,7 @@ function validateOpenClawPackageCompatibility(params: {
   if (pluginApiRange && !satisfiesPluginApiRange(params.currentHostVersion, pluginApiRange)) {
     return {
       ok: false,
-      error: `plugin "${params.pluginId}" requires plugin API ${pluginApiRange}, but this Zero to Agent runtime exposes ${params.currentHostVersion}. Upgrade Zero to Agent or install a compatible plugin version and retry.`,
+      error: `plugin "${params.pluginId}" requires plugin API ${pluginApiRange}, but this OpenAgent runtime exposes ${params.currentHostVersion}. Upgrade OpenAgent or install a compatible plugin version and retry.`,
       code: PLUGIN_INSTALL_ERROR_CODE.INCOMPATIBLE_PLUGIN_API,
     };
   }
@@ -97,13 +97,13 @@ export function validateOpenClawPackageInstallCompatibility(params: {
     if (minHostVersionCheck.kind === "unknown_host_version") {
       return {
         ok: false,
-        error: `plugin "${params.pluginId}" requires Zero to Agent >=${minHostVersionCheck.requirement.minimumLabel}, but this host version could not be determined. Re-run from a released build or set OPENCLAW_VERSION and retry.`,
+        error: `plugin "${params.pluginId}" requires OpenAgent >=${minHostVersionCheck.requirement.minimumLabel}, but this host version could not be determined. Re-run from a released build or set OPENCLAW_VERSION and retry.`,
         code: PLUGIN_INSTALL_ERROR_CODE.UNKNOWN_HOST_VERSION,
       };
     }
     return {
       ok: false,
-      error: `plugin "${params.pluginId}" requires Zero to Agent >=${minHostVersionCheck.requirement.minimumLabel}, but this host is ${minHostVersionCheck.currentVersion}. Upgrade Zero to Agent and retry.`,
+      error: `plugin "${params.pluginId}" requires OpenAgent >=${minHostVersionCheck.requirement.minimumLabel}, but this host is ${minHostVersionCheck.currentVersion}. Upgrade OpenAgent and retry.`,
       code: PLUGIN_INSTALL_ERROR_CODE.INCOMPATIBLE_HOST_VERSION,
     };
   }

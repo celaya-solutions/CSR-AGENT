@@ -59,19 +59,19 @@ private class AndroidSystemNotificationPoster(
     val (suffix, importance, name) =
       when (normalizedPriority) {
         "passive" -> {
-          Triple("passive", NotificationManager.IMPORTANCE_LOW, nativeString("OpenClaw Passive"))
+          Triple("passive", NotificationManager.IMPORTANCE_LOW, nativeString("OpenAgent Passive"))
         }
 
         "timesensitive" -> {
           Triple(
             "timesensitive",
             NotificationManager.IMPORTANCE_HIGH,
-            nativeString("OpenClaw Time Sensitive"),
+            nativeString("OpenAgent Time Sensitive"),
           )
         }
 
         else -> {
-          Triple("active", NotificationManager.IMPORTANCE_DEFAULT, nativeString("OpenClaw Active"))
+          Triple("active", NotificationManager.IMPORTANCE_DEFAULT, nativeString("OpenAgent Active"))
         }
       }
     val channelId = "$NOTIFICATION_CHANNEL_BASE_ID.$suffix"
@@ -143,7 +143,7 @@ class SystemHandler internal constructor(
     } catch (_: SecurityException) {
       GatewaySession.InvokeResult.error(
         code = "NOT_AUTHORIZED",
-        message = "NOT_AUTHORIZED: enable OpenClaw notifications and the selected priority in Android Settings",
+        message = "NOT_AUTHORIZED: enable OpenAgent notifications and the selected priority in Android Settings",
       )
     } catch (err: Throwable) {
       GatewaySession.InvokeResult.error(

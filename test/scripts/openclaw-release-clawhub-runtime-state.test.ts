@@ -1,4 +1,4 @@
-// Zero to Agent release ClawHub runtime-state script tests cover its CLI-only parser.
+// OpenAgent release ClawHub runtime-state script tests cover its CLI-only parser.
 import { spawnSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 

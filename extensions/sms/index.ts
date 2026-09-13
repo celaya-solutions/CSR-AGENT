@@ -1,10 +1,10 @@
-// Sms plugin entrypoint registers its Zero to Agent integration.
+// Sms plugin entrypoint registers its OpenAgent integration.
 import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
 
 export default defineBundledChannelEntry({
   id: "sms",
   name: "SMS",
-  description: "Twilio SMS/MMS channel plugin for Zero to Agent messages.",
+  description: "Twilio SMS/MMS channel plugin for OpenAgent messages.",
   importMetaUrl: import.meta.url,
   plugin: {
     specifier: "./channel-plugin-api.js",

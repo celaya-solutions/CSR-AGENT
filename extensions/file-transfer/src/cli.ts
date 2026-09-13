@@ -45,9 +45,7 @@ function resolveMigrationBackupPath(
 async function runApprovalMigration(options: MigrationOptions): Promise<void> {
   const prepared = await readConfigFileSnapshotForWrite();
   if (!prepared.snapshot.valid) {
-    throw new Error(
-      "Zero to Agent config is invalid; fix it before migrating file-transfer approvals",
-    );
+    throw new Error("OpenAgent config is invalid; fix it before migrating file-transfer approvals");
   }
   const sourceRoot = asNullableRecord(prepared.snapshot.sourceConfig);
   if (asNullableRecord(sourceRoot?.gateway)?.mode === "remote") {
@@ -114,7 +112,7 @@ async function runApprovalMigration(options: MigrationOptions): Promise<void> {
     "Migration plan",
   );
   await prompt.note(
-    "Older Zero to Agent versions cannot read the migrated format. To downgrade, restore the adjacent config backup shown after migration before starting the older version.",
+    "Older OpenAgent versions cannot read the migrated format. To downgrade, restore the adjacent config backup shown after migration before starting the older version.",
     "Downgrade",
   );
   if (options.dryRun) {

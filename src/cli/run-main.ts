@@ -1400,7 +1400,7 @@ async function runCliWithPreparedOutputMode(
     if (bareSessionInvocation) {
       if (!process.stdin.isTTY || !process.stdout.isTTY) {
         console.error(
-          "Zero to Agent TUI needs an interactive TTY. Use `openclaw agent --local ...` for automation.",
+          "OpenAgent TUI needs an interactive TTY. Use `openclaw agent --local ...` for automation.",
         );
         process.exitCode = 1;
         return;
@@ -1460,7 +1460,7 @@ async function runCliWithPreparedOutputMode(
         if (!process.stdin.isTTY || !process.stdout.isTTY) {
           console.error(
             bareRootLaunchTarget.classic
-              ? "Zero to Agent config is invalid. Run `openclaw doctor --fix` before onboarding."
+              ? "OpenAgent config is invalid. Run `openclaw doctor --fix` before onboarding."
               : "Onboarding needs an interactive TTY. Use `openclaw onboard --non-interactive --accept-risk ...` for automation.",
           );
           process.exitCode = 1;
@@ -1473,7 +1473,7 @@ async function runCliWithPreparedOutputMode(
       if (bareRootLaunchTarget.kind === "tui") {
         if (!process.stdin.isTTY || !process.stdout.isTTY) {
           console.error(
-            "Zero to Agent TUI needs an interactive TTY. Use `openclaw agent --local ...` for automation.",
+            "OpenAgent TUI needs an interactive TTY. Use `openclaw agent --local ...` for automation.",
           );
           process.exitCode = 1;
           return;
@@ -1557,7 +1557,7 @@ async function runCliWithPreparedOutputMode(
     const suppressStartupProgress = options.builtInMachineOutput || hasJsonOutputFlag(parseArgv);
     const { createCliProgress } = await loadProgressModule();
     const startupProgress = createCliProgress({
-      label: "Loading Zero to Agent CLI…",
+      label: "Loading OpenAgent CLI…",
       indeterminate: true,
       delayMs: 0,
       ...(suppressStartupProgress ? { enabled: false } : {}),
@@ -1617,7 +1617,7 @@ async function runCliWithPreparedOutputMode(
           defaultRuntime.writeJson(formatCliJsonFailure(error));
         }
         for (const line of formatCliFailureLines({
-          title: "Zero to Agent hit an unexpected runtime error.",
+          title: "OpenAgent hit an unexpected runtime error.",
           error,
           argv: normalizedArgv,
         })) {

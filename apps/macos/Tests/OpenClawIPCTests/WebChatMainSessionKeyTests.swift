@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct WebChatMainSessionKeyTests {
     @Test func `unavailable endpoint falls back to the main session key`() async {

@@ -1,4 +1,4 @@
-// Zero to Agent operation tests cover rescue operation planning and execution.
+// OpenAgent operation tests cover rescue operation planning and execution.
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
@@ -438,7 +438,7 @@ describe("parseSystemAgentOperation", () => {
           },
         },
       ),
-    ).rejects.toThrow("`openclaw onboard` on the machine running Zero to Agent");
+    ).rejects.toThrow("`openclaw onboard` on the machine running OpenAgent");
 
     expect(applySetup).not.toHaveBeenCalled();
   });

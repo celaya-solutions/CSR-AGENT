@@ -510,7 +510,7 @@ describe("prepareEmbeddedRunTerminal", () => {
       attempt: attemptResult({
         lastToolError: {
           toolName: "gateway_exec",
-          error: "Zero to Agent dynamic tool call aborted.",
+          error: "OpenAgent dynamic tool call aborted.",
         },
       }),
       terminalState: {

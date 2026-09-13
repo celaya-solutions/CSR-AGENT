@@ -29,7 +29,7 @@ function createMembershipContext(params?: {
   const member = {
     id: params?.memberId ?? telegramBotInfoForTest.id,
     is_bot: true,
-    first_name: "Zero to Agent",
+    first_name: "OpenAgent",
   };
   const membership = {
     chat: {

@@ -113,7 +113,7 @@ function runStableBootstrapAdmission(
       JSON.stringify({ ...approval, ...overrides.approval }),
     );
     const run = {
-      workflowName: "Zero to Agent Release Publish",
+      workflowName: "OpenAgent Release Publish",
       headBranch: branch,
       headSha: toolingSha,
       event: "workflow_dispatch",

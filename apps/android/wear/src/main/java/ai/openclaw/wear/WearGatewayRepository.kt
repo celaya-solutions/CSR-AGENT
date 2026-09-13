@@ -733,6 +733,6 @@ private fun Set<WearProxyCapability>.require(capability: WearProxyCapability) {
   if (capability !in this) {
     // Old phones omit capability negotiation. Fail before sending an RPC they
     // cannot decode so the paired app remains usable during staggered updates.
-    throw WearProxyException("unsupported_peer", "Update OpenClaw on the paired phone")
+    throw WearProxyException("unsupported_peer", "Update OpenAgent on the paired phone")
   }
 }

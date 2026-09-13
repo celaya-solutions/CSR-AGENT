@@ -1459,7 +1459,7 @@ surfaces:
           reason: none
           human_override: false
   - id: app-sdk
-    name: OpenClaw App SDK
+    name: OpenAgent App SDK
     family: core
     level:
       id: alpha

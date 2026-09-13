@@ -15,7 +15,7 @@ type LanceDbRuntimeLoaderDeps = {
 function buildLoadFailureMessage(error: unknown): string {
   return [
     "memory-lancedb: bundled @lancedb/lancedb dependency is unavailable.",
-    "Install or repair the memory-lancedb plugin package dependencies, then restart Zero to Agent.",
+    "Install or repair the memory-lancedb plugin package dependencies, then restart OpenAgent.",
     String(error),
   ].join(" ");
 }

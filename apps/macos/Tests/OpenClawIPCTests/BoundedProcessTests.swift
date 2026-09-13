@@ -2,7 +2,7 @@ import Darwin
 import Foundation
 import Subprocess
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct BoundedProcessTests {
     /// The two fan-out tests below assert that no exit notification is *lost* when a

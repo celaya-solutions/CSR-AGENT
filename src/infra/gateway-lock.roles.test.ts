@@ -241,7 +241,7 @@ describe("Gateway lock roles", () => {
           timeoutMs: 15,
         }),
       ).rejects.toThrow(
-        `another embedded Zero to Agent state writer is active (pid ${process.pid}); lock timeout after 15ms`,
+        `another embedded OpenAgent state writer is active (pid ${process.pid}); lock timeout after 15ms`,
       );
     } finally {
       await lock.release();

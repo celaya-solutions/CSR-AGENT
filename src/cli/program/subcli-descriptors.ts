@@ -103,7 +103,7 @@ const subCliCommandDescriptors = [
   },
   {
     name: "connect",
-    description: "Connect this machine to a Zero to Agent Gateway as a node",
+    description: "Connect this machine to an OpenAgent Gateway as a node",
     hasSubcommands: false,
   },
   {
@@ -173,7 +173,7 @@ const subCliCommandDescriptors = [
   },
   {
     name: "docs",
-    description: "Search the live Zero to Agent docs",
+    description: "Search the live OpenAgent docs",
     hasSubcommands: false,
   },
   {
@@ -183,7 +183,7 @@ const subCliCommandDescriptors = [
   },
   {
     name: "proxy",
-    description: "Run the Zero to Agent debug proxy and inspect captured traffic",
+    description: "Run the OpenAgent debug proxy and inspect captured traffic",
     hasSubcommands: true,
     machineOutput: ({ argv }) => isProxyMachineOutput(argv),
   },
@@ -214,7 +214,7 @@ const subCliCommandDescriptors = [
   },
   {
     name: "plugins",
-    description: "Manage Zero to Agent plugins and extensions",
+    description: "Manage OpenAgent plugins and extensions",
     hasSubcommands: true,
     parentDefaultHelp: true,
   },
@@ -247,7 +247,7 @@ const subCliCommandDescriptors = [
   },
   {
     name: "update",
-    description: "Update Zero to Agent and inspect update channel status",
+    description: "Update OpenAgent and inspect update channel status",
     hasSubcommands: true,
   },
   {

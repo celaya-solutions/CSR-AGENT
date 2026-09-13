@@ -78,7 +78,7 @@ describe("discordSetupWizard.groupAccess", () => {
       accountId: "default",
       resolved: [
         {
-          input: "Zero to Agent/#triage",
+          input: "OpenAgent/#triage",
           resolved: true,
           guildId: "guild-1",
           channelId: "channel-1",

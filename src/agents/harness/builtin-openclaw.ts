@@ -1,7 +1,7 @@
 /**
- * Built-in Zero to Agent harness registration.
+ * Built-in OpenAgent harness registration.
  *
- * Harness selection uses this factory to expose the embedded Zero to Agent runtime
+ * Harness selection uses this factory to expose the embedded OpenAgent runtime
  * through the same AgentHarness contract as external harness plugins.
  */
 import { runEmbeddedAttempt } from "../embedded-agent-runner/run/attempt.js";
@@ -83,7 +83,7 @@ function buildRestrictedFinalizationAttempt(
   };
 }
 
-/** Creates the built-in harness backed by the embedded Zero to Agent agent runner. */
+/** Creates the built-in harness backed by the embedded OpenAgent agent runner. */
 export function createOpenClawAgentHarness(): AgentHarnessV2 {
   const harness: AgentHarnessV2 = {
     ...BUILTIN_AGENT_HARNESS_METADATA,

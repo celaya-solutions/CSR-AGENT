@@ -38,7 +38,7 @@ function catalogTool(params: {
   };
 }
 
-/** Converts Codex's thread-scoped status response into Zero to Agent's MCP catalog shape. */
+/** Converts Codex's thread-scoped status response into OpenAgent's MCP catalog shape. */
 function buildCodexEffectiveMcpCatalog(
   statuses: readonly CodexMcpServerStatus[],
   toolOverrides?: AgentHarnessMcpCatalogParams["toolOverrides"],

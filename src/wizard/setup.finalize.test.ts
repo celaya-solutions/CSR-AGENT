@@ -623,7 +623,7 @@ describe("finalizeSetupWizard", () => {
     expectNoteNotContains(prompter, "Web UI:");
     expectNoteNotContains(prompter, gatewayToken);
     expect(prompter.outro).toHaveBeenCalledWith(
-      "Zero to Agent is ready. When you're ready: openclaw dashboard",
+      "OpenAgent is ready. When you're ready: openclaw dashboard",
     );
     expect(runTui).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -669,7 +669,7 @@ describe("finalizeSetupWizard", () => {
       expectNoteNotContains(prompter, gatewayToken);
     }
     if (!enabled) {
-      expect(prompter.outro).toHaveBeenCalledWith("Zero to Agent is ready.");
+      expect(prompter.outro).toHaveBeenCalledWith("OpenAgent is ready.");
     }
   });
 
@@ -1000,7 +1000,7 @@ describe("finalizeSetupWizard", () => {
     await finalizeSetupWizard(createFinalizeArgs("quickstart", { prompter }));
 
     expect(prompter.outro).toHaveBeenCalledWith(
-      "Onboarding complete. Use the dashboard link above to control Zero to Agent.",
+      "Onboarding complete. Use the dashboard link above to control OpenAgent.",
     );
     expect(runTui).toHaveBeenCalledOnce();
     expect(vi.mocked(prompter.outro).mock.invocationCallOrder[0]).toBeLessThan(
@@ -1360,7 +1360,7 @@ describe("finalizeSetupWizard", () => {
         expect(isContainerEnvironment).not.toHaveBeenCalled();
         expectNoteContains(
           prompter,
-          "Zero to Agent gateway lifecycle is managed by an external supervisor",
+          "OpenAgent gateway lifecycle is managed by an external supervisor",
           "Gateway",
         );
         expectNoteNotContains(prompter, "Systemd user services are not available");
@@ -1397,7 +1397,7 @@ describe("finalizeSetupWizard", () => {
         expectNoteNotContains(prompter, "openclaw gateway run");
         expectNoteNotContains(prompter, "openclaw onboard --install-daemon");
         expect(prompter.outro).toHaveBeenCalledWith(
-          "Gateway not detected yet. Zero to Agent gateway lifecycle is managed by an external " +
+          "Gateway not detected yet. OpenAgent gateway lifecycle is managed by an external " +
             "supervisor (OPENCLAW_SUPERVISOR_MODE=external). Use that supervisor to start the " +
             "gateway.",
         );

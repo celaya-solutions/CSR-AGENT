@@ -64,8 +64,8 @@ describe("decorative emoji terminal helpers", () => {
     };
 
     expect(decorativeEmoji("🦞", badTerminal)).toBe("");
-    expect(decorativePrefix("🦞", "Zero to Agent", badTerminal)).toBe("Zero to Agent");
-    expect(decorativePrefix("🦞", "Zero to Agent", goodTerminal)).toBe("🦞 Zero to Agent");
+    expect(decorativePrefix("🦞", "OpenAgent", badTerminal)).toBe("OpenAgent");
+    expect(decorativePrefix("🦞", "OpenAgent", goodTerminal)).toBe("🦞 OpenAgent");
   });
 
   it("strips decorative emoji from curated terminal text only when unsupported", () => {

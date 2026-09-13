@@ -129,7 +129,7 @@ function ruleRow(params?: {
   remoteAddress?: string;
 }) {
   return {
-    DisplayName: params?.displayName ?? "Zero to Agent Gateway",
+    DisplayName: params?.displayName ?? "OpenAgent Gateway",
     Profile: params?.profile ?? "Any",
     PolicyStoreSource: params?.policyStoreSource ?? "PersistentStore",
     PolicyStoreSourceType: params?.policyStoreSourceType ?? "Local",
@@ -228,7 +228,7 @@ describe("Windows Gateway firewall diagnostics", () => {
       severity: "warning",
       code: "windows_firewall_local_rules_ignored",
     });
-    expect(diagnostic.details.join("\n")).toContain("Zero to Agent Gateway");
+    expect(diagnostic.details.join("\n")).toContain("OpenAgent Gateway");
   });
 
   it("requires every active profile to allow local firewall rules", async () => {
@@ -387,29 +387,29 @@ describe("Windows Gateway firewall diagnostics", () => {
     [
       "a nonzero exit",
       async () => ({ code: 1, stdout: quickPayloadJson() }),
-      "Zero to Agent could not quickly inspect Windows Firewall LAN Gateway policy.",
+      "OpenAgent could not quickly inspect Windows Firewall LAN Gateway policy.",
     ],
     [
       "truncated stdout",
       async () => ({ code: 0, stdout: quickPayloadJson(), stdoutTruncatedBytes: 1 }),
-      "Zero to Agent could not quickly inspect Windows Firewall LAN Gateway policy.",
+      "OpenAgent could not quickly inspect Windows Firewall LAN Gateway policy.",
     ],
     [
       "truncated stderr",
       async () => ({ code: 0, stdout: quickPayloadJson(), stderrTruncatedBytes: 1 }),
-      "Zero to Agent could not quickly inspect Windows Firewall LAN Gateway policy.",
+      "OpenAgent could not quickly inspect Windows Firewall LAN Gateway policy.",
     ],
     [
       "malformed JSON",
       async () => ({ code: 0, stdout: "{" }),
-      "Zero to Agent could not parse Windows Firewall LAN Gateway policy.",
+      "OpenAgent could not parse Windows Firewall LAN Gateway policy.",
     ],
     [
       "a runner exception",
       async () => {
         throw new Error("probe failed");
       },
-      "Zero to Agent could not quickly inspect Windows Firewall LAN Gateway policy.",
+      "OpenAgent could not quickly inspect Windows Firewall LAN Gateway policy.",
     ],
   ] satisfies Array<[string, FirewallCommandRunner, string]>)(
     "fails closed after %s",

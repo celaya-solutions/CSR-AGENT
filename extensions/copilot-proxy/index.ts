@@ -1,4 +1,4 @@
-// Copilot Proxy plugin entrypoint registers its Zero to Agent integration.
+// Copilot Proxy plugin entrypoint registers its OpenAgent integration.
 import { normalizeStringEntries, uniqueStrings } from "openclaw/plugin-sdk/string-coerce-runtime";
 import {
   definePluginEntry,

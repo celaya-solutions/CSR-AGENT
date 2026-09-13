@@ -3,28 +3,28 @@ import { describe, expect, it } from "vitest";
 import { isOpenClawManagedMatrixDevice, summarizeMatrixDeviceHealth } from "./device-health.js";
 
 describe("matrix device health", () => {
-  it("detects Zero to Agent-managed device names", () => {
-    expect(isOpenClawManagedMatrixDevice("Zero to Agent Gateway")).toBe(true);
-    expect(isOpenClawManagedMatrixDevice("Zero to Agent Debug")).toBe(true);
+  it("detects OpenAgent-managed device names", () => {
+    expect(isOpenClawManagedMatrixDevice("OpenAgent Gateway")).toBe(true);
+    expect(isOpenClawManagedMatrixDevice("OpenAgent Debug")).toBe(true);
     expect(isOpenClawManagedMatrixDevice("Element iPhone")).toBe(false);
     expect(isOpenClawManagedMatrixDevice(null)).toBe(false);
   });
 
-  it("summarizes stale Zero to Agent-managed devices separately from the current device", () => {
+  it("summarizes stale OpenAgent-managed devices separately from the current device", () => {
     const summary = summarizeMatrixDeviceHealth([
       {
         deviceId: "du314Zpw3A",
-        displayName: "Zero to Agent Gateway",
+        displayName: "OpenAgent Gateway",
         current: true,
       },
       {
         deviceId: "BritdXC6iL",
-        displayName: "Zero to Agent Gateway",
+        displayName: "OpenAgent Gateway",
         current: false,
       },
       {
         deviceId: "G6NJU9cTgs",
-        displayName: "Zero to Agent Debug",
+        displayName: "OpenAgent Debug",
         current: false,
       },
       {
@@ -39,19 +39,19 @@ describe("matrix device health", () => {
       currentOpenClawDevices: [
         {
           deviceId: "du314Zpw3A",
-          displayName: "Zero to Agent Gateway",
+          displayName: "OpenAgent Gateway",
           current: true,
         },
       ],
       staleOpenClawDevices: [
         {
           deviceId: "BritdXC6iL",
-          displayName: "Zero to Agent Gateway",
+          displayName: "OpenAgent Gateway",
           current: false,
         },
         {
           deviceId: "G6NJU9cTgs",
-          displayName: "Zero to Agent Debug",
+          displayName: "OpenAgent Debug",
           current: false,
         },
       ],

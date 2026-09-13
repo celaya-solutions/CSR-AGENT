@@ -128,10 +128,10 @@ describe("tool display details", () => {
   it("preserves JS numeric literals in tool-search call args", () => {
     expect(
       resolveToolSearchCodeDisplayTarget({
-        code: 'return await openclaw.tools.call("web_search", { query: "Zero to Agent", count: 1e3, limit: +3, threshold: .5 });',
+        code: 'return await openclaw.tools.call("web_search", { query: "OpenAgent", count: 1e3, limit: +3, threshold: .5 });',
       })?.displayArgs,
     ).toEqual({
-      query: "Zero to Agent",
+      query: "OpenAgent",
       count: 1000,
       limit: 3,
       threshold: 0.5,
@@ -217,11 +217,11 @@ describe("tool display details", () => {
     const detail = formatToolDetail(
       resolveToolDisplay({
         name: "web_search",
-        args: { query: "Zero to Agent docs", count: 3 },
+        args: { query: "OpenAgent docs", count: 3 },
       }),
     );
 
-    expect(detail).toBe('for "Zero to Agent docs" (top 3)');
+    expect(detail).toBe('for "OpenAgent docs" (top 3)');
   });
 
   it("formats web_search provider query shapes", () => {
@@ -257,14 +257,14 @@ describe("tool display details", () => {
         resolveToolDisplay({
           name: "web_search",
           args: {
-            objective: "Find the Zero to Agent repository on GitHub",
+            objective: "Find the OpenAgent repository on GitHub",
             search_queries: ["openclaw github", "openclaw repository"],
             count: 5,
           },
         }),
       ),
     ).toBe(
-      'for "Find the Zero to Agent repository on GitHub", "openclaw github", "openclaw repository" (top 5)',
+      'for "Find the OpenAgent repository on GitHub", "openclaw github", "openclaw repository" (top 5)',
     );
   });
 
@@ -552,10 +552,10 @@ describe("tool display details", () => {
       formatToolSummary(
         resolveToolDisplay({
           name: "web_search",
-          args: { query: "Zero to Agent docs" },
+          args: { query: "OpenAgent docs" },
         }),
       ),
-    ).toBe('🔎 Web Search: for "Zero to Agent docs"');
+    ).toBe('🔎 Web Search: for "OpenAgent docs"');
   });
 
   it("moves cd path to context suffix with multiple stages and raw command", () => {

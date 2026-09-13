@@ -961,7 +961,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ ! "$HISTORICAL_TARGET_TAG" =~ ^v[0-9]{4}\.[0-9]+\.[0-9]+((-(alpha|beta)\.[0-9]+)|(-[1-9][0-9]*))?$ ]]; then
-            echo "historical_target_tag must be a canonical OpenClaw release tag." >&2
+            echo "historical_target_tag must be a canonical OpenAgent release tag." >&2
             exit 1
           fi
           encoded_ref="$(jq -rn --arg value "refs/tags/${HISTORICAL_TARGET_TAG}" '$value | @uri')"
@@ -982,7 +982,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ ! "$RELEASE_CANDIDATE_REF" =~ ^(release/[0-9]{4}\.[0-9]+\.[0-9]+(-[1-9][0-9]*)?|extended-stable/[0-9]{4}\.[0-9]+\.33)$ ]]; then
-            echo "release_candidate_ref must be a canonical OpenClaw release branch." >&2
+            echo "release_candidate_ref must be a canonical OpenAgent release branch." >&2
             exit 1
           fi
           encoded_ref="$(jq -rn --arg value "refs/heads/${RELEASE_CANDIDATE_REF}" '$value | @uri')"
@@ -1003,7 +1003,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ ! "$TARGET_CONTEXT_REF" =~ ^(release/[0-9]{4}\.[0-9]+\.[0-9]+(-[1-9][0-9]*)?|extended-stable/[0-9]{4}\.[0-9]+\.33)$ ]]; then
-            echo "target_context_ref must be a canonical OpenClaw release branch." >&2
+            echo "target_context_ref must be a canonical OpenAgent release branch." >&2
             exit 1
           fi
           if [[ ! "$TARGET_REF" =~ ^[0-9a-f]{40}$ ]]; then
@@ -4842,7 +4842,7 @@ jobs:
           # The macOS lane validates the desktop app build; the CLI product is
           # intentionally left to its own narrower surfaces instead of making
           # this lane rebuild the whole package graph.
-          if swift build --package-path apps/macos --product OpenClaw --configuration release; then
+          if swift build --package-path apps/macos --product OpenAgent --configuration release; then
             exit 0
           fi
 
@@ -4850,7 +4850,7 @@ jobs:
           [[ -d "$sparkle_framework" && ! -f "$sparkle_framework/Info.plist" ]] || exit 1
           echo "::warning::SwiftPM did not produce complete Sparkle metadata; resetting once before retry."
           swift package --package-path apps/macos reset
-          swift build --package-path apps/macos --product OpenClaw --configuration release
+          swift build --package-path apps/macos --product OpenAgent --configuration release
 
       - name: OpenClawKit Talk-trait opt-out (no ElevenLabsKit when default traits disabled)
         if: matrix.phase == 'tests'
@@ -5115,7 +5115,7 @@ jobs:
           xcodegen generate --spec apps/ios/project.yml --project apps/ios
           xcodebuild \
             -project apps/ios/OpenClaw.xcodeproj \
-            -scheme OpenClaw \
+            -scheme OpenAgent \
             -configuration Release \
             -destination "generic/platform=iOS" \
             CODE_SIGNING_ALLOWED=NO \
@@ -5147,7 +5147,7 @@ jobs:
           mkdir -p "apps/ios/build/LifecycleTestResults"
           xcodebuild \
             -project apps/ios/OpenClaw.xcodeproj \
-            -scheme OpenClaw \
+            -scheme OpenAgent \
             -configuration Debug \
             -destination "platform=iOS Simulator,id=${simulator_id}" \
             -resultBundlePath "$result_bundle" \

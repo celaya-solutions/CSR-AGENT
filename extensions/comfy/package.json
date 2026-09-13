@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/comfy-provider",
   "version": "2026.9.4",
-  "description": "Zero to Agent ComfyUI provider plugin.",
+  "description": "OpenAgent ComfyUI provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

@@ -1,9 +1,9 @@
-# Zero to Agent Volcengine Provider
+# OpenAgent Volcengine Provider
 
-Official Zero to Agent provider plugin for Volcengine models, the Volcengine coding
+Official OpenAgent provider plugin for Volcengine models, the Volcengine coding
 plan, and Volcengine Speech text-to-speech.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/volcengine-provider

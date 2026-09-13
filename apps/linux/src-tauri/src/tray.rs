@@ -232,7 +232,7 @@ pub fn build(
         .separator()
         .items(&[&start, &stop, &restart])
         .separator()
-        .text(QUIT_ID, "Quit OpenClaw")
+        .text(QUIT_ID, "Quit OpenAgent")
         .build()?;
 
     // macOS draws menu bar icons from the alpha channel alone (see

@@ -7,7 +7,7 @@ the plain personal gateway with `openclaw --version` and `openclaw gateway
 status --json --no-probe`. When OCM is available, also use `ocm adopt inspect
 ~/.openclaw --json` to resolve aliases safely.
 
-Read only each gateway's display name, OpenClaw version, and running/stopped
+Read only each gateway's display name, OpenAgent version, and running/stopped
 state. Do not expose commands, paths, configuration, credentials, plugins, or
 other internals. If the plain home's resolved path is an OCM environment's
 `stateDir`, show it once as that environment's personal-state alias. Otherwise
@@ -39,7 +39,7 @@ If OCM is unavailable only after the tester chooses isolation, say:
 ```text
 OCM is required for the isolated-copy option and is not installed.
 
-Reply exactly `install OCM` to let me install the OpenClaw Manager CLI, or
+Reply exactly `install OCM` to let me install the OpenAgent Manager CLI, or
 install it yourself and reply `OCM installed`.
 ```
 
@@ -181,7 +181,7 @@ missing or disagree, do not call the gateway ready.
 For every lane, record `origin/main` and the full `main_sha` as the tested target
 and commit. Keep the stable train, current beta tag, and beta commit separate.
 
-Report every error immediately, including errors recovered by a retry. OpenClaw
+Report every error immediately, including errors recovered by a retry. OpenAgent
 config migration, update, plugin convergence, startup, and readiness failures
 from the selected test target are eligible **Upgrade findings**. Add them to the
 worksheet only when readiness is later verified. OCM tooling, copying, backup

@@ -1,7 +1,7 @@
 ---
-summary: "Use Vydra image, video, and speech in Zero to Agent"
+summary: "Use Vydra image, video, and speech in OpenAgent"
 read_when:
-  - You want Vydra media generation in Zero to Agent
+  - You want Vydra media generation in OpenAgent
   - You need Vydra API key setup guidance
 title: "Vydra"
 ---
@@ -12,7 +12,7 @@ The official Vydra plugin adds:
 - Video generation via `vydra/veo3` (text-to-video) and `vydra/kling` (image-to-video)
 - Speech synthesis via Vydra's ElevenLabs-backed TTS route
 
-Zero to Agent uses the same `VYDRA_API_KEY` for all three capabilities.
+OpenAgent uses the same `VYDRA_API_KEY` for all three capabilities.
 
 | Property        | Value                                                                     |
 | --------------- | ------------------------------------------------------------------------- |

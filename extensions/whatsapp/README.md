@@ -1,11 +1,11 @@
-# Zero to Agent WhatsApp
+# OpenAgent WhatsApp
 
-Official Zero to Agent channel plugin for WhatsApp Web chats.
+Official OpenAgent channel plugin for WhatsApp Web chats.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/whatsapp
 ```
 
-Link a WhatsApp account through the plugin's setup flow, then configure which chats Zero to Agent agents should monitor and reply to.
+Link a WhatsApp account through the plugin's setup flow, then configure which chats OpenAgent agents should monitor and reply to.

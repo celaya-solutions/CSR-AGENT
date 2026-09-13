@@ -1,6 +1,6 @@
 # @openclaw/twitch
 
-Twitch channel plugin for Zero to Agent.
+Twitch channel plugin for OpenAgent.
 
 ## Install (local checkout)
 

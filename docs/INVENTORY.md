@@ -27,7 +27,7 @@ cuts can be made against evidence rather than assumption.
 | Tag at HEAD   | none (HEAD is not a release tag)              |
 | Nearest tag   | `release-publish/088d0f5b8755-1789111799`     |
 | Work branch   | `csr-course`                                  |
-| License       | MIT, "Copyright (c) 2026 OpenClaw Foundation" |
+| License       | MIT, "Copyright (c) 2026 Celaya Solutions" |
 
 ## 1. Build and boot (verbatim, as run)
 
@@ -340,11 +340,11 @@ recorded here and left for your decision.
 
 | String      | Occurrences | Tracked files |
 | ----------- | ----------- | ------------- |
-| `OpenClaw`  | 110,378     | 14,387        |
+| `OpenAgent`  | 110,378     | 14,387        |
 | `OPENCLAW_` | 41,129      | —             |
 | `.openclaw` | 14,052      | —             |
 
-By top directory (files containing `OpenClaw`): `src` 7,270 · `extensions` 3,004 ·
+By top directory (files containing `OpenAgent`): `src` 7,270 · `extensions` 3,004 ·
 `apps` 1,317 · `docs` 1,164 · `ui` 421 · `test` 397 · `scripts` 385 ·
 `packages` 88 · rest 300.
 
@@ -357,7 +357,7 @@ Canonical definitions, as opposed to references:
 | Config dir            | `src/config/state-dir.ts:9` (`NEW_STATE_DIRNAME`), `src/utils.ts:76`                                    |
 | Config filename       | `src/config/paths.ts:31` (`CONFIG_FILENAME`)                                                            |
 | UI title              | `ui/index.html:9`, plus copy at `:367,371,374,455`                                                      |
-| Default system prompt | `src/agents/system-prompt.ts:840` and `:1185` — "You are a personal assistant running inside OpenClaw." |
+| Default system prompt | `src/agents/system-prompt.ts:840` and `:1185` — "You are a personal assistant running inside OpenAgent." |
 | Version output        | `package.json` version, surfaced through `openclaw.mjs` / `node-version.mjs`                            |
 
 **Risk flagged for Phase 4.2.** A blind `grep`-and-replace across 110,378

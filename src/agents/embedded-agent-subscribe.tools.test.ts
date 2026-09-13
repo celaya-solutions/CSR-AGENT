@@ -562,9 +562,9 @@ describe("extractToolResultText", () => {
   it("normalizes top-level CLI result arrays and objects", () => {
     expect(
       extractToolResultText([
-        { type: "web_search_result", title: "Zero to Agent", url: "https://example.com" },
+        { type: "web_search_result", title: "OpenAgent", url: "https://example.com" },
       ]),
-    ).toContain('"title":"Zero to Agent"');
+    ).toContain('"title":"OpenAgent"');
     expect(extractToolResultText([{ type: "text", text: "hello" }])).toBe("hello");
     expect(
       extractToolResultText({ type: "web_search_tool_result_error", error_code: "unavailable" }),

@@ -18,7 +18,7 @@ export const buzzSetupPlugin: ChannelPlugin<ResolvedBuzzAccount> = {
     selectionLabel: "Buzz",
     docsPath: "/channels/buzz",
     docsLabel: "buzz",
-    blurb: "Connect Zero to Agent agents to Buzz team rooms.",
+    blurb: "Connect OpenAgent agents to Buzz team rooms.",
     markdownCapable: true,
     order: 56,
   },

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 /// Gateway custom headers are proxy credentials scoped to one gateway. They ride only the
 /// gateway WebSocket upgrade; the push relay is a different trust domain and must never

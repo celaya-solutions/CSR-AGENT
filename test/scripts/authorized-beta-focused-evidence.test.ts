@@ -224,12 +224,12 @@ function runFocusedValidatorLogProbe(outcome: "flagged" | "legacy" | "unrelated"
     ),
     historicalRun(
       historical.releaseChecksRunId,
-      `Zero to Agent Release Checks ${historicalTitle}-release-checks`,
+      `OpenAgent Release Checks ${historicalTitle}-release-checks`,
       ".github/workflows/openclaw-release-checks.yml",
     ),
     historicalRun(
       historical.performanceRunId,
-      `Zero to Agent Performance ${historicalTitle}`,
+      `OpenAgent Performance ${historicalTitle}`,
       ".github/workflows/openclaw-performance.yml",
       "failure",
     ),
@@ -265,7 +265,7 @@ function runFocusedValidatorLogProbe(outcome: "flagged" | "legacy" | "unrelated"
     createJob(
       historical.performanceFailedJobId,
       historical.performanceRunId,
-      "Zero to Agent source performance probes",
+      "OpenAgent source performance probes",
       "failure",
     ),
     createJob(focused.ciSuccessJobId, focused.ciRunId, "check-lint", "success"),

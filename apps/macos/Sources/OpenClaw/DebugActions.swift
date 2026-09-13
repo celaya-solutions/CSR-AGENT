@@ -309,7 +309,7 @@ enum DebugActions {
                 kind: .device,
                 requestId: "demo-device-1",
                 subjectId: "4a865684dbfa7b7937bd333813476ca88b672c2d02ad08fc52b80d88af4e82bd",
-                displayName: "OpenClaw iPhone",
+                displayName: "OpenAgent iPhone",
                 platform: "ios 26.4",
                 deviceFamily: nil,
                 modelIdentifier: nil,

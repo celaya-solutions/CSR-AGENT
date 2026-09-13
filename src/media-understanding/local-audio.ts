@@ -441,7 +441,7 @@ export async function inspectLocalAudioSelection(
       available: Boolean(sherpaCommand),
       ready: sherpaReady,
       requestedBackend: "cpu",
-      evidence: "Zero to Agent auto args omit --provider, so sherpa-onnx uses its CPU default",
+      evidence: "OpenAgent auto args omit --provider, so sherpa-onnx uses its CPU default",
       selected: false,
       reason: sherpaCommand
         ? sherpaReady

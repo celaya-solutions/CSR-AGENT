@@ -64,22 +64,22 @@ describe("setupOfficialPluginInstalls", () => {
         {
           value: "acpx",
           label: "ACPX Runtime",
-          hint: "Zero to Agent ACP runtime backend",
+          hint: "OpenAgent ACP runtime backend",
         },
         {
           value: "diagnostics-otel",
           label: "Diagnostics OpenTelemetry",
-          hint: "Zero to Agent diagnostics OpenTelemetry exporter",
+          hint: "OpenAgent diagnostics OpenTelemetry exporter",
         },
         {
           value: "diagnostics-prometheus",
           label: "Diagnostics Prometheus",
-          hint: "Zero to Agent diagnostics Prometheus exporter",
+          hint: "OpenAgent diagnostics Prometheus exporter",
         },
         {
           value: "tokenjuice",
           label: "Tokenjuice",
-          hint: "Zero to Agent tokenjuice exec output compaction plugin",
+          hint: "OpenAgent tokenjuice exec output compaction plugin",
         },
       ]),
     );
@@ -88,7 +88,7 @@ describe("setupOfficialPluginInstalls", () => {
       entry: {
         pluginId: "diagnostics-otel",
         label: "Diagnostics OpenTelemetry",
-        description: "Zero to Agent diagnostics OpenTelemetry exporter",
+        description: "OpenAgent diagnostics OpenTelemetry exporter",
         install: {
           clawhubSpec: "clawhub:@openclaw/diagnostics-otel",
           npmSpec: "@openclaw/diagnostics-otel",

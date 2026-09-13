@@ -114,7 +114,7 @@ export function createSessionSqliteMigrationFailureIssue(
       version: VERSION,
     });
   const body = [
-    "Zero to Agent doctor generated this sanitized report from a local session SQLite migration recovery.",
+    "OpenAgent doctor generated this sanitized report from a local session SQLite migration recovery.",
     "",
     reportBody,
   ].join("\n");
@@ -227,7 +227,7 @@ function renderFailureMarkdown(payload: {
     "",
     `- Run: ${payload.runId}`,
     `- Generated: ${payload.generatedAt}`,
-    `- Zero to Agent version: ${payload.version}`,
+    `- OpenAgent version: ${payload.version}`,
     `- Reason: ${sanitizeFailureReportText(payload.reason)}`,
     `- Restore status: ${payload.restoreStatus}`,
     `- Recovery command: \`${payload.recoveryCommand}\``,

@@ -24,7 +24,7 @@ scenario:
   successCriteria:
     - The group policy removes the message tool for this room.
     - The mock provider returns a normal final answer with the marker.
-    - OpenClaw falls back to automatic delivery and posts the marker to the same group.
+    - OpenAgent falls back to automatic delivery and posts the marker to the same group.
   docsRefs:
     - docs/channels/groups.md
     - docs/channels/qa-channel.md

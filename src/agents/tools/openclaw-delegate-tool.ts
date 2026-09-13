@@ -1,4 +1,4 @@
-/** Regular-agent client for the Zero to Agent system agent. */
+/** Regular-agent client for the OpenAgent system agent. */
 import { createHash, randomUUID } from "node:crypto";
 import { Type } from "typebox";
 import { SYSTEM_AGENT_ID } from "../../system-agent/agent-id.js";
@@ -10,7 +10,7 @@ import { callInProcessGatewayTool } from "./in-process-gateway.js";
 
 const OpenClawDelegateSchema = Type.Object({
   message: Type.String({ description: "What system must do." }),
-  sessionId: Type.Optional(Type.String({ description: "Continue prior Zero to Agent talk." })),
+  sessionId: Type.Optional(Type.String({ description: "Continue prior OpenAgent talk." })),
 });
 
 const OpenClawDelegateOutputSchema = Type.Object(
@@ -77,7 +77,7 @@ export function createOpenClawDelegateToolsForRun(
   const turnSourceThreadId = options.currentThreadTs ?? options.agentThreadId;
   const tool: AnyAgentTool = {
     name: "openclaw",
-    label: "Zero to Agent",
+    label: "OpenAgent",
     // Keep human approval in one model tool call; a yielded cell can outlive its turn.
     catalogMode: "direct-only",
     description:

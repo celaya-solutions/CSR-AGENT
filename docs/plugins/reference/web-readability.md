@@ -15,7 +15,7 @@ Extract readable article content from local HTML web fetch responses.
 ## Distribution
 
 - Package: `@openclaw/web-readability-plugin`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

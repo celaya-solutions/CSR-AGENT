@@ -149,7 +149,7 @@ function buildRuntimeChoice(params: { cfg: OpenClawConfig; runtime: string }): M
     label,
     description:
       id === "openclaw"
-        ? "Use Zero to Agent's built-in agent and tools."
+        ? "Use OpenAgent's built-in agent and tools."
         : `Use ${label} to run this model.`,
   };
 }

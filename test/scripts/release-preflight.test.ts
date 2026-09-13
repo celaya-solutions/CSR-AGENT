@@ -115,7 +115,7 @@ function makeReleaseFixture(
   } = {},
 ): string {
   const root = makeTempDir(tempDirs, "openclaw-release-preflight-fixture-");
-  const plistDir = join(root, "apps", "macos", "Sources", "Zero to Agent", "Resources");
+  const plistDir = join(root, "apps", "macos", "Sources", "OpenAgent", "Resources");
   mkdirSync(plistDir, { recursive: true });
   writeFileSync(
     join(root, "package.json"),
@@ -509,7 +509,7 @@ process.once("exit", () => {
       "apps",
       "macos",
       "Sources",
-      "Zero to Agent",
+      "OpenAgent",
       "Resources",
       "Info.plist",
     );
@@ -539,7 +539,7 @@ process.once("exit", () => {
       "apps",
       "macos",
       "Sources",
-      "Zero to Agent",
+      "OpenAgent",
       "Resources",
       "Info.plist",
     );

@@ -2,7 +2,7 @@
   "name": "@openclaw/clawrouter",
   "version": "2026.9.4",
   "private": true,
-  "description": "Zero to Agent ClawRouter plugin",
+  "description": "OpenAgent ClawRouter plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

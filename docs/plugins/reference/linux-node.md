@@ -15,7 +15,7 @@ Desktop notifications, camera capture, and location for Linux node hosts.
 ## Distribution
 
 - Package: `@openclaw/linux-node`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

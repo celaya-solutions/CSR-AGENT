@@ -41,7 +41,7 @@ async function writeRollout(payload: Record<string, unknown>): Promise<string> {
 }
 
 describe("Codex catalog provenance", () => {
-  it("recognizes a Zero to Agent-originated rollout even when Codex reports vscode", async () => {
+  it("recognizes an OpenAgent-originated rollout even when Codex reports vscode", async () => {
     const file = await writeRollout({
       id: "managed-thread",
       originator: "openclaw",

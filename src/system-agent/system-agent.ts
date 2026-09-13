@@ -1,4 +1,4 @@
-// Zero to Agent CLI runner selects JSON, one-shot, or interactive setup-helper mode.
+// OpenAgent CLI runner selects JSON, one-shot, or interactive setup-helper mode.
 import { stdin as defaultStdin, stdout as defaultStdout } from "node:process";
 import { withProgress } from "../cli/progress.js";
 import { defaultRuntime, writeRuntimeJson, type RuntimeEnv } from "../runtime.js";
@@ -24,7 +24,7 @@ import {
 } from "./verified-inference.js";
 
 /**
- * CLI entry point for Zero to Agent.
+ * CLI entry point for OpenAgent.
  *
  * This module chooses JSON, one-shot, or interactive TUI mode and delegates all
  * command parsing/execution to dialogue and operation modules.
@@ -34,7 +34,7 @@ type SystemAgentInteractiveRunner = (
   runtime: RuntimeEnv,
 ) => Promise<void>;
 
-/** Options accepted by the Zero to Agent command runner. */
+/** Options accepted by the OpenAgent command runner. */
 export type RunSystemAgentOptions = {
   message?: string;
   yes?: boolean;
@@ -136,7 +136,7 @@ async function runOneShot(
   });
 }
 
-/** Run Zero to Agent in JSON, one-shot message, or interactive TUI mode. */
+/** Run OpenAgent in JSON, one-shot message, or interactive TUI mode. */
 export async function runSystemAgent(
   opts: RunSystemAgentOptions,
   runtime: RuntimeEnv = defaultRuntime,
@@ -219,7 +219,7 @@ async function runBoundSystemAgent(
     // same snapshot for planning so reply-only plans do not print before it.
     const overview = await withProgress(
       {
-        label: "Loading Zero to Agent overview…",
+        label: "Loading OpenAgent overview…",
         indeterminate: true,
         delayMs: 0,
         fallback: "none",
@@ -247,8 +247,8 @@ async function runBoundSystemAgent(
   const inputIsTty = (input as { isTTY?: boolean }).isTTY === true;
   const outputIsTty = (output as { isTTY?: boolean }).isTTY === true;
   if (!inputIsTty || !outputIsTty) {
-    // Without a TTY, Zero to Agent cannot safely ask for confirmation; require --message instead.
-    runtime.error("Zero to Agent needs an interactive TTY. Use --message for one command.");
+    // Without a TTY, OpenAgent cannot safely ask for confirmation; require --message instead.
+    runtime.error("OpenAgent needs an interactive TTY. Use --message for one command.");
     runtime.exit(1);
     return;
   }

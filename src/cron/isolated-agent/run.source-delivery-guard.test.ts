@@ -343,7 +343,7 @@ describe("executeCronRun sourceDelivery mapping", () => {
     ).toThrow("Cron source delivery requires the message tool");
   });
 
-  it("forwards an explicit Zero to Agent runtime override to cron execution", async () => {
+  it("forwards an explicit OpenAgent runtime override to cron execution", async () => {
     mockRunCronFallbackPassthrough();
     const cronSession = makeCronSession() as unknown as MutableCronSession;
     cronSession.sessionEntry.agentRuntimeOverride = "openclaw";

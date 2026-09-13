@@ -40,7 +40,7 @@ export function registerClawsCli(program: Command) {
   if (!isExperimentalClawsEnabled()) {
     return;
   }
-  const claws = program.command("claws").description("Manage experimental Zero to Agent Claws");
+  const claws = program.command("claws").description("Manage experimental OpenAgent Claws");
 
   claws
     .command("create")

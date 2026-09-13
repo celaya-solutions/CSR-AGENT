@@ -133,11 +133,11 @@ enum CLIInstaller {
         var message: String {
             switch self {
             case let .ready(_, version):
-                "OpenClaw Gateway \(version) is ready."
+                "OpenAgent Gateway \(version) is ready."
             case .missing:
-                "OpenClaw Gateway is not installed yet."
+                "OpenAgent Gateway is not installed yet."
             case .unusable:
-                "The OpenClaw Gateway could not be verified. Setup will repair it."
+                "The OpenAgent Gateway could not be verified. Setup will repair it."
             case let .incompatible(_, found, required):
                 "Gateway \(found) does not match app \(required). Setup will update it."
             }
@@ -335,9 +335,9 @@ enum CLIInstaller {
         statusHandler: @escaping @MainActor @Sendable (String) async -> Void) async -> Bool
     {
         let prefix = Self.installPrefix()
-        await statusHandler("Installing OpenClaw CLI (\(target.selector))…")
+        await statusHandler("Installing OpenAgent CLI (\(target.selector))…")
         guard let installerURL = Bundle.main.url(forResource: "install-cli", withExtension: "sh") else {
-            await statusHandler("Install failed: installer resource is missing. Reinstall OpenClaw.")
+            await statusHandler("Install failed: installer resource is missing. Reinstall OpenAgent.")
             return false
         }
         let appVersion = GatewayEnvironment.appVersionString()
@@ -526,8 +526,8 @@ enum CLIInstaller {
     {
         let executable = self.managedExecutableLocation()
         await statusHandler(repair
-            ? String(localized: "Repairing the OpenClaw Gateway update…")
-            : String(format: String(localized: "Updating the OpenClaw Gateway to %@…"), targetVersion))
+            ? String(localized: "Repairing the OpenAgent Gateway update…")
+            : String(format: String(localized: "Updating the OpenAgent Gateway to %@…"), targetVersion))
         let command = self.managedUpdateCommand(
             executable: executable,
             targetVersion: targetVersion,
@@ -573,7 +573,7 @@ enum CLIInstaller {
         self.rememberInstallPolicy(.exact(targetVersion))
         NotificationCenter.default.post(name: .openclawCLIInstalled, object: nil)
         await statusHandler(String(
-            format: String(localized: "OpenClaw Gateway %@ is installed."), installedVersion))
+            format: String(localized: "OpenAgent Gateway %@ is installed."), installedVersion))
         return .success(
             fromVersion: summary?.before?.version,
             toVersion: installedVersion)
@@ -651,14 +651,14 @@ enum CLIInstaller {
         case ("disk-space", "start"): "Checking available disk space…"
         case ("node", "start"): "Installing Node.js runtime…"
         case ("git-tools", "start"): "Preparing Git and pnpm…"
-        case ("git-clone", "start"): "Downloading OpenClaw source…"
-        case ("git-update", "start"): "Updating OpenClaw source…"
+        case ("git-clone", "start"): "Downloading OpenAgent source…"
+        case ("git-update", "start"): "Updating OpenAgent source…"
         case ("dependencies", "start"): "Installing dependencies…"
         case ("control-ui", "start"): "Building interface…"
-        case ("cli-build", "start"): "Building OpenClaw CLI…"
-        case ("openclaw", "retry"): "Retrying OpenClaw CLI install…"
+        case ("cli-build", "start"): "Building OpenAgent CLI…"
+        case ("openclaw", "retry"): "Retrying OpenAgent CLI install…"
         case ("disk-space", "warn"): "Couldn’t verify free disk space; continuing…"
-        case ("git-update", "warn"): "Using the existing modified OpenClaw source…"
+        case ("git-update", "warn"): "Using the existing modified OpenAgent source…"
         case ("control-ui", "warn"): "Interface build did not finish; continuing…"
         default: nil
         }

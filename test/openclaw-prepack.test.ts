@@ -1,4 +1,4 @@
-// Zero to Agent prepack tests validate package prepack output.
+// OpenAgent prepack tests validate package prepack output.
 import { spawnSync } from "node:child_process";
 import {
   copyFileSync,

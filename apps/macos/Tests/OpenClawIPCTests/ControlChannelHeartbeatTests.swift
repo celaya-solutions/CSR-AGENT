@@ -2,7 +2,7 @@ import ConcurrencyExtras
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawKit
 
 extension GatewayConnectionControlTests {

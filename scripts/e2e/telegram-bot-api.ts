@@ -1,4 +1,4 @@
-// Telegram Bot Api script supports OpenClaw repository automation.
+// Telegram Bot Api script supports OpenAgent repository automation.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { readBoundedResponseText } from "../lib/bounded-response.mjs";
 import { readPositiveIntEnv } from "./lib/env-limits.mjs";

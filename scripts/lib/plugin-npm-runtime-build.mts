@@ -270,7 +270,7 @@ function resolveOpenClawPeerRange(
   );
 }
 
-/** Resolve package peer dependency metadata for the OpenClaw plugin API. */
+/** Resolve package peer dependency metadata for the OpenAgent plugin API. */
 function resolvePluginNpmRuntimePackagePeerMetadata(plan: {
   packageJson: PluginPackageJson;
   rootPackageJson: PluginPackageJson | undefined;
@@ -416,7 +416,7 @@ export async function buildPluginNpmRuntime(params: PluginNpmRuntimeBuildParams)
   const missingHostExports = listMissingPluginNpmRuntimeHostExports(plan);
   if (missingHostExports.length > 0) {
     throw new Error(
-      `${plan.pluginDir} runtime imports missing OpenClaw host exports: ${missingHostExports.join(", ")}`,
+      `${plan.pluginDir} runtime imports missing OpenAgent host exports: ${missingHostExports.join(", ")}`,
     );
   }
   rewriteCommonJsRuntimeSpecifiers(plan);
@@ -436,14 +436,14 @@ async function preparePluginNativeImport(params: PluginNpmRuntimeBuildParams) {
   const hostManifest = readRootJsonObjectSync({
     rootDir: repoRoot,
     relativePath: "package.json",
-    boundaryLabel: "OpenClaw source checkout",
+    boundaryLabel: "OpenAgent source checkout",
   });
   if (
     !hostManifest.ok ||
     hostManifest.value.name !== "openclaw" ||
     !isSourceCheckoutRoot({ packageRoot: repoRoot })
   ) {
-    throw new Error("Native-import preparation must run from an OpenClaw source checkout root.");
+    throw new Error("Native-import preparation must run from an OpenAgent source checkout root.");
   }
   const packageDir = path.resolve(repoRoot, params.packageDir);
   if (
@@ -474,7 +474,7 @@ async function preparePluginNativeImport(params: PluginNpmRuntimeBuildParams) {
   if (
     !fs.statSync(path.join(repoRoot, "dist/plugin-sdk"), { throwIfNoEntry: false })?.isDirectory()
   ) {
-    throw new Error("Host SDK output is missing; build OpenClaw before preparing native imports.");
+    throw new Error("Host SDK output is missing; build OpenAgent before preparing native imports.");
   }
   const runtimeFormat = resolvePluginRuntimeFormat(manifest.value);
   const outDir = path.join(packageDir, "dist");

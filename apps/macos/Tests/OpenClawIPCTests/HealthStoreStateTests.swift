@@ -3,7 +3,7 @@ import Darwin
 import Foundation
 import SwiftUI
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct HealthStoreStateTests {
     @Test(.enabled(if: ProcessInfo.processInfo.environment["OPENCLAW_TEST_HEALTH_RENDER_DIR"] != nil))

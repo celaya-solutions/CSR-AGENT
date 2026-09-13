@@ -6,7 +6,7 @@ read_when:
 title: "Platforms"
 ---
 
-Zero to Agent core is written in TypeScript. **Node is the primary, default, and
+OpenAgent core is written in TypeScript. **Node is the primary, default, and
 recommended runtime**. Bun 1.4+ builds with WAL-reset-safe `node:sqlite` can run
 the CLI, Gateway, and managed node host as an explicit opt-in; see
 [Bun](/install/bun).
@@ -58,7 +58,7 @@ The service target depends on OS:
 
 - macOS: LaunchAgent (`ai.openclaw.gateway`, or `ai.openclaw.<profile>` for a named profile)
 - Linux/WSL2: systemd user service (`openclaw-gateway[-<profile>].service`)
-- Native Windows: Scheduled Task (`Zero to Agent Gateway` or `Zero to Agent Gateway (<profile>)`), with a per-user Startup-folder login item fallback if task creation is denied
+- Native Windows: Scheduled Task (`OpenAgent Gateway` or `OpenAgent Gateway (<profile>)`), with a per-user Startup-folder login item fallback if task creation is denied
 
 ## Related
 

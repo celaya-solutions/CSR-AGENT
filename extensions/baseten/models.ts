@@ -203,7 +203,7 @@ function projectLiveModel(
   };
 }
 
-/** Projects Baseten's authenticated `/models` response into Zero to Agent model rows. */
+/** Projects Baseten's authenticated `/models` response into OpenAgent model rows. */
 export function projectBasetenLiveModels(rows: readonly unknown[]): ModelDefinitionConfig[] {
   const fallbacks = new Map(buildStaticBasetenModels().map((model) => [model.id, model]));
   const seen = new Set<string>();

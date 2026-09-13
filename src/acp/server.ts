@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** ACP stdio server that bridges Agent Client Protocol clients to the Zero to Agent Gateway. */
+/** ACP stdio server that bridges Agent Client Protocol clients to the OpenAgent Gateway. */
 import { Readable, Writable } from "node:stream";
 import { fileURLToPath } from "node:url";
 import {

@@ -3,7 +3,7 @@
 if [[ ${OSTYPE:-} == darwin* && $BASH != /bin/bash ]] && ((BASH_VERSINFO[0] > 5 || (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] >= 3))); then
   exec /bin/bash "$0" "$@"
 fi
-# Installs OpenClaw from a prepared package tarball, installs @openclaw/codex
+# Installs OpenAgent from a prepared package tarball, installs @openclaw/codex
 # from a registry/git/tarball spec, and verifies a live Codex app-server turn.
 set -Eeuo pipefail
 
@@ -434,11 +434,11 @@ echo "codex_cli_prompt: Reply exactly: ${SUCCESS_MARKER}-PREFLIGHT"
 node scripts/e2e/lib/codex-npm-plugin-live/assertions.mjs assert-preflight "${SUCCESS_MARKER}-PREFLIGHT"
 echo "codex_cli_reply: ${SUCCESS_MARKER}-PREFLIGHT"
 
-echo "Running OpenClaw local agent turns through npm-installed Codex plugin..."
+echo "Running OpenAgent local agent turns through npm-installed Codex plugin..."
 run_agent_turn \
   "turn1" \
   "${SUCCESS_MARKER}-TURN-1" \
-  "Reply in one short sentence. Include token ${SUCCESS_MARKER}-TURN-1 and say hello from the OpenClaw Codex plugin." \
+  "Reply in one short sentence. Include token ${SUCCESS_MARKER}-TURN-1 and say hello from the OpenAgent Codex plugin." \
   /tmp/openclaw-codex-agent-turn1.json \
   /tmp/openclaw-codex-agent-turn1.err
 run_agent_turn \

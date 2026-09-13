@@ -1,4 +1,4 @@
-# OpenClaw live proof routing
+# OpenAgent live proof routing
 
 Determine the actual current command and owner from root and scoped
 `AGENTS.md`, the current source tree, package scripts, and existing scenario

@@ -104,7 +104,7 @@ describe("agents set-identity command", () => {
   it("sets identity from workspace IDENTITY.md", async () => {
     const { root, workspace } = await createIdentityWorkspace();
     await writeIdentityFile(workspace, [
-      "- Name: Zero to Agent",
+      "- Name: OpenAgent",
       "- Creature: helpful sloth",
       "- Emoji: :)",
       "- Avatar: avatars/openclaw.png",
@@ -126,7 +126,7 @@ describe("agents set-identity command", () => {
 
     expect(configMocks.writeConfigFile).toHaveBeenCalledTimes(1);
     expect(getWrittenMainIdentity()).toEqual({
-      name: "Zero to Agent",
+      name: "OpenAgent",
       theme: "helpful sloth",
       emoji: ":)",
       avatar: "avatars/openclaw.png",
@@ -190,7 +190,7 @@ describe("agents set-identity command", () => {
   it("overrides identity file values with explicit flags", async () => {
     const { workspace } = await createIdentityWorkspace();
     await writeIdentityFile(workspace, [
-      "- Name: Zero to Agent",
+      "- Name: OpenAgent",
       "- Theme: space lobster",
       "- Emoji: :)",
       "- Avatar: avatars/openclaw.png",

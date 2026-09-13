@@ -1,4 +1,4 @@
-// Zero to Agent assistant tests cover plan parsing and inference prompt construction.
+// OpenAgent assistant tests cover plan parsing and inference prompt construction.
 import { describe, expect, it } from "vitest";
 import {
   SYSTEM_AGENT_ASSISTANT_SYSTEM_PROMPT,
@@ -38,7 +38,7 @@ function overview(overrides: Partial<SystemAgentOverview["tools"]> = {}): System
   };
 }
 
-describe("Zero to Agent assistant", () => {
+describe("OpenAgent assistant", () => {
   it("teaches both planner and agent-loop prompts about hosted setup flows", () => {
     expect(SYSTEM_AGENT_ASSISTANT_SYSTEM_PROMPT).toContain("- configure skills");
     expect(SYSTEM_AGENT_ASSISTANT_SYSTEM_PROMPT).toContain("- configure search");
@@ -135,8 +135,8 @@ describe("Zero to Agent assistant", () => {
     expect(prompt).toContain("Default model: openai/gpt-5.5");
     expect(prompt).toContain("id=main, name=Main, workspace=/tmp/main");
     expect(prompt).toContain("OpenAI API key: found");
-    expect(prompt).toContain("Zero to Agent docs: /tmp/openclaw/docs");
-    expect(prompt).toContain("Zero to Agent source: /tmp/openclaw");
+    expect(prompt).toContain("OpenAgent docs: /tmp/openclaw/docs");
+    expect(prompt).toContain("OpenAgent source: /tmp/openclaw");
   });
 
   it("keeps truncated conversation history valid at a UTF-16 boundary", () => {

@@ -1,11 +1,11 @@
-# Zero to Agent LINE
+# OpenAgent LINE
 
-Official Zero to Agent channel plugin for LINE Bot API chats.
+Official OpenAgent channel plugin for LINE Bot API chats.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/line
 ```
 
-Configure LINE channel credentials in Zero to Agent, then connect the bot to the chats where agents should receive and send messages.
+Configure LINE channel credentials in OpenAgent, then connect the bot to the chats where agents should receive and send messages.

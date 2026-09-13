@@ -1,4 +1,4 @@
-// Zero to Agent first-run Docker harness.
+// OpenAgent first-run Docker harness.
 // Imports packaged dist modules so the Docker lane verifies the npm tarball,
 // while this small test driver stays mounted from the checkout.
 import { spawn } from "node:child_process";
@@ -230,14 +230,14 @@ async function main() {
   clearConfigCache();
   assert(
     await shouldStartOnboardingForFreshInstall(["node", "openclaw"]),
-    "fresh bare Zero to Agent invocation did not route to onboarding",
+    "fresh bare OpenAgent invocation did not route to onboarding",
   );
 
   const blocked = await runPackagedCli(["setup", "--message", "overview"]);
-  assert(blocked.code === 1, "Zero to Agent did not fail closed without inference");
+  assert(blocked.code === 1, "OpenAgent did not fail closed without inference");
   assert(
     `${blocked.stdout}\n${blocked.stderr}`.includes("openclaw onboard"),
-    "blocked Zero to Agent did not direct the user to inference onboarding",
+    "blocked OpenAgent did not direct the user to inference onboarding",
   );
 
   const plannerCommand = `setup workspace ${spec.dockerDefaultWorkspace}`;
@@ -262,7 +262,7 @@ async function main() {
   assert(
     inferenceConfig.agents?.defaults?.workspace === undefined &&
       inferenceConfig.gateway === undefined,
-    "inference activation configured the rest before Zero to Agent started",
+    "inference activation configured the rest before OpenAgent started",
   );
   const activationPrompts = await fs.readFile(promptLogPath, "utf8");
   assert(
@@ -279,7 +279,7 @@ async function main() {
   ]);
   assert(
     modern.code === 0 && `${modern.stdout}\n${modern.stderr}`.includes(activation.modelRef),
-    "modern compatibility entrypoint did not expose Zero to Agent after activation",
+    "modern compatibility entrypoint did not expose OpenAgent after activation",
   );
 
   // An unrelated ambient channel credential must not alter the requested setup.
@@ -302,32 +302,32 @@ async function main() {
     const output = `${result.stdout}\n${result.stderr}`;
     assert(
       result.code === 0 && output.includes(command.expectOutput),
-      `Zero to Agent first-run command ${command.id} did not apply: ${output}`,
+      `OpenAgent first-run command ${command.id} did not apply: ${output}`,
     );
     if (command.id === "setup") {
-      assert(result.code === 0, `Zero to Agent setup exited with ${result.code}: ${output}`);
+      assert(result.code === 0, `OpenAgent setup exited with ${result.code}: ${output}`);
       assert(
         output.includes("[openclaw] done: openclaw.setup"),
-        `Zero to Agent setup did not report completion: ${output}`,
+        `OpenAgent setup did not report completion: ${output}`,
       );
       assert(
         output.includes(
-          "Gateway: Zero to Agent gateway lifecycle is managed by an external supervisor " +
+          "Gateway: OpenAgent gateway lifecycle is managed by an external supervisor " +
             "(OPENCLAW_SUPERVISOR_MODE=external). Use that supervisor to start the gateway.",
         ),
-        `Zero to Agent setup did not report the externally supervised gateway: ${output}`,
+        `OpenAgent setup did not report the externally supervised gateway: ${output}`,
       );
       assert(
         !output.includes("Systemd user services are not available"),
-        `Zero to Agent setup probed systemd before honoring external supervision: ${output}`,
+        `OpenAgent setup probed systemd before honoring external supervision: ${output}`,
       );
       assert(
         !output.includes("Gateway service install failed"),
-        `Zero to Agent setup attempted and failed gateway service installation: ${output}`,
+        `OpenAgent setup attempted and failed gateway service installation: ${output}`,
       );
       assert(
         !output.includes("service management skipped: non-default state dir or config path"),
-        `Zero to Agent setup used the non-default-path service-management skip: ${output}`,
+        `OpenAgent setup used the non-default-path service-management skip: ${output}`,
       );
     }
     if (command.planner) {
@@ -335,7 +335,7 @@ async function main() {
         output.includes(`[openclaw] planner: ${spec.model}`) &&
           output.includes(FAKE_PLANNER_REPLY) &&
           output.includes(`[openclaw] interpreted: ${plannerCommand}`),
-        `Zero to Agent first-run command ${command.id} did not use the verified planner: ${output}`,
+        `OpenAgent first-run command ${command.id} did not use the verified planner: ${output}`,
       );
     }
     const probesAfter = countInferencePrompts(await readFakeClaudePromptLines(promptLogPath));
@@ -343,7 +343,7 @@ async function main() {
     const minimumProbes = command.approve ? 2 : 1;
     assert(
       probeDelta >= minimumProbes,
-      `Zero to Agent command ${command.id} ran ${probeDelta} inference probes; expected at least ${minimumProbes} for preflight${command.approve ? " plus its persistent boundary" : ""}`,
+      `OpenAgent command ${command.id} ran ${probeDelta} inference probes; expected at least ${minimumProbes} for preflight${command.approve ? " plus its persistent boundary" : ""}`,
     );
   }
 
@@ -372,16 +372,13 @@ async function main() {
   );
   assert(resolveDefaultModel(config) === spec.model, "first-run setup did not write default model");
   const reef = config.agents?.entries?.[spec.agentId];
-  assert(reef, "Zero to Agent did not create reef agent");
-  assert(
-    reef.workspace === spec.dockerAgentWorkspace,
-    "Zero to Agent did not write reef workspace",
-  );
+  assert(reef, "OpenAgent did not create reef agent");
+  assert(reef.workspace === spec.dockerAgentWorkspace, "OpenAgent did not write reef workspace");
   assert(
     reef.model === undefined,
-    "Zero to Agent wrote a per-agent model instead of inheriting the verified default",
+    "OpenAgent wrote a per-agent model instead of inheriting the verified default",
   );
-  assert(config.channels?.discord?.enabled === true, "Zero to Agent did not enable Discord");
+  assert(config.channels?.discord?.enabled === true, "OpenAgent did not enable Discord");
   const discordToken = config.channels?.discord?.token;
   assert(
     discordToken &&
@@ -390,16 +387,16 @@ async function main() {
       discordToken.source === "env" &&
       "id" in discordToken &&
       discordToken.id === DISCORD_CREDENTIAL_ENV,
-    "Zero to Agent did not write Discord token SecretRef",
+    "OpenAgent did not write Discord token SecretRef",
   );
   assert(
     !JSON.stringify(config.channels.discord).includes(DISCORD_CREDENTIAL_FIXTURE),
-    "Zero to Agent persisted the raw Discord token",
+    "OpenAgent persisted the raw Discord token",
   );
   assert(config.channels?.telegram === undefined, "ambient Telegram credentials altered config");
   assert(
     !JSON.stringify(config).includes(spec.telegramToken),
-    "Zero to Agent persisted an unrelated ambient credential",
+    "OpenAgent persisted an unrelated ambient credential",
   );
 
   const audit = createSqliteAuditRecordStore<SystemAgentAuditEntry>({
@@ -413,7 +410,7 @@ async function main() {
     );
   }
 
-  console.log("Zero to Agent first-run Docker E2E passed");
+  console.log("OpenAgent first-run Docker E2E passed");
 }
 
 main().catch((err: unknown) => {

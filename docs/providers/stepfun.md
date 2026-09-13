@@ -1,7 +1,7 @@
 ---
-summary: "Use StepFun models with Zero to Agent"
+summary: "Use StepFun models with OpenAgent"
 read_when:
-  - You want StepFun models in Zero to Agent
+  - You want StepFun models in OpenAgent
   - You need StepFun setup guidance
 title: "StepFun"
 ---
@@ -232,7 +232,7 @@ A single auth flow writes region-matched profiles for both `stepfun` and `stepfu
   </Accordion>
 
   <Accordion title="Notes">
-    - `step-3.7-flash` accepts text and image input through Zero to Agent. StepFun's API also supports video, which Zero to Agent does not declare as an input modality for StepFun models.
+    - `step-3.7-flash` accepts text and image input through OpenAgent. StepFun's API also supports video, which OpenAgent does not declare as an input modality for StepFun models.
     - Step 3.7 supports `low`, `medium`, and `high` reasoning effort. Because the model has no non-reasoning mode, `/think off` maps to `low`.
     - `step-3.5-flash-2603` is exposed only on `stepfun-plan`.
     - Use `openclaw models list` and `openclaw models set <provider/model>` to inspect or switch models.

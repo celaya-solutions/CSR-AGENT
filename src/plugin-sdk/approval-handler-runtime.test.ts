@@ -16,7 +16,7 @@ function systemAgentView(state: Partial<SystemAgentView> = {}): SystemAgentView 
     approvalKind: "system-agent",
     approvalId: "system-agent:change",
     phase: "resolved",
-    title: "Zero to Agent change",
+    title: "OpenAgent change",
     metadata: [],
     commandText: "restart the Gateway",
     operationSummary: "restart the Gateway",
@@ -29,42 +29,42 @@ const cases: Array<{ state: Partial<SystemAgentView>; label: string; text: strin
   {
     state: {},
     label: "Allowed once",
-    text: "✅ Zero to Agent change approved. Applying: restart the Gateway",
+    text: "✅ OpenAgent change approved. Applying: restart the Gateway",
   },
   {
     state: { decision: "allow-always" },
     label: "Allowed always",
-    text: "✅ Zero to Agent change approved. Applying: restart the Gateway",
+    text: "✅ OpenAgent change approved. Applying: restart the Gateway",
   },
   {
     state: { decision: "deny" },
     label: "Denied",
-    text: "❌ Zero to Agent change denied. No change was made.",
+    text: "❌ OpenAgent change denied. No change was made.",
   },
   {
     state: { applicationStatus: "applied" },
     label: "Applied",
-    text: "✅ Zero to Agent change approved and applied: restart the Gateway",
+    text: "✅ OpenAgent change approved and applied: restart the Gateway",
   },
   {
     state: { applicationStatus: "not-applied" },
     label: "Not applied",
-    text: "⚠️ Zero to Agent change approved, but it was not applied. Check the Gateway and retry.",
+    text: "⚠️ OpenAgent change approved, but it was not applied. Check the Gateway and retry.",
   },
   {
     state: { decision: "deny", applicationStatus: "not-applied" },
     label: "Not applied",
-    text: "❌ Zero to Agent change denied. No change was made.",
+    text: "❌ OpenAgent change denied. No change was made.",
   },
   {
     state: { decision: "deny", applicationStatus: "applied" },
     label: "Applied",
-    text: "❌ Zero to Agent change denied. No change was made.",
+    text: "❌ OpenAgent change denied. No change was made.",
   },
   {
     state: { decision: "deny", applicationStatus: "applied", terminalStatus: "cancelled" },
     label: "Cancelled",
-    text: "⚠️ Zero to Agent change was cancelled because its run ended. No change was made. Retry.",
+    text: "⚠️ OpenAgent change was cancelled because its run ended. No change was made. Retry.",
   },
 ];
 
@@ -93,7 +93,7 @@ describe("approval terminal presentation", () => {
       approvalKind: "system-agent",
       id: "system-agent:change",
       request: {
-        title: "Zero to Agent change",
+        title: "OpenAgent change",
         description: "restart the Gateway",
         command: "restart the Gateway",
         proposalHash: "a".repeat(64),
@@ -109,6 +109,6 @@ describe("approval terminal presentation", () => {
         resolved: { id: request.id, decision: "deny", ts: 1 },
         view: systemAgentView({ applicationStatus: "applied" }),
       }),
-    ).toBe("❌ Zero to Agent change denied. No change was made.");
+    ).toBe("❌ OpenAgent change denied. No change was made.");
   });
 });

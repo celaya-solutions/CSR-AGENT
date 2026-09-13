@@ -30,7 +30,7 @@ async function resolveDashboardTarget() {
   const snapshot = await readConfigFileSnapshot();
   if (snapshot.exists && !snapshot.valid) {
     throw new Error(
-      `Zero to Agent config is invalid: ${snapshot.path}. Run \`openclaw doctor --fix\` or \`openclaw config validate\`.`,
+      `OpenAgent config is invalid: ${snapshot.path}. Run \`openclaw doctor --fix\` or \`openclaw config validate\`.`,
     );
   }
   return await resolveControlUiHandoffTarget({
@@ -233,7 +233,7 @@ export async function dashboardCommand(
     options.noOpen === true && (fallbackToManualAuth || fallbackToJsonHandoff);
 
   if (opened) {
-    runtime.log("Opened in your browser. Keep that tab to control Zero to Agent.");
+    runtime.log("Opened in your browser. Keep that tab to control OpenAgent.");
   } else if (hint && !suppressNoOpenHint) {
     runtime.log(hint);
   }

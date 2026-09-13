@@ -609,7 +609,7 @@ export async function inspectLlamaServerRuntime(params: {
     model: { id: params.modelId, ...(pathValue ? { path: pathValue } : {}) },
     capabilities: {
       vision: modalities?.vision === true,
-      // Zero to Agent does not configure a draft model in the managed preset.
+      // OpenAgent does not configure a draft model in the managed preset.
       draft: false,
     },
     endpoints: {

@@ -1,6 +1,6 @@
 # @openclaw/diffs
 
-Read-only diff viewer plugin for **Zero to Agent** agents.
+Read-only diff viewer plugin for **OpenAgent** agents.
 
 ## Install
 
@@ -127,7 +127,7 @@ Explicit tool parameters still win over these defaults.
 
 - Plugin id: `diffs`
 - Package: `@openclaw/diffs`
-- Minimum Zero to Agent host: `2026.4.30`
+- Minimum OpenAgent host: `2026.4.30`
 
 Security options:
 
@@ -180,10 +180,10 @@ Use the `diffs` tool in `file` mode for this before and after input. After it re
 Path: README.md
 
 Before:
-Zero to Agent supports plugins.
+OpenAgent supports plugins.
 
 After:
-Zero to Agent supports plugins and hosted diff views.
+OpenAgent supports plugins and hosted diff views.
 ```
 
 Do both:

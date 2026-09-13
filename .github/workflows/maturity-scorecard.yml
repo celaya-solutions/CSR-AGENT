@@ -8,7 +8,7 @@ on:
         required: false
         type: string
       ref:
-        description: OpenClaw branch, tag, or SHA containing the maturity score source
+        description: OpenAgent branch, tag, or SHA containing the maturity score source
         required: true
         default: main
         type: string
@@ -35,7 +35,7 @@ on:
         default: ""
         type: string
       ref:
-        description: OpenClaw branch, tag, or SHA containing the maturity score source
+        description: OpenAgent branch, tag, or SHA containing the maturity score source
         required: true
         type: string
       expected_sha:

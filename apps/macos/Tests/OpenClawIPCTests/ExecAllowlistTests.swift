@@ -1,7 +1,7 @@
 import CryptoKit
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 /// These cases cover optional `security=allowlist` behavior.
 struct ExecAllowlistTests {

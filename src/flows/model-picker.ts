@@ -333,7 +333,7 @@ function resolveModelRouteHint(params: {
   return runtime === "codex"
     ? "Codex runtime route"
     : runtime === "openclaw"
-      ? "Zero to Agent runtime route"
+      ? "OpenAgent runtime route"
       : undefined;
 }
 

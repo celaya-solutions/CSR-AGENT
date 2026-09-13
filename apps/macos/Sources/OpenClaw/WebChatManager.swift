@@ -230,7 +230,7 @@ final class WebChatManager {
         let controller = WebChatSwiftUIWindowController(
             sessionKey: transport.sessionKey,
             transport: transport,
-            windowTitle: "OpenClaw Swarm Fixture",
+            windowTitle: "OpenAgent Swarm Fixture",
             windowAutosaveName: "OpenClawSwarmFixture")
         controller.onClosed = { [weak self, weak controller] in
             guard let self, let controller, self.windowController === controller else { return }
@@ -327,7 +327,7 @@ final class WebChatManager {
             agentID: route.agentID,
             connection: connection,
             gatewayID: chatStoreID,
-            windowTitle: "\(name) — OpenClaw",
+            windowTitle: "\(name) — OpenAgent",
             windowAutosaveName: "OpenClawChatWindow-\(autosaveID)")
         controller.onVisibilityChanged = { [weak self, weak controller] visible in
             guard let self, let controller else { return }

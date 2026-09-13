@@ -599,7 +599,7 @@ describe("Codex plugin activation", () => {
     expect(request).toHaveBeenCalledTimes(1);
   });
 
-  it("requires workspace-directory plugins to be activated outside Zero to Agent", async () => {
+  it("requires workspace-directory plugins to be activated outside OpenAgent", async () => {
     const request = vi.fn(async () => {
       throw new Error("workspace activation must not call app-server");
     });
@@ -616,7 +616,7 @@ describe("Codex plugin activation", () => {
       reason: "disabled",
       installAttempted: false,
     });
-    expect(result.diagnostics[0]?.message).toContain("installed and enabled outside Zero to Agent");
+    expect(result.diagnostics[0]?.message).toContain("installed and enabled outside OpenAgent");
     expect(request).not.toHaveBeenCalled();
   });
 

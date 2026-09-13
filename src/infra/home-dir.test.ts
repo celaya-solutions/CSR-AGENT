@@ -1,4 +1,4 @@
-// Tests Zero to Agent home directory resolution.
+// Tests OpenAgent home directory resolution.
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import {

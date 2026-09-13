@@ -76,7 +76,7 @@ function approvalNotificationCopy(params: {
   const agent = params.agentLabel ? ` for ${params.agentLabel}` : "";
   if (params.terminal) {
     return {
-      title: `${label}Zero to Agent approval updated`,
+      title: `${label}OpenAgent approval updated`,
       body:
         params.preferences.detailLevel === "private"
           ? "This approval is no longer pending."
@@ -84,11 +84,11 @@ function approvalNotificationCopy(params: {
     };
   }
   return {
-    title: `${label}Zero to Agent approval requested`,
+    title: `${label}OpenAgent approval requested`,
     body:
       params.preferences.detailLevel === "private"
-        ? "Open Zero to Agent to review this request."
-        : `Open Zero to Agent to review an approval${agent}.`,
+        ? "Open OpenAgent to review this request."
+        : `Open OpenAgent to review an approval${agent}.`,
   };
 }
 

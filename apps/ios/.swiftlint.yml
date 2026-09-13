@@ -22,7 +22,7 @@ type_body_length:
 
 custom_rules:
   openclaw_design_colors:
-    name: "OpenClaw design colors"
+    name: "OpenAgent design colors"
     excluded:
       - Sources/Design/OpenClawBrand.swift
       - ../shared/OpenClawKit/Sources/OpenClawChatUI/ChatTheme.swift

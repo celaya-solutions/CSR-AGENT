@@ -1,7 +1,7 @@
-# Zero to Agent
+# OpenAgent
 
 ```
-Document:    Zero to Agent README
+Document:    OpenAgent README
 Version:     v1.0.0
 Author:      Celaya Solutions
 Contact:     hello@celayasolutions.com
@@ -12,7 +12,7 @@ Tx:          [not anchored]
 License:     MIT (see LICENSE)
 ```
 
-Zero to Agent is the course edition of an open-source AI assistant. It runs on
+OpenAgent is the course edition of an open-source AI assistant. It runs on
 your own machine and meets you in the chat apps you already use — Discord,
 Slack, Telegram, WhatsApp, iMessage, and more — with companion apps for macOS,
 iOS, Android, Windows, and Linux.
@@ -96,10 +96,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md).
 
 ## License
 
-[MIT](LICENSE) © OpenClaw Foundation. See
+[MIT](LICENSE) © Celaya Solutions. See
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for incorporated or adapted
 code.
 
-Zero to Agent is a derivative of
+OpenAgent is a derivative of
 [OpenClaw](https://github.com/openclaw/openclaw) and is not endorsed by the
 OpenClaw Foundation. See [NOTICE.md](NOTICE.md).

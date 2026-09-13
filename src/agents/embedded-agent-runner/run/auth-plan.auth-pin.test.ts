@@ -44,7 +44,7 @@ const platformModel: Model = {
 
 const openClawHarness: AgentHarness = {
   id: "openclaw",
-  label: "Zero to Agent fixture",
+  label: "OpenAgent fixture",
   supports: () => ({ supported: true }),
   runAttempt: async () => {
     throw new Error("Auth preparation must not execute a model turn");

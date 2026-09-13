@@ -2,7 +2,7 @@
  * Credential storage facade for API keys and OAuth tokens.
  * Canonical persistence is the per-agent SQLite auth-profile store.
  *
- * The backend contract keeps the upstream session SDK shape while Zero to Agent
+ * The backend contract keeps the upstream session SDK shape while OpenAgent
  * projects provider-default profiles into it.
  */
 

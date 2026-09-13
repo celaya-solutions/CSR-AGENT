@@ -17,7 +17,7 @@ describe("qa compaction scenario catalog", () => {
       summaryMarker: "QA-COMPACTION-REASONING-RECOVERED-SUMMARY",
     },
   ])(
-    "keeps $id on the Zero to Agent compaction owner",
+    "keeps $id on the OpenAgent compaction owner",
     ({ id, coverage, faultMode, summaryMarker }) => {
       const scenario = requireFlowScenario(readQaScenarioById(id));
       const flow = JSON.stringify(scenario.execution.flow);
@@ -55,7 +55,7 @@ describe("qa compaction scenario catalog", () => {
     },
   );
 
-  it("assigns compaction retry and pruning to Zero to Agent with an early Codex gap", () => {
+  it("assigns compaction retry and pruning to OpenAgent with an early Codex gap", () => {
     const scenario = requireFlowScenario(readQaScenarioById("compaction-retry-mutating-tool"));
     const flow = JSON.stringify(scenario.execution.flow);
     const serializedScenario = JSON.stringify(scenario);
@@ -119,13 +119,13 @@ describe("qa compaction scenario catalog", () => {
     ]);
     expect(scenario.coverage?.secondary ?? []).toEqual([]);
     expect(scenario.successCriteria).toContain(
-      "One coded over-threshold provider overflow produces one persisted Zero to Agent overflow compaction and one compacted retry retaining durable current context.",
+      "One coded over-threshold provider overflow produces one persisted OpenAgent overflow compaction and one compacted retry retaining durable current context.",
     );
     expect(scenario.successCriteria).toContain(
-      "Zero to Agent performs exactly one successful write, then one terminal continuation after zero-or-more causally linked waits, and returns the exact file content and final marker.",
+      "OpenAgent performs exactly one successful write, then one terminal continuation after zero-or-more causally linked waits, and returns the exact file content and final marker.",
     );
     expect(scenario.successCriteria).toContain(
-      "Zero to Agent proves session-memory.pruning by retaining a nonempty contiguous suffix ending at block 15 while pruning marker block 10.",
+      "OpenAgent proves session-memory.pruning by retaining a nonempty contiguous suffix ending at block 15 while pruning marker block 10.",
     );
     expect(scenario.successCriteria).toContain(
       "The Codex runtime-pair cell reports a known harness gap before gateway, session, or provider work and makes no compaction coverage claim.",

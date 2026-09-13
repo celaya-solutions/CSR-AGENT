@@ -1,11 +1,11 @@
-# Zero to Agent Microsoft Teams
+# OpenAgent Microsoft Teams
 
-Official Zero to Agent channel plugin for Microsoft Teams bot conversations.
+Official OpenAgent channel plugin for Microsoft Teams bot conversations.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/msteams
 ```
 
-Configure the Teams bot credentials and trusted service URLs in Zero to Agent, then connect the bot to the teams or chats where agents should operate.
+Configure the Teams bot credentials and trusted service URLs in OpenAgent, then connect the bot to the teams or chats where agents should operate.

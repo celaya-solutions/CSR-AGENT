@@ -123,9 +123,7 @@ registerOpenClawStateDatabaseLifecycleListener((event) => {
   } else {
     snapshotsByPath.set(event.path, {
       kind: "state-error",
-      error: new Error(
-        "Zero to Agent state database closed before consent provenance verification.",
-      ),
+      error: new Error("OpenAgent state database closed before consent provenance verification."),
       knownAgentIds: knownAgentIds(previous),
       ownershipUnknown: isOwnershipUnknown(previous),
     });
@@ -163,7 +161,7 @@ export function initializeCachedClawInstallSchemaVersions(
           ? {
               kind: "state-error",
               error: new Error(
-                "Zero to Agent state database disappeared after Claw ownership was observed.",
+                "OpenAgent state database disappeared after Claw ownership was observed.",
               ),
               knownAgentIds: previousAgentIds,
               ownershipUnknown: true,

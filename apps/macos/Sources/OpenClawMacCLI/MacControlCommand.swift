@@ -82,7 +82,7 @@ private func printMacControlResult(_ data: Data, operation: String, primaryOnly:
     let decoder = JSONDecoder()
     if operation == "status", !primaryOnly {
         let status = try decoder.decode(MacControlStatus.self, from: data)
-        print("OpenClaw \(status.app.version) (\(status.app.build)) · profile \(status.app.profile)")
+        print("OpenAgent \(status.app.version) (\(status.app.build)) · profile \(status.app.profile)")
         print("NAME\tKIND\tCONNECTION\tURL")
         print("Primary\t\(status.primary.mode)\t\(status.primary.connection.state)\t\(status.primary.url)")
         for gateway in status.gateways {

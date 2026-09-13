@@ -565,7 +565,7 @@ function readBridgeableApprovalElicitation(
       meta: requestParams["_meta"],
       requestedSchema,
       serverName: sanitizeOptionalDisplayText(serverName),
-      // Only Zero to Agent-configured servers have a `mcp configure` remedy; plugin
+      // Only OpenAgent-configured servers have a `mcp configure` remedy; plugin
       // and computer-use prompts are governed by their own policies.
       remedy: serverName ? formatMcpCodexApprovalRemedy(serverName) : undefined,
     }),

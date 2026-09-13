@@ -84,7 +84,7 @@ suite.define(() => {
             },
             "agents.list": {
               agents: [
-                { id: "main", name: "Zero to Agent" },
+                { id: "main", name: "OpenAgent" },
                 { id: "writer", name: "Writer" },
               ],
               defaultId: "main",

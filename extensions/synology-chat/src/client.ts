@@ -173,7 +173,7 @@ export async function sendMessage(
 }
 
 /**
- * Send a Zero to Agent-hosted immutable file URL to Synology Chat.
+ * Send an OpenAgent-hosted immutable file URL to Synology Chat.
  */
 export async function sendHostedFileUrl(
   incomingUrl: string,

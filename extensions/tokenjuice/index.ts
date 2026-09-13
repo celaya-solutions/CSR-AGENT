@@ -1,4 +1,4 @@
-// Tokenjuice plugin entrypoint registers its Zero to Agent integration.
+// Tokenjuice plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { createTokenjuiceAgentToolResultMiddleware } from "./tool-result-middleware.js";
 

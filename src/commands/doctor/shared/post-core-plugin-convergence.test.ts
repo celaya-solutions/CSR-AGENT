@@ -270,7 +270,7 @@ describe("runPostCorePluginConvergence", () => {
       onPackageReadError: expect.any(Function),
     });
     expect(result.changes).toEqual([
-      "Repaired Zero to Agent host peer link(s) for 1 managed npm plugin package(s).",
+      "Repaired OpenAgent host peer link(s) for 1 managed npm plugin package(s).",
     ]);
     expect(
       mocks.relinkOpenClawPeerDependenciesInManagedNpmRoot.mock.invocationCallOrder[0],
@@ -694,7 +694,7 @@ describe("runPostCorePluginConvergence", () => {
     const message =
       'Plugin "brave" failed post-core payload smoke check (unreadable-package-json): Could not read package.json at /p/brave/package.json: EACCES: permission denied';
     const guidance = [
-      "Fix file access for /p/brave/package.json so it is readable by the user running Zero to Agent. For EACCES or EPERM, correct its ownership or permissions; otherwise resolve the reported filesystem I/O error, then retry.",
+      "Fix file access for /p/brave/package.json so it is readable by the user running OpenAgent. For EACCES or EPERM, correct its ownership or permissions; otherwise resolve the reported filesystem I/O error, then retry.",
       "Run `openclaw plugins inspect brave --runtime --json` for details.",
     ];
     expect(result.warnings).toStrictEqual([
@@ -854,10 +854,9 @@ describe("runPostCorePluginConvergence", () => {
 
     expect(result.warnings).toStrictEqual([
       {
-        reason:
-          "Failed to repair managed npm Zero to Agent host peer links: EACCES: permission denied",
+        reason: "Failed to repair managed npm OpenAgent host peer links: EACCES: permission denied",
         message:
-          "Failed to repair managed npm Zero to Agent host peer links: EACCES: permission denied",
+          "Failed to repair managed npm OpenAgent host peer links: EACCES: permission denied",
         guidance: ["Run `openclaw update repair` to retry plugin repair."],
       },
     ]);

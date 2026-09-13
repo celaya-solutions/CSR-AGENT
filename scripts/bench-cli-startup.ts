@@ -1,4 +1,4 @@
-// Bench Cli Startup script supports OpenClaw repository automation.
+// Bench Cli Startup script supports OpenAgent repository automation.
 import { execFileSync, spawn } from "node:child_process";
 import {
   mkdirSync,
@@ -1560,7 +1560,7 @@ function parseOptions(): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`OpenClaw CLI benchmark
+  console.log(`OpenAgent CLI benchmark
 
 Usage:
   pnpm tsx scripts/bench-cli-startup.ts [options]

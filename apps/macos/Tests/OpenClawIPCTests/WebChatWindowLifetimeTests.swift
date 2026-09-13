@@ -1,7 +1,7 @@
 import AppKit
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawChatUI
 
 @MainActor

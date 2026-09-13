@@ -74,7 +74,7 @@ export type ExtensionRelayHandle = {
   port: number;
   token: string;
   allowLegacyAuth: boolean;
-  /** Process-only Basic credential for Zero to Agent's own CDP client. Never persisted or printed. */
+  /** Process-only Basic credential for OpenAgent's own CDP client. Never persisted or printed. */
   internalToken: string;
   bridge: ExtensionRelayBridge;
   close: () => Promise<void>;
@@ -400,7 +400,7 @@ export async function startExtensionRelayServer(params: {
         if (existingState.flow === "cdp" && req.method === "GET" && req.url === "/json/version") {
           if (!bridge.extensionConnected) {
             clearSocketState(socket);
-            rejectHttp(res, 503, "Zero to Agent Chrome extension is not connected");
+            rejectHttp(res, 503, "OpenAgent Chrome extension is not connected");
             return;
           }
           res.once("finish", () => {
@@ -448,7 +448,7 @@ export async function startExtensionRelayServer(params: {
         if (!bridge.extensionConnected) {
           writeJson(res, 503, {
             error:
-              "Zero to Agent Chrome extension is not connected. Install the extension and pair it with `openclaw browser extension pair`.",
+              "OpenAgent Chrome extension is not connected. Install the extension and pair it with `openclaw browser extension pair`.",
           });
           return;
         }

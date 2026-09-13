@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EventHub, OpenClaw, normalizeGatewayEvent } from "./index.js";
+import { EventHub, OpenAgent, normalizeGatewayEvent } from "./index.js";
 import type {
   GatewayEvent,
   GatewayRequestOptions,
@@ -120,10 +120,10 @@ function requireTransportCall(calls: readonly RequestCall[], index: number): Req
 
 function createClientFixture(responses: Record<string, FakeResponse> = {}) {
   const transport = new FakeTransport(responses);
-  return { transport, oc: new OpenClaw({ transport }) };
+  return { transport, oc: new OpenAgent({ transport }) };
 }
 
-async function observeGatewaySequence(oc: OpenClaw, seq: number): Promise<OpenClawEvent> {
+async function observeGatewaySequence(oc: OpenAgent, seq: number): Promise<OpenClawEvent> {
   for await (const event of oc.events((eventLocal) => eventLocal.raw?.seq === seq)) {
     return event;
   }
@@ -190,7 +190,7 @@ function createRunEventFixture(runId: string, sessionKey: string, events: readon
   });
 }
 
-describe("Zero to Agent SDK", () => {
+describe("OpenAgent SDK", () => {
   it("runs an agent through the Gateway agent method", async () => {
     const { transport, oc } = createClientFixture({
       agent: { status: "accepted", runId: "run_123" },
@@ -450,7 +450,7 @@ describe("Zero to Agent SDK", () => {
         approvals: "ask",
       }),
     ).rejects.toThrow(
-      "Zero to Agent Gateway does not support per-run SDK options yet: workspace, runtime, environment, approvals",
+      "OpenAgent Gateway does not support per-run SDK options yet: workspace, runtime, environment, approvals",
     );
   });
 
@@ -715,7 +715,7 @@ describe("Zero to Agent SDK", () => {
       status: "unavailable",
     });
     await expect(oc.environments.delete("worker_123")).rejects.toThrow(
-      "oc.environments.delete is not supported by the current Zero to Agent Gateway yet",
+      "oc.environments.delete is not supported by the current OpenAgent Gateway yet",
     );
     expect(transport.calls).toEqual([
       { method: "environments.list", params: {}, options: undefined },
@@ -796,19 +796,19 @@ describe("Zero to Agent SDK", () => {
     const transport = new DelayedConnectTransport({
       "agents.list": { agents: [] },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new OpenAgent({ transport });
 
     const connect = oc.connect();
     const close = oc.close();
     transport.finishConnect();
 
-    await expect(connect).rejects.toThrow("Zero to Agent SDK client is closed");
+    await expect(connect).rejects.toThrow("OpenAgent SDK client is closed");
     await close;
-    await expect(oc.agents.list()).rejects.toThrow("Zero to Agent SDK client is closed");
+    await expect(oc.agents.list()).rejects.toThrow("OpenAgent SDK client is closed");
     await expect(oc.events()[Symbol.asyncIterator]().next()).rejects.toThrow(
-      "Zero to Agent SDK client is closed",
+      "OpenAgent SDK client is closed",
     );
-    expect(() => oc.rawEvents()).toThrow("Zero to Agent SDK client is closed");
+    expect(() => oc.rawEvents()).toThrow("OpenAgent SDK client is closed");
     expect(transport.connectCalls).toBe(1);
     expect(transport.calls).toEqual([]);
   });
@@ -843,13 +843,13 @@ describe("Zero to Agent SDK", () => {
     const transport = new ClosingEventPumpTransport({
       "agents.list": { agents: [] },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new OpenAgent({ transport });
     let closePromise: Promise<void> | undefined;
     transport.onFirstEventPoll = () => {
       closePromise = oc.close();
     };
 
-    await expect(oc.agents.list()).rejects.toThrow("Zero to Agent SDK client is closed");
+    await expect(oc.agents.list()).rejects.toThrow("OpenAgent SDK client is closed");
     await closePromise;
     expect(transport.calls).toEqual([]);
   });
@@ -915,7 +915,7 @@ describe("Zero to Agent SDK", () => {
         };
       },
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new OpenAgent({ transport });
     const iterator = oc.events()[Symbol.asyncIterator]();
     let futureIterator: AsyncIterator<OpenClawEvent> | undefined;
 
@@ -947,7 +947,7 @@ describe("Zero to Agent SDK", () => {
           }
         },
       });
-      const oc = new OpenClaw({ transport });
+      const oc = new OpenAgent({ transport });
       const run = await oc.runs.get("run_pump_failure");
       let iterator: AsyncIterator<OpenClawEvent> | undefined;
 
@@ -1173,9 +1173,9 @@ describe("Zero to Agent SDK", () => {
       );
       expect(seen.at(-1)?.data).toEqual({ text, delta: " 501" });
       await expect(run.events()[Symbol.asyncIterator]().next()).rejects.toThrow(
-        "Zero to Agent SDK client is closed",
+        "OpenAgent SDK client is closed",
       );
-      await expect(oc.connect()).rejects.toThrow("Zero to Agent SDK client is closed");
+      await expect(oc.connect()).rejects.toThrow("OpenAgent SDK client is closed");
     } finally {
       await iterator?.return?.();
       await oc.close();

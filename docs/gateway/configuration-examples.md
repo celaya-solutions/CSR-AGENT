@@ -1,9 +1,9 @@
 ---
-summary: "Schema-accurate configuration examples for common Zero to Agent setups"
+summary: "Schema-accurate configuration examples for common OpenAgent setups"
 read_when:
-  - Learning how to configure Zero to Agent
+  - Learning how to configure OpenAgent
   - Looking for configuration examples
-  - Setting up Zero to Agent for the first time
+  - Setting up OpenAgent for the first time
 title: "Configuration examples"
 ---
 

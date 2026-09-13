@@ -177,7 +177,7 @@ struct MacControlClient {
         MacControlError(
             code: "unreachable",
             message: """
-            OpenClaw app is not reachable for this profile. \
+            OpenAgent app is not reachable for this profile. \
             Start the app or retry with --launch and a longer --timeout.
             """)
     }

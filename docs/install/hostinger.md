@@ -1,29 +1,29 @@
 ---
-summary: "Host Zero to Agent on Hostinger"
+summary: "Host OpenAgent on Hostinger"
 read_when:
-  - Setting up Zero to Agent on Hostinger
-  - Looking for a managed VPS for Zero to Agent
-  - Using Hostinger 1-Click Zero to Agent
+  - Setting up OpenAgent on Hostinger
+  - Looking for a managed VPS for OpenAgent
+  - Using Hostinger 1-Click OpenAgent
 title: "Hostinger"
 ---
 
-Run a persistent Zero to Agent Gateway on [Hostinger](https://www.hostinger.com/openclaw). Choose a **1-Click** managed deployment, or a **VPS** install you administer yourself.
+Run a persistent OpenAgent Gateway on [Hostinger](https://www.hostinger.com/openclaw). Choose a **1-Click** managed deployment, or a **VPS** install you administer yourself.
 
 ## Prerequisites
 
 - Hostinger account ([signup](https://www.hostinger.com/openclaw))
 - About 5-10 minutes
 
-## Option A: 1-Click Zero to Agent
+## Option A: 1-Click OpenAgent
 
 Hostinger handles infrastructure, Docker, and automatic updates. Fastest path to a running instance.
 
 <Steps>
   <Step title="Purchase and launch">
-    1. From the [Hostinger Zero to Agent page](https://www.hostinger.com/openclaw), choose a Managed Zero to Agent plan and complete checkout.
+    1. From the [Hostinger OpenAgent page](https://www.hostinger.com/openclaw), choose a Managed OpenAgent plan and complete checkout.
 
     <Note>
-    During checkout you can select **Ready-to-Use AI** credits. These credits are pre-purchased and integrated instantly inside Zero to Agent. You need no external accounts or API keys from other providers. You can start chatting right away. Alternatively, provide your own key from Anthropic, OpenAI, Google Gemini, or xAI during setup.
+    During checkout you can select **Ready-to-Use AI** credits. These credits are pre-purchased and integrated instantly inside OpenAgent. You need no external accounts or API keys from other providers. You can start chatting right away. Alternatively, provide your own key from Anthropic, OpenAI, Google Gemini, or xAI during setup.
     </Note>
 
   </Step>
@@ -37,26 +37,26 @@ Hostinger handles infrastructure, Docker, and automatic updates. Fastest path to
   </Step>
 
   <Step title="Complete installation">
-    Click **Finish** to deploy the instance. Once ready, access the Zero to Agent dashboard from **Zero to Agent Overview** in hPanel.
+    Click **Finish** to deploy the instance. Once ready, access the OpenAgent dashboard from **OpenAgent Overview** in hPanel.
   </Step>
 
 </Steps>
 
-## Option B: Zero to Agent on VPS
+## Option B: OpenAgent on VPS
 
-More control over the server. Hostinger deploys Zero to Agent via Docker on your VPS. You manage it through the **Docker Manager** in hPanel.
+More control over the server. Hostinger deploys OpenAgent via Docker on your VPS. You manage it through the **Docker Manager** in hPanel.
 
 <Steps>
   <Step title="Purchase a VPS">
-    1. From the [Hostinger Zero to Agent page](https://www.hostinger.com/openclaw), choose a Zero to Agent on VPS plan and complete checkout.
+    1. From the [Hostinger OpenAgent page](https://www.hostinger.com/openclaw), choose an OpenAgent on VPS plan and complete checkout.
 
     <Note>
-    You can select **Ready-to-Use AI** credits during checkout. These credits are pre-purchased and integrated instantly inside Zero to Agent. You can start chatting without any external accounts or API keys from other providers.
+    You can select **Ready-to-Use AI** credits during checkout. These credits are pre-purchased and integrated instantly inside OpenAgent. You can start chatting without any external accounts or API keys from other providers.
     </Note>
 
   </Step>
 
-  <Step title="Configure Zero to Agent">
+  <Step title="Configure OpenAgent">
     Once the VPS is provisioned, fill in the configuration fields:
 
     - **Gateway token** -- auto-generated. Save it for later use.
@@ -66,8 +66,8 @@ More control over the server. Hostinger deploys Zero to Agent via Docker on your
 
   </Step>
 
-  <Step title="Start Zero to Agent">
-    Click **Deploy**. Once running, open the Zero to Agent dashboard from the hPanel by clicking on **Open**.
+  <Step title="Start OpenAgent">
+    Click **Deploy**. Once running, open the OpenAgent dashboard from the hPanel by clicking on **Open**.
   </Step>
 
 </Steps>
@@ -76,7 +76,7 @@ Logs, restarts, and updates run from the Docker Manager interface in hPanel. To 
 
 ## Verify your setup
 
-Send "Hi" to your assistant on the channel you connected. Zero to Agent replies and walks you through initial preferences.
+Send "Hi" to your assistant on the channel you connected. OpenAgent replies and walks you through initial preferences.
 
 ## Troubleshooting
 
@@ -84,7 +84,7 @@ Send "Hi" to your assistant on the channel you connected. Zero to Agent replies 
 
 **Docker container keeps restarting** -- Open Docker Manager logs and look for configuration errors (missing tokens, invalid API keys).
 
-**Telegram bot not responding** -- With DM pairing required, an unknown sender gets a short pairing code, not a reply. Approve it from the Zero to Agent dashboard chat. You can also run `openclaw pairing approve telegram <CODE>` if you have shell access to the container. See [Pairing](/channels/pairing).
+**Telegram bot not responding** -- With DM pairing required, an unknown sender gets a short pairing code, not a reply. Approve it from the OpenAgent dashboard chat. You can also run `openclaw pairing approve telegram <CODE>` if you have shell access to the container. See [Pairing](/channels/pairing).
 
 ## Next steps
 

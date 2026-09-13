@@ -138,7 +138,7 @@ func runConfigureRemote(_ args: [String], context: MacCLIContext) {
               --token <token>     Deprecated: use --token-file or --token-stdin.
               --password <pw>     Deprecated: use --password-file or --password-stdin.
               --identity <path>   SSH identity file.
-              --project-root <p>  Remote OpenClaw checkout for CLI commands.
+              --project-root <p>  Remote OpenAgent checkout for CLI commands.
               --cli-path <path>   Remote openclaw executable or entrypoint.
               --json              Emit JSON.
               -h, --help          Show help.
@@ -507,7 +507,7 @@ private func printConfigureRemoteOutput(_ output: ConfigureRemoteOutput, json: B
         }
         return
     }
-    print("OpenClaw macOS Remote Config")
+    print("OpenAgent macOS Remote Config")
     print("Status: \(output.status)")
     print("Config: \(output.configPath)")
     print("Mode: \(output.mode)")

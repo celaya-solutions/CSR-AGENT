@@ -1,5 +1,5 @@
 ---
-summary: "When Zero to Agent shows typing indicators and how to tune them"
+summary: "When OpenAgent shows typing indicators and how to tune them"
 read_when:
   - Changing typing indicator behavior or defaults
 title: "Typing indicators"

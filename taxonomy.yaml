@@ -1,7 +1,7 @@
 version: 1
 process_version: 3
 title: Maturity scorecard
-summary: Draft maturity scorecard model for OpenClaw subsystems, features, apps, and platforms.
+summary: Draft maturity scorecard model for OpenAgent subsystems, features, apps, and platforms.
 snapshot:
   date: "2026-05-26"
   source_ref: origin/main@41eef4a7965
@@ -764,19 +764,19 @@ surfaces:
         features:
           - name: Installer scripts
             coverageIds: [cli.installer-scripts]
-            description: Hosted installer scripts set up Node, install OpenClaw, and optionally start onboarding.
+            description: Hosted installer scripts set up Node, install OpenAgent, and optionally start onboarding.
           - name: Local prefix install
             coverageIds: [cli.local-prefix-install]
-            description: The local-prefix installer keeps Node and OpenClaw under a dedicated OpenClaw directory instead of relying on a system-wide runtime.
+            description: The local-prefix installer keeps Node and OpenAgent under a dedicated OpenAgent directory instead of relying on a system-wide runtime.
           - name: Package-manager installs
             coverageIds: [cli.package-manager-installs]
             description: npm, pnpm, and bun global installs are supported when the operator manages Node directly, including PATH wiring expectations.
           - name: Supported Node runtime
             coverageIds: [cli.supported-node-runtime]
-            description: OpenClaw documents the supported Node versions and recommended runtime before normal CLI workflows continue.
+            description: OpenAgent documents the supported Node versions and recommended runtime before normal CLI workflows continue.
           - name: Source checkout install
             coverageIds: [cli.source-checkout-install]
-            description: Operators can run OpenClaw from a source checkout for development or recovery workflows, and update flows distinguish this path from package installs.
+            description: Operators can run OpenAgent from a source checkout for development or recovery workflows, and update flows distinguish this path from package installs.
           - name: CLI entrypoint
             coverageIds: [cli.cli-entrypoint]
             description: The packaged openclaw launcher, openclaw --help, openclaw --version, runtime preflight, and basic recovery expectations are documented.
@@ -2849,13 +2849,13 @@ surfaces:
         features:
           - name: Channel Identity
             coverageIds: [security.channel-identity]
-            description: "Covers Channel Identity across who can talk to OpenClaw through message channels: DM pairing codes, pairing stores, `dmPolicy`, `allowFrom`, and related channel identity, allowlists, and sender pairing behavior."
+            description: "Covers Channel Identity across who can talk to OpenAgent through message channels: DM pairing codes, pairing stores, `dmPolicy`, `allowFrom`, and related channel identity, allowlists, and sender pairing behavior."
           - name: Allowlists
             coverageIds: [security.allowlists]
-            description: "Covers Allowlists across who can talk to OpenClaw through message channels: DM pairing codes, pairing stores, `dmPolicy`, `allowFrom`, and related channel identity, allowlists, and sender pairing behavior."
+            description: "Covers Allowlists across who can talk to OpenAgent through message channels: DM pairing codes, pairing stores, `dmPolicy`, `allowFrom`, and related channel identity, allowlists, and sender pairing behavior."
           - name: Sender Pairing
             coverageIds: [security.sender-pairing]
-            description: "Covers Sender Pairing across who can talk to OpenClaw through message channels: DM pairing codes, pairing stores, `dmPolicy`, `allowFrom`, and related channel identity, allowlists, and sender pairing behavior."
+            description: "Covers Sender Pairing across who can talk to OpenAgent through message channels: DM pairing codes, pairing stores, `dmPolicy`, `allowFrom`, and related channel identity, allowlists, and sender pairing behavior."
         docs:
           - docs/channels/pairing.md
           - docs/channels/telegram.md
@@ -4774,7 +4774,7 @@ surfaces:
         features:
           - name: Plugin catalog search
             coverageIds: [clawhub.plugin-catalog-search]
-            description: OpenClaw plugin search resolves ClawHub package lookup results.
+            description: OpenAgent plugin search resolves ClawHub package lookup results.
           - name: Search result metadata
             coverageIds: [clawhub.search-result-metadata]
             description: Search results include package identity, channel, version, summary, compatibility, and source metadata.
@@ -4911,7 +4911,7 @@ surfaces:
             description: npm-pack local release-candidate installs through npm semantics
           - name: Dependency ownership between plugin packages
             coverageIds: [clawhub.dependency-ownership-between-plugin-packages]
-            description: Dependency ownership between plugin packages and OpenClaw
+            description: Dependency ownership between plugin packages and OpenAgent
           - name: Peer dependency relinking
             coverageIds: [clawhub.peer-dependency-relinking]
             description: Peer dependency relinking for openclaw/plugin-sdk/*
@@ -4971,11 +4971,11 @@ surfaces:
       source_ref: null
       process_version: 3
   - id: app-sdk
-    name: OpenClaw App SDK
+    name: OpenAgent App SDK
     family: core
     level: alpha
     level_code: M2
-    rationale: OpenClaw App SDK is a distinct external app contract separate from Gateway runtime and Plugin SDK. Current scoring shows a real `@openclaw/sdk` path with gaps around public packaging, auto-discovery, approvals, helpers, and compatibility.
+    rationale: OpenAgent App SDK is a distinct external app contract separate from Gateway runtime and Plugin SDK. Current scoring shows a real `@openclaw/sdk` path with gaps around public packaging, auto-discovery, approvals, helpers, and compatibility.
     completeness_instructions: references/completeness/openclaw-app-sdk.md
     categories:
       - name: Client API
@@ -4996,7 +4996,7 @@ surfaces:
         docs:
           - docs/gateway/external-apps.md
         search_anchors:
-          - OpenClaw App SDK overview
+          - OpenAgent App SDK overview
           - What ships today
           - Namespace design
           - Package structure
@@ -5662,7 +5662,7 @@ surfaces:
           - Linux install
           - Node runtime prerequisites
           - package-manager policy
-          - updating OpenClaw
+          - updating OpenAgent
         category_note: linux-cli-install-and-update-path.md
         human_lts_override: true
       - name: Gateway Runtime and Service Control
@@ -7003,9 +7003,9 @@ surfaces:
           - name: Node runtime setup
             coverageIds: [small-linux.node-runtime-setup]
             description: Defines Node runtime setup setup, credential, configuration, and operator verification behavior for ARM Linux Setup and Prerequisites.
-          - name: OpenClaw install and onboarding
+          - name: OpenAgent install and onboarding
             coverageIds: [small-linux.openclaw-install-and-onboarding]
-            description: Defines OpenClaw install and onboarding setup, credential, configuration, and operator verification behavior for ARM Linux Setup and Prerequisites.
+            description: Defines OpenAgent install and onboarding setup, credential, configuration, and operator verification behavior for ARM Linux Setup and Prerequisites.
           - name: First-run verification
             coverageIds: [small-linux.first-run-verification]
             description: Defines First-run verification setup, credential, configuration, and operator verification behavior for ARM Linux Setup and Prerequisites.
@@ -7047,7 +7047,7 @@ surfaces:
         search_anchors:
           - Hardware and 64-bit OS requirements
           - Node runtime setup
-          - OpenClaw install and onboarding
+          - OpenAgent install and onboarding
           - First-run verification
           - Hardware compatibility
           - Install Node.js 24
@@ -9246,7 +9246,7 @@ surfaces:
             description: Covers Entra ID application registration, Azure Bot setup, Teams app manifest/RSC permissions, and Teams app package upload.
           - name: Credential configuration
             coverageIds: [microsoft-teams.credential-configuration]
-            description: Covers CLIENT_ID, CLIENT_SECRET, TENANT_ID, `MSTEAMS_*` environment variables, and OpenClaw `channels.msteams` credential configuration.
+            description: Covers CLIENT_ID, CLIENT_SECRET, TENANT_ID, `MSTEAMS_*` environment variables, and OpenAgent `channels.msteams` credential configuration.
           - name: Teams app install verification
             coverageIds: [microsoft-teams.teams-app-install-verification]
             description: Covers Teams install links, app installation in Teams, and `teams app doctor` verification after setup.
@@ -9278,7 +9278,7 @@ surfaces:
           - Teams app manifest
           - RSC permissions
           - credential generation
-          - Configure OpenClaw
+          - Configure OpenAgent
           - MSTEAMS_APP_ID
           - channels.msteams
           - Install the app in Teams
@@ -9748,7 +9748,7 @@ surfaces:
             description: "Exact coverage for fs read within Tool Context."
           - name: Capability Compatibility
             coverageIds: [openai.capability-compatibility]
-            description: Covers Capability Compatibility across provider-facing tools, context injection, media inputs, native-vs-client tool ownership, OpenAI Responses compatibility, and how OpenAI/Codex models receive OpenClaw runtime context.
+            description: Covers Capability Compatibility across provider-facing tools, context injection, media inputs, native-vs-client tool ownership, OpenAI Responses compatibility, and how OpenAI/Codex models receive OpenAgent runtime context.
         docs:
           - docs/providers/openai.md
           - docs/gateway/openresponses-http-api.md
@@ -9944,19 +9944,19 @@ surfaces:
             description: "Covers Capability metadata across Anthropic model catalog and policy layer: bundled model rows, model aliases, current and future Claude model id normalization, runtime-provider selection, and related model catalog and policy behavior."
           - name: Runtime selection
             coverageIds: [anthropic.runtime-selection]
-            description: "Covers Runtime selection across OpenClaw's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
+            description: "Covers Runtime selection across OpenAgent's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
           - name: Session continuity
             coverageIds: [anthropic.session-continuity]
-            description: "Covers Session continuity across OpenClaw's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
+            description: "Covers Session continuity across OpenAgent's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
           - name: MCP/tool bridge
             coverageIds: [anthropic.mcp-tool-bridge]
-            description: "Covers MCP/tool bridge across OpenClaw's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
+            description: "Covers MCP/tool bridge across OpenAgent's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
           - name: Permission-mode mapping
             coverageIds: [anthropic.permission-mode-mapping]
-            description: "Covers Permission-mode mapping across OpenClaw's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
+            description: "Covers Permission-mode mapping across OpenAgent's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
           - name: Fallback prelude
             coverageIds: [anthropic.fallback-prelude]
-            description: "Covers Fallback prelude across OpenClaw's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
+            description: "Covers Fallback prelude across OpenAgent's host-local Claude CLI path after auth is available: the `claude-cli` backend, its command/args/env defaults, MCP tool bridge, native tool mode, and related claude cli backend behavior."
         docs:
           - docs/providers/anthropic.md
           - docs/gateway/config-agents.md

@@ -70,8 +70,8 @@ function runStopExistingLocalApp(params: { fakeLsof?: string; fakePgrep: string 
     [
       "#!/usr/bin/env bash",
       "set -euo pipefail",
-      'BIN_ABS="/worktree/apps/macos/.build-local/debug/Zero to Agent"',
-      'BIN=".build-local/debug/Zero to Agent"',
+      'BIN_ABS="/worktree/apps/macos/.build-local/debug/OpenAgent"',
+      'BIN=".build-local/debug/OpenAgent"',
       'APP_CWD="/worktree/apps/macos"',
       "kill() {",
       '  printf "%s\\n" "$*" >> "$OPENCLAW_TEST_KILL_CALLS"',
@@ -220,16 +220,16 @@ describe("scripts/build-and-run-mac.sh", () => {
         'count="$(cat "$OPENCLAW_TEST_PGREP_COUNT" 2>/dev/null || echo 0)"',
         'next="$((count + 1))"',
         'printf "%s\\n" "$next" > "$OPENCLAW_TEST_PGREP_COUNT"',
-        'if [[ "$2" == "/worktree/apps/macos/.build-local/debug/Zero to Agent" ]]; then exit 1; fi',
-        'if [[ "$2" == ".build-local/debug/Zero to Agent" && "$count" == "1" ]]; then echo 321; exit 0; fi',
+        'if [[ "$2" == "/worktree/apps/macos/.build-local/debug/OpenAgent" ]]; then exit 1; fi',
+        'if [[ "$2" == ".build-local/debug/OpenAgent" && "$count" == "1" ]]; then echo 321; exit 0; fi',
         "exit 1",
       ].join("\n"),
     });
 
     expect(result.status).toBe(0);
     expect(killCalls).toBe("321\n");
-    expect(pgrepCalls).toContain("-f /worktree/apps/macos/.build-local/debug/Zero to Agent");
-    expect(pgrepCalls).toContain("-f .build-local/debug/Zero to Agent");
+    expect(pgrepCalls).toContain("-f /worktree/apps/macos/.build-local/debug/OpenAgent");
+    expect(pgrepCalls).toContain("-f .build-local/debug/OpenAgent");
     expect(script).toContain('BIN_ABS="$(pwd)/$BIN"');
     expect(script).toContain('pgrep -f "$BIN_ABS"');
     expect(script).toContain('pgrep -f "$BIN"');
@@ -242,7 +242,7 @@ describe("scripts/build-and-run-mac.sh", () => {
     const { result } = runStopExistingLocalApp({
       fakePgrep: [
         "#!/usr/bin/env bash",
-        'if [[ "$2" == ".build-local/debug/Zero to Agent" ]]; then echo 321; exit 0; fi',
+        'if [[ "$2" == ".build-local/debug/OpenAgent" ]]; then echo 321; exit 0; fi',
         "exit 1",
       ].join("\n"),
     });

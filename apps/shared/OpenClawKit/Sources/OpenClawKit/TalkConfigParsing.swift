@@ -17,7 +17,7 @@ public enum TalkConfigParsing {
         raw?.mapValues(AnyCodable.init)
     }
 
-    /// Rem-Assistant/Rem's voice settings consume this API through its OpenClaw fork.
+    /// Rem-Assistant/Rem's voice settings consume this API through its OpenAgent fork.
     /// Keep it public until that consumer migrates.
     public static func selectProviderConfig(
         _ talk: [String: AnyCodable]?,

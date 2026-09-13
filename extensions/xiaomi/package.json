@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/xiaomi-provider",
   "version": "2026.9.4",
-  "description": "Zero to Agent Xiaomi provider plugin.",
+  "description": "OpenAgent Xiaomi provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

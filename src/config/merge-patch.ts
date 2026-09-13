@@ -177,7 +177,7 @@ function mergeObjectArraysById(
 }
 
 /**
- * Applies an RFC 7396-style object merge patch with Zero to Agent config safeguards.
+ * Applies an RFC 7396-style object merge patch with OpenAgent config safeguards.
  *
  * Non-object patches replace the base, `null` deletes keys, blocked prototype
  * keys are ignored outside schema-owned record-key paths, and id-keyed arrays

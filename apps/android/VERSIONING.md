@@ -1,4 +1,4 @@
-# OpenClaw Android Versioning
+# OpenAgent Android Versioning
 
 Android release builds use pinned app metadata instead of auto-bumping `build.gradle.kts`.
 
@@ -49,7 +49,7 @@ pnpm android:release:preflight
    emulators.
 8. Run `pnpm android:release:archive` to produce the signed phone Play AAB, Wear AAB, and third-party APK.
 9. Run `pnpm android:release:upload` to upload metadata, screenshots, the phone AAB, and the Wear AAB to their phone and `wear:` tracks in one atomic Google Play edit.
-10. For a regular final or correction OpenClaw release whose tagged Android pin matches the stable train, let `OpenClaw Release Publish` dispatch the protected `Android Release` workflow after core npm publishes successfully. A mismatched pin records an explicit skip. The workflow builds the signed third-party APK from the exact tag and attaches the verified APK, checksum manifest, and GitHub provenance; publication may finish after the GitHub release becomes public. Before tagging a correction with its own package version, increment the pinned `versionCode`; the workflow verifies it is higher than the preceding final or correction APK. A same-commit fallback correction reuses the base release's verified APK and adds provenance for the correction tag.
+10. For a regular final or correction OpenAgent release whose tagged Android pin matches the stable train, let `OpenAgent Release Publish` dispatch the protected `Android Release` workflow after core npm publishes successfully. A mismatched pin records an explicit skip. The workflow builds the signed third-party APK from the exact tag and attaches the verified APK, checksum manifest, and GitHub provenance; publication may finish after the GitHub release becomes public. Before tagging a correction with its own package version, increment the pinned `versionCode`; the workflow verifies it is higher than the preceding final or correction APK. A same-commit fallback correction reuses the base release's verified APK and adds provenance for the correction tag.
 11. Complete production rollout manually in Google Play Console when needed.
 
 `pnpm android:version:sync` and `pnpm android:version:pin` are retired release
@@ -86,7 +86,7 @@ refs/openclaw/mobile-releases/android/2026.6.10-2026061008
 
 These refs are intentionally outside `refs/tags/*` and `refs/heads/*`. They do
 not appear on GitHub release or tag pages, and they do not participate in the
-core OpenClaw release machinery.
+core OpenAgent release machinery.
 
 `pnpm android:release:upload` checks the ref before uploading the Play build and
 records it only after the atomic phone and Wear Play edit commits. Existing refs are

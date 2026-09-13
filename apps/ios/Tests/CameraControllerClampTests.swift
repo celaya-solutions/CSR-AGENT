@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct CameraControllerClampTests {
     @Test func `clamp quality defaults and bounds`() {

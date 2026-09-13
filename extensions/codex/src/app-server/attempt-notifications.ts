@@ -42,7 +42,7 @@ export function readNotificationItemId(notification: CodexServerNotification): s
   );
 }
 
-/** Detects completion for a Zero to Agent dynamic tool result still awaited by Codex. */
+/** Detects completion for an OpenAgent dynamic tool result still awaited by Codex. */
 export function isPendingOpenClawDynamicToolCompletionNotification(
   notification: CodexServerNotification,
   pendingOpenClawDynamicToolCompletionIds: ReadonlySet<string>,

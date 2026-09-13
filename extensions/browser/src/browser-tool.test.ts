@@ -1310,7 +1310,7 @@ describe("browser tool snapshot maxChars", () => {
     mockSingleBrowserProxyNode();
     gatewayMocks.callGatewayTool.mockRejectedValueOnce(
       new Error(
-        "Browser control host is not reachable on 127.0.0.1:18791. Start the local Zero to Agent browser control host.",
+        "Browser control host is not reachable on 127.0.0.1:18791. Start the local OpenAgent browser control host.",
       ),
     );
     const tool = createBrowserTool();

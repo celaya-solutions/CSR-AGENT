@@ -741,7 +741,7 @@ suite.define(() => {
               }
             ).archiveDocumentTitleHistory ?? [],
         ),
-      ).not.toContain("New session — Zero to Agent");
+      ).not.toContain("New session — OpenAgent");
       const archivedNotice = activePane.locator(".agent-chat__disabled-banner");
       await archivedNotice.waitFor({ state: "visible", timeout: 10_000 });
       await expect.poll(() => archivedNotice.textContent()).toContain("This session is archived.");

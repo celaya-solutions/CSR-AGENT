@@ -662,7 +662,7 @@ describe("personal publication authority and recovery", () => {
         const row = openOpenClawStateDatabase()
           .db.prepare(`SELECT request_id FROM ${table}`)
           .get() as { request_id: string };
-        return commandResult(`Zero to Agent-Publication: ${row.request_id}`);
+        return commandResult(`OpenAgent-Publication: ${row.request_id}`);
       }
       if (recovering && argv.includes("state=all")) {
         return commandResult(

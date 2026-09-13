@@ -849,8 +849,8 @@ extension RealtimeTalkRelaySession {
                 timeoutSeconds: 120)
             try await self.ensureCurrentLifecycle(lifecycleGeneration)
             let result: [String: AnyCodable] = completion.failed
-                ? ["error": AnyCodable("OpenClaw tool call failed")]
-                : ["text": AnyCodable(completion.text ?? "OpenClaw finished with no text.")]
+                ? ["error": AnyCodable("OpenAgent tool call failed")]
+                : ["text": AnyCodable(completion.text ?? "OpenAgent finished with no text.")]
             try await self.submitToolResult(
                 callId: callId,
                 result: result,

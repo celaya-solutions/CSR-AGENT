@@ -894,7 +894,7 @@ function revokeCompletionClaim(sessionId: string, runId?: string): void {
 }
 
 /**
- * Abort embedded Zero to Agent runs.
+ * Abort embedded OpenAgent runs.
  *
  * - With a sessionId, aborts that single run.
  * - With no sessionId, supports targeted abort modes (for example, compacting runs only).

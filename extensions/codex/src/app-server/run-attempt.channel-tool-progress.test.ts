@@ -136,8 +136,8 @@ describe("Codex channel tool progress", () => {
           const item = {
             type: "webSearch",
             id: "search-1",
-            query: "Zero to Agent repository",
-            action: { type: "search", query: "Zero to Agent repository" },
+            query: "OpenAgent repository",
+            action: { type: "search", query: "OpenAgent repository" },
           };
           await harness.notify(itemNotification("item/started", { ...item, status: "inProgress" }));
           await harness.notify(
@@ -169,7 +169,7 @@ describe("Codex channel tool progress", () => {
         },
       },
       {
-        label: "Zero to Agent dynamic tool",
+        label: "OpenAgent dynamic tool",
         toolCallId: "dynamic-1",
         name: "agents_list",
         drive: async () => {

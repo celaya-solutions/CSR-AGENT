@@ -1,4 +1,4 @@
-// ClawRouter provider catalog maps credential-scoped routes to Zero to Agent transports.
+// ClawRouter provider catalog maps credential-scoped routes to OpenAgent transports.
 import type { ProviderRuntimeModel } from "openclaw/plugin-sdk/plugin-entry";
 import {
   getCachedLiveProviderModelRows,

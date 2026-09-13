@@ -2,7 +2,7 @@
   "id": "brave",
   "categories": ["web"],
   "name": "Brave",
-  "description": "Zero to Agent Brave Search provider plugin for web search.",
+  "description": "OpenAgent Brave Search provider plugin for web search.",
   "activation": {
     "onStartup": false
   },

@@ -408,7 +408,7 @@ class SecurePrefs(
 
     val configuredPackages = loadNotificationForwardingPackages()
     val normalizedAppPackage = appPackageName.trim()
-    // Always block OpenClaw's own notifications in blocklist mode to prevent forwarding loops.
+    // Always block OpenAgent's own notifications in blocklist mode to prevent forwarding loops.
     val defaultBlockedPackages =
       if (normalizedAppPackage.isNotEmpty()) setOf(normalizedAppPackage) else emptySet()
 

@@ -4,7 +4,7 @@ struct StartLiveVoiceIntent: AppIntent {
     static let title: LocalizedStringResource = "Start Live Voice"
     // periphery:ignore - App Intents consumes this metadata for Siri and Shortcuts.
     static let description: IntentDescription? = IntentDescription(
-        "Open the current chat in OpenClaw and start a voice conversation.")
+        "Open the current chat in OpenAgent and start a voice conversation.")
     static let openAppWhenRun = true
 
     @MainActor

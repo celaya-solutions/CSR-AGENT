@@ -141,7 +141,7 @@ async function runStatusFixture(params: {
       allowSessionAdoption: true,
       autoJoin: true,
       captureCaptions: false,
-      guestName: "Zero to Agent Agent",
+      guestName: "OpenAgent Agent",
       meetingSessionId: "session-1",
       meetingUrl: URL,
       readOnly: params.readOnly,
@@ -226,7 +226,7 @@ describe("Zoom meeting platform adapter", () => {
       allowSessionAdoption: true,
       autoJoin: true,
       captureCaptions: true,
-      guestName: "Zero to Agent Agent",
+      guestName: "OpenAgent Agent",
       meetingSessionId: "session-1",
       meetingUrl: URL,
       waitForInCallMs: 60_000,
@@ -417,7 +417,7 @@ describe("Zoom meeting platform adapter", () => {
       }),
     });
 
-    expect(guest.value).toBe("Zero to Agent Agent");
+    expect(guest.value).toBe("OpenAgent Agent");
     expect(guest.dispatchEvent).toHaveBeenCalledTimes(2);
     expect(join.click).toHaveBeenCalledOnce();
     expect(result.clickedJoin).toBe(true);
@@ -607,7 +607,7 @@ describe("Zoom meeting platform adapter", () => {
     expect(meetingState).not.toHaveProperty("audioInputDeviceId");
   });
 
-  it.each(["BlackHole 2ch", "BlackHole 2ch (Virtual)", "Zero to Agent Meeting Audio"])(
+  it.each(["BlackHole 2ch", "BlackHole 2ch (Virtual)", "OpenAgent Meeting Audio"])(
     "recognizes the exact virtual audio input label %s",
     async (deviceLabel) => {
       const result = await runStatusFixture({
@@ -633,14 +633,14 @@ describe("Zoom meeting platform adapter", () => {
         audioInputRouted: false,
         manualAction: {
           message:
-            "Verify the Zero to Agent virtual audio device is selected as both the Zoom microphone and speaker before starting talk-back.",
+            "Verify the OpenAgent virtual audio device is selected as both the Zoom microphone and speaker before starting talk-back.",
           reason: "zoom-audio-choice-required",
         },
       });
     },
   );
 
-  it.each(["Zero to Agent Meeting Audio (Virtual)", "Monitor of Zero to Agent Meeting Audio"])(
+  it.each(["OpenAgent Meeting Audio (Virtual)", "Monitor of OpenAgent Meeting Audio"])(
     "rejects the non-contract virtual audio input label %s",
     async (deviceLabel) => {
       const result = await runStatusFixture({

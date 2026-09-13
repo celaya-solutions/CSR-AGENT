@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct RemoteTunnelManagerTests {
     @Test func `shutdown rejects new tunnel work even after a reusable stop`() async {

@@ -24,7 +24,7 @@ const channel = {
 const botUser = {
   id: "usr_bot",
   kind: "bot",
-  display_name: "OpenClaw Bot",
+  display_name: "OpenAgent Bot",
   handle: "openclaw",
   avatar_url: "",
   created_at: new Date(0).toISOString(),

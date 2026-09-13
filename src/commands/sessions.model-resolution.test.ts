@@ -180,7 +180,7 @@ describe("sessionsCommand model resolution", () => {
     );
   });
 
-  it("reports the owning Codex harness for locked sessions despite a stale Zero to Agent override", async () => {
+  it("reports the owning Codex harness for locked sessions despite a stale OpenAgent override", async () => {
     setMockSessionsConfig(() => ({
       agents: {
         defaults: {

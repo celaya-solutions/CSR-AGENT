@@ -429,7 +429,7 @@ source_cli_probes() (
   mkdir -p "$source_dir"
   printf '{"supported":%s,"entry":"openclaw.mjs"}\n' "$supported" > "$source_dir/cli-capability.json"
   if [[ "$supported" == false ]]; then
-    printf '# OpenClaw Source Performance\n\nTrusted CLI measurement unsupported: the pinned target has no openclaw.mjs entry.\n' > "$source_dir/index.md"
+    printf '# OpenAgent Source Performance\n\nTrusted CLI measurement unsupported: the pinned target has no openclaw.mjs entry.\n' > "$source_dir/index.md"
     return
   fi
   local gateway_home gateway_readiness_home gateway_port gateway_token gateway_pid=""
@@ -753,7 +753,7 @@ remote_main() {
   finished_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   quiesce_sut
   [[ "$(as_sut /usr/bin/git -C "$root/openclaw" rev-parse HEAD)" == "$openclaw_sha" ]] ||
-    die "OpenClaw HEAD changed during SUT execution"
+    die "OpenAgent HEAD changed during SUT execution"
   [[ "$("$executor" /usr/bin/git -C "$kova" rev-parse HEAD)" == "$kova_sha" ]] ||
     die "Kova HEAD changed during SUT execution"
 

@@ -651,7 +651,7 @@ resolve_clawhub_release_plan() {
   clawhub_plan_path="${CLAWHUB_PLAN_PATH}"
   test -s "${clawhub_plan_path}"
 
-  echo "Resolved OpenClaw release ClawHub dispatch plan:"
+  echo "Resolved OpenAgent release ClawHub dispatch plan:"
   cat "${clawhub_plan_path}"
 
   clawhub_workflow_ref="$(jq -r '.clawHubWorkflowRef' "${clawhub_plan_path}")"
@@ -940,7 +940,7 @@ upload_dependency_evidence_release_asset() {
     --dir "${download_dir}"
 
   if [[ ! -d "${download_dir}/dependency-evidence" ]]; then
-    echo "Dependency evidence is missing from OpenClaw npm preflight artifact." >&2
+    echo "Dependency evidence is missing from OpenAgent npm preflight artifact." >&2
     find "${download_dir}" -maxdepth 2 -type f -print >&2 || true
     exit 1
   fi
@@ -1255,7 +1255,7 @@ const section = [
   // have no core npm run of their own to cite.
   ...(process.env.OPENCLAW_NPM_RUN_ID
     ? [
-        `- OpenClaw npm publish: https://github.com/${process.env.RELEASE_REPO}/actions/runs/${process.env.OPENCLAW_NPM_RUN_ID}`,
+        `- OpenAgent npm publish: https://github.com/${process.env.RELEASE_REPO}/actions/runs/${process.env.OPENCLAW_NPM_RUN_ID}`,
       ]
     : []),
   process.env.TELEGRAM_LINE,

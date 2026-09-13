@@ -2,7 +2,7 @@ import Foundation
 import OpenClawKit
 @preconcurrency import WebRTC
 import XCTest
-@testable import OpenClaw
+@testable import OpenAgent
 
 @MainActor
 final class TalkRealtimeConsultCancellationTests: XCTestCase {
@@ -52,7 +52,7 @@ final class TalkRealtimeConsultCancellationTests: XCTestCase {
             XCTAssertEqual(finished, .completed)
             let historyReads = await requests.count(method: "chat.history")
             XCTAssertGreaterThanOrEqual(historyReads, 2, "A foreign reply must not complete the consult")
-            XCTAssertFalse(delegate.statuses.contains("OpenClaw unavailable"))
+            XCTAssertFalse(delegate.statuses.contains("OpenAgent unavailable"))
         }
     }
 

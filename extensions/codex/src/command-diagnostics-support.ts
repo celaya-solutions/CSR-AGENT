@@ -312,12 +312,10 @@ function formatCodexDiagnosticsTargetBlock(
     lines.push(`Channel: ${formatCodexDisplayText(target.channel)}`);
   }
   if (target.sessionKey) {
-    lines.push(
-      `Zero to Agent session key: ${formatCodexCopyableValueForDisplay(target.sessionKey)}`,
-    );
+    lines.push(`OpenAgent session key: ${formatCodexCopyableValueForDisplay(target.sessionKey)}`);
   }
   if (target.sessionId) {
-    lines.push(`Zero to Agent session id: ${formatCodexCopyableValueForDisplay(target.sessionId)}`);
+    lines.push(`OpenAgent session id: ${formatCodexCopyableValueForDisplay(target.sessionId)}`);
   }
   lines.push(`Codex thread id: ${formatCodexCopyableValueForDisplay(target.threadId)}`);
   lines.push(`Inspect locally: ${formatCodexResumeCommandForDisplay(target.threadId)}`);
@@ -331,7 +329,7 @@ function formatCodexDiagnosticsTargetLine(target: CodexDiagnosticsTarget): strin
   }
   const sessionLabel = target.sessionId || target.sessionKey;
   if (sessionLabel) {
-    parts.push(`Zero to Agent session ${formatCodexDisplayText(sessionLabel)}`);
+    parts.push(`OpenAgent session ${formatCodexDisplayText(sessionLabel)}`);
   }
   parts.push(`Codex thread ${formatCodexDisplayText(target.threadId)}`);
   return `- ${parts.join(", ")}`;

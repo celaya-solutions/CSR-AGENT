@@ -9,7 +9,7 @@ title: "Secrets management"
 sidebarTitle: "Secrets management"
 ---
 
-Zero to Agent supports additive SecretRefs so supported credentials do not need to live as plaintext in configuration.
+OpenAgent supports additive SecretRefs so supported credentials do not need to live as plaintext in configuration.
 
 <Note>
 Plaintext still works. SecretRefs are opt-in per credential.

@@ -354,14 +354,14 @@ describe("SystemAgentChatEngine approval", () => {
     expect(reply.handoff).toBeUndefined();
     expect(reply.sensitive).toBeUndefined();
     expect(reply.text).toContain("replace the inference route powering this session");
-    // A gateway reader is in a browser or the app and cannot "exit Zero to Agent"
+    // A gateway reader is in a browser or the app and cannot "exit OpenAgent"
     // into a shell; the copy must name where the command runs instead.
     expect(reply.text).toContain("`openclaw onboard`");
-    expect(reply.text).toContain("machine running Zero to Agent");
-    expect(reply.text).toContain("Stop the Zero to Agent host");
+    expect(reply.text).toContain("machine running OpenAgent");
+    expect(reply.text).toContain("Stop the OpenAgent host");
     expect(reply.text).toContain("restart the host");
-    expect(reply.text).toContain("return to Zero to Agent");
-    expect(reply.text).not.toContain("Exit Zero to Agent");
+    expect(reply.text).toContain("return to OpenAgent");
+    expect(reply.text).not.toContain("Exit OpenAgent");
   });
 
   it("drops the proposal when the user declines", async () => {
@@ -882,7 +882,7 @@ describe("SystemAgentChatEngine approval", () => {
     expect(runAgentTurn).toHaveBeenCalledOnce();
     expect(reply.text).toContain("requesting session's permission policy");
     expect(reply.text).toContain("returns the final outcome");
-    expect(reply.text).not.toContain("Zero to Agent operator UI");
+    expect(reply.text).not.toContain("OpenAgent operator UI");
     expect(reply.text).not.toContain("ask the user to reply yes");
     expect(reply.action).toBe("none");
     expect(engine.getPendingOperatorProposal()?.operation).toEqual({

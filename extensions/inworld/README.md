@@ -1,8 +1,8 @@
-# Zero to Agent Inworld Plugin
+# OpenAgent Inworld Plugin
 
-Official Zero to Agent plugin for Inworld.
+Official OpenAgent plugin for Inworld.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/inworld-speech

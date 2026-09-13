@@ -48,7 +48,7 @@ async function readLegacyPluginCatalogContents(params: {
   return await privateFileStore(pluginDir).readTextIfExists(path.basename(params.relativePath));
 }
 
-/** Detects only marker-backed catalogs produced by tagged Zero to Agent releases. */
+/** Detects only marker-backed catalogs produced by tagged OpenAgent releases. */
 async function collectLegacyPluginModelCatalogMigrations(params: {
   cfg: OpenClawConfig;
   env?: NodeJS.ProcessEnv;

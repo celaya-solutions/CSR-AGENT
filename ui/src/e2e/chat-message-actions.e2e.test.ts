@@ -297,7 +297,7 @@ describeControlUiE2e("Control UI chat message actions", () => {
           role,
           content:
             kind === "image"
-              ? [{ type: "image", url: imageUrl, fileName, alt: "Zero to Agent banner" }]
+              ? [{ type: "image", url: imageUrl, fileName, alt: "OpenAgent banner" }]
               : role === "user"
                 ? []
                 : [

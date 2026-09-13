@@ -1,5 +1,5 @@
 // Gateway OpenAI-compatible chat completions endpoint.
-// Translates OpenAI chat requests to Zero to Agent agent runs and SSE/JSON responses.
+// Translates OpenAI chat requests to OpenAgent agent runs and SSE/JSON responses.
 import { randomUUID } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { STREAM_ERROR_FALLBACK_TEXT } from "@openclaw/ai/internal/shared";
@@ -1089,7 +1089,7 @@ export async function handleOpenAiHttpRequest(
         });
         return true;
       }
-      const content = resolveAssistantResultText(result) || "No response from Zero to Agent.";
+      const content = resolveAssistantResultText(result) || "No response from OpenAgent.";
 
       sendJson(res, 200, {
         id: runId,
@@ -1170,7 +1170,7 @@ export async function handleOpenAiHttpRequest(
         pending: pendingAssistantText,
         resultText: finalResultText,
         streamedText: streamedAssistantText.text,
-        fallbackText: finalToolCalls ? "" : "No response from Zero to Agent.",
+        fallbackText: finalToolCalls ? "" : "No response from OpenAgent.",
       });
       if (!text.startsWith(streamedAssistantText.text)) {
         finishStreamWithError({

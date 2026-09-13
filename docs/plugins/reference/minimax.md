@@ -1,5 +1,5 @@
 ---
-summary: "Adds MiniMax, MiniMax Portal model provider support to Zero to Agent."
+summary: "Adds MiniMax, MiniMax Portal model provider support to OpenAgent."
 read_when:
   - You are installing, configuring, or auditing the minimax plugin
 title: "MiniMax plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Adds MiniMax, MiniMax Portal model provider support to Zero to Agent.
+Adds MiniMax, MiniMax Portal model provider support to OpenAgent.
 
 ## Distribution
 
 - Package: `@openclaw/minimax-provider`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

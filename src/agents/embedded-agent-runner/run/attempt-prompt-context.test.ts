@@ -461,11 +461,11 @@ describe("prepareEmbeddedAttemptPromptContext", () => {
       });
 
       expect(result.systemPromptForHook).toBe("Base system prompt");
-      expect(result.systemPromptForHook).not.toContain("Zero to Agent runtime event.");
+      expect(result.systemPromptForHook).not.toContain("OpenAgent runtime event.");
       expect(result.systemPromptForHook).not.toContain("Runtime room event");
       expect(result.promptSubmission.runtimeOnly).toBe(true);
       expect(result.promptForSession).toBe(
-        "Room conversation data\n\nContinue the Zero to Agent runtime event.",
+        "Room conversation data\n\nContinue the OpenAgent runtime event.",
       );
       expect(result.promptForModel).toBe(result.promptForSession);
       expect(result.systemPromptForHook).not.toContain("Room conversation data");
@@ -508,7 +508,7 @@ describe("prepareEmbeddedAttemptPromptContext", () => {
 
   it("keeps a pure heartbeat task active while persisting only the poll marker", async () => {
     const taskPrompt = "Check the deployment and report any failures.";
-    const transcriptPrompt = "[Zero to Agent heartbeat poll]";
+    const transcriptPrompt = "[OpenAgent heartbeat poll]";
     const fixture = createInput({
       attempt: createAttempt({ currentInboundContext: undefined }),
       prompt: createPrompt({
@@ -527,7 +527,7 @@ describe("prepareEmbeddedAttemptPromptContext", () => {
 
   it("keeps the live orphan-repair heartbeat task active without parsing its marker", async () => {
     const taskPrompt = "Check the deployment and report any failures.";
-    const transcriptPrompt = "[Zero to Agent heartbeat poll]";
+    const transcriptPrompt = "[OpenAgent heartbeat poll]";
     const mergedModelPrompt = [QUEUED_USER_MESSAGE_MARKER, transcriptPrompt, "", taskPrompt].join(
       "\n",
     );

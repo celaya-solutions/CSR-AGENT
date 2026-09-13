@@ -117,7 +117,7 @@ async function transcribeOpenRouterAudio(
         Authorization: `Bearer ${params.apiKey}`,
         "Content-Type": "application/json",
         "HTTP-Referer": "https://openclaw.ai",
-        "X-OpenRouter-Title": "Zero to Agent",
+        "X-OpenRouter-Title": "OpenAgent",
       },
       provider: "openrouter",
       api: "openrouter-stt",

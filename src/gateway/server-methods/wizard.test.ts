@@ -715,7 +715,7 @@ describe("wizard step serialization", () => {
     const context = createWizardContext(async (_opts, _runtime, prompter) => {
       await prompter.text({
         message: "Display name",
-        initialValue: "Zero to Agent",
+        initialValue: "OpenAgent",
       });
       await prompter.text({
         message: "Bot token",
@@ -724,7 +724,7 @@ describe("wizard step serialization", () => {
       });
     });
     const startResult = await invokeWizard("wizard.start", {}, context);
-    expect(startResult.step).toMatchObject({ initialValue: "Zero to Agent" });
+    expect(startResult.step).toMatchObject({ initialValue: "OpenAgent" });
     const sessionId = startResult.sessionId;
     expect(typeof sessionId).toBe("string");
 

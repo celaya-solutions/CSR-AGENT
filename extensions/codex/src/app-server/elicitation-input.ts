@@ -20,7 +20,7 @@ export function compileCodexOrdinaryElicitation(params: {
       kind: "compiled",
       input: {
         kind: "unsupported",
-        message: "Zero to Agent declined an MCP elicitation with invalid turn correlation.",
+        message: "OpenAgent declined an MCP elicitation with invalid turn correlation.",
       },
     };
   }
@@ -42,7 +42,7 @@ export function compileCodexOrdinaryElicitation(params: {
       kind: "compiled",
       input: {
         kind: "unsupported",
-        message: `Zero to Agent does not support MCP elicitation mode ${JSON.stringify(mode ?? "unknown")}.`,
+        message: `OpenAgent does not support MCP elicitation mode ${JSON.stringify(mode ?? "unknown")}.`,
       },
     };
   }

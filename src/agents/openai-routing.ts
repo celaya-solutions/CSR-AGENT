@@ -93,7 +93,7 @@ export function resolveOpenAIImplicitAgentRuntime(
   });
   if (!resolution) {
     // Endpoint and adapter ownership stays in the provider artifact. Without
-    // that policy, keep credentials and traffic on the core Zero to Agent runtime.
+    // that policy, keep credentials and traffic on the core OpenAgent runtime.
     return "openclaw";
   }
   return resolution.kind !== "incompatible" && resolution.defaultRuntimeId === "codex"

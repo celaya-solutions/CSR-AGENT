@@ -1513,7 +1513,7 @@ describe("Codex app-server approval bridge", () => {
     ]);
   });
 
-  it("normalizes prefixed channel targets for Zero to Agent tool policy context", async () => {
+  it("normalizes prefixed channel targets for OpenAgent tool policy context", async () => {
     const params = createParams();
     params.messageChannel = "telegram";
     params.messageProvider = "telegram";
@@ -1543,7 +1543,7 @@ describe("Codex app-server approval bridge", () => {
     expect(gatewayRequestPayload().turnSourceTo).toBeUndefined();
   });
 
-  it("denies command approvals before prompting when Zero to Agent tool policy blocks", async () => {
+  it("denies command approvals before prompting when OpenAgent tool policy blocks", async () => {
     const params = createParams();
     mockRunBeforeToolCallHook.mockResolvedValueOnce({
       blocked: true,
@@ -1999,7 +1999,7 @@ describe("Codex app-server approval bridge", () => {
     findApprovalEvent(params, {
       status: "denied",
       message:
-        "Zero to Agent native hook relay returned an unreadable Codex app-server approval result.",
+        "OpenAgent native hook relay returned an unreadable Codex app-server approval result.",
     });
   });
 
@@ -2041,7 +2041,7 @@ describe("Codex app-server approval bridge", () => {
     findApprovalEvent(params, {
       status: "denied",
       message:
-        "Zero to Agent native hook relay returned a non-deny Codex app-server approval decision.",
+        "OpenAgent native hook relay returned a non-deny Codex app-server approval decision.",
     });
   });
 
@@ -2107,7 +2107,7 @@ describe("Codex app-server approval bridge", () => {
     findApprovalEvent(params, {
       status: "denied",
       message:
-        "Zero to Agent native hook relay unavailable for Codex app-server approval: native hook relay not found",
+        "OpenAgent native hook relay unavailable for Codex app-server approval: native hook relay not found",
     });
   });
 
@@ -2170,7 +2170,7 @@ describe("Codex app-server approval bridge", () => {
     findApprovalEvent(params, {
       status: "denied",
       message:
-        "Zero to Agent native hook relay unavailable for Codex app-server approval: native hook relay handler failed",
+        "OpenAgent native hook relay unavailable for Codex app-server approval: native hook relay handler failed",
     });
   });
 
@@ -2220,7 +2220,7 @@ describe("Codex app-server approval bridge", () => {
     ]);
   });
 
-  it("denies command approvals when Zero to Agent tool policy rewrites params", async () => {
+  it("denies command approvals when OpenAgent tool policy rewrites params", async () => {
     const params = createParams();
     mockRunBeforeToolCallHook.mockResolvedValueOnce({
       blocked: false,
@@ -2250,11 +2250,11 @@ describe("Codex app-server approval bridge", () => {
     findApprovalEvent(params, {
       status: "denied",
       message:
-        "Zero to Agent tool policy rewrote Codex app-server approval params; refusing original request.",
+        "OpenAgent tool policy rewrote Codex app-server approval params; refusing original request.",
     });
   });
 
-  it("keeps Zero to Agent plugin allow-always approvals scoped to one Codex request", async () => {
+  it("keeps OpenAgent plugin allow-always approvals scoped to one Codex request", async () => {
     const params = createParams();
     mockRunBeforeToolCallHook.mockResolvedValueOnce({
       blocked: false,
@@ -2288,7 +2288,7 @@ describe("Codex app-server approval bridge", () => {
     });
   });
 
-  it("denies command approvals when Zero to Agent tool policy requires approval", async () => {
+  it("denies command approvals when OpenAgent tool policy requires approval", async () => {
     const params = createParams();
     mockRunBeforeToolCallHook.mockResolvedValueOnce({
       blocked: true,
@@ -2949,7 +2949,7 @@ describe("Codex app-server approval bridge", () => {
 
     expect(result).toEqual({
       decision: "decline",
-      reason: "Zero to Agent codex app-server bridge does not grant native approvals yet.",
+      reason: "OpenAgent codex app-server bridge does not grant native approvals yet.",
     });
     expect(mockRunBeforeToolCallHook).not.toHaveBeenCalled();
     expect(mockCallGatewayTool.mock.calls.map(([method]) => method)).toEqual([

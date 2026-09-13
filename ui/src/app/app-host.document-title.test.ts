@@ -20,7 +20,7 @@ function roster(defaultId: string, agents: GatewayAgentRow[]): AgentsListResult 
   return { defaultId, mainKey: "main", scope: "per-sender", agents };
 }
 
-describe("Zero to Agent shell document title", () => {
+describe("OpenAgent shell document title", () => {
   function createShell(context?: ApplicationContext): ShellDocumentTitleState {
     const shell = document.createElement(
       "openclaw-app-shell",
@@ -60,11 +60,11 @@ describe("Zero to Agent shell document title", () => {
 
   it("keeps the boot title before a route commits", () => {
     const shell = createShell();
-    document.title = "Zero to Agent Control";
+    document.title = "OpenAgent Control";
 
     shell.routeState = {};
     shell.syncDocumentTitle();
-    expect(document.title).toBe("Zero to Agent Control");
+    expect(document.title).toBe("OpenAgent Control");
   });
 
   it("does not read stored outboxes for a connected document title", () => {
@@ -75,7 +75,7 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Usage — Zero to Agent");
+    expect(document.title).toBe("Usage — OpenAgent");
     expect(summarizeStoredChatOutboxes).not.toHaveBeenCalled();
   });
 
@@ -83,11 +83,11 @@ describe("Zero to Agent shell document title", () => {
     const shell = createShell(createContext({ environment: { label: "edge", color: "amber" } }));
     shell.routeState = { routeId: "usage" };
     shell.syncDocumentTitle();
-    expect(document.title).toBe("Usage — Zero to Agent · edge");
+    expect(document.title).toBe("Usage — OpenAgent · edge");
 
     shell.routeState = { routeId: "custodian" };
     shell.syncDocumentTitle();
-    expect(document.title).toBe("Ask Zero to Agent · edge");
+    expect(document.title).toBe("Ask OpenAgent · edge");
   });
 
   it("uses the active session's derived title for a non-main chat", () => {
@@ -103,7 +103,7 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Quarterly launch plan — Zero to Agent");
+    expect(document.title).toBe("Quarterly launch plan — OpenAgent");
   });
 
   it("uses the agent name for an agent main chat", () => {
@@ -115,7 +115,7 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Molty — Zero to Agent");
+    expect(document.title).toBe("Molty — OpenAgent");
   });
 
   it("uses the selected agent name for a global-scope main chat", () => {
@@ -130,7 +130,7 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Molty — Zero to Agent");
+    expect(document.title).toBe("Molty — OpenAgent");
   });
 
   it("falls back to the session display name when the main agent is missing", () => {
@@ -148,7 +148,7 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Fallback thread — Zero to Agent");
+    expect(document.title).toBe("Fallback thread — OpenAgent");
   });
 
   it("prefixes the pending approval count", () => {
@@ -157,7 +157,7 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("(2) Usage — Zero to Agent");
+    expect(document.title).toBe("(2) Usage — OpenAgent");
   });
 
   it("shows disconnected instead of a stale approval count", () => {
@@ -166,7 +166,7 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("(Disconnected) Usage — Zero to Agent");
+    expect(document.title).toBe("(Disconnected) Usage — OpenAgent");
   });
 
   it("includes stored chat outbox messages in the disconnected marker", () => {
@@ -178,7 +178,7 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("(Disconnected · 3 queued) Usage — Zero to Agent");
+    expect(document.title).toBe("(Disconnected · 3 queued) Usage — OpenAgent");
   });
 
   it("uses the meaningful custodian label without a brand suffix", () => {
@@ -187,6 +187,6 @@ describe("Zero to Agent shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Ask Zero to Agent");
+    expect(document.title).toBe("Ask OpenAgent");
   });
 });

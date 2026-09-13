@@ -53,7 +53,7 @@ const musicCompletionEvent: AgentInternalEvent = {
   childSessionKey: "music_generate:task-123",
   childSessionId: "task-123",
   announceType: "music generation task",
-  taskLabel: "Zero to Agent release anthem",
+  taskLabel: "OpenAgent release anthem",
   status: "ok",
   statusLabel: "completed successfully",
   result: "Generated 1 track.",

@@ -311,7 +311,7 @@ describe("buildWorkspaceSkillCommandSpecs", () => {
     expect(commands.map((entry) => entry.skillName)).toEqual(["alpha-skill"]);
   });
 
-  it("includes enabled Claude bundle markdown commands as native Zero to Agent slash commands", async () => {
+  it("includes enabled Claude bundle markdown commands as native OpenAgent slash commands", async () => {
     const workspaceDir = await makeWorkspace();
     const config = {
       plugins: {

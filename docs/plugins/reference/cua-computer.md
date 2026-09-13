@@ -15,7 +15,7 @@ Experimental CUA Driver computer control for macOS, Windows, and Linux node host
 ## Distribution
 
 - Package: `@openclaw/cua-computer`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

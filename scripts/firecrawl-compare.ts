@@ -1,4 +1,4 @@
-// Firecrawl Compare script supports OpenClaw repository automation.
+// Firecrawl Compare script supports OpenAgent repository automation.
 import { pathToFileURL } from "node:url";
 import { truncateUtf16Safe } from "@openclaw/normalization-core/utf16-slice";
 import { fetchFirecrawlContent } from "../extensions/firecrawl/api.ts";

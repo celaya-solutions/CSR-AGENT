@@ -985,7 +985,7 @@ class OpenShellSandboxBackendImpl {
       [
         `Registered legacy OpenShell sandbox "${this.params.execContext.sandboxName}" is not usable.`,
         detail,
-        `Zero to Agent will not recreate this retired runtime name. Run \`${recreateCommand}\` to migrate this scope to the current naming format.`,
+        `OpenAgent will not recreate this retired runtime name. Run \`${recreateCommand}\` to migrate this scope to the current naming format.`,
       ]
         .filter(Boolean)
         .join(" "),

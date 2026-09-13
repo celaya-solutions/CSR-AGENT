@@ -1,5 +1,5 @@
 profile: openclaw-check
-# Default OpenClaw remote proof to Blacksmith Testbox through Crabbox: the
+# Default OpenAgent remote proof to Blacksmith Testbox through Crabbox: the
 # delegated CI environment owns checkout/hydration and leases reliably.
 # Use `--provider aws` for direct AWS runner proof; `--provider azure` spends
 # the Azure-backed credit account (its coordinator has stalled under load).
@@ -52,7 +52,7 @@ aws:
   region: eu-west-1
   rootGB: 400
 azure:
-  # The OpenClaw Azure subscription is reliable in eastus2; eastus rejects the
+  # The OpenAgent Azure subscription is reliable in eastus2; eastus rejects the
   # same SKUs and can stall provisioning.
   location: eastus2
 sync:
@@ -118,7 +118,7 @@ jobs:
         git init -q
         git add -A
         if ! git diff --cached --quiet; then
-          git -c user.name=OpenClaw -c user.email=ci@openclaw.local commit -q --no-gpg-sign -m remote-check-tree
+          git -c user.name=OpenAgent -c user.email=ci@openclaw.local commit -q --no-gpg-sign -m remote-check-tree
         fi
       fi
       env CI=1 corepack pnpm check --timed

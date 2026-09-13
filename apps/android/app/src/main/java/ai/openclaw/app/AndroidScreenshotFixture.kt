@@ -388,7 +388,7 @@ internal object AndroidScreenshotFixture {
           "question",
           buildJsonObject {
             put("id", JsonPrimitive("help"))
-            put("header", JsonPrimitive("OpenClaw"))
+            put("header", JsonPrimitive("OpenAgent"))
             put("question", JsonPrimitive("What should we look at first?"))
             put(
               "options",

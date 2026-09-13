@@ -296,7 +296,7 @@ describe("status-all diagnosis port checks", () => {
 
     const output = params.lines.join("\n");
     expect(output).toContain("✓ Port 18789");
-    expect(output).toContain("Detected Zero to Agent Gateway listener on the configured port.");
+    expect(output).toContain("Detected OpenAgent Gateway listener on the configured port.");
     expect(output).not.toContain("Port 18789 is already in use.");
   });
 
@@ -310,9 +310,7 @@ describe("status-all diagnosis port checks", () => {
 
     const output = params.lines.join("\n");
     expect(output).toContain("! Port 18789");
-    expect(output).toContain(
-      "2 Zero to Agent gateway processes appear to be listening on port 18789",
-    );
+    expect(output).toContain("2 OpenAgent gateway processes appear to be listening on port 18789");
     expect(output).toContain("Port 18789 is already in use.");
   });
 
@@ -339,20 +337,20 @@ describe("status-all diagnosis port checks", () => {
     const output = params.lines.join("\n");
     expect(output).toContain("! Port 18789");
     expect(output).toContain("Port 18789 availability could not be determined.");
-    expect(output).not.toContain("Detected Zero to Agent Gateway listener");
+    expect(output).not.toContain("Detected OpenAgent Gateway listener");
   });
 
   it.each([
     {
       status: "error",
       reason: "managed-service-handoff-failed",
-      headline: "⚠️ Zero to Agent update failed: managed-service-handoff-failed.",
+      headline: "⚠️ OpenAgent update failed: managed-service-handoff-failed.",
       hint: "Run openclaw triage to diagnose and repair the failed update.",
     },
     {
       status: "skipped",
       reason: "restart-health-pending",
-      headline: "⬆️ Zero to Agent update in progress: restarting.",
+      headline: "⬆️ OpenAgent update in progress: restarting.",
       hint: "Check progress with openclaw update status.",
     },
   ] as const)(

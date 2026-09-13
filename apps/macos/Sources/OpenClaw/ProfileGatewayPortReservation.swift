@@ -29,7 +29,7 @@ final class ProfileGatewayPortReservation: @unchecked Sendable {
             return self.conflict(
                 profile: profileName,
                 port: port,
-                reason: "another running OpenClaw profile already reserves it")
+                reason: "another running OpenAgent profile already reserves it")
         case let .failed(reason):
             return self.conflict(
                 profile: profileName,

@@ -1,4 +1,4 @@
-// Tests Zero to Agent execution environment construction.
+// Tests OpenAgent execution environment construction.
 import { describe, expect, it } from "vitest";
 import { deleteTestEnvValue, setTestEnvValue } from "../test-utils/env.js";
 import {

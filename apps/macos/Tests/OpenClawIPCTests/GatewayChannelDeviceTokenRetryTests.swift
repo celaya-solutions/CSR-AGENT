@@ -130,7 +130,7 @@ struct GatewayChannelDeviceTokenRetryTests {
                         permissions: [:],
                         clientId: "openclaw-macos-test",
                         clientMode: "ui",
-                        clientDisplayName: "OpenClaw Test",
+                        clientDisplayName: "OpenAgent Test",
                         deviceAuthGatewayID: gatewayID))
                 try await channel.connect()
                 let generation = try #require(await channel.currentConnectionGeneration())

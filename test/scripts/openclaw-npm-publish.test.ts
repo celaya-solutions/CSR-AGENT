@@ -1,4 +1,4 @@
-// Zero to Agent NPM Publish tests cover publish wrapper argument safety.
+// OpenAgent NPM Publish tests cover publish wrapper argument safety.
 import { execFileSync, spawnSync } from "node:child_process";
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";

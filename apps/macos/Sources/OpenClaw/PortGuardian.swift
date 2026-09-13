@@ -315,7 +315,7 @@ actor PortGuardian {
         // ppid 1 means the owner died. A current-app child is reapable only after
         // its exact receipt was relinquished; planTunnelReap protects active ones.
         if process.parentPid == 1 || process.parentPid == currentAppPID { return .reap }
-        // Any other live parent may be a concurrent OpenClaw instance (prod + dev).
+        // Any other live parent may be a concurrent OpenAgent instance (prod + dev).
         return .keep
     }
 
@@ -800,7 +800,7 @@ actor PortGuardian {
     private nonisolated static func openRecordStore() throws -> PortGuardianRecordStore {
         guard !self.hasLegacyOpenClawAppProcess() else {
             throw PortGuardianStoreError(
-                "Quit older OpenClaw app copies before opening the SQLite PortGuardian ledger")
+                "Quit older OpenAgent app copies before opening the SQLite PortGuardian ledger")
         }
         let legacyURL = PortGuardianRecordStore.liveLegacyRecordURL
         guard FileManager.default.fileExists(atPath: legacyURL.path) else {
@@ -823,7 +823,7 @@ actor PortGuardian {
               !FileManager.default.fileExists(atPath: PortGuardianRecordStore.liveLegacyRecordURL.path)
         else {
             throw PortGuardianStoreError(
-                "Older OpenClaw storage appeared after tunnel preflight; SSH launch cancelled")
+                "Older OpenAgent storage appeared after tunnel preflight; SSH launch cancelled")
         }
     }
 

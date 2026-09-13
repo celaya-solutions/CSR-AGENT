@@ -1,6 +1,6 @@
-# OpenClaw on Cloudflare Containers (experimental)
+# OpenAgent on Cloudflare Containers (experimental)
 
-This template runs one OpenClaw installation behind a Cloudflare Worker and one named Durable Object. The Durable Object starts a `standard-2` Container from a public, digest-pinned Docker Hub image. Litestream continuously replicates the global and per-agent SQLite databases to R2 through its S3-compatible API.
+This template runs one OpenAgent installation behind a Cloudflare Worker and one named Durable Object. The Durable Object starts a `standard-2` Container from a public, digest-pinned Docker Hub image. Litestream continuously replicates the global and per-agent SQLite databases to R2 through its S3-compatible API.
 
 This is an experimental deployment target. Read [Operational constraints](#operational-constraints) before using it with real credentials or relying on it for recovery.
 
@@ -16,7 +16,7 @@ Cloudflare Worker
 OpenClawContainer Durable Object (one stable name)
         |
         v
-OpenClaw + Litestream container :8080
+OpenAgent + Litestream container :8080
         |
         +--> R2 S3 API (SQLite replicas)
 ```
@@ -29,7 +29,7 @@ Every HTTP and WebSocket request is forwarded to port `8080`. The Container help
 - Docker Buildx with `linux/amd64` support
 - A public Docker Hub repository for the derived image
 - Node.js and npm
-- Model-provider and channel credentials for the OpenClaw setup you choose
+- Model-provider and channel credentials for the OpenAgent setup you choose
 
 ## 1. Create the R2 bucket and S3 credentials
 
@@ -97,7 +97,7 @@ npx wrangler secret put TELEGRAM_BOT_TOKEN
 
 `src/container.ts` passes the listed optional secret names to the Container. Add another explicit name there before using a different environment-backed provider or channel credential.
 
-## 4. Bootstrap OpenClaw
+## 4. Bootstrap OpenAgent
 
 Open the deployed Worker URL once to start the named instance. Then find the Container application and instance IDs:
 
@@ -148,17 +148,17 @@ Set `OPENCLAW_WEBHOOK_ONLY` to `true` only when every enabled channel receives t
 
 - **Experimental:** Cloudflare Container lifecycle and rollout behavior can change. Test crash, sleep, rollout, and restore paths with non-production credentials first.
 - **Single-writer fence:** Cloudflare guarantees one live Durable Object instance for a given name, and all Worker requests use the same name. This is the fence around one Litestream replica. A brief old/new Container overlap during replacement or rollout remains an accepted experimental tradeoff; do not raise `max_instances` or route around the named object.
-- **Ephemeral disk:** Every Container restart or sleep starts with a fresh filesystem. The entrypoint lists R2 objects, derives the concrete SQLite restore manifest, restores each database, then starts OpenClaw under Litestream.
+- **Ephemeral disk:** Every Container restart or sleep starts with a fresh filesystem. The entrypoint lists R2 objects, derives the concrete SQLite restore manifest, restores each database, then starts OpenAgent under Litestream.
 - **Partial durability:** Litestream covers `/home/node/.openclaw/state/*.sqlite` and recursive per-agent SQLite databases only. Use a separate, private [`openclaw backup create`](https://docs.openclaw.ai/install/backups#full-archives) workflow for config, credential files, plugins, and workspaces.
 - **RPO:** `sync-interval: 1s` normally yields a seconds-scale recovery point, not zero data loss. Abrupt termination can lose writes that were not uploaded yet.
 - **Rollback is time travel:** Restoring older state can desynchronize ratcheting channel credentials (especially WhatsApp), roll back approvals, and roll back delivery/dedupe state. Relink affected channels and review pending approvals before resuming.
 - **WebSocket limit:** Cloudflare accepts received WebSocket messages up to 32 MiB. The Worker/Container proxy supports WebSockets; larger individual messages are closed by the platform.
 - **Egress identity:** outbound traffic comes from shared Cloudflare IP space. Providers that require a fixed source IP need another deployment target or an approved egress design.
-- **Not a `cloudWorkers` provider:** this is a hosting template. Operator SSH access is enabled for bootstrap, but the template does not implement OpenClaw's SSH-based cloud-worker provider contract.
+- **Not a `cloudWorkers` provider:** this is a hosting template. Operator SSH access is enabled for bootstrap, but the template does not implement OpenAgent's SSH-based cloud-worker provider contract.
 
 ## Updating
 
-Build a new derived image from a new immutable official OpenClaw digest, push it, replace the derived digest in `wrangler.jsonc`, and run:
+Build a new derived image from a new immutable official OpenAgent digest, push it, replace the derived digest in `wrangler.jsonc`, and run:
 
 ```bash
 npm run check
@@ -185,6 +185,6 @@ Full operator guide: <https://docs.openclaw.ai/install/cloudflare>.
 - `wrangler.jsonc`: Worker, Durable Object, Container application, and R2 binding
 - `src/index.ts`: routes all HTTP and WebSocket traffic to one named instance
 - `src/container.ts`: Container port, readiness, environment, and sleep policy
-- `Dockerfile`: official OpenClaw image plus pinned Litestream for `linux/amd64`
+- `Dockerfile`: official OpenAgent image plus pinned Litestream for `linux/amd64`
 - `entrypoint.sh`: R2 LIST restore discovery, containment checks, and restore-then-exec flow
 - `litestream.yml`: watched global and per-agent SQLite directory replicas

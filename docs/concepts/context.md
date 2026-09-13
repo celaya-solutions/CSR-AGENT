@@ -1,17 +1,17 @@
 ---
 summary: "Context: what the model sees, how it is built, and how to inspect it"
 read_when:
-  - You want to understand what "context" means in Zero to Agent
+  - You want to understand what "context" means in OpenAgent
   - You are debugging why the model "knows" something (or forgot it)
   - You want to reduce context overhead (/context, /status, /compact)
 title: "Context"
 ---
 
-"Context" is **everything Zero to Agent sends to the model for a run**. It is bounded by the model's **context window** (token limit).
+"Context" is **everything OpenAgent sends to the model for a run**. It is bounded by the model's **context window** (token limit).
 
 Beginner mental model:
 
-- **System prompt** (Zero to Agent-built): rules, tools, skills list, time/runtime, and injected workspace files.
+- **System prompt** (OpenAgent-built): rules, tools, skills list, time/runtime, and injected workspace files.
 - **Conversation history**: your messages + the assistant's messages for this session.
 - **Tool calls/results + attachments**: command output, file reads, images/audio, etc.
 
@@ -106,9 +106,9 @@ Everything the model receives counts, including:
 - Compaction summaries and pruning artifacts.
 - Provider "wrappers" or hidden headers (not visible, still counted).
 
-## How Zero to Agent builds the system prompt
+## How OpenAgent builds the system prompt
 
-The system prompt is **Zero to Agent-owned** and rebuilt each run. It includes:
+The system prompt is **OpenAgent-owned** and rebuilt each run. It includes:
 
 - Tool list + short descriptions.
 - Skills list (metadata only; see below).
@@ -121,7 +121,7 @@ Full breakdown: [System Prompt](/concepts/system-prompt).
 
 ## Injected workspace files (Project Context)
 
-By default, Zero to Agent injects a fixed set of workspace files (if present):
+By default, OpenAgent injects a fixed set of workspace files (if present):
 
 - `AGENTS.md`
 - `SOUL.md`
@@ -129,7 +129,7 @@ By default, Zero to Agent injects a fixed set of workspace files (if present):
 - `USER.md`
 - `BOOTSTRAP.md` (first-run only)
 
-Large files are truncated per-file using `agents.defaults.bootstrapMaxChars` (default `20000` chars). Zero to Agent also enforces a total bootstrap injection cap across files with `agents.defaults.bootstrapTotalMaxChars` (default `60000` chars). `/context` shows **raw vs injected** sizes and whether truncation happened.
+Large files are truncated per-file using `agents.defaults.bootstrapMaxChars` (default `20000` chars). OpenAgent also enforces a total bootstrap injection cap across files with `agents.defaults.bootstrapTotalMaxChars` (default `60000` chars). `/context` shows **raw vs injected** sizes and whether truncation happened.
 
 When truncation occurs, the runtime injects a concise in-prompt notice under Project Context saying some bootstrap files were truncated; per-file names and sizes stay in `/context` and other diagnostics. This notice is built in and not configurable.
 
@@ -182,9 +182,9 @@ history prefix when the next user turn removes it.
 
 Docs: [Session](/concepts/session), [Compaction](/concepts/compaction), [Session pruning](/concepts/session-pruning).
 
-By default, Zero to Agent uses the built-in `legacy` context engine for assembly and
+By default, OpenAgent uses the built-in `legacy` context engine for assembly and
 compaction. If you install a plugin that provides `kind: "context-engine"` and
-select it with `plugins.slots.contextEngine`, Zero to Agent delegates context
+select it with `plugins.slots.contextEngine`, OpenAgent delegates context
 assembly, `/compact`, and related subagent context lifecycle hooks to that
 engine instead. `ownsCompaction: false` does not auto-fallback to the legacy
 engine; the active engine must still implement `compact()` correctly. See

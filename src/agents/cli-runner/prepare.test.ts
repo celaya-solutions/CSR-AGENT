@@ -1155,7 +1155,7 @@ describe("prepareCliRunContext", () => {
     const agentDir = path.join(dir, "agents", "main", "agent");
     const authProfileId = "google-gemini-cli:legacy";
     const backendError = new CliBackendAuthProfilePreparationError(
-      "Gemini CLI OAuth profile is incomplete and cannot be repaired by Zero to Agent.",
+      "Gemini CLI OAuth profile is incomplete and cannot be repaired by OpenAgent.",
     );
     fs.mkdirSync(agentDir, { recursive: true });
     saveAuthProfileStore(
@@ -2521,12 +2521,12 @@ describe("prepareCliRunContext", () => {
         message: makeUserMessage("prior room event", 1),
       });
       // Room resumes carry compact event text into the CLI prompt but keep the
-      // richer room context in Zero to Agent history for reseed and audits.
+      // richer room context in OpenAgent history for reseed and audits.
       const context = await prepare({
         sessionKey: "agent:main:test",
         agentId: "main",
         trigger: "user",
-        prompt: "[Zero to Agent room event]",
+        prompt: "[OpenAgent room event]",
         currentInboundEventKind: "room_event",
         currentInboundContext: {
           text: "Room context:\nAlice: lunch?\n\nCurrent event:\nBob: yes",
@@ -2541,7 +2541,7 @@ describe("prepareCliRunContext", () => {
       });
 
       expect(context.reusableCliSession).toEqual({ mode: "reuse", sessionId: "cli-session" });
-      expect(context.params.prompt).toBe("Current event:\nBob: yes\n\n[Zero to Agent room event]");
+      expect(context.params.prompt).toBe("Current event:\nBob: yes\n\n[OpenAgent room event]");
       expect(context.openClawHistoryPrompt).toContain("Room context:\nAlice: lunch?");
       expect(context.openClawHistoryPrompt).toContain("Current event:\nBob: yes");
     });
@@ -2718,7 +2718,7 @@ describe("prepareCliRunContext", () => {
 
     expect(context.params.prompt).toBe("latest ask");
     expect(context.systemPrompt).toContain(
-      "You are a personal assistant running inside Zero to Agent.",
+      "You are a personal assistant running inside OpenAgent.",
     );
     expect(context.systemPrompt).toContain("Current model identity: test-cli/test-model.");
     expect(context.systemPrompt).not.toContain("hook exploded");
@@ -3132,7 +3132,7 @@ describe("prepareCliRunContext", () => {
           hostRequirements: {
             "agent-run": {
               requiredCapabilities: ["assemble-before-prompt"],
-              unsupportedMessage: "Use the native Codex or Zero to Agent embedded runtime.",
+              unsupportedMessage: "Use the native Codex or OpenAgent embedded runtime.",
             },
           },
         },
@@ -3481,7 +3481,7 @@ describe("prepareCliRunContext", () => {
     });
     expect(context.openClawHistoryPrompt).toBeUndefined();
     expect(context.params.prompt).toContain(
-      "Zero to Agent resumed this CLI session after prompt content changed.",
+      "OpenAgent resumed this CLI session after prompt content changed.",
     );
     expect(context.params.prompt).toContain("changed=system-prompt");
     expect(context.params.prompt).toContain("latest ask");
@@ -3505,7 +3505,7 @@ describe("prepareCliRunContext", () => {
       invalidatedReason: "system-prompt",
     });
     expect(context.params.prompt).not.toContain(
-      "Zero to Agent resumed this CLI session after prompt content changed.",
+      "OpenAgent resumed this CLI session after prompt content changed.",
     );
   });
 
@@ -4652,7 +4652,7 @@ describe("prepareCliRunContext", () => {
       toolsAllow: ["read", "web_search"],
     });
     await expect(run).rejects.toThrow(
-      `CLI backend "test-cli" cannot enforce this run's tool cap. Upgrade its plugin and retry; if current, ask its maintainer to add exact-cap support. Zero to Agent did not start the run.`,
+      `CLI backend "test-cli" cannot enforce this run's tool cap. Upgrade its plugin and retry; if current, ask its maintainer to add exact-cap support. OpenAgent did not start the run.`,
     );
 
     expect(getActiveMcpLoopbackRuntime).not.toHaveBeenCalled();
@@ -5174,7 +5174,7 @@ describe("prepareCliRunContext", () => {
     ).rejects.toMatchObject({
       code: "unsupported",
       message:
-        'CLI backend "external-cli" does not support isolated completion; Zero to Agent did not start the run.',
+        'CLI backend "external-cli" does not support isolated completion; OpenAgent did not start the run.',
     });
     expect(cleanup).toHaveBeenCalledOnce();
   });
@@ -6096,7 +6096,7 @@ describe("prepareCliRunContext", () => {
         });
 
         // Candidate is invalidated (no native --resume) yet reseed still fires:
-        // prepare hands the prior Zero to Agent conversation forward as history.
+        // prepare hands the prior OpenAgent conversation forward as history.
         expect(context.reusableCliSession).toEqual(
           hasBinding
             ? { mode: "invalidate", invalidatedReason: "missing-transcript" }
@@ -7063,12 +7063,10 @@ describe("prepareCliRunContext", () => {
       expect(context.openClawHistoryPrompt).toBeDefined();
       expect(context.openClawHistoryPrompt).toContain("RESEED_RETAINED_PREFIX");
       if (testCase.expectsTruncation) {
-        expect(context.openClawHistoryPrompt).toContain("Zero to Agent reseed history truncated");
+        expect(context.openClawHistoryPrompt).toContain("OpenAgent reseed history truncated");
       } else {
         expect(context.openClawHistoryPrompt).toContain(testCase.marker);
-        expect(context.openClawHistoryPrompt).not.toContain(
-          "Zero to Agent reseed history truncated",
-        );
+        expect(context.openClawHistoryPrompt).not.toContain("OpenAgent reseed history truncated");
       }
     });
   });
@@ -7126,7 +7124,7 @@ describe("prepareCliRunContext", () => {
       expect(context.openClawHistoryPrompt).toBeDefined();
       expect(context.openClawHistoryPrompt).toContain(recentMarker);
       expect(context.openClawHistoryPrompt).toContain("EARLIEST_USER");
-      expect(context.openClawHistoryPrompt).not.toContain("Zero to Agent reseed history truncated");
+      expect(context.openClawHistoryPrompt).not.toContain("OpenAgent reseed history truncated");
     });
   });
 });

@@ -2,7 +2,7 @@
   "id": "telegram",
   "categories": ["channels"],
   "name": "Telegram",
-  "description": "Zero to Agent Telegram channel plugin.",
+  "description": "OpenAgent Telegram channel plugin.",
   "doctorContract": {
     "configRepair": true,
     "stateMigrations": [{ "id": "telegram-legacy-state" }]

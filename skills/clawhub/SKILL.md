@@ -5,7 +5,7 @@ description: "Search ClawHub for skills when a requested capability is not alrea
 
 # ClawHub
 
-Use `openclaw skills` to discover and manage skills for the current Zero to Agent
+Use `openclaw skills` to discover and manage skills for the current OpenAgent
 agent. Use the standalone `clawhub` CLI to uninstall installed ClawHub skills
 and for publishing, syncing, and publisher account workflows.
 
@@ -49,7 +49,7 @@ clawhub uninstall @owner/my-skill
 ```
 
 The CLI asks for confirmation before removing the skill and its lockfile entry.
-Use the original agent workspace for agent-specific skills or the Zero to Agent
+Use the original agent workspace for agent-specific skills or the OpenAgent
 state directory for skills installed with `--global`:
 
 ```bash

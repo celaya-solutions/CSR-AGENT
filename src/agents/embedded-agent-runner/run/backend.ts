@@ -1,5 +1,5 @@
 /**
- * Dispatches embedded attempts to native harness or Zero to Agent backend execution.
+ * Dispatches embedded attempts to native harness or OpenAgent backend execution.
  */
 import {
   runAgentHarnessAttempt,

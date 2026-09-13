@@ -1,10 +1,10 @@
 # App Review Notes
 
-Use these steps to exercise the live OpenClaw iOS App Review Gateway.
+Use these steps to exercise the live OpenAgent iOS App Review Gateway.
 
 ## Demo Account / Setup
 
-Use the OpenClaw iOS app with the live review Gateway setup code included in
+Use the OpenAgent iOS app with the live review Gateway setup code included in
 the `Notes` field of this App Review submission.
 
 The setup code is a single generated code string. It already contains the public
@@ -12,7 +12,7 @@ Gateway host and setup credential.
 
 ## Setup Walkthrough
 
-1. Open the OpenClaw app.
+1. Open the OpenAgent app.
 2. Tap `Continue`.
 3. On `Connect Gateway`, tap `Set Up Manually`.
 4. In the `Setup Code` section, tap the `Paste setup code` field.
@@ -20,14 +20,14 @@ Gateway host and setup credential.
 6. Tap `Apply Setup Code`.
 7. If `Trust and connect` appears, tap `Trust and connect`.
 8. Wait for the `Connected` screen.
-9. On `Connected`, tap `Open OpenClaw`.
+9. On `Connected`, tap `Open OpenAgent`.
 10. Confirm the `Control` screen shows `Gateway Online`.
 11. Tap `Settings`.
 12. Tap `Approvals`.
 13. Tap `Open Notifications`.
 14. Tap `Enable Notifications`.
-15. On `Enable OpenClaw Hosted Push Relay?`, tap `Continue`.
-16. If iOS asks whether OpenClaw may send notifications, tap `Allow`.
+15. On `Enable OpenAgent Hosted Push Relay?`, tap `Continue`.
+16. If iOS asks whether OpenAgent may send notifications, tap `Allow`.
 17. Confirm `Notifications` shows `Enabled`.
 
 ## Chat
@@ -53,7 +53,7 @@ Run the approval demo.
 ```
 
 Expected result: the iPhone shows `Exec approval required` with the harmless
-command `printf 'OpenClaw App Review approval demo complete\n'`. Tap
+command `printf 'OpenAgent App Review approval demo complete\n'`. Tap
 `Allow Once`. The chat then replies:
 
 ```text
@@ -90,12 +90,12 @@ Expected result: the assistant responds by voice. Tap `Stop Talk` when done.
 Tell me when you can hear me.
 ```
 
-9. While Talk is active, send OpenClaw to the background by returning to the
+9. While Talk is active, send OpenAgent to the background by returning to the
    Home Screen or locking the iPhone. Do not force quit the app.
 10. Continue speaking then wait for assistant audio reply.
 
-Expected result: realtime Talk audio continues while OpenClaw is backgrounded.
-Reopen OpenClaw, confirm Talk is still active, then tap `Stop Talk`.
+Expected result: realtime Talk audio continues while OpenAgent is backgrounded.
+Reopen OpenAgent, confirm Talk is still active, then tap `Stop Talk`.
 
 ## Gateway Status
 
@@ -109,13 +109,13 @@ Reopen OpenClaw, confirm Talk is still active, then tap `Stop Talk`.
 
 1. Tap `Settings`.
 2. Tap `Reconnect`.
-3. Immediately send OpenClaw to the background by returning to the Home Screen
+3. Immediately send OpenAgent to the background by returning to the Home Screen
    or locking the iPhone.
 4. Watch the Lock Screen or Dynamic Island while the Gateway reconnects.
 
-Expected result: while reconnecting, iOS can show an `OpenClaw` Live Activity
+Expected result: while reconnecting, iOS can show an `OpenAgent` Live Activity
 with connection status such as `Connecting...` or `Reconnecting...`. On a fast
-network this status may be brief because OpenClaw ends the Live Activity after
+network this status may be brief because OpenAgent ends the Live Activity after
 the Gateway reconnects successfully.
 
 ## Push Notification
@@ -128,17 +128,17 @@ the Gateway reconnects successfully.
 Start push notification demo.
 ```
 
-4. Immediately send OpenClaw to the background and lock the iPhone. Do not
+4. Immediately send OpenAgent to the background and lock the iPhone. Do not
    force quit the app.
 
-Expected result: the iPhone Lock Screen receives a visible `OpenClaw`
+Expected result: the iPhone Lock Screen receives a visible `OpenAgent`
 notification with this body:
 
 ```text
-OpenClaw App Review push notification demo
+OpenAgent App Review push notification demo
 ```
 
-Tap the notification and unlock the iPhone if prompted. If OpenClaw opens on
+Tap the notification and unlock the iPhone if prompted. If OpenAgent opens on
 `Control`, tap `Chat`. Expected chat reply:
 
 ```text
@@ -154,11 +154,11 @@ The push notification demo completed.
 Start push wake demo.
 ```
 
-3. Immediately send OpenClaw to the background and lock the iPhone. Do not
+3. Immediately send OpenAgent to the background and lock the iPhone. Do not
    force quit the app.
-4. Wait for the `OpenClaw` notification on the Lock Screen. It normally appears
+4. Wait for the `OpenAgent` notification on the Lock Screen. It normally appears
    about 10 seconds after the message is sent.
-5. Tap the notification and unlock the iPhone if prompted. If OpenClaw opens on
+5. Tap the notification and unlock the iPhone if prompted. If OpenAgent opens on
    `Control`, tap `Chat`.
 
 Expected result: the app reconnects to the live Gateway and Chat replies:
@@ -169,10 +169,10 @@ The push wake and node status demo completed.
 
 ## Device Permissions
 
-OpenClaw does not present an aggregate permissions page during onboarding.
+OpenAgent does not present an aggregate permissions page during onboarding.
 Optional access is requested when the reviewer invokes the related feature or
 taps `Continue` for a permission in Settings. `Continue` immediately presents
-the native iOS authorization prompt, with no additional OpenClaw dialog or
+the native iOS authorization prompt, with no additional OpenAgent dialog or
 deferral action.
 
 1. Tap `Settings`.
@@ -202,7 +202,7 @@ its current status or a management action instead of `Continue`.
 Apple Health Summaries is off by default. Under `Settings` → `Permissions`, the
 always-visible `Apple Health` section identifies the feature and the specific
 data it uses. Tap `Enable Apple Health Summaries` to open Apple's Health
-permission sheet. OpenClaw requests read-only access to steps, sleep, resting
+permission sheet. OpenAgent requests read-only access to steps, sleep, resting
 heart rate, and workouts from the Apple Health app. It performs aggregation on
 device and shares only a user-requested `today` summary through the user's
 Gateway and configured AI provider; individual samples, sources, metadata,
@@ -221,11 +221,11 @@ medical advice.
 2. Navigate to `https://example.com`.
 3. Tap the Safari toolbar `More` button.
 4. Tap `Share`.
-5. Tap `OpenClaw`.
-6. Confirm the OpenClaw share extension appears and shows
-   `Edit text, then tap Send.` and `Send to OpenClaw`.
-7. Tap `Send to OpenClaw`.
+5. Tap `OpenAgent`.
+6. Confirm the OpenAgent share extension appears and shows
+   `Edit text, then tap Send.` and `Send to OpenAgent`.
+7. Tap `Send to OpenAgent`.
 
-Expected result: the OpenClaw share extension sends the shared Safari page to
-the live review Gateway and shows `Sent to OpenClaw.` Returning to OpenClaw
+Expected result: the OpenAgent share extension sends the shared Safari page to
+the live review Gateway and shows `Sent to OpenAgent.` Returning to OpenAgent
 Chat shows the shared `Example Domain` page.

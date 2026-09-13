@@ -209,7 +209,7 @@ const {
         active: false,
         queued: false,
         reason: "no_active_run",
-        message: "There is no active Zero to Agent run to steer.",
+        message: "There is no active OpenAgent run to steer.",
         speak: true,
         show: true,
         suppress: false,

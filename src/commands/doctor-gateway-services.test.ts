@@ -1545,7 +1545,7 @@ describe("maybeRepairGatewayServiceConfig", () => {
     mocks.readCommand.mockResolvedValue({
       programArguments: gatewayProgramArguments,
       environment: {
-        OPENCLAW_WINDOWS_TASK_NAME: "Zero to Agent Gateway Work",
+        OPENCLAW_WINDOWS_TASK_NAME: "OpenAgent Gateway Work",
       },
     });
     mocks.auditGatewayServiceConfig.mockResolvedValue(
@@ -2137,7 +2137,7 @@ describe("maybeScanExtraGatewayServices", () => {
     expect(mocks.findExtraGatewayServices).toHaveBeenCalledWith(process.env, { deep: true });
   });
 
-  it("skips structured host-service discovery in containers without a Zero to Agent service", async () => {
+  it("skips structured host-service discovery in containers without an OpenAgent service", async () => {
     mocks.isContainerEnvironment.mockReturnValue(true);
 
     await expect(detectExtraGatewayServiceIssues({ deep: true })).resolves.toEqual([]);
@@ -2249,7 +2249,7 @@ describe("maybeScanExtraGatewayServices", () => {
     });
     expectNoteContaining("clawdbot-gateway.service", "Legacy gateway removed");
     expect(runtime.log).not.toHaveBeenCalledWith(
-      expect.stringContaining("Installing Zero to Agent gateway next."),
+      expect.stringContaining("Installing OpenAgent gateway next."),
     );
   });
 
@@ -2270,7 +2270,7 @@ describe("maybeScanExtraGatewayServices", () => {
       expectNoteContaining(LEGACY_MAC_LABEL, "Legacy gateway removed");
       expectNoNoteContaining(LEGACY_MAC_LABEL, "Legacy gateway cleanup skipped");
       expect(runtime.log).not.toHaveBeenCalledWith(
-        expect.stringContaining("Installing Zero to Agent gateway next."),
+        expect.stringContaining("Installing OpenAgent gateway next."),
       );
     },
   );
@@ -2298,7 +2298,7 @@ describe("maybeScanExtraGatewayServices", () => {
     );
     expectNoNoteContaining(LEGACY_MAC_LABEL, "Legacy gateway removed");
     expect(runtime.log).not.toHaveBeenCalledWith(
-      "Legacy gateway services removed. Installing Zero to Agent gateway next.",
+      "Legacy gateway services removed. Installing OpenAgent gateway next.",
     );
   });
 
@@ -2456,7 +2456,7 @@ describe("maybeScanExtraGatewayServices", () => {
     );
     expectNoNoteContaining(LEGACY_MAC_LABEL, "Legacy gateway removed");
     expect(runtime.log).not.toHaveBeenCalledWith(
-      "Legacy gateway services removed. Installing Zero to Agent gateway next.",
+      "Legacy gateway services removed. Installing OpenAgent gateway next.",
     );
   });
 
@@ -2482,7 +2482,7 @@ describe("maybeScanExtraGatewayServices", () => {
       );
       expect(mocks.uninstallLegacySystemdUnits).not.toHaveBeenCalled();
       expect(runtime.log).not.toHaveBeenCalledWith(
-        "Legacy gateway services removed. Installing Zero to Agent gateway next.",
+        "Legacy gateway services removed. Installing OpenAgent gateway next.",
       );
     });
   });

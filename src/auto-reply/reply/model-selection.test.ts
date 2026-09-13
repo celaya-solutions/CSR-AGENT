@@ -875,7 +875,7 @@ describe("createModelSelectionState catalog loading", () => {
     expect(loadModelCatalogLocal).toHaveBeenCalledOnce();
   });
 
-  it("preserves OpenAI API-key session auth when model policy explicitly pins Zero to Agent", async () => {
+  it("preserves OpenAI API-key session auth when model policy explicitly pins OpenAgent", async () => {
     authProfileStoreMock.store = {
       version: 1,
       profiles: {

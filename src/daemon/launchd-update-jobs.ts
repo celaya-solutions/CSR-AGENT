@@ -1,4 +1,4 @@
-/** Discovery and shutdown of stale Zero to Agent launchd updater jobs. */
+/** Discovery and shutdown of stale OpenAgent launchd updater jobs. */
 import path from "node:path";
 import {
   parseStrictInteger,

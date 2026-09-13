@@ -331,7 +331,7 @@ describe("ChannelsPage lifecycle", () => {
               {
                 id: "slack",
                 name: "Slack",
-                description: "Zero to Agent Slack channel plugin.",
+                description: "OpenAgent Slack channel plugin.",
                 origin: "bundled",
                 installed: true,
                 enabled: false,
@@ -372,7 +372,7 @@ describe("ChannelsPage lifecycle", () => {
       await vi.waitFor(() => {
         expect(page.querySelector(".settings-row__title")?.textContent).toBe("Slack");
         expect(page.querySelector(".settings-row__desc")?.textContent).toBe(
-          "Zero to Agent Slack channel plugin.",
+          "OpenAgent Slack channel plugin.",
         );
         expect(page.querySelector(".channels-item img")?.getAttribute("src")).toBe(
           "blob:slack-plugin-icon",
@@ -409,7 +409,7 @@ describe("ChannelsPage lifecycle", () => {
             {
               id: "mattermost",
               name: "Mattermost",
-              description: "Zero to Agent Mattermost channel plugin.",
+              description: "OpenAgent Mattermost channel plugin.",
               origin: "bundled",
               installed: true,
               enabled: true,

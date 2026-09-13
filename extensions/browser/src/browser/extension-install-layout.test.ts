@@ -198,8 +198,8 @@ describe("deterministic unpacked extension ID", () => {
   });
 
   it("normalizes only a lowercase Windows drive letter", () => {
-    expect(generateChromeExtensionIdForPath("c:\\Zero to Agent\\extension", "win32")).toBe(
-      generateChromeExtensionIdForPath("C:\\Zero to Agent\\extension", "win32"),
+    expect(generateChromeExtensionIdForPath("c:\\OpenAgent\\extension", "win32")).toBe(
+      generateChromeExtensionIdForPath("C:\\OpenAgent\\extension", "win32"),
     );
   });
 });
@@ -219,13 +219,13 @@ describe.each(["Preferences", "Secure Preferences"] as const)("%s discovery", (f
       userDataDir: chrome.userDataDir,
       profile: "Default",
       entries: {
-        [installedId]: { location: 4, path: installed, manifest: { name: "Not Zero to Agent" } },
+        [installedId]: { location: 4, path: installed, manifest: { name: "Not OpenAgent" } },
         [FOUNDATION_STORE_ID]: {
           location: 1,
           from_webstore: true,
           path: path.join(value.root, "foreign-store-lookalike"),
         },
-        ["p".repeat(32)]: { location: 1, path: installed, manifest: { name: "Zero to Agent" } },
+        ["p".repeat(32)]: { location: 1, path: installed, manifest: { name: "OpenAgent" } },
       },
     });
     await writeChromePreferences({
@@ -409,7 +409,7 @@ describe.each(["Preferences", "Secure Preferences"] as const)("%s discovery", (f
 
     expect(status.discovered).toEqual([]);
     expect(status.manualSetupRequired).toBe(true);
-    expect(status.issues.join("\n")).toContain("not Zero to Agent-owned");
+    expect(status.issues.join("\n")).toContain("not OpenAgent-owned");
   });
 });
 

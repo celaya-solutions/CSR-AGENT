@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct PortGuardianIsExpectedTests {
     @Test(arguments: [nil as UInt16?, 49219]) @MainActor

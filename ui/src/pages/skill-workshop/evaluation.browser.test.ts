@@ -113,7 +113,7 @@ function propsFor(mode: SkillWorkshopMode): SkillWorkshopProps {
     revisionKey: null,
     revisionDraft: "",
     revisionRecoveryActive: false,
-    assistantName: "Zero to Agent",
+    assistantName: "OpenAgent",
     workshopAgentName: "Research",
     selfLearning: null,
     onRetry: vi.fn(),

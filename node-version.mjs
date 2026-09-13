@@ -18,8 +18,8 @@ export const SUPPORTED_NODE_VERSIONS = `${NODE_RELEASE_FLOORS.map(
 
 export function formatUnsupportedNodeVersionMessage(version) {
   return [
-    `Node ${version ?? "unknown"} is unsupported; Zero to Agent requires ${SUPPORTED_NODE_VERSIONS}.`,
-    "npm can finish installing Zero to Agent without running its preinstall check; a successful install does not mean Node is supported.",
+    `Node ${version ?? "unknown"} is unsupported; OpenAgent requires ${SUPPORTED_NODE_VERSIONS}.`,
+    "npm can finish installing OpenAgent without running its preinstall check; a successful install does not mean Node is supported.",
     "Re-run the installer: curl -fsSL https://openclaw.ai/install.sh | bash",
     "On Windows: iwr -useb https://openclaw.ai/install.ps1 | iex",
     "Or with nvm: nvm install 26 && nvm use 26 && nvm alias default 26",
@@ -67,7 +67,7 @@ function diagnosticOptions(args, booleanOptions, valueOptions = []) {
 /** Shared by the packaged launcher and source guard before either loads command state. */
 export function classifyUnsupportedNodeCommand(argv) {
   // On an unsupported runtime, a command may run only if it never opens a LIVE
-  // Zero to Agent database writable and never starts a Gateway or a repair agent.
+  // OpenAgent database writable and never starts a Gateway or a repair agent.
   // Private-copy recovery is allowed; artifact-preserving readers never write the live file.
   const args = argv.slice(2);
   let index = 0;
@@ -172,7 +172,7 @@ export function isNodeVersionAtLeast(version, minimum) {
   return version.patch >= minimum.patch;
 }
 
-/** Checks Zero to Agent's supported release lines. Older Node lines with lossy SQLite TEXT reads are unsupported. */
+/** Checks OpenAgent's supported release lines. Older Node lines with lossy SQLite TEXT reads are unsupported. */
 export function isSupportedOpenClawNodeVersion(value) {
   const version = parseNodeReleaseVersion(value);
   if (!version) {
@@ -204,6 +204,6 @@ function renderProcessNodeVersionCheck() {
 })(process.versions.node)`;
 }
 
-// Worker bootstrap runs before Zero to Agent is transferred. Carry the canonical
+// Worker bootstrap runs before OpenAgent is transferred. Carry the canonical
 // release policy as a self-contained expression instead of a second parser.
 export const PROCESS_NODE_VERSION_CHECK = renderProcessNodeVersionCheck();

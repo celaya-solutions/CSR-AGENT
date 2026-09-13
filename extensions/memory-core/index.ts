@@ -1,6 +1,6 @@
 import { resolveSessionAgentIdStrict } from "openclaw/plugin-sdk/agent-scope-runtime";
 import { createLazyRuntimeModule } from "openclaw/plugin-sdk/lazy-runtime";
-// Memory Core plugin entrypoint registers its Zero to Agent integration.
+// Memory Core plugin entrypoint registers its OpenAgent integration.
 import {
   jsonResult,
   type MemoryPluginRuntime,
@@ -224,7 +224,7 @@ function createLazyMemoryRuntime(host: MemoryCoreRuntimeHost): MemoryPluginRunti
 
 export default definePluginEntry({
   id: "memory-core",
-  name: "Zero to Agent Memory",
+  name: "OpenAgent Memory",
   description: "File-backed memory search tools and CLI",
   kind: "memory",
   register(api) {

@@ -132,7 +132,7 @@ export function renderChatComposer(props: ChatComposerProps) {
   const composerLeadControl = props.permissionPicker
     ? renderChatPermissionPicker(props.permissionPicker)
     : nothing;
-  const assistantName = props.assistantName || "Zero to Agent";
+  const assistantName = props.assistantName || "OpenAgent";
   const inProgressLabel = props.waitingApproval
     ? t("chat.waitingForApproval")
     : submittedProgress?.sendState === "waiting-model"

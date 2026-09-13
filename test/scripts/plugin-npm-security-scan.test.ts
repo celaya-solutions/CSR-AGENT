@@ -29,7 +29,7 @@ const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 function initGitRepo(root: string): void {
   execFileSync("git", ["init", "--quiet", root]);
   execFileSync("git", ["-C", root, "config", "user.email", "test@example.invalid"]);
-  execFileSync("git", ["-C", root, "config", "user.name", "Zero to Agent Test"]);
+  execFileSync("git", ["-C", root, "config", "user.name", "OpenAgent Test"]);
 }
 
 function writePublishableManifest(
@@ -727,7 +727,7 @@ describe("scripts/lib/plugin-npm-security-scan.mts", () => {
   });
 
   it("bounds manifests and rejects noncanonical or duplicate package identities", async () => {
-    expect(() => assertCanonicalNpmPackageName("Zero to Agent/Bad", "fixture")).toThrow(
+    expect(() => assertCanonicalNpmPackageName("OpenAgent/Bad", "fixture")).toThrow(
       "invalid npm package name",
     );
 

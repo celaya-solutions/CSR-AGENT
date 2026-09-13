@@ -1,4 +1,4 @@
-// Scope script supports OpenClaw repository automation.
+// Scope script supports OpenAgent repository automation.
 import fs from "node:fs";
 import path from "node:path";
 import { BUNDLED_PLUGIN_PATH_PREFIX } from "../bundled-plugin-paths.mjs";
@@ -127,7 +127,11 @@ export function createPluginSdkScope(_repoRoot: string): TopologyScope {
     sourcePath: `src/plugin-sdk/${entrypoint}.ts`,
     importSpecifier: `openclaw/plugin-sdk/${entrypoint}`,
   }));
-  return buildScopeFromEntrypoints("plugin-sdk", "OpenClaw plugin-sdk public surface", entrypoints);
+  return buildScopeFromEntrypoints(
+    "plugin-sdk",
+    "OpenAgent plugin-sdk public surface",
+    entrypoints,
+  );
 }
 
 export function createFilesystemPublicSurfaceScope(

@@ -159,7 +159,7 @@ open_external_terminal() {
 
   if [[ $system_name == "Linux" && -n ${WSL_DISTRO_NAME:-} ]] &&
     command -v wt.exe >/dev/null 2>&1; then
-    if wt.exe new-tab --title "OpenClaw TUI prototypes" \
+    if wt.exe new-tab --title "OpenAgent TUI prototypes" \
       wsl.exe --distribution "$WSL_DISTRO_NAME" --exec \
       tmux attach-session -t "=$session_name"; then
       return 0
@@ -168,7 +168,7 @@ open_external_terminal() {
 
   if [[ $system_name == "Linux" ]]; then
     if command -v xdg-terminal-exec >/dev/null 2>&1; then
-      if xdg-terminal-exec --title="OpenClaw TUI prototypes" \
+      if xdg-terminal-exec --title="OpenAgent TUI prototypes" \
         tmux attach-session -t "=$session_name"; then
         return 0
       fi

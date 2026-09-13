@@ -1,9 +1,9 @@
 ---
 name: openclaw-parallels-smoke
-description: Prepare, snapshot, run, rerun, debug, or interpret OpenClaw Parallels guest install, onboarding, gateway smoke, and upgrade checks across macOS, Windows, and Linux.
+description: Prepare, snapshot, run, rerun, debug, or interpret OpenAgent Parallels guest install, onboarding, gateway smoke, and upgrade checks across macOS, Windows, and Linux.
 ---
 
-# OpenClaw Parallels Smoke
+# OpenAgent Parallels Smoke
 
 Use this skill for Parallels guest workflows and smoke interpretation. Do not load it for normal repo work.
 
@@ -43,7 +43,7 @@ Use this skill for Parallels guest workflows and smoke interpretation. Do not lo
   - Windows: `90m`
   - aggregate npm-update wrapper: `150m`
     If a lane hits the cap, stop there, inspect the newest `/tmp/openclaw-parallels-*` run directory and phase log, then fix or rerun the smallest affected lane. Do not keep waiting on a capped lane.
-- Actual OpenClaw npm install/update phases are a stricter signal than whole-lane caps: install phases should normally finish within 7 minutes, and update phases should normally show meaningful progress within 5 minutes. If a phase named `install-main`, `install-latest`, `install-baseline`, or `install-baseline-package` exceeds 420s, or a phase named `update-dev` / same-guest `openclaw update` exceeds 300s without new markers, start diagnosis from that phase log and guest process state. Current Windows update phases can still pass after roughly 10-15 minutes because `doctor --fix` may install bundled plugin runtime deps; keep the script hard cap near 20 minutes unless the log is truly stale.
+- Actual OpenAgent npm install/update phases are a stricter signal than whole-lane caps: install phases should normally finish within 7 minutes, and update phases should normally show meaningful progress within 5 minutes. If a phase named `install-main`, `install-latest`, `install-baseline`, or `install-baseline-package` exceeds 420s, or a phase named `update-dev` / same-guest `openclaw update` exceeds 300s without new markers, start diagnosis from that phase log and guest process state. Current Windows update phases can still pass after roughly 10-15 minutes because `doctor --fix` may install bundled plugin runtime deps; keep the script hard cap near 20 minutes unless the log is truly stale.
 - For a full OS matrix, prefer running independent guest-family lanes in parallel when host capacity allows:
   - `timeout --foreground 75m pnpm test:parallels:macos -- --json`
   - `timeout --foreground 90m pnpm test:parallels:windows -- --json`
@@ -57,7 +57,7 @@ Use this skill for Parallels guest workflows and smoke interpretation. Do not lo
 - If `main` is moving under active multi-agent work, prefer a detached worktree pinned to one commit for long Parallels suites. The smoke scripts now verify the packed tgz commit instead of live `git rev-parse HEAD`, but a pinned worktree still avoids noisy rebuild/version drift during reruns.
 - For `openclaw update --channel dev` lanes, remember the guest clones GitHub `main`, not your local worktree. If a local fix exists but the rerun still fails inside the cloned dev checkout, do not treat that as disproof of the fix until the branch has been pushed.
 - For `prlctl exec`, pass the VM name before `--current-user` (`prlctl exec "$VM" --current-user ...`), not the other way around.
-- If the workflow installs OpenClaw from a repo checkout instead of the site installer/npm release, finish by installing a real guest CLI shim and verifying it in a fresh guest shell. `pnpm openclaw ...` inside the repo is not enough for handoff parity.
+- If the workflow installs OpenAgent from a repo checkout instead of the site installer/npm release, finish by installing a real guest CLI shim and verifying it in a fresh guest shell. `pnpm openclaw ...` inside the repo is not enough for handoff parity.
 - On macOS guests, prefer a user-global install plus a stable PATH-visible shim:
   - install with `NPM_CONFIG_PREFIX="$HOME/.npm-global" npm install -g .`
   - make sure `~/.local/bin/openclaw` exists or `~/.npm-global/bin` is on PATH
@@ -72,7 +72,7 @@ Use this skill for Parallels guest workflows and smoke interpretation. Do not lo
 - Required coverage: every release/update regression run must include both lanes:
   - fresh snapshot -> install requested package/baseline -> smoke
   - same guest baseline -> run the guest's installed `openclaw update ...` command -> smoke again
-- The update lane must exercise OpenClaw's internal updater. Do not count a direct `npm install -g <tgz-or-spec>` or harness-side package swap as update-flow coverage; those are install smokes only.
+- The update lane must exercise OpenAgent's internal updater. Do not count a direct `npm install -g <tgz-or-spec>` or harness-side package swap as update-flow coverage; those are install smokes only.
 - For published targets, install the old baseline package first (for example `openclaw@2026.4.9`), then run the installed guest CLI with the intended channel/tag (for example `openclaw update --channel beta --yes --json`) and verify `openclaw --version`, `openclaw update status --json`, gateway RPC, and an agent turn after the command.
 - For unpublished targets, pack the candidate on the host, serve the `.tgz` over the harness HTTP server, and point the guest updater at that served package. Prefer `openclaw update --tag http://<host-ip>:<port>/openclaw-<version>.tgz --yes --json`; when channel persistence also matters, pass `--channel <stable|beta>` and set `OPENCLAW_UPDATE_PACKAGE_SPEC` to the same served URL in the guest update environment. The command under test must still be `openclaw update`, not direct npm.
 - For unpublished local-fix validation, remember the old baseline updater code still controls the first hop. A fix that lives only in the new updater code cannot change that already-running old process; the served candidate must either keep package/plugin metadata compatible with the baseline host or the baseline itself must include the updater fix.
@@ -97,7 +97,7 @@ Use this skill for Parallels guest workflows and smoke interpretation. Do not lo
   - `gtimeout --foreground 150m pnpm test:parallels:npm-update -- --beta-validation beta4 --model openai/gpt-5.4 --json`
     Prefer the explicit `beta4` alias over `openclaw@beta` when validating a specific prerelease number; npm tags can move.
 - If the wrapper fails a lane, read the auto-dumped tail first, then the full nested lane log under `.artifacts/parallels/openclaw-parallels-npm-update.*`.
-- Current known macOS update-lane transport signature when the fallback is missing or bypassed: `Unable to authenticate the user. Make sure that the specified credentials are correct and try again.` Treat that as Parallels current-user authentication before blaming npm or OpenClaw.
+- Current known macOS update-lane transport signature when the fallback is missing or bypassed: `Unable to authenticate the user. Make sure that the specified credentials are correct and try again.` Treat that as Parallels current-user authentication before blaming npm or OpenAgent.
 - A macOS packaged fresh install with global package directories or bundled files mode `0777` usually means the harness used the root `prlctl exec` fallback under a permissive umask. The POSIX guest transports should prepend `umask 022`; verify the phase preflight line before blaming npm.
 
 ## CLI invocation footgun
@@ -158,7 +158,7 @@ is verified. Restore the original snapshot and stop the guest after ad-hoc proof
 
 ## Windows flow
 
-- This repo owns the general Windows VM lifecycle: remote `prlctl` management, clean-state checks, WSL 2, Git/Node, snapshot creation/restoration, and OpenClaw smoke. Assume Parallels Desktop is installed/activated and a Windows 11 VM has been downloaded, then run:
+- This repo owns the general Windows VM lifecycle: remote `prlctl` management, clean-state checks, WSL 2, Git/Node, snapshot creation/restoration, and OpenAgent smoke. Assume Parallels Desktop is installed/activated and a Windows 11 VM has been downloaded, then run:
 
   ```bash
   pnpm test:parallels:windows:prepare -- inventory
@@ -166,7 +166,7 @@ is verified. Restore the original snapshot and stop the guest after ad-hoc proof
   pnpm test:parallels:windows:prepare -- verify
   ```
 
-- `prepare` inventories before mutation, requires Parallels Tools and a logged-in desktop session, rejects OpenClaw CLI/app/tray/process state and WSL distros, creates a dated power-off clean-OS snapshot only on an unprepared guest, enables WSL/Virtual Machine Platform, installs the signed Microsoft WSL package, sets WSL 2 as default, installs Git and Node/npm, verifies the Windows hypervisor is active and no reboot is pending, and creates a power-off `pre-openclaw-native-e2e-<date>` snapshot.
+- `prepare` inventories before mutation, requires Parallels Tools and a logged-in desktop session, rejects OpenAgent CLI/app/tray/process state and WSL distros, creates a dated power-off clean-OS snapshot only on an unprepared guest, enables WSL/Virtual Machine Platform, installs the signed Microsoft WSL package, sets WSL 2 as default, installs Git and Node/npm, verifies the Windows hypervisor is active and no reboot is pending, and creates a power-off `pre-openclaw-native-e2e-<date>` snapshot.
 - When today's E2E snapshot already exists, `prepare` restores and verifies that snapshot instead of trusting its name. Treat `prepare` as destructive to post-snapshot guest changes, just like an explicit restore.
 - Package elevation resolves the exact version and SHA-256 from Microsoft's official WinGet manifests, validates the expected Authenticode publisher, and copies into a freshly ACL-restricted SYSTEM directory before execution. Keep this generic mechanism here; companion-specific package choices stay in the Windows app repo.
 - Restore `clean`, `e2e`, an exact name, or an id:
@@ -206,7 +206,7 @@ is verified. Restore the original snapshot and stop the guest after ad-hoc proof
 - If WSL features are enabled but `wsl.exe --version` fails, rerun `prepare`; the inbox features and the signed WSL package are separate prerequisites. If the default reverts to 1, set `wsl.exe --set-default-version 2` and rerun `verify`.
 - If `winget` detaches or prints nothing over `prlctl`, call it through `cmd.exe /d /s /c`. Avoid remote UAC: download as the desktop user, then let the controller verify the trusted manifest hash/publisher and install from its protected SYSTEM staging directory.
 - If snapshot restore reports incompatible saved CPU state, make a power-off replacement snapshot from the known-good disk state and use its exact name. Never bypass snapshot restore for a two-lane fresh+upgrade claim.
-- If baseline verification reports OpenClaw state, restore `clean` or remove the product state deliberately; never bless a dirty guest. Check `%APPDATA%` and `%LOCALAPPDATA%` for both stable and dev companion identities plus Inno uninstall registration.
+- If baseline verification reports OpenAgent state, restore `clean` or remove the product state deliberately; never bless a dirty guest. Check `%APPDATA%` and `%LOCALAPPDATA%` for both stable and dev companion identities plus Inno uninstall registration.
 - Long Windows installers can remain quiet while healthy. Inspect `tasklist` and installer/MSI logs before declaring a hang; keep long operations behind a background runner with short host-bounded polling calls.
 
 ## Linux flow

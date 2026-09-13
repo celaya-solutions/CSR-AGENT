@@ -1,11 +1,11 @@
 ---
 name: openclaw-pr-maintainer
-description: "Review, triage, repair, or land OpenClaw issues and pull requests with current-source evidence and the native maintainer workflow."
+description: "Review, triage, repair, or land OpenAgent issues and pull requests with current-source evidence and the native maintainer workflow."
 ---
 
-# OpenClaw PR Maintainer
+# OpenAgent PR Maintainer
 
-Use for the requested OpenClaw issue/PR operation. Root `AGENTS.md` owns repair,
+Use for the requested OpenAgent issue/PR operation. Root `AGENTS.md` owns repair,
 product, source-trust, and approval policy; this skill owns the GitHub workflow.
 A pasted ref is context, not permission to publish or expand the task.
 

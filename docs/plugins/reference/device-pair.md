@@ -15,7 +15,7 @@ Generate setup codes and approve device pairing requests.
 ## Distribution
 
 - Package: `openclaw`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

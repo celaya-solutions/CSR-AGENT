@@ -1,9 +1,9 @@
 ---
 name: release-openclaw-ci
-description: "Run, watch, debug, and summarize OpenClaw full release CI, release checks, live provider gates, install/update proofs, and release-secret preflights."
+description: "Run, watch, debug, and summarize OpenAgent full release CI, release checks, live provider gates, install/update proofs, and release-secret preflights."
 ---
 
-# OpenClaw Release CI
+# OpenAgent Release CI
 
 Use this with `$release-openclaw-maintainer` and `$openclaw-testing` when a release candidate needs full validation, install/update proof, live provider checks, or CI recovery.
 

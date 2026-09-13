@@ -1,4 +1,4 @@
-// Nextcloud Talk plugin entrypoint registers its Zero to Agent integration.
+// Nextcloud Talk plugin entrypoint registers its OpenAgent integration.
 import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
 
 export default defineBundledChannelEntry({

@@ -19,8 +19,8 @@ Root rules still apply. This file adds the Android release guardrails.
 - License rows are ordered alphabetically in code by derived display title, case-insensitive, with filename as the tiebreaker. Do not use numeric filename prefixes for ordering.
 - The display title is the license filename without the `.txt` extension.
 - Filenames should be plain dependency names, for example `Manrope.txt`; the filename is the row title and must not be shown as a row subtitle.
-- Do not add OpenClaw, OpenClaw Foundation, or other first-party/self-owned license entries. The screen is for third-party/open-source dependency acknowledgements.
-- When adding, removing, or upgrading Android dependencies, audit whether `apps/android/THIRD_PARTY_LICENSES/openclaw/licenses/` needs updates. Exclude dependencies owned by OpenClaw Foundation from the published license list.
+- Do not add OpenAgent, Celaya Solutions, or other first-party/self-owned license entries. The screen is for third-party/open-source dependency acknowledgements.
+- When adding, removing, or upgrading Android dependencies, audit whether `apps/android/THIRD_PARTY_LICENSES/openclaw/licenses/` needs updates. Exclude dependencies owned by Celaya Solutions from the published license list.
 - Keep license detail bodies rendered as verbatim monospace text.
 - Keep the Settings `Licenses` section at the bottom of Settings, after `Account`, with a single `Licenses` row and no row subtitle unless product direction changes.
 - When changing license loading or presentation, update `apps/android/app/src/test/java/ai/openclaw/app/AndroidLicenseNoticesTest.kt`, then run focused Android validation.

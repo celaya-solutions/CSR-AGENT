@@ -802,7 +802,7 @@ describe("getCachedPluginModuleLoader", () => {
     ]);
   });
 
-  it("can transform Zero to Agent dependencies on a forced source fallback", async () => {
+  it("can transform OpenAgent dependencies on a forced source fallback", async () => {
     const fromSourceTransformer = vi.fn(() => ({ fromSourceTransform: true }));
     const createJiti = vi.fn(() => fromSourceTransformer);
     const nativeStub = vi.fn(() => ({ ok: true, moduleExport: { fromNative: true } }));

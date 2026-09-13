@@ -22,7 +22,7 @@ Back to the main browser docs: [Browser](/tools/browser).
 
 ## Which Chrome profile is used?
 
-Zero to Agent controls a dedicated Chrome profile named `openclaw` (orange-tinted
+OpenAgent controls a dedicated Chrome profile named `openclaw` (orange-tinted
 UI), separate from your daily browser profile.
 
 For agent browser tool calls:

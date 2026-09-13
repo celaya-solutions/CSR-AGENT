@@ -66,7 +66,7 @@ describe("Pi session upstream activity", () => {
       upstreamKind: continued.upstream!.kind,
       upstreamRef: continued.upstream!.ref,
       marker: continued.upstream!.marker,
-      ownRecentUserTexts: ["sent from Zero to Agent"],
+      ownRecentUserTexts: ["sent from OpenAgent"],
     };
 
     await fs.appendFile(
@@ -76,7 +76,7 @@ describe("Pi session upstream activity", () => {
         id: "user-own",
         parentId: "info-1",
         timestamp: "2026-07-13T10:00:05.000Z",
-        message: { role: "user", content: "sent  from Zero to Agent" },
+        message: { role: "user", content: "sent  from OpenAgent" },
       })}\n`,
     );
     const ownEcho = await checkPiUpstreamActivity([probe]);

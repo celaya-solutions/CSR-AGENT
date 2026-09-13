@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "openclaw.desktop",
-  "name": "OpenClaw",
+  "name": "OpenAgent",
   "version": "1.0.0",
-  "author": "OpenClaw",
-  "description": "OpenClaw agents, sessions, activity, attention indicators, and quick prompts",
+  "author": "OpenAgent",
+  "description": "OpenAgent agents, sessions, activity, attention indicators, and quick prompts",
   "kinds": [
     "service",
     "bar-widget"
@@ -14,7 +14,7 @@
     "barWidget": "Panel.qml"
   },
   "barWidget": {
-    "displayName": "OpenClaw",
+    "displayName": "OpenAgent",
     "category": "AI",
     "allowMultiple": false,
     "defaultSection": "right"

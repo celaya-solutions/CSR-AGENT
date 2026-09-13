@@ -239,7 +239,7 @@ function resolveFacadeBoundaryOpenParams(boundaryRoot: string): {
     return checked;
   }
   if (isPathAtOrInside(boundaryRoot, getOpenClawPackageRoot())) {
-    return { boundaryLabel: "Zero to Agent package root", rejectHardlinks: false };
+    return { boundaryLabel: "OpenAgent package root", rejectHardlinks: false };
   }
   const bundledDir = resolveBundledPluginsDir();
   if (bundledDir && isPathAtOrInside(boundaryRoot, bundledDir)) {

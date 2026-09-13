@@ -1,5 +1,5 @@
 import Foundation
-@testable import OpenClaw
+@testable import OpenAgent
 import Testing
 
 @Suite("Application Relocator Tests")
@@ -459,7 +459,7 @@ struct ApplicationRelocatorTests {
         try writeInfoPlist(
             at: contentsURL.appendingPathComponent("Info.plist"),
             bundleIdentifier: "ai.openclaw.mac",
-            executable: "OpenClaw"
+            executable: "OpenAgent"
         )
         #expect(ApplicationRelocator.applicationOnDisk(at: bundleURL) == .init(
             bundleIdentifier: "ai.openclaw.mac",

@@ -160,7 +160,7 @@ export async function buildClawProject(
       if (!profileSnapshot) {
         throw new ClawProjectError(
           "project_invalid",
-          "Validated Zero to Agent profile is missing its source snapshot.",
+          "Validated OpenAgent profile is missing its source snapshot.",
         );
       }
       const profile = await readSelectedProjectFile(project.root, profileSnapshot.sourcePath);

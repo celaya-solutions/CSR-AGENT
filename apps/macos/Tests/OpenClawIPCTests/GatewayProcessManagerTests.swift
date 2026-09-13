@@ -2,7 +2,7 @@ import Darwin
 import Foundation
 import Synchronization
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawKit
 
 @Suite(.serialized)

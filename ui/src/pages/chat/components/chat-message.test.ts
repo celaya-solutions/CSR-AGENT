@@ -238,7 +238,7 @@ function renderTestMessageGroup(
   return renderMessageGroup(group, {
     showReasoning: true,
     showToolCalls: true,
-    assistantName: "Zero to Agent",
+    assistantName: "OpenAgent",
     assistantAvatar: null,
     ...opts,
   });
@@ -877,7 +877,7 @@ describe("grouped chat rendering", () => {
 
     expect(onReply).toHaveBeenCalledWith({
       messageId: "assistant-message",
-      senderLabel: "Zero to Agent",
+      senderLabel: "OpenAgent",
       sourceMessageId: "assistant-entry-1",
       text: "Reply with this context.",
     });
@@ -2455,7 +2455,7 @@ describe("grouped chat rendering", () => {
           {
             showReasoning: true,
             showToolCalls: true,
-            assistantName: "Zero to Agent",
+            assistantName: "OpenAgent",
             avatarPlacement,
           },
         ),
@@ -2495,7 +2495,7 @@ describe("grouped chat rendering", () => {
       renderMessageGroup(group, {
         showReasoning: true,
         showToolCalls: true,
-        assistantName: "Zero to Agent",
+        assistantName: "OpenAgent",
         avatarPlacement: "footer",
       }),
       container,
@@ -2533,7 +2533,7 @@ describe("grouped chat rendering", () => {
       renderMessageGroup(group, {
         showReasoning: true,
         showToolCalls: true,
-        assistantName: "Zero to Agent",
+        assistantName: "OpenAgent",
       }),
       container,
     );
@@ -2757,12 +2757,12 @@ describe("grouped chat rendering", () => {
       container,
       createAssistantMessage("hello", { timestamp: 1000 }),
       "assistant",
-      { assistantName: "Zero to Agent", userName: "Fuller Stack" },
+      { assistantName: "OpenAgent", userName: "Fuller Stack" },
     );
 
     expect(
       container.querySelector<HTMLElement>(".chat-group.assistant .chat-sender-name")?.textContent,
-    ).toBe("Zero to Agent");
+    ).toBe("OpenAgent");
   });
 
   it("collapses consecutive tool results into an activity group", () => {
@@ -2976,7 +2976,7 @@ describe("grouped chat rendering", () => {
       renderActivityGroup(groups, {
         showReasoning: true,
         showToolCalls: true,
-        assistantName: "Zero to Agent",
+        assistantName: "OpenAgent",
         isToolMessageExpanded: (id) => id === "activity:tool-group-1",
       }),
       container,
@@ -5113,7 +5113,7 @@ describe("grouped chat rendering", () => {
         {
           type: "openclaw_pairing_qr",
           image_url: "data:image/png;base64,cXJwbmc=",
-          alt: "Zero to Agent pairing QR code",
+          alt: "OpenAgent pairing QR code",
           expiresAtMs: Date.now() + 1_000,
         },
       ]),
@@ -5122,7 +5122,7 @@ describe("grouped chat rendering", () => {
 
     const image = container.querySelector<HTMLImageElement>(".chat-message-image");
     expect(image?.getAttribute("src")).toBe("data:image/png;base64,cXJwbmc=");
-    expect(image?.getAttribute("alt")).toBe("Zero to Agent pairing QR code");
+    expect(image?.getAttribute("alt")).toBe("OpenAgent pairing QR code");
     await vi.advanceTimersByTimeAsync(999);
     expect(onRequestUpdate).not.toHaveBeenCalled();
     await vi.advanceTimersByTimeAsync(1);
@@ -5134,7 +5134,7 @@ describe("grouped chat rendering", () => {
         {
           type: "openclaw_pairing_qr",
           image_url: "data:image/png;base64,ZXhwaXJlZA==",
-          alt: "Zero to Agent pairing QR code",
+          alt: "OpenAgent pairing QR code",
           expiresAtMs: Date.now() - 1,
         },
       ]),

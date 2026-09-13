@@ -371,7 +371,7 @@ describe("googleChatApprovalNativeRuntime", () => {
           approvalKind: "system-agent",
           id: "system-agent:change-1",
           request: {
-            title: "Zero to Agent change",
+            title: "OpenAgent change",
             description: "restart the Gateway",
             command: "restart the Gateway",
             proposalHash: "a".repeat(64),
@@ -392,7 +392,7 @@ describe("googleChatApprovalNativeRuntime", () => {
           approvalKind: "system-agent",
           approvalId: "system-agent:change-1",
           phase: "resolved",
-          title: "Zero to Agent change",
+          title: "OpenAgent change",
           metadata: [],
           commandText: "restart the Gateway",
           operationSummary: "restart the Gateway",
@@ -406,7 +406,7 @@ describe("googleChatApprovalNativeRuntime", () => {
       expect(result).toMatchObject({
         kind: "update",
         payload: {
-          cardsV2: [{ card: { header: { title: `Zero to Agent Change Approval: ${label}` } } }],
+          cardsV2: [{ card: { header: { title: `OpenAgent Change Approval: ${label}` } } }],
         },
       });
     },

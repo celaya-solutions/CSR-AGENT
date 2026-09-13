@@ -1,5 +1,5 @@
 /**
- * Locates local Zero to Agent docs/source roots for references shown to agents.
+ * Locates local OpenAgent docs/source roots for references shown to agents.
  */
 import fs from "node:fs";
 import path from "node:path";

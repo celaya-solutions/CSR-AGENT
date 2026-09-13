@@ -37,17 +37,17 @@ export async function compactDoctorSessionSqliteTarget(
     };
   }
   if (!stat.isFile()) {
-    throw new Error(`Zero to Agent agent database is not a regular file: ${sqlitePath}`);
+    throw new Error(`OpenAgent agent database is not a regular file: ${sqlitePath}`);
   }
   if (isOpenClawAgentDatabaseOpen(sqlitePath)) {
     throw new Error(
-      `Zero to Agent agent database ${sqlitePath} is already open in this process. Stop Zero to Agent and retry.`,
+      `OpenAgent agent database ${sqlitePath} is already open in this process. Stop OpenAgent and retry.`,
     );
   }
   const requireQuarantineCleared = () => {
     if (!clearOpenClawAgentDatabaseOpenFailure(sqlitePath, { env: options.env })) {
       throw new Error(
-        `Zero to Agent agent database ${sqlitePath} was repaired, but its persisted quarantine record could not be cleared. Rerun openclaw doctor --fix so the database is not refused again.`,
+        `OpenAgent agent database ${sqlitePath} was repaired, but its persisted quarantine record could not be cleared. Rerun openclaw doctor --fix so the database is not refused again.`,
       );
     }
   };

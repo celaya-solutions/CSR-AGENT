@@ -1,6 +1,6 @@
-# OpenCode Zen Zero to Agent provider
+# OpenCode Zen OpenAgent provider
 
-Official Zero to Agent provider plugin for the OpenCode Zen model catalog, image
+Official OpenAgent provider plugin for the OpenCode Zen model catalog, image
 understanding, and native OpenCode session browsing.
 
 ## Install
@@ -12,5 +12,5 @@ openclaw gateway restart
 
 ## Docs
 
-See `docs/providers/opencode.md` in the Zero to Agent repository, or the published
+See `docs/providers/opencode.md` in the OpenAgent repository, or the published
 docs at `https://docs.openclaw.ai/providers/opencode`.

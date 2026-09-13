@@ -209,7 +209,7 @@ describe("runSessionRegistryMaintenance", () => {
       closeOpenClawAgentDatabasesForTest();
 
       await expect(runSessionRegistryMaintenance({ apply: false })).rejects.toThrow(
-        "Zero to Agent agent database is unavailable while agent retired is deleted.",
+        "OpenAgent agent database is unavailable while agent retired is deleted.",
       );
     });
   });

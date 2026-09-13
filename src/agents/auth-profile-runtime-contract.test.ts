@@ -90,7 +90,7 @@ function providerRuntimeConfig(provider: string, runtime: string): OpenClawConfi
   } as OpenClawConfig;
 }
 
-describe("Auth profile runtime contract - embedded Zero to Agent and CLI adapter", () => {
+describe("Auth profile runtime contract - embedded OpenAgent and CLI adapter", () => {
   beforeEach(() => {
     clearPluginMetadataLifecycleCaches();
     pluginMetadataMocks.getCurrentPluginMetadataSnapshot.mockClear();
@@ -189,7 +189,7 @@ describe("Auth profile runtime contract - embedded Zero to Agent and CLI adapter
     expect(plan.forwardedAuthProfileId).toBeUndefined();
   });
 
-  it("forwards a legacy OpenAI Codex auth profile through the embedded Zero to Agent plan", () => {
+  it("forwards a legacy OpenAI Codex auth profile through the embedded OpenAgent plan", () => {
     const { plan } = resolveContractPlan({
       provider: AUTH_PROFILE_RUNTIME_CONTRACT.openAiCodexProvider,
       authProfileProvider: AUTH_PROFILE_RUNTIME_CONTRACT.openAiCodexProvider,
@@ -216,7 +216,7 @@ describe("Auth profile runtime contract - embedded Zero to Agent and CLI adapter
     );
   });
 
-  it("forwards an OpenAI auth profile through an explicit Zero to Agent plan", () => {
+  it("forwards an OpenAI auth profile through an explicit OpenAgent plan", () => {
     const { embeddedProvider, plan } = resolveContractPlan({
       provider: AUTH_PROFILE_RUNTIME_CONTRACT.openAiProvider,
       authProfileProvider: AUTH_PROFILE_RUNTIME_CONTRACT.openAiProvider,
@@ -240,7 +240,7 @@ describe("Auth profile runtime contract - embedded Zero to Agent and CLI adapter
     expect(plan.forwardedAuthProfileId).toBe(AUTH_PROFILE_RUNTIME_CONTRACT.openAiCodexProfileId);
   });
 
-  it("routes explicit OpenAI Zero to Agent plans with legacy Codex OAuth through OpenAI transport", () => {
+  it("routes explicit OpenAI OpenAgent plans with legacy Codex OAuth through OpenAI transport", () => {
     const { embeddedProvider, plan } = resolveContractPlan({
       provider: AUTH_PROFILE_RUNTIME_CONTRACT.openAiProvider,
       authProfileProvider: AUTH_PROFILE_RUNTIME_CONTRACT.openAiCodexProvider,

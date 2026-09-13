@@ -1,4 +1,4 @@
-# OpenClaw Installer for Windows
+# OpenAgent Installer for Windows
 # Usage: powershell -c "irm https://openclaw.ai/install.ps1 | iex"
 #        powershell -c "& ([scriptblock]::Create((irm https://openclaw.ai/install.ps1))) -Tag beta -NoOnboard -DryRun"
 
@@ -26,7 +26,7 @@ Usage:
 
 Options:
   -InstallMethod npm|git  Install method (default: npm)
-  -Tag <tag|version>      OpenClaw version or dist-tag (default: latest)
+  -Tag <tag|version>      OpenAgent version or dist-tag (default: latest)
   -GitDir <path>          Git checkout directory
   -NoOnboard              Skip onboarding
   -NoGitUpdate            Skip git pull
@@ -122,7 +122,7 @@ function Complete-Install {
         exit $script:InstallExitCode
     }
 
-    throw "OpenClaw installation failed with exit code $($script:InstallExitCode)."
+    throw "OpenAgent installation failed with exit code $($script:InstallExitCode)."
 }
 
 function Resolve-InstallerTempDirectory {
@@ -243,7 +243,7 @@ if ([string]::IsNullOrWhiteSpace($GitDir)) {
 Initialize-InstallerTempDirectory
 
 Write-Host ""
-Write-Host "  OpenClaw Installer" -ForegroundColor Cyan
+Write-Host "  OpenAgent Installer" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "[OK] Windows detected" -ForegroundColor Green
 
@@ -254,7 +254,7 @@ function Test-NodeVersionSupported {
     if ([string]::IsNullOrWhiteSpace($Version)) {
         return $false
     }
-    # This standalone installer runs before OpenClaw exists on disk. Mirror the
+    # This standalone installer runs before OpenAgent exists on disk. Mirror the
     # release grammar in node-version.mjs; parity cases guard this boundary.
     $versionMatch = [regex]::Match(
         $Version,
@@ -422,7 +422,7 @@ function Get-OpenClawDepsRoot {
     if ([string]::IsNullOrWhiteSpace($localAppData)) {
         $localAppData = Join-Path ([Environment]::GetFolderPath("UserProfile")) "AppData\Local"
     }
-    return (Join-Path $localAppData "OpenClaw\deps")
+    return (Join-Path $localAppData "OpenAgent\deps")
 }
 
 function Get-PortableNodeRoot {
@@ -616,7 +616,7 @@ function Install-PrivateNode {
         Expand-PortableNodeArchive -ZipPath $archive -DestinationPath $extracted
         $nodeExe = Join-Path $extracted "node.exe"
         if (-not (Check-Node -NodePath $nodeExe)) {
-            throw "Downloaded Node.js does not satisfy OpenClaw runtime requirements."
+            throw "Downloaded Node.js does not satisfy OpenAgent runtime requirements."
         }
 
         # Keep the matching npm/npx alongside node.exe, without touching global packages or PATH.
@@ -722,10 +722,10 @@ function Install-Node {
     return $false
 }
 
-# Check for existing OpenClaw installation
+# Check for existing OpenAgent installation
 function Check-ExistingOpenClaw {
     if (Get-OpenClawCommandPath) {
-        Write-Host "[*] Existing OpenClaw installation detected" -ForegroundColor Yellow
+        Write-Host "[*] Existing OpenAgent installation detected" -ForegroundColor Yellow
         return $true
     }
     return $false
@@ -985,7 +985,7 @@ function Ensure-Git {
     }
 
     Write-Host ""
-    Write-Host "Error: Git is required to install OpenClaw." -ForegroundColor Red
+    Write-Host "Error: Git is required to install OpenAgent." -ForegroundColor Red
     Write-Host "Auto-bootstrap of user-local Git did not succeed." -ForegroundColor Yellow
     Write-Host "Install Git for Windows manually, then re-run this installer:" -ForegroundColor Yellow
     Write-Host "  https://git-scm.com/download/win" -ForegroundColor Cyan
@@ -1282,7 +1282,7 @@ function Ensure-Pnpm {
     return $pnpmCommand
 }
 
-# Install OpenClaw
+# Install OpenAgent
 function Resolve-LocalNpmPackagePath {
     param([string]$PackagePath)
 
@@ -1671,7 +1671,7 @@ function Install-OpenClaw {
         $Tag = "latest"
     }
     if (Test-OpenClawSourcePackageInstallSpec -RequestedTag $Tag) {
-        Write-Host "Error: npm installs do not support OpenClaw GitHub source targets like '$Tag'." -ForegroundColor Red
+        Write-Host "Error: npm installs do not support OpenAgent GitHub source targets like '$Tag'." -ForegroundColor Red
         Write-Host "Use -InstallMethod git -Tag main for the moving main checkout, or use latest, beta, an exact version, or a built .tgz package." -ForegroundColor Yellow
         return $false
     }
@@ -1688,7 +1688,7 @@ function Install-OpenClaw {
     $npmCommand = Get-NpmCommandPath
     $npmCwd = Get-WindowsCommandSafeDirectory
     $lifecycleArgument = Get-NpmLifecycleAllowArgument -NpmCommand $npmCommand -InstallSpec $installSpec -NpmCwd $npmCwd
-    Write-Host "[*] Installing OpenClaw ($installSpec)..." -ForegroundColor Yellow
+    Write-Host "[*] Installing OpenAgent ($installSpec)..." -ForegroundColor Yellow
     $freshnessArgs = @("--min-release-age=0")
     $minReleaseAge = (Invoke-NpmCommand -CommandPath $npmCommand -WorkingDirectory $npmCwd -Arguments @("config", "get", "min-release-age", "--global") 2>$null)
     $minReleaseAgeStatus = $LASTEXITCODE
@@ -1738,7 +1738,7 @@ function Install-OpenClaw {
             return $false
         }
         if (-not (Test-NpmLifecycleCompleted -NpmCommand $npmCommand -NpmCwd $npmCwd)) {
-            Write-Host "[!] npm install did not produce a usable OpenClaw package; lifecycle scripts may not have completed." -ForegroundColor Red
+            Write-Host "[!] npm install did not produce a usable OpenAgent package; lifecycle scripts may not have completed." -ForegroundColor Red
             return $false
         }
     } finally {
@@ -1749,11 +1749,11 @@ function Install-OpenClaw {
         $env:NPM_CONFIG_BEFORE = $prevBefore
         $env:NPM_CONFIG_MIN_RELEASE_AGE = $prevMinReleaseAge
     }
-    Write-Host "[OK] OpenClaw installed" -ForegroundColor Green
+    Write-Host "[OK] OpenAgent installed" -ForegroundColor Green
     return $true
 }
 
-# Install OpenClaw from GitHub
+# Install OpenAgent from GitHub
 function Assert-GitCheckoutHasCommit {
     param([string]$RepoDir)
 
@@ -1880,7 +1880,7 @@ function Install-OpenClawFromGit {
 
     $RepoDir = Resolve-GitCheckoutPath -RepoDir $RepoDir
     $repoUrl = "https://github.com/openclaw/openclaw.git"
-    Write-Host "[*] Installing OpenClaw from GitHub ($repoUrl)..." -ForegroundColor Yellow
+    Write-Host "[*] Installing OpenAgent from GitHub ($repoUrl)..." -ForegroundColor Yellow
 
     Assert-GitCheckoutHasCommit -RepoDir $RepoDir
     if (-not (Test-Path $RepoDir) -or @(Get-ChildItem -LiteralPath $RepoDir -Force).Count -eq 0) {
@@ -1990,7 +1990,7 @@ function Install-OpenClawFromGit {
 
     $entryPath = Join-Path $RepoDir "dist\\entry.js"
     if (-not (Test-Path $entryPath)) {
-        Write-Host "[!] OpenClaw build did not produce $entryPath" -ForegroundColor Red
+        Write-Host "[!] OpenAgent build did not produce $entryPath" -ForegroundColor Red
         return $false
     }
 
@@ -2011,7 +2011,7 @@ function Install-OpenClawFromGit {
         Write-Host "[!] Added $binDir to user PATH (restart terminal if command not found)" -ForegroundColor Yellow
     }
 
-    Write-Host "[OK] OpenClaw wrapper installed to $cmdPath" -ForegroundColor Green
+    Write-Host "[OK] OpenAgent wrapper installed to $cmdPath" -ForegroundColor Green
     Write-Host "[i] Manual builds need the checkout-pinned pnpm launcher; installer bootstrap is temporary: https://docs.openclaw.ai/install/installer#source-build-toolchain" -ForegroundColor Gray
     return $true
 }
@@ -2122,7 +2122,7 @@ function Remove-PreviousNpmOwner {
         Remove-Item -LiteralPath $packageRoot -Recurse -Force
     } else {
         Invoke-NpmCommand -CommandPath $npmCommand -Arguments @("uninstall", "-g", "openclaw") | Out-Null
-        if ($LASTEXITCODE -ne 0) { throw "npm could not retire the previous OpenClaw package." }
+        if ($LASTEXITCODE -ne 0) { throw "npm could not retire the previous OpenAgent package." }
     }
     Write-Host "[OK] Previous npm install retired" -ForegroundColor Green
 }
@@ -2249,7 +2249,7 @@ function Main {
 
     $finalGitDir = $null
 
-    # Step 2: OpenClaw
+    # Step 2: OpenAgent
     if ($InstallMethod -eq "git") {
         $hadNpmOwner = $false
         try {
@@ -2328,7 +2328,7 @@ function Main {
     }
 
     if (-not (Ensure-OpenClawOnPath)) {
-        Write-Host "Install completed, but OpenClaw is not on PATH yet." -ForegroundColor Yellow
+        Write-Host "Install completed, but OpenAgent is not on PATH yet." -ForegroundColor Yellow
         Write-Host "Open a new terminal, then run: openclaw doctor" -ForegroundColor Cyan
         return
     }
@@ -2363,9 +2363,9 @@ function Main {
 
     Write-Host ""
     if ($installedVersion) {
-        Write-Host "OpenClaw installed successfully ($installedVersion)!" -ForegroundColor Green
+        Write-Host "OpenAgent installed successfully ($installedVersion)!" -ForegroundColor Green
     } else {
-        Write-Host "OpenClaw installed successfully!" -ForegroundColor Green
+        Write-Host "OpenAgent installed successfully!" -ForegroundColor Green
     }
     Write-Host ""
     if ($isUpgrade) {

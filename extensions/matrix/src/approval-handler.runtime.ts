@@ -47,7 +47,7 @@ import {
 import { resolveMatrixTargetIdentity } from "./matrix/target-ids.js";
 import type { CoreConfig } from "./types.js";
 
-// Zero to Agent Matrix custom event content for capable clients; body and reactions remain fallback.
+// OpenAgent Matrix custom event content for capable clients; body and reactions remain fallback.
 const MATRIX_APPROVAL_METADATA_KEY = "com.openclaw.approval" as const;
 
 type PendingMessage = {
@@ -342,7 +342,7 @@ function buildPendingApprovalContent(params: {
       approvalKind: "system-agent",
       approvalId: params.view.approvalId,
       approvalSlug: params.view.approvalId.slice(0, 8),
-      text: `Zero to Agent change requires approval:\n${params.view.operationSummary}`,
+      text: `OpenAgent change requires approval:\n${params.view.operationSummary}`,
       agentId: params.view.agentId,
       allowedDecisions,
       sessionKey: params.view.sessionKey,
@@ -395,7 +395,7 @@ function buildResolvedApprovalText(view: ResolvedApprovalView): string {
   }
   const decisionLabel = formatChannelApprovalResolvedLabel(view);
   return [
-    `${view.approvalKind === "system-agent" ? "Zero to Agent change" : "Exec approval"}: ${decisionLabel}`,
+    `${view.approvalKind === "system-agent" ? "OpenAgent change" : "Exec approval"}: ${decisionLabel}`,
     "",
     view.approvalKind === "system-agent" ? "Change" : "Command",
     buildMarkdownCodeBlock(view.commandText),

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct ChatTranscriptCacheIdentityTests {
     private static let defaultStateDir = URL(fileURLWithPath: "/Users/tester/.openclaw", isDirectory: true)

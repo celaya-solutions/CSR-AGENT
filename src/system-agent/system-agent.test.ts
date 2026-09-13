@@ -1,4 +1,4 @@
-// Zero to Agent tests cover main rescue and audit command behavior.
+// OpenAgent tests cover main rescue and audit command behavior.
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { SystemAgentInferenceUnavailableError } from "./inference-error.js";
@@ -406,7 +406,7 @@ describe("runSystemAgent", () => {
     expect(lines).not.toContain("stale reply");
   });
 
-  it("starts interactive Zero to Agent in the TUI shell", async () => {
+  it("starts interactive OpenAgent in the TUI shell", async () => {
     const { runtime, lines } = createSystemAgentTestRuntime();
     let runInteractiveTuiCalls = 0;
     let onReadyCalls = 0;
@@ -494,7 +494,7 @@ describe("runSystemAgent", () => {
 
     expect(runInteractiveTuiCalls).toBe(0);
     expect(lines.join("\n")).toContain(
-      "Zero to Agent needs an interactive TTY. Use --message for one command.",
+      "OpenAgent needs an interactive TTY. Use --message for one command.",
     );
   });
 });

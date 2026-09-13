@@ -300,9 +300,9 @@ describe("resolveCliRuntimeExecutionProvider", () => {
     ).toBe("claude-cli");
   });
 
-  it("does not override an explicit Zero to Agent model-runtime policy with CLI auth", () => {
+  it("does not override an explicit OpenAgent model-runtime policy with CLI auth", () => {
     // Runtime policy is more explicit than profile order, so CLI auth cannot
-    // force a model onto the CLI harness when config says Zero to Agent.
+    // force a model onto the CLI harness when config says OpenAgent.
     expect(
       resolveCliRuntimeExecutionProvider({
         cfg: createAnthropicAuthConfig({

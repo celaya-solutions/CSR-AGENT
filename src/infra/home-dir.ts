@@ -1,4 +1,4 @@
-// Resolves Zero to Agent home and platform-specific config directories.
+// Resolves OpenAgent home and platform-specific config directories.
 import os from "node:os";
 import path from "node:path";
 import { tryProcessCwd } from "./safe-cwd.js";
@@ -53,7 +53,7 @@ function resolveRawHomeDir(env: NodeJS.ProcessEnv, homedir: () => string): strin
   return explicitHome;
 }
 
-/** Resolves Zero to Agent's effective home, honoring OPENCLAW_HOME before OS homes. */
+/** Resolves OpenAgent's effective home, honoring OPENCLAW_HOME before OS homes. */
 export function resolveEffectiveHomeDir(
   env: NodeJS.ProcessEnv = process.env,
   homedir: () => string = os.homedir,
@@ -81,7 +81,7 @@ export function resolveRequiredHomeDir(
     return path.resolve(resolved);
   }
   throw new Error(
-    "Unable to resolve a Zero to Agent home: set OPENCLAW_HOME, HOME, or USERPROFILE, or run from an existing directory.",
+    "Unable to resolve an OpenAgent home: set OPENCLAW_HOME, HOME, or USERPROFILE, or run from an existing directory.",
   );
 }
 

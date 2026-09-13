@@ -1,7 +1,7 @@
 import ConcurrencyExtras
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawKit
 
 final class CronSourceFixture: @unchecked Sendable {

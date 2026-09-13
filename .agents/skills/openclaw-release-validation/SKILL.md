@@ -5,7 +5,7 @@ user-invocable: true
 disable-model-invocation: true
 ---
 
-# OpenClaw Release Validation
+# OpenAgent Release Validation
 
 Help a human test an immutable latest-main build against a selected real
 Gateway's state. Automate preparation, triage, and reporting; the human drives

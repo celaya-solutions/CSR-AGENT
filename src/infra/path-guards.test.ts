@@ -30,11 +30,8 @@ describe("normalizeWindowsPathPreservingCase", () => {
     ["\\\\?\\C:\\Users\\Peter/Repo", "C:\\Users\\Peter\\Repo"],
     ["\\\\?\\UNC\\Server\\Share\\Folder", "\\\\Server\\Share\\Folder"],
     ["\\\\?\\unc\\Server\\Share\\Folder", "\\\\Server\\Share\\Folder"],
-    [
-      "C:\\Users\\User\\Zero to Agent\\src/Components",
-      "C:\\Users\\User\\Zero to Agent\\src\\Components",
-    ],
-    ["C:\\Users\\User\\Zero to Agent  ", "C:\\Users\\User\\Zero to Agent  "],
+    ["C:\\Users\\User\\OpenAgent\\src/Components", "C:\\Users\\User\\OpenAgent\\src\\Components"],
+    ["C:\\Users\\User\\OpenAgent  ", "C:\\Users\\User\\OpenAgent  "],
   ])("normalizes windows path %s without lowercasing", (input, expected) => {
     expect(normalizeWindowsPathPreservingCase(input)).toBe(expected);
   });
@@ -44,9 +41,9 @@ describe("normalizeWindowsPathPreservingCase", () => {
       "\\\\?\\C:\\Users\\Peter/Repo",
       "\\\\?\\UNC\\Server\\Share\\Folder",
       "\\\\?\\unc\\Server\\Share\\Folder",
-      "C:\\Users\\User\\Zero to Agent\\src/Components",
-      "C:\\Users\\User\\Zero to Agent  ",
-      "  C:\\Users\\User\\Zero to Agent  ",
+      "C:\\Users\\User\\OpenAgent\\src/Components",
+      "C:\\Users\\User\\OpenAgent  ",
+      "  C:\\Users\\User\\OpenAgent  ",
     ]) {
       expect(normalizeWindowsPathPreservingCase(input).toLowerCase()).toBe(
         normalizeWindowsPathForComparison(input),

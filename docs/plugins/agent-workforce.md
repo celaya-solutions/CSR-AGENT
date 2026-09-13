@@ -8,7 +8,7 @@ config, and the agent can hand a task to any of them, stage anything that would
 reach the outside world for a person to approve, and leave a readable trail of
 what it decided.
 
-It is a thin plugin on purpose. OpenClaw core already owns agents, models,
+It is a thin plugin on purpose. OpenAgent core already owns agents, models,
 sessions, approvals, and scheduling. This plugin adds only the parts that were
 missing: a roster the model can read, a review queue, and a decision log.
 

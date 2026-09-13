@@ -1,4 +1,4 @@
-name: OpenClaw
+name: OpenAgent
 options:
   preGenCommand: node ../../scripts/prepare-apple-mermaid.mjs
   bundleIdPrefix: ai.openclawfoundation
@@ -21,11 +21,11 @@ packages:
     exactVersion: 152.0.0
 
 schemes:
-  OpenClaw:
+  OpenAgent:
     shared: true
     build:
       targets:
-        OpenClaw: all
+        OpenAgent: all
     test:
       targets:
         - OpenClawTests
@@ -56,7 +56,7 @@ schemes:
         - OpenClawWatchTests
 
 targets:
-  OpenClaw:
+  OpenAgent:
     type: application
     platform: iOS
     configFiles:
@@ -147,7 +147,7 @@ targets:
     info:
       path: Sources/Info.plist
       properties:
-        CFBundleDisplayName: OpenClaw
+        CFBundleDisplayName: OpenAgent
         CFBundleIconName: "$(ASSETCATALOG_COMPILER_APPICON_NAME)"
         CFBundleURLTypes:
           - CFBundleURLName: ai.openclawfoundation.app
@@ -169,27 +169,27 @@ targets:
           - remote-notification
         BGTaskSchedulerPermittedIdentifiers:
           - "$(PRODUCT_BUNDLE_IDENTIFIER).bgrefresh"
-        NSLocalNetworkUsageDescription: OpenClaw discovers and connects to your OpenClaw gateway on the local network.
+        NSLocalNetworkUsageDescription: OpenAgent discovers and connects to your OpenAgent gateway on the local network.
         NSAppTransportSecurity:
           NSAllowsArbitraryLoadsInWebContent: true
           NSAllowsLocalNetworking: true
         NSBonjourServices:
           - _openclaw-gw._tcp
-        NSCameraUsageDescription: OpenClaw uses the camera when you scan a Gateway setup QR code or ask your paired Gateway or assistant to capture a photo or short video from this iPhone, for example to connect to your Gateway or show your assistant a document, device screen, or workspace.
-        NSCalendarsUsageDescription: OpenClaw uses your calendars to show events and scheduling context when you enable calendar access.
-        NSCalendarsFullAccessUsageDescription: OpenClaw uses your calendars to show events and scheduling context when you enable calendar access.
-        NSCalendarsWriteOnlyAccessUsageDescription: OpenClaw uses your calendars to add events when you enable calendar access.
-        NSContactsUsageDescription: OpenClaw uses your contacts so you can search and reference people while using the assistant.
-        NSLocationWhenInUseUsageDescription: OpenClaw uses your location when you allow location sharing.
-        NSLocationAlwaysAndWhenInUseUsageDescription: OpenClaw can share your location in the background when you enable Always.
-        NSMicrophoneUsageDescription: OpenClaw uses the microphone for realtime chat, voice wake, push-to-talk, and voice notes.
-        NSMotionUsageDescription: OpenClaw may use motion data to support device-aware interactions and automations.
-        NSHealthShareUsageDescription: OpenClaw reads your steps, sleep, resting heart rate, and workouts from the Apple Health app to create summaries you request and send them through your Gateway to your configured AI provider.
-        NSHealthUpdateUsageDescription: OpenClaw does not write to the Apple Health app. It uses read-only data to create summaries you request and send them through your Gateway to your configured AI provider.
-        NSPhotoLibraryUsageDescription: OpenClaw lets your assistant read photos you allow and lets you choose photos to share.
+        NSCameraUsageDescription: OpenAgent uses the camera when you scan a Gateway setup QR code or ask your paired Gateway or assistant to capture a photo or short video from this iPhone, for example to connect to your Gateway or show your assistant a document, device screen, or workspace.
+        NSCalendarsUsageDescription: OpenAgent uses your calendars to show events and scheduling context when you enable calendar access.
+        NSCalendarsFullAccessUsageDescription: OpenAgent uses your calendars to show events and scheduling context when you enable calendar access.
+        NSCalendarsWriteOnlyAccessUsageDescription: OpenAgent uses your calendars to add events when you enable calendar access.
+        NSContactsUsageDescription: OpenAgent uses your contacts so you can search and reference people while using the assistant.
+        NSLocationWhenInUseUsageDescription: OpenAgent uses your location when you allow location sharing.
+        NSLocationAlwaysAndWhenInUseUsageDescription: OpenAgent can share your location in the background when you enable Always.
+        NSMicrophoneUsageDescription: OpenAgent uses the microphone for realtime chat, voice wake, push-to-talk, and voice notes.
+        NSMotionUsageDescription: OpenAgent may use motion data to support device-aware interactions and automations.
+        NSHealthShareUsageDescription: OpenAgent reads your steps, sleep, resting heart rate, and workouts from the Apple Health app to create summaries you request and send them through your Gateway to your configured AI provider.
+        NSHealthUpdateUsageDescription: OpenAgent does not write to the Apple Health app. It uses read-only data to create summaries you request and send them through your Gateway to your configured AI provider.
+        NSPhotoLibraryUsageDescription: OpenAgent lets your assistant read photos you allow and lets you choose photos to share.
         PHPhotoLibraryPreventAutomaticLimitedAccessAlert: true
-        NSRemindersFullAccessUsageDescription: OpenClaw uses your reminders to list, add, and complete tasks when you enable reminders access.
-        NSSpeechRecognitionUsageDescription: OpenClaw uses on-device speech recognition for talk mode and voice wake.
+        NSRemindersFullAccessUsageDescription: OpenAgent uses your reminders to list, add, and complete tasks when you enable reminders access.
+        NSSpeechRecognitionUsageDescription: OpenAgent uses on-device speech recognition for talk mode and voice wake.
         NSSupportsLiveActivities: true
         ITSAppUsesNonExemptEncryption: false
         UIAppFonts:
@@ -242,7 +242,7 @@ targets:
     info:
       path: ShareExtension/Info.plist
       properties:
-        CFBundleDisplayName: OpenClaw Share
+        CFBundleDisplayName: OpenAgent Share
         CFBundleShortVersionString: "$(OPENCLAW_MARKETING_VERSION)"
         OpenClawAppGroupIdentifier: "$(OPENCLAW_ACTIVE_APP_GROUP_ID)"
         CFBundleVersion: "$(OPENCLAW_BUILD_VERSION)"
@@ -294,7 +294,7 @@ targets:
     info:
       path: ActivityWidget/Info.plist
       properties:
-        CFBundleDisplayName: OpenClaw Activity
+        CFBundleDisplayName: OpenAgent Activity
         CFBundleShortVersionString: "$(OPENCLAW_MARKETING_VERSION)"
         CFBundleVersion: "$(OPENCLAW_BUILD_VERSION)"
         NSSupportsLiveActivities: true
@@ -392,14 +392,14 @@ targets:
     info:
       path: WatchApp/Info.plist
       properties:
-        CFBundleDisplayName: OpenClaw
+        CFBundleDisplayName: OpenAgent
         CFBundleShortVersionString: "$(OPENCLAW_MARKETING_VERSION)"
         CFBundleVersion: "$(OPENCLAW_BUILD_VERSION)"
         WKCompanionAppBundleIdentifier: "$(OPENCLAW_COMPANION_APP_BUNDLE_ID)"
         WKApplication: true
         WKPrefersNetworkUponForeground: true
-        NSLocalNetworkUsageDescription: OpenClaw connects this Apple Watch directly to your Gateway on trusted local networks.
-        NSMicrophoneUsageDescription: OpenClaw uses the microphone for voice conversations you start on Apple Watch.
+        NSLocalNetworkUsageDescription: OpenAgent connects this Apple Watch directly to your Gateway on trusted local networks.
+        NSMicrophoneUsageDescription: OpenAgent uses the microphone for voice conversations you start on Apple Watch.
         UIBackgroundModes:
           - audio
         UIAppFonts:
@@ -433,7 +433,7 @@ targets:
       - path: WatchApp/Sources/WatchDeferredPayloadOrdering.swift
         group: WatchApp/Sources
     dependencies:
-      - target: OpenClaw
+      - target: OpenAgent
       - package: Swabble
         product: SwabbleKit
       - sdk: AppIntents.framework
@@ -521,7 +521,7 @@ targets:
     sources:
       - path: UITests
     dependencies:
-      - target: OpenClaw
+      - target: OpenAgent
     settings:
       base:
         CODE_SIGN_IDENTITY: "$(OPENCLAW_CODE_SIGN_IDENTITY)"
@@ -532,7 +532,7 @@ targets:
         SUPPORTED_PLATFORMS: "iphonesimulator iphoneos"
         SUPPORTS_MACCATALYST: NO
         SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
-        TEST_TARGET_NAME: OpenClaw
+        TEST_TARGET_NAME: OpenAgent
         SWIFT_VERSION: "5.0"
       configs:
         Debug:

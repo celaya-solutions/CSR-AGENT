@@ -12,7 +12,7 @@ type CoreCliCommandDescriptor = NamedCommandDescriptor;
 export const CORE_CLI_COMMAND_DESCRIPTORS = [
   {
     name: "setup",
-    description: "Chat with Zero to Agent; onboard when setup is incomplete",
+    description: "Chat with OpenAgent; onboard when setup is incomplete",
     hasSubcommands: false,
   },
   {
@@ -40,7 +40,7 @@ export const CORE_CLI_COMMAND_DESCRIPTORS = [
   },
   {
     name: "claws",
-    description: "Inspect and add experimental Zero to Agent Claws",
+    description: "Inspect and add experimental OpenAgent Claws",
     hasSubcommands: true,
     parentDefaultHelp: true,
   },
@@ -94,7 +94,7 @@ export const CORE_CLI_COMMAND_DESCRIPTORS = [
   },
   {
     name: "mcp",
-    description: "Manage Zero to Agent mcp.servers config and channel bridge",
+    description: "Manage OpenAgent mcp.servers config and channel bridge",
     hasSubcommands: true,
     parentDefaultHelp: true,
   },

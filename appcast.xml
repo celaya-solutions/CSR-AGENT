@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
-        <title>OpenClaw</title>
+        <title>OpenAgent</title>
         <item>
             <title>2026.9.4</title>
             <pubDate>Fri, 11 Sep 2026 00:20:37 +0000</pubDate>
@@ -9,7 +9,7 @@
             <sparkle:version>2609000490</sparkle:version>
             <sparkle:shortVersionString>2026.9.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>OpenClaw 2026.9.4</h2>
+            <description><![CDATA[<h2>OpenAgent 2026.9.4</h2>
 <h3>Highlights</h3>
 <ul>
 <li><strong>Recover from compatible failed updates:</strong> retain the previous package and restore it with the previous configuration and service when schema and configuration checks prove rollback is safe; database migrations still require a verified pre-update backup. (#140339) Thanks @fuller-stack-dev.</li>
@@ -19,7 +19,7 @@
 <li><strong>GPT Image 2.5:</strong> select the new Flare and Sunburst variants for image generation and editing through OpenAI or fal without changing your existing default model. Related #143007. (#143068, #143069) Thanks @vincentkoc.</li>
 <li><strong>More dependable conversation history:</strong> recover final replies after interrupted streams, retain timeout notices after reload, and prevent duplicate final answers when live chat hands off to saved history. Related #141839. (#142168, #142135, #142422) Thanks @LiuwqGit, @obviyus, @chelsealong, @von8794, and @jalehman.</li>
 <li><strong>Voice that finishes delegated work:</strong> return subagent results to Talk and deliver the final answer even after repeated rounds of delegation. (#129535, #142830) Thanks @vincentkoc.</li>
-<li><strong>Externally managed configuration:</strong> set <code>OPENCLAW_CONFIG_READONLY=1</code> to keep OpenClaw from rewriting deployment-managed configuration while preserving read-only diagnostics and ordinary runtime state. Related #140706. (#140719) Thanks @sallyom.</li>
+<li><strong>Externally managed configuration:</strong> set <code>OPENCLAW_CONFIG_READONLY=1</code> to keep OpenAgent from rewriting deployment-managed configuration while preserving read-only diagnostics and ordinary runtime state. Related #140706. (#140719) Thanks @sallyom.</li>
 </ul>
 <h3>Changes</h3>
 <ul>
@@ -1269,7 +1269,7 @@ Shipped baseline exclusions: v2026.9.3 (19 PRs: #111451, #120728, #121140, #1296
             <sparkle:version>2609000390</sparkle:version>
             <sparkle:shortVersionString>2026.9.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>OpenClaw 2026.9.3</h2>
+            <description><![CDATA[<h2>OpenAgent 2026.9.3</h2>
 <h3>Highlights</h3>
 <ul>
 <li><strong>Safer updates:</strong> rehearse core and plugin changes in isolated candidate state before activation, support eligible 2026.9.2 migrations, and recover abandoned update records without stopping a healthy matching Gateway. Related #136997. (#138839, #141109, #141175, #141562)</li>
@@ -1283,7 +1283,7 @@ Shipped baseline exclusions: v2026.9.3 (19 PRs: #111451, #120728, #121140, #1296
 </ul>
 <h3>Changes</h3>
 <ul>
-<li><strong>Breaking — Node runtime:</strong> require Node 24.16.0 or newer on 24.x, or Node 26.1.0 or newer; Node 26 is recommended. Upgrade Node before OpenClaw to prevent SQLite text truncation: Node 22, Node 25, and earlier 24.x/26.x builds are no longer supported. Node-based CLI/Gateway installs on macOS 11–13.4 or official Linux ARMv7 provisioning need a supported host; see <a href="https://docs.openclaw.ai/install/node">Node requirements</a>. (#140672)</li>
+<li><strong>Breaking — Node runtime:</strong> require Node 24.16.0 or newer on 24.x, or Node 26.1.0 or newer; Node 26 is recommended. Upgrade Node before OpenAgent to prevent SQLite text truncation: Node 22, Node 25, and earlier 24.x/26.x builds are no longer supported. Node-based CLI/Gateway installs on macOS 11–13.4 or official Linux ARMv7 provisioning need a supported host; see <a href="https://docs.openclaw.ai/install/node">Node requirements</a>. (#140672)</li>
 <li><strong>Breaking — execution-policy SDK:</strong> move the retired exec-mode and comparator helpers from <code>infra-runtime</code> to <code>execPolicy</code> on <code>openclaw/plugin-sdk/agent-harness-runtime</code>; use <code>resolveExecModePolicy</code> and select the returned fields needed by the caller. See <a href="https://docs.openclaw.ai/plugins/sdk-runtime/config-and-utilities">runtime utility migration</a>.</li>
 <li><strong>Breaking — approval SDK:</strong> import approval account-resolution helpers from <code>approval-native-runtime</code>, adapt session filtering to the full <code>matchesApprovalRequestFilters</code> contract, and replace the retired generic forwarding evaluator with native channel route gates and shared predicates rather than assuming a drop-in alias. See <a href="https://docs.openclaw.ai/plugins/sdk-migration">SDK migration</a>.</li>
 <li><strong>Breaking — SDK aliases:</strong> replace <code>channel-inbound.buildChannelTurnMediaPayload</code> with <code>buildChannelInboundMediaPayload</code>; infer the retained <code>abortAndDrainAgentHarnessRun</code> callable’s result instead of importing the removed <code>AbortAndDrainAgentHarnessRunResult</code> named type. The callable and its result data remain available. See <a href="https://docs.openclaw.ai/plugins/sdk-migration">SDK migration</a>.</li>
@@ -1296,7 +1296,7 @@ Shipped baseline exclusions: v2026.9.3 (19 PRs: #111451, #120728, #121140, #1296
 <li><strong>Active sessions:</strong> show running and queued permitted sessions in Live activity on entry and reconnect, with a visible limit notice and connection status instead of claiming disconnected sessions are idle. (#141045) Thanks @shakkernerd.</li>
 <li><strong>Code Mode composition:</strong> retain the running JavaScript environment across fast tool replies, add optional TypeScript checks against available tools, and report original-source error locations with bounded console output; explicit yields and resource limits still checkpoint execution. Related #141261. (#141265) Thanks @Takhoffman.</li>
 <li><strong>Code Mode text encoding:</strong> provide sandboxed TextEncoder and TextDecoder instances that survive wait/resume for local text and byte transformations. (#140812) Thanks @Takhoffman.</li>
-<li><strong>Private-session link previews:</strong> copy social-preview links that show a generic OpenClaw card without reading private session content; opening the conversation still requires its normal authentication. (#139250)</li>
+<li><strong>Private-session link previews:</strong> copy social-preview links that show a generic OpenAgent card without reading private session content; opening the conversation still requires its normal authentication. (#139250)</li>
 <li><strong>Public session transcripts:</strong> session owners and Gateway admins can explicitly publish existing and future conversation text to anyone with a public URL and revoke access later; the read-only view omits tools, reasoning, files, images, and executable widgets. Review the text before enabling access; private-session preview links remain separate. (#139489)</li>
 <li><strong>Repository-backed cloud sessions:</strong> create sessions from a repository URL and ref with checkout, setup, and recoverable checkpoints owned by the cloud node; materialize a Gateway worktree only when explicitly moving there. (#138900)</li>
 <li><strong>Persistent sessions and subagent runs:</strong> keep persistent sessions created with visible spawning editable and steerable in their parent tree. Subagent runs remain view-only, omit author avatars, and keep live progress in the parent conversation with inactive cards paused. (#139367, #139371, #139381, #139456, #141499)</li>
@@ -1314,7 +1314,7 @@ Shipped baseline exclusions: v2026.9.3 (19 PRs: #111451, #120728, #121140, #1296
 <li><strong>Recursive delegation:</strong> enable bounded recursive session spawning by default while retaining explicit depth and concurrency limits and existing sandbox restrictions. (#138059) Thanks @fuller-stack-dev.</li>
 <li><strong>Chat navigation:</strong> add a previewable position rail for long conversations, including hover previews and direct jumps. Related #138587. (#138603) Thanks @brokemac79.</li>
 <li><strong>Native dashboard reports:</strong> display bounded report data directly through <code>show_widget</code> and dashboard authoring without an iframe. Related #139263. (#139306)</li>
-<li><strong>Chrome extension setup on Mac:</strong> request the official Chrome Store extension from the local Mac device settings or CLI after native setup is ready; Chrome still owns approval and uninstall decisions, and OpenClaw shows when setup remains pending. Related #139448. (#139466)</li>
+<li><strong>Chrome extension setup on Mac:</strong> request the official Chrome Store extension from the local Mac device settings or CLI after native setup is ready; Chrome still owns approval and uninstall decisions, and OpenAgent shows when setup remains pending. Related #139448. (#139466)</li>
 <li><strong>CLI agents by default:</strong> show supported create-capable CLI agents in the new-session model picker without a separate opt-in; set <code>gateway.cliAgents.enabled</code> to <code>false</code> to disable CLI agents and native CLI session creation. (#139459)</li>
 <li><strong>Device aliases:</strong> rename paired devices directly from the Control UI Devices page. Related #138099. (#138852) Thanks @xialonglee.</li>
 <li><strong>Folder navigation:</strong> filter the folder browser immediately as you type a path. (#139417)</li>
@@ -3345,7 +3345,7 @@ Shipped baseline exclusions: v2026.9.1 (9 PRs: #116740, #131746, #131767, #13242
             <sparkle:version>2609000290</sparkle:version>
             <sparkle:shortVersionString>2026.9.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>OpenClaw 2026.9.2</h2>
+            <description><![CDATA[<h2>OpenAgent 2026.9.2</h2>
 <h3>Highlights</h3>
 <ul>
 <li><strong>Faster, more responsive chat:</strong> keep chat, dashboards, and session interactions responsive while long transcripts and disk usage are processed, with direct dashboard lookup, less cold-load work, and durable history reads outside the Gateway event loop. (#136862, #138094, #138669, #138888, #138860, #138894)</li>
@@ -3357,9 +3357,9 @@ Shipped baseline exclusions: v2026.9.1 (9 PRs: #116740, #131746, #131767, #13242
 </ul>
 <h3>Changes</h3>
 <ul>
-<li><strong>Plugin branding:</strong> package your plugin icon at <code>assets/icon.png</code> instead of a top-level manifest URL; OpenClaw loads the packaged image without a network request, and missing or invalid icons do not prevent the plugin from loading. (#131510) Thanks @Patrick-Erichsen.</li>
-<li><strong>GPT-6 Astra async tools and steering:</strong> on OpenAI Platform API-key routes using the built-in OpenClaw runtime and official Responses endpoint, run direct function tools asynchronously, steer active responses over cached WebSockets, and retain request prefixes when changing reasoning effort under the documented configuration; keep steering history and encrypted reasoning through continuations. (#138046, #138434)</li>
-<li><strong>GPT-6 Astra reasoning:</strong> keep supported reasoning and sampling settings correct when catalog metadata is absent, add <code>/think ultra</code> orchestration for OpenClaw and native Codex runtimes, and retain configured Azure deployment capabilities. (#138626, #138739)</li>
+<li><strong>Plugin branding:</strong> package your plugin icon at <code>assets/icon.png</code> instead of a top-level manifest URL; OpenAgent loads the packaged image without a network request, and missing or invalid icons do not prevent the plugin from loading. (#131510) Thanks @Patrick-Erichsen.</li>
+<li><strong>GPT-6 Astra async tools and steering:</strong> on OpenAI Platform API-key routes using the built-in OpenAgent runtime and official Responses endpoint, run direct function tools asynchronously, steer active responses over cached WebSockets, and retain request prefixes when changing reasoning effort under the documented configuration; keep steering history and encrypted reasoning through continuations. (#138046, #138434)</li>
+<li><strong>GPT-6 Astra reasoning:</strong> keep supported reasoning and sampling settings correct when catalog metadata is absent, add <code>/think ultra</code> orchestration for OpenAgent and native Codex runtimes, and retain configured Azure deployment capabilities. (#138626, #138739)</li>
 <li><strong>macOS browser sign-in:</strong> connect saved Gateways through personal Cloudflare Access browser sign-in, open the Mac app from the Gateway website, and restore the selected Gateway after app restart while keeping accounts and queued messages separate. Related #138698, #137916. (#138745, #137933)</li>
 <li><strong>Experimental plugin UI:</strong> enable Settings → Labs → Custom plugin UI to let plugins contribute Control UI pages, panels, and session actions or customize the composer and workspace. (#134943)</li>
 <li><strong>Experimental Apple Watch Talk:</strong> opt into standalone Talk on Watch with Gateway-owned tools and transcripts while retaining the existing iPhone-mediated Talk to Claw flow; standalone realtime audio requires UDP connectivity. (#135808) Thanks @obviyus.</li>

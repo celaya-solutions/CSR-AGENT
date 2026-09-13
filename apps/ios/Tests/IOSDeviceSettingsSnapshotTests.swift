@@ -8,7 +8,7 @@ import Photos
 import Speech
 import Testing
 import UserNotifications
-@testable import OpenClaw
+@testable import OpenAgent
 
 @MainActor
 struct IOSDeviceSettingsSnapshotTests {

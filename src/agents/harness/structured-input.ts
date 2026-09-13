@@ -75,20 +75,20 @@ export function compileStructuredInputForm(params: {
   const properties = schema ? ownRecord(schema, "properties") : undefined;
   if (!schema || ownString(schema, "type") !== "object" || !properties) {
     return unsupported(
-      `Zero to Agent cannot show this ${protocol} form because its schema is not an object with properties.`,
+      `OpenAgent cannot show this ${protocol} form because its schema is not an object with properties.`,
     );
   }
   if (!structuredInputEntries(schema, MAX_SCHEMA_KEYS)) {
-    return unsupported(`Zero to Agent declined an over-limit ${protocol} form schema.`);
+    return unsupported(`OpenAgent declined an over-limit ${protocol} form schema.`);
   }
   const propertyEntries = structuredInputEntries(properties, MAX_FORM_FIELDS);
   if (!propertyEntries) {
     return unsupported(
-      `Zero to Agent supports at most ${MAX_FORM_FIELDS} fields in one ${protocol} form.`,
+      `OpenAgent supports at most ${MAX_FORM_FIELDS} fields in one ${protocol} form.`,
     );
   }
   if (propertyEntries.length === 0 && options.allowEmptyForm !== true) {
-    return unsupported(`Zero to Agent cannot show an empty ${protocol} form.`);
+    return unsupported(`OpenAgent cannot show an empty ${protocol} form.`);
   }
   const required = readRequired(schema, properties, protocol);
   if (typeof required === "string") {
@@ -97,7 +97,7 @@ export function compileStructuredInputForm(params: {
   const intro = readStructuredInputText(params.message ?? params.fallbackMessage, MAX_MESSAGE_TEXT);
   if (!intro) {
     return unsupported(
-      `Zero to Agent declined ${protocol} form display text that is invalid or over-limit.`,
+      `OpenAgent declined ${protocol} form display text that is invalid or over-limit.`,
     );
   }
 
@@ -115,16 +115,14 @@ export function compileStructuredInputForm(params: {
     if (fieldMetadata.otherAnswer) {
       const target = fieldMetadata.otherQuestionId;
       if (!target || otherFields.has(target)) {
-        return unsupported(`Zero to Agent declined invalid ${protocol} Other-field metadata.`);
+        return unsupported(`OpenAgent declined invalid ${protocol} Other-field metadata.`);
       }
       otherFields.set(target, { fieldId, secret: fieldMetadata.secret });
     }
   }
   for (const target of otherFields.keys()) {
     if (!Object.hasOwn(properties, target)) {
-      return unsupported(
-        `Zero to Agent declined ${protocol} Other-field metadata without its target.`,
-      );
+      return unsupported(`OpenAgent declined ${protocol} Other-field metadata without its target.`);
     }
   }
 
@@ -157,7 +155,7 @@ export function compileStructuredInputForm(params: {
   }
   if (fields.length === 0 && propertyEntries.length > 0) {
     return unsupported(
-      `Zero to Agent cannot show a ${protocol} form containing only synthetic fields.`,
+      `OpenAgent cannot show a ${protocol} form containing only synthetic fields.`,
     );
   }
   return { kind: "ready", plan: { kind: "form", intro, fields } };
@@ -187,23 +185,23 @@ export function compileStructuredInputUrl(params: {
     !message
   ) {
     return unsupported(
-      `Zero to Agent declined an invalid or over-limit ${params.protocolName} elicitation URL.`,
+      `OpenAgent declined an invalid or over-limit ${params.protocolName} elicitation URL.`,
     );
   }
   let parsed: URL;
   try {
     parsed = new URL(url);
   } catch {
-    return unsupported(`Zero to Agent declined an invalid ${params.protocolName} elicitation URL.`);
+    return unsupported(`OpenAgent declined an invalid ${params.protocolName} elicitation URL.`);
   }
   if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
     return unsupported(
-      `Zero to Agent only presents http or https ${params.protocolName} elicitation URLs.`,
+      `OpenAgent only presents http or https ${params.protocolName} elicitation URLs.`,
     );
   }
   if (parsed.username || parsed.password) {
     return unsupported(
-      `Zero to Agent does not present ${params.protocolName} elicitation URLs containing credentials.`,
+      `OpenAgent does not present ${params.protocolName} elicitation URLs containing credentials.`,
     );
   }
   return {
@@ -234,12 +232,12 @@ function readRequired(
     return new Set();
   }
   if (!Array.isArray(value) || value.length > MAX_FORM_FIELDS) {
-    return `Zero to Agent declined a ${protocol} form with an invalid required list.`;
+    return `OpenAgent declined a ${protocol} form with an invalid required list.`;
   }
   const required = new Set<string>();
   for (const entry of value) {
     if (typeof entry !== "string" || !Object.hasOwn(properties, entry)) {
-      return `Zero to Agent declined a ${protocol} form with an invalid required field.`;
+      return `OpenAgent declined a ${protocol} form with an invalid required field.`;
     }
     required.add(entry);
   }

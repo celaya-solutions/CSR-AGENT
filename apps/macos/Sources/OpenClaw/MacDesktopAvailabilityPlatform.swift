@@ -52,7 +52,7 @@ final class LiveMacDesktopAvailabilityPlatform: MacDesktopAvailabilityPlatform {
         var assertion: IOPMAssertionID = 0
         let result = IOPMAssertionCreateWithDescription(
             kIOPMAssertPreventUserIdleDisplaySleep as CFString,
-            "OpenClaw Computer use" as CFString,
+            "OpenAgent Computer use" as CFString,
             "An authorized desktop execution or opted-in worker host is active" as CFString,
             nil,
             nil,
@@ -64,7 +64,7 @@ final class LiveMacDesktopAvailabilityPlatform: MacDesktopAvailabilityPlatform {
         // Display-idle prevention alone does not declare remote framebuffer activity.
         // Both assertions share the owner's short timeout and are released together.
         guard IOPMAssertionDeclareUserActivity(
-            "OpenClaw remote desktop work" as CFString, kIOPMUserActiveRemote, &activity) == kIOReturnSuccess,
+            "OpenAgent remote desktop work" as CFString, kIOPMUserActiveRemote, &activity) == kIOReturnSuccess,
             IOPMAssertionSetProperty(
                 activity,
                 kIOPMAssertionTimeoutActionKey as CFString,

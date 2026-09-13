@@ -1,4 +1,4 @@
-// Pure-logic tests for the Zero to Agent Chrome extension. Runs under the
+// Pure-logic tests for the OpenAgent Chrome extension. Runs under the
 // extension-browser vitest glob (extensions/browser/**/*.test.ts).
 import { describe, expect, it, vi } from "vitest";
 import {

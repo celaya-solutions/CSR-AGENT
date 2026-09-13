@@ -159,7 +159,7 @@ describe("sendMessageSlack unfurl controls", () => {
       }),
       client,
       identity: {
-        username: "Zero to Agent",
+        username: "OpenAgent",
       },
     });
 

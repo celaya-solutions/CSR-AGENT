@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Test Env Mutation Report script supports OpenClaw repository automation.
+// Test Env Mutation Report script supports OpenAgent repository automation.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -52,7 +52,7 @@ const TRACKED_ENV_KEYS = new Set([
   "XDG_STATE_HOME",
 ]);
 const DEFAULT_ALLOWED_FILES = new Map([
-  ["src/test-utils/openclaw-test-state.ts", "canonical OpenClaw test state helper"],
+  ["src/test-utils/openclaw-test-state.ts", "canonical OpenAgent test state helper"],
   ["test/non-isolated-runner.ts", "shared Vitest runner restores global env between files"],
   ["test/setup.extensions.ts", "global extension-test setup owns process env isolation"],
   ["test/setup.shared.ts", "global shared-test setup owns process env isolation"],
@@ -297,7 +297,7 @@ export function renderTestEnvMutationReport(
 ): string {
   const limit = options.limit === 0 ? Number.POSITIVE_INFINITY : (options.limit ?? 120);
   const lines = [
-    "OpenClaw test env mutation report",
+    "OpenAgent test env mutation report",
     `Scanned files: ${report.summary.scannedFileCount}`,
     `Findings: ${report.summary.activeFindingCount} active in ${report.summary.activeFileCount} file(s), ${report.summary.allowedFindingCount} allowed in ${report.summary.allowedFileCount} file(s)`,
     "",
@@ -380,7 +380,7 @@ function readNonNegativeIntArg(raw: string | undefined): number {
 }
 
 function printHelp(): void {
-  process.stdout.write(`OpenClaw test env mutation report
+  process.stdout.write(`OpenAgent test env mutation report
 
 Usage:
   pnpm test:env-mutations:report [options]

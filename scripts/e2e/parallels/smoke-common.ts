@@ -1,4 +1,4 @@
-// Smoke Common helper supports OpenClaw script workflows.
+// Smoke Common helper supports OpenAgent script workflows.
 import { readFile, rm } from "node:fs/promises";
 import path from "node:path";
 import { PROCESS_NODE_VERSION_CHECK } from "../../../node-version.mjs";
@@ -394,9 +394,9 @@ export async function installSmokeRuntimeCompanions(input: {
   }
   const version = input
     .readCli(["--version"])
-    .match(/^OpenClaw\s+(\d{4}\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)(?:\s|$)/mu)?.[1];
+    .match(/^OpenAgent\s+(\d{4}\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)(?:\s|$)/mu)?.[1];
   if (!version) {
-    throw new Error("could not resolve installed OpenClaw version for runtime companions");
+    throw new Error("could not resolve installed OpenAgent version for runtime companions");
   }
   // Candidate registries bind reviewed companion artifacts to the core version.
   // Only the selected provider's required packages receive explicit consent.

@@ -137,7 +137,7 @@ function normalizeOllamaThinkValue(
     return "low";
   }
   if (value === "xhigh" || value === "adaptive") {
-    // These Zero to Agent-only tiers are not advertised by Ollama; keep their established high mapping.
+    // These OpenAgent-only tiers are not advertised by Ollama; keep their established high mapping.
     return "high";
   }
   return undefined;

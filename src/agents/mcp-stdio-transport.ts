@@ -1,5 +1,5 @@
 /**
- * Zero to Agent stdio transport wrapper for MCP server subprocesses.
+ * OpenAgent stdio transport wrapper for MCP server subprocesses.
  */
 import fs from "node:fs/promises";
 import process from "node:process";

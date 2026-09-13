@@ -1,13 +1,13 @@
 ---
-summary: "Find and publish community-maintained Zero to Agent plugins"
+summary: "Find and publish community-maintained OpenAgent plugins"
 read_when:
-  - You want to find third-party Zero to Agent plugins
+  - You want to find third-party OpenAgent plugins
   - You want to publish or list your own plugin on ClawHub
 title: "Community plugins"
 doc-schema-version: 1
 ---
 
-Community plugins are third-party packages that extend Zero to Agent with
+Community plugins are third-party packages that extend OpenAgent with
 channels, tools, providers, hooks, or other capabilities. Use
 [ClawHub](/clawhub) as the primary discovery surface for public community
 plugins.
@@ -38,7 +38,7 @@ the full command reference and source-selection rules.
 
 ## Publish plugins
 
-Publish public community plugins on ClawHub so Zero to Agent users can discover
+Publish public community plugins on ClawHub so OpenAgent users can discover
 and install them. ClawHub owns the live package listing, release history,
 scan status, and install hints; the docs do not maintain a static
 third-party plugin catalog.

@@ -84,7 +84,7 @@ describe("QA runtime-pair scenario catalog", () => {
     expect(longContextFlow).not.toContain("patchConfig");
   });
 
-  it("keeps the pinned gateway restart scenario owned by the Zero to Agent runtime", () => {
+  it("keeps the pinned gateway restart scenario owned by the OpenAgent runtime", () => {
     const scenarioId = "gateway-restart-multi-live";
     const scenario = readQaScenarioById(scenarioId);
     const scenarios = readQaScenarioPack().scenarios;

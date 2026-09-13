@@ -1,5 +1,5 @@
 /**
- * Routes Codex app-server plugin approval prompts through Zero to Agent's gateway
+ * Routes Codex app-server plugin approval prompts through OpenAgent's gateway
  * approval tool and maps gateway decisions back to Codex outcomes.
  */
 import type { EmbeddedRunAttemptParamsV2 as EmbeddedRunAttemptParams } from "openclaw/plugin-sdk/agent-harness-runtime";
@@ -60,7 +60,7 @@ type ApprovalRequestResult = {
   decision?: ExecApprovalDecision | null;
 };
 
-/** Starts a two-phase plugin approval request through the Zero to Agent gateway. */
+/** Starts a two-phase plugin approval request through the OpenAgent gateway. */
 export async function requestPluginApproval(params: {
   hostCapabilities: AgentHarnessHostCapabilities;
   signal?: AbortSignal;

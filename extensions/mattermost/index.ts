@@ -1,4 +1,4 @@
-// Mattermost plugin entrypoint registers its Zero to Agent integration.
+// Mattermost plugin entrypoint registers its OpenAgent integration.
 import {
   defineBundledChannelEntry,
   loadBundledEntryExportSync,

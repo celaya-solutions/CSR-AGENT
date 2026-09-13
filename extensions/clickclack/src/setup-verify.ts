@@ -18,10 +18,10 @@ type ClickClackSetupConnectionResult =
 
 type ClickClackGatewayStatus = "running" | "not-running" | "unavailable";
 
-const GATEWAY_RUNNING_MESSAGE = "Zero to Agent is running — ClickClack will connect automatically.";
-const GATEWAY_NOT_RUNNING_MESSAGE = "Start Zero to Agent to connect: openclaw gateway";
+const GATEWAY_RUNNING_MESSAGE = "OpenAgent is running — ClickClack will connect automatically.";
+const GATEWAY_NOT_RUNNING_MESSAGE = "Start OpenAgent to connect: openclaw gateway";
 const GATEWAY_UNKNOWN_MESSAGE =
-  "If Zero to Agent is running it connects automatically; otherwise start it with: openclaw gateway";
+  "If OpenAgent is running it connects automatically; otherwise start it with: openclaw gateway";
 
 function isHttpStatus(error: unknown, status: number): boolean {
   return (

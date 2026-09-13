@@ -6,7 +6,7 @@ import Testing
 import UIKit
 import WebKit
 import XCTest
-@testable import OpenClaw
+@testable import OpenAgent
 
 @MainActor
 struct SettingsHubTests {

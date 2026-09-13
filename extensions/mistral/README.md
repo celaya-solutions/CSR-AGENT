@@ -1,9 +1,9 @@
-# Zero to Agent Mistral Provider
+# OpenAgent Mistral Provider
 
-Official Zero to Agent provider plugin for Mistral models, Voxtral transcription, and
+Official OpenAgent provider plugin for Mistral models, Voxtral transcription, and
 Mistral memory embeddings.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/mistral-provider

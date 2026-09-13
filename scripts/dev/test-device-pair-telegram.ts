@@ -1,4 +1,4 @@
-// Test Device Pair Telegram script supports OpenClaw repository automation.
+// Test Device Pair Telegram script supports OpenAgent repository automation.
 import { pathToFileURL } from "node:url";
 import { getRuntimeConfig } from "../../src/config/config.js";
 import { matchPluginCommand, executePluginCommand } from "../../src/plugins/commands.js";

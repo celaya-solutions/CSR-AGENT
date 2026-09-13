@@ -1,14 +1,14 @@
 ---
 name: prototype-openclaw-tui
-description: Build throwaway, fixture-driven OpenClaw Clack or Pi TUI prototypes and compare multiple interactive variants side by side in tmux without running the full application or touching live state.
+description: Build throwaway, fixture-driven OpenAgent Clack or Pi TUI prototypes and compare multiple interactive variants side by side in tmux without running the full application or touching live state.
 user-invocable: true
 disable-model-invocation: true
 ---
 
-# Prototype OpenClaw TUI
+# Prototype OpenAgent TUI
 
-Use this skill to isolate one OpenClaw terminal surface, render it with the
-real OpenClaw TUI stack, and compare two to six design variants in tmux.
+Use this skill to isolate one OpenAgent terminal surface, render it with the
+real OpenAgent TUI stack, and compare two to six design variants in tmux.
 
 ## Rules
 
@@ -17,10 +17,10 @@ real OpenClaw TUI stack, and compare two to six design variants in tmux.
 - When iterating on an existing surface, include its current implementation as
   the first `baseline` variant with the same fixture data. Only omit the
   baseline when the user explicitly asks for a greenfield comparison.
-- Use the real OpenClaw renderer, theme, copy, and component where practical.
+- Use the real OpenAgent renderer, theme, copy, and component where practical.
 - Replace scanning, models, network calls, installs, config writes, SQLite, and
   other durable effects with deterministic in-memory fixtures.
-- Do not run the full OpenClaw application when the isolated surface is enough.
+- Do not run the full OpenAgent application when the isolated surface is enough.
 - Treat prototype code as throwaway. Do not promote it directly to production.
 - Preserve unrelated and pre-existing worktree changes.
 
@@ -29,7 +29,7 @@ real OpenClaw TUI stack, and compare two to six design variants in tmux.
 - Wizard, onboarding, configuration, doctor, selection, or progress surface:
   use `createClackPrompter()` from `src/wizard/clack-prompter.ts`.
 - Agent shell, chat, overlay, editor, selector, or `src/tui/**` component:
-  use `@earendil-works/pi-tui` and the existing OpenClaw component.
+  use `@earendil-works/pi-tui` and the existing OpenAgent component.
 
 Do not invent a shared Clack/Pi abstraction. They are separate prototype
 recipes joined only by the tmux comparison loop.

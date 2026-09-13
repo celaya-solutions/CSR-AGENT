@@ -204,7 +204,7 @@ internal fun buildGatewayDiagnosticsReport(
   val endpoint = gatewayAddress.trim().ifEmpty { "unknown" }
   val status = statusText.trim().ifEmpty { "Offline" }
   return nativeString(
-    "Help diagnose this OpenClaw Android gateway connection failure.\n\n" +
+    "Help diagnose this OpenAgent Android gateway connection failure.\n\n" +
       "Please:\n" +
       "- pick one route only: same machine, same LAN, Tailscale, or public URL\n" +
       "- classify this as pairing/auth, TLS trust, wrong advertised route, wrong address/port, or gateway down\n" +
@@ -239,6 +239,6 @@ internal fun copyGatewayDiagnosticsReport(
 ) {
   val clipboard = context.getSystemService(ClipboardManager::class.java) ?: return
   val report = buildGatewayDiagnosticsReport(screen = screen, gatewayAddress = gatewayAddress, statusText = statusText)
-  clipboard.setPrimaryClip(ClipData.newPlainText("OpenClaw gateway diagnostics", report))
+  clipboard.setPrimaryClip(ClipData.newPlainText("OpenAgent gateway diagnostics", report))
   Toast.makeText(context, nativeString("Copied gateway diagnostics"), Toast.LENGTH_SHORT).show()
 }

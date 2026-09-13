@@ -2,7 +2,7 @@
 doc-schema-version: 1
 summary: "CLI reference for `openclaw webhooks` (Gmail Pub/Sub setup and runner)"
 read_when:
-  - You want to wire Gmail Pub/Sub events into Zero to Agent
+  - You want to wire Gmail Pub/Sub events into OpenAgent
   - You need the full flag list and default values
 title: "Webhooks"
 ---
@@ -20,7 +20,7 @@ openclaw webhooks gmail run   [--account <email>] [...]
 
 | Subcommand    | Description                                                                                |
 | ------------- | ------------------------------------------------------------------------------------------ |
-| `gmail setup` | One-time wizard: Gmail watch, Pub/Sub topic/subscription, and Zero to Agent hook delivery. |
+| `gmail setup` | One-time wizard: Gmail watch, Pub/Sub topic/subscription, and OpenAgent hook delivery. |
 | `gmail run`   | Run `gog gmail watch serve` plus the watch auto-renew loop in the foreground.              |
 
 <Note>
@@ -59,12 +59,12 @@ This command connects Gmail transport but does not create a restricted reader ag
 | `--label <label>`       | `INBOX`                | Gmail label to watch.                                                                                                                                                                  |
 | `--push-endpoint <url>` | (none)                 | Explicit Pub/Sub push endpoint. Skips Tailscale endpoint setup; use `--tailscale off` for externally managed exposure. The URL is used as supplied, including any required push token. |
 
-### Zero to Agent delivery options
+### OpenAgent delivery options
 
 | Flag                   | Default                                       | Description                                                                           |
 | ---------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `--hook-url <url>`     | `hooks.gmail.hookUrl`, then local Gateway URL | Zero to Agent webhook URL; generated fallback uses `hooks.path` and the Gateway port. |
-| `--hook-token <token>` | `hooks.token`, or a generated token           | Zero to Agent webhook token.                                                          |
+| `--hook-url <url>`     | `hooks.gmail.hookUrl`, then local Gateway URL | OpenAgent webhook URL; generated fallback uses `hooks.path` and the Gateway port. |
+| `--hook-token <token>` | `hooks.token`, or a generated token           | OpenAgent webhook token.                                                          |
 | `--push-token <token>` | `hooks.gmail.pushToken`, or a generated token | Separate token authenticating Pub/Sub to `gog gmail watch serve`.                     |
 
 <a id="gog-watch-serve-options" />
@@ -108,7 +108,7 @@ openclaw webhooks gmail run --account you@example.com
 
 Starts the Gmail watch and runs `gog gmail watch serve` plus periodic watch renewal in the foreground. Unexpected serve-process exits continue to restart after 5 seconds. A bind conflict stops restarts. Run only one watcher per listener and stop the other watcher before retrying. Ctrl-C or SIGTERM cancels pending restarts and renewal work and shuts down the serve process tree. Investigate repeated exits in the logs.
 
-`run` accepts the same Pub/Sub, Zero to Agent delivery, `gog gmail watch serve`, and Tailscale flags as `setup`, except:
+`run` accepts the same Pub/Sub, OpenAgent delivery, `gog gmail watch serve`, and Tailscale flags as `setup`, except:
 
 - `--account` is **optional** on `run`. It falls back to `hooks.gmail.account`.
 - `run` does **not** accept `--project`, `--push-endpoint`, or `--json`.
@@ -119,7 +119,7 @@ Starts the Gmail watch and runs `gog gmail watch serve` plus periodic watch rene
 | Category                | Flags                                                                            |
 | ----------------------- | -------------------------------------------------------------------------------- |
 | Pub/Sub                 | `--account`, `--topic`, `--subscription`, `--label`                              |
-| Zero to Agent delivery  | `--hook-url`, `--hook-token`, `--push-token`                                     |
+| OpenAgent delivery  | `--hook-url`, `--hook-token`, `--push-token`                                     |
 | `gog gmail watch serve` | `--bind`, `--port`, `--path`, `--include-body`, `--max-bytes`, `--renew-minutes` |
 | Tailscale               | `--tailscale`, `--tailscale-path`, `--tailscale-target`                          |
 

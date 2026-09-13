@@ -111,7 +111,7 @@ ROOT_DIR=${JSON.stringify(root)}
 APP_STAGE_DIR=${JSON.stringify(stage)}
 SWIFT_BUILD_RESULTS=""
 SWIFT_BUILD_PID=""
-PRODUCT=Zero to Agent
+PRODUCT=OpenAgent
 BUILD_CONFIG=release
 PEEKABOO_LOCKED_SOURCE_COMMIT=${commit}
 SKIP_MLX_TTS=0
@@ -289,7 +289,7 @@ ${cleanup}
 
   it.each([
     "dist/OpenClaw.app",
-    "dist/Zero to Agent-proof.app",
+    "dist/OpenAgent-proof.app",
     "dist/.openclaw-package.fixture/OpenClaw.app",
   ])("bounds expanded package exclusions to the app root %s", (app) => {
     const manifest = JSON.parse(readFileSync("package.json", "utf8")) as { files: string[] };
@@ -949,7 +949,7 @@ function runStopPackagedAppHarness(killZeroStatus: 0 | 1) {
   const toolsDir = tempDirs.make("openclaw-package-stop-tools-");
 
   const appRoot = path.join(root, "dist", "OpenClaw.app");
-  const appBinary = path.join(appRoot, "Contents", "MacOS", "Zero to Agent");
+  const appBinary = path.join(appRoot, "Contents", "MacOS", "OpenAgent");
   const lsofPath = path.join(toolsDir, "lsof");
   const pgrepPath = path.join(toolsDir, "pgrep");
   const sleepPath = path.join(toolsDir, "sleep");
@@ -968,7 +968,7 @@ function runStopPackagedAppHarness(killZeroStatus: 0 | 1) {
   return runHelper(`
     set -euo pipefail
     APP_DESTINATION=${JSON.stringify(appRoot)}
-    PRODUCT=Zero to Agent
+    PRODUCT=OpenAgent
     PATH=${JSON.stringify(`${toolsDir}:/usr/bin:/bin`)}
     kill() {
       if [[ "\${1:-}" == "-0" ]]; then
@@ -1204,7 +1204,7 @@ describe("package-mac-app plist stamping", () => {
     );
   });
 
-  it("stamps and validates independent Zero to Agent and Peekaboo source revisions", () => {
+  it("stamps and validates independent OpenAgent and Peekaboo source revisions", () => {
     const { result, openClawCommit, peekabooCommit } = runSourceProvenanceStampHarness();
 
     expect(result.status, result.stderr).toBe(0);
@@ -1213,7 +1213,7 @@ describe("package-mac-app plist stamping", () => {
   });
 
   it.each([
-    { key: "OpenClawGitCommit", diagnostic: "Release app Zero to Agent source mismatch" },
+    { key: "OpenClawGitCommit", diagnostic: "Release app OpenAgent source mismatch" },
     { key: "PeekabooSourceCommit", diagnostic: "Release app Peekaboo source mismatch" },
   ])("fails release validation independently for a wrong $key", ({ key, diagnostic }) => {
     const { result } = runSourceProvenanceStampHarness(key);
@@ -1715,7 +1715,7 @@ describe("package-mac-app plist stamping", () => {
     });
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("Zero to Agent macOS app packaging requires Swift tools 6.3+");
+    expect(result.stderr).toContain("OpenAgent macOS app packaging requires Swift tools 6.3+");
     expect(result.stderr).toContain("Current Swift is 6.0");
   });
 
@@ -1754,7 +1754,7 @@ describe("package-mac-app plist stamping", () => {
     });
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("Zero to Agent macOS app packaging requires Xcode 26.4+");
+    expect(result.stderr).toContain("OpenAgent macOS app packaging requires Xcode 26.4+");
     expect(result.stderr).toContain("current Xcode is 26.3");
   });
 
@@ -1811,7 +1811,7 @@ describe("package-mac-app plist stamping", () => {
     expect(result.status).toBe(1);
     const diagnosticIndex = result.stderr.indexOf(diagnostic);
     const guidanceIndex = result.stderr.indexOf(
-      "ERROR: Zero to Agent macOS app packaging requires a full Xcode developer directory",
+      "ERROR: OpenAgent macOS app packaging requires a full Xcode developer directory",
     );
     expect(diagnosticIndex).toBeGreaterThanOrEqual(0);
     expect(guidanceIndex).toBeGreaterThan(diagnosticIndex);
@@ -1855,14 +1855,14 @@ describe("package-mac-app plist stamping", () => {
     expect(result.stderr).toBe("");
   });
 
-  it("does not kill unrelated Zero to Agent processes during packaging", () => {
+  it("does not kill unrelated OpenAgent processes during packaging", () => {
     const script = readFileSync(scriptPath, "utf8");
     const stopBlock = script.slice(
       script.indexOf("running_packaged_app_pids()"),
       script.indexOf('echo "🔏 Signing bundle'),
     );
 
-    expect(script).not.toContain("killall -q Zero to Agent");
+    expect(script).not.toContain("killall -q OpenClaw");
     expect(stopBlock).toContain('local app_binary="$APP_DESTINATION/Contents/MacOS/OpenClaw"');
     expect(stopBlock).toContain('pgrep -x "$PRODUCT"');
     expect(stopBlock).toContain('grep -Fx "$app_binary"');
@@ -1887,7 +1887,7 @@ describe("package-mac-app plist stamping", () => {
       const callerTemp = path.join(tempRoot, "caller temp [*]");
       const eventsPath = path.join(tempRoot, "events");
       const observationsPath = path.join(tempRoot, "worker-scratch.jsonl");
-      const identity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+      const identity = "Developer ID Application: Celaya Solutions (FWJYW4S8P8)";
       for (const directory of [scriptsDir, appRoot, callerHome, callerTemp]) {
         mkdirSync(directory, { recursive: true });
       }
@@ -1996,7 +1996,7 @@ try {
     const result = runStopPackagedAppHarness(0);
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("ERROR: Packaged Zero to Agent bundle did not exit: 123");
+    expect(result.stderr).toContain("ERROR: Packaged OpenAgent bundle did not exit: 123");
   });
 
   it("fails release packaging when the Swift compatibility library is missing", () => {

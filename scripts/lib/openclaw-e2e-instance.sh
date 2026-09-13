@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Shared in-container lifecycle helpers for Docker/Bash E2E lanes.
 openclaw_e2e_eval_test_state_from_b64() {
-  local encoded="${1:?missing OpenClaw test-state script}"
+  local encoded="${1:?missing OpenAgent test-state script}"
   local decoded
   if ! decoded="$(printf '%s' "$encoded" | base64 -d)"; then
-    echo "Invalid OpenClaw test-state base64 payload" >&2
+    echo "Invalid OpenAgent test-state base64 payload" >&2
     return 1
   fi
   if [ -z "${decoded//[[:space:]]/}" ]; then
-    echo "OpenClaw test-state base64 payload decoded to an empty script" >&2
+    echo "OpenAgent test-state base64 payload decoded to an empty script" >&2
     return 1
   fi
   eval "$decoded"
@@ -44,11 +44,11 @@ openclaw_e2e_resolve_entrypoint() {
   for entry in dist/index.mjs dist/index.js; do
     [ -f "$entry" ] && { printf '%s\n' "$entry"; return 0; }
   done
-  echo "OpenClaw entrypoint not found under dist/" >&2
+  echo "OpenAgent entrypoint not found under dist/" >&2
   return 1
 }
 openclaw_e2e_run_script_entrypoint() {
-  local stem="${1:?missing OpenClaw E2E script stem}"
+  local stem="${1:?missing OpenAgent E2E script stem}"
   shift
   if [ -f "$stem.mts" ]; then
     tsx "$stem.mts" "$@"
@@ -58,7 +58,7 @@ openclaw_e2e_run_script_entrypoint() {
     node "$stem.mjs" "$@"
     return
   fi
-  echo "OpenClaw E2E script entrypoint not found: $stem.{mts,mjs}" >&2
+  echo "OpenAgent E2E script entrypoint not found: $stem.{mts,mjs}" >&2
   return 1
 }
 openclaw_e2e_package_root() {
@@ -75,7 +75,7 @@ openclaw_e2e_package_entrypoint() {
   for entry in "$root/dist/index.mjs" "$root/dist/index.js"; do
     [ -f "$entry" ] && { printf '%s\n' "$entry"; return 0; }
   done
-  echo "OpenClaw package entrypoint not found under $root/dist/" >&2
+  echo "OpenAgent package entrypoint not found under $root/dist/" >&2
   return 1
 }
 openclaw_e2e_maybe_timeout() {
@@ -93,7 +93,7 @@ openclaw_e2e_maybe_timeout() {
   fi
   if [ -z "$timeout_bin" ]; then
     if command -v node >/dev/null 2>&1; then
-      echo "timeout command not found; using Node watchdog for OpenClaw E2E command timeout $timeout_value" >&2
+      echo "timeout command not found; using Node watchdog for OpenAgent E2E command timeout $timeout_value" >&2
       if [[ "$1" != */* ]]; then
         local resolved_command
         resolved_command="$(command -v "$1" 2>/dev/null || true)"
@@ -158,7 +158,7 @@ const killChild = (signal) => {
 };
 const timer = setTimeout(() => {
   timedOut = true;
-  console.error(`OpenClaw E2E command timed out after ${timeoutValue}`);
+  console.error(`OpenAgent E2E command timed out after ${timeoutValue}`);
   killChild("SIGTERM");
   setTimeout(() => killChild("SIGKILL"), killGraceMs).unref();
 }, timeoutMs);
@@ -206,7 +206,7 @@ child.on("error", (error) => {
       ' -- "$timeout_value" "$@"
       return
     fi
-    echo "timeout command not found and Node is unavailable; cannot bound OpenClaw E2E command after $timeout_value" >&2
+    echo "timeout command not found and Node is unavailable; cannot bound OpenAgent E2E command after $timeout_value" >&2
     return 127
   fi
   if "$timeout_bin" --kill-after=1s 1s true >/dev/null 2>&1; then
@@ -247,7 +247,7 @@ openclaw_e2e_enable_failure_diagnostics() {
 }
 openclaw_e2e_install_package() {
   local log_file="$1"
-  local label="${2:-mounted OpenClaw package}"
+  local label="${2:-mounted OpenAgent package}"
   local prefix="${3:-}"
   local package_tgz="${OPENCLAW_CURRENT_PACKAGE_TGZ:?missing OPENCLAW_CURRENT_PACKAGE_TGZ}"
   local timeout_value="${OPENCLAW_E2E_NPM_INSTALL_TIMEOUT:-600s}"
@@ -349,7 +349,7 @@ openclaw_e2e_run_script_with_pty() {
   fi
 }
 openclaw_e2e_start_tracked_process() {
-  local log_path="${1:?missing OpenClaw E2E process log path}"
+  local log_path="${1:?missing OpenAgent E2E process log path}"
   shift
   if command -v setsid >/dev/null 2>&1; then
     setsid "$@" >"$log_path" 2>&1 &
@@ -362,7 +362,7 @@ import { spawn } from "node:child_process";
 
 const [logPath, command, ...args] = process.argv.slice(2);
 if (!command) {
-  console.error("missing command for OpenClaw E2E tracked process");
+  console.error("missing command for OpenAgent E2E tracked process");
   process.exit(1);
 }
 const logFd = openSync(logPath, "a");
@@ -567,7 +567,7 @@ openclaw_e2e_fixture_plugin_command() {
 openclaw_e2e_enable_openclaw_cli_timeout() {
   OPENCLAW_E2E_CLI_BIN="$(type -P openclaw)"
   if [ -z "$OPENCLAW_E2E_CLI_BIN" ]; then
-    echo "OpenClaw CLI binary not found on PATH" >&2
+    echo "OpenAgent CLI binary not found on PATH" >&2
     return 1
   fi
   export OPENCLAW_E2E_CLI_BIN

@@ -1081,7 +1081,7 @@ describe("runDoctorConfigPreflight state migration", () => {
       async () => snapshot,
       () =>
         expect(runDoctorConfigPreflight(startupCheckpointOptions)).rejects.toThrow(
-          "Zero to Agent config is invalid",
+          "OpenAgent config is invalid",
         ),
     );
 

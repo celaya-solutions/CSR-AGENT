@@ -13,7 +13,7 @@ installable candidate using a trusted harness. Inspect its current inputs
 before dispatch; source selection is not permission to run untrusted bytes with
 credentials.
 
-- `source=npm`: select the requested dist-tag or exact OpenClaw release version.
+- `source=npm`: select the requested dist-tag or exact OpenAgent release version.
   Resolve current tags with `npm view openclaw dist-tags --json --prefer-online`
   and record the selected version, tarball, and integrity. Pin exact versions
   for reruns or comparisons. If the requested beta is missing, stale, or broken,

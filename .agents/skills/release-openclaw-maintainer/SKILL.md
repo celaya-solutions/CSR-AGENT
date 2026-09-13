@@ -1,9 +1,9 @@
 ---
 name: release-openclaw-maintainer
-description: "Prepare, publish, recover, or verify OpenClaw beta, stable, and extended-stable releases, including approved backports."
+description: "Prepare, publish, recover, or verify OpenAgent beta, stable, and extended-stable releases, including approved backports."
 ---
 
-# OpenClaw Release Maintainer
+# OpenAgent Release Maintainer
 
 Use for a release operation, not ordinary development or advisory mutation.
 Read `docs/reference/RELEASING.md` for current policy. Load `$release-private`

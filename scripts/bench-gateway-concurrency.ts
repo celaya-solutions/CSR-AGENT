@@ -453,7 +453,7 @@ function parseOptions(argv: string[] = process.argv.slice(2)): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`OpenClaw Gateway concurrency benchmark
+  console.log(`OpenAgent Gateway concurrency benchmark
 
 Usage:
   pnpm test:gateway:concurrency -- [options]
@@ -1260,7 +1260,7 @@ async function runGatewaySample(options: {
           MOCK_PORT: String(mockPort),
           MOCK_REQUEST_LOG: requestLogPath,
           MOCK_RESPONSE_CHUNK_DELAY_MS: String(options.streamChunkDelayMs),
-          SUCCESS_MARKER: "OpenClaw gateway concurrency benchmark streaming response.",
+          SUCCESS_MARKER: "OpenAgent gateway concurrency benchmark streaming response.",
         },
       });
       mockOutput = captureChildOutput(mockProvider);

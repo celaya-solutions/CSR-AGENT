@@ -584,11 +584,11 @@ scene_ready_text() {
     # The screenshot fixture seeds chat history and restores at the live edge,
     # so wait for the latest reply instead of empty-chat copy.
     chat) printf '%s\n' "The Android release is close." ;;
-    settings) printf '%s\n' "OpenClaw mobile" ;;
+    settings) printf '%s\n' "OpenAgent mobile" ;;
     voice-wake) printf '%s\n' "Wake listener" ;;
     # Connected fixtures can push Add Gateway below the composed viewport, so
     # wait for the gateway detail's always-visible subtitle instead.
-    gateway) printf '%s\n' "Connection between this phone and OpenClaw." ;;
+    gateway) printf '%s\n' "Connection between this phone and OpenAgent." ;;
     *)
       echo "Unknown Android screenshot scene: $1" >&2
       return 1

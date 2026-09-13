@@ -265,15 +265,15 @@ describe("buildWebchatAssistantMessageFromReplyPayloads", () => {
   it("converts image data URLs into webchat image blocks", async () => {
     const message = await buildWebchatAssistantMessageFromReplyPayloads([
       {
-        text: "Scan this QR code with the Zero to Agent iOS app:",
+        text: "Scan this QR code with the OpenAgent iOS app:",
         mediaUrl: "data:image/png;base64,cG5n",
       },
     ]);
 
     expect(message).toMatchObject({
-      transcriptText: "Scan this QR code with the Zero to Agent iOS app:",
+      transcriptText: "Scan this QR code with the OpenAgent iOS app:",
       content: [
-        { type: "text", text: "Scan this QR code with the Zero to Agent iOS app:" },
+        { type: "text", text: "Scan this QR code with the OpenAgent iOS app:" },
         { type: "input_image", image_url: "data:image/png;base64,cG5n" },
       ],
     });

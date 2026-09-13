@@ -1,4 +1,4 @@
-// Debug Claude Usage script supports OpenClaw repository automation.
+// Debug Claude Usage script supports OpenAgent repository automation.
 import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -105,7 +105,7 @@ function printUsage(): void {
   console.log(`Usage: node --import tsx scripts/debug-claude-usage.ts [options]
 
 Options:
-  --agent <id>          OpenClaw agent id to inspect (default: main)
+  --agent <id>          OpenAgent agent id to inspect (default: main)
   --session-key <key>   Claude web session key override
   --reveal              Print token/session values instead of masked identifiers
   --help, -h            Show this help message`);

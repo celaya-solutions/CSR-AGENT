@@ -18,7 +18,7 @@ read_when:
 
 ## Browser selection
 
-When launching locally, Zero to Agent picks the first available:
+When launching locally, OpenAgent picks the first available:
 
 1. Chrome
 2. Brave

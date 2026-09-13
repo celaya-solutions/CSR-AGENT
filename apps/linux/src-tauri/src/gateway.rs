@@ -26,7 +26,7 @@ impl GatewaySnapshot {
             running: false,
             reachable: false,
             status: "Setup required".to_string(),
-            detail: Some("Choose where your OpenClaw Gateway should run.".to_string()),
+            detail: Some("Choose where your OpenAgent Gateway should run.".to_string()),
         }
     }
 
@@ -37,7 +37,7 @@ impl GatewaySnapshot {
             running: false,
             reachable: false,
             status: "CLI required".to_string(),
-            detail: Some("Install the OpenClaw CLI to continue.".to_string()),
+            detail: Some("Install the OpenAgent CLI to continue.".to_string()),
         }
     }
 
@@ -262,7 +262,7 @@ pub fn dashboard(cli: &OpenClawCli, snapshot: GatewaySnapshot) -> Result<ReadyGa
 }
 
 fn unsupported_dashboard_integration() -> String {
-    "The installed OpenClaw CLI does not support the desktop dashboard integration. \
+    "The installed OpenAgent CLI does not support the desktop dashboard integration. \
      Choose the Beta or Development release channel and install again, or wait for \
      the next stable release."
         .to_string()

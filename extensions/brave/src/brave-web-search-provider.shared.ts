@@ -14,7 +14,7 @@ type BraveConfig = {
 };
 
 type BraveLlmContextResult = { url: string; title: string; snippets: string[] };
-/** Brave LLM Context API response subset used by Zero to Agent. */
+/** Brave LLM Context API response subset used by OpenAgent. */
 export type BraveLlmContextResponse = {
   grounding: { generic?: BraveLlmContextResult[] };
   sources?: Record<string, { age?: string[] }>;

@@ -15,7 +15,7 @@ Runs bounded pre-reply memory retrieval and implements per-agent Remember across
 ## Distribution
 
 - Package: `openclaw`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

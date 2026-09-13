@@ -119,7 +119,7 @@ describe("startup admission before persistent writes", () => {
       config: "local",
       consolidated: true,
       invalidPlugin: true,
-      reason: "Zero to Agent config is invalid",
+      reason: "OpenAgent config is invalid",
     },
     {
       name: "missing gateway.mode",

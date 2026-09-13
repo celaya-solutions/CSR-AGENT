@@ -324,7 +324,7 @@ export function renderTrustedDependencyComment({ actor, headSha }) {
     "",
     "### Dependency graph changes noted",
     "",
-    "This PR includes dependency graph changes. The dependency guard is informational because the PR author is a repository admin, a member of `@openclaw/openclaw-secops`, or an OpenClaw organization member with Maintain or Admin repository access.",
+    "This PR includes dependency graph changes. The dependency guard is informational because the PR author is a repository admin, a member of `@openclaw/openclaw-secops`, or an OpenAgent organization member with Maintain or Admin repository access.",
     "",
     `- Current SHA: ${markdownCode(headSha ?? "<head-sha>")}`,
     `- Trusted actor: @${sanitizeGuardDisplayValue(actor.login)}`,
@@ -361,7 +361,7 @@ export function renderAutoscrubbedDependencyComment({ baseBranch, lockfileChange
 
 ### Dependency lockfile changes were removed
 
-OpenClaw does not accept package lockfile changes through PRs. This PR did not change dependency graph fields in package manifests, so the workflow restored the lockfile residue from the target branch automatically.
+OpenAgent does not accept package lockfile changes through PRs. This PR did not change dependency graph fields in package manifests, so the workflow restored the lockfile residue from the target branch automatically.
 
 Restored lockfiles:
 ${fileLines.join("\n")}
@@ -436,7 +436,7 @@ export function renderBlockedDependencyComment({
     "",
     "### Dependency graph changes are blocked",
     "",
-    "OpenClaw does not accept dependency graph changes through PRs unless a repository admin or security explicitly authorizes the current head SHA. Dependency updates are generated internally by maintainers so external PRs cannot change the resolved graph.",
+    "OpenAgent does not accept dependency graph changes through PRs unless a repository admin or security explicitly authorizes the current head SHA. Dependency updates are generated internally by maintainers so external PRs cannot change the resolved graph.",
     "",
     "Detected dependency graph changes:",
     ...reasons,
@@ -515,7 +515,7 @@ export async function findTrustedDependencyGuardActor({
       // from override approvers so Maintain authors cannot authorize another contributor's PR.
       const repositoryRole = await getRepositoryRoleName(candidate.login);
       if (repositoryRole === "maintain" || repositoryRole === "admin") {
-        role = `OpenClaw organization member with repository ${repositoryRole} role`;
+        role = `OpenAgent organization member with repository ${repositoryRole} role`;
       }
     }
     if (role) {

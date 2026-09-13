@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct CronModelsTests {
     @Test func `menu rows trim names and derive their next run time`() {

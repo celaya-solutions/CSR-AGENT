@@ -284,7 +284,7 @@ class Handler(socketserver.BaseRequestHandler):
         if not has_auth(header_bytes):
             self.request.sendall(
                 b"HTTP/1.1 401 Unauthorized\r\n"
-                b'WWW-Authenticate: Basic realm="OpenClaw CDP"\r\n'
+                b'WWW-Authenticate: Basic realm="OpenAgent CDP"\r\n'
                 b"Connection: close\r\n"
                 b"Content-Length: 0\r\n\r\n"
             )

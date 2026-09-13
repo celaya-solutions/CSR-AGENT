@@ -97,7 +97,7 @@ const manifest = require(process.argv[1]);
 process.exit(manifest.dependencies?.["@openclaw/ai"] ? 0 : 1);
 ' "$root_manifest"; then
       if [ -z "${OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_DIR:-}" ]; then
-        echo "OpenClaw tarball requires a verified candidate registry for unbundled @openclaw/ai" >&2
+        echo "OpenAgent tarball requires a verified candidate registry for unbundled @openclaw/ai" >&2
         exit 1
       fi
       REQUIRED_REGISTRY_PACKAGES='["@openclaw/ai"]'
@@ -217,7 +217,7 @@ resolve_package_tgz() {
 
   PACK_DIR="$(mktemp -d "${TMPDIR:-/tmp}/openclaw-bun-pack.XXXXXX")"
 
-  echo "==> Pack OpenClaw tarball"
+  echo "==> Pack OpenAgent tarball"
   package_args=(
     --skip-build
     --output-dir "$PACK_DIR"
@@ -230,7 +230,7 @@ resolve_package_tgz() {
     node scripts/package-openclaw-for-docker.mjs "${package_args[@]}"
   )"
   if [ -z "$PACKAGE_TGZ" ] || [ ! -f "$PACKAGE_TGZ" ]; then
-    echo "missing packed OpenClaw tarball" >&2
+    echo "missing packed OpenAgent tarball" >&2
     exit 1
   fi
 }
@@ -311,7 +311,7 @@ NODE
   GATEWAY_AGENT_LOG="$SMOKE_DIR/gateway-agent.log"
   DIRECT_BUN_LOG="$SMOKE_DIR/direct-bun.log"
 
-  echo "==> Install packed OpenClaw with trusted lifecycle scripts on Bun $bun_version"
+  echo "==> Install packed OpenAgent with trusted lifecycle scripts on Bun $bun_version"
   run_with_timeout "$COMMAND_TIMEOUT_MS" \
     "$bun_path" install -g --trust "$PACKAGE_TGZ" --no-progress >"$INSTALL_LOG" 2>&1
 
@@ -331,7 +331,7 @@ NODE
   export OPENCLAW_E2E_REDACTOR_MODULE="$package_root/dist/plugin-sdk/logging-core.js"
   "$bun_path" scripts/docker/verify-fs-safe-native.mjs --package-root "$package_root" --mode require
 
-  echo "==> Verify OpenClaw lifecycle scripts were trusted and executed"
+  echo "==> Verify OpenAgent lifecycle scripts were trusted and executed"
   run_with_timeout "$COMMAND_TIMEOUT_MS" "$bun_path" pm -g untrusted >"$UNTRUSTED_LOG" 2>&1
   node scripts/e2e/lib/bun-global-install/assertions.mjs \
     assert-openclaw-trusted \
@@ -339,12 +339,12 @@ NODE
     "$BUN_INSTALL/install/global/package.json" \
     "$UNTRUSTED_LOG"
 
-  echo "==> OpenClaw version through Bun global install"
+  echo "==> OpenAgent version through Bun global install"
   local openclaw_version
   openclaw_version="$(run_with_timeout "$COMMAND_TIMEOUT_MS" "$openclaw_bin" --version)"
   printf "%s\n" "$openclaw_version"
 
-  echo "==> OpenClaw help through Bun global install"
+  echo "==> OpenAgent help through Bun global install"
   run_with_timeout "$COMMAND_TIMEOUT_MS" "$openclaw_bin" --help >/dev/null
 
   run_installed_cli() {
@@ -374,7 +374,7 @@ NODE
     runtime_label="Node"
   fi
 
-  echo "==> OpenClaw image providers under $runtime_label"
+  echo "==> OpenAgent image providers under $runtime_label"
   local providers_json
   providers_json="$(run_installed_cli infer image providers --json)"
   OPENCLAW_IMAGE_PROVIDERS_JSON="$providers_json" node scripts/e2e/lib/bun-global-install/assertions.mjs assert-image-providers

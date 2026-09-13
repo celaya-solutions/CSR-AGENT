@@ -330,7 +330,7 @@ public enum OpenClawWatchChatDeliveryCodec {
         guard context.version == 1 else {
             throw OpenClawWatchChatDeliveryError(
                 code: "upgrade_required",
-                message: String(localized: "Update OpenClaw on iPhone and Watch."))
+                message: String(localized: "Update OpenAgent on iPhone and Watch."))
         }
         try self.identifier(context.gatewayStableID, limit: 2048)
         try self.identifier(context.routeGeneration)

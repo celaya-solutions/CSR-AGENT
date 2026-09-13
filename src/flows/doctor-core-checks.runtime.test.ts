@@ -1041,7 +1041,7 @@ describe("doctor gateway runtime checks", () => {
     },
   );
 
-  it("skips host-service findings for a container without a Zero to Agent service", async () => {
+  it("skips host-service findings for a container without an OpenAgent service", async () => {
     mocks.isContainerEnvironment.mockReturnValue(true);
 
     await expect(

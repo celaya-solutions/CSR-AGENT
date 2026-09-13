@@ -1,14 +1,14 @@
 ---
-summary: "End-to-end architecture of Zero to Agent memory: tiers, provenance, dreaming, recall lanes, the user model, and standing intents"
+summary: "End-to-end architecture of OpenAgent memory: tiers, provenance, dreaming, recall lanes, the user model, and standing intents"
 title: "Memory architecture"
 sidebarTitle: "Memory architecture"
 read_when:
-  - You want the complete picture of how Zero to Agent memory works end to end
+  - You want the complete picture of how OpenAgent memory works end to end
   - You want to understand why memory behaves differently for trusted and untrusted content
   - You are deciding which memory surface a new feature or plugin should write to
 ---
 
-Zero to Agent memory is a set of plain files and one SQLite index, organized into
+OpenAgent memory is a set of plain files and one SQLite index, organized into
 tiers with different trust levels, write rules, and injection behavior. This
 page explains the whole system: what gets written where, how content earns its
 way into long-term memory, how recall works on every turn, and how the system
@@ -31,10 +31,10 @@ Five rules shape everything below:
    with far heavier designs; what degrades memory systems is unreliable
    write-time curation. Long-horizon evaluations consistently show that what
    was written matters more than how it is indexed (LongMemEval,
-   arXiv:2410.10813). Zero to Agent therefore moves curation off the busy reply
+   arXiv:2410.10813). OpenAgent therefore moves curation off the busy reply
    path and into a dedicated background pass.
 3. **The write path is the security boundary.** Content-level scanning of
-   memory cannot catch poisoned facts reliably, so Zero to Agent enforces
+   memory cannot catch poisoned facts reliably, so OpenAgent enforces
    provenance at write time and gates promotion structurally instead of
    trying to detect bad memories later.
 4. **Deterministic gates, model judgment inside them.** Scoring, thresholds,
@@ -341,7 +341,7 @@ storing intentions as prose in a memory file is the least reliable design
 available: prospective recall degrades sharply with context length even
 while retrospective recall stays near perfect, and models cannot be trusted
 to re-infer cancellation (TriggerBench, arXiv:2606.23459; ProEvent-class
-event benchmarks). Zero to Agent therefore compiles intentions out of the model:
+event benchmarks). OpenAgent therefore compiles intentions out of the model:
 
 - **Time-based intents** ("remind me Friday") become cron jobs via
   [scheduled tasks](/automation/cron-jobs) at the moment they are uttered.
@@ -366,7 +366,7 @@ Memory is the persistence layer an injection attack wants: plant an
 instruction once, have it re-injected forever. Memory poisoning is a
 recognized attack class (OWASP Agentic Applications ASI06; memory injection
 research such as MINJA, arXiv:2503.03704), and detection-based defenses
-measure poorly. Zero to Agent defends structurally:
+measure poorly. OpenAgent defends structurally:
 
 - **Unforgeable provenance.** Origin labels live in SQLite columns written
   by classification code, never parsed out of memory text. Prose claiming
@@ -387,7 +387,7 @@ measure poorly. Zero to Agent defends structurally:
 
 The conservative posture is deliberate. Independent memory-poisoning
 benchmarks score agents better the less automatically they retrieve and the
-more conservatively they write; Zero to Agent keeps those properties even with
+more conservatively they write; OpenAgent keeps those properties even with
 dreaming and lane-1 recall on by default, because promotion and injection
 are both gated on provenance rather than on content looking safe.
 

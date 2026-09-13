@@ -3,7 +3,7 @@
 if [[ ${OSTYPE:-} == darwin* && $BASH != /bin/bash ]] && ((BASH_VERSINFO[0] > 5 || (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] >= 3))); then
   exec /bin/bash "$0" "$@"
 fi
-# Installs a prepared OpenClaw npm tarball in Docker, runs non-interactive
+# Installs a prepared OpenAgent npm tarball in Docker, runs non-interactive
 # onboarding for a channel, and verifies one mocked model turn through Gateway.
 set -euo pipefail
 
@@ -185,7 +185,7 @@ if [ -d "$package_root/dist/extensions/$CHANNEL" ]; then
   CHANNEL_PACKAGE_MODE="bundled"
 else
   CHANNEL_PACKAGE_MODE="external"
-  echo "$CHANNEL is not packaged with core OpenClaw; its plugin must be installed before channel configuration."
+  echo "$CHANNEL is not packaged with core OpenAgent; its plugin must be installed before channel configuration."
 fi
 
 # Older packages own their automatic setup; consent support, not a version,

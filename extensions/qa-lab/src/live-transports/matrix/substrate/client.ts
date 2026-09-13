@@ -584,19 +584,19 @@ export async function provisionMatrixQaRoom(params: {
   });
   const [driver, sut, observer] = await Promise.all([
     anonClient.registerWithToken({
-      deviceName: "Zero to Agent Matrix QA Driver",
+      deviceName: "OpenAgent Matrix QA Driver",
       localpart: params.driverLocalpart,
       password: `driver-${randomUUID()}`,
       registrationToken: params.registrationToken,
     }),
     anonClient.registerWithToken({
-      deviceName: "Zero to Agent Matrix QA SUT",
+      deviceName: "OpenAgent Matrix QA SUT",
       localpart: params.sutLocalpart,
       password: `sut-${randomUUID()}`,
       registrationToken: params.registrationToken,
     }),
     anonClient.registerWithToken({
-      deviceName: "Zero to Agent Matrix QA Observer",
+      deviceName: "OpenAgent Matrix QA Observer",
       localpart: params.observerLocalpart,
       password: `observer-${randomUUID()}`,
       registrationToken: params.registrationToken,
@@ -629,7 +629,7 @@ export async function provisionMatrixQaRoom(params: {
   // ignores them. Passive readers must never share the encrypted actor's device.
   const createObservationAccount = (account: MatrixQaRegisteredAccount) =>
     anonClient.loginWithPassword({
-      deviceName: "Zero to Agent Matrix QA Room Observation",
+      deviceName: "OpenAgent Matrix QA Room Observation",
       password: account.password,
       userId: account.userId,
     });

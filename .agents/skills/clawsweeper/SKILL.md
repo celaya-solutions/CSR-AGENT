@@ -1,11 +1,11 @@
 ---
 name: clawsweeper
-description: "Use for all ClawSweeper work: OpenClaw issue/PR sweep reports, repair jobs, cloud fix PRs, @clawsweeper maintainer mention commands, trusted ClawSweeper-reviewed autofix/automerge, GitHub Actions monitoring, permissions, gates, and manual backfills."
+description: "Use for all ClawSweeper work: OpenAgent issue/PR sweep reports, repair jobs, cloud fix PRs, @clawsweeper maintainer mention commands, trusted ClawSweeper-reviewed autofix/automerge, GitHub Actions monitoring, permissions, gates, and manual backfills."
 ---
 
 # ClawSweeper
 
-ClawSweeper lives at `~/Projects/clawsweeper`. It is the one OpenClaw
+ClawSweeper lives at `~/Projects/clawsweeper`. It is the one OpenAgent
 maintenance bot for sweeping, repair jobs, and guarded fix PRs.
 Use this skill whenever asked about reports, findings, dispatch health,
 repair/cloud PR creation, comment commands, automerge, permissions, or gates.
@@ -236,7 +236,7 @@ If ClawSweeper passes while merge gates are closed, it labels
 adds `clawsweeper:human-review`.
 
 When asked to create a PR and enable ClawSweeper automerge, do not
-leave the local OpenClaw checkout on the PR branch. After the PR is created,
+leave the local OpenAgent checkout on the PR branch. After the PR is created,
 pushed, and the `@clawsweeper automerge` request is posted or otherwise
 confirmed, return the local checkout to `main` and fast-forward it when the
 working tree is clean:
@@ -261,7 +261,7 @@ CLAWSWEEPER_MAX_REPAIRS_PER_HEAD=1
 Do not stage unapproved security-sensitive work for ClawSweeper Repair. Route
 vulnerability reports, CVE/GHSA/advisory work, leaked secrets/tokens/keys,
 plaintext secret storage, SSRF, XSS, CSRF, RCE, auth bypass, privilege
-escalation, and sensitive data exposure to central OpenClaw security handling.
+escalation, and sensitive data exposure to central OpenAgent security handling.
 
 For PRs explicitly opted into `clawsweeper:autofix` or
 `clawsweeper:automerge`, security-sensitive review findings may dispatch

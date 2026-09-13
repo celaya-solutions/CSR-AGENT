@@ -9,7 +9,7 @@ scenario:
     secondary:
       - web-search.web-search-exposure
       - openai.canonical-openai-model-routing-openai
-  objective: Verify a live OpenAI GPT model can use OpenAI native web_search when OpenClaw web search is enabled in auto mode.
+  objective: Verify a live OpenAI GPT model can use OpenAI native web_search when OpenAgent web search is enabled in auto mode.
   successCriteria:
     - A live-frontier run fails fast unless the selected primary provider is openai.
     - The selected primary model is GPT-5.6 Luna.

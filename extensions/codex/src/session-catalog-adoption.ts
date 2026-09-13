@@ -145,7 +145,7 @@ export async function listAdoptedSessionEntries(params: {
     );
     if (adopted.has(sourceKey)) {
       throw new Error(
-        `multiple Zero to Agent sessions adopt Codex thread ${sourceThreadId} from the same home`,
+        `multiple OpenAgent sessions adopt Codex thread ${sourceThreadId} from the same home`,
       );
     }
     adopted.set(sourceKey, { key: sessionKey, sessionId, agentId, boundThreadId });
@@ -227,7 +227,7 @@ async function ensurePendingAdoptionBinding(params: {
   params.initialization.assertCurrent();
   if (!ownsGeneration) {
     throw new Error(
-      `failed to claim the Zero to Agent session generation for ${params.sourceThreadId}`,
+      `failed to claim the OpenAgent session generation for ${params.sourceThreadId}`,
     );
   }
   const existing = params.bindingStore.read(params.identity);
@@ -236,7 +236,7 @@ async function ensurePendingAdoptionBinding(params: {
     if (matchesPendingAdoptionBinding(existing, params)) {
       return;
     }
-    throw new Error(`Zero to Agent session is already bound to Codex thread ${existing.threadId}`);
+    throw new Error(`OpenAgent session is already bound to Codex thread ${existing.threadId}`);
   }
   const binding = {
     threadId: params.sourceThreadId,
@@ -367,9 +367,7 @@ async function continueLocalCodexSessionInner(
     // Catalog state can race archive/reset. Restore only the same locked generation
     // under the session-store write lock so a stale Open Chat cannot revive a replacement.
     const changedError = () =>
-      new CatalogParamsError(
-        "Codex Zero to Agent session changed before it could be opened. Retry.",
-      );
+      new CatalogParamsError("Codex OpenAgent session changed before it could be opened. Retry.");
     const restored = await params.api.runtime.agent.session.patchSessionEntry({
       sessionKey: existing.key,
       readConsistency: "latest",
@@ -430,7 +428,7 @@ async function continueLocalCodexSessionInner(
   return { sessionKey: adopted.key, disposition: "forked" };
 }
 
-/** Creates one locked Zero to Agent branch whose first harness run forks the Codex source. */
+/** Creates one locked OpenAgent branch whose first harness run forks the Codex source. */
 export async function continueLocalCodexSession(params: ContinueLocalCodexSessionParams): Promise<{
   sessionKey: string;
   disposition: CodexSessionDisposition;

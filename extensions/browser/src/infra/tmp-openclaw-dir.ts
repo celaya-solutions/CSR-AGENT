@@ -1,4 +1,4 @@
 /**
- * Preferred Zero to Agent temp directory helper for Browser outputs.
+ * Preferred OpenAgent temp directory helper for Browser outputs.
  */
 export { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/temp-path";

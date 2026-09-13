@@ -1,4 +1,4 @@
-// Windows Git script supports OpenClaw repository automation.
+// Windows Git script supports OpenAgent repository automation.
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import path from "node:path";
@@ -160,7 +160,7 @@ export function ensureGuestGit(input: {
   const minGitName = path.basename(input.minGitZipPath);
   input.guest.powershell(
     `$ErrorActionPreference = 'Stop'
-$depsRoot = Join-Path $env:LOCALAPPDATA 'OpenClaw\\deps'
+$depsRoot = Join-Path $env:LOCALAPPDATA 'OpenAgent\\deps'
 $portableGit = Join-Path $depsRoot 'portable-git'
 $archive = Join-Path $env:TEMP ${psSingleQuote(minGitName)}
 if (Test-Path $portableGit) {

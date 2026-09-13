@@ -3,7 +3,7 @@ import Foundation
 import Security
 import Testing
 import WebKit
-@testable import OpenClaw
+@testable import OpenAgent
 
 @MainActor
 private final class DashboardFixtureTrust: NSObject, WKNavigationDelegate {

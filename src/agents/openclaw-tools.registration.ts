@@ -1,5 +1,5 @@
 /**
- * Zero to Agent-owned tool registration filters.
+ * OpenAgent-owned tool registration filters.
  *
  * Keeps optional tool gating separate from tool construction so config and execution contracts decide exposure.
  */
@@ -39,7 +39,7 @@ export function collectPresentOpenClawTools(
   return candidates.filter((tool): tool is AnyAgentTool => tool !== null && tool !== undefined);
 }
 
-/** Decides whether progress_card should be included in the assembled Zero to Agent tool set. */
+/** Decides whether progress_card should be included in the assembled OpenAgent tool set. */
 export function shouldIncludeProgressCardToolForOpenClawTools(params: {
   agentId?: string;
   agentSessionKey?: string;

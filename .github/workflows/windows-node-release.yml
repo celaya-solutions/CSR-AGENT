@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing OpenClaw release tag to receive Windows Hub installers, for example v2026.6.1
+        description: Existing OpenAgent release tag to receive Windows Hub installers, for example v2026.6.1
         required: true
         type: string
       windows_node_tag:
@@ -38,7 +38,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if ($env:RELEASE_TAG -notmatch '^v[0-9]{4}\.[1-9][0-9]*\.[1-9][0-9]*((-(alpha|beta)\.[1-9][0-9]*)|(-[1-9][0-9]*))?$') {
-            throw "Invalid OpenClaw release tag: $env:RELEASE_TAG"
+            throw "Invalid OpenAgent release tag: $env:RELEASE_TAG"
           }
           $stableRelease = -not (
             $env:RELEASE_TAG.Contains("-alpha.") -or
@@ -74,7 +74,7 @@ jobs:
 
           $targetRelease = gh release view $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --json tagName,isDraft,isPrerelease,assets,url | ConvertFrom-Json
           if ($targetRelease.tagName -ne $env:RELEASE_TAG) {
-            throw "OpenClaw release tag mismatch: expected $env:RELEASE_TAG, got $($targetRelease.tagName)"
+            throw "OpenAgent release tag mismatch: expected $env:RELEASE_TAG, got $($targetRelease.tagName)"
           }
           $unexpectedTargetCompanionAssets = @(
             $targetRelease.assets |
@@ -86,7 +86,7 @@ jobs:
               Sort-Object
           )
           if ($unexpectedTargetCompanionAssets.Count -ne 0) {
-            throw "Target OpenClaw release contains unexpected OpenClawCompanion assets before upload: $($unexpectedTargetCompanionAssets -join ', ')"
+            throw "Target OpenAgent release contains unexpected OpenClawCompanion assets before upload: $($unexpectedTargetCompanionAssets -join ', ')"
           }
 
           $sourceRelease = gh release view $env:WINDOWS_NODE_TAG --repo openclaw/openclaw-windows-node --json tagName,isDraft,isPrerelease,assets,url | ConvertFrom-Json
@@ -97,7 +97,7 @@ jobs:
             throw "Windows source release must be published: $($sourceRelease.url)"
           }
           if ($stableRelease -and $sourceRelease.isPrerelease) {
-            throw "Stable OpenClaw releases require a non-prerelease Windows source release: $($sourceRelease.url)"
+            throw "Stable OpenAgent releases require a non-prerelease Windows source release: $($sourceRelease.url)"
           }
           foreach ($name in $requiredInstallerNames) {
             $sourceAssets = @($sourceRelease.assets | Where-Object name -eq $name)
@@ -155,7 +155,7 @@ jobs:
       - name: Verify Authenticode signatures
         shell: pwsh
         run: |
-          $expectedSignerSubject = "CN=OpenClaw Foundation, O=OpenClaw Foundation, L=Mill Valley, S=California, C=US"
+          $expectedSignerSubject = "CN=Celaya Solutions, O=Celaya Solutions, L=Mill Valley, S=California, C=US"
           Get-ChildItem -LiteralPath dist -File | ForEach-Object {
             $signature = Get-AuthenticodeSignature -LiteralPath $_.FullName
             if ($signature.Status -ne "Valid") {
@@ -184,7 +184,7 @@ jobs:
               "$($hash.Hash.ToLowerInvariant())  $($_.Name)"
             } | Set-Content -Encoding utf8NoBOM -Path dist/OpenClawCompanion-SHA256SUMS.txt
 
-      - name: Upload to OpenClaw release
+      - name: Upload to OpenAgent release
         shell: pwsh
         env:
           RELEASE_TAG: ${{ inputs.tag }}
@@ -289,7 +289,7 @@ jobs:
           @"
           ## Windows Hub promotion: $outcome
 
-          OpenClaw release: $env:RELEASE_TAG
+          OpenAgent release: $env:RELEASE_TAG
           Source release: openclaw/openclaw-windows-node@$env:WINDOWS_NODE_TAG
           Evidence: $runUrl
 

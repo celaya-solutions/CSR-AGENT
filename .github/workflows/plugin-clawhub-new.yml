@@ -22,17 +22,17 @@ on:
         default: ""
         type: string
       release_publish_run_id:
-        description: Approved OpenClaw Release Publish workflow run id
+        description: Approved OpenAgent Release Publish workflow run id
         required: false
         default: ""
         type: string
       release_publish_run_attempt:
-        description: Exact approving OpenClaw Release Publish workflow run attempt
+        description: Exact approving OpenAgent Release Publish workflow run attempt
         required: false
         default: ""
         type: string
       release_publish_branch:
-        description: Branch name of the approving OpenClaw Release Publish workflow run
+        description: Branch name of the approving OpenAgent Release Publish workflow run
         required: false
         default: ""
         type: string
@@ -450,12 +450,12 @@ jobs:
           )"
           printf '%s\n' "${help_output}"
           if ! grep -Fq "Usage: clawhub package trusted-publisher set" <<<"${help_output}"; then
-            echo "::error::CLAW-277 03 - Split OpenClaw plugin ClawHub publishing into OIDC release and token bootstrap workflows requires locked clawhub@0.23.3 to expose 'package trusted-publisher set' before token bootstrap publish can run. The pinned CLI returned parent help or no set command, so this workflow is stopping before creating a ClawHub package row."
+            echo "::error::CLAW-277 03 - Split OpenAgent plugin ClawHub publishing into OIDC release and token bootstrap workflows requires locked clawhub@0.23.3 to expose 'package trusted-publisher set' before token bootstrap publish can run. The pinned CLI returned parent help or no set command, so this workflow is stopping before creating a ClawHub package row."
             exit 1
           fi
           for required_flag in --repository --workflow-filename; do
             if ! grep -Fq -- "${required_flag}" <<<"${help_output}"; then
-              echo "::error::CLAW-277 03 - Split OpenClaw plugin ClawHub publishing into OIDC release and token bootstrap workflows requires locked clawhub@0.23.3 trusted-publisher set help to include ${required_flag}."
+              echo "::error::CLAW-277 03 - Split OpenAgent plugin ClawHub publishing into OIDC release and token bootstrap workflows requires locked clawhub@0.23.3 trusted-publisher set help to include ${required_flag}."
               exit 1
             fi
           done

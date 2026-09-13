@@ -2,7 +2,7 @@
   "id": "longcat",
   "categories": ["models"],
   "name": "LongCat",
-  "description": "Zero to Agent LongCat provider plugin.",
+  "description": "OpenAgent LongCat provider plugin.",
   "doctorContract": {
     "configRepair": true
   },

@@ -124,7 +124,7 @@ internal fun CommandPalette(
           ClawTextField(
             value = query,
             onValueChange = { query = it },
-            placeholder = nativeString("Search OpenClaw"),
+            placeholder = nativeString("Search OpenAgent"),
             modifier = Modifier.focusRequester(searchFocusRequester),
           )
         }
@@ -163,7 +163,7 @@ internal fun CommandPalette(
                     key = session.key,
                     ownerAgentId = session.ownerAgentId,
                     title = sessionPresentationTitle(session) { nativeString("Main thread") },
-                    subtitle = sessionListSubtitle(session, fallback = nativeString("OpenClaw thread"), activeRunLabel = nativeString("Assistant working")),
+                    subtitle = sessionListSubtitle(session, fallback = nativeString("OpenAgent thread"), activeRunLabel = nativeString("Assistant working")),
                     metadata = session.updatedAtMs?.let(::relativeSessionTime) ?: nativeString("now"),
                   )
                 },
@@ -209,7 +209,7 @@ internal fun commandItems(
         }
 
         CommandAction.Voice -> {
-          CommandItem(action, nativeText("Start Voice"), nativeText("Talk or dictate with OpenClaw"), Icons.Outlined.MicNone)
+          CommandItem(action, nativeText("Start Voice"), nativeText("Talk or dictate with OpenAgent"), Icons.Outlined.MicNone)
         }
 
         CommandAction.Sessions -> {

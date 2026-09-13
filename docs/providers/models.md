@@ -1,5 +1,5 @@
 ---
-summary: "Model providers (LLMs) supported by Zero to Agent"
+summary: "Model providers (LLMs) supported by OpenAgent"
 read_when:
   - You want to choose a model provider
   - You want quick setup examples for LLM auth + model selection

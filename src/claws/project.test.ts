@@ -103,7 +103,7 @@ describe("Claw projects", () => {
     if (validated.ok) {
       expect(validated.claw.manifest.agent.id).toBe("research-assistant");
       expect(validated.claw.clawMarkdownBody?.toString()).toContain(
-        "purpose-built Zero to Agent agent",
+        "purpose-built OpenAgent agent",
       );
     }
   });
@@ -193,7 +193,7 @@ describe("Claw projects", () => {
     expect(entries).not.toContain("package/not-packed.txt");
   });
 
-  it("preserves the canonical metadata-selected Zero to Agent profile path", async () => {
+  it("preserves the canonical metadata-selected OpenAgent profile path", async () => {
     const project = tempDirs.make("openclaw-claw-custom-profile-");
     const output = join(tempDirs.make("openclaw-claw-custom-profile-output-"), "claw.tgz");
     await writeRichProject(project);

@@ -1,4 +1,4 @@
-// File Transfer plugin entrypoint registers its Zero to Agent integration.
+// File Transfer plugin entrypoint registers its OpenAgent integration.
 import {
   definePluginEntry,
   type AnyAgentTool,

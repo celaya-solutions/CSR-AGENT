@@ -572,7 +572,7 @@ describe("matrixApprovalNativeRuntime", () => {
           approvalKind: "system-agent",
           id: "system-agent:change-1",
           request: {
-            title: "Zero to Agent change",
+            title: "OpenAgent change",
             description: "restart the Gateway",
             command: "restart the Gateway",
             proposalHash: "a".repeat(64),
@@ -593,7 +593,7 @@ describe("matrixApprovalNativeRuntime", () => {
           approvalKind: "system-agent",
           approvalId: "system-agent:change-1",
           phase: "resolved",
-          title: "Zero to Agent change",
+          title: "OpenAgent change",
           metadata: [],
           commandText: "restart the Gateway",
           operationSummary: "restart the Gateway",
@@ -606,7 +606,7 @@ describe("matrixApprovalNativeRuntime", () => {
 
       expect(result).toEqual({
         kind: "update",
-        payload: `Zero to Agent change: ${label}\n\nChange\n\`\`\`\nrestart the Gateway\n\`\`\``,
+        payload: `OpenAgent change: ${label}\n\nChange\n\`\`\`\nrestart the Gateway\n\`\`\``,
       });
     },
   );

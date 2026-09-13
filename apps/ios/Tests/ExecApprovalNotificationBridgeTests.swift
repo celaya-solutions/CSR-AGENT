@@ -2,7 +2,7 @@ import Foundation
 import OpenClawProtocol
 import Testing
 import UserNotifications
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawKit
 
 private final class MockNotificationCenter: NotificationCentering, @unchecked Sendable {

@@ -43,5 +43,5 @@ fi
 [[ ! -f $config_dir/shell.json ]] || backup "$config_dir/shell.json" shell.json
 omarchy-shell shell rescanPlugins >/dev/null
 omarchy plugin enable "$plugin_id"
-echo "Enabled OpenClaw. Open its monochrome icon in the Omarchy bar."
+echo "Enabled OpenAgent. Open its monochrome icon in the Omarchy bar."
 [[ -z $backup_dir ]] || echo "Previous files: $backup_dir"

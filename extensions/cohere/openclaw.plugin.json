@@ -2,7 +2,7 @@
   "id": "cohere",
   "categories": ["models"],
   "name": "Cohere",
-  "description": "Zero to Agent Cohere provider plugin.",
+  "description": "OpenAgent Cohere provider plugin.",
   "activation": {
     "onStartup": false
   },

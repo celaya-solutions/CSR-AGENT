@@ -8,7 +8,7 @@ scenario:
     primary:
       - cli.cli-entrypoint
       - cli.supported-node-runtime
-  objective: Verify the actual OpenClaw launcher accepts supported runtimes, rejects unsupported runtimes, serves help and version, and reports source-build recovery guidance.
+  objective: Verify the actual OpenAgent launcher accepts supported runtimes, rejects unsupported runtimes, serves help and version, and reports source-build recovery guidance.
   successCriteria:
     - The copied launcher executes under every supported Node minimum and future supported majors.
     - Below-floor and unsupported Node versions exit before loading the CLI with the documented runtime requirement.

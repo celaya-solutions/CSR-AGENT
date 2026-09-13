@@ -170,7 +170,7 @@ describe("matrix driver client", () => {
     });
 
     const login = await client.loginWithPassword({
-      deviceName: "Zero to Agent Matrix QA Stale Device",
+      deviceName: "OpenAgent Matrix QA Stale Device",
       password: "driver-password",
       userId: "@qa-driver:matrix-qa.test",
     });
@@ -188,7 +188,7 @@ describe("matrix driver client", () => {
             type: "m.id.user",
             user: "@qa-driver:matrix-qa.test",
           },
-          initial_device_display_name: "Zero to Agent Matrix QA Stale Device",
+          initial_device_display_name: "OpenAgent Matrix QA Stale Device",
           password: "driver-password",
         },
       },
@@ -589,7 +589,7 @@ describe("matrix driver client", () => {
       driverLocalpart: "qa-driver",
       observerLocalpart: "qa-observer",
       registrationToken: "reg-token",
-      roomName: "Zero to Agent Matrix QA",
+      roomName: "OpenAgent Matrix QA",
       sutLocalpart: "qa-sut",
       fetchImpl,
       topology: {
@@ -600,7 +600,7 @@ describe("matrix driver client", () => {
             key: "main",
             kind: "group",
             members: ["driver", "observer", "sut"],
-            name: "Zero to Agent Matrix QA",
+            name: "OpenAgent Matrix QA",
             requireMention: true,
           },
         ],
@@ -623,7 +623,7 @@ describe("matrix driver client", () => {
           ],
           requireMention: true,
           roomId: "!room:matrix-qa.test",
-          name: "Zero to Agent Matrix QA",
+          name: "OpenAgent Matrix QA",
           encrypted: false,
         },
       ],
@@ -641,7 +641,7 @@ describe("matrix driver client", () => {
         ],
         invite: ["@qa-observer:matrix-qa.test", "@qa-sut:matrix-qa.test"],
         is_direct: false,
-        name: "Zero to Agent Matrix QA",
+        name: "OpenAgent Matrix QA",
         preset: "private_chat",
       },
     ]);

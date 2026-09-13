@@ -40,7 +40,7 @@ describe("control-ui-i18n placeholder validation", () => {
 });
 
 describe("control-ui-i18n translation runtime resolution", () => {
-  it("uses the in-tree Zero to Agent LLM model catalog", () => {
+  it("uses the in-tree OpenAgent LLM model catalog", () => {
     expect(resolveTranslationModel()).toMatchObject({
       id: "gpt-6-astra",
       provider: "openai",

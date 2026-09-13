@@ -1,5 +1,5 @@
 ---
-summary: "Index of the Zero to Agent ACP agents documentation, one page per reader job"
+summary: "Index of the OpenAgent ACP agents documentation, one page per reader job"
 read_when:
   - Running coding harnesses through ACP
   - Setting up conversation-bound ACP sessions on messaging channels
@@ -12,8 +12,8 @@ sidebarTitle: "ACP agents"
 ---
 
 [Agent Client Protocol (ACP)](https://agentclientprotocol.com/) sessions let
-Zero to Agent run external coding harnesses (Claude Code, Cursor, Copilot, Droid,
-Zero to Agent ACP, OpenCode, Gemini CLI, and other supported acpx harnesses)
+OpenAgent run external coding harnesses (Claude Code, Cursor, Copilot, Droid,
+OpenAgent ACP, OpenCode, Gemini CLI, and other supported acpx harnesses)
 through an ACP backend plugin. Each spawn is tracked as a
 [background task](/automation/tasks).
 
@@ -24,7 +24,7 @@ Codex app-server plugin owns `/codex ...` controls and the default
 and `sessions_spawn({ runtime: "acp" })` sessions.
 
 To let Codex or Claude Code connect as an external MCP client directly to
-existing Zero to Agent channel conversations, use
+existing OpenAgent channel conversations, use
 [`openclaw mcp serve`](/cli/mcp) instead of ACP.
 </Note>
 
@@ -33,9 +33,9 @@ existing Zero to Agent channel conversations, use
 | You want to...                                                                                       | Use this                              | Notes                                                                                                                                                                       |
 | ---------------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Bind or control Codex in the current conversation                                                    | `/codex bind`, `/codex threads`       | Native Codex app-server path when the `codex` plugin is enabled: bound chat replies, image forwarding, model/fast/permissions, stop, and steer. ACP is an explicit fallback |
-| Run Claude Code, Gemini CLI, explicit Codex ACP, or another external harness _through_ Zero to Agent | This page                             | Chat-bound sessions, `/acp spawn`, `sessions_spawn({ runtime: "acp" })`, background tasks, runtime controls                                                                 |
-| Expose a Zero to Agent Gateway session _as_ an ACP server for an editor or client                    | [`openclaw acp`](/cli/acp)            | Bridge mode: an IDE/client speaks ACP to Zero to Agent over stdio/WebSocket                                                                                                 |
-| Reuse a local AI CLI as a text-only fallback model                                                   | [CLI Backends](/gateway/cli-backends) | Not ACP: no Zero to Agent tools, no ACP controls, no harness runtime                                                                                                        |
+| Run Claude Code, Gemini CLI, explicit Codex ACP, or another external harness _through_ OpenAgent | This page                             | Chat-bound sessions, `/acp spawn`, `sessions_spawn({ runtime: "acp" })`, background tasks, runtime controls                                                                 |
+| Expose an OpenAgent Gateway session _as_ an ACP server for an editor or client                    | [`openclaw acp`](/cli/acp)            | Bridge mode: an IDE/client speaks ACP to OpenAgent over stdio/WebSocket                                                                                                 |
+| Reuse a local AI CLI as a text-only fallback model                                                   | [CLI Backends](/gateway/cli-backends) | Not ACP: no OpenAgent tools, no ACP controls, no harness runtime                                                                                                        |
 
 ## ACP agents documentation pages
 
@@ -56,11 +56,11 @@ job. Open the page that matches your task.
 
 Use ACP when you want an external harness runtime. Use **native Codex
 app-server** for Codex conversation binding/control when the `codex` plugin
-is enabled. Use **sub-agents** when you want Zero to Agent-native delegated runs.
+is enabled. Use **sub-agents** when you want OpenAgent-native delegated runs.
 
 | Area          | ACP session                           | Sub-agent run                          |
 | ------------- | ------------------------------------- | -------------------------------------- |
-| Runtime       | ACP backend plugin (for example acpx) | Zero to Agent native sub-agent runtime |
+| Runtime       | ACP backend plugin (for example acpx) | OpenAgent native sub-agent runtime |
 | Session key   | `agent:<agentId>:acp:<uuid>`          | `agent:<agentId>:subagent:<uuid>`      |
 | Main commands | `/acp ...`                            | `/subagents ...`                       |
 | Spawn tool    | `sessions_spawn` with `runtime:"acp"` | `sessions_spawn` (default runtime)     |
@@ -71,7 +71,7 @@ See also [Sub-agents](/tools/subagents).
 
 For Claude Code through ACP, the stack is:
 
-1. Zero to Agent ACP session control plane.
+1. OpenAgent ACP session control plane.
 2. Official `@openclaw/acpx` runtime plugin.
 3. Claude ACP adapter.
 4. Claude-side runtime/session machinery.
@@ -90,7 +90,7 @@ For operators, the practical rule is:
 ## acpx harness, plugin setup, and permissions
 
 For acpx harness configuration (Claude Code / Codex / Gemini CLI aliases),
-the plugin-tools and Zero to Agent-tools MCP bridges, and ACP permission modes,
+the plugin-tools and OpenAgent-tools MCP bridges, and ACP permission modes,
 see [ACP agents - setup](/tools/acp-agents-setup).
 
 ## Where each section moved

@@ -1,4 +1,4 @@
-// Host-owned authorization for exact delegated Zero to Agent changes.
+// Host-owned authorization for exact delegated OpenAgent changes.
 import { createHash } from "node:crypto";
 import { stableStringify } from "@openclaw/normalization-core";
 import { isPersistentSystemAgentOperation, type SystemAgentOperation } from "./operations-parse.js";

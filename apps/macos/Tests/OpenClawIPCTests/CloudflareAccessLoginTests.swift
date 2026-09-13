@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct CloudflareAccessLoginTests {
     private let now = Date(timeIntervalSince1970: 1_800_000_000)

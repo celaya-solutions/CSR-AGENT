@@ -1,5 +1,5 @@
 /**
- * Knip configuration for OpenClaw root and bundled plugin dependency hygiene.
+ * Knip configuration for OpenAgent root and bundled plugin dependency hygiene.
  */
 import fs from "node:fs";
 import path from "node:path";

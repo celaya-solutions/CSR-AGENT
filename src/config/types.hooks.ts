@@ -32,7 +32,7 @@ export type HooksConfig = {
   token?: string;
   /**
    * Default session key used for hook agent runs when no request/mapping session key is used.
-   * If omitted, Zero to Agent generates `hook:<uuid>` per request.
+   * If omitted, OpenAgent generates `hook:<uuid>` per request.
    */
   defaultSessionKey?: string;
   /**

@@ -3,7 +3,7 @@ import OpenClawChatUI
 import OpenClawProtocol
 import SwiftUI
 import XCTest
-@testable import OpenClaw
+@testable import OpenAgent
 
 @MainActor
 final class QuickChatPresentationTests: XCTestCase {

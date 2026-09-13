@@ -1,4 +1,4 @@
-// Nostr plugin entrypoint registers its Zero to Agent integration.
+// Nostr plugin entrypoint registers its OpenAgent integration.
 import {
   defineBundledChannelEntry,
   loadBundledEntryExportSync,

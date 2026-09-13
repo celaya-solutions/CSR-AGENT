@@ -116,7 +116,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
-  it("actively schedules relaunch when Zero to Agent launchd markers are present on macOS", () => {
+  it("actively schedules relaunch when OpenAgent launchd markers are present on macOS", () => {
     clearSupervisorHints();
     expectLaunchdSupervisedWithHandoff({ launchJobLabel: "ai.openclaw.gateway" });
   });
@@ -240,7 +240,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     clearSupervisorHints();
     mockProcessPlatform("win32");
     process.env.OPENCLAW_SUPERVISOR_MODE = "external";
-    process.env.OPENCLAW_WINDOWS_TASK_NAME = "Zero to Agent Gateway";
+    process.env.OPENCLAW_WINDOWS_TASK_NAME = "OpenAgent Gateway";
 
     const result = restartGatewayProcessWithFreshPid();
 
@@ -249,7 +249,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
-  it("returns supervised when Zero to Agent gateway task markers are set on Windows", () => {
+  it("returns supervised when OpenAgent gateway task markers are set on Windows", () => {
     clearSupervisorHints();
     mockProcessPlatform("win32");
     process.env.OPENCLAW_SERVICE_MARKER = "openclaw";
@@ -373,7 +373,7 @@ describe("respawnGatewayProcessForUpdate", () => {
     );
   });
 
-  it("rewrites a pnpm-versioned Zero to Agent entry before detached update respawn", () => {
+  it("rewrites a pnpm-versioned OpenAgent entry before detached update respawn", () => {
     clearSupervisorHints();
     mockProcessPlatform("linux");
     process.execArgv = [];

@@ -110,15 +110,15 @@ function createClaudeCliAuthInput(params: {
 function resolveClaudeCliAuthInput(
   credential: ClaudeCliAuthCredential | undefined,
 ): ClaudeCliPreparedExecution | undefined {
-  // Forwarded OAuth here is Zero to Agent-managed material (its refresh path is
-  // Zero to Agent-owned). Native `claude` logins are never forwarded; the current
+  // Forwarded OAuth here is OpenAgent-managed material (its refresh path is
+  // OpenAgent-owned). Native `claude` logins are never forwarded; the current
   // Claude process reads its own config directory. An expired token here is
-  // therefore Zero to Agent-managed state that must fail loudly.
+  // therefore OpenAgent-managed state that must fail loudly.
   if (credential?.type === "oauth" && "access" in credential) {
     const expires = "expires" in credential ? credential.expires : undefined;
     if (typeof expires !== "number" || !Number.isFinite(expires) || expires <= Date.now()) {
       throw new Error(
-        "Selected Claude CLI OAuth credential is expired or invalid. Re-authenticate the selected profile and retry. Zero to Agent did not start the run.",
+        "Selected Claude CLI OAuth credential is expired or invalid. Re-authenticate the selected profile and retry. OpenAgent did not start the run.",
       );
     }
     if (typeof credential.access !== "string") {
@@ -274,7 +274,7 @@ export function buildAnthropicCliBackend(
             : undefined;
         const env = {
           // Claude rebuilds the startup Git snapshot on process resume, rewriting
-          // the conversation prefix after workspace edits or commits. Zero to Agent
+          // the conversation prefix after workspace edits or commits. OpenAgent
           // supplies workspace instructions; Git state can be read with tools.
           CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS: "1",
           ...resolveClaudeCliAutoCompactEnv(context.contextTokenBudget),

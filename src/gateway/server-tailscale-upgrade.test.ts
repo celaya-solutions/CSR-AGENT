@@ -54,7 +54,7 @@ describe("managed Tailscale upgrade", () => {
       });
       expect(JSON.parse(await readFile(marker, "utf8"))).toEqual({});
       expect(info).toHaveBeenCalledWith(
-        expect.stringContaining("adopted from a previous Zero to Agent release"),
+        expect.stringContaining("adopted from a previous OpenAgent release"),
       );
     } finally {
       await cleanup?.();

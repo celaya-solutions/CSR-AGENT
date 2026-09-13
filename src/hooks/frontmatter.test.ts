@@ -215,7 +215,7 @@ describe("resolveHookManifestMetadata", () => {
         openclaw: {
           events: ["command"],
           install: [
-            { id: "bundled", kind: "bundled", label: "Bundled with Zero to Agent" },
+            { id: "bundled", kind: "bundled", label: "Bundled with OpenAgent" },
             { id: "npm", kind: "npm", package: "@openclaw/hook" },
           ],
         },
@@ -262,7 +262,7 @@ metadata:
         "emoji": "💾",
         "events": ["command:new", "command:reset", "session:auto-reset"],
         "requires": { "config": ["workspace.dir"] },
-        "install": [{ "id": "bundled", "kind": "bundled", "label": "Bundled with Zero to Agent" }],
+        "install": [{ "id": "bundled", "kind": "bundled", "label": "Bundled with OpenAgent" }],
       },
   }
 ---

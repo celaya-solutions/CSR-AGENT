@@ -1,5 +1,5 @@
 ---
-summary: "Use Ollama Cloud directly with Zero to Agent"
+summary: "Use Ollama Cloud directly with OpenAgent"
 read_when:
   - You want to use hosted Ollama models without a local Ollama server
   - You need the ollama-cloud provider id, key, or endpoint
@@ -11,7 +11,7 @@ directly at `https://ollama.com` over Ollama's native `/api/chat` API, with no
 local Ollama server and no local Ollama app signed into cloud mode. Use model
 refs like `ollama-cloud/kimi-k2.6`.
 
-Zero to Agent registers `ollama-cloud` as its own provider id so cloud-only
+OpenAgent registers `ollama-cloud` as its own provider id so cloud-only
 credentials, live catalog discovery, and model selection do not get mixed with
 a local `ollama` host. For local Ollama, hybrid cloud-plus-local routing,
 embeddings, and custom host details, see [Ollama](/providers/ollama).
@@ -49,7 +49,7 @@ Onboarding sets the default model to `ollama-cloud/minimax-m2.7`.
 ## When to choose Ollama Cloud
 
 - You want hosted Ollama models without running `ollama serve` locally.
-- You want the same native Ollama chat API shape Zero to Agent uses for local
+- You want the same native Ollama chat API shape OpenAgent uses for local
   Ollama, but pointed at `https://ollama.com`.
 - You want a simple cloud path for models that are already in Ollama's hosted
   catalog.
@@ -63,7 +63,7 @@ semantics or provider-specific OpenAI-style features.
 ## Models
 
 The provider requires an API key; without one it stays inactive. With a key,
-Zero to Agent discovers Ollama Cloud models live from the hosted catalog:
+OpenAgent discovers Ollama Cloud models live from the hosted catalog:
 
 ```bash
 openclaw models list --provider ollama-cloud
@@ -73,7 +73,7 @@ openclaw models set ollama-cloud/kimi-k2.6
 Hosted ids in the live catalog include `deepseek-v4-flash`, `glm-5.2`,
 `gpt-oss:20b`, `kimi-k3`, and `minimax-m3`. Failed discovery keeps the last
 successful inventory for the same credentials. Without a prior inventory,
-Zero to Agent offers bundled suggestions and records the discovery failure. A
+OpenAgent offers bundled suggestions and records the discovery failure. A
 successful empty response clears discovered models; later failures preserve
 that empty result. Retired `kimi-k2.5` remains marked
 deprecated for existing exact references, but is no longer a current hosted

@@ -215,7 +215,7 @@ function extractRegionFromArn(arn: string): string | undefined {
  * otherwise opaque.
  *
  * Region is extracted from the profile ARN itself to avoid mismatches when
- * the Zero to Agent config region differs from the profile's home region.
+ * the OpenAgent config region differs from the profile's home region.
  */
 type BedrockAppProfileTraits = {
   cacheEligible: boolean;

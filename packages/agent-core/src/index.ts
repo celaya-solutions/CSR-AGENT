@@ -1,5 +1,5 @@
 // Public agent-core package surface: agent loop, compaction, session context,
-// and the focused helpers consumed by Zero to Agent.
+// and the focused helpers consumed by OpenAgent.
 export * from "./agent.js";
 export * from "./agent-loop.js";
 export * from "./errors.js";

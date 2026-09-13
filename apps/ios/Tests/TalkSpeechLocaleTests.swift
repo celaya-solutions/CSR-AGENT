@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct TalkSpeechLocaleTests {
     @Test @MainActor func `talk manager clears retired speech locale preference`() {

@@ -1,16 +1,16 @@
 ---
 summary: "Enable worker session hosting on a paired node, choose a device, and isolate workers in containers"
 read_when:
-  - Enabling isolated Zero to Agent session hosting on a paired node
+  - Enabling isolated OpenAgent session hosting on a paired node
   - Choosing a device or Auto placement in New Session
   - Isolating hosted worker sessions in containers
-title: "Host Zero to Agent sessions on a node"
+title: "Host OpenAgent sessions on a node"
 sidebarTitle: "Session hosting"
 ---
 
-## Host Zero to Agent sessions
+## Host OpenAgent sessions
 
-The macOS menu bar app and the headless node host can opt into full Zero to Agent
+The macOS menu bar app and the headless node host can opt into full OpenAgent
 session hosting with the same node-local setting:
 
 ```json5
@@ -54,7 +54,7 @@ installation and retention lifecycle.
 You can also enroll and enable a service host in one step with
 `openclaw connect --service --session-host`. In Control UI New Session, a
 write-scoped operator selects a Gateway project or folder and then either a
-specific paired device or **Auto**. Zero to Agent creates a
+specific paired device or **Auto**. OpenAgent creates a
 session-owned managed worktree on the Gateway, dispatches it with the exact
 `deviceId` or `autoDevice: true`, and sends the first turn only after the chosen
 device placement becomes active. New Session does not bind `execNode` or browse
@@ -68,9 +68,9 @@ requires the exact durable receipt and current node authority.
 
 Node hosts must support the current private worker-supervisor dialect before
 they can host sessions. An older connected host remains visible but disabled in
-the session picker. Update Zero to Agent on that device and reconnect it; for a
+the session picker. Update OpenAgent on that device and reconnect it; for a
 headless node, run `openclaw update` followed by `openclaw node restart`. The
-Gateway does not fall back to the node's local Zero to Agent package or an older
+Gateway does not fall back to the node's local OpenAgent package or an older
 supervisor dialect.
 
 This setting enables supervised session turns on the paired device, including
@@ -81,7 +81,7 @@ for a durable slot; while all slots are occupied, the node remains available
 for status and cancellation but is not selected for a new session turn.
 
 The picker derives every device row from `environments.list`. Every selected
-runtime requires an available, connected paired session host. Zero to Agent worker
+runtime requires an available, connected paired session host. OpenAgent worker
 turns additionally require valid exact worker slots with at least one free
 slot. Codex paired-device execution launches its exec-server directly, so it
 does not consume or require a worker slot; instead, its required command must
@@ -100,7 +100,7 @@ arrives. Local remains selectable; cached worker slots never authorize a new
 remote session.
 
 Choose **Auto** to let the Gateway select an eligible paired,
-connected session host. For Zero to Agent worker turns, it selects the host with the
+connected session host. For OpenAgent worker turns, it selects the host with the
 most available worker slots and breaks ties by device ID. Runtimes that do not
 consume worker slots choose the eligible host with the lowest device ID instead.
 If a selected host disconnects, reaches capacity, or otherwise becomes
@@ -148,7 +148,7 @@ for the Control UI behavior and storage sources.
 
 ### Isolate hosted worker sessions in containers
 
-By default, hosted Zero to Agent worker sessions run directly on the paired node.
+By default, hosted OpenAgent worker sessions run directly on the paired node.
 Set `nodeHost.workerRuns.isolation` to `"container"` on that node to run each
 worker inside its own container instead:
 
@@ -173,7 +173,7 @@ back to an unisolated worker.
 Container isolation is supported on Linux and macOS node hosts; Windows is
 unsupported because native Windows paths cannot be mounted at their original
 paths inside the container. The node must have a working Docker-compatible
-container engine. Zero to Agent tries the `docker` CLI first, including Docker-backed
+container engine. OpenAgent tries the `docker` CLI first, including Docker-backed
 OrbStack installations, and then `podman`. The selected engine and daemon are
 checked when the node host starts and again before each container is created.
 If the platform is unsupported, neither engine works, or the daemon changes,
@@ -190,14 +190,14 @@ inaccessible, or does not provide a suitable Node.js runtime, that session
 launch fails visibly; it never retries as a bare host process. Preload the
 image or configure registry access before hosting sessions on an offline or
 restricted node. Existing explicit image settings are preserved; replace older Node
-images with a supported release before upgrading Zero to Agent. Worker startup requires
+images with a supported release before upgrading OpenAgent. Worker startup requires
 a supported runtime; older releases may fail before the runtime diagnostic can run.
 
 Each worker container receives only two host bind mounts: its verified worker
 bundle root is read-only, and its assigned session workspace is read-write.
 Both are mounted at their original absolute host paths so the sealed bundle
 and workspace descriptor remain valid; the session workspace is also the
-container working directory. Zero to Agent passes only the existing frozen,
+container working directory. OpenAgent passes only the existing frozen,
 non-secret worker environment allowlist and adds no other host mounts.
 Container isolation protects the rest of the host filesystem and separates
 the worker process, but the worker can still modify its assigned workspace
@@ -209,7 +209,7 @@ to reach the Gateway worker WebSocket endpoint. A Gateway address such as
 container when used by the worker; configure a Gateway address reachable from
 the container network instead. If a Gateway requires a custom certificate
 authority, `NODE_EXTRA_CA_CERTS` must point to a certificate already inside
-the mounted bundle or session workspace; Zero to Agent will not mount another host
+the mounted bundle or session workspace; OpenAgent will not mount another host
 path for it. Browser assignments that require access to host-only browser
 state are not supported in container-isolated sessions.
 

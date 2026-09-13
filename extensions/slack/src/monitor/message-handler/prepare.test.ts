@@ -265,7 +265,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
         token: "token",
         channel: "C_DENIED",
         user: "U1",
-        text: "Personal Claw can’t reply here because this channel isn’t in its Zero to Agent channel allowlist. Ask the Zero to Agent owner to allow this channel. <https://docs.openclaw.ai/channels/slack#access-control-and-routing|Learn how to configure Slack channel access.>",
+        text: "Personal Claw can’t reply here because this channel isn’t in its OpenAgent channel allowlist. Ask the OpenAgent owner to allow this channel. <https://docs.openclaw.ai/channels/slack#access-control-and-routing|Learn how to configure Slack channel access.>",
       });
       expect(enqueueSystemEventMock).not.toHaveBeenCalled();
     },
@@ -312,7 +312,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
 
     expect(postEphemeral).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
-        text: expect.stringMatching(/^This Zero to Agent bot can’t reply here/),
+        text: expect.stringMatching(/^This OpenAgent bot can’t reply here/),
       }),
     );
   });

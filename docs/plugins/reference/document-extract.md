@@ -15,7 +15,7 @@ Extract text and fallback page images from local document attachments.
 ## Distribution
 
 - Package: `@openclaw/document-extract-plugin`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

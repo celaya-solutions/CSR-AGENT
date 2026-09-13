@@ -1,5 +1,5 @@
 ---
-summary: "Which Feishu message types Zero to Agent receives and sends, including stickers and thread replies"
+summary: "Which Feishu message types OpenAgent receives and sends, including stickers and thread replies"
 read_when:
   - Checking whether Feishu supports a message type
   - Enabling sticker replies or sticker keyword search
@@ -7,7 +7,7 @@ title: "Feishu message types"
 sidebarTitle: "Message types"
 ---
 
-The Feishu message types Zero to Agent can receive and send, sticker support, and thread-aware replies.
+The Feishu message types OpenAgent can receive and send, sticker support, and thread-aware replies.
 
 ## Supported message types
 
@@ -23,10 +23,10 @@ The Feishu message types Zero to Agent can receive and send, sticker support, an
 
 Received stickers expose their reusable `file_key` to the agent as
 `<sticker key="..."/>`. Feishu/Lark does not support downloading sticker
-resources, so Zero to Agent preserves the key without fetching an attachment.
+resources, so OpenAgent preserves the key without fetching an attachment.
 
 Inbound Feishu/Lark audio messages are normalized as media placeholders instead
-of raw `file_key` JSON. When `tools.media.audio` is configured, Zero to Agent
+of raw `file_key` JSON. When `tools.media.audio` is configured, OpenAgent
 downloads the voice-note resource and runs shared audio transcription before the
 agent turn, so the agent receives the spoken transcript. If Feishu includes
 transcript text directly in the audio payload, that text is used without another
@@ -51,7 +51,7 @@ is sent directly as native audio. MP3/WAV/M4A and other likely audio formats are
 transcoded to 48kHz Ogg/Opus with `ffmpeg` only when the reply requests voice
 delivery (`audioAsVoice` / message tool `asVoice`, including TTS voice-note
 replies). Ordinary MP3 attachments stay regular files. If `ffmpeg` is missing or
-conversion fails, Zero to Agent falls back to a file attachment and logs the reason.
+conversion fails, OpenAgent falls back to a file attachment and logs the reason.
 
 ### Sticker replies
 

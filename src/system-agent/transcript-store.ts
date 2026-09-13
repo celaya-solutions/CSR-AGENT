@@ -1,4 +1,4 @@
-// Durable rolling transcript for the machine-wide Zero to Agent conversation.
+// Durable rolling transcript for the machine-wide OpenAgent conversation.
 import { randomUUID } from "node:crypto";
 import { createSqliteAuditRecordStore } from "../infra/sqlite-audit-record-store.js";
 

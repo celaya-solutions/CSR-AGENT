@@ -420,7 +420,7 @@ describe("backupRestoreCommand", () => {
             archive: state.path("missing-backup.tar.gz"),
             target: targetPath,
           }),
-        ).rejects.toThrow(/outside the live Zero to Agent agent directory/iu);
+        ).rejects.toThrow(/outside the live OpenAgent agent directory/iu);
         await expect(fs.lstat(targetPath)).rejects.toMatchObject({ code: "ENOENT" });
       },
     );

@@ -104,13 +104,13 @@ function formatRequestedSource(params: {
   defaultValue: ExecSecurity | ExecAsk;
 }): string {
   return params.sourcePath === "__default__"
-    ? `Zero to Agent default (${params.defaultValue})`
+    ? `OpenAgent default (${params.defaultValue})`
     : `${params.sourcePath}.${params.field}`;
 }
 
 function formatModeSource(params: { sourcePath: string; configPath: string }): string {
   if (params.sourcePath === "__default__") {
-    return "derived from Zero to Agent defaults";
+    return "derived from OpenAgent defaults";
   }
   return `${params.sourcePath === "scope" ? params.configPath : params.sourcePath}.mode`;
 }
@@ -282,7 +282,7 @@ function formatHostFieldSource(params: {
     return params.hostDefaultSource;
   }
   if (params.field === "askFallback") {
-    return `Zero to Agent default (${DEFAULT_EXEC_APPROVAL_ASK_FALLBACK})`;
+    return `OpenAgent default (${DEFAULT_EXEC_APPROVAL_ASK_FALLBACK})`;
   }
   return "inherits requested tool policy";
 }
@@ -396,7 +396,7 @@ export function resolveExecPolicyScopeSnapshot(params: {
       requested: requestedHost.value,
       requestedSource:
         requestedHost.sourcePath === "__default__"
-          ? "Zero to Agent default (auto)"
+          ? "OpenAgent default (auto)"
           : `${requestedHost.sourcePath === "scope" ? params.configPath : requestedHost.sourcePath}.host`,
     },
     mode: {

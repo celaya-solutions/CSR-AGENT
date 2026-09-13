@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Boots the Zero to Agent CLI entry point under Node.
-// CLI process entrypoint for Zero to Agent command execution.
+// Boots the OpenAgent CLI entry point under Node.
+// CLI process entrypoint for OpenAgent command execution.
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { format } from "node:util";

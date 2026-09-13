@@ -1,6 +1,6 @@
-name: OpenClaw Release Checks
+name: OpenAgent Release Checks
 
-run-name: ${{ inputs.dispatch_id != '' && format('OpenClaw Release Checks {0}', inputs.dispatch_id) || 'OpenClaw Release Checks' }}
+run-name: ${{ inputs.dispatch_id != '' && format('OpenAgent Release Checks {0}', inputs.dispatch_id) || 'OpenAgent Release Checks' }}
 
 on:
   workflow_dispatch:
@@ -251,7 +251,7 @@ jobs:
             context_kind=tag
             fetch_ref="refs/tags/${normalized_context_ref}"
           else
-            echo "target_context_ref must be a canonical OpenClaw release branch or tag." >&2
+            echo "target_context_ref must be a canonical OpenAgent release branch or tag." >&2
             exit 1
           fi
           if [[ ! "$TARGET_REF" =~ ^[0-9a-fA-F]{40}$ ]]; then
@@ -379,7 +379,7 @@ jobs:
             exit 0
           fi
 
-          echo "Ref '${RELEASE_REF}' resolved to ${SELECTED_SHA}, but that commit is not reachable from an OpenClaw branch or release tag." >&2
+          echo "Ref '${RELEASE_REF}' resolved to ${SELECTED_SHA}, but that commit is not reachable from an OpenAgent branch or release tag." >&2
           echo "Secret-bearing release checks only run repository-owned branch/tag history, not arbitrary unreferenced commits." >&2
           exit 1
 
@@ -2077,11 +2077,11 @@ jobs:
             echo "::notice::Trusted workflow validation accepted frozen-candidate runtime-pair evidence after its suite failed."
           fi
 
-      - name: Run OpenClaw core restart proof
+      - name: Run OpenAgent core restart proof
         id: runtime_core_restart
         if: matrix.lane == 'core' && steps.runtime_parity_validation.outcome == 'success'
         run: |
-          # Restart recovery owns an OpenClaw Gateway lifecycle; it is release-critical
+          # Restart recovery owns an OpenAgent Gateway lifecycle; it is release-critical
           # but cannot be compared against the Codex app-server runtime.
           pnpm openclaw qa suite \
             --provider-mode mock-openai \
@@ -2514,7 +2514,7 @@ jobs:
           trap 'exit 143' TERM
 
           dispatch_id="release-checks-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(openssl rand -hex 16)"
-          run_name="OpenClaw Release Telegram QA ${dispatch_id}"
+          run_name="OpenAgent Release Telegram QA ${dispatch_id}"
           child_head_sha=""
 
           gh workflow run "$workflow" \

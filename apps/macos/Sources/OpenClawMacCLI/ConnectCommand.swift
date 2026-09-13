@@ -167,7 +167,7 @@ func runConnect(_ args: [String], configURL: URL) async {
     let config = loadGatewayConfig(from: configURL)
     do {
         let endpoint = try resolveGatewayEndpoint(opts: opts, config: config)
-        let displayName = opts.displayName ?? Host.current().localizedName ?? "OpenClaw macOS Debug CLI"
+        let displayName = opts.displayName ?? Host.current().localizedName ?? "OpenAgent macOS Debug CLI"
         let connectOptions = makeGatewayConnectOptions(
             opts: opts,
             endpoint: endpoint,
@@ -242,7 +242,7 @@ private func printConnectOutput(_ output: ConnectOutput, json: Bool) {
         return
     }
 
-    print("OpenClaw macOS Gateway Connect")
+    print("OpenAgent macOS Gateway Connect")
     print("Status: \(output.status)")
     print("URL: \(output.url)")
     print("Mode: \(output.mode)")

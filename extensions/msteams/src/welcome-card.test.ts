@@ -104,7 +104,7 @@ describe("buildWelcomeCard", () => {
     expect(card.version).toBe("1.5");
 
     const body = card.body as Array<{ text: string }>;
-    expect(body[0]?.text).toContain("Zero to Agent");
+    expect(body[0]?.text).toContain("OpenAgent");
 
     const actions = card.actions as Array<{ title: string; data: unknown }>;
     expect(actions.length).toBe(3);
@@ -155,8 +155,8 @@ describe("buildGroupWelcomeText", () => {
     expect(text).toContain("@MyBot");
   });
 
-  it("defaults to Zero to Agent", () => {
+  it("defaults to OpenAgent", () => {
     const text = buildGroupWelcomeText();
-    expect(text).toContain("Zero to Agent");
+    expect(text).toContain("OpenAgent");
   });
 });

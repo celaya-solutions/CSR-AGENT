@@ -472,7 +472,7 @@ jobs:
           $ErrorActionPreference = "Continue"
           $cleanupErrors = @()
           $profile = "schtasks-int-$env:TEST_ID"
-          $taskName = "OpenClaw Gateway ($profile)"
+          $taskName = "OpenAgent Gateway ($profile)"
           $stateDir = Join-Path $env:USERPROFILE ".openclaw-$profile"
           New-Item -ItemType Directory -Force -Path $env:TEST_ROOT | Out-Null
           schtasks.exe /End /TN $taskName 2>$null

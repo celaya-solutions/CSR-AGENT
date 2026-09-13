@@ -1,8 +1,8 @@
 # @openclaw/diagnostics-prometheus
 
-Official Prometheus diagnostics exporter for Zero to Agent.
+Official Prometheus diagnostics exporter for OpenAgent.
 
-This plugin exposes Zero to Agent Gateway runtime metrics in Prometheus text format for Prometheus, Grafana, VictoriaMetrics, and compatible scrapers.
+This plugin exposes OpenAgent Gateway runtime metrics in Prometheus text format for Prometheus, Grafana, VictoriaMetrics, and compatible scrapers.
 
 ## Install
 
@@ -24,4 +24,4 @@ The full config surface, metric names, and scrape examples live in the docs:
 
 - Plugin id: `diagnostics-prometheus`
 - Package: `@openclaw/diagnostics-prometheus`
-- Minimum Zero to Agent host: `2026.4.25`
+- Minimum OpenAgent host: `2026.4.25`

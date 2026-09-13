@@ -120,9 +120,7 @@ function normalizeEnvelope(
     throw new Error(envelope.error?.message ?? "lobster runtime failed");
   }
   if (envelope.status === "needs_input") {
-    throw new Error(
-      "Lobster input requests are not supported by the Zero to Agent Lobster tool yet",
-    );
+    throw new Error("Lobster input requests are not supported by the OpenAgent Lobster tool yet");
   }
   const normalized: Extract<LobsterEnvelope, { ok: true }> = {
     ok: true,

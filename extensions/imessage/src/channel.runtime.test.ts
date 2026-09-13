@@ -468,7 +468,7 @@ describe("imessagePlugin pairing.notifyApproval", () => {
       "send",
       expect.objectContaining({
         to: "+15551234567",
-        text: "✅ Zero to Agent access approved. Send a message to start chatting.",
+        text: "✅ OpenAgent access approved. Send a message to start chatting.",
       }),
       expect.any(Object),
     );

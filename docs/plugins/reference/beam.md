@@ -15,7 +15,7 @@ Read-only coding-session Beam receiver.
 ## Distribution
 
 - Package: `@openclaw/beam`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

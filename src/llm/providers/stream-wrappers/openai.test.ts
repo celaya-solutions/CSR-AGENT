@@ -941,7 +941,7 @@ describe("createOpenAIThinkingLevelWrapper", () => {
 });
 
 describe("createOpenAIAttributionHeadersWrapper", () => {
-  it("routes native Codex traffic through the Zero to Agent transport so attribution survives Zero to Agent defaults", () => {
+  it("routes native Codex traffic through the OpenAgent transport so attribution survives OpenAgent defaults", () => {
     let codexCalls = 0;
     let capturedHeaders: Record<string, string> | undefined;
     const codexTransport: StreamFn = (model, context, options) => {

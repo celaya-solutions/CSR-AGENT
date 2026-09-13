@@ -97,7 +97,7 @@ export function createTalkRealtimeRunControlOwner(params: {
       )
     ) {
       reply(
-        "Zero to Agent's voice control queue is full. Please try again after the pending controls finish.",
+        "OpenAgent's voice control queue is full. Please try again after the pending controls finish.",
       );
     }
     return "control";

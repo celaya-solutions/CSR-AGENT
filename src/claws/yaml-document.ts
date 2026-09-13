@@ -17,7 +17,7 @@ export function parseClawYaml(
       : [
           "invalid_openclaw_profile",
           "unsupported_openclaw_profile_yaml_feature",
-          "Zero to Agent profile YAML",
+          "OpenAgent profile YAML",
         ];
   const document = parseDocument(raw, {
     prettyErrors: false,

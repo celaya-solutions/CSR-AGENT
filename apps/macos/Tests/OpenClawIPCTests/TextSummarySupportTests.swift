@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct TextSummarySupportTests {
     @Test func `keeps the last line for plain output`() {

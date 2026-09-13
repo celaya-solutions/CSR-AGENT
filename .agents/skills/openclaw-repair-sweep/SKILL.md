@@ -1,9 +1,9 @@
 ---
 name: openclaw-repair-sweep
-description: "Run scoped OpenClaw issue/PR repair campaigns: coordinate workers, prove root causes, and land or close verified work under the requested authority."
+description: "Run scoped OpenAgent issue/PR repair campaigns: coordinate workers, prove root causes, and land or close verified work under the requested authority."
 ---
 
-# OpenClaw Repair Sweep
+# OpenAgent Repair Sweep
 
 Use for a multi-item repair campaign. Root `AGENTS.md` owns repair and safety
 policy; `$openclaw-pr-maintainer` owns item review, GitHub writes, and landing.

@@ -16,7 +16,7 @@ EXPECTED_GIT_COMMIT=""
 EXPECTED_BUILD_TIMESTAMP=""
 EXPECTED_TEAM_ID="FWJYW4S8P8"
 EXPECTED_BUNDLE_ID="ai.openclawfoundation.app"
-EXPECTED_PROFILE_NAME="OpenClaw App Store ai.openclawfoundation.app"
+EXPECTED_PROFILE_NAME="OpenAgent App Store ai.openclawfoundation.app"
 EXPECTED_APP_GROUP="group.ai.openclawfoundation.app.shared"
 EXPECTED_PUSH_MODE="appStore"
 
@@ -235,7 +235,7 @@ assert_localized_plists_resolve_build_settings() {
 }
 
 assert_plist_string "${info_plist}" "CFBundleIdentifier" "${EXPECTED_BUNDLE_ID}" "bundle identifier mismatch"
-assert_plist_string "${info_plist}" "CFBundleDisplayName" "OpenClaw" "display name mismatch"
+assert_plist_string "${info_plist}" "CFBundleDisplayName" "OpenAgent" "display name mismatch"
 assert_plist_string "${info_plist}" "OpenClawPushMode" "${EXPECTED_PUSH_MODE}" "push mode mismatch"
 assert_plist_nonempty_string "${info_plist}" "NSHealthShareUsageDescription" "Health share usage description"
 assert_plist_nonempty_string "${info_plist}" "NSHealthUpdateUsageDescription" "Health update usage description"

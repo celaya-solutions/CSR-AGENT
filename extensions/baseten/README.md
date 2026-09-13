@@ -1,8 +1,8 @@
-# Zero to Agent Baseten Provider
+# OpenAgent Baseten Provider
 
-Official Zero to Agent provider plugin for Baseten Model APIs, including Thinking Machines Lab's Inkling.
+Official OpenAgent provider plugin for Baseten Model APIs, including Thinking Machines Lab's Inkling.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/baseten-provider

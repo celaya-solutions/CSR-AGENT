@@ -47,12 +47,12 @@ enum AppNavigationActions {
         }
         NSApp.activate(ignoringOtherApps: true)
         NSApp.orderFrontStandardAboutPanel(options: [
-            .applicationName: "OpenClaw",
+            .applicationName: "OpenAgent",
             .applicationVersion: build.version,
             .version: build.build,
             .credits: credits,
             NSApplication.AboutPanelOptionKey(rawValue: "Copyright"):
-                String(localized: "© 2026 OpenClaw Foundation — MIT License."),
+                String(localized: "© 2026 Celaya Solutions — MIT License."),
         ])
     }
 }

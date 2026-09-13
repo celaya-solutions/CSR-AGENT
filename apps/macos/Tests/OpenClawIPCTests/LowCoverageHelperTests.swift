@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 struct LowCoverageHelperTests {
@@ -254,7 +254,7 @@ struct LowCoverageHelperTests {
         #expect(PortGuardian.classifyTunnelRecord(
             record,
             process: .init(parentPid: 1, startedAt: spawnedBeforeRecord, fullCommand: tunnel)) == .reap)
-        // Parent alive (e.g. a concurrent OpenClaw instance) → hands off.
+        // Parent alive (e.g. a concurrent OpenAgent instance) → hands off.
         #expect(PortGuardian.classifyTunnelRecord(
             record,
             process: .init(parentPid: 987, startedAt: spawnedBeforeRecord, fullCommand: tunnel)) == .keep)

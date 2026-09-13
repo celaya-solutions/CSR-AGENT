@@ -54,8 +54,8 @@ export function resolveTargetAcpAgentId(params: {
       return {
         ok: false,
         error:
-          `agentId "${requested}" is a Zero to Agent config agent, not an ACP harness. ` +
-          'Use runtime="subagent" or omit runtime for Zero to Agent config agents. ' +
+          `agentId "${requested}" is an OpenAgent config agent, not an ACP harness. ` +
+          'Use runtime="subagent" or omit runtime for OpenAgent config agents. ' +
           'Use runtime="acp" only with external ACP harness ids such as codex, claude, droid, gemini, or opencode, or configure agents.entries.*.runtime.type="acp" with runtime.acp.agent.',
       };
     }

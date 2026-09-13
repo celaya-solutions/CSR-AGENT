@@ -1,6 +1,6 @@
 ---
 name: tag-duplicate-prs-issues
-description: Use gitcrawl to search duplicate OpenClaw PRs/issues, group related work in prtags, and sync duplicate state to GitHub.
+description: Use gitcrawl to search duplicate OpenAgent PRs/issues, group related work in prtags, and sync duplicate state to GitHub.
 ---
 
 # Tag Duplicate PRs and Issues
@@ -31,7 +31,7 @@ Do not rely on an old local build unless the maintainer explicitly wants to test
 GOBIN="$HOME/.local/bin" go install github.com/dutifuldev/prtags/cmd/prtags@v0.1.2
 ```
 
-`prtags` lives outside the OpenClaw organization, so this install stays pinned to a reviewed
+`prtags` lives outside the OpenAgent organization, so this install stays pinned to a reviewed
 version that the Go module proxy resolves and the public checksum database verifies. `GOBIN` keeps
 the installed executable in the same user-local directory as the previous installer, so an existing
 `$HOME/.local/bin` `PATH` continues to resolve the newly installed version.
@@ -212,7 +212,7 @@ Record:
 
 ## Step 2: Search Broadly With Gitcrawl
 
-Use `gitcrawl` first because it is the local OpenClaw history and clustering source.
+Use `gitcrawl` first because it is the local OpenAgent history and clustering source.
 Do not switch to broad live GitHub search unless `gitcrawl` is missing data, stale, or failing.
 
 Start with the target and nearby threads:

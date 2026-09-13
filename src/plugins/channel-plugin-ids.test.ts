@@ -2635,7 +2635,7 @@ describe("resolveGatewayStartupPluginPlanFromRegistry", () => {
     });
   });
 
-  it("does not include Codex when an OpenAI model is manually pinned to Zero to Agent", () => {
+  it("does not include Codex when an OpenAI model is manually pinned to OpenAgent", () => {
     expectStartupPluginIds({
       config: {
         agents: {

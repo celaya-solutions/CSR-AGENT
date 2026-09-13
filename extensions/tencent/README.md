@@ -1,6 +1,6 @@
-# Tencent Cloud Zero to Agent provider
+# Tencent Cloud OpenAgent provider
 
-Official Zero to Agent provider plugin for Tencent Cloud.
+Official OpenAgent provider plugin for Tencent Cloud.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/tencent-provider
 
 ## Docs
 
-See `docs/providers/tencent.md` in the Zero to Agent repository, or the published docs at `https://docs.openclaw.ai/providers/tencent`.
+See `docs/providers/tencent.md` in the OpenAgent repository, or the published docs at `https://docs.openclaw.ai/providers/tencent`.

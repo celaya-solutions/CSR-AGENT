@@ -323,7 +323,7 @@ function writeSyntheticWorkspace(workspaceDir: string, fileCount: number) {
 }
 
 /**
- * Writes isolated OpenClaw config for the synthetic memory workspace.
+ * Writes isolated OpenAgent config for the synthetic memory workspace.
  */
 export function writeConfig({ homeDir, workspaceDir, port, token }: ConfigOptions) {
   const configDir = path.join(homeDir, ".openclaw");

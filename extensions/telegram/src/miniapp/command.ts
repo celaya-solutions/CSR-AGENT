@@ -22,7 +22,7 @@ function createTelegramMiniAppDashboardCommand(
 ): OpenClawPluginCommandDefinition {
   return {
     name: "dashboard",
-    description: "Open the Zero to Agent dashboard",
+    description: "Open the OpenAgent dashboard",
     channels: ["telegram"],
     requireAuth: true,
     exposeSenderIsOwner: true,
@@ -47,7 +47,7 @@ function createTelegramMiniAppDashboardCommand(
         launchTicket: launchTickets.issue({ accountId, userId }),
       }).toString();
       return {
-        text: "Open Zero to Agent dashboard.",
+        text: "Open OpenAgent dashboard.",
         presentation: {
           blocks: [
             {

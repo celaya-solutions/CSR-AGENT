@@ -117,7 +117,7 @@ function readAuthoredModelContextTokens(model: ConfigModelEntry | undefined): nu
     : undefined;
 }
 
-/** Returns only the per-model contextTokens value authored in Zero to Agent config. */
+/** Returns only the per-model contextTokens value authored in OpenAgent config. */
 export function resolveAuthoredModelContextTokens(
   params: Pick<ContextTokenResolutionParams, "cfg" | "provider" | "modelProvider" | "model">,
 ): number | undefined {

@@ -1,4 +1,4 @@
-// Venice plugin entrypoint registers its Zero to Agent integration.
+// Venice plugin entrypoint registers its OpenAgent integration.
 import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
 import {
   applyModelCompatPatch,

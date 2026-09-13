@@ -1,4 +1,4 @@
-// Mcp Channel Limits script supports OpenClaw repository automation.
+// Mcp Channel Limits script supports OpenAgent repository automation.
 import { readPositiveIntEnv } from "./lib/env-limits.mjs";
 
 type McpChannelLimits = {

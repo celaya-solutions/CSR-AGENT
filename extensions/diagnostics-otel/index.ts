@@ -1,4 +1,4 @@
-// Diagnostics Otel plugin entrypoint registers its Zero to Agent integration.
+// Diagnostics Otel plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { createDiagnosticsOtelService } from "./runtime-api.js";
 

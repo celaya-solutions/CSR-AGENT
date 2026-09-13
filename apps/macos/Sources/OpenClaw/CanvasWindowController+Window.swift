@@ -12,7 +12,7 @@ extension CanvasWindowController {
                 styleMask: [.titled, .closable, .resizable, .miniaturizable],
                 backing: .buffered,
                 defer: false)
-            window.title = "OpenClaw Canvas"
+            window.title = "OpenAgent Canvas"
             window.isReleasedWhenClosed = false
             window.isRestorable = false
             window.contentView = contentView

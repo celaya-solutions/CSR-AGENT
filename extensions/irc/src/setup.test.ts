@@ -75,7 +75,7 @@ function buildAccount(): ResolvedIrcAccount {
     tls: true,
     nick: "openclaw",
     username: "openclaw",
-    realname: "Zero to Agent",
+    realname: "OpenAgent",
     password: "",
     passwordSource: "none",
     config: {} as ResolvedIrcAccount["config"],
@@ -330,7 +330,7 @@ describe("irc setup", () => {
           tls: true,
           nick: " openclaw ",
           username: " claw ",
-          realname: " Zero to Agent Bot ",
+          realname: " OpenAgent Bot ",
           password: " secret ",
           channels: ["#openclaw"],
         },
@@ -345,7 +345,7 @@ describe("irc setup", () => {
           tls: true,
           nick: "openclaw",
           username: "claw",
-          realname: "Zero to Agent Bot",
+          realname: "OpenAgent Bot",
           password: "secret",
           channels: ["#openclaw"],
         },
@@ -369,7 +369,7 @@ describe("irc setup", () => {
           return "openclaw";
         }
         if (message === "IRC real name") {
-          return "Zero to Agent Bot";
+          return "OpenAgent Bot";
         }
         if (message.startsWith("Auto-join IRC channels")) {
           return "#openclaw, #ops";

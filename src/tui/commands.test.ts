@@ -122,7 +122,7 @@ describe("getSlashCommands", () => {
     expect(identityAlias?.description).toBe("Show your sender id.");
     expect(identityAlias?.getArgumentCompletions?.("")).toBeUndefined();
     expect(gatewayStatus?.description).toBe("Show gateway status summary");
-    expect(openclaw?.description).toBe("Return to Zero to Agent");
+    expect(openclaw?.description).toBe("Return to OpenAgent");
   });
 
   it("distinguishes new-session and reset command descriptions", () => {

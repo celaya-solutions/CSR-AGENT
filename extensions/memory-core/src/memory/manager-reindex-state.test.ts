@@ -80,7 +80,7 @@ describe("memory reindex state", () => {
       reason: "index chunking implementation changed",
       code: "chunking_version",
     },
-  ])("invalidates indexes with $name as Zero to Agent-owned", ({ meta, reason, code }) => {
+  ])("invalidates indexes with $name as OpenAgent-owned", ({ meta, reason, code }) => {
     expect(
       resolveMemoryIndexIdentityState(createIdentityParams({ meta: createMeta(meta) })),
     ).toEqual({
@@ -106,7 +106,7 @@ describe("memory reindex state", () => {
     });
   });
 
-  it("classifies missing metadata as Zero to Agent-owned", () => {
+  it("classifies missing metadata as OpenAgent-owned", () => {
     expect(resolveMemoryIndexIdentityState(createIdentityParams({ meta: null }))).toEqual({
       status: "missing",
       reason: "index metadata is missing",

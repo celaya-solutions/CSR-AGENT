@@ -1,5 +1,5 @@
 ---
-summary: "Persistent wiki compiler and Obsidian-friendly knowledge vault for Zero to Agent."
+summary: "Persistent wiki compiler and Obsidian-friendly knowledge vault for OpenAgent."
 read_when:
   - You are installing, configuring, or auditing the memory-wiki plugin
 title: "Memory Wiki plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Persistent wiki compiler and Obsidian-friendly knowledge vault for Zero to Agent.
+Persistent wiki compiler and Obsidian-friendly knowledge vault for OpenAgent.
 
 ## Distribution
 
 - Package: `@openclaw/memory-wiki`
-- Install route: included in Zero to Agent
+- Install route: included in OpenAgent
 
 ## Surface
 

@@ -280,7 +280,7 @@ fn activate(app: &AppHandle, relaunch: bool) {
         ClaimedAction::None => {}
         ClaimedAction::OpenDownloadPage => {
             if let Err(error) = open_release_page(app.clone()) {
-                crate::notify::notify(app, "OpenClaw", &error);
+                crate::notify::notify(app, "OpenAgent", &error);
             }
         }
         ClaimedAction::Restart => app.restart(),
@@ -348,7 +348,7 @@ async fn run_check(app: AppHandle, manual: bool) {
                 TerminalResultKind::NotAvailable,
                 NOT_AVAILABLE_EVENT,
                 (),
-                "OpenClaw is up to date — no update is available",
+                "OpenAgent is up to date — no update is available",
             );
             return;
         }
@@ -589,7 +589,7 @@ fn deliver_result<S: Serialize + Clone>(
             .is_some_and(|view| matches!(view.window().is_focused(), Ok(false))),
     };
     if notify {
-        crate::notify::notify(app, "OpenClaw", notification_body);
+        crate::notify::notify(app, "OpenAgent", notification_body);
     }
 }
 
@@ -621,7 +621,7 @@ fn error_notification_body(result: TerminalResultKind, message: &str) -> String 
 }
 
 fn ready_notification_body(version: &str) -> String {
-    format!("Update ready — restart OpenClaw to install v{version}")
+    format!("Update ready — restart OpenAgent to install v{version}")
 }
 
 fn manual_notification_body(version: &str) -> String {
@@ -669,7 +669,7 @@ mod tests {
     fn notification_copy_includes_update_version() {
         assert_eq!(
             ready_notification_body("2026.7.16"),
-            "Update ready — restart OpenClaw to install v2026.7.16"
+            "Update ready — restart OpenAgent to install v2026.7.16"
         );
         assert_eq!(
             manual_notification_body("2026.7.16"),

@@ -1,11 +1,11 @@
-// Zero to Agent audit tests cover SQLite-backed rescue audit scenarios.
+// OpenAgent audit tests cover SQLite-backed rescue audit scenarios.
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { resetPluginStateStoreForTests } from "../plugin-state/plugin-state-store.js";
 import { withTestDir } from "../test-helpers/temp-dir.js";
 import { appendSystemAgentAuditEntry, SYSTEM_AGENT_AUDIT_STORE_LABEL } from "./audit.js";
 import { listSystemAgentAuditEntriesForTests } from "./audit.test-support.js";
 
-describe("Zero to Agent audit log", () => {
+describe("OpenAgent audit log", () => {
   const previousStateDir = process.env.OPENCLAW_STATE_DIR;
 
   afterEach(() => {

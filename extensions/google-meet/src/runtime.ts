@@ -129,7 +129,7 @@ export class GoogleMeetRuntime {
           audioBridgeUnavailable: "Realtime speech requires an active Chrome audio bridge.",
           browserUnverified: "Google Meet browser state has not been verified yet.",
           microphoneMuted:
-            "Turn on the Zero to Agent Google Meet microphone before asking Zero to Agent to speak.",
+            "Turn on the OpenAgent Google Meet microphone before asking OpenAgent to speak.",
           microphoneMutedReason: "meet-microphone-muted",
           notInCall: "Google Meet has not reported that the browser participant is in the call.",
           notInCallReason: "not-in-call",

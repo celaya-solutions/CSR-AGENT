@@ -2,7 +2,7 @@
   "name": "@openclaw/together-provider",
   "version": "2026.9.4",
   "private": true,
-  "description": "Zero to Agent Together provider plugin",
+  "description": "OpenAgent Together provider plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

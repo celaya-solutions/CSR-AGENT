@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-// Check Codex App Server Protocol script supports OpenClaw repository automation.
+// Check Codex App Server Protocol script supports OpenAgent repository automation.
 import fs from "node:fs/promises";
 import path from "node:path";
 import {
@@ -311,12 +311,12 @@ async function main(): Promise<void> {
   }
 
   console.log(
-    `Codex app-server generated protocol matches OpenClaw bridge assumptions: ${source.codexRepo}`,
+    `Codex app-server generated protocol matches OpenAgent bridge assumptions: ${source.codexRepo}`,
   );
 }
 
 async function checkMaintainedProtocolTypes(sourceRoot: string): Promise<void> {
-  // Raw requests go to Codex; raw responses flow into OpenClaw. Keep the
+  // Raw requests go to Codex; raw responses flow into OpenAgent. Keep the
   // assignability direction explicit so the probe permits deliberate projections.
   const probePath = path.join(sourceRoot, "openclaw-protocol-compatibility.ts");
   const protocolPath = path.resolve(process.cwd(), "extensions/codex/src/app-server/protocol.ts");

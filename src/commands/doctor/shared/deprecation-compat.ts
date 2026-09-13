@@ -377,7 +377,7 @@ const DOCTOR_DEPRECATION_COMPAT_RECORDS = [
     replacement: "mcp.servers.*.transport",
     docsPath: "/cli/mcp",
     notes:
-      "Zero to Agent stores transport names; CLI backends receive their own type fields through runtime adapters.",
+      "OpenAgent stores transport names; CLI backends receive their own type fields through runtime adapters.",
   }),
   removalPendingCompatRecord("doctor-gateway-bind-host-aliases", {
     owner: "gateway",

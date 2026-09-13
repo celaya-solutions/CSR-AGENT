@@ -1,7 +1,7 @@
 import Foundation
 import os
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized) struct CanvasFileWatcherTests {
     @Test func `detects in place file writes`() async throws {

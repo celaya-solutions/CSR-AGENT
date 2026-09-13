@@ -1,6 +1,6 @@
 # @openclaw/zalouser
 
-Zero to Agent extension for Zalo Personal Account messaging via native `zca-js` integration.
+OpenAgent extension for Zalo Personal Account messaging via native `zca-js` integration.
 
 > **Warning:** Using Zalo automation may result in account suspension or ban. Use at your own risk. This is an unofficial integration.
 
@@ -14,7 +14,7 @@ Zero to Agent extension for Zalo Personal Account messaging via native `zca-js` 
 
 ## Prerequisites
 
-- Zero to Agent Gateway
+- OpenAgent Gateway
 - Zalo mobile app (for QR login)
 
 No external `zca`, `openzca`, or `zca-cli` binary is required.
@@ -59,7 +59,7 @@ channels:
 ### Send a message
 
 ```bash
-openclaw message send --channel zalouser --target <threadId> --message "Hello from Zero to Agent"
+openclaw message send --channel zalouser --target <threadId> --message "Hello from OpenAgent"
 ```
 
 ## Configuration

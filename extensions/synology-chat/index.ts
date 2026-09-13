@@ -1,10 +1,10 @@
-// Synology Chat plugin entrypoint registers its Zero to Agent integration.
+// Synology Chat plugin entrypoint registers its OpenAgent integration.
 import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
 
 export default defineBundledChannelEntry({
   id: "synology-chat",
   name: "Synology Chat",
-  description: "Native Synology Chat channel plugin for Zero to Agent",
+  description: "Native Synology Chat channel plugin for OpenAgent",
   importMetaUrl: import.meta.url,
   plugin: {
     specifier: "./channel-plugin-api.js",

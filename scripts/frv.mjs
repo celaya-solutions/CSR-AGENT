@@ -1224,7 +1224,7 @@ async function inspectPublicationStatus(options) {
     let diagnostic;
     if (evidence.state === "available") {
       // Failed publishers can upload diagnostics. Their job need not pass; its exact upload must.
-      const owner = jobs.filter((job) => job.name === "Publish plugins, then OpenClaw");
+      const owner = jobs.filter((job) => job.name === "Publish plugins, then OpenAgent");
       requirePublication(
         owner.length === 1 &&
           owner[0].steps?.filter(

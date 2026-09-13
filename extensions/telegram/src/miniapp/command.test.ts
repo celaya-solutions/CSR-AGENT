@@ -108,7 +108,7 @@ describe("registerTelegramMiniAppCommand", () => {
       }),
     );
 
-    expect(result.text).toBe("Open Zero to Agent dashboard.");
+    expect(result.text).toBe("Open OpenAgent dashboard.");
     expect(result.presentation?.blocks).toEqual([
       {
         type: "buttons",

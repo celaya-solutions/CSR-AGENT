@@ -564,7 +564,7 @@ export async function createPageViaPlaywright(
       }
       throw err;
     }
-    // Zero to Agent owns this newly-created tab: if the post-navigation safety
+    // OpenAgent owns this newly-created tab: if the post-navigation safety
     // check trips, close the tab we just spawned.
     try {
       await assertPageNavigationCompletedSafely({

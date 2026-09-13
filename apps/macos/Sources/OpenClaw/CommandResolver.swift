@@ -368,7 +368,7 @@ enum CommandResolver {
         switch runtimeResult {
         case .success:
             return .unavailable(
-                "openclaw CLI not found. Install the CLI, or run pnpm build in an OpenClaw source checkout.")
+                "openclaw CLI not found. Install the CLI, or run pnpm build in an OpenAgent source checkout.")
         case let .failure(error):
             return .unavailable(RuntimeLocator.describeFailure(error))
         }

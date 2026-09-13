@@ -1,6 +1,6 @@
 # Accessibility
 
-Zero to Agent targets **WCAG 2.1 AA**. This checklist applies to every UI component — use it when building new components and during PR review.
+OpenAgent targets **WCAG 2.1 AA**. This checklist applies to every UI component — use it when building new components and during PR review.
 
 ---
 

@@ -130,7 +130,7 @@ describe("buildClawUpdatePlan readiness", () => {
     });
   });
 
-  it("accepts an owned plugin upgrade declared through the Zero to Agent profile", async () => {
+  it("accepts an owned plugin upgrade declared through the OpenAgent profile", async () => {
     const current = await createUpdatePlanFixture(tempDirs.make("openclaw-claw-profile-upgrade-"));
     const parsed = parseClawManifest({
       ...current.manifest,

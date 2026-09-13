@@ -126,7 +126,7 @@ describe("connection view rendering", () => {
       .querySelector('input[aria-label="Gateway secret"]')
       ?.closest(".settings-row__control");
     expect(control?.querySelector('[role="status"]')?.textContent).toContain(
-      "device setup code for the Zero to Agent mobile app",
+      "device setup code for the OpenAgent mobile app",
     );
     expect(control?.textContent).toContain("openclaw gateway auth-token --show");
     render(renderConnection(createConnectionProps()), container);

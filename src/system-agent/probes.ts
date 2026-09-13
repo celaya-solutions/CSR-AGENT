@@ -1,9 +1,9 @@
-// Zero to Agent probes check local tools and Gateway health with bounded subprocess/network work.
+// OpenAgent probes check local tools and Gateway health with bounded subprocess/network work.
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import { runCommandWithTimeout } from "../process/exec.js";
 
 /**
- * Local environment probes used by Zero to Agent overview loading.
+ * Local environment probes used by OpenAgent overview loading.
  *
  * Probes are bounded by output and timeout limits so setup/status commands do
  * not hang or retain unbounded child output.

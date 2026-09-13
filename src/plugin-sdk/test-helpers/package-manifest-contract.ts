@@ -82,7 +82,7 @@ export function describePackageManifestContract(params: PackageManifestContractP
 
         expect(
           comparison,
-          `${packagePath} should require at least Zero to Agent ${minHostVersionBaseline}`,
+          `${packagePath} should require at least OpenAgent ${minHostVersionBaseline}`,
         ).toBeGreaterThanOrEqual(0);
       });
     }

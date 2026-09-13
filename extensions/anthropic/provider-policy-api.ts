@@ -16,7 +16,7 @@ import {
 
 export { resolveFastModeSupport } from "./fast-mode-policy.js";
 
-/** Profile ids that native Claude auth has retired from Zero to Agent ownership. */
+/** Profile ids that native Claude auth has retired from OpenAgent ownership. */
 export const deprecatedProfileIds = [CLAUDE_CLI_PROFILE_ID] as const;
 
 /** Normalize Anthropic provider config without importing runtime registration. */

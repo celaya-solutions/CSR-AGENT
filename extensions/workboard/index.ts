@@ -1,4 +1,4 @@
-// Workboard plugin entrypoint registers its Zero to Agent integration.
+// Workboard plugin entrypoint registers its OpenAgent integration.
 import { definePluginEntry } from "./api.js";
 import { registerWorkboardGatewayMethods } from "./runtime-api.js";
 import { createWorkboardAutomationNudgeService } from "./src/automation-nudge.js";

@@ -1,4 +1,4 @@
-// Novita plugin entrypoint registers its Zero to Agent integration.
+// Novita plugin entrypoint registers its OpenAgent integration.
 import { readConfiguredProviderCatalogEntries } from "openclaw/plugin-sdk/provider-catalog-shared";
 import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
 import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";
@@ -10,7 +10,7 @@ const PROVIDER_ID = "novita";
 export default defineSingleProviderPluginEntry({
   id: PROVIDER_ID,
   name: "NovitaAI Provider",
-  description: "Official Zero to Agent NovitaAI provider plugin",
+  description: "Official OpenAgent NovitaAI provider plugin",
   manifest,
   provider: {
     label: "NovitaAI",

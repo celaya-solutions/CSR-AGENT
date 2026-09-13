@@ -31,7 +31,7 @@ describe("buildReplyPromptEnvelope", () => {
 
     expect(envelope.prefixedCommandBody).toContain("sender_id=telegram-user-1");
     expect(envelope.prefixedCommandBody).toContain("Startup context");
-    expect(envelope.transcriptCommandBody).toBe("[Zero to Agent session reset]");
+    expect(envelope.transcriptCommandBody).toBe("[OpenAgent session reset]");
     expect(envelope.currentInboundContext).toBeUndefined();
   });
 
@@ -165,7 +165,7 @@ describe("buildReplyPromptEnvelope", () => {
     expect(envelope.queuedBody).toBe(envelope.transcriptCommandBody);
     expect(envelope.currentInboundContext?.text).toBe(
       [
-        "[Zero to Agent room event]",
+        "[OpenAgent room event]",
         [
           "Room context:",
           "Conversation info:",
@@ -188,7 +188,7 @@ describe("buildReplyPromptEnvelope", () => {
     expect(envelope.currentInboundContext?.text).not.toContain("Current event:");
     expect(envelope.currentInboundContext?.resumableText).toBe(
       [
-        "[Zero to Agent room event]",
+        "[OpenAgent room event]",
         [
           "Room context:",
           "Conversation info:",

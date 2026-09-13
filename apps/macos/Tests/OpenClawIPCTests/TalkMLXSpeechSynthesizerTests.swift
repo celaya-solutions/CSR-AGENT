@@ -3,7 +3,7 @@ import Foundation
 import OpenClawKit
 import OpenClawMLXTTSProtocol
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 #if arch(arm64)
 @Suite(.serialized)

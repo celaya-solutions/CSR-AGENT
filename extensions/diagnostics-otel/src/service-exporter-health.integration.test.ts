@@ -219,7 +219,7 @@ function startTraceExporterHealthService(
   });
 }
 
-test("reports no Zero to Agent-owned routes when the SDK is disabled", async () => {
+test("reports no OpenAgent-owned routes when the SDK is disabled", async () => {
   process.env.OTEL_SDK_DISABLED = " TRUE ";
 
   const { ctx } = await startOtelService({

@@ -38,7 +38,7 @@ it("renders and verifies an old pinned target using trusted publication tooling"
   git(["add", "."]);
   git([
     "-c",
-    "user.name=Zero to Agent Test",
+    "user.name=OpenAgent Test",
     "-c",
     "user.email=test@openclaw.invalid",
     "-c",

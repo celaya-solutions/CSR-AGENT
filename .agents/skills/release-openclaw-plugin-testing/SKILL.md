@@ -1,9 +1,9 @@
 ---
 name: release-openclaw-plugin-testing
-description: Plan and run pre-release OpenClaw plugin validation across bundled plugins, package artifacts, lifecycle commands, doctor/fix, config round-trip, gateway startup, SDK compatibility, Docker E2E, Package Acceptance, and Testbox proof.
+description: Plan and run pre-release OpenAgent plugin validation across bundled plugins, package artifacts, lifecycle commands, doctor/fix, config round-trip, gateway startup, SDK compatibility, Docker E2E, Package Acceptance, and Testbox proof.
 ---
 
-# OpenClaw Pre-Release Plugin Testing
+# OpenAgent Pre-Release Plugin Testing
 
 Use this skill when the user asks for plugin release confidence, plugin lifecycle
 sweeps, package-artifact plugin proof, or "what else should we test before
@@ -25,7 +25,7 @@ Prove the plugin system as a product surface, not just as source tests:
 
 ## First Checks
 
-From the OpenClaw repo root:
+From the OpenAgent repo root:
 
 ```bash
 pnpm docs:list
@@ -208,7 +208,7 @@ then run doctor again and require idempotence:
 
 ## Gateway Bootstrap Matrix
 
-Start packaged OpenClaw in Docker with clean state:
+Start packaged OpenAgent in Docker with clean state:
 
 - provider plugins enabled, no credentials: ready with warnings, no crash
 - channel plugins configured disabled: no runtime deps staged

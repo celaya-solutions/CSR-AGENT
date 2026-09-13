@@ -12,7 +12,7 @@ import {
 } from "./socket-timing.js";
 
 describe("resolveWhatsAppSocketTiming", () => {
-  it("uses Zero to Agent's explicit WhatsApp Web socket defaults", () => {
+  it("uses OpenAgent's explicit WhatsApp Web socket defaults", () => {
     expect(resolveWhatsAppSocketTiming()).toEqual(DEFAULT_WHATSAPP_SOCKET_TIMING);
   });
 

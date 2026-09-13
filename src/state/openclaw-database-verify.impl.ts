@@ -210,7 +210,7 @@ export function collectOpenClawDatabaseVerifyTargets(options: {
   if (existsSync(statePath)) {
     targets.set(statePath, {
       kind: "state",
-      label: "Zero to Agent state database",
+      label: "OpenAgent state database",
       path: statePath,
     });
   }
@@ -229,7 +229,7 @@ export function collectOpenClawDatabaseVerifyTargets(options: {
     }
     targets.set(agentPath, {
       kind: "agent",
-      label: `Zero to Agent agent database ${registered.agentId}`,
+      label: `OpenAgent agent database ${registered.agentId}`,
       path: agentPath,
     });
   }

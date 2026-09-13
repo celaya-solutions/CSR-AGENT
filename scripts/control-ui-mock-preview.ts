@@ -106,7 +106,7 @@ function installControlUiPreview(newAgentWelcome: string): void {
           reply:
             input.welcomeVariant === "new-agent"
               ? newAgentWelcome
-              : "Hi — I’m OpenClaw, your system caretaker.\n\nAsk me about setup, channels, or recent changes.",
+              : "Hi — I’m OpenAgent, your system caretaker.\n\nAsk me about setup, channels, or recent changes.",
           action: "none",
         };
     window.setTimeout(() => respond(response), message === undefined ? 0 : 600);

@@ -14,7 +14,7 @@
     ]
   },
   "name": "Matrix",
-  "description": "Zero to Agent Matrix channel plugin for rooms and direct messages.",
+  "description": "OpenAgent Matrix channel plugin for rooms and direct messages.",
   "cliCommands": [
     {
       "name": "matrix",

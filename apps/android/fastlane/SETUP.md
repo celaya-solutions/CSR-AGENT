@@ -1,4 +1,4 @@
-# fastlane setup (OpenClaw Android)
+# fastlane setup (OpenAgent Android)
 
 For the standard local setup:
 
@@ -20,7 +20,7 @@ Fastlane and its transitive dependencies are checksum-locked in
 it is installed. Normal local commands otherwise retain the direct Homebrew
 Fastlane and rbenv fallbacks.
 
-Create a Google Play service account JSON key with Google Play Developer API access, then grant that service account access to the OpenClaw app in Play Console.
+Create a Google Play service account JSON key with Google Play Developer API access, then grant that service account access to the OpenAgent app in Play Console.
 
 Recommended local auth:
 
@@ -179,7 +179,7 @@ Release rules:
   to the matching `phoneScreenshots` and `wearScreenshots` metadata folders.
 - `pnpm android:release:archive` builds the signed phone Play AAB, Wear AAB, and third-party APK into `apps/android/build/release-artifacts/`.
 - `pnpm android:release:upload` commits the phone AAB, Wear AAB, metadata, and screenshots in one Google Play edit across the configured phone and `wear:` form-factor tracks. The default tracks are `internal` and `wear:internal`.
-- Stable GitHub Release APK publication is separate from Google Play: `OpenClaw Release Publish` dispatches `.github/workflows/android-release.yml`, whose protected `android-release` environment provides `MATCH_PASSWORD`; the repository GitHub App reads the encrypted signing repo.
+- Stable GitHub Release APK publication is separate from Google Play: `OpenAgent Release Publish` dispatches `.github/workflows/android-release.yml`, whose protected `android-release` environment provides `MATCH_PASSWORD`; the repository GitHub App reads the encrypted signing repo.
 - Production promotion remains manual in Google Play Console.
 - If `pnpm android:release:upload` fails, agent-driven releases must stop and report the failing step. Do not fall back to `pnpm android:release:archive`, `pnpm android:release:metadata`, direct Fastlane lanes, Gradle release artifacts plus Google Play upload commands, or mobile release ref recording.
 

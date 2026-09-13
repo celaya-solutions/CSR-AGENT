@@ -239,7 +239,7 @@ describe("createDiscordGatewayPlugin", () => {
     );
   });
 
-  it("leaves autoInteractions disabled so Zero to Agent owns interaction handoff", () => {
+  it("leaves autoInteractions disabled so OpenAgent owns interaction handoff", () => {
     const plugin = createPlugin();
 
     expect(

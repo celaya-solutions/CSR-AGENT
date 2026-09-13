@@ -1,7 +1,7 @@
 ---
 summary: "Matrix support status, setup, and configuration examples"
 read_when:
-  - Setting up Matrix in Zero to Agent
+  - Setting up Matrix in OpenAgent
   - Configuring Matrix E2EE and verification
 title: "Matrix"
 ---

@@ -61,7 +61,7 @@ async function inspectRequest(root: ChromeProductRoot): Promise<ChromeStoreInsta
       return {
         ...result,
         state: "foreign",
-        issue: "Store install registration is not Zero to Agent-owned",
+        issue: "Store install registration is not OpenAgent-owned",
       };
     }
     return { ...result, state: "requested" };

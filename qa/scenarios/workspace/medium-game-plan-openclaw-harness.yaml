@@ -1,4 +1,4 @@
-title: Medium game plan OpenClaw harness
+title: Medium game plan OpenAgent harness
 
 scenario:
   id: medium-game-plan-openclaw-harness
@@ -8,11 +8,11 @@ scenario:
       - agent-runtime.external-harness-selection-planning
     secondary:
       - agent-runtime.external-harness-selection-openclaw-harness
-  objective: Verify GPT-5.6 Luna can use the OpenClaw harness to plan and build a medium-complex self-contained browser game.
+  objective: Verify GPT-5.6 Luna can use the OpenAgent harness to plan and build a medium-complex self-contained browser game.
   successCriteria:
     - A live-frontier run fails fast unless the selected primary model is openai/gpt-5.6-luna.
-    - The scenario forces the embedded OpenClaw harness before the build turn.
-    - The OpenClaw harness records a successful `progress_card` tool call before the artifact assertion passes.
+    - The scenario forces the embedded OpenAgent harness before the build turn.
+    - The OpenAgent harness records a successful `progress_card` tool call before the artifact assertion passes.
     - The agent writes a self-contained HTML game with a canvas loop, controls, scoring, waves, pause, and restart.
   docsRefs:
     - docs/plugins/sdk-agent-harness.md
@@ -52,7 +52,7 @@ scenario:
 
 flow:
   steps:
-    - name: confirms GPT-5.6 Luna OpenClaw harness target
+    - name: confirms GPT-5.6 Luna OpenAgent harness target
       actions:
         - set: selected
           value:
@@ -109,7 +109,7 @@ flow:
                 expr: transcriptBefore.eventCursor
         - assert:
             expr: "(transcript.successfulToolCallCounts.progress_card ?? 0) > 0"
-            message: missing OpenClaw progress_card signal
+            message: missing OpenAgent progress_card signal
         - set: artifactPath
           value:
             expr: "path.join(env.gateway.workspaceDir, config.artifactFile)"

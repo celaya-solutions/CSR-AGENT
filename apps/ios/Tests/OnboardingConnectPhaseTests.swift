@@ -1,6 +1,6 @@
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct OnboardingConnectPhaseTests {
     @Test func `previous error remains visible while reconnecting`() {

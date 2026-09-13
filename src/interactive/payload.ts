@@ -113,7 +113,7 @@ export type MessagePresentationAction =
       type: "web-app";
       /** External web app URL for channels that launch web apps by URL. */
       url: string;
-      /** Zero to Agent hosted-widget ID whose launch mechanics are owned by the channel. */
+      /** OpenAgent hosted-widget ID whose launch mechanics are owned by the channel. */
       widgetId?: string;
     }
   | {
@@ -121,7 +121,7 @@ export type MessagePresentationAction =
       type: "web-app";
       /** External web app URL for channels that launch web apps by URL. */
       url?: string;
-      /** Zero to Agent hosted-widget ID whose launch mechanics are owned by the channel. */
+      /** OpenAgent hosted-widget ID whose launch mechanics are owned by the channel. */
       widgetId: string;
     };
 

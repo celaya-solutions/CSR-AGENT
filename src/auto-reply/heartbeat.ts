@@ -14,10 +14,10 @@ export const HEARTBEAT_RESPONSE_TOOL_INSTRUCTIONS =
   "Use heartbeat_respond to report the wake outcome. Set notify=false when nothing needs the user's attention. Set notify=true with notificationText only when the user should be interrupted.";
 export const HEARTBEAT_RESPONSE_TOOL_PROMPT = `${HEARTBEAT_CONTEXT_PROMPT} ${HEARTBEAT_RESPONSE_TOOL_INSTRUCTIONS}`;
 export const INTERNAL_WAKE_TRANSCRIPT_PROMPTS = {
-  heartbeat: "[Zero to Agent heartbeat poll]",
-  exec: "[Zero to Agent exec completion]",
-  cron: "[Zero to Agent cron wake]",
-  event: "[Zero to Agent session event]",
+  heartbeat: "[OpenAgent heartbeat poll]",
+  exec: "[OpenAgent exec completion]",
+  cron: "[OpenAgent cron wake]",
+  event: "[OpenAgent session event]",
 } as const;
 export const DEFAULT_HEARTBEAT_EVERY = "30m";
 export const DEFAULT_HEARTBEAT_ACK_MAX_CHARS = 300;

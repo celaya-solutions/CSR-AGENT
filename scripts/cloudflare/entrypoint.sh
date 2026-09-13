@@ -192,6 +192,6 @@ else
   log "sqlite state already present; restore skipped"
 fi
 
-log "starting Litestream replication with OpenClaw gateway child"
+log "starting Litestream replication with OpenAgent gateway child"
 exec litestream replicate -config "$CONFIG" \
   -exec "node openclaw.mjs gateway --allow-unconfigured --bind lan --port 8080 --auth token"

@@ -9,7 +9,7 @@ scenario:
       - containers.docker-backed-agent-sandbox-support
   objective: Verify Docker-hosted agent workspace deletion keeps shared workspace state safe while running against the package-installed image.
   successCriteria:
-    - The Docker lane starts from an empty OpenClaw state.
+    - The Docker lane starts from an empty OpenAgent state.
     - The in-container CLI resolves from the installed app image.
     - "`openclaw agents delete --force --json` preserves the configured shared workspace."
     - The fixture assertion validates the JSON result and workspace state.

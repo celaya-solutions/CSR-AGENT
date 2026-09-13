@@ -1,10 +1,10 @@
-/** ACP protocol helpers and Zero to Agent agent identity metadata. */
+/** ACP protocol helpers and OpenAgent agent identity metadata. */
 import { VERSION } from "../version.js";
 export { normalizeAcpProvenanceMode } from "@openclaw/acp-core/types";
 
 /** ACP agent identity advertised during protocol initialization. */
 export const ACP_AGENT_INFO = {
   name: "openclaw-acp",
-  title: "Zero to Agent ACP Gateway",
+  title: "OpenAgent ACP Gateway",
   version: VERSION,
 };

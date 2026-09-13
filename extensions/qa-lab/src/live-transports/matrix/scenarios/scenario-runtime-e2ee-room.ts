@@ -332,7 +332,7 @@ export async function withMatrixQaIsolatedE2eeDriverRoom<T>(
   const originalGroupPolicy = accountConfig.groupPolicy;
   const driverAccount = await registerMatrixQaE2eeScenarioAccount({
     context,
-    deviceName: "Zero to Agent Matrix QA Isolated E2EE Driver",
+    deviceName: "OpenAgent Matrix QA Isolated E2EE Driver",
     localpartPrefix: "qa-e2ee-driver",
     scenarioId,
   });

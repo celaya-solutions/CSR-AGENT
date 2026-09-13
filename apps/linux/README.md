@@ -1,6 +1,6 @@
-# OpenClaw for Linux
+# OpenAgent for Linux
 
-The Linux companion is a Tauri v2 desktop shell for local and remote OpenClaw Gateways. It discovers nearby Gateways over Bonjour, installs the CLI when local setup needs it, delegates local Gateway service management to `openclaw gateway`, opens the selected Gateway's Control UI, and stays available in the system tray.
+The Linux companion is a Tauri v2 desktop shell for local and remote OpenAgent Gateways. It discovers nearby Gateways over Bonjour, installs the CLI when local setup needs it, delegates local Gateway service management to `openclaw gateway`, opens the selected Gateway's Control UI, and stays available in the system tray.
 
 Dashboard widgets and browser panels load inside the app. Browser tabs belong to their conversation and support back, forward, reload, stop, snapshots, element inspection, and saving the current page or asset. Opening the same address in a conversation reuses its tab; other conversations keep their own tabs. Popups opened by a browser tab stay in that conversation.
 
@@ -18,7 +18,7 @@ requirement.
 
 The optional Omarchy 4 bar plugin provides agents, sessions, and quick prompts.
 With the matching desktop app running, it uses the app’s selected Gateway and
-keeps a single visible OpenClaw icon. See [Omarchy support](https://docs.openclaw.ai/platforms/omarchy)
+keeps a single visible OpenAgent icon. See [Omarchy support](https://docs.openclaw.ai/platforms/omarchy)
 for installation, app handoff, shortcuts, and troubleshooting.
 
 ## Linux prerequisites
@@ -128,7 +128,7 @@ options without connecting to the app.
 
 ## First-run setup
 
-The welcome screen explains what OpenClaw can do and asks where your assistant
+The welcome screen explains what OpenAgent can do and asks where your assistant
 should live:
 
 - **On this computer** installs the CLI and managed Node runtime when needed,
@@ -158,7 +158,7 @@ After connecting, Model Setup discovers AI access available to the selected
 Gateway and shows it as a choice. Discovery never imports or copies an account,
 and the companion never selects, tests, installs, or saves a provider until you
 click its action. The list includes supported installed providers and official
-provider plugins available from OpenClaw's managed plugin catalog. Installing a
+provider plugins available from OpenAgent's managed plugin catalog. Installing a
 official provider plugin continues directly to that provider's authentication
 form without a capability approval prompt. Other plugins require capability
 review before installation. Successful verification may require a
@@ -171,7 +171,7 @@ message; custom-provider secrets must be entered on their owning host. The
 desktop companion does not copy remote provider secrets to this computer.
 
 On a fresh install, setup also asks whether existing native Claude and Codex
-conversations should appear in OpenClaw. This is discovery only, not an import
+conversations should appear in OpenAgent. This is discovery only, not an import
 or copy. The option starts unchecked; declining disables both native session
 catalogs. Existing installations keep their current catalog behavior during an
 upgrade.

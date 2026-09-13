@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized) struct NodeServiceManagerTests {
     @Test func `absent node service performs no CLI lifecycle work`() async throws {

@@ -123,8 +123,8 @@ Linux uses the same stable errors: `LOCATION_DISABLED`, `LOCATION_TIMEOUT`, and 
 ## UX copy (suggested)
 
 - Off: "Location sharing is disabled."
-- While Using: "Only when Zero to Agent is open."
-- Always: "Allow requested location checks while Zero to Agent is in the background."
+- While Using: "Only when OpenAgent is open."
+- Always: "Allow requested location checks while OpenAgent is in the background."
 - Precise: "Use precise GPS location. Toggle off to share approximate location."
 
 ## Related

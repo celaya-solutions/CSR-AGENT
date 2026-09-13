@@ -219,9 +219,9 @@ describe("SystemAgentChatEngine wizard", () => {
     // rather than sending the reader to a terminal they may not have.
     expect(gatewayReply.text).toContain("Settings");
     expect(gatewayReply.text).toContain("change providers from a shell");
-    expect(gatewayReply.text).toContain("machine running Zero to Agent");
+    expect(gatewayReply.text).toContain("machine running OpenAgent");
     expect(gatewayReply.text).not.toContain("does the same job");
-    expect(gatewayReply.text).not.toContain("Exit Zero to Agent");
+    expect(gatewayReply.text).not.toContain("Exit OpenAgent");
   });
 
   it("keeps hosted-wizard validation errors on the current prompt", async () => {

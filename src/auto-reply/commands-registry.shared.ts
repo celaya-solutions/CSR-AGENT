@@ -269,7 +269,7 @@ export function buildBuiltinChatCommands(
     }),
     defineBuiltinCommand(
       "openclaw",
-      "Run the Zero to Agent setup and repair helper.",
+      "Run the OpenAgent setup and repair helper.",
       "management",
       "essential",
       {
@@ -473,7 +473,7 @@ export function buildBuiltinChatCommands(
       argsParsing: "none",
       formatArgs: COMMAND_ARG_FORMATTERS.config,
     }),
-    defineBuiltinCommand("mcp", "Show or set Zero to Agent MCP servers.", "management", "power", {
+    defineBuiltinCommand("mcp", "Show or set OpenAgent MCP servers.", "management", "power", {
       modelIndependent: "always",
       args: [
         defineCommandArgument("action", "show | get | set | unset", {
@@ -528,10 +528,10 @@ export function buildBuiltinChatCommands(
       activeRunSafe: true,
       modelIndependent: "no-args",
     }),
-    defineBuiltinCommand("restart", "Restart Zero to Agent.", "tools", "power", {
+    defineBuiltinCommand("restart", "Restart OpenAgent.", "tools", "power", {
       modelIndependent: "no-args",
     }),
-    defineBuiltinCommand("update", "Update Zero to Agent and restart.", "tools", "power", {
+    defineBuiltinCommand("update", "Update OpenAgent and restart.", "tools", "power", {
       modelIndependent: "no-args",
     }),
     defineBuiltinCommand("activation", "Set group activation mode.", "management", "power", {

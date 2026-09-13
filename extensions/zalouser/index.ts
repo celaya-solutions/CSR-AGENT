@@ -1,4 +1,4 @@
-// Zalouser plugin entrypoint registers its Zero to Agent integration.
+// Zalouser plugin entrypoint registers its OpenAgent integration.
 import {
   type AnyAgentTool,
   defineBundledChannelEntry,

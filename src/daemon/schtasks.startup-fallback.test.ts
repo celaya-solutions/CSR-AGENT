@@ -139,7 +139,7 @@ function createSpawnChild(error?: Error): ChildProcess {
 }
 
 function resolveStartupEntryPath(env: Record<string, string>, extension = "cmd") {
-  const taskName = env.OPENCLAW_WINDOWS_TASK_NAME ?? "Zero to Agent Gateway";
+  const taskName = env.OPENCLAW_WINDOWS_TASK_NAME ?? "OpenAgent Gateway";
   return path.join(
     expectDefined(env.APPDATA, "env.APPDATA test invariant"),
     "Microsoft",
@@ -181,7 +181,7 @@ function makeNodeServiceEnv(env: Record<string, string>): Record<string, string>
   return {
     ...env,
     OPENCLAW_SERVICE_KIND: "node",
-    OPENCLAW_WINDOWS_TASK_NAME: "Zero to Agent Node",
+    OPENCLAW_WINDOWS_TASK_NAME: "OpenAgent Node",
   };
 }
 
@@ -301,7 +301,7 @@ function installNodeScheduledTask(env: Record<string, string>, stdout = new Pass
     env: {
       ...env,
       OPENCLAW_SERVICE_KIND: "node",
-      OPENCLAW_WINDOWS_TASK_NAME: "Zero to Agent Node",
+      OPENCLAW_WINDOWS_TASK_NAME: "OpenAgent Node",
     },
     stdout,
     programArguments: ["node", "openclaw", "node", "run", "--host", "127.0.0.1", "--port", "18789"],
@@ -2040,7 +2040,7 @@ describe("Windows startup fallback", () => {
   it("does not report a node task as running from a gateway listener", async () => {
     await withWindowsEnv("openclaw-win-startup-", async ({ env }) => {
       env.OPENCLAW_SERVICE_KIND = "node";
-      env.OPENCLAW_WINDOWS_TASK_NAME = "Zero to Agent Node";
+      env.OPENCLAW_WINDOWS_TASK_NAME = "OpenAgent Node";
       findVerifiedGatewayListenerPidsOnPortSync.mockReturnValue([4242]);
       queueNativeResponses(notYetRunTaskSnapshot());
 
@@ -2058,7 +2058,7 @@ describe("Windows startup fallback", () => {
       const nodeEnv = {
         ...env,
         OPENCLAW_SERVICE_KIND: "node",
-        OPENCLAW_WINDOWS_TASK_NAME: "Zero to Agent Node",
+        OPENCLAW_WINDOWS_TASK_NAME: "OpenAgent Node",
       };
       await writeNodeScript(nodeEnv);
       findVerifiedGatewayListenerPidsOnPortSync.mockReturnValue([4242]);
@@ -2134,7 +2134,7 @@ describe("Windows startup fallback", () => {
         const startupEntryPath = await writeStartupFallbackEntry(env);
 
         await expect(isScheduledTaskInstalled({ env: taskEnv })).resolves.toBe(true);
-        expect(schtasksCalls).toEqual([["/Query", "/TN", "Zero to Agent Gateway"]]);
+        expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenAgent Gateway"]]);
         expect(schtasksResponses).toEqual([]);
 
         await fs.unlink(startupEntryPath);

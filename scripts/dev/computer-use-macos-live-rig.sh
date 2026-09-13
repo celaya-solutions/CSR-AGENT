@@ -310,7 +310,7 @@ NODE
   echo "prepared isolated Linux X11 profile $profile on ws://127.0.0.1:$port ($DISPLAY)"
   echo "gateway: $0 gateway $scratch"
   echo "node:    $0 node $scratch"
-  echo "fixture: $0 fixture $scratch 'OpenClaw CUA X11 Target' 'OpenClaw X11 Sentinel' 'W3-LINUX BEFORE'"
+  echo "fixture: $0 fixture $scratch 'OpenAgent CUA X11 Target' 'OpenAgent X11 Sentinel' 'W3-LINUX BEFORE'"
   echo "nodes:   $0 nodes $scratch"
 }
 
@@ -349,7 +349,7 @@ run_node() {
     OPENCLAW_STATE_DIR="$OPENCLAW_CU_RIG_NODE_STATE" \
     node "$repo_root/scripts/run-node.mjs" --profile "$OPENCLAW_CU_RIG_PROFILE" \
       node run --host 127.0.0.1 --port "$OPENCLAW_CU_RIG_PORT" \
-      --display-name "OpenClaw CUA X11 Live Proof"
+      --display-name "OpenAgent CUA X11 Live Proof"
 }
 
 run_fixture() {

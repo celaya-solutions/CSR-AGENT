@@ -1,4 +1,4 @@
-title: OpenClaw workspace mutation tools
+title: OpenAgent workspace mutation tools
 
 scenario:
   id: openclaw-workspace-mutation-tools
@@ -7,7 +7,7 @@ scenario:
     primary:
       - agent-runtime.tool-apply-patch
       - agent-runtime.tool-edit
-  objective: Prove OpenClaw's assembled workspace mutation tools persist exact bytes, report useful receipts, and reject workspace escapes.
+  objective: Prove OpenAgent's assembled workspace mutation tools persist exact bytes, report useful receipts, and reject workspace escapes.
   successCriteria:
     - The real assembled apply_patch tool creates an artifact with exact draft bytes and reports its path and add summary.
     - A traversal patch is rejected by the workspace root guard without changing the outside sentinel.
@@ -24,4 +24,4 @@ scenario:
   execution:
     kind: vitest
     path: test/e2e/qa-lab/runtime/openclaw-workspace-mutation-tools.e2e.test.ts
-    summary: Execute real OpenClaw apply_patch and edit tools against exact workspace and outside-sentinel bytes.
+    summary: Execute real OpenAgent apply_patch and edit tools against exact workspace and outside-sentinel bytes.

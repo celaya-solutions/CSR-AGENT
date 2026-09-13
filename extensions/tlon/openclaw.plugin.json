@@ -5,7 +5,7 @@
     "configRepair": true
   },
   "name": "Tlon/Urbit",
-  "description": "Zero to Agent Tlon/Urbit channel plugin for chat workflows.",
+  "description": "OpenAgent Tlon/Urbit channel plugin for chat workflows.",
   "activation": {
     "onStartup": false
   },

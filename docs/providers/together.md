@@ -2,13 +2,13 @@
 summary: "Together AI setup (auth + model selection)"
 title: "Together AI"
 read_when:
-  - You want to use Together AI with Zero to Agent
+  - You want to use Together AI with OpenAgent
   - You need the API key env var or CLI auth choice
 ---
 
 [Together AI](https://together.ai) provides access to leading open-source
 models including Llama, DeepSeek, Kimi, and more through a unified API.
-Zero to Agent bundles it as the `together` provider.
+OpenAgent bundles it as the `together` provider.
 
 | Property | Value                         |
 | -------- | ----------------------------- |

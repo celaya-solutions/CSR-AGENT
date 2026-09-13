@@ -34,7 +34,7 @@ async function stageWorkerDeployArtifact(params: {
     expectedRealPath = await fs.realpath(sourcePath);
   } catch (error) {
     throw new Error(
-      `Zero to Agent worker deploy artifact is missing; build the running package at ${params.sourceRoot}`,
+      `OpenAgent worker deploy artifact is missing; build the running package at ${params.sourceRoot}`,
       { cause: error },
     );
   }

@@ -160,7 +160,7 @@ enum ExecApprovalsPromptPresenter {
         panel.onDismiss = { onDecision(decisions.contains(.deny) ? .deny : nil) }
         panel.level = .modalPanel
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-        panel.title = String(localized: "OpenClaw Command Approval")
+        panel.title = String(localized: "OpenAgent Command Approval")
         panel.titleVisibility = .hidden
         panel.titlebarAppearsTransparent = true
         panel.isReleasedWhenClosed = false

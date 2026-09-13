@@ -955,13 +955,13 @@ describe("redactSensitiveText", () => {
     const pomeriumJwt = "eyJheaderabcd.eyJpayloadabcd.signatureabcd123456";
     const apiKey = "shortsecret";
     const input = [
-      `X-Zero to Agent-Token: ${openClawToken}`,
+      `X-OpenAgent-Token: ${openClawToken}`,
       `x-pomerium-jwt-assertion: ${pomeriumJwt}`,
       `X-Api-Key=${apiKey}`,
     ].join("\n");
     const output = redactSensitiveText(input, { mode: "tools" });
 
-    expect(output).toContain("X-Zero to Agent-Token: supers…7890");
+    expect(output).toContain("X-OpenAgent-Token: supers…7890");
     expect(output).toContain("x-pomerium-jwt-assertion: eyJhea…3456");
     expect(output).toContain("X-Api-Key=***");
     expect(output).not.toContain(openClawToken);
@@ -974,8 +974,8 @@ describe("redactSensitiveText", () => {
       "X-Api-Key: prefix…ffix",
     );
     expect(
-      redactSensitiveText("X-Zero to Agent-Token=prefix&actual-secret#tail", { mode: "tools" }),
-    ).toBe("X-Zero to Agent-Token=prefix…tail");
+      redactSensitiveText("X-OpenAgent-Token=prefix&actual-secret#tail", { mode: "tools" }),
+    ).toBe("X-OpenAgent-Token=prefix…tail");
     expect(redactSensitiveText("x-access-token=prefix&actual-secret#tail", { mode: "tools" })).toBe(
       "x-access-token=prefix…tail",
     );
@@ -989,7 +989,7 @@ describe("redactSensitiveText", () => {
     expect(formBitmap.slice(form.indexOf("=") + 1, safePairStart).every(Boolean)).toBe(true);
     expect(formBitmap.slice(safePairStart).some(Boolean)).toBe(false);
 
-    const header = "X-Zero to Agent-Token=prefix&actual-secret#tail";
+    const header = "X-OpenAgent-Token=prefix&actual-secret#tail";
     const headerBitmap = computeSensitiveRedactionBitmap(header, resolved);
     expect(headerBitmap.slice(header.indexOf("=") + 1).every(Boolean)).toBe(true);
   });

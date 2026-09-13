@@ -1,4 +1,4 @@
-// Update Clawtributors script supports OpenClaw repository automation.
+// Update Clawtributors script supports OpenAgent repository automation.
 import { execSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";

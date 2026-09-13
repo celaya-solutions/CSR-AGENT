@@ -1,4 +1,4 @@
-// Matrix plugin entrypoint registers its Zero to Agent integration.
+// Matrix plugin entrypoint registers its OpenAgent integration.
 import {
   defineBundledChannelEntry,
   type OpenClawPluginApi,

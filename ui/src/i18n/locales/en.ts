@@ -533,13 +533,13 @@ export const en: TranslationMap & {
     errorTitle: "Panel failed to load",
     genericSubtitle: "Something went wrong while loading this panel.",
     staleTitle: "A new version is available",
-    staleSubtitle: "Zero to Agent was updated in the background. Reload to get the latest panel.",
+    staleSubtitle: "OpenAgent was updated in the background. Reload to get the latest panel.",
     reloading: "Reloading…",
     retry: "Retry",
     stylesFailed: "Styles failed to load, so the page may look broken.",
   },
   communityInvite: {
-    cardLabel: "Join the Zero to Agent community on Discord",
+    cardLabel: "Join the OpenAgent community on Discord",
     artAlt: "A lobster beside the Discord mark on a lit seafloor pedestal",
     title: "Come build with us",
     body: "Ask anything, show what you're making, and find out what everyone else is building.",
@@ -639,7 +639,7 @@ export const en: TranslationMap & {
       "The update outcome is unknown. Run `openclaw triage` on the Gateway host and inspect the result before retrying.",
     triage: {
       hostHint:
-        "If Ask Zero to Agent is unavailable, run `openclaw triage` on the Gateway host to open a local coding agent for diagnosis and repair. Diagnose the cause before retrying.",
+        "If Ask OpenAgent is unavailable, run `openclaw triage` on the Gateway host to open a local coding agent for diagnosis and repair. Diagnose the cause before retrying.",
     },
     report: {},
     failureReasons: {
@@ -648,7 +648,7 @@ export const en: TranslationMap & {
       notGitInstall:
         "Not a git checkout. Run `openclaw update` from the CLI for a global reinstall.",
       notOpenclawRoot:
-        "Run the update from a Zero to Agent checkout or use the CLI global reinstall path.",
+        "Run the update from an OpenAgent checkout or use the CLI global reinstall path.",
       depsInstallFailed: "Dependency install failed. Fix the install error and retry.",
       buildFailed: "Build failed. Fix the build error and retry.",
       buildDirty:
@@ -717,7 +717,7 @@ export const en: TranslationMap & {
       failed: "Could not create a setup code.",
       statusFailed: "Could not verify whether pairing completed.",
       loadFailed: "Could not load the pairing dialog. Check your connection and try again.",
-      qrAlt: "Zero to Agent mobile pairing QR code",
+      qrAlt: "OpenAgent mobile pairing QR code",
       qrUnavailable: "QR unavailable. Copy the setup code instead.",
       copySetupCode: "Copy setup code",
       nodeExpiresIn: "This setup link expires in {time}.",
@@ -726,7 +726,7 @@ export const en: TranslationMap & {
       showSetupCode: "Show setup code",
       pending: "Device requests waiting for review: {count}",
       review: "Review",
-      waiting: "Official Zero to Agent mobile apps connect automatically after scanning.",
+      waiting: "Official OpenAgent mobile apps connect automatically after scanning.",
       pairedTitle: "Device paired",
       deliveryUncertainTitle: "Pairing delivery could not be confirmed",
       deliveryUncertainHint:
@@ -924,7 +924,7 @@ export const en: TranslationMap & {
     ownerSession: "Session",
     ownerWorkboard: "Workboard",
     title: "Managed Worktrees",
-    subtitle: "Isolated repository checkouts owned by Zero to Agent.",
+    subtitle: "Isolated repository checkouts owned by OpenAgent.",
     cleanNow: "Clean up now",
     name: "Name",
     namePlaceholder: "auto",
@@ -1037,7 +1037,7 @@ export const en: TranslationMap & {
     start: "Start session",
     startInTerminal: "Start in terminal",
     nativeTerminalHint:
-      "Start the native CLI on the selected machine using its own account and configuration. This does not create a Zero to Agent Chat.",
+      "Start the native CLI on the selected machine using its own account and configuration. This does not create an OpenAgent Chat.",
     chooseNativeHost: "Choose a native CLI host",
     nativeHostsUnavailable:
       "No native CLI is available. Install it on the Gateway or connect a machine with CLI access, then reconnect to the Gateway.",
@@ -1111,7 +1111,7 @@ export const en: TranslationMap & {
       "owner-mismatch": "owned elsewhere",
       busy: "live run or cleanup active",
       "foreign-lock": "foreign Git lock",
-      "snapshot-failed": "Zero to Agent could not create a safety snapshot",
+      "snapshot-failed": "OpenAgent could not create a safety snapshot",
       "cleanup-failed": "cleanup failed",
     },
     draftCleanupFailed: "Session deleted; browser draft remains. Clear site data.",
@@ -1342,7 +1342,7 @@ export const en: TranslationMap & {
     moveSessionTitle: "Move session",
     moveSessionDescription: 'Choose where "{session}" should continue.',
     moveSessionNoReplayWarning:
-      "Zero to Agent safely reconciles the current workspace before moving. Active work is never replayed.",
+      "OpenAgent safely reconciles the current workspace before moving. Active work is never replayed.",
     moveSessionActiveRunWarning:
       "The active turn will be interrupted. Partial output is not replayed; send the next turn again after the move.",
     moveSessionAction: "Move session",
@@ -1960,7 +1960,7 @@ export const en: TranslationMap & {
     },
   },
   approvalPage: {
-    brandName: "Zero to Agent",
+    brandName: "OpenAgent",
     eyebrow: "Operator approval",
     loadingTitle: "Loading approval",
     loadingDescription: "Checking the current approval state with the Gateway.",
@@ -1969,7 +1969,7 @@ export const en: TranslationMap & {
       "This approval could not be found or this device is not authorized to review it.",
     connectionErrorTitle: "Connection interrupted",
     connectionErrorDescription:
-      "Zero to Agent cannot confirm or record a decision while disconnected. Reconnect to check the current status.",
+      "OpenAgent cannot confirm or record a decision while disconnected. Reconnect to check the current status.",
     retry: "Retry",
     execTitle: "Command approval",
     pending: "Waiting for your decision",
@@ -2228,7 +2228,7 @@ export const en: TranslationMap & {
     back: "Back",
     forward: "Forward",
     settings: "Settings",
-    askOpenClaw: "Ask Zero to Agent",
+    askOpenClaw: "Ask OpenAgent",
     settingsGroupDevice: "This Mac",
     settingsGroupThisIPhone: "This iPhone",
     settingsGroupThisIPad: "This iPad",
@@ -2307,8 +2307,7 @@ export const en: TranslationMap & {
     profile: "Browser profile: {profile}",
     navigationBlocked:
       "The current browser navigation rules block this address. Select another tab or enter an allowed address.",
-    navigationCheckFailed:
-      "Zero to Agent couldn’t verify this tab’s address. Refresh to try again.",
+    navigationCheckFailed: "OpenAgent couldn’t verify this tab’s address. Refresh to try again.",
     tabUnavailable: "This tab is no longer available. Select another tab.",
     title: "Browser",
     open: "Open",
@@ -2401,7 +2400,7 @@ export const en: TranslationMap & {
     cloudWorkers: "Cloud workers",
     chat: "Chat",
     dashboards: "Dashboards",
-    custodian: "Zero to Agent",
+    custodian: "OpenAgent",
     profile: "Profile",
     communications: "Communications",
     appearance: "Appearance",
@@ -2506,7 +2505,7 @@ export const en: TranslationMap & {
     commandHint: "Try /models or /help.",
     heading: "Connect a verified AI model",
     intro:
-      "Zero to Agent discovers AI access on this Gateway. Choose a provider to begin; nothing is selected, tested, installed, or saved automatically.",
+      "OpenAgent discovers AI access on this Gateway. Choose a provider to begin; nothing is selected, tested, installed, or saved automatically.",
     required: {
       title: "No AI provider configured",
       body: "Connect a provider and choose a model to send messages.",
@@ -2535,7 +2534,7 @@ export const en: TranslationMap & {
     },
     access: {
       adminRequired: "Model setup requires operator.admin access.",
-      gatewayTooOld: "The Gateway is running an older Zero to Agent version",
+      gatewayTooOld: "The Gateway is running an older OpenAgent version",
     },
     candidates: {
       title: "Found on this Gateway",
@@ -2549,7 +2548,7 @@ export const en: TranslationMap & {
     },
     nativeDiscovery: {
       title: "Discover existing conversations",
-      body: "Show native assistant conversations from this Gateway host in Zero to Agent. This is discovery, not an import or copy.",
+      body: "Show native assistant conversations from this Gateway host in OpenAgent. This is discovery, not an import or copy.",
       enable: "Show existing native conversations",
       decline:
         "Leave unchecked to keep native session catalogs off when you connect your AI provider. Existing installations are not changed.",
@@ -2590,12 +2589,12 @@ export const en: TranslationMap & {
       accessValueFor: "{provider} API key or token",
       accessValuePlaceholder: "Paste an API key or token",
       connectAndVerify: "Connect & verify",
-      verifyHint: "Zero to Agent verifies a real model reply before marking the connection ready.",
+      verifyHint: "OpenAgent verifies a real model reply before marking the connection ready.",
       required: "Choose a provider and enter an API key or token.",
     },
     success: {
       title: "Connection verified",
-      body: "Zero to Agent received a real reply from {modelRef}. You can start chatting now.",
+      body: "OpenAgent received a real reply from {modelRef}. You can start chatting now.",
       activeModel: "Active model",
       latency: "Verified in {latencyMs} ms",
       openChat: "Start chatting",
@@ -2652,7 +2651,7 @@ export const en: TranslationMap & {
   onboarding: {
     memoryImport: {
       title: "Bring your assistant memory with you",
-      body: "Zero to Agent found memory from other coding assistants. Import it into your agent workspace?",
+      body: "OpenAgent found memory from other coding assistants. Import it into your agent workspace?",
       plannedCount: "{count} ready to import",
       alreadyImported: "Already imported: {count}",
       sourceUnavailable: "Source path unavailable",
@@ -2667,8 +2666,7 @@ export const en: TranslationMap & {
       connectionChanged: "Skipped: the Gateway connection changed during the import",
       unknownError: "Request failed",
       doneTitle: "Memory import finished",
-      doneBody:
-        "Migrated {migrated}, skipped {skipped}. You can continue setting up Zero to Agent.",
+      doneBody: "Migrated {migrated}, skipped {skipped}. You can continue setting up OpenAgent.",
     },
   },
   assistantPanel: {
@@ -2689,30 +2687,30 @@ export const en: TranslationMap & {
     removeSelection: "Remove selected text",
   },
   custodian: {
-    title: "Zero to Agent",
+    title: "OpenAgent",
     subtitleCaretaker: "System setup and care.",
     exitSetup: "Exit setup",
     newAgent: "New agent",
     hatchDraft: "Wake up, my friend!",
-    placeholder: "Message Zero to Agent…",
+    placeholder: "Message OpenAgent…",
     sensitivePlaceholder: "Enter sensitive value…",
     sensitiveReply: "Sensitive reply sent",
     cancel: "Cancel",
     send: "Send",
-    thinking: "Zero to Agent is thinking",
+    thinking: "OpenAgent is thinking",
     earlier: "Earlier",
-    requestFailed: "Zero to Agent could not reply. Try again.",
+    requestFailed: "OpenAgent could not reply. Try again.",
     connectionChanged: "The Gateway connection changed. Retry to continue this setup.",
     sessionRestarted:
-      "{error} Zero to Agent started a fresh session; earlier messages remain for context.",
-    unsupportedGateway: "Update the Gateway to continue setup with Zero to Agent.",
+      "{error} OpenAgent started a fresh session; earlier messages remain for context.",
+    unsupportedGateway: "Update the Gateway to continue setup with OpenAgent.",
     panel: {
-      title: "Zero to Agent",
-      toggle: "Toggle Ask Zero to Agent",
-      close: "Close Ask Zero to Agent",
-      resize: "Resize Ask Zero to Agent",
-      dockBottom: "Dock Ask Zero to Agent at bottom",
-      dockRight: "Dock Ask Zero to Agent at right",
+      title: "OpenAgent",
+      toggle: "Toggle Ask OpenAgent",
+      close: "Close Ask OpenAgent",
+      resize: "Resize Ask OpenAgent",
+      dockBottom: "Dock Ask OpenAgent at bottom",
+      dockRight: "Dock Ask OpenAgent at right",
     },
     history: {
       button: "History",
@@ -2720,7 +2718,7 @@ export const en: TranslationMap & {
       description: "What changed on this system, newest first.",
       loading: "Loading recent changes…",
       empty: "No recorded changes yet.",
-      requestFailed: "Zero to Agent could not load change history.",
+      requestFailed: "OpenAgent could not load change history.",
       loadMore: "Load more",
       loadingMore: "Loading more…",
       changedPaths: "Changed paths ({count})",
@@ -2743,9 +2741,9 @@ export const en: TranslationMap & {
       channelDegraded: "{channel} is degraded — ask me what happened",
       channelFallback: "A channel",
       dismiss: "Dismiss this update",
-      channelSetupTitle: "Reach Zero to Agent outside this app",
+      channelSetupTitle: "Reach OpenAgent outside this app",
       channelSetupBody:
-        "The web app already works. Add a channel only if you want to message Zero to Agent from another service.",
+        "The web app already works. Add a channel only if you want to message OpenAgent from another service.",
       channelSetupAction: "Set up a channel",
       channelSetupDismiss: "Keep using the web app",
       channelStatusErrorTitle: "Channel status is unavailable",
@@ -2783,7 +2781,7 @@ export const en: TranslationMap & {
     working: "Working…",
   },
   mcpPage: {
-    intro: "Connect and manage MCP servers that provide tools to Zero to Agent.",
+    intro: "Connect and manage MCP servers that provide tools to OpenAgent.",
     servers: "Servers",
     oauth: "OAuth",
     filtered: "Filtered",
@@ -2841,7 +2839,7 @@ export const en: TranslationMap & {
     },
   },
   memoryPage: {
-    intro: "Choose how Zero to Agent stores, searches, and maintains agent memory.",
+    intro: "Choose how OpenAgent stores, searches, and maintains agent memory.",
     tablistLabel: "Memory sections",
     tabs: {
       overview: "Overview",
@@ -2935,7 +2933,7 @@ export const en: TranslationMap & {
       description:
         "Exactly one memory plugin owns the memory slot. Selecting an engine enables it and disables the others.",
       rowTitle: "Memory engine",
-      openClawMemory: "Zero to Agent Memory",
+      openClawMemory: "OpenAgent Memory",
       off: "Off",
       unavailable: "Unavailable",
       autoHint: "No engine is pinned in config, so the slot falls back to its default owner.",
@@ -3121,7 +3119,7 @@ export const en: TranslationMap & {
     },
   },
   aboutPage: {
-    productName: "Zero to Agent",
+    productName: "OpenAgent",
     tagline: "Your personal AI assistant, running on your own devices.",
     waveHello: "Wave hello to Clawd",
     linksLabel: "Community and resources",
@@ -3131,7 +3129,7 @@ export const en: TranslationMap & {
     linkDiscord: "Discord",
     linkX: "X (Twitter)",
     linkChangelog: "Changelog",
-    license: "© 2026 OpenClaw Foundation — MIT License.",
+    license: "© 2026 Celaya Solutions — MIT License.",
     artifactTitle: "Control UI",
     artifactSubtitle: "Identity embedded when this browser artifact was built.",
     artifactDetails: "Control UI build details",
@@ -3150,7 +3148,7 @@ export const en: TranslationMap & {
       "Reported by the active Gateway connection; separate from this Control UI build.",
   },
   appsPage: {
-    heroTitle: "Take Zero to Agent everywhere",
+    heroTitle: "Take OpenAgent everywhere",
     heroTagline:
       "Companion apps for your phone, watch, desktop, and browser — plus plugins to extend what your agent can do.",
     sectionMobile: "On your phone",
@@ -3176,11 +3174,11 @@ export const en: TranslationMap & {
     cards: {
       ios: {
         title: "iPhone",
-        desc: "Chat, talk, approve actions, and share into Zero to Agent from iOS.",
+        desc: "Chat, talk, approve actions, and share into OpenAgent from iOS.",
       },
       android: {
         title: "Android",
-        desc: "Your Android phone as a full Zero to Agent device — chat, camera, and Canvas.",
+        desc: "Your Android phone as a full OpenAgent device — chat, camera, and Canvas.",
       },
       appleWatch: {
         title: "Apple Watch",
@@ -3188,7 +3186,7 @@ export const en: TranslationMap & {
       },
       wearOs: {
         title: "Wear OS",
-        desc: "The Android companion extends Zero to Agent to your watch.",
+        desc: "The Android companion extends OpenAgent to your watch.",
       },
       macos: {
         title: "macOS",
@@ -3196,7 +3194,7 @@ export const en: TranslationMap & {
       },
       windows: {
         title: "Windows",
-        desc: "The Windows companion connects your PC as a Zero to Agent device.",
+        desc: "The Windows companion connects your PC as an OpenAgent device.",
       },
       linux: {
         title: "Linux",
@@ -3204,11 +3202,11 @@ export const en: TranslationMap & {
       },
       chrome: {
         title: "Chrome extension",
-        desc: "Let Zero to Agent drive your existing Chrome — tabs, pages, and forms.",
+        desc: "Let OpenAgent drive your existing Chrome — tabs, pages, and forms.",
       },
       plugins: {
         title: "Plugins & ClawHub",
-        desc: "Extend Zero to Agent with channels, tools, and skills from the community.",
+        desc: "Extend OpenAgent with channels, tools, and skills from the community.",
       },
     },
   },
@@ -3603,7 +3601,7 @@ export const en: TranslationMap & {
     selfLearning: {
       pitchTitle: "Turn on self-learning",
       pitchBody:
-        "Zero to Agent learns from completed work and improves reusable skills in the background. Reviews use your configured model.",
+        "OpenAgent learns from completed work and improves reusable skills in the background. Reviews use your configured model.",
       enable: "Enable self-learning",
       enabling: "Enabling\u2026",
       updateError: "Could not update the self-learning setting.",
@@ -4781,11 +4779,11 @@ export const en: TranslationMap & {
       remoteViewOnly: "This session is on a paired device and is view-only.",
       unsupportedViewOnly: "This external session source is view-only.",
       sessionMenu: "External session actions",
-      openInOpenClaw: "Open in Zero to Agent",
+      openInOpenClaw: "Open in OpenAgent",
       openInTerminal: "Open in terminal",
       deleteSession: "Delete",
       deleteSessionConfirm:
-        "Delete this external session from Zero to Agent? Make sure no other runner is using it. Beamed sessions are deleted permanently. Sessions kept by another tool, such as Codex, are archived there and may be restorable.",
+        "Delete this external session from OpenAgent? Make sure no other runner is using it. Beamed sessions are deleted permanently. Sessions kept by another tool, such as Codex, are archived there and may be restorable.",
       terminalUnavailable: "Terminal opening is unavailable for this session.",
     },
     taskSuggestions: {
@@ -4854,7 +4852,7 @@ export const en: TranslationMap & {
     followUpModeOverriding: "Overriding server default ({mode})",
     followUpModeReset: "Reset to server default",
     catalogOpenTarget: "Open external sessions in",
-    catalogOpenTargetViewer: "Zero to Agent viewer",
+    catalogOpenTargetViewer: "OpenAgent viewer",
     catalogOpenTargetTerminal: "Terminal",
     catalogOutputTruncated: "[Output truncated]",
     onboardingDisabled: "Disabled during setup",
@@ -4900,7 +4898,7 @@ export const en: TranslationMap & {
       titleOne: "1 cloud workspace conflict",
       titleMany: "{count} cloud workspace conflicts",
       description:
-        "Zero to Agent kept your local versions and applied the other cloud changes. Inspect the staged result or take its version for a conflicted path.",
+        "OpenAgent kept your local versions and applied the other cloud changes. Inspect the staged result or take its version for a conflicted path.",
       summary: "Local versions kept; inspect or take the cloud version.",
       showCommands: "Show commands",
       morePaths: "+{count} more paths",
@@ -4913,7 +4911,7 @@ export const en: TranslationMap & {
       commandHelp:
         "Run these in Bash or zsh (Git Bash on Windows). If inspect says the path does not exist, the cloud deleted it; verify and remove the local path manually. If checkout reports a file/directory conflict, move or remove the blocking local path, then retry. If the staged ref is missing, the notice is stale; do not change the local path.",
       commandsUnavailable:
-        "This filename contains terminal control characters, so Zero to Agent will not build a copyable shell command for it. Inspect the staged ref directly and enter the path manually with care.",
+        "This filename contains terminal control characters, so OpenAgent will not build a copyable shell command for it. Inspect the staged ref directly and enter the path manually with care.",
       dismiss: "Dismiss workspace conflict notice",
       eventSender: "Cloud workspace",
       eventTitleOne: "Cloud result applied with 1 conflict",
@@ -5646,7 +5644,7 @@ export const en: TranslationMap & {
       video: "Video",
     },
     voice: {
-      asking: "Asking Zero to Agent...",
+      asking: "Asking OpenAgent...",
       preparing: "Preparing voice session...",
       connecting: "Connecting voice input...",
       listening: "Listening...",
@@ -5972,7 +5970,7 @@ export const en: TranslationMap & {
       filters: "Filters",
       shownOf: "{shown} of {total}",
       emptyTitle: "No automations yet",
-      emptyHint: "Describe what Zero to Agent should do and when — it runs on schedule.",
+      emptyHint: "Describe what OpenAgent should do and when — it runs on schedule.",
       noMatching: "No automations match the current filters.",
       loadMore: "Load more",
       loading: "Loading...",
@@ -6040,7 +6038,7 @@ export const en: TranslationMap & {
     detail: {
       tabsLabel: "Automation details",
       newTitle: "New automation",
-      newSubtitle: "Describe what Zero to Agent should do, then pick when it runs.",
+      newSubtitle: "Describe what OpenAgent should do, then pick when it runs.",
       back: "All automations",
       settingsTab: "Settings",
       historyTitle: "Run history",
@@ -6134,7 +6132,7 @@ export const en: TranslationMap & {
       descriptionPlaceholder: "Optional context for this task",
       agentPlaceholder: "main or ops",
       agentHelp: "Start typing to pick a known agent, or enter a custom one.",
-      promptPlaceholder: "Describe what Zero to Agent should do...",
+      promptPlaceholder: "Describe what OpenAgent should do...",
       repeat: "Repeat",
       repeatInterval: "Interval",
       repeatOnce: "Once",

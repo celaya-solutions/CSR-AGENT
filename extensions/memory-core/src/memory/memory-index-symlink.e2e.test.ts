@@ -1,4 +1,4 @@
-// E2E coverage for memory indexing through the built Zero to Agent CLI.
+// E2E coverage for memory indexing through the built OpenAgent CLI.
 import { spawnSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";

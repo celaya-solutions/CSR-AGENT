@@ -3,7 +3,7 @@ import EventKit
 import Foundation
 import Photos
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct DevicePermissionsTests {
     @Test func `contacts statuses map to shared grants`() {

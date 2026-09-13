@@ -391,7 +391,7 @@ function approvalRun(overrides: Record<string, unknown> = {}) {
     repository: "openclaw/openclaw",
     status: "in_progress",
     url: "https://github.com/openclaw/openclaw/actions/runs/123",
-    workflowName: "Zero to Agent Release Publish",
+    workflowName: "OpenAgent Release Publish",
     ...overrides,
   };
 }
@@ -405,7 +405,7 @@ function writeClawHubApproval(overrides: Record<string, unknown> = {}) {
       version: 2,
       kind: "clawhub-bootstrap",
       repository: "openclaw/openclaw",
-      workflow: "Zero to Agent Release Publish",
+      workflow: "OpenAgent Release Publish",
       parentRunId: "123",
       parentRunAttempt: 2,
       workflowBranch: "main",

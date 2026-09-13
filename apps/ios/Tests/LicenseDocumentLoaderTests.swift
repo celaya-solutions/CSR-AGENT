@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct LicenseDocumentLoaderTests {
     @Test func `loads only utf8 text licenses sorted alphabetically by title`() throws {

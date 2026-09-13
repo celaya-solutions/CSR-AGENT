@@ -1,4 +1,4 @@
-// Host Server script supports OpenClaw repository automation.
+// Host Server script supports OpenAgent repository automation.
 import { spawn, type ChildProcess } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { rm } from "node:fs/promises";

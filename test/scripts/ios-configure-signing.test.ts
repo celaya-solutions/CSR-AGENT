@@ -58,7 +58,7 @@ describe("scripts/ios-configure-signing.sh", { concurrent: false }, () => {
     cleanupTempDirs(tempDirs);
   });
 
-  it("uses the canonical app bundle ID for the canonical Zero to Agent team", () => {
+  it("uses the canonical app bundle ID for the canonical OpenAgent team", () => {
     const stdout = runConfigureSigning("FWJYW4S8P8");
     const generated = readGeneratedSigning();
 

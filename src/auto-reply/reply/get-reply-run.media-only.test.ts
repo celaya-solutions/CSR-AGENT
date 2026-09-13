@@ -3593,7 +3593,7 @@ describe("runPreparedReply media-only handling", () => {
     expect(call?.followupRun.currentInboundContext?.text).toContain(
       "#35675 obviyus ->#35674: Are you fr fr",
     );
-    expect(call?.followupRun.currentInboundContext?.text).toContain("[Zero to Agent room event]");
+    expect(call?.followupRun.currentInboundContext?.text).toContain("[OpenAgent room event]");
     expect(call?.followupRun.currentInboundContext?.text).toContain(
       ROOM_EVENT_MESSAGE_TOOL_DIRECTIVE,
     );
@@ -3860,11 +3860,11 @@ describe("runPreparedReply media-only handling", () => {
   });
 
   it.each([
-    ["heartbeat", undefined, "heartbeat", "[Zero to Agent heartbeat poll]"],
-    ["cron", undefined, "cron", "[Zero to Agent cron wake]"],
-    ["exec", undefined, "exec", "[Zero to Agent exec completion]"],
-    ["heartbeat", "background-task", "background-task", "[Zero to Agent session event]"],
-    ["heartbeat", "exec-event", "exec-event", "[Zero to Agent exec completion]"],
+    ["heartbeat", undefined, "heartbeat", "[OpenAgent heartbeat poll]"],
+    ["cron", undefined, "cron", "[OpenAgent cron wake]"],
+    ["exec", undefined, "exec", "[OpenAgent exec completion]"],
+    ["heartbeat", "background-task", "background-task", "[OpenAgent session event]"],
+    ["heartbeat", "exec-event", "exec-event", "[OpenAgent exec completion]"],
   ] as const)(
     "keeps %s wake metadata private and preserves %s event provenance",
     async (source, suppliedSourceTool, expectedSourceTool, transcriptPrompt) => {
@@ -4628,8 +4628,8 @@ describe("runPreparedReply media-only handling", () => {
       expect(call?.commandBody).toContain("telegram-user-1");
       expect(call?.followupRun.prompt).toContain("A new session was started via /new or /reset.");
       expect(call?.followupRun.prompt).toContain("Sender:");
-      expect(call?.transcriptCommandBody).toBe(`[Zero to Agent session ${startupAction}]`);
-      expect(call?.followupRun.transcriptPrompt).toBe(`[Zero to Agent session ${startupAction}]`);
+      expect(call?.transcriptCommandBody).toBe(`[OpenAgent session ${startupAction}]`);
+      expect(call?.followupRun.transcriptPrompt).toBe(`[OpenAgent session ${startupAction}]`);
       expect(call?.followupRun.transcriptPrompt).not.toContain("Sender:");
     },
   );

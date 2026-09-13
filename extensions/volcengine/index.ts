@@ -1,4 +1,4 @@
-// Volcengine plugin entrypoint registers its Zero to Agent integration.
+// Volcengine plugin entrypoint registers its OpenAgent integration.
 import { buildOpenAICompatibleProviderFamilyCatalog } from "openclaw/plugin-sdk/provider-catalog-live-runtime";
 import { readManifestProviderDefaultModelRef } from "openclaw/plugin-sdk/provider-catalog-shared";
 import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";

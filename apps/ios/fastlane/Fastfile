@@ -1856,7 +1856,7 @@ def capture_release_ios_screenshot!(
     FileUtils.rm_f(expected_screenshot_path)
     FileUtils.rm_rf(result_bundle_path)
     begin
-      # OpenClaw owns retries of the whole capture action; Fastlane may still
+      # OpenAgent owns retries of the whole capture action; Fastlane may still
       # retry simulator launch internally. Each action call creates a new
       # xcodebuild/TestManager session and reboots the selected simulator.
       capture_ios_screenshots(
@@ -1947,7 +1947,7 @@ def build_app_store_release(context)
       "-project",
       project_path,
       "-scheme",
-      "OpenClaw",
+      "OpenAgent",
       "-configuration",
       "Release",
       "-destination",
@@ -2325,7 +2325,7 @@ platform :ios do
       api_key: api_key,
       force: true,
       app_version: version_metadata[:short_version],
-      copyright: "2026 OpenClaw",
+      copyright: "2026 OpenAgent",
       primary_category: "PRODUCTIVITY",
       secondary_category: "UTILITIES",
       metadata_path: metadata_path,

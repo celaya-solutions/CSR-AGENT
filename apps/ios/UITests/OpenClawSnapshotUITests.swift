@@ -193,7 +193,7 @@ final class OpenClawSnapshotUITests: XCTestCase {
         XCTAssertGreaterThan(newChat.frame.minY, agentSelector.frame.maxY)
 
         let gatewayFooter = try XCTUnwrap(self.app?.buttons.matching(
-            NSPredicate(format: "label CONTAINS %@", "OpenClaw Gateway")).firstMatch)
+            NSPredicate(format: "label CONTAINS %@", "OpenAgent Gateway")).firstMatch)
         XCTAssertTrue(gatewayFooter.exists)
         let settings = try XCTUnwrap(self.app?.buttons["RootTabs.Sidebar.Destination.settings"])
         XCTAssertTrue(settings.exists)
@@ -774,7 +774,7 @@ final class OpenClawSnapshotUITests: XCTestCase {
         self.attachScreenshot(named: "chat-empty-starters")
 
         starter.tap()
-        let sentText = "Summarize the current OpenClaw status and tell me what needs attention."
+        let sentText = "Summarize the current OpenAgent status and tell me what needs attention."
         let sentRows = self.app?.staticTexts.matching(NSPredicate(format: "label == %@", sentText))
         XCTAssertTrue(sentRows?.firstMatch.waitForExistence(timeout: 5) == true)
         XCTAssertEqual(sentRows?.count, 1)
@@ -1434,7 +1434,7 @@ extension OpenClawSnapshotUITests {
         let readiness = self.readinessMarker(in: app)
         XCTAssertTrue(
             readiness.waitForExistence(timeout: 8),
-            "OpenClaw root readiness marker did not appear")
+            "OpenAgent root readiness marker did not appear")
         if screenshotMode {
             self.waitForValue("ready:\(target.initialDestination)", of: readiness, timeout: 8)
         }
@@ -1474,7 +1474,7 @@ extension OpenClawSnapshotUITests {
         self.launchApp(for: target)
         self.waitForReleaseScreenshotTarget(target)
         guard let app = self.app else {
-            XCTFail("OpenClaw is not running for screenshot target \(target.name)")
+            XCTFail("OpenAgent is not running for screenshot target \(target.name)")
             return
         }
         beforeCapture?(app)
@@ -1484,7 +1484,7 @@ extension OpenClawSnapshotUITests {
 
     private func waitForReleaseScreenshotTarget(_ target: ScreenshotTarget) {
         guard let app = self.app else {
-            XCTFail("OpenClaw is not running for screenshot target \(target.name)")
+            XCTFail("OpenAgent is not running for screenshot target \(target.name)")
             return
         }
         let anchor = self.destinationAnchor(in: app, destination: target.initialDestination)
@@ -1501,7 +1501,7 @@ extension OpenClawSnapshotUITests {
         app.terminate()
         XCTAssertTrue(
             app.wait(for: .notRunning, timeout: 5),
-            "OpenClaw did not terminate before the next launch",
+            "OpenAgent did not terminate before the next launch",
             file: file,
             line: line)
         self.app = nil

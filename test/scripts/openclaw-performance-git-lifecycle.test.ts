@@ -14,7 +14,7 @@ beforeAll(() => {
 const posixIt = it.skipIf(process.platform === "win32").concurrent;
 
 const steps = {
-  target: ["resolve_target", "Resolve Zero to Agent target ref"],
+  target: ["resolve_target", "Resolve OpenAgent target ref"],
   record: ["source_performance", "Record source performance revision"],
   tested: ["kova", "Record tested revision"],
   kova: ["kova", "Install OCM and Kova"],

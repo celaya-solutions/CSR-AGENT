@@ -199,7 +199,7 @@ final class PostUpdateModel {
     }
 
     var phase: Phase = .checking
-    var title = String(localized: "Finishing your OpenClaw update")
+    var title = String(localized: "Finishing your OpenAgent update")
     var message = String(localized: "Checking the Mac app and Gateway…")
     var details: String?
 
@@ -310,7 +310,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
         let hosting = NSHostingController(rootView: PostUpdateView(model: model))
         let window = NSWindow(contentViewController: hosting)
         window.isRestorable = false
-        window.title = String(localized: "OpenClaw updated")
+        window.title = String(localized: "OpenAgent updated")
         window.setContentSize(NSSize(width: 560, height: 600))
         window.styleMask = OnboardingController.windowStyleMask
         window.contentMinSize = NSSize(width: 560, height: 600)
@@ -329,7 +329,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
     private func run() {
         guard let receipt, task == nil else { return }
         self.model.phase = .checking
-        self.model.title = String(localized: "Finishing your OpenClaw update")
+        self.model.title = String(localized: "Finishing your OpenAgent update")
         self.model.message = String(localized: "Checking the Mac app and Gateway…")
         self.model.details = nil
         self.window?.standardWindowButton(.closeButton)?.isEnabled = false
@@ -443,7 +443,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
             guard installed else {
                 self.fail(
                     message: String(localized: "Gateway recovery failed."),
-                    details: String(localized: "The managed OpenClaw runtime could not be reinstalled."))
+                    details: String(localized: "The managed OpenAgent runtime could not be reinstalled."))
                 return
             }
         }
@@ -499,36 +499,36 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
         self.model.phase = .complete
         self.model.title = String(localized: "Welcome back")
         self.model.message = connectionMode == .local
-            ? String(format: String(localized: "OpenClaw %@ and its Gateway are ready."), receipt.toVersion)
-            : String(format: String(localized: "OpenClaw %@ and its Mac node runtime are ready."), receipt.toVersion)
+            ? String(format: String(localized: "OpenAgent %@ and its Gateway are ready."), receipt.toVersion)
+            : String(format: String(localized: "OpenAgent %@ and its Mac node runtime are ready."), receipt.toVersion)
         self.model.details = switch (notification, notificationRetryScheduled) {
         case (.retryLater, true):
-            String(localized: "Your agent could not be notified yet. OpenClaw will retry after the next app launch.")
+            String(localized: "Your agent could not be notified yet. OpenAgent will retry after the next app launch.")
         case (.retryLater, false):
             if connectionMode == .local {
                 String(
                     localized: """
-                    OpenClaw could not notify your agent automatically. \
+                    OpenAgent could not notify your agent automatically. \
                     The app and Gateway update are complete.
                     """)
             } else {
                 String(
                     localized: """
-                    OpenClaw could not notify your agent automatically. \
+                    OpenAgent could not notify your agent automatically. \
                     The app and Mac node update are complete.
                     """)
             }
         case (.deliveryUnconfirmed, _):
             String(
                 localized: """
-                OpenClaw could not confirm the agent notification. \
+                OpenAgent could not confirm the agent notification. \
                 It will not retry, to avoid a duplicate welcome.
                 """)
         case (.skippedUnsupportedGateway, _):
             String(
-                localized: "The remote Gateway is older than this Mac app, so OpenClaw skipped the agent notification.")
+                localized: "The remote Gateway is older than this Mac app, so OpenAgent skipped the agent notification.")
         case (.skippedWhilePaused, _):
-            String(localized: "The Gateway remains paused, so OpenClaw did not wake your agent.")
+            String(localized: "The Gateway remains paused, so OpenAgent did not wake your agent.")
         default:
             nil
         }
@@ -597,7 +597,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
             self.fail(
                 message: String(localized: "The Gateway could not reconnect."),
                 details: String(
-                    localized: "OpenClaw installed the update but could not verify the Gateway connection."))
+                    localized: "OpenAgent installed the update but could not verify the Gateway connection."))
             return false
         }
         return true
@@ -649,7 +649,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
         }
 
         let text =
-            "OpenClaw updated to \(version). Briefly welcome the user back and say you are updated, " +
+            "OpenAgent updated to \(version). Briefly welcome the user back and say you are updated, " +
             "then continue normally."
         self.receipt = PostAppUpdateReceiptStore.setNotificationInFlight(
             true,
@@ -805,7 +805,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
                 message: String(localized: "The Gateway could not be checked."),
                 details: String(
                     localized: """
-                    OpenClaw could not read the Gateway service ownership record. \
+                    OpenAgent could not read the Gateway service ownership record. \
                     Retry after checking the Gateway LaunchAgent.
                     """))
         case .remote:
@@ -813,7 +813,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
                 message: String(localized: "The Mac node could not be checked."),
                 details: String(
                     localized: """
-                    OpenClaw could not read the node service ownership record. \
+                    OpenAgent could not read the node service ownership record. \
                     Retry after checking the node LaunchAgent.
                     """))
         case .unconfigured:

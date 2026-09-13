@@ -1,10 +1,10 @@
-# OpenClaw gateway — Podman Quadlet (rootless)
+# OpenAgent gateway — Podman Quadlet (rootless)
 # Installed by scripts/podman/setup.sh into the current user's ~/.config/containers/systemd/
 # {{OPENCLAW_HOME}}, {{OPENCLAW_CONFIG_DIR}}, {{OPENCLAW_WORKSPACE_DIR}},
 # {{IMAGE_NAME}}, and {{CONTAINER_NAME}} are replaced at install time.
 
 [Unit]
-Description=OpenClaw gateway (rootless Podman)
+Description=OpenAgent gateway (rootless Podman)
 
 [Container]
 Image={{IMAGE_NAME}}

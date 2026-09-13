@@ -23,8 +23,8 @@ Socket Mode and HTTP Request URLs reach feature parity for messaging, slash comm
 | Horizontal scaling           | One Socket Mode session per app per host; multiple Gateways need separate Slack apps                                                                        | Stateless POST handler; multiple Gateway replicas can share one app behind a load balancer                     |
 | Multi-account on one Gateway | Supported; each account opens its own WS                                                                                                                    | Supported; each account needs a unique `webhookPath` (default `/slack/events`) so registrations do not collide |
 | Slash command transport      | Delivered over the WS connection; `slash_commands[].url` is ignored                                                                                         | Slack POSTs to `slash_commands[].url`; field is required for the command to dispatch                           |
-| Request signing              | Not used (auth is the App-Level Token)                                                                                                                      | Slack signs every request; Zero to Agent verifies with `signingSecret`                                         |
-| Recovery on connection drop  | Slack SDK auto-reconnect is enabled; Zero to Agent also restarts failed Socket Mode sessions with bounded backoff. A fixed 15s client pong timeout applies. | No persistent connection to drop; retries are per-request from Slack                                           |
+| Request signing              | Not used (auth is the App-Level Token)                                                                                                                      | Slack signs every request; OpenAgent verifies with `signingSecret`                                         |
+| Recovery on connection drop  | Slack SDK auto-reconnect is enabled; OpenAgent also restarts failed Socket Mode sessions with bounded backoff. A fixed 15s client pong timeout applies. | No persistent connection to drop; retries are per-request from Slack                                           |
 
 <Note>
   **Pick Socket Mode** for single-Gateway hosts, dev laptops, and on-prem networks that can reach `*.slack.com` outbound but cannot accept inbound HTTPS.
@@ -33,12 +33,12 @@ Socket Mode and HTTP Request URLs reach feature parity for messaging, slash comm
 </Note>
 
 <Warning>
-  Slack can maintain multiple Socket Mode connections for one app and may deliver each payload to any connection. Separate Zero to Agent gateways that share a Slack app therefore need equivalent routing and authorization configuration. Otherwise, use a separate Slack app per gateway, a single relay ingress, or HTTP Request URLs behind a load balancer. See [Using Socket Mode](https://docs.slack.dev/apis/events-api/using-socket-mode#using-multiple-connections).
+  Slack can maintain multiple Socket Mode connections for one app and may deliver each payload to any connection. Separate OpenAgent gateways that share a Slack app therefore need equivalent routing and authorization configuration. Otherwise, use a separate Slack app per gateway, a single relay ingress, or HTTP Request URLs behind a load balancer. See [Using Socket Mode](https://docs.slack.dev/apis/events-api/using-socket-mode#using-multiple-connections).
 </Warning>
 
 ### Relay mode
 
-Relay mode separates Slack ingress from the Zero to Agent gateway. A trusted router owns the single Slack Socket Mode connection, chooses a destination gateway, and forwards a typed event over an authenticated websocket. The gateway still uses its own bot token for outbound Slack Web API calls.
+Relay mode separates Slack ingress from the OpenAgent gateway. A trusted router owns the single Slack Socket Mode connection, chooses a destination gateway, and forwards a typed event over an authenticated websocket. The gateway still uses its own bot token for outbound Slack Web API calls.
 
 ```json5
 {
@@ -62,7 +62,7 @@ Relay WebSocket connections honor the Gateway host's proxy environment (`HTTPS_P
 
 ## Socket Mode transport tuning
 
-Zero to Agent sets the Slack SDK client pong timeout to 15 seconds for Socket Mode. This is a fixed internal default and is not operator-configurable.
+OpenAgent sets the Slack SDK client pong timeout to 15 seconds for Socket Mode. This is a fixed internal default and is not operator-configurable.
 
 Notes:
 

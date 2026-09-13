@@ -4,7 +4,7 @@ import Foundation
 import Observation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 @MainActor

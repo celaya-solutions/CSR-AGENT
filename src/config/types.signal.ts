@@ -57,7 +57,7 @@ export type SignalAccountConfig = Omit<CommonChannelMessagingConfig, "mentionPat
     transport?: SignalTransportConfig;
     /** Skip downloading inbound Signal attachments. */
     ignoreAttachments?: boolean;
-    /** Zero to Agent-side target aliases keyed by friendly name. */
+    /** OpenAgent-side target aliases keyed by friendly name. */
     aliases?: Record<string, string>;
     /** Per-group overrides keyed by Signal group id (or "*"). */
     groups?: Record<string, SignalGroupConfig>;

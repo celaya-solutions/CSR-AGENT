@@ -273,14 +273,14 @@ export function enforceSupportedNodeRuntime(
   }
 
   const requirement = engine
-    ? `this OpenClaw release requires Node ${engine}.`
-    : "could not read this OpenClaw release's Node requirement.";
+    ? `this OpenAgent release requires Node ${engine}.`
+    : "could not read this OpenAgent release's Node requirement.";
   reportError(
     [
       `[openclaw] error: ${requirement}`,
       `[openclaw] detected Node ${detectedRuntime?.version ?? "missing"} (exec: ${detectedRuntime?.execPath || "unknown"}).`,
       "[openclaw] install Node: https://nodejs.org/en/download",
-      "[openclaw] upgrade Node, then retry the OpenClaw update.",
+      "[openclaw] upgrade Node, then retry the OpenAgent update.",
     ].join("\n"),
   );
   return false;

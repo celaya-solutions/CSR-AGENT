@@ -19,8 +19,8 @@ Root rules still apply. This file adds the iOS release guardrails.
 - The Licenses screen discovers bundled `.txt` files at runtime through `LicenseDocumentLoader`; do not hardcode individual license rows in Swift.
 - License rows are ordered alphabetically in code by derived display title. Do not use numeric filename prefixes for ordering.
 - Filenames should be plain dependency names, for example `WebRTC.txt`; the filename is used only to derive the row title and must not be shown as a row subtitle.
-- Do not add OpenClaw, OpenClaw Foundation, or other first-party/self-owned license entries. The screen is for third-party/open-source dependency acknowledgements.
-- When adding, removing, or upgrading iOS dependencies, audit whether `apps/ios/Resources/Licenses/` needs updates. Exclude dependencies owned by OpenClaw Foundation from the published license list.
+- Do not add OpenAgent, Celaya Solutions, or other first-party/self-owned license entries. The screen is for third-party/open-source dependency acknowledgements.
+- When adding, removing, or upgrading iOS dependencies, audit whether `apps/ios/Resources/Licenses/` needs updates. Exclude dependencies owned by Celaya Solutions from the published license list.
 - When adding, removing, or replacing redistributed font binaries under `apps/ios/Sources/Fonts/`, update `apps/ios/THIRD_PARTY_FONTS.md` with immutable upstream source URLs and SHA-256 checksums for each bundled file.
 - Keep license detail bodies rendered as verbatim monospace text.
 - Keep Licenses in the offline Settings fallback's Device section and in the Dashboard's This iPhone/This iPad page through the native bridge panel.

@@ -303,11 +303,11 @@ export async function prepareUpdateFailureReport(
   const phase = resolveFailedPhase(input.result, steps, context);
   const recovery = resolveRecoveryOutcome(input.result, context);
   const bodyWithoutMarker = [
-    "# Zero to Agent update failure report",
+    "# OpenAgent update failure report",
     "",
-    "This report was explicitly reviewed and confirmed in Zero to Agent.",
+    "This report was explicitly reviewed and confirmed in OpenAgent.",
     "",
-    `- Zero to Agent version: ${version}`,
+    `- OpenAgent version: ${version}`,
     `- Platform: ${platform}`,
     `- Node version: ${sanitizeReportField(process.versions.node ?? "unknown", context)}`,
     `- Update target: ${target}`,
@@ -324,8 +324,8 @@ export async function prepareUpdateFailureReport(
     .digest("hex")}`;
   const body = truncateUtf8Prefix(
     bodyWithoutMarker.replace(
-      "This report was explicitly reviewed and confirmed in Zero to Agent.\n",
-      `This report was explicitly reviewed and confirmed in Zero to Agent.\n\n<!-- ${reconciliationMarker} -->\n`,
+      "This report was explicitly reviewed and confirmed in OpenAgent.\n",
+      `This report was explicitly reviewed and confirmed in OpenAgent.\n\n<!-- ${reconciliationMarker} -->\n`,
     ),
     UPDATE_REPORT_BODY_MAX_BYTES,
   );

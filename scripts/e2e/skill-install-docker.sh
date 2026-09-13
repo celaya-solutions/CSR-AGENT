@@ -3,7 +3,7 @@
 if [[ ${OSTYPE:-} == darwin* && $BASH != /bin/bash ]] && ((BASH_VERSINFO[0] > 5 || (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] >= 3))); then
   exec /bin/bash "$0" "$@"
 fi
-# Installs a prepared OpenClaw npm tarball in Docker and proves live ClawHub
+# Installs a prepared OpenAgent npm tarball in Docker and proves live ClawHub
 # skill install works while uploaded archive installs stay disabled.
 set -euo pipefail
 

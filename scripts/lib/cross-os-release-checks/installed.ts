@@ -146,7 +146,7 @@ $installerPath = Join-Path ([System.IO.Path]::GetTempPath()) ("openclaw-installe
 try {
   & curl.exe -fsSL --connect-timeout ${connectTimeoutSeconds} --max-time ${requestTimeoutSeconds} -o $installerPath '${powerShellSingleQuote(params.installerUrl)}'
   if ($LASTEXITCODE -ne 0) {
-    throw "curl.exe failed to download the OpenClaw installer (exit $LASTEXITCODE)"
+    throw "curl.exe failed to download the OpenAgent installer (exit $LASTEXITCODE)"
   }
   $content = [System.IO.File]::ReadAllText($installerPath, [System.Text.Encoding]::UTF8)
   & ([scriptblock]::Create($content)) -Tag '${powerShellSingleQuote(params.installTarget)}' -NoOnboard

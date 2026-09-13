@@ -270,7 +270,7 @@ function resolveChannelMcpInvocation(params: {
   }
 
   throw new Error(
-    "Zero to Agent channel MCP entry not found: expected dist/index.(m)js or src/mcp/channel-server.ts",
+    "OpenAgent channel MCP entry not found: expected dist/index.(m)js or src/mcp/channel-server.ts",
   );
 }
 

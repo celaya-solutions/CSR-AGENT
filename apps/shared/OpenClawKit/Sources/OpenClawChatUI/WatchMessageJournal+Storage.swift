@@ -68,7 +68,7 @@ extension OpenClawWatchMessageJournal {
     static func requireImport(_ db: Database) throws {
         guard try self.hasImportedLegacyMessages(db) else {
             throw OpenClawWatchChatDeliveryError(
-                code: "migration_pending", message: "Open OpenClaw on iPhone to finish restoring Watch messages.")
+                code: "migration_pending", message: "Open OpenAgent on iPhone to finish restoring Watch messages.")
         }
     }
 
@@ -125,7 +125,7 @@ extension OpenClawWatchMessageJournal {
         OpenClawWatchChatDeliveryError(
             code: OpenClawWatchChatDeliveryCodec.staleRouteCode,
             message: String(localized: """
-            This Watch message belongs to a retired Gateway route. Open OpenClaw on iPhone.
+            This Watch message belongs to a retired Gateway route. Open OpenAgent on iPhone.
             """))
     }
 

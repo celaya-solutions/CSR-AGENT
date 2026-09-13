@@ -1,5 +1,5 @@
 ---
-summary: "Fixes for common Ollama failures in Zero to Agent"
+summary: "Fixes for common Ollama failures in OpenAgent"
 read_when:
   - Ollama is not detected, or no models are available
   - You hit connection refused, garbled output, or timeouts
@@ -23,7 +23,7 @@ sidebarTitle: "Troubleshooting"
     `ollama.service` right after WSL2 startup, and SIGTERM from systemd rather
     than the Linux OOM killer.
 
-    Zero to Agent logs a startup warning when it detects WSL2, `ollama.service`
+    OpenAgent logs a startup warning when it detects WSL2, `ollama.service`
     enabled with `Restart=always`, and visible CUDA markers.
 
     Mitigation:
@@ -88,7 +88,7 @@ sidebarTitle: "Troubleshooting"
 
   </Accordion>
 
-  <Accordion title="Remote host works with curl but not Zero to Agent">
+  <Accordion title="Remote host works with curl but not OpenAgent">
     Verify from the same machine and runtime that runs the Gateway:
 
     ```bash
@@ -175,7 +175,7 @@ sidebarTitle: "Troubleshooting"
   <Accordion title="Large-context model is too slow or runs out of memory">
     Many models advertise contexts larger than your hardware can run
     comfortably. Native requests forward the effective `contextTokens` unless
-    `params.num_ctx` overrides it. Cap both Zero to Agent's budget and Ollama's request
+    `params.num_ctx` overrides it. Cap both OpenAgent's budget and Ollama's request
     context for predictable first-token latency:
 
     ```json5
@@ -198,7 +198,7 @@ sidebarTitle: "Troubleshooting"
     }
     ```
 
-    Lower the model entry's `contextTokens` if Zero to Agent sends too much prompt. Lower
+    Lower the model entry's `contextTokens` if OpenAgent sends too much prompt. Lower
     `params.num_ctx` if Ollama's runtime context is too large for the machine.
     Lower `maxTokens` if generation runs too long.
 

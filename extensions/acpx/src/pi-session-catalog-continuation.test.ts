@@ -90,7 +90,7 @@ afterEach(async () => {
 });
 
 describe("Pi session catalog continuation", () => {
-  it("projects only adopted Pi rows with their Zero to Agent session key", async () => {
+  it("projects only adopted Pi rows with their OpenAgent session key", async () => {
     await createPiStoreFixture(
       temporaryDirectories,
       "hi",

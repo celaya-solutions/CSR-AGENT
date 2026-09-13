@@ -1,5 +1,5 @@
 /**
- * Fast Zero to Agent sessions-tool mocks.
+ * Fast OpenAgent sessions-tool mocks.
  *
  * Stubs unrelated tool factories so sessions/subagent registration tests import cheaply.
  */

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       package_spec:
-        description: Published OpenClaw package spec to test when no artifact is supplied
+        description: Published OpenAgent package spec to test when no artifact is supplied
         required: true
         default: openclaw@beta
         type: string
@@ -31,7 +31,7 @@ on:
         default: ""
         type: string
       package_sha256:
-        description: Expected SHA-256 for the OpenClaw package tarball
+        description: Expected SHA-256 for the OpenAgent package tarball
         required: false
         default: ""
         type: string
@@ -46,7 +46,7 @@ on:
         default: ""
         type: string
       package_file_name:
-        description: Exact OpenClaw tarball filename inside package_artifact_name
+        description: Exact OpenAgent tarball filename inside package_artifact_name
         required: false
         default: ""
         type: string
@@ -56,7 +56,7 @@ on:
         default: ""
         type: string
       package_version:
-        description: Exact OpenClaw package version
+        description: Exact OpenAgent package version
         required: false
         default: ""
         type: string
@@ -145,7 +145,7 @@ on:
         default: false
         type: boolean
       package_spec:
-        description: Published OpenClaw package spec to test when no artifact is supplied
+        description: Published OpenAgent package spec to test when no artifact is supplied
         required: true
         type: string
       package_artifact_name:
@@ -174,12 +174,12 @@ on:
         default: ""
         type: string
       package_sha256:
-        description: Expected SHA-256 for the OpenClaw package tarball
+        description: Expected SHA-256 for the OpenAgent package tarball
         required: false
         default: ""
         type: string
       package_file_name:
-        description: Exact OpenClaw tarball filename inside package_artifact_name
+        description: Exact OpenAgent tarball filename inside package_artifact_name
         required: false
         default: ""
         type: string
@@ -189,7 +189,7 @@ on:
         default: ""
         type: string
       package_version:
-        description: Exact OpenClaw package version
+        description: Exact OpenAgent package version
         required: false
         default: ""
         type: string
@@ -414,11 +414,11 @@ jobs:
               exit 1
             fi
             if [[ "$registry_tuple_fields" -ne 0 ]]; then
-              echo "Prerelease plugin registry inputs require an artifact-backed OpenClaw package." >&2
+              echo "Prerelease plugin registry inputs require an artifact-backed OpenAgent package." >&2
               exit 1
             fi
             if [[ ! "${PACKAGE_SPEC}" =~ ^openclaw@(alpha|beta|latest|[0-9]{4}\.[1-9][0-9]*\.[1-9][0-9]*(-[1-9][0-9]*|-(alpha|beta)\.[1-9][0-9]*)?)$ ]]; then
-              echo "package_spec must be openclaw@alpha, openclaw@beta, openclaw@latest, or an exact OpenClaw release version; got: ${PACKAGE_SPEC}" >&2
+              echo "package_spec must be openclaw@alpha, openclaw@beta, openclaw@latest, or an exact OpenAgent release version; got: ${PACKAGE_SPEC}" >&2
               exit 1
             fi
           elif [[ ! "$PACKAGE_ARTIFACT_DIGEST" =~ ^[0-9a-f]{64}$ ||
@@ -763,7 +763,7 @@ jobs:
               expectedTarballName !== path.basename(tarballPath) ||
               typeof manifest.sha256 !== "string"
             ) {
-              throw new Error("package candidate manifest does not match the OpenClaw tarball");
+              throw new Error("package candidate manifest does not match the OpenAgent tarball");
             }
             const digest = crypto.createHash("sha256").update(fs.readFileSync(tarballPath)).digest("hex");
             if (digest !== manifest.sha256) {

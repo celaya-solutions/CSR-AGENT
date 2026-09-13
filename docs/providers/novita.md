@@ -1,13 +1,13 @@
 ---
-summary: "Use NovitaAI's OpenAI-compatible API with Zero to Agent"
+summary: "Use NovitaAI's OpenAI-compatible API with OpenAgent"
 read_when:
-  - You want to run Zero to Agent with NovitaAI models
+  - You want to run OpenAgent with NovitaAI models
   - You need the Novita provider id, key, or endpoint
 title: "NovitaAI"
 ---
 
 NovitaAI is a hosted AI infrastructure provider with an OpenAI-compatible API.
-Zero to Agent provides NovitaAI through the official external
+OpenAgent provides NovitaAI through the official external
 `@openclaw/novita-provider` plugin. Model refs use the
 `novita/deepseek/deepseek-v4-pro` form.
 

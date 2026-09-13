@@ -210,7 +210,7 @@ describe("collectClawHubPublishablePluginPackages", () => {
   });
 });
 
-describe("Zero to Agent dual-published plugin metadata", () => {
+describe("OpenAgent dual-published plugin metadata", () => {
   const dualPublishedPlugins = [
     {
       extensionId: "cohere",

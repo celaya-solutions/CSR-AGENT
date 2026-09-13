@@ -1,8 +1,8 @@
-# Zero to Agent Qianfan Provider
+# OpenAgent Qianfan Provider
 
-Official Zero to Agent provider plugin for Qianfan.
+Official OpenAgent provider plugin for Qianfan.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/qianfan-provider

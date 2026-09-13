@@ -477,7 +477,7 @@ class ChatComposerLayoutTest {
       assertEquals(readerId, transcript.fetchSemanticsNode().id)
       readerHeaderControl("Jump to latest").assertIsDisplayed().performClick()
       assertEquals(0f, transcript.fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange].value(), 0f)
-      assertReaderMessageVisible("OpenClaw", "Reader answer 24")
+      assertReaderMessageVisible("OpenAgent", "Reader answer 24")
     }
   }
 
@@ -498,7 +498,7 @@ class ChatComposerLayoutTest {
   fun shortLoadedHistoryDoesNotOfferJumpWhenBothRowsFit() {
     withReaderHistory(assistantCount = 1) {
       assertReaderMessageVisible("You", "Reader prompt")
-      assertReaderMessageVisible("OpenClaw", "Reader answer 1")
+      assertReaderMessageVisible("OpenAgent", "Reader answer 1")
       val range = readerTranscript().fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange]
       assertEquals("The short transcript starts at its latest edge", 0f, range.value(), 0f)
       assertEquals("The complete short transcript fits without scrolling", 0f, range.maxValue(), 0f)
@@ -514,7 +514,7 @@ class ChatComposerLayoutTest {
       val initialRange = transcript.fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange]
       assertEquals("The overflowing transcript must start at the latest reply", 0f, initialRange.value(), 0f)
       assertTrue("The sibling remains overflowing at the latest edge", initialRange.maxValue() > 0f)
-      assertReaderMessageVisible("OpenClaw", "Reader answer 24")
+      assertReaderMessageVisible("OpenAgent", "Reader answer 24")
       composeRule.onNodeWithContentDescription(nativeString("Jump to latest")).assertDoesNotExist()
 
       transcript.performTouchInput { swipeDown() }
@@ -527,7 +527,7 @@ class ChatComposerLayoutTest {
       readerHeaderControl("Jump to latest").performClick()
       composeRule.waitForIdle()
 
-      assertReaderMessageVisible("OpenClaw", "Reader answer 24")
+      assertReaderMessageVisible("OpenAgent", "Reader answer 24")
       val range = transcript.fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange]
       assertEquals("Jump reaches the latest edge", 0f, range.value(), 0f)
       assertTrue("The sibling remains overflowing after Jump", range.maxValue() > 0f)
@@ -614,7 +614,7 @@ class ChatComposerLayoutTest {
         composeRule.onAllNodes(control).assertCountEquals(1)
         assertReaderHeaderControl(label)
       }
-      assertReaderMessageVisible("OpenClaw", newest)
+      assertReaderMessageVisible("OpenAgent", newest)
       assertEquals(
         "Jump reaches the refreshed latest edge",
         0f,
@@ -698,7 +698,7 @@ class ChatComposerLayoutTest {
         "Fixture precondition: the transcript viewport must be fully visible: $viewport within $root",
         viewport.left >= root.left && viewport.right <= root.right && viewport.top >= root.top && viewport.bottom <= root.bottom,
       )
-      val replyNode = composeRule.onNode(hasContentDescription(nativeString("OpenClaw")) and hasText(tail))
+      val replyNode = composeRule.onNode(hasContentDescription(nativeString("OpenAgent")) and hasText(tail))
       val atLatest = replyNode.getUnclippedBoundsInRoot()
       assertTrue(
         "Fixture precondition: one actual latest row must exceed the viewport: $atLatest versus $viewport",
@@ -763,7 +763,7 @@ class ChatComposerLayoutTest {
       assertTrue("Resizing grows the actual transcript viewport", after.bottom - after.top > before.bottom - before.top)
       assertReaderMessageVisible("You", "Reader prompt")
       for (index in 1..assistantCount) {
-        assertReaderMessageVisible("OpenClaw", "Reader answer $index")
+        assertReaderMessageVisible("OpenAgent", "Reader answer $index")
       }
       val range = transcript.fetchSemanticsNode().config[SemanticsProperties.VerticalScrollAxisRange]
       assertEquals("The resized transcript reaches its latest edge", 0f, range.value(), 0f)
@@ -857,7 +857,7 @@ class ChatComposerLayoutTest {
       composeRule.runOnIdle { assertEquals("The sidebar action remains reachable", 1, sidebarRequests) }
       readerHeaderControl("Jump to latest").performClick()
       composeRule.waitForIdle()
-      assertReaderMessageVisible("OpenClaw", "Reader answer 24")
+      assertReaderMessageVisible("OpenAgent", "Reader answer 24")
       composeRule.onNodeWithContentDescription(nativeString("Jump to latest")).assertDoesNotExist()
       assertEquals("Changing header actions keeps the same transcript viewport", before, transcript.getUnclippedBoundsInRoot())
 
@@ -1100,13 +1100,13 @@ class ChatComposerLayoutTest {
     listOf(1.3f, 1.5f, 2f).forEach { scale ->
       composeRule.runOnIdle { fontScale.value = scale }
       editor.performTextReplacement("")
-      composeRule.onNodeWithText(nativeString("Message OpenClaw"), useUnmergedTree = true).assertIsDisplayed()
+      composeRule.onNodeWithText(nativeString("Message OpenAgent"), useUnmergedTree = true).assertIsDisplayed()
       val blank = editor.getUnclippedBoundsInRoot()
       assertComposerControlsVisible(talkActive = true)
       composeRule.onNodeWithText("GPT-5.2", useUnmergedTree = true).assertIsDisplayed()
 
-      editor.performTextReplacement("Bonjour OpenClaw")
-      editor.assertTextEquals("Bonjour OpenClaw")
+      editor.performTextReplacement("Bonjour OpenAgent")
+      editor.assertTextEquals("Bonjour OpenAgent")
       val typed = editor.getUnclippedBoundsInRoot()
       val layouts = mutableListOf<TextLayoutResult>()
       editor.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { action -> assertTrue(action(layouts)) }
@@ -4707,7 +4707,7 @@ class ChatComposerLayoutTest {
 
   private fun readerMarkerBounds(
     marker: String,
-    speaker: String = "OpenClaw",
+    speaker: String = "OpenAgent",
   ): DpRect {
     val target =
       composeRule.onNode(
@@ -4758,7 +4758,7 @@ class ChatComposerLayoutTest {
   }
 
   private fun assertReaderHistoryFits(assistantCount: Int): Dp {
-    val messages = listOf("You" to "Reader prompt") + (1..assistantCount).map { index -> "OpenClaw" to "Reader answer $index" }
+    val messages = listOf("You" to "Reader prompt") + (1..assistantCount).map { index -> "OpenAgent" to "Reader answer $index" }
     val rows =
       messages.map { (role, text) ->
         assertReaderMessageVisible(role, text)

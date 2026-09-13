@@ -1,4 +1,4 @@
-// Zero to Agent system-agent approval payload kept live until operator decision.
+// OpenAgent system-agent approval payload kept live until operator decision.
 import type { ExecApprovalDecision } from "./exec-approvals.js";
 
 export type SystemAgentApprovalRequestPayload = {

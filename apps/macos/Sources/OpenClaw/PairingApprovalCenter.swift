@@ -288,7 +288,7 @@ final class PairingApprovalPanelController {
             styleMask: [.titled, .fullSizeContentView],
             backing: .buffered,
             defer: false)
-        panel.title = String(localized: "OpenClaw Pairing Approval")
+        panel.title = String(localized: "OpenAgent Pairing Approval")
         panel.titleVisibility = .hidden
         panel.titlebarAppearsTransparent = true
         for buttonType in [NSWindow.ButtonType.closeButton, .miniaturizeButton, .zoomButton] {

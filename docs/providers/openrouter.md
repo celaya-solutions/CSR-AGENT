@@ -1,8 +1,8 @@
 ---
-summary: "Use OpenRouter's unified API to access many models in Zero to Agent"
+summary: "Use OpenRouter's unified API to access many models in OpenAgent"
 read_when:
   - You want a single API key for many LLMs
-  - You want to run models via OpenRouter in Zero to Agent
+  - You want to run models via OpenRouter in OpenAgent
   - You want to use OpenRouter for image generation
   - You want to use OpenRouter for music generation
   - You want to use OpenRouter for video generation
@@ -10,14 +10,14 @@ title: "OpenRouter"
 ---
 
 OpenRouter routes requests to many models behind one API and one key. It is
-OpenAI-compatible, so Zero to Agent talks to it over the same
+OpenAI-compatible, so OpenAgent talks to it over the same
 `openai-completions`-style transport used for other proxy providers.
 
 ## Getting started
 
 In a private chat, send `/login openrouter` or select OpenRouter from `/login`.
 Choose **Sign in with OpenRouter**, approve access in your browser, and return
-to chat. Zero to Agent receives the browser callback and saves the credential before
+to chat. OpenAgent receives the browser callback and saves the credential before
 reporting success. Use `/login cancel` to cancel a pending sign-in.
 
 Login saves access without choosing a starter model. If current model restrictions
@@ -43,9 +43,9 @@ completion so browsers outside the tailnet can still finish setup.
         openclaw onboard --auth-choice openrouter-oauth
         ```
 
-        Zero to Agent opens OpenRouter's browser sign-in flow (PKCE), exchanges the
+        OpenAgent opens OpenRouter's browser sign-in flow (PKCE), exchanges the
         code for an OpenRouter API key, and stores it in the default
-        OpenRouter auth profile. On remote/headless hosts, Zero to Agent prints the
+        OpenRouter auth profile. On remote/headless hosts, OpenAgent prints the
         sign-in URL and asks you to paste the redirect URL after signing in.
       </Step>
       <Step title="(Optional) Switch to a specific model">
@@ -100,7 +100,7 @@ completion so browsers outside the tailnet can still finish setup.
 <Note>
 Model refs follow the pattern `openrouter/<provider>/<model>`. For the full list of
 providers and models OpenRouter routes to, see [OpenRouter's model catalog](https://openrouter.ai/models).
-For how Zero to Agent resolves model refs and failover, see [Model selection](/concepts/model-providers).
+For how OpenAgent resolves model refs and failover, see [Model selection](/concepts/model-providers).
 </Note>
 
 Bundled starter models enrich a nonempty public catalog. A failed live request
@@ -138,11 +138,11 @@ under `agents.defaults.mediaModels.image`:
 }
 ```
 
-Zero to Agent sends canonical OpenRouter image requests to the dedicated image API
+OpenAgent sends canonical OpenRouter image requests to the dedicated image API
 (`POST /api/v1/images`). Gemini image models additionally receive
 `aspect_ratio` and `resolution` hints, and image edits pass source images as
 `input_references`. Generated images come back as base64 (`b64_json`) with an
-optional `media_type`; when `media_type` is absent, Zero to Agent sniffs the image
+optional `media_type`; when `media_type` is absent, OpenAgent sniffs the image
 format from the bytes.
 
 Configured custom OpenRouter `baseUrl` destinations retain the existing
@@ -171,7 +171,7 @@ OpenRouter can back the `video_generate` tool through its asynchronous
 }
 ```
 
-Zero to Agent submits text-to-video and image-to-video jobs, polls the returned
+OpenAgent submits text-to-video and image-to-video jobs, polls the returned
 `polling_url`, and downloads the finished video from OpenRouter's
 `unsigned_urls` or the job content endpoint. Reference images default to
 first/last-frame images; images tagged `reference_image` are sent as input
@@ -203,7 +203,7 @@ output. Set an OpenRouter audio model under
 ```
 
 The bundled OpenRouter music provider defaults to `google/lyria-3-pro-preview`
-and also exposes `google/lyria-3-clip-preview`. Zero to Agent sends `modalities:
+and also exposes `google/lyria-3-clip-preview`. OpenAgent sends `modalities:
 ["text", "audio"]`, streams the response, collects the audio chunks, and saves
 the result as generated media for channel delivery. Lyria models accept one
 reference image through the shared `music_generate image=...` parameter.
@@ -258,16 +258,16 @@ media understanding preflight.
 }
 ```
 
-Zero to Agent sends OpenRouter STT requests as JSON with base64 audio under
+OpenAgent sends OpenRouter STT requests as JSON with base64 audio under
 `input_audio` (OpenRouter's STT contract), not as multipart OpenAI form
 uploads.
 
 ## Fusion router
 
-OpenRouter Fusion sends one Zero to Agent model ref to several OpenRouter models in
+OpenRouter Fusion sends one OpenAgent model ref to several OpenRouter models in
 parallel, has OpenRouter judge their answers, and returns one final response
 through the normal OpenRouter endpoint. The upstream model slug is
-`openrouter/fusion`, so the Zero to Agent model ref carries both the Zero to Agent
+`openrouter/fusion`, so the OpenAgent model ref carries both the OpenAgent
 provider prefix and the upstream OpenRouter namespace:
 
 ```bash
@@ -311,10 +311,10 @@ omit the `env.vars.OPENROUTER_API_KEY` line below.
 
 `analysis_models` is the parallel panel; `model` inside the Fusion plugin
 config is the judge model. Do not set top-level `tool_choice` to `"required"`
-in normal agent/chat turns to try to force Fusion: Zero to Agent turns can include
+in normal agent/chat turns to try to force Fusion: OpenAgent turns can include
 its own tool definitions, and a top-level required tool choice may pick one of
 those instead of the Fusion router. When this Fusion plugin config is present,
-Zero to Agent adds a sanitized system-prompt note listing the configured analysis
+OpenAgent adds a sanitized system-prompt note listing the configured analysis
 models and judge model, so the agent can answer questions about its own Fusion
 panel. Other `extraBody` fields are not copied into the prompt.
 
@@ -336,7 +336,7 @@ openclaw infer model run --local \
 ## Authentication and headers
 
 OpenRouter uses a Bearer token from your API key. OpenRouter OAuth is a PKCE
-login flow that issues an OpenRouter API key, so Zero to Agent stores the result in
+login flow that issues an OpenRouter API key, so OpenAgent stores the result in
 the same `openrouter:default` API-key auth profile used by manual API-key
 setup.
 
@@ -348,17 +348,17 @@ openclaw models auth login --provider openrouter --method oauth
 openclaw models auth login --provider openrouter --method api-key
 ```
 
-On verified OpenRouter requests (`https://openrouter.ai/api/v1`), Zero to Agent adds
+On verified OpenRouter requests (`https://openrouter.ai/api/v1`), OpenAgent adds
 OpenRouter's documented app-attribution headers:
 
 | Header                    | Value                                                                                                  |
 | ------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `HTTP-Referer`            | `https://openclaw.ai`                                                                                  |
-| `X-OpenRouter-Title`      | `Zero to Agent`                                                                                        |
+| `X-OpenRouter-Title`      | `OpenAgent`                                                                                        |
 | `X-OpenRouter-Categories` | `cli-agent,cloud-agent,programming-app,creative-writing,writing-assistant,general-chat,personal-agent` |
 
 <Warning>
-If you repoint the OpenRouter provider at some other proxy or base URL, Zero to Agent
+If you repoint the OpenRouter provider at some other proxy or base URL, OpenAgent
 does **not** inject those OpenRouter-specific headers or Anthropic cache markers.
 </Warning>
 
@@ -385,7 +385,7 @@ does **not** inject those OpenRouter-specific headers or Anthropic cache markers
     }
     ```
 
-    Zero to Agent sends `X-OpenRouter-Cache: true` and, when configured,
+    OpenAgent sends `X-OpenRouter-Cache: true` and, when configured,
     `X-OpenRouter-Cache-TTL`. `responseCacheClear: true` forces a refresh for
     the current request and stores the replacement response. Snake_case
     aliases (`response_cache`, `response_cache_ttl_seconds`,
@@ -412,7 +412,7 @@ does **not** inject those OpenRouter-specific headers or Anthropic cache markers
   </Accordion>
 
   <Accordion title="Thinking / reasoning injection">
-    On supported non-`auto` routes, Zero to Agent maps the selected thinking level
+    On supported non-`auto` routes, OpenAgent maps the selected thinking level
     to OpenRouter proxy reasoning payloads. `openrouter/auto` and unsupported
     model hints skip that injection. Stale `openrouter/hunter-alpha` refs also
     skip it, because OpenRouter could return final answer text in reasoning
@@ -423,7 +423,7 @@ does **not** inject those OpenRouter-specific headers or Anthropic cache markers
     On verified OpenRouter routes, `openrouter/deepseek/deepseek-v4-flash` and
     `openrouter/deepseek/deepseek-v4-pro` fill missing `reasoning_content` on
     replayed assistant turns, keeping thinking/tool conversations in DeepSeek
-    V4's required follow-up shape. Zero to Agent sends OpenRouter-supported
+    V4's required follow-up shape. OpenAgent sends OpenRouter-supported
     `reasoning.effort` values for these routes: `xhigh`/`max` map to `xhigh`,
     every other non-off level maps to `high`.
   </Accordion>
@@ -435,7 +435,7 @@ does **not** inject those OpenRouter-specific headers or Anthropic cache markers
   </Accordion>
 
   <Accordion title="Gemini-backed routes">
-    Gemini-backed OpenRouter refs stay on the proxy-Gemini path: Zero to Agent keeps
+    Gemini-backed OpenRouter refs stay on the proxy-Gemini path: OpenAgent keeps
     Gemini thought-signature sanitation there, but does not enable native
     Gemini replay validation or bootstrap rewrites.
   </Accordion>
@@ -463,7 +463,7 @@ does **not** inject those OpenRouter-specific headers or Anthropic cache markers
     }
     ```
 
-    Zero to Agent forwards that object to OpenRouter as the request `provider`
+    OpenAgent forwards that object to OpenRouter as the request `provider`
     payload. Use OpenRouter's documented snake_case fields, including `sort`,
     `only`, `ignore`, `order`, `allow_fallbacks`, `require_parameters`,
     `data_collection`, `quantizations`, `max_price`, `preferred_max_latency`,

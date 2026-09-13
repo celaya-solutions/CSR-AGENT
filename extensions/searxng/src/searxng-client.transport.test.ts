@@ -99,9 +99,9 @@ describe("searxng real transport", () => {
         JSON.stringify({
           results: [
             {
-              title: "Zero to Agent",
+              title: "OpenAgent",
               url: "https://docs.openclaw.ai/",
-              content: "Zero to Agent documentation",
+              content: "OpenAgent documentation",
             },
           ],
         }),

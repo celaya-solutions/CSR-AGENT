@@ -675,13 +675,12 @@ export const FIELD_LABELS: Record<string, string> = {
     "Compaction Memory Flush Soft Threshold",
   "agents.defaults.compaction.memoryFlush.forceFlushTranscriptBytes":
     "Compaction Memory Flush Transcript Size Threshold",
-  "agents.defaults.embeddedAgent": "Embedded Zero to Agent",
+  "agents.defaults.embeddedAgent": "Embedded OpenAgent",
   "agents.defaults.embeddedAgent.projectSettingsPolicy":
-    "Embedded Zero to Agent Project Settings Policy",
-  "agents.defaults.embeddedAgent.executionContract": "Embedded Zero to Agent Execution Contract",
-  "agents.entries.*.embeddedAgent": "Agent Embedded Zero to Agent",
-  "agents.entries.*.embeddedAgent.executionContract":
-    "Agent Embedded Zero to Agent Execution Contract",
+    "Embedded OpenAgent Project Settings Policy",
+  "agents.defaults.embeddedAgent.executionContract": "Embedded OpenAgent Execution Contract",
+  "agents.entries.*.embeddedAgent": "Agent Embedded OpenAgent",
+  "agents.entries.*.embeddedAgent.executionContract": "Agent Embedded OpenAgent Execution Contract",
   "agents.defaults.heartbeat.directPolicy": "Heartbeat Direct Policy",
   "agents.defaults.heartbeat.agentId": "Heartbeat Agent",
   "agents.entries.*.heartbeat.directPolicy": "Heartbeat Direct Policy",

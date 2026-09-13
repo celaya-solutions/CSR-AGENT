@@ -63,7 +63,7 @@ public enum ShareGatewayRelaySettings {
                 },
                 discard: {
                     self.defaults.removeObject(forKey: self.relayConfigKey)
-                    self.saveLastEvent("Share unavailable after upgrade: open OpenClaw to reconnect securely.")
+                    self.saveLastEvent("Share unavailable after upgrade: open OpenAgent to reconnect securely.")
                 })
         }
         // Keep relay identity in the Keychain bundle with its secrets. A partial
@@ -105,7 +105,7 @@ public enum ShareGatewayRelaySettings {
             saveMetadata: self.saveMetadata)
         guard saved else {
             self.defaults.removeObject(forKey: self.relayConfigKey)
-            self.saveLastEvent("Share unavailable: reconnect OpenClaw to save gateway access securely.")
+            self.saveLastEvent("Share unavailable: reconnect OpenAgent to save gateway access securely.")
             return false
         }
         return true

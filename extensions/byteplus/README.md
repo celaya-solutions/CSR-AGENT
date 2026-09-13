@@ -1,9 +1,9 @@
-# Zero to Agent BytePlus Provider
+# OpenAgent BytePlus Provider
 
-Official Zero to Agent provider plugin for BytePlus model inference and Seedance
+Official OpenAgent provider plugin for BytePlus model inference and Seedance
 video generation.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/byteplus-provider

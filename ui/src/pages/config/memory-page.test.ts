@@ -80,7 +80,7 @@ describe("MemorySettingsPage engine slot", () => {
             .querySelector("wa-radio-group.settings-segmented")
             ?.querySelectorAll("wa-radio") ?? []),
         ].map((radio) => radio.textContent?.trim()),
-      ).toEqual(["Zero to Agent Memory", "Memory LanceDB", "Off"]);
+      ).toEqual(["OpenAgent Memory", "Memory LanceDB", "Off"]);
     } finally {
       element.remove();
     }

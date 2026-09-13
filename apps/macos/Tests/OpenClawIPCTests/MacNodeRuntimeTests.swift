@@ -3,7 +3,7 @@ import Dispatch
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct MacNodeRuntimeTests {
     private actor ComputerProviderWorkerProbe: MacNodeHostWorking {
@@ -1206,7 +1206,7 @@ struct MacNodeRuntimeTests {
 
         #expect(response.ok == false)
         #expect(response.error?.code == .unavailable)
-        #expect(response.error?.message == "ACCESSIBILITY_REQUIRED: grant Accessibility permission to OpenClaw")
+        #expect(response.error?.message == "ACCESSIBILITY_REQUIRED: grant Accessibility permission to OpenAgent")
     }
 
     @Test func `handle invoke rejects malformed computer act params`() async {

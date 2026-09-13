@@ -417,9 +417,7 @@ describe("completion-runtime", () => {
 
         expect((await fs.lstat(profilePath)).isSymbolicLink()).toBe(true);
         expect(await fs.readlink(profilePath)).toBe(path.join("managed", "zshrc"));
-        await expect(fs.readFile(targetPath, "utf8")).resolves.toContain(
-          "# Zero to Agent Completion",
-        );
+        await expect(fs.readFile(targetPath, "utf8")).resolves.toContain("# OpenAgent Completion");
       });
     },
   );
@@ -444,7 +442,7 @@ describe("completion-runtime", () => {
       await fs.writeFile(cachePath, "complete -W 'status' openclaw\n", "utf-8");
       await fs.writeFile(
         path.join(homeDir, ".bash_profile"),
-        "# Zero to Agent Completion\nexport IMPORTANT=keep\n",
+        "# OpenAgent Completion\nexport IMPORTANT=keep\n",
         "utf-8",
       );
 
@@ -457,7 +455,7 @@ describe("completion-runtime", () => {
       const cachePath = resolveCompletionCachePath("bash", "openclaw");
       await fs.writeFile(
         path.join(homeDir, ".bash_profile"),
-        `# Zero to Agent Completion\n[ -f "${cachePath}" ] && source "${cachePath}"\n`,
+        `# OpenAgent Completion\n[ -f "${cachePath}" ] && source "${cachePath}"\n`,
         "utf-8",
       );
 
@@ -493,7 +491,7 @@ describe("completion-runtime", () => {
                   ? `test -f "${previousCachePath}"; and source "${previousCachePath}"`
                   : `[ -f "${previousCachePath}" ] && source "${previousCachePath}"`;
             await fs.mkdir(path.dirname(profilePath), { recursive: true });
-            await fs.writeFile(profilePath, `# Zero to Agent Completion\n${source}\n`, "utf8");
+            await fs.writeFile(profilePath, `# OpenAgent Completion\n${source}\n`, "utf8");
           }
         });
         const previousSource = (await fs.readFile(profilePath, "utf8")).trim().split("\n").at(-1)!;
@@ -505,7 +503,7 @@ describe("completion-runtime", () => {
 
         const profile = await fs.readFile(profilePath, "utf-8");
         expect(profile).not.toContain(previousSource);
-        expect(profile.match(/^# Zero to Agent Completion$/gm)).toHaveLength(1);
+        expect(profile.match(/^# OpenAgent Completion$/gm)).toHaveLength(1);
         await expect(isCompletionInstalled(shell, "openclaw")).resolves.toBe(true);
         await installCompletion(shell, true, "openclaw");
         await expect(fs.readFile(profilePath, "utf8")).resolves.toBe(profile);
@@ -536,7 +534,7 @@ describe("completion-runtime", () => {
         [
           unrelatedSource,
           unmarkedPriorSource,
-          ...markedUserSources.flatMap((source) => ["# Zero to Agent Completion", source]),
+          ...markedUserSources.flatMap((source) => ["# OpenAgent Completion", source]),
           "",
         ].join("\n"),
         "utf-8",
@@ -583,7 +581,7 @@ describe("completion-runtime", () => {
       await fs.writeFile(cachePath, "complete -W 'status' openclaw\n", "utf-8");
       await fs.writeFile(
         profilePath,
-        `# Zero to Agent Completion\nexport IMPORTANT=keep\n${refreshAlias}\n`,
+        `# OpenAgent Completion\nexport IMPORTANT=keep\n${refreshAlias}\n`,
         "utf-8",
       );
 
@@ -592,7 +590,7 @@ describe("completion-runtime", () => {
       const profile = await fs.readFile(profilePath, "utf-8");
       expect(profile).toContain("export IMPORTANT=keep\n");
       expect(profile).toContain(`${refreshAlias}\n`);
-      expect(profile.match(/^# Zero to Agent Completion$/gm)).toHaveLength(1);
+      expect(profile.match(/^# OpenAgent Completion$/gm)).toHaveLength(1);
       expect(profile).toContain(cachePath);
     });
   });
@@ -840,7 +838,7 @@ describe("completion-runtime", () => {
 
       const profilePath = resolveCompletionProfilePath("powershell");
       const profile = await fs.readFile(profilePath, "utf-8");
-      expect(profile).toBe(`# Zero to Agent Completion\n. '${cachePath.replace(/'/g, "''")}'\n`);
+      expect(profile).toBe(`# OpenAgent Completion\n. '${cachePath.replace(/'/g, "''")}'\n`);
     }, "openclaw-completion-state-bob's-");
   });
 
@@ -857,8 +855,8 @@ describe("completion-runtime", () => {
     .each([
       '[[ -f "${HOME}/.openclaw/completions/openclaw.bash" ]] && source "${HOME}/.openclaw/completions/openclaw.bash"',
       '[ -f "$HOME/.openclaw/completions/openclaw.bash" ] && source "$HOME/.openclaw/completions/openclaw.bash"',
-      '# Zero to Agent Completion\n[[ -f "${HOME}/.openclaw/completions/openclaw.bash" ]] && source "${HOME}/.openclaw/completions/openclaw.bash"',
-      '# Zero to Agent Completion\n[ -f "$HOME/.openclaw/completions/openclaw.bash" ] && source "$HOME/.openclaw/completions/openclaw.bash"',
+      '# OpenAgent Completion\n[[ -f "${HOME}/.openclaw/completions/openclaw.bash" ]] && source "${HOME}/.openclaw/completions/openclaw.bash"',
+      '# OpenAgent Completion\n[ -f "$HOME/.openclaw/completions/openclaw.bash" ] && source "$HOME/.openclaw/completions/openclaw.bash"',
       '[\t-f\t"$HOME/.openclaw/completions/openclaw.bash"\t]&& source "$HOME/.openclaw/completions/openclaw.bash"\t',
     ])(
     "preserves a managed portable Bash hook byte-for-byte across installs: %s",
@@ -987,7 +985,7 @@ describe("completion-runtime", () => {
 
           const profile = await fs.readFile(profilePath, "utf8");
           expect(profile).toContain(`${otherHook}\n`);
-          expect(profile).toContain("# Zero to Agent Completion");
+          expect(profile).toContain("# OpenAgent Completion");
           expect(profile).toContain(cachePath);
           await expect(isCompletionInstalled("bash", "openclaw")).resolves.toBe(true);
         },
@@ -1057,14 +1055,14 @@ describe("completion-runtime", () => {
           await fs.writeFile(cachePath, "complete -W 'status' openclaw\n", "utf-8");
           await fs.writeFile(
             profilePath,
-            `${marked ? "# Zero to Agent Completion\n" : ""}${brokenHook}\n`,
+            `${marked ? "# OpenAgent Completion\n" : ""}${brokenHook}\n`,
             "utf-8",
           );
           await expect(isCompletionInstalled("bash", "openclaw")).resolves.toBe(false);
           await installCompletion("bash", true, "openclaw");
           const first = await fs.readFile(profilePath, "utf8");
           expect(first).toContain(`${brokenHook}\n`);
-          expect(first).toContain("# Zero to Agent Completion");
+          expect(first).toContain("# OpenAgent Completion");
           expect(first).toContain(cachePath);
           await expect(isCompletionInstalled("bash", "openclaw")).resolves.toBe(true);
 

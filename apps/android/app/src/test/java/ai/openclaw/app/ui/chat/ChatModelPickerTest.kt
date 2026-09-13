@@ -36,7 +36,7 @@ class ChatModelPickerTest {
     assertTrue(catalog.first().supportsDocuments)
     assertFalse(catalog.first().supportsVision)
     assertEquals(false, catalog.first().supportsTools)
-    assertEquals("OpenClaw", catalog.first().runtimeName)
+    assertEquals("OpenAgent", catalog.first().runtimeName)
   }
 
   @Test

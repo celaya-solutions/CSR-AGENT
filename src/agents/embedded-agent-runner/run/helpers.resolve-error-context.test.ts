@@ -25,8 +25,8 @@ describe("resolveActiveErrorContext", () => {
     expect(result).toEqual({ provider: "openai", model: "gpt-5.4-codex" });
   });
 
-  it("ignores the embedded Zero to Agent harness provider when the model provider is known", () => {
-    // The Zero to Agent harness id is a transport wrapper, not the provider users
+  it("ignores the embedded OpenAgent harness provider when the model provider is known", () => {
+    // The OpenAgent harness id is a transport wrapper, not the provider users
     // need in diagnostics when a concrete upstream model ref is available.
     const result = resolveActiveErrorContext({
       provider: "openrouter",

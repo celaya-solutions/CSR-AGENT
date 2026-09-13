@@ -1,6 +1,6 @@
 import Speech
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct VoicePermissionSupportTests {
     @Test func `speech permission messages preserve authorization detail`() {

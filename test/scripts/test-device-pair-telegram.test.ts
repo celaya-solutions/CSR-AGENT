@@ -30,7 +30,7 @@ describe("scripts/dev/test-device-pair-telegram.ts", () => {
     });
   });
 
-  it("rejects unknown args before loading Zero to Agent plugins", async () => {
+  it("rejects unknown args before loading OpenAgent plugins", async () => {
     const cfg = { channels: { telegram: { enabled: true } } };
     const loadOpenClawPlugins = vi.fn();
     const executePluginCommand = vi.fn();

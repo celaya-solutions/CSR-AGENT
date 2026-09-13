@@ -5,7 +5,7 @@ read_when:
 title: "Credits"
 ---
 
-Zero to Agent = CLAW + TARDIS: every space lobster needs a time and space machine.
+OpenAgent = CLAW + TARDIS: every space lobster needs a time and space machine.
 
 ## Credits
 
@@ -21,13 +21,13 @@ Zero to Agent = CLAW + TARDIS: every space lobster needs a time and space machin
 
 ## License
 
-MIT, copyright OpenClaw Foundation. Third-party notices for incorporated or adapted code are in `THIRD_PARTY_NOTICES.md`.
+MIT, copyright Celaya Solutions. Third-party notices for incorporated or adapted code are in `THIRD_PARTY_NOTICES.md`.
 
-Zero to Agent is a derivative of [OpenClaw](https://github.com/openclaw/openclaw) and is not endorsed by the OpenClaw Foundation. Attribution details are in `NOTICE.md`.
+OpenAgent is a derivative of [OpenAgent](https://github.com/openclaw/openclaw) and is not endorsed by the Celaya Solutions. Attribution details are in `NOTICE.md`.
 
 > "We are all just playing with our own prompts." (An AI, probably high on tokens)
 
 ## Related
 
-- [Zero to Agent lore](/start/lore) - the backstory behind the name, the shell, and the space lobster
+- [OpenAgent lore](/start/lore) - the backstory behind the name, the shell, and the space lobster
 - [Pull request review flow](/reference/pull-request-review-flow) - how a contribution moves through Barnacle and ClawSweeper review

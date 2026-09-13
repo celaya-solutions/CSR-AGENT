@@ -360,16 +360,16 @@ describe("native app i18n inventory", () => {
       "apps/ios/Fixture/Info.plist",
       `<plist><dict>
         <key>CFBundleDisplayName</key>
-        <string>Zero to Agent Fixture</string>
+        <string>OpenAgent Fixture</string>
         <key>NSCameraUsageDescription</key>
-        <string>Zero to Agent uses the camera to scan setup codes &amp; documents.</string>
+        <string>OpenAgent uses the camera to scan setup codes &amp; documents.</string>
         <key>OpenClawFixtureValue</key>
         <string>Runtime configuration value</string>
       </dict></plist>`,
     );
 
     expect(entries.map((entry) => entry.source)).toEqual([
-      "Zero to Agent uses the camera to scan setup codes & documents.",
+      "OpenAgent uses the camera to scan setup codes & documents.",
     ]);
   });
 
@@ -541,9 +541,7 @@ describe("native app i18n inventory", () => {
     ).toBe(true);
     expect(entries.some((entry) => entry.source === "Loading chat")).toBe(true);
     expect(
-      entries.some(
-        (entry) => entry.surface === "android" && entry.source === "Search Zero to Agent",
-      ),
+      entries.some((entry) => entry.surface === "android" && entry.source === "Search OpenAgent"),
     ).toBe(true);
     expect(
       entries.some(
@@ -567,14 +565,14 @@ describe("native app i18n inventory", () => {
       ),
     ).toBe(true);
     expect(entries.some((entry) => entry.source === "What would you like to work on?")).toBe(true);
-    expect(entries.some((entry) => entry.source === "Check Zero to Agent status")).toBe(true);
+    expect(entries.some((entry) => entry.source === "Check OpenAgent status")).toBe(true);
     expect(entries.some((entry) => entry.source === "What can I control here?")).toBe(true);
     expect(entries.some((entry) => entry.source === "Help me start voice chat")).toBe(true);
     expect(
       entries.some(
         (entry) =>
           entry.source ===
-          "Summarize the current Zero to Agent status and tell me what needs attention.",
+          "Summarize the current OpenAgent status and tell me what needs attention.",
       ),
     ).toBe(true);
     expect(
@@ -590,8 +588,8 @@ describe("native app i18n inventory", () => {
       ),
     ).toBe(true);
     expect(entries.some((entry) => entry.source === "DIARY")).toBe(true);
-    expect(entries.some((entry) => entry.source === "ask Zero to Agent $prompt")).toBe(true);
-    expect(entries.some((entry) => entry.source === "Zero to Agent is paused")).toBe(true);
+    expect(entries.some((entry) => entry.source === "ask OpenAgent $prompt")).toBe(true);
+    expect(entries.some((entry) => entry.source === "OpenAgent is paused")).toBe(true);
     expect(
       entries.some(
         (entry) =>
@@ -658,8 +656,7 @@ describe("native app i18n inventory", () => {
     expect(
       entries.some(
         (entry) =>
-          entry.source ===
-          'Zero to Agent needs ${labels.joinToString(", ")} permissions to continue.',
+          entry.source === 'OpenAgent needs ${labels.joinToString(", ")} permissions to continue.',
       ),
     ).toBe(true);
     expect(
@@ -683,7 +680,7 @@ describe("native app i18n inventory", () => {
       entries.some(
         (entry) =>
           entry.source ===
-          "Writes a rotating, local-only log under ~/Library/Logs/Zero to Agent/. Enable only while actively debugging.",
+          "Writes a rotating, local-only log under ~/Library/Logs/OpenAgent/. Enable only while actively debugging.",
       ),
     ).toBe(true);
     expect(
@@ -698,7 +695,7 @@ describe("native app i18n inventory", () => {
         [
           "Use the credential for this destination. Leave both fields empty only if this route ",
           "Cron changes require operator.admin. Setup codes intentionally do not grant it. ",
-          "Writes a rotating, local-only log under ~/Library/Logs/Zero to Agent/. ",
+          "Writes a rotating, local-only log under ~/Library/Logs/OpenAgent/. ",
           "A setup code supplies the address and available certificate information automatically. ",
         ].includes(entry.source),
       ),
@@ -713,7 +710,7 @@ describe("native app i18n inventory", () => {
       entries.some(
         (entry) =>
           entry.source ===
-          "Approve this device on the gateway.\n1) `%1$@`\n2) `/pair approve` in your Zero to Agent chat\n%2$@\nOpenClaw will also retry automatically when you return to this app.",
+          "Approve this device on the gateway.\n1) `%1$@`\n2) `/pair approve` in your OpenAgent chat\n%2$@\nOpenClaw will also retry automatically when you return to this app.",
       ),
     ).toBe(true);
     expect(
@@ -748,7 +745,7 @@ describe("native app i18n inventory", () => {
     expect(
       entries.some((entry) =>
         entry.source.startsWith(
-          "Exec approvals can only be reviewed while Zero to Agent is open and connected.",
+          "Exec approvals can only be reviewed while OpenAgent is open and connected.",
         ),
       ),
     ).toBe(true);
@@ -1265,7 +1262,7 @@ describe("native app i18n inventory", () => {
       testEntry(
         "native.android.language-picker",
         "android",
-        "Zero to Agent translations · $languageTag",
+        "OpenAgent translations · $languageTag",
         "apps/android/app/src/main/java/ai/openclaw/app/AppLanguage.kt",
         "conditional-branch",
       ),

@@ -93,7 +93,7 @@ export type OnboardingPluginInstallEntry = {
   label: string;
   install: PluginPackageInstall;
   trustedSourceLinkedOfficialInstall?: boolean;
-  /** Keep this official runtime package on the same release cohort as Zero to Agent. */
+  /** Keep this official runtime package on the same release cohort as OpenAgent. */
   versionBoundToOpenClaw?: boolean;
   preferRemoteInstall?: boolean;
 };

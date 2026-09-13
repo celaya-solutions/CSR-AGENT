@@ -3,11 +3,11 @@
   "id": "openclaw-official-external-plugins",
   "generatedAt": "2026-06-22T00:00:00.000Z",
   "sequence": 1,
-  "description": "Bundled fallback feed for official external OpenClaw plugins.",
+  "description": "Bundled fallback feed for official external OpenAgent plugins.",
   "entries": [
     {
       "name": "@openclaw/acpx",
-      "description": "OpenClaw ACP runtime backend",
+      "description": "OpenAgent ACP runtime backend",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -25,7 +25,7 @@
     },
     {
       "name": "@openclaw/brave-plugin",
-      "description": "OpenClaw Brave plugin",
+      "description": "OpenAgent Brave plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -62,7 +62,7 @@
     },
     {
       "name": "@openclaw/codex",
-      "description": "OpenClaw Codex app-server harness and native session catalog",
+      "description": "OpenAgent Codex app-server harness and native session catalog",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -98,7 +98,7 @@
     },
     {
       "name": "@openclaw/copilot",
-      "description": "OpenClaw GitHub Copilot agent runtime plugin",
+      "description": "OpenAgent GitHub Copilot agent runtime plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -116,7 +116,7 @@
     },
     {
       "name": "@openclaw/diagnostics-otel",
-      "description": "OpenClaw diagnostics OpenTelemetry exporter",
+      "description": "OpenAgent diagnostics OpenTelemetry exporter",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -134,7 +134,7 @@
     },
     {
       "name": "@openclaw/diagnostics-prometheus",
-      "description": "OpenClaw diagnostics Prometheus exporter",
+      "description": "OpenAgent diagnostics Prometheus exporter",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -152,7 +152,7 @@
     },
     {
       "name": "@openclaw/diffs",
-      "description": "OpenClaw diff viewer plugin",
+      "description": "OpenAgent diff viewer plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -174,7 +174,7 @@
     },
     {
       "name": "@openclaw/diffs-language-pack",
-      "description": "OpenClaw diffs viewer syntax highlighting language pack",
+      "description": "OpenAgent diffs viewer syntax highlighting language pack",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -192,7 +192,7 @@
     },
     {
       "name": "@openclaw/duckduckgo-plugin",
-      "description": "OpenClaw DuckDuckGo plugin.",
+      "description": "OpenAgent DuckDuckGo plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -232,7 +232,7 @@
     },
     {
       "name": "@openclaw/exa-plugin",
-      "description": "OpenClaw Exa plugin.",
+      "description": "OpenAgent Exa plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -274,7 +274,7 @@
     },
     {
       "name": "@openclaw/firecrawl-plugin",
-      "description": "OpenClaw Firecrawl plugin.",
+      "description": "OpenAgent Firecrawl plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -338,7 +338,7 @@
     },
     {
       "name": "@openclaw/fish-audio-speech",
-      "description": "OpenClaw Fish Audio speech plugin.",
+      "description": "OpenAgent Fish Audio speech plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -359,7 +359,7 @@
     },
     {
       "name": "@openclaw/google-meet",
-      "description": "OpenClaw Google Meet participant plugin",
+      "description": "OpenAgent Google Meet participant plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -376,7 +376,7 @@
     },
     {
       "name": "@openclaw/gradium-speech",
-      "description": "OpenClaw Gradium speech plugin.",
+      "description": "OpenAgent Gradium speech plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -399,7 +399,7 @@
     },
     {
       "name": "@openclaw/inworld-speech",
-      "description": "OpenClaw Inworld speech plugin.",
+      "description": "OpenAgent Inworld speech plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -444,7 +444,7 @@
     },
     {
       "name": "@openclaw/memory-lancedb",
-      "description": "OpenClaw LanceDB-backed long-term memory plugin with auto-recall/capture",
+      "description": "OpenAgent LanceDB-backed long-term memory plugin with auto-recall/capture",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -466,7 +466,7 @@
     },
     {
       "name": "@openclaw/llama-cpp-provider",
-      "description": "OpenClaw managed llama.cpp server provider plugin",
+      "description": "OpenAgent managed llama.cpp server provider plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -488,7 +488,7 @@
     },
     {
       "name": "@openclaw/mxc-sandbox",
-      "description": "OpenClaw MXC sandbox execution plugin for MXC-capable hosts",
+      "description": "OpenAgent MXC sandbox execution plugin for MXC-capable hosts",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -505,7 +505,7 @@
     },
     {
       "name": "@openclaw/openshell-sandbox",
-      "description": "OpenClaw OpenShell sandbox backend",
+      "description": "OpenAgent OpenShell sandbox backend",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -523,7 +523,7 @@
     },
     {
       "name": "@openclaw/parallel-plugin",
-      "description": "OpenClaw Parallel web search plugin.",
+      "description": "OpenAgent Parallel web search plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -580,7 +580,7 @@
     },
     {
       "name": "@openclaw/perplexity-plugin",
-      "description": "OpenClaw Perplexity plugin.",
+      "description": "OpenAgent Perplexity plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -623,7 +623,7 @@
     },
     {
       "name": "@openclaw/searxng-plugin",
-      "description": "OpenClaw SearXNG plugin",
+      "description": "OpenAgent SearXNG plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -667,7 +667,7 @@
     },
     {
       "name": "@openclaw/tavily-plugin",
-      "description": "OpenClaw Tavily plugin",
+      "description": "OpenAgent Tavily plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -714,7 +714,7 @@
     },
     {
       "name": "@openclaw/team-reports",
-      "description": "OpenClaw team activity reports plugin (GitHub org + Discord activity with model summaries)",
+      "description": "OpenAgent team activity reports plugin (GitHub org + Discord activity with model summaries)",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -732,7 +732,7 @@
     },
     {
       "name": "@openclaw/teams-meetings",
-      "description": "OpenClaw Microsoft Teams browser meeting participant plugin.",
+      "description": "OpenAgent Microsoft Teams browser meeting participant plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -758,7 +758,7 @@
     },
     {
       "name": "@openclaw/tokenjuice",
-      "description": "OpenClaw tokenjuice exec output compaction plugin",
+      "description": "OpenAgent tokenjuice exec output compaction plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -780,7 +780,7 @@
     },
     {
       "name": "@openclaw/voice-call",
-      "description": "OpenClaw voice-call plugin",
+      "description": "OpenAgent voice-call plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -797,7 +797,7 @@
     },
     {
       "name": "@openclaw/zoom-meetings",
-      "description": "OpenClaw Zoom browser meeting participant plugin.",
+      "description": "OpenAgent Zoom browser meeting participant plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {

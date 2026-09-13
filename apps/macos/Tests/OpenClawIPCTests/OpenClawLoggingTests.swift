@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct OpenClawLoggingTests {
     @Test(arguments: ["synthetic-private-payload", "first line\nsecond line", ""])

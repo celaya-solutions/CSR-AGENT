@@ -175,7 +175,7 @@ export async function sendBuzzTextOneShot(params: {
     try {
       const directory = new BuzzDirectoryState({
         publicKey,
-        fallbackProfileName: "Zero to Agent",
+        fallbackProfileName: "OpenAgent",
         channelIds: [params.channelId],
       });
       directory.replaceMemberships(
@@ -289,7 +289,7 @@ export async function startBuzzBus(options: {
   });
   const directory = new BuzzDirectoryState({
     publicKey,
-    fallbackProfileName: options.profileName ?? "Zero to Agent",
+    fallbackProfileName: options.profileName ?? "OpenAgent",
     channelIds: options.channelIds,
     profileLimit: subscriptionBudget.profileLimit,
   });

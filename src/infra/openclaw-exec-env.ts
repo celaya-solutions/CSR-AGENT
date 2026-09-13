@@ -1,10 +1,10 @@
-/** Process env key that marks child commands as launched by the Zero to Agent CLI. */
+/** Process env key that marks child commands as launched by the OpenAgent CLI. */
 export const OPENCLAW_CLI_ENV_VAR = "OPENCLAW_CLI";
 
-/** Stable marker value used for Zero to Agent-launched subprocess detection. */
+/** Stable marker value used for OpenAgent-launched subprocess detection. */
 const OPENCLAW_CLI_ENV_VALUE = "1";
 
-/** Returns a cloned env object with the Zero to Agent CLI marker set. */
+/** Returns a cloned env object with the OpenAgent CLI marker set. */
 export function markOpenClawExecEnv<T extends Record<string, string | undefined>>(
   /** Source environment to clone before adding the subprocess marker. */
   env: T,

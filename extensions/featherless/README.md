@@ -1,8 +1,8 @@
-# Zero to Agent Featherless AI Provider
+# OpenAgent Featherless AI Provider
 
-Official Zero to Agent provider plugin for Featherless AI's OpenAI-compatible API.
+Official OpenAgent provider plugin for Featherless AI's OpenAI-compatible API.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/featherless-provider

@@ -8,7 +8,7 @@ import { controlUiSessionUrl } from "../../../ui/src/test-helpers/control-ui-e2e
 import { createQaLiveLaneGateway } from "./live-transports/shared/live-gateway.runtime.ts";
 
 const suite = createControlUiE2eSuite({
-  name: "Control UI Zero to Agent delegation with a real Gateway",
+  name: "Control UI OpenAgent delegation with a real Gateway",
   startServerBeforeBrowser: true,
 });
 
@@ -98,7 +98,7 @@ suite.define(() => {
       const sessionKey = "agent:qa:dashboard:delegation-approval";
       await gateway.call("sessions.create", {
         key: sessionKey,
-        label: "Zero to Agent native approval",
+        label: "OpenAgent native approval",
       });
 
       await suite.withPage(
@@ -158,7 +158,7 @@ suite.define(() => {
               proofWindow["__OPENCLAW_APPROVAL_UI_SEQUENCE__"] = [];
               proofWindow["__OPENCLAW_APPROVAL_FALLBACK_OBSERVED__"] = false;
               const fallbackMarkers = [
-                "Zero to Agent change pending approval",
+                "OpenAgent change pending approval",
                 "/approve",
                 "needsApproval",
                 "proposalId",
@@ -234,7 +234,7 @@ suite.define(() => {
           expect(pendingTranscript).not.toContain("needsApproval");
           expect(pendingTranscript).not.toContain("proposalId");
           const pendingPageText = await page.locator("body").textContent();
-          expect(pendingPageText).not.toContain("Zero to Agent change pending approval");
+          expect(pendingPageText).not.toContain("OpenAgent change pending approval");
           expect(pendingPageText).not.toContain("/approve");
           expect(pendingPageText).not.toContain("needsApproval");
           expect(pendingPageText).not.toContain("proposalId");
@@ -262,7 +262,7 @@ suite.define(() => {
             readDelegationResults(await gateway.call("chat.history", { sessionKey, limit: 30 })),
           ).toEqual([]);
           const reloadedPendingPageText = await page.locator("body").textContent();
-          expect(reloadedPendingPageText).not.toContain("Zero to Agent change pending approval");
+          expect(reloadedPendingPageText).not.toContain("OpenAgent change pending approval");
           expect(reloadedPendingPageText).not.toContain("/approve");
           expect(reloadedPendingPageText).not.toContain("needsApproval");
           expect(reloadedPendingPageText).not.toContain("proposalId");
@@ -335,7 +335,7 @@ suite.define(() => {
             .locator(".chat-tool-msg-body", { hasText: /Updated logging\.level/u })
             .waitFor();
           const reloadedPageText = await page.locator("body").textContent();
-          expect(reloadedPageText).not.toContain("Zero to Agent change pending approval");
+          expect(reloadedPageText).not.toContain("OpenAgent change pending approval");
           expect(reloadedPageText).not.toContain("/approve");
           expect(reloadedPageText).not.toContain("needsApproval");
           expect(reloadedPageText).not.toContain("proposalId");
@@ -348,7 +348,7 @@ suite.define(() => {
     const stopped = await owner.stop({ preserveToDir: path.join(proofDir, "gateway") });
     errors.push(...stopped.errors);
     if (errors.length > 0) {
-      throw new AggregateError(errors, "native Zero to Agent approval proof failed");
+      throw new AggregateError(errors, "native OpenAgent approval proof failed");
     }
   }, 180_000);
 });
@@ -358,7 +358,7 @@ let fullAccessRuntime: Awaited<ReturnType<typeof fullAccessOwner.start>>;
 let fullAccessProofDir: string;
 let fullAccessGatewayUsed = false;
 const fullAccessSuite = createControlUiE2eSuite({
-  name: "Control UI Zero to Agent delegation with a real Gateway",
+  name: "Control UI OpenAgent delegation with a real Gateway",
   startServerBeforeBrowser: true,
   setupTimeoutMs: 180_000,
   resources: {

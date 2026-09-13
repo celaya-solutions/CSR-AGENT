@@ -1,6 +1,6 @@
-# OpenClaw iOS Versioning
+# OpenAgent iOS Versioning
 
-OpenClaw iOS releases retain their gateway association while allowing multiple
+OpenAgent iOS releases retain their gateway association while allowing multiple
 public App Store releases for one gateway version. The release planner derives
 the active release identity from the mobile gateway version and App Store Connect.
 

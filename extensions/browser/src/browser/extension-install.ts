@@ -27,11 +27,11 @@ import {
 } from "./extension-install-layout.js";
 import { BROWSER_NATIVE_HOST_NAME } from "./extension-native-host.js";
 
-const OWNED_LAUNCHER_MARKER = "# Zero to Agent native messaging bootstrap v1";
+const OWNED_LAUNCHER_MARKER = "# OpenAgent native messaging bootstrap v1";
 const BROWSER_EXTENSION_INSTALL_WAIT_DEFAULT_MS = 30_000;
 const BROWSER_EXTENSION_INSTALL_WAIT_MIN_MS = 1_000;
 const BROWSER_EXTENSION_INSTALL_WAIT_MAX_MS = 120_000;
-const NATIVE_HOST_DESCRIPTION = "Zero to Agent browser extension bootstrap";
+const NATIVE_HOST_DESCRIPTION = "OpenAgent browser extension bootstrap";
 export {
   FOUNDATION_CHROME_WEB_STORE_URL,
   removeChromeStoreInstallRequests,
@@ -108,7 +108,7 @@ function launcherPathForManifest(manifestPath: string, deps: ExtensionInstallDep
 
 function expectedExtensionIds(extensionIds: string[]): string[] {
   // The Store ID also authorizes trusted unpacked builds that preserve it;
-  // it never proves that an arbitrary extension path is Zero to Agent-owned.
+  // it never proves that an arbitrary extension path is OpenAgent-owned.
   return [...new Set([...extensionIds, FOUNDATION_CHROME_WEB_STORE_EXTENSION_ID])].toSorted();
 }
 
@@ -480,18 +480,18 @@ export async function installChromeExtensionBootstrap(params: {
           : await requestChromeStoreInstall(root, deps);
       if (request) {
         params.onProgress?.(
-          `Requested the Zero to Agent Store extension for ${root.label}. Restart Chrome if needed, then approve Zero to Agent in chrome://extensions.`,
+          `Requested the OpenAgent Store extension for ${root.label}. Restart Chrome if needed, then approve OpenAgent in chrome://extensions.`,
         );
       }
     } catch (error) {
       preRegistrationIssues.push(
-        `${root.label}: Store installation request refused (${error instanceof Error ? error.message : String(error)}). Add Zero to Agent directly: ${FOUNDATION_CHROME_WEB_STORE_URL}`,
+        `${root.label}: Store installation request refused (${error instanceof Error ? error.message : String(error)}). Add OpenAgent directly: ${FOUNDATION_CHROME_WEB_STORE_URL}`,
       );
     }
   }
   if (preRegisteredRoots > 0) {
     params.onProgress?.(
-      `Native bootstrap is ready. Add Zero to Agent from the Chrome Web Store: ${FOUNDATION_CHROME_WEB_STORE_URL}. For development, load unpacked from ${installed}.`,
+      `Native bootstrap is ready. Add OpenAgent from the Chrome Web Store: ${FOUNDATION_CHROME_WEB_STORE_URL}. For development, load unpacked from ${installed}.`,
     );
   } else {
     preRegistrationIssues.push(
@@ -519,7 +519,7 @@ export async function installChromeExtensionBootstrap(params: {
     now() < deadline
   ) {
     if (!announcedWait) {
-      params.onProgress?.("Waiting for Chrome to verify the Zero to Agent extension…");
+      params.onProgress?.("Waiting for Chrome to verify the OpenAgent extension…");
       announcedWait = true;
     }
     await sleep(Math.min(500, Math.max(1, deadline - now())));
@@ -592,7 +592,7 @@ export async function browserExtensionStatus(params: {
       unavailableRegistration,
     issues: [
       ...(installedCopy.present && !installedCopy.owned
-        ? [`Chrome extension copy is not Zero to Agent-owned: ${installedPath}`]
+        ? [`Chrome extension copy is not OpenAgent-owned: ${installedPath}`]
         : []),
       ...discovery.issues,
       ...storeInstallRequests.flatMap((entry) =>
@@ -605,7 +605,7 @@ export async function browserExtensionStatus(params: {
   };
 }
 
-/** Remove only registrations and launchers that carry Zero to Agent ownership. */
+/** Remove only registrations and launchers that carry OpenAgent ownership. */
 export async function uninstallChromeExtensionNativeHosts(
   params: { deps?: ExtensionInstallDeps } = {},
 ): Promise<{ removed: string[]; refused: string[]; manualRequired: boolean }> {

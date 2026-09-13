@@ -1,5 +1,5 @@
 #!/usr/bin/env -S pnpm tsx
-// Release Beta Smoke script supports OpenClaw repository automation.
+// Release Beta Smoke script supports OpenAgent repository automation.
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";

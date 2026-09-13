@@ -2,7 +2,7 @@
   "name": "@openclaw/fal-provider",
   "version": "2026.9.4",
   "private": true,
-  "description": "Zero to Agent fal provider plugin",
+  "description": "OpenAgent fal provider plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

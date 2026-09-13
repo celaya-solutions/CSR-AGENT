@@ -1,4 +1,4 @@
-name: OpenClaw Release Publish
+name: OpenAgent Release Publish
 
 on:
   workflow_dispatch:
@@ -8,11 +8,11 @@ on:
         required: true
         type: string
       preflight_run_id:
-        description: Successful OpenClaw NPM Release preflight run id, required for OpenClaw npm or all-publishable plugin publication
+        description: Successful OpenAgent NPM Release preflight run id, required for OpenAgent npm or all-publishable plugin publication
         required: false
         type: string
       prepared_plugins:
-        description: Exact npm and ClawHub artifact descriptors supplied by OpenClaw Release Button; empty preserves the existing release/repair path
+        description: Exact npm and ClawHub artifact descriptors supplied by OpenAgent Release Button; empty preserves the existing release/repair path
         required: false
         type: string
       plugin_sdk_api_acknowledgement:
@@ -21,7 +21,7 @@ on:
         default: ""
         type: string
       full_release_validation_run_id:
-        description: Successful Full Release Validation run id for this tag/SHA, required for OpenClaw npm or all-publishable plugin publication
+        description: Successful Full Release Validation run id for this tag/SHA, required for OpenAgent npm or all-publishable plugin publication
         required: false
         type: string
       full_release_validation_run_attempt:
@@ -57,11 +57,11 @@ on:
         required: false
         type: string
       openclaw_npm_resume_run_id:
-        description: Successful original OpenClaw NPM Release run id when resuming an already-published package
+        description: Successful original OpenAgent NPM Release run id when resuming an already-published package
         required: false
         type: string
       npm_dist_tag:
-        description: npm dist-tag for the OpenClaw package
+        description: npm dist-tag for the OpenAgent package
         required: true
         default: beta
         type: choice
@@ -71,7 +71,7 @@ on:
           - latest
           - extended-stable
       plugin_publish_scope:
-        description: Plugin publish scope to run before OpenClaw publish
+        description: Plugin publish scope to run before OpenAgent publish
         required: true
         default: all-publishable
         type: choice
@@ -83,7 +83,7 @@ on:
         required: false
         type: string
       publish_openclaw_npm:
-        description: Publish the OpenClaw npm package after plugin npm succeeds; ClawHub may still run
+        description: Publish the OpenAgent npm package after plugin npm succeeds; ClawHub may still run
         required: true
         default: true
         type: boolean
@@ -174,11 +174,11 @@ jobs:
             exit 1
           fi
           if [[ "${RELEASE_TAG}" == *"-alpha."* && "${RELEASE_NPM_DIST_TAG}" != "alpha" ]]; then
-            echo "Alpha prerelease tags must publish OpenClaw to npm dist-tag alpha." >&2
+            echo "Alpha prerelease tags must publish OpenAgent to npm dist-tag alpha." >&2
             exit 1
           fi
           if [[ "${RELEASE_TAG}" == *"-beta."* && "${RELEASE_NPM_DIST_TAG}" != "beta" ]]; then
-            echo "Beta prerelease tags must publish OpenClaw to npm dist-tag beta." >&2
+            echo "Beta prerelease tags must publish OpenAgent to npm dist-tag beta." >&2
             exit 1
           fi
           release_evidence_required=false
@@ -191,12 +191,12 @@ jobs:
           fi
           if [[ "${release_evidence_required}" == "true" || "${release_evidence_supplied}" == "true" ]]; then
             if [[ -z "${PREFLIGHT_RUN_ID//[[:space:]]/}" ]]; then
-              echo "OpenClaw npm and all-publishable plugin publication require preflight_run_id; supplied release evidence must also be complete." >&2
+              echo "OpenAgent npm and all-publishable plugin publication require preflight_run_id; supplied release evidence must also be complete." >&2
               exit 1
             fi
             if [[ "${RELEASE_EVIDENCE_MODE}" == "full-release-validation" ]]; then
               if [[ -z "${FULL_RELEASE_VALIDATION_RUN_ID//[[:space:]]/}" ]]; then
-                echo "OpenClaw npm and all-publishable plugin publication require full_release_validation_run_id; supplied release evidence must also be complete." >&2
+                echo "OpenAgent npm and all-publishable plugin publication require full_release_validation_run_id; supplied release evidence must also be complete." >&2
                 exit 1
               fi
               if [[ -n "${FOCUSED_RELEASE_EVIDENCE_RUN_ID//[[:space:]]/}" || -n "${FOCUSED_RELEASE_EVIDENCE_RUN_ATTEMPT//[[:space:]]/}" ]]; then
@@ -294,7 +294,7 @@ jobs:
             exit 1
           fi
           if [[ "${PUBLISH_OPENCLAW_NPM}" == "true" && "${PLUGIN_PUBLISH_SCOPE}" != "all-publishable" ]]; then
-            echo "publish_openclaw_npm=true requires plugin_publish_scope=all-publishable so every publishable official plugin is released with OpenClaw." >&2
+            echo "publish_openclaw_npm=true requires plugin_publish_scope=all-publishable so every publishable official plugin is released with OpenAgent." >&2
             exit 1
           fi
           if [[ "${PLUGIN_PUBLISH_SCOPE}" == "selected" && -z "${PLUGINS//[[:space:]]/}" ]]; then
@@ -502,7 +502,7 @@ jobs:
           }
           NODE
 
-      - name: Download OpenClaw npm preflight manifest
+      - name: Download OpenAgent npm preflight manifest
         id: preflight_artifact
         if: ${{ inputs.publish_openclaw_npm || inputs.plugin_publish_scope == 'all-publishable' || inputs.preflight_run_id != '' || inputs.full_release_validation_run_id != '' }}
         env:
@@ -534,7 +534,7 @@ jobs:
           fi
           preflight_attempt="$(jq -r '.run_attempt // ""' <<<"$preflight_run")"
           if [[ ! "$preflight_attempt" =~ ^[1-9][0-9]*$ ]]; then
-            echo "OpenClaw npm preflight run has an invalid attempt: ${preflight_attempt:-<missing>}." >&2
+            echo "OpenAgent npm preflight run has an invalid attempt: ${preflight_attempt:-<missing>}." >&2
             exit 1
           fi
           preflight_head_sha="$(jq -r '.head_sha // ""' <<<"$preflight_run")"
@@ -543,7 +543,7 @@ jobs:
           preflight_event="$(jq -r '.event // ""' <<<"$preflight_run")"
           preflight_path="$(jq -r '.path // "" | split("@")[0]' <<<"$preflight_run")"
           if [[ ! "$preflight_head_sha" =~ ^[a-f0-9]{40}$ ]]; then
-            echo "OpenClaw npm preflight run must have an exact head SHA." >&2
+            echo "OpenAgent npm preflight run must have an exact head SHA." >&2
             exit 1
           fi
           extended_stable_preflight=false
@@ -570,11 +570,11 @@ jobs:
             protected_release_publish_preflight=true
           fi
           if [[ "$preflight_head_branch" != "main" && "$active_branch_preflight" != "true" && "$extended_stable_preflight" != "true" && "$protected_release_publish_preflight" != "true" && "$full_release_preflight" != "true" ]]; then
-            echo "OpenClaw npm preflight run must come from main, the active protected release branch, or a verified protected release-publish tag." >&2
+            echo "OpenAgent npm preflight run must come from main, the active protected release branch, or a verified protected release-publish tag." >&2
             exit 1
           fi
           if [[ "$preflight_conclusion" != "success" || "$(jq -r '.status' <<<"$preflight_run")" != "completed" || "$preflight_event" != "workflow_dispatch" || ( "$preflight_path" != ".github/workflows/openclaw-npm-release.yml" && "$full_release_preflight" != "true" ) ]]; then
-            echo "OpenClaw npm preflight evidence requires a successful NPM Release or exact Full Release Validation dispatch." >&2
+            echo "OpenAgent npm preflight evidence requires a successful NPM Release or exact Full Release Validation dispatch." >&2
             exit 1
           fi
           echo "head_sha=${preflight_head_sha}" >> "$GITHUB_OUTPUT"
@@ -679,7 +679,7 @@ jobs:
           appendFileSync(env.GITHUB_OUTPUT, `name=${preflight[0].name}\n`);
           NODE
 
-      - name: Validate OpenClaw npm preflight manifest
+      - name: Validate OpenAgent npm preflight manifest
         id: manifest
         if: ${{ inputs.publish_openclaw_npm || inputs.plugin_publish_scope == 'all-publishable' || inputs.preflight_run_id != '' || inputs.full_release_validation_run_id != '' }}
         env:
@@ -702,7 +702,7 @@ jobs:
           preflight_dir="${RUNNER_TEMP}/openclaw-npm-preflight-manifest"
           manifest="${preflight_dir}/preflight-manifest.json"
           if [[ ! -f "$manifest" ]]; then
-            echo "OpenClaw npm preflight manifest is missing." >&2
+            echo "OpenAgent npm preflight manifest is missing." >&2
             ls -la "$preflight_dir" >&2 || true
             exit 1
           fi
@@ -761,7 +761,7 @@ jobs:
             extended_stable_preflight=true
           fi
           if [[ "$extended_stable_preflight" != "true" ]] && ! git merge-base --is-ancestor "$PREFLIGHT_WORKFLOW_SHA" "$WORKFLOW_SHA"; then
-            echo "OpenClaw npm preflight tooling is not on the trusted publish workflow lineage." >&2
+            echo "OpenAgent npm preflight tooling is not on the trusted publish workflow lineage." >&2
             exit 1
           fi
           node "$PLUGIN_SDK_API_VALIDATOR" \
@@ -1121,7 +1121,7 @@ jobs:
           const approval = {
             version: nativeCi ? 3 : 2,
             repository: process.env.GITHUB_REPOSITORY,
-            workflow: "OpenClaw Release Publish",
+            workflow: "OpenAgent Release Publish",
             parentRunId: process.env.RELEASE_PUBLISH_RUN_ID,
             parentRunAttempt: Number(process.env.RELEASE_PUBLISH_RUN_ATTEMPT),
             workflowBranch: process.env.RELEASE_PUBLISH_BRANCH,
@@ -1174,7 +1174,7 @@ jobs:
           echo "- Android APK: approval or dispatch failed; inspect Android Release runs before retrying." >> "${GITHUB_STEP_SUMMARY}"
 
   publish:
-    name: Publish plugins, then OpenClaw
+    name: Publish plugins, then OpenAgent
     needs: [resolve_release_target]
     if: ${{ !inputs.publish_docker_only }}
     env:
@@ -1422,7 +1422,7 @@ jobs:
             version: 2,
             kind: "clawhub-bootstrap",
             repository: process.env.GITHUB_REPOSITORY,
-            workflow: "OpenClaw Release Publish",
+            workflow: "OpenAgent Release Publish",
             parentRunId: process.env.GITHUB_RUN_ID,
             parentRunAttempt: Number(process.env.GITHUB_RUN_ATTEMPT),
             workflowBranch: process.env.PARENT_WORKFLOW_BRANCH,
@@ -1572,9 +1572,9 @@ jobs:
             echo "- Release approval: this workflow job"
             echo "- Plugin npm and ClawHub publish: dispatched in parallel"
             if [[ "${PUBLISH_OPENCLAW_NPM}" == "true" ]]; then
-              echo "- OpenClaw npm publish: starts after plugin npm succeeds"
+              echo "- OpenAgent npm publish: starts after plugin npm succeeds"
             else
-              echo "- OpenClaw npm publish: skipped by input"
+              echo "- OpenAgent npm publish: skipped by input"
             fi
             if is_android_release && [[ "${PUBLISH_OPENCLAW_NPM}" == "true" ]]; then
               echo "${ANDROID_RELEASE_NOTE:-- Android APK: a separate native job qualifies the source before approval and dispatch; core publication does not wait for native qualification}"
@@ -1723,13 +1723,13 @@ jobs:
           echo "plugin_npm_completed=true" >> "$GITHUB_OUTPUT"
 
           if [[ "${PUBLISH_OPENCLAW_NPM}" != "true" ]]; then
-            echo "- OpenClaw npm publish: skipped by input" >> "$GITHUB_STEP_SUMMARY"
+            echo "- OpenAgent npm publish: skipped by input" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           prepared_release_notes_file="${RUNNER_TEMP}/release-notes-prepublish.md"
           create_or_update_github_release
           if [[ "${CHILD_OPENCLAW_NPM_ALREADY_PUBLISHED}" == "true" ]]; then
-            echo "- OpenClaw npm publish: already on npm; resuming postpublish stages" >> "$GITHUB_STEP_SUMMARY"
+            echo "- OpenAgent npm publish: already on npm; resuming postpublish stages" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           evidence_args=(-f release_evidence_mode="${RELEASE_EVIDENCE_MODE}")
@@ -1756,7 +1756,7 @@ jobs:
             -f npm_dist_tag="${RELEASE_NPM_DIST_TAG}" \
             "${evidence_args[@]}")"
           echo "openclaw_npm_run_id=${openclaw_npm_run_id}" >> "$GITHUB_OUTPUT"
-          echo "- OpenClaw npm run ID: \`${openclaw_npm_run_id}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- OpenAgent npm run ID: \`${openclaw_npm_run_id}\`" >> "$GITHUB_STEP_SUMMARY"
           # Pass the child environment gate before waiting for ClawHub receipts;
           # the remote publisher can advance without a cross-step watcher.
           if ! wait_for_run openclaw-npm-release.yml "${openclaw_npm_run_id}" "${PARENT_WORKFLOW_SHA}" publish_openclaw_npm true npm-release; then

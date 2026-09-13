@@ -4,7 +4,7 @@ import {
 } from "openclaw/plugin-sdk/agent-scope-runtime";
 /**
  * Resolves whether Codex app-server native execution can own shell/file work,
- * or whether Zero to Agent must keep exec/process on a configured node host.
+ * or whether OpenAgent must keep exec/process on a configured node host.
  */
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { normalizeAgentId, parseAgentSessionKey } from "openclaw/plugin-sdk/routing";
@@ -101,7 +101,7 @@ export function resolveCodexNativeExecutionPolicy(params: {
     effectiveExecHost,
     node,
     blockReason:
-      "Zero to Agent exec host=node is active for this session. Codex app-server native execution cannot route shell, filesystem, MCP, or app-backed work through the selected Zero to Agent node.",
+      "OpenAgent exec host=node is active for this session. Codex app-server native execution cannot route shell, filesystem, MCP, or app-backed work through the selected OpenAgent node.",
   };
 }
 
@@ -111,10 +111,10 @@ export function formatCodexNativeNodeExecBlock(params: {
   reason?: string;
 }): string {
   return [
-    `Codex-native ${params.surface} is unavailable because Zero to Agent exec host=node is active for this session.`,
+    `Codex-native ${params.surface} is unavailable because OpenAgent exec host=node is active for this session.`,
     params.reason ??
-      "Codex app-server native execution cannot route execution through the selected Zero to Agent node.",
-    "Use a normal Codex harness turn so Zero to Agent exec/process tools run on the node, or switch exec host to gateway for native Codex app-server execution.",
+      "Codex app-server native execution cannot route execution through the selected OpenAgent node.",
+    "Use a normal Codex harness turn so OpenAgent exec/process tools run on the node, or switch exec host to gateway for native Codex app-server execution.",
   ].join(" ");
 }
 

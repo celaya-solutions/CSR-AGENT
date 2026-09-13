@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import Testing
 import WebKit
-@testable import OpenClaw
+@testable import OpenAgent
 
 @Suite(.serialized)
 @MainActor

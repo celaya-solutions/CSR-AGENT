@@ -74,7 +74,7 @@ describe("command handler registration", () => {
     expect(await dispatch("/login ignored")).toMatchObject({
       shouldContinue: false,
       reply: {
-        text: "No chat owner is configured. Ask the Zero to Agent owner to add your chat account to `commands.ownerAllowFrom` in the Zero to Agent configuration, then send `/login` again.",
+        text: "No chat owner is configured. Ask the OpenAgent owner to add your chat account to `commands.ownerAllowFrom` in the OpenAgent configuration, then send `/login` again.",
       },
     });
     expect(plugin).toHaveBeenCalledTimes(1);

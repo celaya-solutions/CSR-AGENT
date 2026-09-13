@@ -49,7 +49,7 @@ function guildCreateEvent(
 ): GatewayGuildCreateDispatchData {
   return {
     id: "guild-1",
-    name: "Zero to Agent Guild",
+    name: "OpenAgent Guild",
     joined_at: new Date().toISOString(),
     system_channel_id: "system-channel",
     channels: [

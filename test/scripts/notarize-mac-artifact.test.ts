@@ -132,7 +132,7 @@ const submissionId = "11111111-2222-4333-8444-555555555555";
 
 function notarizationFixture(extension = "zip") {
   const root = tempDirs.make("openclaw-notary-resume-");
-  const artifact = path.join(root, `Zero to Agent.${extension}`);
+  const artifact = path.join(root, `OpenAgent.${extension}`);
   const submission = path.join(root, "submission.json");
   const result = path.join(root, "accepted.json");
   const calls = path.join(root, "calls.jsonl");

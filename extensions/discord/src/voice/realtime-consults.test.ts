@@ -292,8 +292,7 @@ defineDiscordVoiceTests(
         "call-late",
         {
           status: "already_delivered",
-          message:
-            "Zero to Agent already delivered this answer to Discord voice. Do not repeat it.",
+          message: "OpenAgent already delivered this answer to Discord voice. Do not repeat it.",
         },
         { suppressResponse: true },
       );
@@ -316,8 +315,7 @@ defineDiscordVoiceTests(
           "call-late-unsuppressed",
           {
             status: "already_delivered",
-            message:
-              "Zero to Agent already delivered this answer to Discord voice. Do not repeat it.",
+            message: "OpenAgent already delivered this answer to Discord voice. Do not repeat it.",
           },
         ]);
       });
@@ -425,7 +423,7 @@ defineDiscordVoiceTests(
                   {
                     status: "already_delivered",
                     message:
-                      "Zero to Agent already delivered this answer to Discord voice. Do not repeat it.",
+                      "OpenAgent already delivered this answer to Discord voice. Do not repeat it.",
                   },
                   { suppressResponse: true },
                 ]
@@ -480,8 +478,7 @@ defineDiscordVoiceTests(
         "call-late",
         {
           status: "already_delivered",
-          message:
-            "Zero to Agent already delivered this answer to Discord voice. Do not repeat it.",
+          message: "OpenAgent already delivered this answer to Discord voice. Do not repeat it.",
         },
         { suppressResponse: true },
       );
@@ -539,8 +536,7 @@ defineDiscordVoiceTests(
         "call-new",
         {
           status: "already_delivered",
-          message:
-            "Zero to Agent already delivered this answer to Discord voice. Do not repeat it.",
+          message: "OpenAgent already delivered this answer to Discord voice. Do not repeat it.",
         },
         { suppressResponse: true },
       );
@@ -624,7 +620,7 @@ defineDiscordVoiceTests(
         sessionKey: "agent:main:discord:channel:1001",
       });
       resolveRealtimeBootstrapContextInstructionsMock.mockResolvedValue(
-        "Zero to Agent realtime voice profile context:\n\n### IDENTITY.md\nName: Wilfred",
+        "OpenAgent realtime voice profile context:\n\n### IDENTITY.md\nName: Wilfred",
       );
       const { bridgeParams } = await createJoinedBidiFixture({
         voice: { realtime: { consultPolicy: "always" } },
@@ -637,7 +633,7 @@ defineDiscordVoiceTests(
         files: undefined,
         warn: expect.any(Function),
       });
-      expect(bridgeParams?.instructions).toContain("Zero to Agent realtime voice profile context");
+      expect(bridgeParams?.instructions).toContain("OpenAgent realtime voice profile context");
       expect(bridgeParams?.instructions).toContain("Name: Wilfred");
       expect(bridgeParams?.instructions).toContain("short natural backchannel");
       expect(bridgeParams?.instructions).toContain("Call openclaw_agent_consult");

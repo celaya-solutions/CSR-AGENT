@@ -24,7 +24,7 @@ metadata:
 
 # Trello Skill
 
-Manage Trello boards, lists, and cards directly from Zero to Agent.
+Manage Trello boards, lists, and cards directly from OpenAgent.
 
 ## Setup
 

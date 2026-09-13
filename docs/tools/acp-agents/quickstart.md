@@ -19,7 +19,7 @@ openclaw config set plugins.entries.acpx.enabled true
 Source checkouts can use the local `extensions/acpx` workspace plugin after
 `pnpm install`. Run `/acp doctor` for a readiness check.
 
-Zero to Agent only teaches agents about ACP spawning when ACP is **truly usable**:
+OpenAgent only teaches agents about ACP spawning when ACP is **truly usable**:
 ACP must be enabled, dispatch must not be disabled, the current session must
 not be sandbox-blocked, and a runtime backend must be loaded and healthy. If
 any condition fails, ACP skills and `sessions_spawn` ACP guidance stay hidden
@@ -29,18 +29,18 @@ so the agent does not suggest an unavailable backend.
   <Accordion title="First-run gotchas">
     - If `plugins.allow` is set, it is a restrictive plugin inventory and **must** include `acpx`, or the installed ACP backend is intentionally blocked (`/acp doctor` reports the missing allowlist entry).
     - The Codex ACP adapter ships with the `acpx` plugin and launches locally when possible.
-    - Codex ACP runs with an isolated `CODEX_HOME`. Zero to Agent copies trusted project trust entries plus safe model/provider routing config (`model`, `model_provider`, `model_reasoning_effort`, `sandbox_mode`, and safe `model_providers.<name>` fields) from the host Codex config; auth, notifications, and hooks stay on the host config only.
+    - Codex ACP runs with an isolated `CODEX_HOME`. OpenAgent copies trusted project trust entries plus safe model/provider routing config (`model`, `model_provider`, `model_reasoning_effort`, `sandbox_mode`, and safe `model_providers.<name>` fields) from the host Codex config; auth, notifications, and hooks stay on the host config only.
     - Other target harness adapters may be fetched on demand with `npx` on first use.
     - Vendor auth must already exist on the host for that harness.
     - If the host has no npm or network access, first-run adapter fetches fail until caches are pre-warmed or the adapter is installed another way.
 
   </Accordion>
   <Accordion title="Runtime prerequisites">
-    ACP launches a real external harness process. Zero to Agent owns routing,
+    ACP launches a real external harness process. OpenAgent owns routing,
     background-task state, delivery, bindings, and policy; the harness owns
     its provider login, model catalog, filesystem behavior, and native tools.
 
-    Before blaming Zero to Agent, verify:
+    Before blaming OpenAgent, verify:
 
     - `/acp doctor` reports an enabled, healthy backend.
     - The target id is allowed by `acp.allowedAgents` when that allowlist is set.
@@ -53,7 +53,7 @@ so the agent does not suggest an unavailable backend.
   </Accordion>
 </AccordionGroup>
 
-Zero to Agent plugin tools and built-in Zero to Agent tools are **not** exposed to ACP
+OpenAgent plugin tools and built-in OpenAgent tools are **not** exposed to ACP
 harnesses by default. Enable the explicit MCP bridges in
 [ACP agents - setup](/tools/acp-agents-setup) only when the harness should
 call those tools directly.
@@ -78,7 +78,7 @@ With the `acpx` backend, use these ids as `/acp spawn <id>` or
 | `kiro`       | Kiro CLI                                            | Adapter availability and model control depend on the installed CLI.                 |
 | `mux`        | Mux CLI ACP adapter                                 | Fetched on demand with `npx`.                                                       |
 | `opencode`   | OpenCode ACP adapter                                | Requires OpenCode CLI/provider auth.                                                |
-| `openclaw`   | Zero to Agent Gateway bridge through `openclaw acp` | Lets an ACP-aware harness talk back to a Zero to Agent Gateway session.             |
+| `openclaw`   | OpenAgent Gateway bridge through `openclaw acp` | Lets an ACP-aware harness talk back to an OpenAgent Gateway session.             |
 | `qoder`      | Qoder CLI                                           | Adapter availability and model control depend on the installed CLI.                 |
 | `qwen`       | Qwen Code / Qwen CLI                                | Requires Qwen-compatible auth on the host.                                          |
 | `trae`       | Trae CLI ACP adapter                                | Adapter availability and model control depend on the installed CLI.                 |
@@ -86,6 +86,6 @@ With the `acpx` backend, use these ids as `/acp spawn <id>` or
 `pi` (pi-acp) is also registered in the acpx backend but is not a coding
 harness in the same sense as the others above.
 
-Custom acpx agent aliases can be configured in acpx itself, but Zero to Agent
+Custom acpx agent aliases can be configured in acpx itself, but OpenAgent
 policy still checks `acp.allowedAgents` and any
 `agents.entries.*.runtime.acp.agent` mapping before dispatch.

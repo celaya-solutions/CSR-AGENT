@@ -1863,7 +1863,7 @@ describe("RealtimeCallHandler path routing", () => {
   });
 
   describe.each(["forced", "native", "general"] as const)("%s host tool outcomes", (path) => {
-    const cancelled = { status: "cancelled", message: "Cancelled the active Zero to Agent run." };
+    const cancelled = { status: "cancelled", message: "Cancelled the active OpenAgent run." };
     const outcomes = [
       { label: "AbortSignal cancellation", error: AbortSignal.abort().reason, result: cancelled },
       {
@@ -2074,7 +2074,7 @@ describe("RealtimeCallHandler path routing", () => {
             "native-cancelled",
             {
               status: "cancelled",
-              message: "Zero to Agent cancelled this consult before completion. Do not restart it.",
+              message: "OpenAgent cancelled this consult before completion. Do not restart it.",
             },
             undefined,
           );
@@ -2150,7 +2150,7 @@ describe("RealtimeCallHandler path routing", () => {
         await waitForRealtimeTest(() => {
           expect(sendUserMessage).toHaveBeenCalledTimes(1);
           expect(expectDefined(sendUserMessage.mock.calls.at(0), "user message")).toEqual([
-            "Internal Zero to Agent consult result is ready.\nDo not call tools for this internal result.\nSpeak the following answer to the caller now, briefly and naturally:\nI created the smoke test file.",
+            "Internal OpenAgent consult result is ready.\nDo not call tools for this internal result.\nSpeak the following answer to the caller now, briefly and naturally:\nI created the smoke test file.",
           ]);
         });
       } finally {

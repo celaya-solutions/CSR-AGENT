@@ -91,7 +91,7 @@ function postPublicationFailure(params: {
   );
 }
 
-/** Publish one file without replacement under Zero to Agent's durability policy. */
+/** Publish one file without replacement under OpenAgent's durability policy. */
 export async function publishFileNoClobber(
   sourcePath: string,
   targetPath: string,

@@ -26,7 +26,7 @@ function iosIntent() {
     buildNumber: "8",
     gatewayVersion: "2026.9.2",
     internalGroupId: "group-123",
-    internalGroupName: "Zero to Agent Internal",
+    internalGroupName: "OpenAgent Internal",
     kind: "openclaw-mobile-release-ref-intent",
     platform: "ios",
     schemaVersion: 2,
@@ -151,7 +151,7 @@ describe("mobile release intent", () => {
     expect(() =>
       validateMobileReleaseIntent({
         ...iosIntent(),
-        internalGroupName: "Zero to Agent\nInternal",
+        internalGroupName: "OpenAgent\nInternal",
       }),
     ).toThrow("bounded printable string");
 

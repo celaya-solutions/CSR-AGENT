@@ -66,7 +66,7 @@ function steerWithDeliveryWait(
   });
 }
 
-describe("embedded Zero to Agent queued steering cancellation", () => {
+describe("embedded OpenAgent queued steering cancellation", () => {
   it.each(["text", "offloaded", "recorded"] as const)(
     "keeps %s replies distinct from harness secrets",
     async (kind) => {

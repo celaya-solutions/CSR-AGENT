@@ -1,4 +1,4 @@
-/** MCP SDK OAuth provider backed by canonical Zero to Agent state. */
+/** MCP SDK OAuth provider backed by canonical OpenAgent state. */
 import { randomUUID } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
 import type { OAuthClientProvider } from "@modelcontextprotocol/sdk/client/auth.js";
@@ -38,7 +38,7 @@ function buildOAuthClientMetadata(
 ): OAuthClientMetadata {
   const redirectUrl = resolveOAuthRedirectUrl(config, store);
   return {
-    client_name: "Zero to Agent MCP",
+    client_name: "OpenAgent MCP",
     redirect_uris: [redirectUrl],
     grant_types: ["authorization_code", "refresh_token"],
     response_types: ["code"],

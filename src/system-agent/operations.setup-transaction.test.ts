@@ -267,7 +267,7 @@ describe("system-agent setup transaction", () => {
     });
     const applySetup = vi.fn(async () => {
       throw new Error(
-        "Zero to Agent config changed while AI access was being tested. Try setup again.",
+        "OpenAgent config changed while AI access was being tested. Try setup again.",
       );
     });
     const { runtime } = createSystemAgentTestRuntime();

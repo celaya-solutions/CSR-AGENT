@@ -1,4 +1,4 @@
-// Openrouter plugin entrypoint registers its Zero to Agent integration.
+// Openrouter plugin entrypoint registers its OpenAgent integration.
 import { resolveAgentConfig } from "openclaw/plugin-sdk/agent-scope-runtime";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import type {

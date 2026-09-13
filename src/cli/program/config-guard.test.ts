@@ -667,7 +667,7 @@ describe("ensureConfigReady", () => {
     const runtime = await runEnsureConfigReady(["message"]);
 
     expect(plainErrorCalls(runtime)).toEqual([
-      "Zero to Agent config is invalid",
+      "OpenAgent config is invalid",
       "File: /tmp/openclaw.json",
       "Problem:",
       "  - channels.quietchat: invalid",
@@ -723,7 +723,7 @@ describe("ensureConfigReady", () => {
 
       const runtime = await runEnsureConfigReady(["message"]);
       const output = plainErrorCalls(runtime).join("\n");
-      const hint = `Config was last written by Zero to Agent ${touchedVersion}, but you are running ${VERSION} — upgrade or re-run setup.`;
+      const hint = `Config was last written by OpenAgent ${touchedVersion}, but you are running ${VERSION} — upgrade or re-run setup.`;
 
       expect(output.includes(hint)).toBe(expected);
     },
@@ -827,7 +827,7 @@ describe("ensureConfigReady", () => {
           ok: false,
           error: {
             type: "cli_error",
-            message: "Zero to Agent config is invalid: /tmp/openclaw.json",
+            message: "OpenAgent config is invalid: /tmp/openclaw.json",
           },
           issues: [{ path: "channels.quietchat", message: "invalid" }],
         });

@@ -23,12 +23,12 @@ class SessionsScreenGroupingTest {
       ) { "Main thread" },
     )
     assertEquals(
-      "OpenClaw App · Release planning",
+      "OpenAgent App · Release planning",
       sessionPresentationTitle(
         ChatSessionEntry(
           key = dashboardKey,
           updatedAtMs = null,
-          label = "OpenClaw App · Release planning",
+          label = "OpenAgent App · Release planning",
           displayName = "Generated title",
         ),
       ) { "Main thread" },
@@ -45,19 +45,19 @@ class SessionsScreenGroupingTest {
         ChatSessionEntry(
           key = "agent:main:node-1234567890ab",
           updatedAtMs = null,
-          autoLabel = "OpenClaw App · Pixel · 1234567890ab",
+          autoLabel = "OpenAgent App · Pixel · 1234567890ab",
           displayName = "Generated title",
           localFallbackTitle = "Local device",
         ),
       ) { "Main thread" },
     )
     assertEquals(
-      "OpenClaw App · Pixel · 1234567890ab",
+      "OpenAgent App · Pixel · 1234567890ab",
       sessionPresentationTitle(
         ChatSessionEntry(
           key = "agent:main:node-1234567890ab",
           updatedAtMs = null,
-          autoLabel = "OpenClaw App · Pixel · 1234567890ab",
+          autoLabel = "OpenAgent App · Pixel · 1234567890ab",
           localFallbackTitle = "Local device",
         ),
       ) { "Main thread" },
@@ -72,10 +72,10 @@ class SessionsScreenGroupingTest {
     )
     val manualLabels =
       listOf(
-        "OpenClaw App",
-        "OpenClaw App · 1234567890ab",
-        "OpenClaw App · Pixel · 1234567890ab",
-        "OpenClaw App · Release planning · 1234567890ab",
+        "OpenAgent App",
+        "OpenAgent App · 1234567890ab",
+        "OpenAgent App · Pixel · 1234567890ab",
+        "OpenAgent App · Release planning · 1234567890ab",
       )
     for (manualLabel in manualLabels) {
       assertEquals(
@@ -85,7 +85,7 @@ class SessionsScreenGroupingTest {
             key = "agent:main:node-1234567890ab",
             updatedAtMs = null,
             label = manualLabel,
-            autoLabel = "OpenClaw App · Pixel · 1234567890ab",
+            autoLabel = "OpenAgent App · Pixel · 1234567890ab",
             displayName = "Generated title",
             localFallbackTitle = "Local device",
           ),

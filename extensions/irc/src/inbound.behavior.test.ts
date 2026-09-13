@@ -59,7 +59,7 @@ function createAccount(overrides?: Partial<ResolvedIrcAccount>): ResolvedIrcAcco
     accountId: "default",
     enabled: true,
     server: "irc.example.com",
-    nick: "Zero to Agent",
+    nick: "OpenAgent",
     config: {
       dmPolicy: "pairing",
       allowFrom: [],
@@ -122,7 +122,7 @@ describe("irc inbound behavior", () => {
     expect(sendReply).toHaveBeenCalledWith(
       "alice",
       [
-        "Zero to Agent: access not configured.",
+        "OpenAgent: access not configured.",
         "",
         "Your IRC id: alice!ident@example.com",
         "Pairing code:",
@@ -337,13 +337,13 @@ describe("irc inbound behavior", () => {
   it.each([
     {
       label: "ordinary nick",
-      nick: "Zero to Agent",
-      text: "Zero to Agent: hello",
+      nick: "OpenAgent",
+      text: "OpenAgent: hello",
       mentioned: true,
     },
     {
       label: "ASCII case folding",
-      nick: "Zero to Agent",
+      nick: "OpenAgent",
       text: "openclaw: hello",
       mentioned: true,
     },

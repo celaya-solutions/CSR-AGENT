@@ -62,7 +62,7 @@ private fun createContextDnsResolver(context: Context): DnsResolver = DnsResolve
 private fun createLegacyDnsResolver(): DnsResolver = DnsResolver.getInstance()
 
 /**
- * Watches local DNS-SD and optional wide-area DNS-SD for reachable OpenClaw gateways.
+ * Watches local DNS-SD and optional wide-area DNS-SD for reachable OpenAgent gateways.
  */
 class GatewayDiscovery(
   context: Context,

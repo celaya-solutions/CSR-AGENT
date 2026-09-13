@@ -1,5 +1,5 @@
 // Docker E2E aggregate scheduler.
-// Builds shared Docker images, prepares one OpenClaw npm tarball, assigns lanes
+// Builds shared Docker images, prepares one OpenAgent npm tarball, assigns lanes
 // to bare/functional images, and runs lanes through weighted resource pools.
 
 import assert from "node:assert/strict";
@@ -1222,7 +1222,7 @@ async function prepareOpenClawPackage(baseEnv: NodeJS.ProcessEnv, logDir: string
     baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ = packageTgz;
     baseEnv.OPENCLAW_BUNDLED_CHANNEL_HOST_BUILD = "0";
     baseEnv.OPENCLAW_NPM_ONBOARD_HOST_BUILD = "0";
-    console.log(`==> OpenClaw package: ${packageTgz}`);
+    console.log(`==> OpenAgent package: ${packageTgz}`);
     return;
   }
 
@@ -1230,7 +1230,7 @@ async function prepareOpenClawPackage(baseEnv: NodeJS.ProcessEnv, logDir: string
   await mkdir(packDir, { recursive: true });
   const packageTgz = path.join(packDir, "openclaw-current.tgz");
   await runForeground(
-    "Prepare OpenClaw package once",
+    "Prepare OpenAgent package once",
     `node ${shellQuote(path.join(HARNESS_ROOT_DIR, "scripts/package-openclaw-for-docker.mjs"))} --source-dir ${shellQuote(ROOT_DIR)} --allow-unreleased-changelog --output-dir ${shellQuote(packDir)} --output-name openclaw-current.tgz`,
     baseEnv,
   );
@@ -1241,7 +1241,7 @@ async function prepareOpenClawPackage(baseEnv: NodeJS.ProcessEnv, logDir: string
   baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ = packageTgz;
   baseEnv.OPENCLAW_BUNDLED_CHANNEL_HOST_BUILD = "0";
   baseEnv.OPENCLAW_NPM_ONBOARD_HOST_BUILD = "0";
-  console.log(`==> OpenClaw package: ${baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ}`);
+  console.log(`==> OpenAgent package: ${baseEnv.OPENCLAW_CURRENT_PACKAGE_TGZ}`);
 }
 
 export function preparePrepublishPluginRegistry(
@@ -1962,7 +1962,7 @@ async function main() {
       await prepareOpenClawPackage(baseEnv, logDir);
     });
   } else {
-    console.log("==> OpenClaw package: not needed for selected lanes");
+    console.log("==> OpenAgent package: not needed for selected lanes");
   }
   if (plan.needs.prepublishPluginRegistry && !baseEnv.OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_DIR) {
     await runPhase(phases, "prepare-prepublish-plugin-registry", {}, async () => {

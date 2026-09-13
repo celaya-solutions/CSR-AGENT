@@ -284,7 +284,7 @@ vi.mock("./harness/builtin-openclaw.js", () => ({
   createOpenClawAgentHarness: (): AgentHarness => {
     const harness: AgentHarness = {
       id: "openclaw",
-      label: "Zero to Agent embedded agent",
+      label: "OpenAgent embedded agent",
       supports: () => ({ supported: true, priority: 0 }),
       runAttempt: vi.fn(),
     };
@@ -1485,7 +1485,7 @@ describe("runBtwSideQuestion", () => {
     },
   );
 
-  it("keeps an unprofiled subscription token on the Zero to Agent BTW path", async () => {
+  it("keeps an unprofiled subscription token on the OpenAgent BTW path", async () => {
     const supports = vi.fn(supportsPreparedOpenAIAuth);
     const codexSideQuestionMock = registerCodexSideQuestionHarness({ supports });
     const subscriptionModel = {
@@ -1505,7 +1505,7 @@ describe("runBtwSideQuestion", () => {
       source: "models.json",
     });
     requireApiKeyMock.mockReturnValue("subscription-token");
-    mockDoneAnswer("Zero to Agent side answer.");
+    mockDoneAnswer("OpenAgent side answer.");
 
     await expect(
       runSideQuestion({
@@ -1519,7 +1519,7 @@ describe("runBtwSideQuestion", () => {
         provider: "openai",
         model: "gpt-5.5",
       }),
-    ).resolves.toEqual({ text: "Zero to Agent side answer." });
+    ).resolves.toEqual({ text: "OpenAgent side answer." });
 
     expect(codexSideQuestionMock).not.toHaveBeenCalled();
     expect(streamSimpleMock).toHaveBeenCalled();

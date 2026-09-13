@@ -30,7 +30,7 @@ describe("maybeControlDiscordVoiceAgentRun", () => {
       active: false,
       mode: "cancel",
       sessionKey: "discord:g1:c1",
-      message: "There is no active Zero to Agent run to cancel.",
+      message: "There is no active OpenAgent run to cancel.",
       speak: true,
       suppress: false,
     };
@@ -50,7 +50,7 @@ describe("maybeControlDiscordVoiceAgentRun", () => {
       active: true,
       mode: "cancel",
       sessionKey: "discord:g1:c1",
-      message: "Cancelled the active Zero to Agent run.",
+      message: "Cancelled the active OpenAgent run.",
       speak: true,
       suppress: false,
     };
@@ -64,7 +64,7 @@ describe("maybeControlDiscordVoiceAgentRun", () => {
     ).resolves.toEqual({
       handled: true,
       result,
-      speakText: "Cancelled the active Zero to Agent run.",
+      speakText: "Cancelled the active OpenAgent run.",
     });
   });
 

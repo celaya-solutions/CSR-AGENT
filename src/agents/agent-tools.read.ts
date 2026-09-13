@@ -1015,7 +1015,7 @@ type SandboxToolParams = {
   modelHasVision?: boolean;
 };
 
-/** Create a sandbox-backed read tool with Zero to Agent result normalization. */
+/** Create a sandbox-backed read tool with OpenAgent result normalization. */
 export function createSandboxedReadTool(params: SandboxToolParams) {
   const base = eraseSessionFileTool(
     createReadTool(params.root, {
@@ -1089,7 +1089,7 @@ export function createHostWorkspaceEditTool(
   return wrapToolParamValidation(base, REQUIRED_PARAM_GROUPS.edit, root);
 }
 
-/** Wrap the base read tool with Zero to Agent paging, MIME, and image handling. */
+/** Wrap the base read tool with OpenAgent paging, MIME, and image handling. */
 export function createOpenClawReadTool(
   base: AnyAgentTool,
   options?: OpenClawReadToolOptions,

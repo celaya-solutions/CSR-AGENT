@@ -1,4 +1,4 @@
-// Session Log Mentions script supports OpenClaw repository automation.
+// Session Log Mentions script supports OpenAgent repository automation.
 import fs from "node:fs/promises";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";

@@ -1,4 +1,4 @@
-// Covers Zero to Agent's default fs-safe native helper configuration.
+// Covers OpenAgent's default fs-safe native helper configuration.
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { withEnvAsync } from "../test-utils/env.js";
 
@@ -34,7 +34,7 @@ describe("fs-safe defaults", () => {
     configureFsSafeNative.mockReset();
   });
 
-  it("disables the native helper by default in Zero to Agent", async () => {
+  it("disables the native helper by default in OpenAgent", async () => {
     await importDefaults();
 
     expect(configureFsSafeNative).toHaveBeenCalledWith({ mode: "off" });
@@ -46,7 +46,7 @@ describe("fs-safe defaults", () => {
     expect(configureFsSafeNative).not.toHaveBeenCalled();
   });
 
-  it("honors the Zero to Agent-specific env mode override", async () => {
+  it("honors the OpenAgent-specific env mode override", async () => {
     await importDefaults({ OPENCLAW_FS_SAFE_NATIVE_MODE: "auto" });
 
     expect(configureFsSafeNative).not.toHaveBeenCalled();

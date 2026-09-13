@@ -9,13 +9,13 @@ export function throwStartupMigrationRefusal(message: string, cause?: unknown): 
 
 export function throwStartupMigrationGuardRejected(): never {
   throw new Error(
-    "Zero to Agent startup migrations were skipped because the selected config changed during startup; refusing to report the gateway ready. Retry startup so the new config can be validated.",
+    "OpenAgent startup migrations were skipped because the selected config changed during startup; refusing to report the gateway ready. Retry startup so the new config can be validated.",
   );
 }
 
 export function throwStartupMigrationIdentityChanged(): never {
   throwStartupMigrationRefusal(
-    "Zero to Agent migration inputs changed during startup; refusing to report the gateway ready. Restart Zero to Agent so state migrations run against the final config and plugin inventory.",
+    "OpenAgent migration inputs changed during startup; refusing to report the gateway ready. Restart OpenAgent so state migrations run against the final config and plugin inventory.",
   );
 }
 

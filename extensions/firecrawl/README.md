@@ -1,8 +1,8 @@
-# Zero to Agent Firecrawl Plugin
+# OpenAgent Firecrawl Plugin
 
-Official Zero to Agent plugin for Firecrawl.
+Official OpenAgent plugin for Firecrawl.
 
-Install from Zero to Agent:
+Install from OpenAgent:
 
 ```bash
 openclaw plugins install @openclaw/firecrawl-plugin

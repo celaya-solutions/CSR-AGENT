@@ -34,7 +34,7 @@ describe("tokenjuice plugin", () => {
     expect(manifest.enabledByDefault).toBeUndefined();
   });
 
-  it("registers tokenjuice tool result middleware for Zero to Agent and Codex runtimes", () => {
+  it("registers tokenjuice tool result middleware for OpenAgent and Codex runtimes", () => {
     const registerAgentToolResultMiddleware = vi.fn();
 
     plugin.register(

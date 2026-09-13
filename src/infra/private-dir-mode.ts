@@ -1,6 +1,6 @@
-// Shared directory-permission tightening for Zero to Agent-owned private roots.
+// Shared directory-permission tightening for OpenAgent-owned private roots.
 // fs-safe 0.8 no longer repairs existing directory modes; these helpers keep
-// Zero to Agent's documented behavior of tightening its own directories before
+// OpenAgent's documented behavior of tightening its own directories before
 // writing secrets. Every component is opened no-follow and chmodded through
 // the pinned descriptor, so a swapped or symlinked directory is never
 // mutated — fs-safe rejects those itself.

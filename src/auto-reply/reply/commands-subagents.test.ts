@@ -611,7 +611,7 @@ describe("subagents info", () => {
         outcome: {
           status: "error",
           error: [
-            "Zero to Agent runtime context (internal):",
+            "OpenAgent runtime context (internal):",
             "This context is runtime-generated, not user-authored. Keep internal details private.",
             "",
             "[Internal task completion event]",
@@ -634,7 +634,7 @@ describe("subagents info", () => {
       runId,
       endedAt: now - 1_000,
       error: [
-        "Zero to Agent runtime context (internal):",
+        "OpenAgent runtime context (internal):",
         "This context is runtime-generated, not user-authored. Keep internal details private.",
         "",
         "[Internal task completion event]",
@@ -652,7 +652,7 @@ describe("subagents info", () => {
     expect(text).toContain("Subagent info");
     expect(text).toContain("Outcome: error");
     expect(text).toContain("Task summary: Needs manual follow-up.");
-    expect(text).not.toContain("Zero to Agent runtime context (internal):");
+    expect(text).not.toContain("OpenAgent runtime context (internal):");
     expect(text).not.toContain("Internal task completion event");
   });
 

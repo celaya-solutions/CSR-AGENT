@@ -331,7 +331,7 @@ jobs:
           if [[ "$status" == "pass" ]]; then
             screenshot_required=true
           fi
-          evidence_summary="Mantis ran Slack QA inside a Crabbox Linux VNC desktop, started an OpenClaw Slack gateway in that VM, opened Slack Web in the visible browser, and captured screenshot/video evidence."
+          evidence_summary="Mantis ran Slack QA inside a Crabbox Linux VNC desktop, started an OpenAgent Slack gateway in that VM, opened Slack Web in the visible browser, and captured screenshot/video evidence."
           expected_result="Slack QA and VM gateway setup pass"
           checkpoint_artifacts='[]'
           checkpoint_required=false

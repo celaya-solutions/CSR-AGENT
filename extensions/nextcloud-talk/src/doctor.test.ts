@@ -75,7 +75,7 @@ describe("nextcloud-talk doctor", () => {
       ok: false,
       code: "missing_response_feature",
       message:
-        'Nextcloud Talk bot "Zero to Agent" (1) is missing the response feature (features=9); outbound replies will fail.',
+        'Nextcloud Talk bot "OpenAgent" (1) is missing the response feature (features=9); outbound replies will fail.',
     });
 
     await expect(
@@ -94,7 +94,7 @@ describe("nextcloud-talk doctor", () => {
         doctorFixCommand: "openclaw doctor --fix",
       }),
     ).resolves.toEqual([
-      '- channels.nextcloud-talk.default: Nextcloud Talk bot "Zero to Agent" (1) is missing the response feature (features=9); outbound replies will fail.',
+      '- channels.nextcloud-talk.default: Nextcloud Talk bot "OpenAgent" (1) is missing the response feature (features=9); outbound replies will fail.',
     ]);
   });
 

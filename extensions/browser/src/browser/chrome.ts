@@ -1,5 +1,5 @@
 /**
- * Zero to Agent-managed Chrome lifecycle and CDP helpers.
+ * OpenAgent-managed Chrome lifecycle and CDP helpers.
  *
  * Builds launch args, starts/stops managed Chrome, probes CDP readiness, and
  * resolves WebSocket endpoints for browser control.
@@ -623,7 +623,7 @@ async function ensureManagedChromePortAvailable(
     }
   };
 
-  // Chromium tries IPv4 loopback first, while Zero to Agent polls the configured endpoint.
+  // Chromium tries IPv4 loopback first, while OpenAgent polls the configured endpoint.
   // Probe both so neither Chrome's bind nor the later readiness check can be captured.
   try {
     await ensureProbeHostsAvailable();
@@ -712,7 +712,7 @@ function resolveBrowserExecutable(
   );
 }
 
-/** Resolve the user-data-dir path for a managed Zero to Agent Chrome profile. */
+/** Resolve the user-data-dir path for a managed OpenAgent Chrome profile. */
 export function resolveOpenClawUserDataDir(profileName = DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME) {
   return path.join(CONFIG_DIR, "browser", profileName, "user-data");
 }
@@ -721,7 +721,7 @@ function cdpUrlForPort(cdpPort: number) {
   return `http://127.0.0.1:${cdpPort}`;
 }
 
-/** Build Chrome launch arguments for the managed Zero to Agent browser. */
+/** Build Chrome launch arguments for the managed OpenAgent browser. */
 function buildOpenClawChromeLaunchArgs(params: {
   resolved: ResolvedBrowserConfig;
   profile: ResolvedBrowserProfile;
@@ -749,7 +749,7 @@ function buildOpenClawChromeLaunchArgs(params: {
   ];
 
   if (platform === "darwin" && params.useMockKeychain) {
-    // This is an isolated Zero to Agent-owned profile, not the user's Chrome profile.
+    // This is an isolated OpenAgent-owned profile, not the user's Chrome profile.
     // Keep its basic password store non-interactive so headless Chrome can
     // encrypt and persist cookies without login-keychain prompts.
     args.push("--use-mock-keychain");
@@ -913,7 +913,7 @@ async function waitForManagedLaunchPoll(delayMs: number, signal?: AbortSignal): 
   }
 }
 
-/** Launch or attach to the managed Zero to Agent Chrome profile. */
+/** Launch or attach to the managed OpenAgent Chrome profile. */
 export async function launchOpenClawChrome(
   resolved: ResolvedBrowserConfig,
   profile: ResolvedBrowserProfile,

@@ -2,7 +2,7 @@
   "name": "@openclaw/migrate-claude",
   "version": "2026.9.4",
   "private": true,
-  "description": "Claude to Zero to Agent migration provider",
+  "description": "Claude to OpenAgent migration provider",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*",

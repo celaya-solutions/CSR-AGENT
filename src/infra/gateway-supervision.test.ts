@@ -32,7 +32,7 @@ describe("gateway supervision", () => {
         [GATEWAY_SUPERVISOR_MODE_ENV]: "external",
       }),
     ).toThrow(
-      "Zero to Agent gateway lifecycle is managed by an external supervisor " +
+      "OpenAgent gateway lifecycle is managed by an external supervisor " +
         "(OPENCLAW_SUPERVISOR_MODE=external). Use that supervisor to restart the gateway.",
     );
   });
@@ -81,7 +81,7 @@ describe("gateway supervision", () => {
       platform: "win32" as const,
       platformName: "Windows",
       envKey: "OPENCLAW_WINDOWS_TASK_NAME",
-      value: "Zero to Agent Gateway",
+      value: "OpenAgent Gateway",
     },
   ])(
     "rejects named-profile $envKey overrides on $platformName",

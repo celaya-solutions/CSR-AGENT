@@ -1,6 +1,6 @@
 {
-  "name": "Zero to Agent Control",
-  "short_name": "Zero to Agent",
+  "name": "OpenAgent Control",
+  "short_name": "OpenAgent",
   "description": "Multi-channel AI gateway control panel",
   "start_url": "./",
   "display": "standalone",

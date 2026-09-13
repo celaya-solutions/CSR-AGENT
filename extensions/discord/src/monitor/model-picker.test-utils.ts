@@ -21,8 +21,8 @@ export function createModelsProviderData(
       : (insertionProvider ?? "openai");
   const builtin = {
     id: "openclaw",
-    label: "Zero to Agent Default",
-    description: "Use the built-in Zero to Agent runtime.",
+    label: "OpenAgent Default",
+    description: "Use the built-in OpenAgent runtime.",
   };
   const runtimeChoicesByProvider = new Map(providers.map((provider) => [provider, [builtin]]));
   const runtimeChoicesByModel = new Map(

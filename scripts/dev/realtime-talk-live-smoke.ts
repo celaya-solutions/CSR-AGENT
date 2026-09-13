@@ -1,4 +1,4 @@
-// Realtime Talk Live Smoke script supports OpenClaw repository automation.
+// Realtime Talk Live Smoke script supports OpenAgent repository automation.
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -371,7 +371,7 @@ async function smokeOpenAIBackendBridge(apiKey: string): Promise<SmokeResult> {
       model: OPENAI_REALTIME_MODEL,
       voice: OPENAI_REALTIME_VOICE,
     },
-    instructions: "OpenClaw backend realtime live smoke. Do not speak yet.",
+    instructions: "OpenAgent backend realtime live smoke. Do not speak yet.",
     onAudio: () => {},
     onClearAudio: () => {},
     onEvent: (event) => {
@@ -843,7 +843,7 @@ async function smokeGoogleLiveBrowserWs(browser: Browser, apiKey: string): Promi
       model: GOOGLE_REALTIME_MODEL,
       voice: GOOGLE_REALTIME_VOICE,
       instructions:
-        "OpenClaw browser Video Talk live smoke. After receiving a visual frame and request, call describe_view exactly once.",
+        "OpenAgent browser Video Talk live smoke. After receiving a visual frame and request, call describe_view exactly once.",
       tools: [REALTIME_VOICE_DESCRIBE_VIEW_TOOL],
     });
     if (

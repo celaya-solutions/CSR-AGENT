@@ -61,7 +61,7 @@ suite.define(() => {
                   {
                     value: "primary",
                     label: "Primary iMessage connection",
-                    hint: "The main iMessage connection for this Zero to Agent gateway",
+                    hint: "The main iMessage connection for this OpenAgent gateway",
                   },
                   {
                     value: "another",

@@ -3750,7 +3750,7 @@ describe("dispatchCronDelivery — double-announce guard", () => {
       "sessionKey is required to resolve delivery.channel=last",
     );
     expect(state.result?.error).toContain(
-      "the agent used the message tool, but Zero to Agent could not verify",
+      "the agent used the message tool, but OpenAgent could not verify",
     );
   });
 
@@ -3843,7 +3843,7 @@ describe("dispatchCronDelivery — double-announce guard", () => {
       archivedAt: Date.now(),
     });
 
-    const params = makeBaseParams({ synthesizedText: "Delivered outside Zero to Agent" });
+    const params = makeBaseParams({ synthesizedText: "Delivered outside OpenAgent" });
     params.resolvedDelivery = makeResolvedDelivery({
       channel: "whatsapp",
       to: "+15551234567",
@@ -3878,7 +3878,7 @@ describe("dispatchCronDelivery — double-announce guard", () => {
       },
     });
 
-    const params = makeBaseParams({ synthesizedText: "Delivered outside Zero to Agent" });
+    const params = makeBaseParams({ synthesizedText: "Delivered outside OpenAgent" });
     params.resolvedDelivery = makeResolvedDelivery({
       channel: "whatsapp",
       to: "+15551234567",

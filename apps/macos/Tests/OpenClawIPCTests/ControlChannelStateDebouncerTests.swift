@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct ControlChannelStateDebouncerTests {
     @Test func `terminal states apply immediately`() {
@@ -170,7 +170,7 @@ struct ControlChannelGatewayMessageTests {
                 expectedProtocol: 3),
             appVersion: "2026.8.1"))
 
-        #expect(issue.message.contains("OpenClaw app: 2026.8.1"))
+        #expect(issue.message.contains("OpenAgent app: 2026.8.1"))
         #expect(issue.message.contains("did not report its release version"))
     }
 

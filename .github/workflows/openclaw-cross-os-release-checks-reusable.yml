@@ -1,10 +1,10 @@
-name: OpenClaw Cross-OS Release Checks (Reusable)
+name: OpenAgent Cross-OS Release Checks (Reusable)
 
 on:
   workflow_dispatch:
     inputs:
       ref:
-        description: Public OpenClaw ref to validate (tag, branch, or full commit SHA)
+        description: Public OpenAgent ref to validate (tag, branch, or full commit SHA)
         required: true
         default: main
         type: string
@@ -62,7 +62,7 @@ on:
         default: ""
         type: string
       candidate_artifact_name:
-        description: Optional artifact name containing the candidate OpenClaw tarball
+        description: Optional artifact name containing the candidate OpenAgent tarball
         required: false
         default: ""
         type: string
@@ -92,7 +92,7 @@ on:
         default: ""
         type: string
       candidate_version:
-        description: Optional candidate OpenClaw package version
+        description: Optional candidate OpenAgent package version
         required: false
         default: ""
         type: string
@@ -129,7 +129,7 @@ on:
         default: false
         type: boolean
       ref:
-        description: Public OpenClaw ref to validate (tag, branch, or full commit SHA)
+        description: Public OpenAgent ref to validate (tag, branch, or full commit SHA)
         required: true
         type: string
       target_context_ref:
@@ -176,7 +176,7 @@ on:
         default: ""
         type: string
       candidate_artifact_name:
-        description: Optional artifact name containing the candidate OpenClaw tarball
+        description: Optional artifact name containing the candidate OpenAgent tarball
         required: false
         default: ""
         type: string
@@ -206,7 +206,7 @@ on:
         default: ""
         type: string
       candidate_version:
-        description: Optional candidate OpenClaw package version
+        description: Optional candidate OpenAgent package version
         required: false
         default: ""
         type: string

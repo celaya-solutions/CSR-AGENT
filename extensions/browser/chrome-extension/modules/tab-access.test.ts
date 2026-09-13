@@ -161,9 +161,7 @@ describe("tab access policy", () => {
     expect((await harness.policy.listAccessibleTabs()).map((tab) => tab.id)).toEqual([1, 2]);
 
     harness.policy.setMode("selected");
-    await expect(harness.policy.requireTab(1)).rejects.toThrow(
-      "not in the Zero to Agent tab group",
-    );
+    await expect(harness.policy.requireTab(1)).rejects.toThrow("not in the OpenAgent tab group");
     await expect(harness.policy.requireTab(2)).resolves.toMatchObject({ id: 2 });
   });
 
@@ -195,7 +193,7 @@ describe("tab access policy", () => {
     const beforePause = harness.policy.capture(1);
     await harness.policy.pause(1);
     await expect(harness.policy.requireTab(1, beforePause)).rejects.toThrow("access was revoked");
-    await expect(harness.policy.requireTab(1)).rejects.toThrow("paused for Zero to Agent");
+    await expect(harness.policy.requireTab(1)).rejects.toThrow("paused for OpenAgent");
   });
 
   it("blocks new authority before the asynchronous pause lookup completes", async () => {
@@ -213,7 +211,7 @@ describe("tab access policy", () => {
 
     const pausing = harness.policy.pause(1);
     expect(harness.policy.isDenied(1)).toBe(true);
-    await expect(harness.policy.requireTab(1)).rejects.toThrow("paused for Zero to Agent");
+    await expect(harness.policy.requireTab(1)).rejects.toThrow("paused for OpenAgent");
     releaseLookup();
     await expect(pausing).resolves.toBeUndefined();
   });
@@ -228,9 +226,7 @@ describe("tab access policy", () => {
     await expect(harness.policy.listAccessibleTabs()).resolves.toEqual([]);
     harness.policy.setMode("selected");
     harness.policy.endTransition();
-    await expect(harness.policy.requireTab(1)).rejects.toThrow(
-      "not in the Zero to Agent tab group",
-    );
+    await expect(harness.policy.requireTab(1)).rejects.toThrow("not in the OpenAgent tab group");
   });
 
   it("scopes revocation barriers to one tab while keeping captured authority fail closed", async () => {
@@ -295,7 +291,7 @@ describe("tab access policy", () => {
     expect(isSelectedTab).toHaveBeenCalledTimes(2);
   });
 
-  it("restarts an in-flight discovery when a Zero to Agent group becomes eligible", async () => {
+  it("restarts an in-flight discovery when an OpenAgent group becomes eligible", async () => {
     const harness = createHarness({
       tabs: [{ id: 1, url: "https://one.example", groupId: 7 }],
     });
@@ -369,16 +365,16 @@ describe("tab access policy", () => {
     });
     await harness.policy.initialize("all", true);
     expect(harness.session.values.deniedTabIdsV1).toEqual([1, 2]);
-    await expect(harness.policy.requireTab(1)).rejects.toThrow("paused for Zero to Agent");
+    await expect(harness.policy.requireTab(1)).rejects.toThrow("paused for OpenAgent");
     harness.current.set(2, { id: 2, url: "https://two.example" });
-    await expect(harness.policy.requireTab(2)).rejects.toThrow("paused for Zero to Agent");
+    await expect(harness.policy.requireTab(2)).rejects.toThrow("paused for OpenAgent");
 
     const reloaded = createTabAccessPolicy({
       chromeApi: harness.chromeApi,
       isSelectedTab: async () => false,
     });
     await reloaded.initialize("all", true);
-    await expect(reloaded.requireTab(1)).rejects.toThrow("paused for Zero to Agent");
+    await expect(reloaded.requireTab(1)).rejects.toThrow("paused for OpenAgent");
     await reloaded.allow(1);
     await expect(reloaded.requireTab(1)).resolves.toMatchObject({ id: 1 });
     expect(harness.session.values.deniedTabIdsV1).toEqual([2]);
@@ -412,6 +408,6 @@ describe("tab access policy", () => {
     expect(harness.policy.isDenied(1)).toBe(false);
     expect(harness.policy.isDenied(2)).toBe(true);
     expect(harness.session.values.deniedTabIdsV1).toEqual([2]);
-    await expect(harness.policy.requireTab(2)).rejects.toThrow("paused for Zero to Agent");
+    await expect(harness.policy.requireTab(2)).rejects.toThrow("paused for OpenAgent");
   });
 });

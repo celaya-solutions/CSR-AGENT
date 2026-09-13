@@ -41,7 +41,7 @@ describe("custodian page history", () => {
               at: Date.now() - 10_000,
               kind: "external-edit",
               source: "external",
-              summary: "Configuration edited outside Zero to Agent",
+              summary: "Configuration edited outside OpenAgent",
               invalid: true,
               opaqueChange: true,
             },

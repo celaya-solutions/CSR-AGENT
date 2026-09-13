@@ -506,7 +506,7 @@ describe("runtime recovery discovery", () => {
         const script = path.join(home, "gateway.cmd");
         mocks.encoding = encoding;
         const content = buildTaskScript({
-          programArguments: [candidate, "C:\\Zero to Agent\\dist\\index.js", "gateway"],
+          programArguments: [candidate, "C:\\OpenAgent\\dist\\index.js", "gateway"],
         });
         let bytes = encodeWindowsLauncherScript({
           format: format.startsWith("utf16") ? "vbs" : "cmd",
@@ -674,7 +674,7 @@ describe("runtime recovery discovery", () => {
   );
 
   it.each([
-    [0, "cached Zero to Agent runtime"],
+    [0, "cached OpenAgent runtime"],
     [1, "managed Gateway service"],
     [2, "PATH"],
     [3, "nvm default"],

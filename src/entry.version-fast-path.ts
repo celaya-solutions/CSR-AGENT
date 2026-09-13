@@ -55,7 +55,7 @@ export function tryHandleRootVersionFastPath(
   resolveVersion()
     .then(({ VERSION, resolveCommitHash }) => {
       const commit = resolveCommitHash({ moduleUrl: deps.moduleUrl ?? import.meta.url });
-      output(commit ? `Zero to Agent ${VERSION} (${commit})` : `Zero to Agent ${VERSION}`);
+      output(commit ? `OpenAgent ${VERSION} (${commit})` : `OpenAgent ${VERSION}`);
       exit(0);
     })
     .catch(onError);

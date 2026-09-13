@@ -1,4 +1,4 @@
-name: OpenClaw Live And E2E Checks (Reusable)
+name: OpenAgent Live And E2E Checks (Reusable)
 
 on:
   workflow_dispatch:
@@ -33,7 +33,7 @@ on:
         default: 1
         type: number
       published_upgrade_survivor_baseline:
-        description: Published OpenClaw package baseline for the published-upgrade-survivor/update-migration Docker lanes
+        description: Published OpenAgent package baseline for the published-upgrade-survivor/update-migration Docker lanes
         required: false
         default: openclaw@latest
         type: string
@@ -277,7 +277,7 @@ on:
         default: 1
         type: number
       published_upgrade_survivor_baseline:
-        description: Published OpenClaw package baseline for the published-upgrade-survivor/update-restart-auth/update-migration Docker lanes
+        description: Published OpenAgent package baseline for the published-upgrade-survivor/update-restart-auth/update-migration Docker lanes
         required: false
         default: openclaw@latest
         type: string
@@ -342,12 +342,12 @@ on:
         default: ""
         type: string
       package_sha256:
-        description: Exact root OpenClaw package SHA-256 for no-push image artifacts
+        description: Exact root OpenAgent package SHA-256 for no-push image artifacts
         required: false
         default: ""
         type: string
       package_version:
-        description: Exact OpenClaw package version for no-push image artifacts
+        description: Exact OpenAgent package version for no-push image artifacts
         required: false
         default: ""
         type: string
@@ -717,7 +717,7 @@ jobs:
 
           if [[ -z "$trusted_reason" ]]; then
             echo "Ref '${INPUT_REF}' resolved to $selected_sha, which is not trusted for secret-bearing live/E2E checks." >&2
-            echo "Allowed refs must be reachable from an OpenClaw branch or release tag." >&2
+            echo "Allowed refs must be reachable from an OpenAgent branch or release tag." >&2
             exit 1
           fi
 
@@ -1553,7 +1553,7 @@ jobs:
           node .release-harness/scripts/docker-e2e.mjs github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
           echo "plan_json=$plan_path" >> "$GITHUB_OUTPUT"
 
-      - name: Download OpenClaw Docker E2E package
+      - name: Download OpenAgent Docker E2E package
         if: contains(matrix.profiles, inputs.release_test_profile) && steps.plan.outputs.needs_package == '1'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -1945,7 +1945,7 @@ jobs:
           echo "artifact_suffix=${suffix:-targeted}" >> "$GITHUB_OUTPUT"
           echo "plan_json=$plan_path" >> "$GITHUB_OUTPUT"
 
-      - name: Download OpenClaw Docker E2E package
+      - name: Download OpenAgent Docker E2E package
         if: steps.plan.outputs.needs_package == '1'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -2178,7 +2178,7 @@ jobs:
           node .release-harness/scripts/docker-e2e.mjs github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
           echo "plan_json=$plan_path" >> "$GITHUB_OUTPUT"
 
-      - name: Download OpenClaw Docker E2E package
+      - name: Download OpenAgent Docker E2E package
         if: steps.plan.outputs.needs_package == '1'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -2542,7 +2542,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           install-bun: "true"
 
-      - name: Validate OpenClaw package artifact identity
+      - name: Validate OpenAgent package artifact identity
         id: input_package_artifact
         if: steps.plan.outputs.needs_package == '1' && needs.validate_selected_ref.outputs.package_artifact_present == 'true'
         env:
@@ -2560,11 +2560,11 @@ jobs:
             -n "${ARTIFACT_NAME// }" &&
             "$ARTIFACT_RUN_ATTEMPT" =~ ^[1-9][0-9]*$ &&
             "$ARTIFACT_RUN_ID" =~ ^[1-9][0-9]*$ ]] || {
-            echo "OpenClaw package artifact identity tuple is incomplete." >&2
+            echo "OpenAgent package artifact identity tuple is incomplete." >&2
             exit 1
           }
           [[ "$ARTIFACT_NAME" == *"-${ARTIFACT_RUN_ID}-${ARTIFACT_RUN_ATTEMPT}" ]] || {
-            echo "OpenClaw package artifact name does not bind the declared producer run attempt." >&2
+            echo "OpenAgent package artifact name does not bind the declared producer run attempt." >&2
             exit 1
           }
           artifact_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}")"
@@ -2580,7 +2580,7 @@ jobs:
               .digest == $digest and
               (.workflow_run.id | tostring) == $run_id
             ' <<< "$artifact_json" >/dev/null || {
-              echo "OpenClaw package artifact identity does not match the requested immutable tuple." >&2
+              echo "OpenAgent package artifact identity does not match the requested immutable tuple." >&2
               exit 1
             }
           attempt_json="$(
@@ -2592,7 +2592,7 @@ jobs:
             --arg run_id "$ARTIFACT_RUN_ID" \
             '(.id | tostring) == $run_id and (.run_attempt | tostring) == $attempt' \
             <<< "$attempt_json" >/dev/null || {
-            echo "OpenClaw package artifact producer run attempt does not match the requested tuple." >&2
+            echo "OpenAgent package artifact producer run attempt does not match the requested tuple." >&2
             exit 1
           }
           {
@@ -2601,7 +2601,7 @@ jobs:
             echo "run_attempt=$ARTIFACT_RUN_ATTEMPT"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Download current-run OpenClaw Docker E2E package
+      - name: Download current-run OpenAgent Docker E2E package
         if: steps.plan.outputs.needs_package == '1' && needs.validate_selected_ref.outputs.package_artifact_present == 'true' && inputs.package_artifact_run_id == github.run_id
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -2610,7 +2610,7 @@ jobs:
           run-id: ${{ inputs.package_artifact_run_id }}
           github-token: ${{ github.token }}
 
-      - name: Download previous-run OpenClaw Docker E2E package
+      - name: Download previous-run OpenAgent Docker E2E package
         if: steps.plan.outputs.needs_package == '1' && needs.validate_selected_ref.outputs.package_artifact_present == 'true' && inputs.package_artifact_run_id != github.run_id
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -2619,7 +2619,7 @@ jobs:
           run-id: ${{ inputs.package_artifact_run_id }}
           github-token: ${{ github.token }}
 
-      - name: Pack OpenClaw package for Docker E2E
+      - name: Pack OpenAgent package for Docker E2E
         if: steps.plan.outputs.needs_package == '1' && steps.package_source.outputs.required == 'true'
         env:
           ALLOW_UNRELEASED_CHANGELOG: ${{ inputs.allow_unreleased_changelog }}
@@ -2660,7 +2660,7 @@ jobs:
           tarball="$(jq -er '.tarballName' .artifacts/prepared-npm-bundle/package-bundle.json)"
           cp ".artifacts/prepared-npm-bundle/$tarball" .artifacts/docker-e2e-package/openclaw-current.tgz
 
-      - name: Validate OpenClaw Docker E2E package
+      - name: Validate OpenAgent Docker E2E package
         id: package
         if: steps.plan.outputs.needs_package == '1'
         env:
@@ -2766,7 +2766,7 @@ jobs:
             echo "Docker E2E package SHA-256: \`$digest\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload OpenClaw Docker E2E package
+      - name: Upload OpenAgent Docker E2E package
         id: upload_package
         if: steps.plan.outputs.needs_package == '1' && needs.validate_selected_ref.outputs.package_artifact_present != 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -3335,7 +3335,7 @@ jobs:
           }
           package_expiry="$(
             artifact_expiry \
-              "OpenClaw package" \
+              "OpenAgent package" \
               "$(jq -er '.packageArtifactId' <<< "$CANDIDATE_ARTIFACT_JSON")" \
               "$(jq -er '.packageArtifactName' <<< "$CANDIDATE_ARTIFACT_JSON")" \
               "$(jq -er '.packageArtifactDigest' <<< "$CANDIDATE_ARTIFACT_JSON")" \

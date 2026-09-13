@@ -579,7 +579,7 @@ suite.define(() => {
             "xdotool",
             "search",
             "--name",
-            "^Zero to Agent resize proof$",
+            "^OpenAgent resize proof$",
             "windowactivate",
             "--sync",
           ]);

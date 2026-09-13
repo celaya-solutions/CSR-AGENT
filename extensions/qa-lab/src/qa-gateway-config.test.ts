@@ -17,7 +17,7 @@ function createQaChannelTransportParams(baseUrl = "http://127.0.0.1:43124") {
           enabled: true,
           baseUrl,
           botUserId: "openclaw",
-          botDisplayName: "Zero to Agent QA",
+          botDisplayName: "OpenAgent QA",
           allowFrom: ["*"],
           pollTimeoutMs: 250,
         },
@@ -353,7 +353,7 @@ describe("buildQaGatewayConfig", () => {
     expect(cfg.plugins?.entries?.anthropic).toEqual({ enabled: true });
   });
 
-  it("keeps forced Codex cells free of Zero to Agent request params", () => {
+  it("keeps forced Codex cells free of OpenAgent request params", () => {
     const cfg = buildQaGatewayConfig({
       bind: "loopback",
       gatewayPort: 18789,

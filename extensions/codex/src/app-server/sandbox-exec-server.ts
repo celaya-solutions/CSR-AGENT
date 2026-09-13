@@ -1,5 +1,5 @@
 /**
- * Hosts the local Zero to Agent sandbox exec-server that Codex app-server native
+ * Hosts the local OpenAgent sandbox exec-server that Codex app-server native
  * execution can register as an external environment.
  */
 import { createHash, randomUUID } from "node:crypto";
@@ -63,7 +63,7 @@ export async function ensureCodexSandboxExecServerEnvironment(params: {
   }
   if (!canExposeLocalExecServerToAppServer(params.appServerStartOptions)) {
     throw new Error(
-      "Zero to Agent Codex exec-server uses a local loopback URL and cannot be registered with a remote Codex app-server.",
+      "OpenAgent Codex exec-server uses a local loopback URL and cannot be registered with a remote Codex app-server.",
     );
   }
   const { server: execServer, nodeLease } = await acquireOpenClawExecServer({
@@ -245,7 +245,7 @@ async function startOpenClawExecServer(sandbox: SandboxContext): Promise<OpenCla
     connection = { kind: "node", id: placementNodeId };
   } else {
     if (!backend) {
-      throw new Error("Zero to Agent sandbox backend is unavailable.");
+      throw new Error("OpenAgent sandbox backend is unavailable.");
     }
     if (!fsBridge) {
       throw new Error("Sandbox filesystem bridge is unavailable.");
@@ -265,7 +265,7 @@ async function startOpenClawExecServer(sandbox: SandboxContext): Promise<OpenCla
   await once(server, "listening");
   const address = server.address();
   if (!address || typeof address === "string") {
-    throw new Error("Zero to Agent Codex exec-server did not bind to a TCP port.");
+    throw new Error("OpenAgent Codex exec-server did not bind to a TCP port.");
   }
   const environmentId = buildEnvironmentId(sandbox);
   const authPath = `/openclaw-${randomUUID()}`;

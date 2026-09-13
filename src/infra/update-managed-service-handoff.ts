@@ -1969,7 +1969,7 @@ export function formatManagedServiceUpdateCommand(
 
 export function buildManagedServiceHandoffUnavailableMessage(command: string): string {
   return [
-    "Zero to Agent updates cannot safely run inside the live gateway process without a managed-service handoff.",
+    "OpenAgent updates cannot safely run inside the live gateway process without a managed-service handoff.",
     `Stop the foreground Gateway, run \`${command}\` from a shell, then launch the Gateway again. For a managed deployment, use its host's stop, update, and restart workflow.`,
   ].join("\n");
 }

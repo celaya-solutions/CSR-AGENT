@@ -1,4 +1,4 @@
-// Snapshots script supports OpenClaw repository automation.
+// Snapshots script supports OpenAgent repository automation.
 import { expectDefined } from "@openclaw/normalization-core";
 import { die, run } from "./host-command.ts";
 import type { Mode, SnapshotInfo } from "./types.ts";

@@ -340,7 +340,7 @@ describe("controlRealtimeVoiceAgentRun", () => {
       aborted: true,
       providerResult: {
         status: "cancelled",
-        message: "Cancelled the active Zero to Agent run.",
+        message: "Cancelled the active OpenAgent run.",
       },
     });
     expect(deps.abortEmbeddedAgentRun).toHaveBeenCalledWith("session-active");
@@ -377,7 +377,7 @@ describe("controlRealtimeVoiceAgentRun", () => {
       ok: true,
       mode: "status",
       active: true,
-      message: "Zero to Agent is working in read (running).",
+      message: "OpenAgent is working in read (running).",
     });
     expect(deps.queueEmbeddedAgentMessageWithOutcomeAsync).not.toHaveBeenCalled();
   });
@@ -404,7 +404,7 @@ describe("controlRealtimeVoiceAgentRun", () => {
       ok: true,
       mode: "status",
       active: true,
-      message: "Zero to Agent is running exec_command.",
+      message: "OpenAgent is running exec_command.",
     });
     expect(deps.queueEmbeddedAgentMessageWithOutcomeAsync).not.toHaveBeenCalled();
   });
@@ -485,7 +485,7 @@ describe("controlRealtimeVoiceAgentRun", () => {
       ok: true,
       mode: "status",
       active: true,
-      message: "Zero to Agent is working in exec_command (running).",
+      message: "OpenAgent is working in exec_command (running).",
     });
     expect(deps.queueEmbeddedAgentMessageWithOutcomeAsync).not.toHaveBeenCalled();
   });

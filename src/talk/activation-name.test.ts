@@ -10,7 +10,7 @@ import {
 
 describe("realtime voice activation names", () => {
   it("normalizes and validates one- or two-word activation names", () => {
-    expect(normalizeSupportedRealtimeVoiceActivationName("  Zero to Agent  ")).toBe("openclaw");
+    expect(normalizeSupportedRealtimeVoiceActivationName("  OpenAgent  ")).toBe("openclaw");
     expect(normalizeSupportedRealtimeVoiceActivationName("Open Claw")).toBe("open claw");
     expect(normalizeSupportedRealtimeVoiceActivationName("Claw Bot Helper")).toBeUndefined();
     expect(isSupportedRealtimeVoiceActivationName("Claw Bot")).toBe(true);

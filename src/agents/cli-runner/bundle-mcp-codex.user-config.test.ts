@@ -1,4 +1,4 @@
-/** Tests projecting Zero to Agent user MCP servers into Codex app-server config. */
+/** Tests projecting OpenAgent user MCP servers into Codex app-server config. */
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../../config/types.openclaw.js";
 import { buildCodexUserMcpServersThreadConfigPatchForRuntime } from "./bundle-mcp-codex.js";
@@ -217,7 +217,7 @@ describe("buildCodexUserMcpServersThreadConfigPatchForRuntime", () => {
     });
   });
 
-  it("projects exact Zero to Agent MCP tool filters into Codex-native tool filters", async () => {
+  it("projects exact OpenAgent MCP tool filters into Codex-native tool filters", async () => {
     const patch = await buildCodexUserMcpServersThreadConfigPatchForRuntime({
       mcp: {
         servers: {
@@ -243,7 +243,7 @@ describe("buildCodexUserMcpServersThreadConfigPatchForRuntime", () => {
     });
   });
 
-  it("rejects wildcard Zero to Agent MCP tool filters that Codex cannot project exactly", async () => {
+  it("rejects wildcard OpenAgent MCP tool filters that Codex cannot project exactly", async () => {
     await expect(
       buildCodexUserMcpServersThreadConfigPatchForRuntime({
         mcp: {
@@ -283,8 +283,8 @@ describe("buildCodexUserMcpServersThreadConfigPatchForRuntime", () => {
     });
   });
 
-  it("filters Codex-scoped user MCP servers by Zero to Agent agent id", async () => {
-    // Agent-scoped MCP servers should follow the active Zero to Agent agent, while
+  it("filters Codex-scoped user MCP servers by OpenAgent agent id", async () => {
+    // Agent-scoped MCP servers should follow the active OpenAgent agent, while
     // unscoped servers remain global.
     const cfg = {
       mcp: {
@@ -432,7 +432,7 @@ describe("buildCodexUserMcpServersThreadConfigPatchForRuntime", () => {
     });
   });
 
-  it("omits scoped Codex MCP servers when no Zero to Agent agent id is available", async () => {
+  it("omits scoped Codex MCP servers when no OpenAgent agent id is available", async () => {
     const patch = await buildCodexUserMcpServersThreadConfigPatchForRuntime({
       mcp: {
         servers: {

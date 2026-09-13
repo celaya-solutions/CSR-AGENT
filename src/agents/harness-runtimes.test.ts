@@ -99,7 +99,7 @@ describe("collectConfiguredAgentHarnessRuntimes", () => {
     expect(collectConfiguredAgentHarnessRuntimes(config)).toEqual(["codex"]);
   });
 
-  it("respects explicit Zero to Agent runtime policy on selectable OpenAI agent models", () => {
+  it("respects explicit OpenAgent runtime policy on selectable OpenAI agent models", () => {
     const config = {
       agents: {
         defaults: {

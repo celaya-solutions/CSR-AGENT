@@ -229,7 +229,7 @@ function inspectCurrentStateStartupSchema(
     .get() as { schema_version?: unknown } | undefined;
   if (metadata?.schema_version !== foundVersion) {
     throw new Error(
-      `Zero to Agent state database ${databasePath} metadata schema version ${typeof metadata?.schema_version === "number" ? metadata.schema_version : "invalid"} does not match ${foundVersion}.`,
+      `OpenAgent state database ${databasePath} metadata schema version ${typeof metadata?.schema_version === "number" ? metadata.schema_version : "invalid"} does not match ${foundVersion}.`,
     );
   }
   const issues = deduplicateSchemaIssues([
@@ -303,7 +303,7 @@ export async function preflightOpenClawStateDatabasePath(
     foundVersion = readSqliteUserVersion(database);
     if (!Number.isSafeInteger(foundVersion) || foundVersion < 0) {
       throw new Error(
-        `Zero to Agent state database ${resolvedPath} has invalid schema version metadata.`,
+        `OpenAgent state database ${resolvedPath} has invalid schema version metadata.`,
       );
     }
     contentVersion =
@@ -454,7 +454,7 @@ export async function preflightOpenClawDatabaseSchemas(options: {
           );
           if (blockingIssues.length > 0) {
             throw new Error(
-              `Zero to Agent state database ${statePath} requires repair: ${blockingIssues.map((issue) => issue.message).join("; ")}; run openclaw doctor --fix.`,
+              `OpenAgent state database ${statePath} requires repair: ${blockingIssues.map((issue) => issue.message).join("; ")}; run openclaw doctor --fix.`,
             );
           }
         } else {

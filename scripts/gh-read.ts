@@ -1,4 +1,4 @@
-// Gh Read script supports OpenClaw repository automation.
+// Gh Read script supports OpenAgent repository automation.
 import { spawnSync } from "node:child_process";
 import { createPrivateKey, createSign } from "node:crypto";
 import { pathToFileURL } from "node:url";

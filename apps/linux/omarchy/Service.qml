@@ -10,7 +10,7 @@ Item {
   property bool ready: false
   property bool desktop: false
   property bool yielded: false
-  property string error: "Connecting to OpenClaw…"
+  property string error: "Connecting to OpenAgent…"
   property var pending: ({})
   property int serial: 0
   property string refreshId: ""
@@ -40,7 +40,7 @@ Item {
   }
   function request(message) {
     if (!worker.running || stopping) {
-      error = "OpenClaw bridge is reconnecting. Try again when connected."
+      error = "OpenAgent bridge is reconnecting. Try again when connected."
       return ""
     }
     var id = String(++serial)
@@ -62,7 +62,7 @@ Item {
       ready = response.ready === true
       desktop = response.desktop === true
       yielded = response.yield === true
-      error = response.error || (ready ? "" : "Connecting to OpenClaw…")
+      error = response.error || (ready ? "" : "Connecting to OpenAgent…")
       if (ready && (changed || !snapshot.ok)) refresh()
       return
     }
@@ -102,13 +102,13 @@ Item {
     stdout: SplitParser {
       onRead: function(line) {
         try { root.receive(JSON.parse(line)) }
-        catch (e) { root.error = "Could not read OpenClaw bridge data. Open diagnostics." }
+        catch (e) { root.error = "Could not read OpenAgent bridge data. Open diagnostics." }
       }
     }
     onExited: function(code) {
       root.ready = false
       root.stopping = false
-      root.error = "OpenClaw bridge disconnected. Reconnecting…"
+      root.error = "OpenAgent bridge disconnected. Reconnecting…"
       var pending = root.pending
       root.pending = ({})
       root.refreshId = ""
@@ -118,7 +118,7 @@ Item {
           ok: false, uncertain: pending[id].op === "send",
           error: pending[id].op === "send"
             ? "Acceptance unknown. Check the session before sending again."
-            : "OpenClaw bridge disconnected. Try again when connected."})
+            : "OpenAgent bridge disconnected. Try again when connected."})
       })
       if (root.widgets.length) reconnect.restart()
     }

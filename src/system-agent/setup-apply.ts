@@ -1,4 +1,4 @@
-// Applies Zero to Agent's conversational setup: config, workspace files, gateway.
+// Applies OpenAgent's conversational setup: config, workspace files, gateway.
 import { isDeepStrictEqual } from "node:util";
 import { listAgentEntries, toAgentEntriesRecord } from "../agents/agent-scope-config.js";
 import { resolveGatewayStartupTiming } from "../commands/gateway-startup-timing.js";
@@ -203,9 +203,7 @@ export async function applySystemAgentSetup(
       : resolveSystemAgentOnboardingTarget(config);
 
   if (hasExpectedConfigHash && resolveConfigSnapshotHash(snapshot) !== expectedConfigHash) {
-    throw new Error(
-      "Zero to Agent config changed while AI access was being tested. Try setup again.",
-    );
+    throw new Error("OpenAgent config changed while AI access was being tested. Try setup again.");
   }
 
   let guardModules =
@@ -267,8 +265,8 @@ export async function applySystemAgentSetup(
     ) {
       throw new Error(
         phase === "before"
-          ? "The default-agent inference route changed before setup could start, so no workspace or Gateway settings were changed. Retry setup from the current Zero to Agent session."
-          : "The default-agent inference route changed after the config write, so no further setup effects were applied. Retry setup from the current Zero to Agent session.",
+          ? "The default-agent inference route changed before setup could start, so no workspace or Gateway settings were changed. Retry setup from the current OpenAgent session."
+          : "The default-agent inference route changed after the config write, so no further setup effects were applied. Retry setup from the current OpenAgent session.",
       );
     }
     return currentRoute;
@@ -289,14 +287,14 @@ export async function applySystemAgentSetup(
     });
     if (!created.createdAgent || !created.configHash) {
       throw new Error(
-        "Zero to Agent did not create the approved first agent because the roster changed. Retry setup.",
+        "OpenAgent did not create the approved first agent because the roster changed. Retry setup.",
       );
     }
     snapshot = await readSetupConfigFileSnapshot();
     snapshotConfig = requireValidSystemAgentSetupSnapshot(snapshot);
     assertCommitPreconditions?.(snapshotConfig.sourceConfig);
     if ((resolveConfigSnapshotHash(snapshot) ?? null) !== created.configHash) {
-      throw new Error("Zero to Agent config changed after first-agent creation. Retry setup.");
+      throw new Error("OpenAgent config changed after first-agent creation. Retry setup.");
     }
     const createdRoster = listAgentEntries(snapshotConfig.sourceConfig);
     const expectedAgentIds = created.createdAgentIds ?? [created.agentId];
@@ -304,7 +302,7 @@ export async function applySystemAgentSetup(
       createdRoster.length !== expectedAgentIds.length ||
       createdRoster.some((entry) => !expectedAgentIds.includes(normalizeAgentId(entry.id)))
     ) {
-      throw new Error("Zero to Agent first-agent ownership changed during setup. Retry setup.");
+      throw new Error("OpenAgent first-agent ownership changed during setup. Retry setup.");
     }
     coordinatorId = params.firstAgent?.team ? created.agentId : undefined;
     const rebasedRoute = await assertVerifiedRoute(snapshot, verifiedRoute, "before", true);
@@ -395,7 +393,7 @@ export async function applySystemAgentSetup(
         context.previousHash !== expectedWriteHash
       ) {
         throw new Error(
-          "Zero to Agent config changed while AI access was being tested. Try setup again.",
+          "OpenAgent config changed while AI access was being tested. Try setup again.",
         );
       }
       await assertVerifiedRoute(context.snapshot);
@@ -421,7 +419,7 @@ export async function applySystemAgentSetup(
           !sameSetupConfiguredRoute(expectedSourceRoute.route, verifiedRoute.route, false))
       ) {
         throw new Error(
-          "The setup candidate no longer preserves the exact verified inference route, so it was not saved. Retry setup from the current Zero to Agent session.",
+          "The setup candidate no longer preserves the exact verified inference route, so it was not saved. Retry setup from the current OpenAgent session.",
         );
       }
       // This is the auth/config operation's linearization point. Never hold
@@ -451,7 +449,7 @@ export async function applySystemAgentSetup(
   const setupResult = committed.result;
   const settings = setupResult?.settings;
   if (!settings) {
-    throw new Error("Zero to Agent setup committed without resolved Gateway settings.");
+    throw new Error("OpenAgent setup committed without resolved Gateway settings.");
   }
   const onboardingTarget = resolveSetupTarget(nextConfig);
   const effectiveWorkspace = onboardingTarget.workspaceDir;
@@ -467,7 +465,7 @@ export async function applySystemAgentSetup(
       const issue = expectedRuntime.issues[0];
       const detail = issue ? ` (${issue.path ? `${issue.path}: ` : ""}${issue.message})` : "";
       throw new Error(
-        `Zero to Agent could not validate the setup route after its config write${detail}. No further setup effects were applied. Retry setup from the current Zero to Agent session.`,
+        `OpenAgent could not validate the setup route after its config write${detail}. No further setup effects were applied. Retry setup from the current OpenAgent session.`,
       );
     }
     const expectedPersistedRoute = await projectInferenceRoute(
@@ -479,7 +477,7 @@ export async function applySystemAgentSetup(
     // metadata change that would make the committed config run differently.
     if (!sameSetupConfiguredRoute(expectedPersistedRoute.route, verifiedRoute.route, false)) {
       throw new Error(
-        "The materialized inference route no longer matches the exact verified route, so no further setup effects were applied. Retry setup from the current Zero to Agent session.",
+        "The materialized inference route no longer matches the exact verified route, so no further setup effects were applied. Retry setup from the current OpenAgent session.",
       );
     }
   }
@@ -517,7 +515,7 @@ export async function applySystemAgentSetup(
     (error) => lines.push(`Workspace files: ${formatErrorMessage(error)}`),
   );
 
-  // Setup approval includes consent for Zero to Agent's local model harnesses.
+  // Setup approval includes consent for OpenAgent's local model harnesses.
   // Keep the grant agent-scoped; regular agents retain interactive approvals.
   await runCommittedFollowUp(
     async () => {
@@ -538,7 +536,7 @@ export async function applySystemAgentSetup(
     },
     (error) =>
       lines.push(
-        `Zero to Agent exec approval: ${formatErrorMessage(error)}; local model harnesses may ask again.`,
+        `OpenAgent exec approval: ${formatErrorMessage(error)}; local model harnesses may ask again.`,
       ),
   );
 

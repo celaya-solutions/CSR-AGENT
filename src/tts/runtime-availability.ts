@@ -2,7 +2,7 @@
 
 let assertRuntimeAvailable: (() => void) | undefined;
 
-/** Installs the process-lifecycle availability guard owned by the Zero to Agent host. */
+/** Installs the process-lifecycle availability guard owned by the OpenAgent host. */
 export function setSpeechRuntimeAvailabilityGuard(guard: (() => void) | undefined): void {
   assertRuntimeAvailable = guard;
 }

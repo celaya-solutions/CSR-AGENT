@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import OpenAgent
 
 struct AnyCodableEncodingTests {
     @Test func `encodes swift array and dictionary values`() throws {

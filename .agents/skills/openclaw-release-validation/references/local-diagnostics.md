@@ -6,7 +6,7 @@ the tester's real gateway. For an isolated target, say:
 
 ```text
 Optional local diagnostics can capture traces, metrics, and logs from this
-test gateway. It installs OpenClaw's diagnostics-otel plugin only in the
+test gateway. It installs OpenAgent's diagnostics-otel plugin only in the
 disposable copy and sends OTLP only to a collector on this machine. Content
 capture stays off. Nothing is sent to a hosted endpoint, and you will review
 the exact release-report draft before any GitHub comment is posted.
@@ -122,4 +122,4 @@ When the tester replies `enable local diagnostics`:
 
 Keep the collector running only while the fixture is under test. It captures
 traces, metrics, and logs locally with bounded file rotation. The source
-gateway, personal OpenClaw home, and shared GitHub issue remain untouched.
+gateway, personal OpenAgent home, and shared GitHub issue remain untouched.

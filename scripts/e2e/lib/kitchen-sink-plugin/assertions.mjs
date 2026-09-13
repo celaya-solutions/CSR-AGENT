@@ -228,7 +228,7 @@ function scanLogs() {
   });
   if (scannedFiles === 0) {
     throw new Error(
-      "kitchen-sink log scan found no files under the isolated scratch root or OpenClaw home",
+      "kitchen-sink log scan found no files under the isolated scratch root or OpenAgent home",
     );
   }
   if (findings.length > 0) {

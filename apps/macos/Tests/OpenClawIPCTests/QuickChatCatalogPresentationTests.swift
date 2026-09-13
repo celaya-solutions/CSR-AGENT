@@ -4,7 +4,7 @@ import Observation
 import OpenClawChatUI
 import SwiftUI
 import XCTest
-@testable import OpenClaw
+@testable import OpenAgent
 @testable import OpenClawKit
 
 @MainActor

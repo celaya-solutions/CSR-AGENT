@@ -69,7 +69,7 @@ function readMirroredAssistantText(message: MirroredAgentMessage | undefined): s
     : undefined;
 }
 
-/** Imports a bounded, user-visible Codex history tail into a new Zero to Agent transcript. */
+/** Imports a bounded, user-visible Codex history tail into a new OpenAgent transcript. */
 export async function importCodexThreadHistoryToTranscript(params: {
   assertCurrent?: () => void;
   thread: CodexThread;

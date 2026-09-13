@@ -1,4 +1,4 @@
-// Zero to Agent rescue policy tests cover eligibility and safety decisions.
+// OpenAgent rescue policy tests cover eligibility and safety decisions.
 import { describe, expect, it } from "vitest";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { resolveSystemAgentRescuePolicy } from "./rescue-policy.js";
