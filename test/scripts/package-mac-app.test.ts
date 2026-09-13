@@ -195,7 +195,7 @@ describe("packaged worker freshness", () => {
       const root = tempDirs.make("openclaw-package-stage-");
       const dist = path.join(root, "dist");
       const output = tempDirs.make("openclaw-package-stage-output-");
-      const previousApp = path.join(dist, "OpenClaw.app/Contents/MacOS/Zero to Agent");
+      const previousApp = path.join(dist, "OpenClaw.app/Contents/MacOS/OpenClaw");
       const { files, packageManager, version } = JSON.parse(
         readFileSync("package.json", "utf8"),
       ) as {
@@ -240,10 +240,7 @@ printf '%s' "$APP_STAGE_DIR"
       writeFileSync(path.join(swiftResults, "arm64/peekaboo-commit"), "private stage canary\n");
       writeFileSync(path.join(swiftResults, "cleanup-complete"), "verified\n");
       mkdirSync(path.join(stage, "OpenClaw.app/Contents/MacOS"), { recursive: true });
-      writeFileSync(
-        path.join(stage, "OpenClaw.app/Contents/MacOS/Zero to Agent"),
-        "candidate app\n",
-      );
+      writeFileSync(path.join(stage, "OpenClaw.app/Contents/MacOS/OpenClaw"), "candidate app\n");
       try {
         expect(statSync(stage).dev).toBe(statSync(dist).dev);
         expect(statSync(stage).mode & 0o777).toBe(0o700);
@@ -299,12 +296,7 @@ ${cleanup}
     const exclusions = manifest.files
       .filter((entry) => entry.startsWith("!"))
       .map((entry) => entry.slice(1));
-    const entries = [
-      app,
-      `${app}/Contents`,
-      `${app}/Contents/MacOS/Zero to Agent`,
-      "dist/entry.js",
-    ];
+    const entries = [app, `${app}/Contents`, `${app}/Contents/MacOS/OpenClaw`, "dist/entry.js"];
     // npm 12 expands files globs into individual ignore rules. Exclude the app
     // directory, which also excludes its contents, not every payload file separately.
     const matches = entries.filter((entry) =>
@@ -1871,7 +1863,7 @@ describe("package-mac-app plist stamping", () => {
     );
 
     expect(script).not.toContain("killall -q Zero to Agent");
-    expect(stopBlock).toContain('local app_binary="$APP_DESTINATION/Contents/MacOS/Zero to Agent"');
+    expect(stopBlock).toContain('local app_binary="$APP_DESTINATION/Contents/MacOS/OpenClaw"');
     expect(stopBlock).toContain('pgrep -x "$PRODUCT"');
     expect(stopBlock).toContain('grep -Fx "$app_binary"');
     expect(stopBlock).toContain(

@@ -581,7 +581,7 @@ if (process.exitCode === 0) {
   });
 
   it("prefers packaged app Control UI assets in Contents/Resources", () => {
-    const execPath = abs("fixtures/OpenClaw.app/Contents/MacOS/Zero to Agent");
+    const execPath = abs("fixtures/OpenClaw.app/Contents/MacOS/OpenClaw");
     const bundledUiDir = abs("fixtures/OpenClaw.app/Contents/Resources/control-ui");
     setFile(path.join(bundledUiDir, "index.html"), "<html></html>\n");
 

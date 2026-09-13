@@ -1064,7 +1064,7 @@ with open(sys.argv[1], 'ab', buffering=0) as stream:
         const helper = await fixture.put("Contents/MacOS/openclaw-mlx-tts");
         const cua = await fixture.put("Contents/Resources/cua-driver");
         const worker = await fixture.put(workerPath + "node");
-        await fixture.put("Contents/MacOS/Zero to Agent");
+        await fixture.put("Contents/MacOS/OpenClaw");
         const sparkle = "Contents/Frameworks/Sparkle.framework";
         for (const member of [
           "Sparkle",

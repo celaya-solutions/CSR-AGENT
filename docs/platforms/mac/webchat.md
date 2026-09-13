@@ -172,7 +172,7 @@ or `bash`, after `./scripts/package-mac-app.sh` has produced `dist/Zero to Agent
 - Auto-open for testing:
 
   ```bash
-  dist/Zero to Agent.app/Contents/MacOS/Zero to Agent --chat
+  dist/Zero to Agent.app/Contents/MacOS/OpenClaw --chat
   ```
 
   (`--webchat` is accepted as a legacy alias.)

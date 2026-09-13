@@ -110,11 +110,11 @@ describe("verify-stable-main-closeout", () => {
     expect(readFileSync(outputPath, "utf8")).toBe(initialBytes);
     release.assets.push(
       ...[
-        "Zero to Agent-2026.6.8.zip",
-        "Zero to Agent-2026.6.8.dmg",
-        "Zero to Agent-2026.6.8.dSYM.zip",
-        "Zero to Agent-Android.apk",
-        "Zero to Agent-Android-SHA256SUMS.txt",
+        "OpenClaw-2026.6.8.zip",
+        "OpenClaw-2026.6.8.dmg",
+        "OpenClaw-2026.6.8.dSYM.zip",
+        "OpenClaw-Android.apk",
+        "OpenClaw-Android-SHA256SUMS.txt",
         "OpenClawCompanion-Setup-arm64.exe",
         "OpenClawCompanion-Setup-x64.exe",
         "OpenClawCompanion-SHA256SUMS.txt",
@@ -124,12 +124,12 @@ describe("verify-stable-main-closeout", () => {
     const missingAppcast = runCli(...args, "--existing-manifest", originalPath);
     expect(missingAppcast.status).toBe(1);
     expect(missingAppcast.stderr).toContain(
-      "main appcast.xml does not point at Zero to Agent-2026.6.8.zip",
+      "main appcast.xml does not point at OpenClaw-2026.6.8.zip",
     );
     const publishedAppcastPath = path.join(dir, "published-appcast.xml");
     writeFileSync(
       publishedAppcastPath,
-      "https://github.com/openclaw/openclaw/releases/download/v2026.6.8/Zero to Agent-2026.6.8.zip",
+      "https://github.com/openclaw/openclaw/releases/download/v2026.6.8/OpenClaw-2026.6.8.zip",
     );
     const replay = runCli(
       ...args,

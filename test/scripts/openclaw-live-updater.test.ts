@@ -1572,8 +1572,8 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
   });
 
   test("accepts only the delayed exact target bundle process", () => {
-    const executable = "/fixture/live-checkout/dist/OpenClaw.app/Contents/MacOS/Zero to Agent";
-    const foreign = "41 /tmp/agent/OpenClaw.app/Contents/MacOS/Zero to Agent";
+    const executable = "/fixture/live-checkout/dist/OpenClaw.app/Contents/MacOS/OpenClaw";
+    const foreign = "41 /tmp/agent/OpenClaw.app/Contents/MacOS/OpenClaw";
     expect(findExactMacTarget(foreign, executable)).toBeNull();
     expect(findExactMacTarget(`${foreign}\n42 ${executable} --attach-only`, executable)).toEqual({
       executable,
@@ -1637,7 +1637,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
       {
         runCommand: commands.runCommand,
         verifyMacTarget: () => ({
-          executable: path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/Zero to Agent"),
+          executable: path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/OpenClaw"),
           pid: 123,
         }),
       },
@@ -1674,7 +1674,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
       "pnpm openclaw health --verbose --json",
     ]);
     expect(output.macTarget?.executable).toBe(
-      path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/Zero to Agent"),
+      path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/OpenClaw"),
     );
   });
 

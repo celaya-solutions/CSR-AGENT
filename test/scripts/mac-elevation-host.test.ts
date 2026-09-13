@@ -391,7 +391,7 @@ function createStatusHarness(mac: MacScriptFixture, permissionMode: "fail" | "in
       "  CFBundleShortVersionString) printf '%s\\n' '4.2.0' ;;",
       "  OpenClawBuildTimestamp) printf '%s\\n' '2026-08-28T00:00:00Z' ;;",
       "  OpenClawWorkerBuildID) printf '%s\\n' 'fixture-build' ;;",
-      '  ProgramArguments) printf \'["%s/Contents/MacOS/Zero to Agent","--elevation-host"]\\n\' "$TEST_APP_PATH" ;;',
+      '  ProgramArguments) printf \'["%s/Contents/MacOS/OpenClaw","--elevation-host"]\\n\' "$TEST_APP_PATH" ;;',
       "  EnvironmentVariables.OPENCLAW_STATE_DIR) printf '%s\\n' \"$TEST_STATE_DIR\" ;;",
       "  EnvironmentVariables.OPENCLAW_CONFIG_PATH) printf '%s\\n' \"$TEST_CONFIG_PATH\" ;;",
       "  RunAtLoad|KeepAlive) printf '%s\\n' 'true' ;;",
@@ -471,7 +471,7 @@ function createMigrationPlanHarness(
       '<plist version="1.0"><dict>',
       `<key>Label</key><string>${label}</string>`,
       "<key>ProgramArguments</key><array>",
-      `<string>${appPath}/Contents/MacOS/Zero to Agent</string>`,
+      `<string>${appPath}/Contents/MacOS/OpenClaw</string>`,
       "<string>--attach-only</string><string>--background-only</string>",
       "</array>",
       "<key>EnvironmentVariables</key><dict>",
@@ -703,7 +703,7 @@ async function runMigrationReceiptBindingVerifier(
 
 function addRunningAppFixture(harness: ReturnType<typeof createMigrationPlanHarness>) {
   const binDir = path.join(harness.env.HOME, "bin");
-  const appBinary = `${harness.appPath}/Contents/MacOS/Zero to Agent`;
+  const appBinary = `${harness.appPath}/Contents/MacOS/OpenClaw`;
   writeCommandFixture(binDir, "pgrep", "#!/bin/sh\nprintf '%s\\n' 4242\n");
   writeCommandFixture(
     binDir,
@@ -752,7 +752,7 @@ function writeArtifactFileFixture(binDir: string): void {
       '[ "$#" -gt 0 ] || exit 64',
       'for target in "$@"; do',
       'case "$target" in',
-      "  */Contents/MacOS/Zero to Agent|*/Contents/MacOS/openclaw-mlx-tts|*/node-worker/arm64/bin/node|*/node-worker/x86_64/bin/node)",
+      "  */Contents/MacOS/OpenClaw|*/Contents/MacOS/openclaw-mlx-tts|*/node-worker/arm64/bin/node|*/node-worker/x86_64/bin/node)",
       "    description='Mach-O universal binary' ;;",
       "  *) description=data ;;",
       "esac",
@@ -881,9 +881,9 @@ function createArtifactVerificationHarness(mac: MacScriptFixture) {
           "fi",
           "exit 0",
         ].join("\n"),
-      )} >"$app/Contents/MacOS/Zero to Agent"`,
+      )} >"$app/Contents/MacOS/OpenClaw"`,
       'printf helper >"$app/Contents/MacOS/openclaw-mlx-tts"',
-      'chmod 755 "$app/Contents/MacOS/Zero to Agent" "$app/Contents/MacOS/openclaw-mlx-tts"',
+      'chmod 755 "$app/Contents/MacOS/OpenClaw" "$app/Contents/MacOS/openclaw-mlx-tts"',
       'case "${TEST_CUA_DRIVER_KIND:-none}" in',
       '  file) mkdir -p "$app/Contents/Resources"; printf driver >"$app/Contents/Resources/cua-driver"; chmod 755 "$app/Contents/Resources/cua-driver" ;;',
       '  symlink) mkdir -p "$app/Contents/Resources"; ln -s /missing/cua-driver "$app/Contents/Resources/cua-driver" ;;',
@@ -903,7 +903,7 @@ function createArtifactVerificationHarness(mac: MacScriptFixture) {
       'if [[ "$*" == *"--verify"* && "$*" == *"--all-architectures"* && "${TEST_ROLLBACK_NON_NATIVE_SIGNATURE_INVALID:-0}" == "1" && -e "$target/Contents/old-fixture" ]]; then',
       "  exit 1",
       "fi",
-      'if [[ "$*" == *"--verify"* && -d "$target" && ! -e "$target/Contents/MacOS/Zero to Agent" ]]; then',
+      'if [[ "$*" == *"--verify"* && -d "$target" && ! -e "$target/Contents/MacOS/OpenClaw" ]]; then',
       "  exit 1",
       "fi",
       'if [[ "$*" == *"--verify"* && "${TEST_FINAL_SIGNATURE_INVALID:-0}" == "1" && "$target" == "${TEST_INSTALLED_APP_PATH:-}" && -f "${TEST_LAUNCH_STATE_FILE:-}" && "$(tr -d \'\\n\' <"$TEST_LAUNCH_STATE_FILE")" == "elevation-loaded" ]]; then',
@@ -1097,7 +1097,7 @@ function createInstallRollbackHarness(
     '<plist version="1.0"><dict>',
     `<key>Label</key><string>${label}</string>`,
     "<key>ProgramArguments</key><array>",
-    `<string>${appPath}/Contents/MacOS/Zero to Agent</string>`,
+    `<string>${appPath}/Contents/MacOS/OpenClaw</string>`,
     "<string>--attach-only</string><string>--background-only</string>",
     "</array>",
     "<key>EnvironmentVariables</key><dict>",
@@ -1110,7 +1110,7 @@ function createInstallRollbackHarness(
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<plist version="1.0"><dict>',
     "<key>Label</key><string>ai.openclaw.mac.elevation-host</string>",
-    `<key>ProgramArguments</key><array><string>${appPath}/Contents/MacOS/Zero to Agent</string><string>--elevation-host</string></array>`,
+    `<key>ProgramArguments</key><array><string>${appPath}/Contents/MacOS/OpenClaw</string><string>--elevation-host</string></array>`,
     "<key>EnvironmentVariables</key><dict>",
     `<key>OPENCLAW_STATE_DIR</key><string>${stateDir}</string>`,
     `<key>OPENCLAW_CONFIG_PATH</key><string>${configPath}</string>`,
@@ -1146,7 +1146,7 @@ function createInstallRollbackHarness(
         "#!/usr/bin/env bash",
         "set -euo pipefail",
         'target="${!#}"',
-        'if [[ "$target" == */openclaw-elevation.*/OpenClaw.app/Contents/MacOS/Zero to Agent ]]; then',
+        'if [[ "$target" == */openclaw-elevation.*/OpenClaw.app/Contents/MacOS/OpenClaw ]]; then',
         '  if [[ -e "$TEST_RENAME_HELPER_HASH_MARKER" ]]; then',
         "    printf '%s\\n' '#!/bin/sh' 'exit 0' >\"$target\"",
         '    chmod 755 "$target"',
@@ -1287,7 +1287,7 @@ function createInstallRollbackHarness(
       "  fi",
       '  if [[ "$target" == */ai.openclaw.mac.elevation-host && "$state" == "elevation-loaded" ]]; then',
       "    printf '%s\\n' '    pid = 555555'",
-      "    printf '    program = %s/Contents/MacOS/Zero to Agent\\n' \"$TEST_INSTALLED_APP_PATH\"",
+      "    printf '    program = %s/Contents/MacOS/OpenClaw\\n' \"$TEST_INSTALLED_APP_PATH\"",
       "    printf '%s\\n' '    arguments = {' '        --elevation-host' '    }'",
       "    exit 0",
       "  fi",
@@ -1322,10 +1322,10 @@ function createInstallRollbackHarness(
       '        case "$TEST_UNSAFE_ENTRY_EVIDENCE" in',
       '          job) /bin/rm -f -- "$TEST_ELEVATION_PLIST" "$pending_receipt"; printf \'%s\\n\' elevation-loaded >"$TEST_LAUNCH_STATE_FILE" ;;',
       '          plist) /bin/rm -f -- "$pending_receipt"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
-      '          plist-program) /bin/rm -f -- "$pending_receipt"; /usr/bin/plutil -insert Program -string "$TEST_INSTALLED_APP_PATH/Contents/MacOS/Zero to Agent" "$TEST_ELEVATION_PLIST"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
+      '          plist-program) /bin/rm -f -- "$pending_receipt"; /usr/bin/plutil -insert Program -string "$TEST_INSTALLED_APP_PATH/Contents/MacOS/OpenClaw" "$TEST_ELEVATION_PLIST"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
       '          receipt) /bin/rm -f -- "$TEST_ELEVATION_PLIST"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
-      '          unrelated-plist) /bin/rm -f -- "$pending_receipt"; /usr/bin/plutil -replace ProgramArguments.0 -string "$TEST_UNRELATED_APP_PATH/Contents/MacOS/Zero to Agent" "$TEST_ELEVATION_PLIST"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
-      '          unrelated-program) /bin/rm -f -- "$pending_receipt"; /usr/bin/plutil -insert Program -string "$TEST_UNRELATED_APP_PATH/Contents/MacOS/Zero to Agent" "$TEST_ELEVATION_PLIST"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
+      '          unrelated-plist) /bin/rm -f -- "$pending_receipt"; /usr/bin/plutil -replace ProgramArguments.0 -string "$TEST_UNRELATED_APP_PATH/Contents/MacOS/OpenClaw" "$TEST_ELEVATION_PLIST"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
+      '          unrelated-program) /bin/rm -f -- "$pending_receipt"; /usr/bin/plutil -insert Program -string "$TEST_UNRELATED_APP_PATH/Contents/MacOS/OpenClaw" "$TEST_ELEVATION_PLIST"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
       '          unrelated-receipt) /bin/rm -f -- "$TEST_ELEVATION_PLIST"; jq --arg appPath "$TEST_UNRELATED_APP_PATH" \'.appPath = $appPath\' "$pending_receipt" >"$pending_receipt.tmp"; /bin/mv "$pending_receipt.tmp" "$TEST_STATE_DIR/elevation-host-install.json"; /bin/rm -f -- "$pending_receipt"; printf \'%s\\n\' elevation-absent >"$TEST_LAUNCH_STATE_FILE" ;;',
       "          *) exit 72 ;;",
       "        esac",
@@ -1376,7 +1376,7 @@ function createInstallRollbackHarness(
       "set -euo pipefail",
       'if [[ "${1:-}" == "bridge" ]]; then',
       '  if [[ "${TEST_REMOVE_INSTALLED_EXECUTABLE_AFTER_READINESS:-0}" == "1" ]]; then',
-      '    rm -f "$TEST_INSTALLED_APP_PATH/Contents/MacOS/Zero to Agent"',
+      '    rm -f "$TEST_INSTALLED_APP_PATH/Contents/MacOS/OpenClaw"',
       "  fi",
       '  printf \'%s\\n\' \'{"success":true,"data":{"selected":{"handshake":{"hostIdentity":{"processIdentifier":555555}}}}}\'',
       "  exit 0",
@@ -4684,7 +4684,7 @@ describe("mac elevation host command contract", () => {
       const script = readFileSync(scriptPath, "utf8");
 
       expect(script).toContain(
-        'prefix="Zero to Agent-${source_commit}-Peekaboo-${EXPECTED_PEEKABOO_SOURCE_COMMIT}-stable"',
+        'prefix="OpenClaw-${source_commit}-Peekaboo-${EXPECTED_PEEKABOO_SOURCE_COMMIT}-stable"',
       );
       expect(script).toContain("immutable elevation output already exists");
       expect(script).toContain("OPENCLAW_MAC_SIGNING_VARIANT=elevation-host");
@@ -4764,7 +4764,7 @@ describe("mac elevation host command contract", () => {
 
         expect(plist.Label).toBe("ai.openclaw.mac.elevation-host");
         expect(plist.ProgramArguments).toEqual([
-          `${appPath}/Contents/MacOS/Zero to Agent`,
+          `${appPath}/Contents/MacOS/OpenClaw`,
           "--elevation-host",
         ]);
         expect(plist.RunAtLoad).toBe(true);

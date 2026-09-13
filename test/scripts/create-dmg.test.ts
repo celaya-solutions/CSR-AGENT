@@ -268,7 +268,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const app = makeValidApp();
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     const sibling = path.join(outputDir, "Zero to Agent-rw.dmg");
     writeFileSync(output, "previous output", "utf8");
     writeFileSync(sibling, "caller owned", "utf8");
@@ -297,7 +297,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const root = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(root);
     const outputDir = path.join(root, "nested", "artifacts");
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     const tools = makeFakeDmgTools();
 
     const result = runScript([app, output], tools.env);
@@ -313,7 +313,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const app = makeValidApp();
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     writeFileSync(output, "previous output", "utf8");
     const tools = makeFakeDmgTools();
 
@@ -328,7 +328,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const app = makeValidApp();
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     const tools = makeFakeDmgTools();
 
     const result = runScript([app, output], {
@@ -346,7 +346,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const app = makeValidApp();
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     const tools = makeFakeDmgTools();
 
     const result = runScript([app, output], {
@@ -364,7 +364,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const app = makeValidApp();
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     writeFileSync(output, "previous output", "utf8");
     const tools = makeFakeDmgTools();
 
@@ -381,7 +381,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const app = makeValidApp();
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     const tools = makeFakeDmgTools();
 
     const result = runScript([app, output], {
@@ -405,7 +405,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const app = makeValidApp();
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     const tools = makeFakeDmgTools();
 
     const result = runScript([app, output], {
@@ -427,7 +427,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     const app = makeValidApp();
     const outputDir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
     tempDirs.push(outputDir);
-    const output = path.join(outputDir, "Zero to Agent.dmg");
+    const output = path.join(outputDir, "OpenClaw.dmg");
     const tools = makeFakeDmgTools();
 
     const result = runScript([app, output], { ...tools.env, SKIP_DMG_STYLE: "0" });

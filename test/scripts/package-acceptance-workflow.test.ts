@@ -6689,7 +6689,7 @@ printf 'native_failed=%s\\n' "$native_failed"
       const summary = readFileSync(summaryPath, "utf8");
       if (assetsVerified) {
         expect(summary).toContain("previously published assets verified");
-        expect(summary).toContain("releases/download/v2026.8.1/Zero to Agent-Android.apk");
+        expect(summary).toContain("releases/download/v2026.8.1/OpenClaw-Android.apk");
         expect(summary).not.toContain("actions/runs/456");
       } else if (dispatchFailure) {
         expect(summary).not.toContain("actions/runs/456");
@@ -14213,8 +14213,8 @@ promote_windows_release_assets
       "Attested Android release approval does not match this run request.",
     );
     expect(androidWorkflow).toContain('--artifact", "third-party');
-    expect(androidWorkflow).toContain("Zero to Agent-Android.apk");
-    expect(androidWorkflow).toContain("Zero to Agent-Android-SHA256SUMS.txt");
+    expect(androidWorkflow).toContain("OpenClaw-Android.apk");
+    expect(androidWorkflow).toContain("OpenClaw-Android-SHA256SUMS.txt");
     expect(androidWorkflow).toContain("actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6");
     expect(androidWorkflow).toContain("--signer-workflow");
     expect(androidWorkflow).toContain('--source-ref "refs/tags/${RELEASE_TAG}"');
@@ -14261,8 +14261,8 @@ promote_windows_release_assets
     expect(releaseWorkflow).toContain("finalize_github_release:");
 
     expect(androidDocs).toContain("github.com/openclaw/openclaw/releases");
-    expect(androidDocs).not.toContain("releases/latest/download/Zero to Agent-Android.apk");
-    expect(androidDocs).toContain("gh attestation verify Zero to Agent-Android.apk");
+    expect(androidDocs).not.toContain("releases/latest/download/OpenClaw-Android.apk");
+    expect(androidDocs).toContain("gh attestation verify OpenClaw-Android.apk");
     expect(androidDocs).toContain('--source-ref "refs/tags/${release_tag}"');
     expect(releaseDocs).toContain("signed standalone Android APK");
   });

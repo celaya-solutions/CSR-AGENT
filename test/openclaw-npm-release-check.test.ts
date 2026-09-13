@@ -658,7 +658,7 @@ describe("collectForbiddenPackedPathErrors", () => {
     expect(
       collectForbiddenPackedPathErrors([
         "dist-runtime/extensions/example/runtime.js",
-        "dist/OpenClaw.app/Contents/MacOS/Zero to Agent",
+        "dist/OpenClaw.app/Contents/MacOS/OpenClaw",
         "dist/extensions/qa-channel/runtime-api.js",
         "dist/extensions/qa-channel/package.json",
         "dist/extensions/qa-lab/runtime-api.js",
@@ -674,7 +674,7 @@ describe("collectForbiddenPackedPathErrors", () => {
         "qa/scenarios/index.yaml",
       ]),
     ).toEqual([
-      'npm package must not include local application build output "dist/OpenClaw.app/Contents/MacOS/Zero to Agent".',
+      'npm package must not include local application build output "dist/OpenClaw.app/Contents/MacOS/OpenClaw".',
       'npm package must not include local runtime build output "dist-runtime/extensions/example/runtime.js".',
       'npm package must not include private QA channel artifact "dist/extensions/qa-channel/package.json".',
       'npm package must not include private QA channel artifact "dist/extensions/qa-channel/runtime-api.js".',
