@@ -4,6 +4,9 @@
   "private": true,
   "description": "Named agent team with delegation, review drafts, and a decision log",
   "type": "module",
+  "dependencies": {
+    "typebox": "1.3.27"
+  },
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*",
     "openclaw": "workspace:*"

@@ -177,9 +177,7 @@ export function workforceTools(api: OpenClawPluginApi, config: WorkforceConfig) 
           if (pending.length === 0) {
             return "Nothing is waiting for review.";
           }
-          return pending
-            .map((draft) => `${describeDraft(draft)}\n    ${draft.body}`)
-            .join("\n\n");
+          return pending.map((draft) => `${describeDraft(draft)}\n    ${draft.body}`).join("\n\n");
         }
         const id = params.id?.trim();
         if (!id) {
@@ -206,7 +204,10 @@ export function workforceTools(api: OpenClawPluginApi, config: WorkforceConfig) 
           return "The decision log is empty.";
         }
         return entries
-          .map((entry) => `${new Date(entry.createdAt).toISOString()}  ${entry.actor}: ${entry.summary}`)
+          .map(
+            (entry) =>
+              `${new Date(entry.createdAt).toISOString()}  ${entry.actor}: ${entry.summary}`,
+          )
           .join("\n");
       },
     },

@@ -26,7 +26,14 @@ const { resolveWorkforceConfig } = await import("./roster.js");
 const { workforceTools } = await import("./tools.js");
 const store = await import("./store.js");
 
-const complete = vi.fn(async () => ({ text: "done", provider: "anthropic", model: "opus" }));
+/** Only the fields these tests assert on; the real request carries more. */
+type CompleteRequest = { systemPrompt: string; model?: string; execution: { mode: string } };
+
+const complete = vi.fn(async (_request: CompleteRequest) => ({
+  text: "done",
+  provider: "anthropic",
+  model: "opus",
+}));
 const api = { runtime: { llm: { complete } } } as never;
 
 const config = resolveWorkforceConfig({
@@ -59,13 +66,10 @@ describe("workforce_delegate", () => {
       { api },
     );
     expect(text).toBe("done");
-    const call = complete.mock.calls[0]?.[0] as {
-      systemPrompt: string;
-      execution: { mode: string };
-    };
-    expect(call.systemPrompt).toContain("Find the facts.");
-    expect(call.systemPrompt).toContain("You have no tools.");
-    expect(call.execution.mode).toBe("isolated-agent-runtime");
+    const call = complete.mock.calls[0]?.[0];
+    expect(call?.systemPrompt).toContain("Find the facts.");
+    expect(call?.systemPrompt).toContain("You have no tools.");
+    expect(call?.execution.mode).toBe("isolated-agent-runtime");
   });
 
   it("records the handover in the decision log", async () => {

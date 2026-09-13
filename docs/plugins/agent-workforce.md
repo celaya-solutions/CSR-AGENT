@@ -52,13 +52,13 @@ runs on your agent's default model.
 
 ## The five tools
 
-| Tool | What it does |
-| --- | --- |
-| `workforce_roster` | Lists the team and what each member is for. |
+| Tool                 | What it does                                                 |
+| -------------------- | ------------------------------------------------------------ |
+| `workforce_roster`   | Lists the team and what each member is for.                  |
 | `workforce_delegate` | Hands one task to a named teammate and waits for the answer. |
-| `workforce_draft` | Stages an outward action instead of doing it. |
-| `workforce_review` | Lists pending drafts, or records a person's approve/discard. |
-| `workforce_log` | Reads the decision log in plain language. |
+| `workforce_draft`    | Stages an outward action instead of doing it.                |
+| `workforce_review`   | Lists pending drafts, or records a person's approve/discard. |
+| `workforce_log`      | Reads the decision log in plain language.                    |
 
 ## How delegation works
 
@@ -74,7 +74,7 @@ That has three consequences worth understanding:
   answers. If a task needs a tool, the calling agent does that part.
 
 For work that genuinely needs a full agent with tools, use core's subagents
-instead; see [agents](../agents.md).
+instead; see [subagents](/tools/subagents).
 
 ## Review before anything leaves
 
@@ -106,24 +106,27 @@ so does every human decision. `workforce_log` reads it back:
 ```
 
 This is deliberately separate from the audit log. Audit records what happened,
-for security. The decision log records *why*, for a person reading along.
+for security. The decision log records _why_, for a person reading along.
 
 ## Running the team on a schedule
 
-This plugin does not schedule anything. Use core cron, which already owns
+This plugin does not schedule anything. Use core [automations](/cli/cron), which already own
 scheduled agent runs, and point a job at an agent that has these tools:
 
-```
-openclaw cron add --schedule "0 9 * * 1" --prompt "Ask scout for anything new about our top three competitors, then draft a summary email for review."
+```bash
+openclaw automations create "0 9 * * 1" \
+  "Ask scout for anything new about our top three competitors, then stage a summary email for review." \
+  --name "Monday competitor brief" \
+  --agent main
 ```
 
 ## Settings
 
-| Setting | Default | What it does |
-| --- | --- | --- |
-| `team` | `[]` | The teammates. Each needs `id` and `brief`. |
-| `requireReview` | `true` | Hold drafts until a person approves them. |
-| `timeoutMs` | `120000` | How long one teammate turn may run. |
+| Setting         | Default  | What it does                                |
+| --------------- | -------- | ------------------------------------------- |
+| `team`          | `[]`     | The teammates. Each needs `id` and `brief`. |
+| `requireReview` | `true`   | Hold drafts until a person approves them.   |
+| `timeoutMs`     | `120000` | How long one teammate turn may run.         |
 
 ## Where state lives
 

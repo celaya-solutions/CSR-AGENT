@@ -47,7 +47,9 @@ describe("resolveWorkforceConfig", () => {
 
 describe("requireTeammate", () => {
   it("names the real options when the model invents a teammate", () => {
-    const config = resolveWorkforceConfig({ team: [scout, { id: "critic", brief: "Poke holes." }] });
+    const config = resolveWorkforceConfig({
+      team: [scout, { id: "critic", brief: "Poke holes." }],
+    });
     expect(() => requireTeammate(config, "nobody")).toThrow(/The team is: scout, critic/);
   });
 

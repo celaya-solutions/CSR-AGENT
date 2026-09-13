@@ -19,6 +19,8 @@ export type Draft = {
   body: string;
   status: "pending" | "approved" | "discarded";
   createdAt: number;
+  /** Tie-breaker so two entries written in the same millisecond keep their order. */
+  seq: number;
   /** Set when a human resolved it. */
   resolvedAt?: number;
   /** Optional human note recorded with the decision. */
@@ -33,6 +35,8 @@ export type Decision = {
   /** What was decided, written for a person reading later. */
   summary: string;
   createdAt: number;
+  /** Tie-breaker so two entries written in the same millisecond keep their order. */
+  seq: number;
 };
 
 type Stores = {
@@ -64,6 +68,23 @@ export function openStores(): Stores {
 /** Test seam: drops the cached handles so a fresh state dir is picked up. */
 export function resetStoresForTests(): void {
   cached = undefined;
+  appendCounter = 0;
+}
+
+// Wall-clock time repeats within a millisecond, so appends also carry a
+// process-local counter. Ordering is (createdAt, seq): time wins across
+// restarts, the counter breaks ties inside one run.
+let appendCounter = 0;
+
+function nextSeq(): number {
+  return ++appendCounter;
+}
+
+function byAppendOrder(
+  a: { createdAt: number; seq?: number },
+  b: { createdAt: number; seq?: number },
+): number {
+  return a.createdAt - b.createdAt || (a.seq ?? 0) - (b.seq ?? 0);
 }
 
 function newId(prefix: string): string {
@@ -79,6 +100,7 @@ export function createDraft(params: { author: string; action: string; body: stri
     body: params.body,
     status: "pending",
     createdAt: Date.now(),
+    seq: nextSeq(),
   };
   openStores().drafts.register(draft.id, draft);
   return draft;
@@ -89,7 +111,7 @@ export function listDrafts(status?: Draft["status"]): Draft[] {
     .drafts.entries()
     .map((entry) => entry.value)
     .filter((draft) => (status ? draft.status === status : true))
-    .sort((a, b) => a.createdAt - b.createdAt);
+    .toSorted(byAppendOrder);
 }
 
 /** Resolves one draft. Returns undefined when the id is unknown. */
@@ -122,6 +144,7 @@ export function recordDecision(params: { actor: string; summary: string }): Deci
     actor: params.actor,
     summary: params.summary,
     createdAt: Date.now(),
+    seq: nextSeq(),
   };
   openStores().decisions.register(decision.id, decision);
   return decision;
@@ -131,6 +154,6 @@ export function listDecisions(limit = 50): Decision[] {
   const all = openStores()
     .decisions.entries()
     .map((entry) => entry.value)
-    .sort((a, b) => a.createdAt - b.createdAt);
+    .toSorted(byAppendOrder);
   return limit > 0 ? all.slice(-limit) : all;
 }

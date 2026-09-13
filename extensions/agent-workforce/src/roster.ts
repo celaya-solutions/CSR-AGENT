@@ -74,7 +74,8 @@ export function resolveWorkforceConfig(raw: unknown): WorkforceConfig {
   }
   return {
     team,
-    requireReview: cfg.requireReview === undefined ? DEFAULTS.requireReview : cfg.requireReview === true,
+    requireReview:
+      cfg.requireReview === undefined ? DEFAULTS.requireReview : cfg.requireReview === true,
     timeoutMs: positiveInteger(cfg.timeoutMs, DEFAULTS.timeoutMs),
   };
 }
