@@ -1,5 +1,6 @@
 // Covers native approval route reporting behavior.
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { createDeferred } from "../../test/helpers/promise.js";
 import {
   createApprovalNativeRouteCoordinator,
   createApprovalNativeRouteReporter as createApprovalNativeRouteReporterRaw,
@@ -35,6 +36,128 @@ function createGatewayRequestMock() {
 }
 
 describe("createApprovalNativeRouteReporter", () => {
+  it("replays a stopped account without admitting late accounts or retired callbacks", async () => {
+    const coordinator = createApprovalNativeRouteCoordinator();
+    const createReporter = (accountId: string) =>
+      coordinator.createReporter({
+        ...defaultRouteSelector,
+        handledKinds: new Set(["exec", "plugin"]),
+        channel: "slack",
+        accountId,
+        requestGateway: createGatewayRequestMock(),
+      });
+    const request = {
+      id: "approval-account-replay",
+      request: { command: "echo hi" },
+      createdAtMs: 0,
+      expiresAtMs: Date.now() + 60_000,
+    };
+    const input = { approvalKind: "exec" as const, request };
+    try {
+      const original = createReporter("default");
+      original.start();
+      expect(original.selectRequest(input)).toEqual({ kind: "selected" });
+      await original.stop();
+
+      const replacement = createReporter("default");
+      replacement.start();
+      const late = createReporter("other");
+      late.start();
+      expect(replacement.selectRequest(input)).toEqual({ kind: "selected" });
+      expect(late.selectRequest(input)).toEqual({ kind: "ineligible" });
+
+      original.completeRequest(request.id);
+      await original.stop();
+      expect(original.selectRequest(input)).toEqual({ kind: "ineligible" });
+      expect(replacement.selectRequest(input)).toEqual({ kind: "selected" });
+      expect(late.selectRequest(input)).toEqual({ kind: "ineligible" });
+    } finally {
+      coordinator.close();
+    }
+  });
+
+  it("rechecks current filters when a selected account restarts", async () => {
+    const coordinator = createApprovalNativeRouteCoordinator();
+    let eligible = true;
+    const createReporter = () =>
+      coordinator.createReporter({
+        ...defaultRouteSelector,
+        handledKinds: new Set(["exec"]),
+        channel: "slack",
+        accountId: "default",
+        requestGateway: createGatewayRequestMock(),
+        shouldHandle: () => eligible,
+      });
+    const input = {
+      approvalKind: "exec" as const,
+      request: {
+        id: "approval-current-filter",
+        request: { command: "echo hi" },
+        createdAtMs: 0,
+        expiresAtMs: Date.now() + 60_000,
+      },
+    };
+    try {
+      const original = createReporter();
+      original.start();
+      expect(original.selectRequest(input)).toEqual({ kind: "selected" });
+      await original.stop();
+      const replacement = createReporter();
+      replacement.start();
+      eligible = false;
+      expect(replacement.selectRequest(input)).toEqual({ kind: "ineligible" });
+      eligible = true;
+      expect(replacement.selectRequest(input)).toEqual({ kind: "selected" });
+    } finally {
+      coordinator.close();
+    }
+  });
+
+  it("does not publish a new registration's notices from an older pending stop", async () => {
+    const coordinator = createApprovalNativeRouteCoordinator();
+    const blockedNotice = createDeferred<void>();
+    const noticeStarted = createDeferred<void>();
+    const requestGateway = createGatewayRequestMock();
+    requestGateway.mockImplementationOnce(async () => {
+      noticeStarted.resolve();
+      await blockedNotice.promise;
+      return { ok: true };
+    });
+    const reporter = coordinator.createReporter({
+      ...defaultRouteSelector,
+      handledKinds: new Set(["exec"]),
+      channel: "slack",
+      accountId: "default",
+      requestGateway,
+    });
+    const request = (id: string) => ({
+      approvalKind: "exec" as const,
+      request: {
+        id,
+        request: { command: "echo hi", turnSourceChannel: "slack", turnSourceTo: "channel:C1" },
+        createdAtMs: 0,
+        expiresAtMs: Date.now() + 60_000,
+      },
+    });
+    try {
+      reporter.start();
+      reporter.selectRequest(request("stop-first"));
+      reporter.selectRequest(request("stop-second"));
+      const firstStop = reporter.stop();
+      await noticeStarted.promise;
+      await reporter.stop();
+      expect(requestGateway).toHaveBeenCalledTimes(2);
+      reporter.start();
+      blockedNotice.resolve();
+      await firstStop;
+      expect(requestGateway).toHaveBeenCalledTimes(2);
+      expect(coordinator.hasActiveRuntime({ approvalKind: "exec", channel: "slack" })).toBe(true);
+    } finally {
+      blockedNotice.resolve();
+      coordinator.close();
+    }
+  });
+
   it("keeps the local approval route visible when an unbound request has multiple runtimes", () => {
     const coordinator = createApprovalNativeRouteCoordinator();
     const first = coordinator.createReporter({
@@ -412,6 +535,7 @@ describe("createApprovalNativeRouteReporter", () => {
 
   it("does not suppress the notice when another account delivered to the same target id", async () => {
     const originGateway = createGatewayRequestMock();
+    const replacementGateway = createGatewayRequestMock();
     const otherGateway = createGatewayRequestMock();
     const request = {
       id: "approval-2",
@@ -470,6 +594,15 @@ describe("createApprovalNativeRouteReporter", () => {
         },
       ],
     });
+    await originReporter.stop();
+    const replacementReporter = createApprovalNativeRouteReporter({
+      handledKinds: new Set(["exec"]),
+      channel: "slack",
+      channelLabel: "Slack",
+      accountId: "work-a",
+      requestGateway: replacementGateway,
+    });
+    replacementReporter.start();
     await otherReporter.reportDelivery({
       approvalKind: "exec",
       request,
@@ -491,7 +624,7 @@ describe("createApprovalNativeRouteReporter", () => {
       ],
     });
 
-    expect(originGateway).toHaveBeenCalledWith("send", {
+    expect(replacementGateway).toHaveBeenCalledWith("send", {
       channel: "slack",
       to: "channel:C123",
       accountId: "work-a",
@@ -499,6 +632,7 @@ describe("createApprovalNativeRouteReporter", () => {
       message: "Approval required. I sent the approval request to Slack DMs, not this chat.",
       idempotencyKey: "approval-route-notice:approval-2",
     });
+    expect(originGateway).not.toHaveBeenCalled();
     expect(otherGateway).not.toHaveBeenCalled();
   });
 

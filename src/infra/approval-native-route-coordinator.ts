@@ -326,6 +326,9 @@ function resolveApprovalRouteNotice(params: {
     return null;
   }
   const originAccountId = normalizeOptionalString(target.accountId);
+  const activeRequestGateway = params.reports
+    .map((report) => params.state.activeRuntimes.get(report.runtimeId)?.requestGateway)
+    .find((requestGateway) => requestGateway !== undefined);
   const deliveredAnyTarget = params.reports.some((report) => report.deliveredTargets.length > 0);
   const ambiguousOwner = params.reports.some((report) => report.skipReason === "ambiguous-owner");
   const requiresManualFallback =
@@ -337,8 +340,7 @@ function resolveApprovalRouteNotice(params: {
       params.missingSelectedRuntime)
   ) {
     const requestGateway =
-      params.reports.find((report) => params.state.activeRuntimes.has(report.runtimeId))
-        ?.requestGateway ??
+      activeRequestGateway ??
       params.reports[0]?.requestGateway ??
       Array.from(params.state.activeRuntimes.values())[0]?.requestGateway;
     if (!requestGateway) {
@@ -403,9 +405,7 @@ function resolveApprovalRouteNotice(params: {
     return null;
   }
 
-  const requestGateway =
-    params.reports.find((report) => params.state.activeRuntimes.has(report.runtimeId))
-      ?.requestGateway ?? params.reports[0]?.requestGateway;
+  const requestGateway = activeRequestGateway ?? params.reports[0]?.requestGateway;
   if (!requestGateway) {
     return null;
   }
@@ -530,8 +530,24 @@ function createApprovalNativeRouteReporterForState(
     classifyRoute: (request: ApprovalRequest) => ApprovalRequestChannelRouteClass;
   },
 ) {
-  const runtimeId = `native-approval-route:${++state.runtimeSeq}`;
-  let registered = false;
+  const instanceId = `native-approval-route:${++state.runtimeSeq}`;
+  const channel = normalizeChannel(params.channel);
+  const accountId = normalizeOptionalString(params.accountId);
+  const ownerId =
+    channel && accountId
+      ? JSON.stringify([
+          "native-approval-owner",
+          channel,
+          accountId,
+          [...params.handledKinds].toSorted(),
+        ])
+      : instanceId;
+  let registration: ApprovalRouteRuntimeRecord | undefined;
+  let retired = false;
+  const currentRegistration = () => {
+    const current = registration;
+    return current && state.activeRuntimes.get(current.runtimeId) === current ? current : undefined;
+  };
 
   const report = async (payload: {
     approvalKind: ChannelApprovalKind;
@@ -540,9 +556,11 @@ function createApprovalNativeRouteReporterForState(
     deliveredTargets: readonly ChannelApprovalNativePlannedTarget[];
     skipReason?: ApprovalRouteSkipReason;
   }): Promise<void> => {
-    if (state.closed || !registered || !params.handledKinds.has(payload.approvalKind)) {
+    const current = currentRegistration();
+    if (state.closed || !current || !params.handledKinds.has(payload.approvalKind)) {
       return;
     }
+    const { runtimeId } = current;
     const selection = resolveApprovalRouteSelection(state, payload);
     if (!selection.verdicts.has(runtimeId)) {
       return;
@@ -573,10 +591,16 @@ function createApprovalNativeRouteReporterForState(
       approvalKind: ChannelApprovalKind;
       request: ApprovalRequest;
     }): ApprovalRouteSelectionVerdict {
-      if (state.closed || !params.handledKinds.has(payload.approvalKind)) {
+      const current = currentRegistration();
+      if (
+        state.closed ||
+        retired ||
+        (registration && !current) ||
+        !params.handledKinds.has(payload.approvalKind)
+      ) {
         return { kind: "ineligible" };
       }
-      if (!registered) {
+      if (!current) {
         try {
           return params.shouldHandle(payload.request)
             ? { kind: "selected" }
@@ -593,13 +617,23 @@ function createApprovalNativeRouteReporterForState(
           approvalKind: payload.approvalKind,
         });
       state.pendingNotices.set(payload.request.id, entry);
-      return selection.verdicts.get(runtimeId) ?? { kind: "ineligible" };
+      const verdict = selection.verdicts.get(current.runtimeId) ?? { kind: "ineligible" as const };
+      if (verdict.kind !== "selected") {
+        return verdict;
+      }
+      try {
+        return params.shouldHandle(payload.request) ? verdict : { kind: "ineligible" };
+      } catch (error) {
+        return { kind: "selector-error", error };
+      }
     },
     start(): void {
-      if (state.closed || registered) {
+      if (state.closed || registration) {
         return;
       }
-      state.activeRuntimes.set(runtimeId, {
+      // Replacements keep the frozen account selection; overlapping reporters stay distinct.
+      const runtimeId = state.activeRuntimes.has(ownerId) ? instanceId : ownerId;
+      registration = {
         runtimeId,
         handledKinds: params.handledKinds,
         channel: params.channel,
@@ -608,8 +642,9 @@ function createApprovalNativeRouteReporterForState(
         requestGateway: params.requestGateway,
         shouldHandle: params.shouldHandle,
         classifyRoute: params.classifyRoute,
-      });
-      registered = true;
+      };
+      state.activeRuntimes.set(runtimeId, registration);
+      retired = false;
     },
     async reportSkipped(paramsValue: {
       approvalKind: ChannelApprovalKind;
@@ -637,14 +672,24 @@ function createApprovalNativeRouteReporterForState(
       await report(paramsLocal);
     },
     completeRequest(approvalId: string): void {
+      if (!currentRegistration()) {
+        return;
+      }
       clearApprovalRouteSelection(state, approvalId);
       clearPendingApprovalRouteNotice(state, approvalId);
     },
     async stop(): Promise<void> {
-      if (!registered) {
+      const current = currentRegistration();
+      if (!current) {
+        registration = undefined;
+        retired = true;
         return;
       }
+      const { runtimeId } = current;
       for (const entry of Array.from(state.pendingNotices.values())) {
+        if (currentRegistration() !== current) {
+          return;
+        }
         const selection = state.selections.get(entry.request.id);
         if (selection?.verdicts.has(runtimeId) && !entry.reports.has(runtimeId)) {
           await report({
@@ -659,8 +704,13 @@ function createApprovalNativeRouteReporterForState(
           });
         }
       }
-      registered = false;
-      state.activeRuntimes.delete(runtimeId);
+      if (state.activeRuntimes.get(runtimeId) === current) {
+        state.activeRuntimes.delete(runtimeId);
+      }
+      if (registration === current) {
+        registration = undefined;
+        retired = true;
+      }
     },
   };
 }
