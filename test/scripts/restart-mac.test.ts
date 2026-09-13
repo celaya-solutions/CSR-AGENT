@@ -383,7 +383,7 @@ afterEach(() => {
 
 describe("scripts/restart-mac.sh", () => {
   it("preserves an explicit signing identity through signed packaging", () => {
-    const identity = "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)";
+    const identity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
     const result = runSigningEnvironmentBlock(identity);
 
     expect(result.status).toBe(0);

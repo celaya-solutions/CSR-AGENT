@@ -27,7 +27,7 @@ title: "Zero to Agent"
 <p align="center">
   <strong>Your AI assistant, on your own hardware, in every chat app you already use.</strong><br />
   One Gateway. Any model. Any device. No hosted service in the middle.<br />
-  Developed in the open by the <a href="https://openclaw.org">Zero to Agent Foundation</a>, an independent 501(c)(3). No paid tier, no telemetry by default beyond a <a href="/gateway/telemetry">version check</a> you can turn off, no lab owns it.
+  Developed in the open by the <a href="https://openclaw.org">OpenClaw Foundation</a>, an independent 501(c)(3). No paid tier, no telemetry by default beyond a <a href="/gateway/telemetry">version check</a> you can turn off, no lab owns it.
 </p>
 
 <Columns>

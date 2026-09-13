@@ -14145,7 +14145,7 @@ promote_windows_release_assets
       "Windows source release asset digest does not match the pinned digest",
     );
     expect(windowsWorkflow).toContain(
-      "CN=Zero to Agent Foundation, O=Zero to Agent Foundation, L=Mill Valley, S=California, C=US",
+      "CN=OpenClaw Foundation, O=OpenClaw Foundation, L=Mill Valley, S=California, C=US",
     );
     expect(windowsWorkflow).toContain("has unexpected signer subject");
     expect(windowsWorkflow).toContain("OpenClawCompanion-SHA256SUMS.txt");

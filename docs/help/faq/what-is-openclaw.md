@@ -60,7 +60,7 @@ read_when:
   </Accordion>
 
   <Accordion title="Is Zero to Agent owned by OpenAI?">
-    No. Zero to Agent is stewarded by the [Zero to Agent Foundation](https://openclaw.org), an independent 501(c)(3). OpenAI is one of several donors, and its creator works there. Donors do not own, control, or direct the project. Codex is one [agent harness](/concepts/agent-runtimes) plugin among several, and no lab's model is privileged in the code.
+    No. Zero to Agent is stewarded by the [OpenClaw Foundation](https://openclaw.org), an independent 501(c)(3). OpenAI is one of several donors, and its creator works there. Donors do not own, control, or direct the project. Codex is one [agent harness](/concepts/agent-runtimes) plugin among several, and no lab's model is privileged in the code.
 
   </Accordion>
 

@@ -21,7 +21,9 @@ Zero to Agent = CLAW + TARDIS: every space lobster needs a time and space machin
 
 ## License
 
-MIT, copyright Zero to Agent Foundation. Third-party notices for incorporated or adapted code are in `THIRD_PARTY_NOTICES.md`.
+MIT, copyright OpenClaw Foundation. Third-party notices for incorporated or adapted code are in `THIRD_PARTY_NOTICES.md`.
+
+Zero to Agent is a derivative of [OpenClaw](https://github.com/openclaw/openclaw) and is not endorsed by the OpenClaw Foundation. Attribution details are in `NOTICE.md`.
 
 > "We are all just playing with our own prompts." (An AI, probably high on tokens)
 

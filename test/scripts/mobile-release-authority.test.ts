@@ -3923,7 +3923,7 @@ fi
           expect(args.at(-1)).toBe(keychainPath);
           return {
             stderr: "",
-            stdout: `  1) ${identityHash} "Apple Distribution: Zero to Agent Foundation (FWJYW4S8P8)"\n`,
+            stdout: `  1) ${identityHash} "Apple Distribution: OpenClaw Foundation (FWJYW4S8P8)"\n`,
           };
         }
         const probePath = args.at(-1);
@@ -3950,7 +3950,7 @@ fi
           runCommand,
         }),
       ).resolves.toEqual({
-        identity: "Apple Distribution: Zero to Agent Foundation (FWJYW4S8P8)",
+        identity: "Apple Distribution: OpenClaw Foundation (FWJYW4S8P8)",
         teamId: "FWJYW4S8P8",
       });
       expect(calls.map(({ executable }) => executable)).toEqual([

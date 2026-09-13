@@ -34,7 +34,7 @@ In the macOS app, open **Dashboard → Settings → This Mac → Capabilities** 
 When enabled (and Computer Control is on), Zero to Agent starts a local UNIX socket server at `~/Library/Application Support/Zero to Agent/<socket-name>`. If disabled, the host stops and `peekaboo` falls back to other available hosts. The coordinator also maintains legacy socket symlinks (`clawdbot`, `clawdis`, `moltbot` under Application Support) pointing at the current socket for older `peekaboo` installs.
 
 For a one-off unattended run, `--attach-only --background-only` suppresses automatic windows and GUI-owned Keychain
-loading. The persistent elevation host is a managed-deployment path for Zero to Agent Foundation release operators. Its
+loading. The persistent elevation host is a managed-deployment path for OpenClaw Foundation release operators. Its
 `package` command requires the Foundation signing identity and notarization credentials. Zero to Agent does not
 publish a general-download elevation archive. Install only a certified, source-addressed archive supplied by an
 authorized release operator:

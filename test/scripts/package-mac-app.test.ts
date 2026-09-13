@@ -1895,7 +1895,7 @@ describe("package-mac-app plist stamping", () => {
       const callerTemp = path.join(tempRoot, "caller temp [*]");
       const eventsPath = path.join(tempRoot, "events");
       const observationsPath = path.join(tempRoot, "worker-scratch.jsonl");
-      const identity = "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)";
+      const identity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
       for (const directory of [scriptsDir, appRoot, callerHome, callerTemp]) {
         mkdirSync(directory, { recursive: true });
       }

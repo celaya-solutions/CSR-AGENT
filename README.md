@@ -17,7 +17,7 @@
 
 Zero to Agent is an open-source AI assistant that runs on your own computer and meets you in the channels you already use: Discord, iMessage, Slack, Teams, Telegram, WhatsApp, and 20+ more, plus native apps for macOS, iOS, Android, Windows, and Linux. One Gateway runs it as a personal assistant on a laptop or as a shared [team deployment](https://docs.openclaw.ai/start/teams); configuration is the only difference.
 
-**Yours, with no catch.** State, memory, and credentials live on your hardware. Models and agent harnesses (Claude, Codex, local models) are plugins you can swap without changing anything else. Your prompts go to the model provider and chat platforms you configure, plus any diagnostics export you enable yourself; by default Zero to Agent itself phones home for nothing but a daily version check, anonymous feature statistics are opt-in, and `update.checkOnStart: false` disables both ([what Zero to Agent sends](https://docs.openclaw.ai/gateway/telemetry)). Zero to Agent is stewarded by the [Zero to Agent Foundation](https://openclaw.org), an independent 501(c)(3), and has no paid tier, hosted service, or token. The architecture case — trusted gateway, untrusted execution, deterministic policy — is in [Why Zero to Agent](https://docs.openclaw.ai/start/why-openclaw).
+**Yours, with no catch.** State, memory, and credentials live on your hardware. Models and agent harnesses (Claude, Codex, local models) are plugins you can swap without changing anything else. Your prompts go to the model provider and chat platforms you configure, plus any diagnostics export you enable yourself; by default Zero to Agent itself phones home for nothing but a daily version check, anonymous feature statistics are opt-in, and `update.checkOnStart: false` disables both ([what Zero to Agent sends](https://docs.openclaw.ai/gateway/telemetry)). Zero to Agent is stewarded by the [OpenClaw Foundation](https://openclaw.org), an independent 501(c)(3), and has no paid tier, hosted service, or token. The architecture case — trusted gateway, untrusted execution, deterministic policy — is in [Why Zero to Agent](https://docs.openclaw.ai/start/why-openclaw).
 
 [Website](https://openclaw.ai) · [Docs](https://docs.openclaw.ai) · [Getting started](https://docs.openclaw.ai/start/getting-started) · [Why Zero to Agent](https://docs.openclaw.ai/start/why-openclaw) · [Showcase](https://docs.openclaw.ai/start/showcase) · [FAQ](https://docs.openclaw.ai/help/faq) · [Vision](VISION.md) · [DeepWiki](https://deepwiki.com/openclaw/openclaw)
 
@@ -107,7 +107,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and the [so
 
 ## Governance
 
-Zero to Agent is developed in the open by the [Zero to Agent Foundation](https://openclaw.org), an independent 501(c)(3). The Foundation employs the core team and signs releases. Donors and infrastructure sponsors support the Foundation; none of them own or direct the project. OpenAI is a donor, not an owner.
+Zero to Agent is developed in the open by the [OpenClaw Foundation](https://openclaw.org), an independent 501(c)(3). The Foundation employs the core team and signs releases. Donors and infrastructure sponsors support the Foundation; none of them own or direct the project. OpenAI is a donor, not an owner.
 
 ## Community
 
@@ -327,4 +327,6 @@ clawtributors:hidden:end -->
 
 ## License
 
-[MIT](LICENSE) © Zero to Agent Foundation. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for incorporated or adapted code.
+[MIT](LICENSE) © OpenClaw Foundation. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for incorporated or adapted code.
+
+Zero to Agent is a derivative of [OpenClaw](https://github.com/openclaw/openclaw) and is not endorsed by the OpenClaw Foundation. See [NOTICE.md](NOTICE.md).

@@ -441,7 +441,7 @@ export const en = {
       askForHelp:
         "Ask someone experienced to help before enabling tools or exposing it to the internet.",
       attribution:
-        "Zero to Agent is an open-source assistant that learns and grows with you, by the Zero to Agent Foundation (a non-profit).",
+        "Zero to Agent is an open-source assistant that learns and grows with you, by the OpenClaw Foundation (a non-profit).",
       baselineDmSessions:
         "Shared inboxes: isolate DM sessions (session.dmScope: per-channel-peer) and keep tool access minimal.",
       baselinePairing: "Use pairing or allowlists; require mentions in group chats.",

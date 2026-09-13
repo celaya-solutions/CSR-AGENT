@@ -173,7 +173,7 @@ printf '${CANONICAL_TEAM_ID}\\t0\\tOpenClaw\\r\\n'`,
       `#!/usr/bin/env bash
 if [[ "$1" == "-extract" && "$2" == "IDEProvisioningTeamByIdentifier" ]]; then
   cat <<'JSON'
-{"account-id":[{"teamID":"FWJYW4S8P8","teamName":"Zero to Agent Foundation","isFreeProvisioningTeam":false,"teamType":"Company"}]}
+{"account-id":[{"teamID":"FWJYW4S8P8","teamName":"OpenClaw Foundation","isFreeProvisioningTeam":false,"teamType":"Company"}]}
 JSON
   exit 0
 fi

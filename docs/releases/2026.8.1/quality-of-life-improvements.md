@@ -705,7 +705,7 @@ The optional [Control UI lobster](/web/lobster) now reacts to status changes and
 - chore(deps): refresh seven-day-cooled runtimes and tooling [#131719](https://github.com/openclaw/openclaw/pull/131719)
 - Refresh CLI startup taglines [#102750](https://github.com/openclaw/openclaw/pull/102750)
 - Add roast-style CLI startup taglines [#102789](https://github.com/openclaw/openclaw/pull/102789)
-- Attribute Zero to Agent to the Zero to Agent Foundation [#112536](https://github.com/openclaw/openclaw/pull/112536)
+- Attribute Zero to Agent to the OpenClaw Foundation [#112536](https://github.com/openclaw/openclaw/pull/112536)
 - Add provider icons to coding catalog headings [#115956](https://github.com/openclaw/openclaw/pull/115956)
 - Show the Pi logo in external-session catalogs [#119998](https://github.com/openclaw/openclaw/pull/119998)
 - Give the collapsed session rail a distinct header icon [#121420](https://github.com/openclaw/openclaw/pull/121420)

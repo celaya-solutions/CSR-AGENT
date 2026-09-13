@@ -17,7 +17,7 @@ export const buildInfo = {
   builtAt: "2026-08-28T00:00:00Z",
   buildId: "fixture-build",
 };
-const authority = "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)";
+const authority = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
 const entitlements = "<plist><dict/></plist>\n";
 export const workerRoot = "Contents/Resources/node-worker";
 export const workerDist = "lib/node_modules/openclaw/dist";

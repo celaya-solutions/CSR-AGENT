@@ -12,7 +12,7 @@ Zero to Agent is an extensible, proactive, open-source AI agent that works every
 
 That inversion is why agents feel like the beginning of something rather than another product cycle, and why they deserve more scrutiny than anything you have installed before: an assistant that acts for you holds credentials, reads mail, and runs commands on real computers. The architecture decides what it _can_ do long before any policy decides what it _may_.
 
-The project is stewarded by the [Zero to Agent Foundation](https://openclaw.org), an independent 501(c)(3) whose mission is to make AI personal, fun, and empowering for everyone: your agent, your machine, your rules. It is built on the observation that the open source projects that endure (Linux, Apache, Mozilla) endure because a neutral steward stands behind them.
+The project is stewarded by the [OpenClaw Foundation](https://openclaw.org), an independent 501(c)(3) whose mission is to make AI personal, fun, and empowering for everyone: your agent, your machine, your rules. It is built on the observation that the open source projects that endure (Linux, Apache, Mozilla) endure because a neutral steward stands behind them.
 
 The Foundation works with [donors and partners](https://openclaw.ai/blog/introducing-openclaw-foundation/), including Amazon, Atlassian, GitHub, Microsoft, NVIDIA, OpenAI, Red Hat, and Tencent, across more than thirty organizations. It has a full-time team, releases signed under its own identity, and Foundation-convened councils on agent identity, agent profiles, evals, and enterprise deployment. The aim is to be the Switzerland of AI: neutral ground for every model and every lab, and the most mature, battle-tested agent for anyone, individual or enterprise, to build on.
 
@@ -86,7 +86,7 @@ Zero to Agent supplies exact `Co-authored-by` trailers for eligible shared-sessi
 
 ## Governance
 
-The whole Zero to Agent product is MIT-licensed, with no enterprise edition under a different license, and it is governed by the [Zero to Agent Foundation](https://openclaw.org) introduced above. The Foundation's stewardship shows up in the architecture: providers are plugins, and no lab's model is privileged. Releases are signed and published under the Foundation identity.
+The whole Zero to Agent product is MIT-licensed, with no enterprise edition under a different license, and it is governed by the [OpenClaw Foundation](https://openclaw.org) introduced above. The Foundation's stewardship shows up in the architecture: providers are plugins, and no lab's model is privileged. Releases are signed and published under the Foundation identity.
 
 The Foundation is funded by donations and sells nothing: no paid tier, no hosted service, no token. The only request an install makes to the Foundation by default is a version check, and [`update.checkOnStart: false`](/gateway/telemetry) turns it off; traffic to your configured model providers and channels goes to them, not to us.
 

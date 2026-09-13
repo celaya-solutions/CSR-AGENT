@@ -341,7 +341,7 @@ This completes the record for all 17,675 analyzed PRs and commits in v2026.8.1. 
 - Document draft-then-ready PR creation for reliable CI [#110970](https://github.com/openclaw/openclaw/pull/110970)
 - Update stale debugging skill file references [#111474](https://github.com/openclaw/openclaw/pull/111474)
 - Document script and dependency troubleshooting rules for agents [#112543](https://github.com/openclaw/openclaw/pull/112543)
-- Attribute published packages and docs to the Zero to Agent Foundation [#112633](https://github.com/openclaw/openclaw/pull/112633)
+- Attribute published packages and docs to the OpenClaw Foundation [#112633](https://github.com/openclaw/openclaw/pull/112633)
 - Make Auto QA campaign evidence verifiable [#113857](https://github.com/openclaw/openclaw/pull/113857)
 - Replace the rate-limited Star History badge [#114762](https://github.com/openclaw/openclaw/pull/114762)
 - Fix the security warning's line wrapping [#115388](https://github.com/openclaw/openclaw/pull/115388)

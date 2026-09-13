@@ -357,7 +357,7 @@ function createStatusHarness(mac: MacScriptFixture, permissionMode: "fail" | "in
       "  format='Mach-O universal (x86_64 arm64)'",
       '  [[ ! -d "$target" ]] || format="app bundle with Mach-O universal (x86_64 arm64)"',
       "  printf 'Format=%s\\nCodeDirectory v=20400\\n' \"$format\" >&2",
-      "  printf '%s\\n' 'Authority=Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)' >&2",
+      "  printf '%s\\n' 'Authority=Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)' >&2",
       "  printf '%s\\n' 'TeamIdentifier=FWJYW4S8P8' >&2",
       "  printf 'CDHash=%s\\n' \"$cdhash\" >&2",
       "fi",
@@ -939,7 +939,7 @@ function createArtifactVerificationHarness(mac: MacScriptFixture) {
       "  format='Mach-O universal (x86_64 arm64)'",
       '  [[ ! -d "$target" ]] || format="app bundle with Mach-O universal (x86_64 arm64)"',
       "  printf 'Format=%s\\nCodeDirectory v=20400\\n' \"$format\" >&2",
-      "  printf '%s\\n' 'Authority=Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)' >&2",
+      "  printf '%s\\n' 'Authority=Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)' >&2",
       "  printf '%s\\n' 'TeamIdentifier=FWJYW4S8P8' >&2",
       "  printf 'CDHash=%s\\n' \"$cdhash\" >&2",
       "fi",
@@ -964,7 +964,7 @@ function createArtifactVerificationHarness(mac: MacScriptFixture) {
     peekabooCommit,
     version: "4.2.0",
     build: "420",
-    authority: "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)",
+    authority: "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
     teamIdentifier: "FWJYW4S8P8",
     cdhashes: { arm64: "FIXTURECDHASHARM64", x86_64: "FIXTURECDHASHX8664" },
     architectures: { main: "x86_64 arm64", helper: "x86_64 arm64" },
@@ -1619,7 +1619,7 @@ describe("mac elevation host command contract", () => {
           "#!/usr/bin/env bash",
           "set -euo pipefail",
           "printf '%s\\n' 'Format=app bundle with Mach-O universal (x86_64 arm64)' 'CodeDirectory v=20400' >&2",
-          "printf '%s\\n' 'Authority=Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)' >&2",
+          "printf '%s\\n' 'Authority=Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)' >&2",
           "printf '%s\\n' 'Authority=Developer ID Certification Authority' >&2",
           "printf '%s\\n' 'TeamIdentifier=FWJYW4S8P8' >&2",
           'if [[ "$*" == *"--arch arm64"* ]]; then',
@@ -1658,7 +1658,7 @@ describe("mac elevation host command contract", () => {
       );
       expect(values.status, values.stderr).toBe(0);
       expect(values.stdout.trim().split("\n")).toEqual([
-        "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)",
+        "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
         "ARM64HASH",
         "X8664HASH",
       ]);
