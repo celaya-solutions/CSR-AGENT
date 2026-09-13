@@ -1871,52 +1871,92 @@ describe("CLI attempt execution", () => {
     expect(readSessionStore()[sessionKey]?.cliSessionBindings?.["claude-cli"]).toBeUndefined();
   });
 
-  it("preserves a restored fork marker when recovery dies before producing a successor", async () => {
-    const sessionKey = "agent:main:direct:cli-fork-before-successor-failure";
-    const cliSessionId = "recovery-source-session";
-    await writeClaudeCliAssistantTranscript(cliSessionId);
-    const sessionEntry = makeClaudeCliSessionEntry(
-      "session-cli-fork-before-successor-failure",
-      cliSessionId,
-    );
-    const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
-    await writeSessionStoreSeed(sessionStore);
-    const recoveryError = Object.assign(new Error("fork process died before init"), {
-      name: "AbortError",
-    });
-    runCliAgentMock.mockImplementationOnce(async (args: unknown) => {
-      const runArgs = requireRecord(args, "run CLI agent argument");
-      await (
-        runArgs.onBeforeForkedCliSessionRetry as (params: {
-          provider: string;
-          reason: "timeout";
-          sessionId: string;
-        }) => Promise<boolean>
-      )({ provider: "claude-cli", reason: "timeout", sessionId: cliSessionId });
-      await (runArgs.claimCliSessionFork as () => Promise<boolean>)();
-      await (runArgs.restoreCliSessionFork as () => Promise<void>)();
-      throw recoveryError;
-    });
+  it.each(["recovery failure", "catalog cancellation"] as const)(
+    "preserves a restored fork marker before a successor after %s",
+    async (scenario) => {
+      const sessionKey = "agent:main:direct:cli-fork-before-successor-failure";
+      const cliSessionId = "recovery-source-session";
+      await writeClaudeCliAssistantTranscript(cliSessionId);
+      const sessionEntry = makeClaudeCliSessionEntry(
+        "session-cli-fork-before-successor-failure",
+        cliSessionId,
+      );
+      const catalogCancellation = scenario === "catalog cancellation";
+      if (catalogCancellation) {
+        sessionEntry.cliSessionBindings!["claude-cli"] = {
+          sessionId: cliSessionId,
+          forceReuse: true,
+          forkNextResume: true,
+          resumeCheckpointId: "source-checkpoint",
+        };
+      }
+      const sessionStore: Record<string, SessionEntry> = { [sessionKey]: sessionEntry };
+      await writeSessionStoreSeed(sessionStore);
+      const recoveryError = Object.assign(new Error("fork process died before init"), {
+        name: "AbortError",
+      });
+      const controller = new AbortController();
+      runCliAgentMock.mockImplementationOnce(async (runArgs: RunCliAgentParams) => {
+        if (!catalogCancellation) {
+          expect(
+            await runArgs.onBeforeForkedCliSessionRetry?.({
+              provider: "claude-cli",
+              reason: "timeout",
+              sessionId: cliSessionId,
+            }),
+          ).toBe(true);
+        }
+        expect(await runArgs.claimCliSessionFork?.()).toBe(true);
+        expect(
+          readSessionStore()[sessionKey]?.cliSessionBindings?.["claude-cli"]?.forkNextResume,
+        ).toBeUndefined();
+        if (catalogCancellation) {
+          controller.abort(recoveryError);
+          expect(runArgs.abortSignal?.aborted).toBe(true);
+        }
+        await runArgs.restoreCliSessionFork?.();
+        throw recoveryError;
+      });
 
-    await expect(
-      runClaudeCliAttempt({
+      await expect(
+        runClaudeCliAttempt({
+          sessionKey,
+          sessionEntry,
+          sessionStore,
+          body: "resume and fail before fork init",
+          runId: "run-cli-fork-before-successor-failure",
+          abortSignal: controller.signal,
+        }),
+      ).rejects.toBe(recoveryError);
+
+      expect.soft(sessionStore[sessionKey]?.cliSessionBindings?.["claude-cli"]).toMatchObject({
+        sessionId: cliSessionId,
+        forkNextResume: true,
+      });
+      expect
+        .soft(readSessionStore()[sessionKey]?.cliSessionBindings?.["claude-cli"])
+        .toMatchObject({
+          sessionId: cliSessionId,
+          forkNextResume: true,
+          ...(catalogCancellation
+            ? { forceReuse: true, resumeCheckpointId: "source-checkpoint" }
+            : {}),
+        });
+      runCliAgentMock.mockResolvedValueOnce(makeCliResult("continued in fork", "fork-successor"));
+      await runClaudeCliAttempt({
         sessionKey,
-        sessionEntry,
+        sessionEntry: sessionStore[sessionKey],
         sessionStore,
-        body: "resume and fail before fork init",
-        runId: "run-cli-fork-before-successor-failure",
-      }),
-    ).rejects.toBe(recoveryError);
-
-    expect(sessionStore[sessionKey]?.cliSessionBindings?.["claude-cli"]).toMatchObject({
-      sessionId: cliSessionId,
-      forkNextResume: true,
-    });
-    expect(readSessionStore()[sessionKey]?.cliSessionBindings?.["claude-cli"]).toMatchObject({
-      sessionId: cliSessionId,
-      forkNextResume: true,
-    });
-  });
+        body: "continue in a fork",
+        runId: "run-cli-after-before-successor-failure",
+      });
+      expect(runCliAgentMock).toHaveBeenCalledTimes(2);
+      expect(firstRunCliAgentArg(1)).toMatchObject({
+        cliSessionId,
+        forkCliSessionOnResume: true,
+      });
+    },
+  );
 
   it("does not clear a concurrent rebind after failed fork recovery", async () => {
     const sessionKey = "agent:main:direct:cli-fork-concurrent-rebind";

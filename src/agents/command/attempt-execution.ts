@@ -1120,7 +1120,11 @@ export function runAgentAttempt(params: {
                     return Boolean(claimed);
                   },
                   restoreCliSessionFork: async () => {
-                    const restored = await restoreCliSessionForkInStore(forkStoreParams);
+                    // Restoring the fork is current-owner cleanup, including after cancellation.
+                    const restored = await restoreCliSessionForkInStore({
+                      ...forkStoreParams,
+                      assertCommitAllowed: assertSettlementCurrent,
+                    });
                     if (restored) {
                       params.sessionEntry = restored;
                     }
