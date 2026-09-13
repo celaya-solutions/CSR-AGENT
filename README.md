@@ -37,8 +37,8 @@ The repository is a pnpm workspace. Plain `npm install` at the root is not
 supported.
 
 ```bash
-git clone <your fork url>
-cd openclaw
+git clone https://github.com/celaya-solutions/CSR-AGENT.git
+cd CSR-AGENT
 pnpm install
 pnpm build
 pnpm ui:build
