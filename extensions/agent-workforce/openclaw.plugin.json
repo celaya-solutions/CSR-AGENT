@@ -1,0 +1,94 @@
+{
+  "id": "agent-workforce",
+  "categories": [
+    "agent-orchestration"
+  ],
+  "name": "Agent Workforce",
+  "description": "A named team of teammates one agent can hand work to, with drafts held for human review and a plain-language decision log.",
+  "enabledByDefault": false,
+  "activation": {
+    "onStartup": true
+  },
+  "uiHints": {
+    "team": {
+      "label": "Team",
+      "help": "The teammates this agent can delegate to. Each needs an id and a brief; model is optional and falls back to the agent default."
+    },
+    "requireReview": {
+      "label": "Hold Drafts For Review",
+      "help": "When on, workforce_draft keeps outward actions pending until a human approves them."
+    },
+    "timeoutMs": {
+      "label": "Teammate Timeout (ms)",
+      "help": "How long a single teammate turn may run.",
+      "advanced": true
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "team": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "brief"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "brief": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "requireReview": {
+        "type": "boolean",
+        "default": true
+      },
+      "timeoutMs": {
+        "type": "integer",
+        "minimum": 1,
+        "default": 120000
+      }
+    }
+  },
+  "version": "2026.9.4",
+  "contracts": {
+    "tools": [
+      "workforce_roster",
+      "workforce_delegate",
+      "workforce_draft",
+      "workforce_review",
+      "workforce_log"
+    ]
+  },
+  "toolMetadata": {
+    "workforce_roster": {
+      "optional": true
+    },
+    "workforce_delegate": {
+      "optional": true
+    },
+    "workforce_draft": {
+      "optional": true
+    },
+    "workforce_review": {
+      "optional": true
+    },
+    "workforce_log": {
+      "optional": true
+    }
+  }
+}

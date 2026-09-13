@@ -1852,6 +1852,7 @@
                     "group": "Automation and integrations",
                     "pages": [
                       "plugins/admin-http-rpc",
+                      "plugins/agent-workforce",
                       "plugins/beam",
                       "plugins/geolocation",
                       "plugins/logbook",

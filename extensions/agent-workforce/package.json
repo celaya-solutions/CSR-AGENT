@@ -1,0 +1,24 @@
+{
+  "name": "@openclaw/agent-workforce",
+  "version": "2026.9.4",
+  "private": true,
+  "description": "Named agent team with delegation, review drafts, and a decision log",
+  "type": "module",
+  "devDependencies": {
+    "@openclaw/plugin-sdk": "workspace:*",
+    "openclaw": "workspace:*"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.9.4"
+  },
+  "peerDependenciesMeta": {
+    "openclaw": {
+      "optional": true
+    }
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}
