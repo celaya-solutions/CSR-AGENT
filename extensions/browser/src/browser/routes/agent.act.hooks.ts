@@ -2,7 +2,7 @@
  * Browser agent action hook routes.
  *
  * Handles file chooser and dialog interception for both Playwright-backed
- * OpenClaw profiles and Chrome MCP existing-session profiles.
+ * Zero to Agent profiles and Chrome MCP existing-session profiles.
  */
 import { formatErrorMessage } from "../../infra/errors.js";
 import { evaluateChromeMcpScript, uploadChromeMcpFile } from "../chrome-mcp.js";

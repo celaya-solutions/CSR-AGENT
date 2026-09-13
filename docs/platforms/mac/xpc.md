@@ -1,11 +1,11 @@
 ---
-summary: "macOS IPC architecture for OpenClaw app, gateway node transport, and PeekabooBridge"
+summary: "macOS IPC architecture for Zero to Agent app, gateway node transport, and PeekabooBridge"
 read_when:
   - Editing IPC contracts or menu bar app IPC
 title: "macOS IPC"
 ---
 
-# OpenClaw macOS IPC architecture
+# Zero to Agent macOS IPC architecture
 
 A local Unix socket connects the node host service to the macOS app for exec approvals and `system.run`. The bundled `openclaw-mac` CLI uses a separate local control socket to inspect and configure primary and saved Gateway connections. Agent actions still flow through the Gateway WebSocket and `node.invoke`. The node-backed `computer.act` path runs embedded Peekaboo automation in-process. Standalone Peekaboo clients use PeekabooBridge.
 
@@ -103,8 +103,8 @@ profile selection, safe credential input, and background app launch.
 ### PeekabooBridge (UI automation)
 
 - The built-in agent `computer` tool does **not** use this socket. A paired macOS node fulfills `computer.act` in the app process with embedded Peekaboo services.
-- UI automation uses a separate UNIX socket (`~/Library/Application Support/OpenClaw/<socket>`) and the PeekabooBridge JSON protocol.
-- Host preference order (client-side): Peekaboo.app -> Claude.app -> OpenClaw.app -> local execution.
+- UI automation uses a separate UNIX socket (`~/Library/Application Support/Zero to Agent/<socket>`) and the PeekabooBridge JSON protocol.
+- Host preference order (client-side): Peekaboo.app -> Claude.app -> Zero to Agent.app -> local execution.
 - Security: bridge hosts require the exact signed Peekaboo client bundle identifier and Peekaboo's canonical
   current/legacy release signer set. `PEEKABOO_ALLOW_UNSIGNED_SOCKET_CLIENTS=1`
   guards a DEBUG-only same-UID escape hatch (Peekaboo convention).

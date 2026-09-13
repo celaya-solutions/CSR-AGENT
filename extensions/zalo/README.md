@@ -1,6 +1,6 @@
 # @openclaw/zalo
 
-Zalo channel plugin for OpenClaw (Bot API).
+Zalo channel plugin for Zero to Agent (Bot API).
 
 ## Install (local checkout)
 

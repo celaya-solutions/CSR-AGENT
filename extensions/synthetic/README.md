@@ -1,9 +1,9 @@
-# OpenClaw Synthetic Provider
+# Zero to Agent Synthetic Provider
 
-Official OpenClaw provider plugin for Synthetic's hosted Anthropic-compatible
+Official Zero to Agent provider plugin for Synthetic's hosted Anthropic-compatible
 API.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/synthetic-provider

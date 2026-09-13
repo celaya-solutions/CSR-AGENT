@@ -33,7 +33,7 @@ const COMPILE_CACHE_DISABLED_RESPAWNED_ENV = "OPENCLAW_COMPILE_CACHE_DISABLED_RE
 const ensureSupportedRuntimeVersion = async () => {
   if (process.versions.bun) {
     // Bun >=1.4 (Rust rewrite) ships node:sqlite; feature-probe instead of
-    // rejecting Bun outright so capable Bun builds can run OpenClaw.
+    // rejecting Bun outright so capable Bun builds can run Zero to Agent.
     let hasNodeSqlite;
     try {
       hasNodeSqlite = Boolean(process.getBuiltinModule?.("node:sqlite"));
@@ -432,7 +432,9 @@ function tryOutputLauncherVersion(argv) {
     }
     const version = resolveLauncherVersion();
     const commit = resolveLauncherCommit();
-    process.stdout.write(commit ? `OpenClaw ${version} (${commit})\n` : `OpenClaw ${version}\n`);
+    process.stdout.write(
+      commit ? `Zero to Agent ${version} (${commit})\n` : `Zero to Agent ${version}\n`,
+    );
     return true;
   } catch {
     return false;

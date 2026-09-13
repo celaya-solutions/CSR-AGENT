@@ -84,7 +84,7 @@ async function downloadMedia(url: string, maxBytes?: number): Promise<Downloaded
 
 /**
  * Download all images from a message and return attachment metadata.
- * Format matches OpenClaw's expected attachment structure.
+ * Format matches Zero to Agent's expected attachment structure.
  */
 export async function downloadMessageImages(
   content: unknown,

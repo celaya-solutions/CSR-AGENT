@@ -17,7 +17,7 @@ Use [`defineToolPlugin`](/plugins/tool-plugins) for simple tool-only plugins
 with fixed tool names. Use `api.registerTool(...)` directly for mixed plugins
 or fully dynamic tool registration.
 
-When OpenClaw invokes a plugin tool with an `AbortSignal` inside a managed
+When Zero to Agent invokes a plugin tool with an `AbortSignal` inside a managed
 operation, cancellation callbacks retain the executing plugin's runtime context
 and the original cancellation reason. The tool can return a result before
 already-started SDK work finishes; that work remains owned until its cleanup
@@ -78,7 +78,7 @@ api.registerCommand({
   description: "Demo command",
   agentPromptGuidance: [
     "Global command hint.",
-    { text: "Only show this in the main OpenClaw prompt.", surfaces: ["openclaw_main"] },
+    { text: "Only show this in the main Zero to Agent prompt.", surfaces: ["openclaw_main"] },
   ],
   handler: async () => ({ text: "ok" }),
 });

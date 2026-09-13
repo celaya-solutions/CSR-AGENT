@@ -208,7 +208,7 @@ workspace skill directories; move invalid modules there or remove an invalid
 ### Hook retries and fan-out
 
 Agent replay keys resolve in this order: `Idempotency-Key`,
-`X-OpenClaw-Idempotency-Key`, then payload `idempotencyKey`. Only trimmed nonempty
+`X-Zero to Agent-Idempotency-Key`, then payload `idempotencyKey`. Only trimmed nonempty
 strings of at most 256 characters are used. The same key replays only for the
 same token, path, and resolved dispatch fields; changing the message or routing
 can create a new run. Pending admissions and admitted runs with unresolved
@@ -305,10 +305,10 @@ example and must be available to the reader. Gmail fields:
 | `hooks.gmail` field          | Runtime default              | Contract                                                                                                                                                      |
 | ---------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `account`                    | required                     | Gmail account already authorized in `gog`.                                                                                                                    |
-| `label`                      | `"INBOX"`                    | Gmail label to watch. OpenClaw excludes `SPAM`, `TRASH`, `DRAFT`, and `SENT` when launching the watcher.                                                      |
+| `label`                      | `"INBOX"`                    | Gmail label to watch. Zero to Agent excludes `SPAM`, `TRASH`, `DRAFT`, and `SENT` when launching the watcher.                                                 |
 | `topic`                      | required                     | Full Pub/Sub topic path. Setup can provision the `gog-gmail-watch` topic.                                                                                     |
 | `subscription`               | `"gog-gmail-watch-push"`     | Pub/Sub subscription used by setup.                                                                                                                           |
-| `pushToken`                  | required                     | Authenticates incoming pushes to the watcher. Separate from `hooks.token`, which authenticates forwarding to OpenClaw. Setup generates one if absent.         |
+| `pushToken`                  | required                     | Authenticates incoming pushes to the watcher. Separate from `hooks.token`, which authenticates forwarding to Zero to Agent. Setup generates one if absent.    |
 | `hookUrl`                    | local Gateway `/hooks/gmail` | Forwarding URL built from `hooks.path` and Gateway port unless configured.                                                                                    |
 | `includeBody`                | `true`                       | Include email body snippets. Set `false` in config to omit them.                                                                                              |
 | `maxBytes`                   | `20000`                      | Positive integer per-message body limit passed to the watcher. Also used to derive the Gmail HTTP body allowance.                                             |

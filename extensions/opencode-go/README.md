@@ -1,8 +1,8 @@
-# OpenClaw OpenCode Go Provider
+# Zero to Agent OpenCode Go Provider
 
-Official OpenClaw provider plugin for the OpenCode Go model catalog.
+Official Zero to Agent provider plugin for the OpenCode Go model catalog.
 
-OpenCode Go is bundled with OpenClaw for this release; no separate plugin
+OpenCode Go is bundled with Zero to Agent for this release; no separate plugin
 installation is required.
 
 Configure `OPENCODE_API_KEY` or `OPENCODE_ZEN_API_KEY`, then select an

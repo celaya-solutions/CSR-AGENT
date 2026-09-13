@@ -155,7 +155,7 @@ function sanitizeSystemdUnitBackupContent(params: {
   fileManagedKeys: ReadonlySet<string>;
 }): string {
   // Gateway credentials are never useful in a recovery artifact. File-managed
-  // values are also omitted after OpenClaw moves them to the generated env file.
+  // values are also omitted after Zero to Agent moves them to the generated env file.
   return removeSystemdInlineEnvironmentKeys(
     params.content,
     new Set([...params.fileManagedKeys, ...SYSTEMD_GATEWAY_CREDENTIAL_KEYS]),
@@ -164,7 +164,9 @@ function sanitizeSystemdUnitBackupContent(params: {
 
 function removeLegacyGatewayVersionMetadata(content: string): string {
   const description =
-    /^Description=OpenClaw Gateway \((?:(profile: [^,)\r\n]+), )?v([^)\r\n]+)\)$/mu.exec(content);
+    /^Description=Zero to Agent Gateway \((?:(profile: [^,)\r\n]+), )?v([^)\r\n]+)\)$/mu.exec(
+      content,
+    );
   if (!description) {
     return content;
   }
@@ -196,8 +198,8 @@ function removeLegacyGatewayVersionMetadata(content: string): string {
     return content;
   }
   const replacement = description[1]
-    ? `Description=OpenClaw Gateway (${description[1]})`
-    : "Description=OpenClaw Gateway";
+    ? `Description=Zero to Agent Gateway (${description[1]})`
+    : "Description=Zero to Agent Gateway";
   const refreshed =
     content.slice(0, description.index) +
     replacement +

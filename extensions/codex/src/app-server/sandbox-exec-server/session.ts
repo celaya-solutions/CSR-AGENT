@@ -145,7 +145,7 @@ export class CodexSandboxExecSession {
       default:
         throw new JsonRpcProtocolError(
           JSON_RPC_METHOD_NOT_FOUND,
-          `Unsupported OpenClaw sandbox exec-server method: ${method}`,
+          `Unsupported Zero to Agent sandbox exec-server method: ${method}`,
         );
     }
   }

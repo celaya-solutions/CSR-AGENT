@@ -1,14 +1,14 @@
 ---
 summary: "Raft External Agent support through the Raft CLI wake bridge"
 read_when:
-  - You want to connect OpenClaw to a Raft workspace
+  - You want to connect Zero to Agent to a Raft workspace
   - You are configuring a Raft External Agent
   - You are debugging Raft wake delivery
 title: "Raft"
 sidebarTitle: "Raft"
 ---
 
-Raft connects an OpenClaw agent to a Raft External Agent through the local
+Raft connects a Zero to Agent agent to a Raft External Agent through the local
 Raft CLI. Raft sends authenticated wake hints to the Gateway; the agent then
 uses the Raft CLI to check and send messages. Direct chat only (no groups).
 
@@ -25,7 +25,7 @@ Check the [application result](/plugins/manage-plugins#apply-changes-and-inspect
 ## Prerequisites
 
 - A Raft workspace with an External Agent.
-- The Raft CLI installed on the same host as the OpenClaw Gateway, on the
+- The Raft CLI installed on the same host as the Zero to Agent Gateway, on the
   service's `PATH`.
 - A Raft CLI profile that is already signed in and associated with that
   External Agent.
@@ -95,9 +95,9 @@ When the Gateway starts, the plugin:
    including across Gateway restarts.
 6. Returns a stable runtime session for the current bridge and an empty
    activity-drain batch for the Raft CLI protocol.
-7. Starts one serialized OpenClaw agent turn per accepted wake.
+7. Starts one serialized Zero to Agent agent turn per accepted wake.
 
-The bridge owns Raft delivery retries and reconnects. The OpenClaw turn
+The bridge owns Raft delivery retries and reconnects. The Zero to Agent turn
 receives only a wake notice, not a copied Raft message body. It uses the CLI
 to read pending messages and to send its response:
 
@@ -107,12 +107,12 @@ raft --profile openclaw message send
 ```
 
 <Note>
-Raft is not a push-message transport. OpenClaw does not automatically send the model's final text back through the bridge, so the agent must use the Raft CLI after processing a wake.
+Raft is not a push-message transport. Zero to Agent does not automatically send the model's final text back through the bridge, so the agent must use the Raft CLI after processing a wake.
 </Note>
 
 ## Verify
 
-Check that OpenClaw can find the CLI and has a configured profile:
+Check that Zero to Agent can find the CLI and has a configured profile:
 
 ```bash
 openclaw channels status --probe

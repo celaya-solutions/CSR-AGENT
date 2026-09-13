@@ -240,7 +240,7 @@ function appendCatalogAdvancedThinkingLevels(
   }
   const runtime = normalizeOptionalLowercaseString(agentRuntime);
   if (supportsMax && (runtime === "openclaw" || runtime === "auto")) {
-    // Max-only catalogs synthesize Ultra only for OpenClaw; other runtimes must advertise it.
+    // Max-only catalogs synthesize Ultra only for Zero to Agent; other runtimes must advertise it.
     appendProfileLevel(profile, "ultra");
   }
 }

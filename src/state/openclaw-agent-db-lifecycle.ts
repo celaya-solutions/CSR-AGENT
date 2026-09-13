@@ -90,7 +90,7 @@ export function startAgentDatabaseOpenTiming(
     elapsedMs = completedMs;
     // Registration is the final checkpoint; intermediate phases never emit a partial summary.
     if (phase === "registration" && elapsedMs >= OPENCLAW_AGENT_DB_SLOW_OPEN_MS) {
-      agentDbLog.warn("slow OpenClaw agent database open", {
+      agentDbLog.warn("slow Zero to Agent agent database open", {
         agentId,
         elapsedMs,
         path: pathname,
@@ -188,7 +188,7 @@ export function evictLruAgentDatabaseHandles(): void {
       if (cache.incognito.has(database)) {
         cache.generation += 1;
       }
-      agentDbLog.debug("evicted OpenClaw agent database handle", {
+      agentDbLog.debug("evicted Zero to Agent agent database handle", {
         agentId: database.agentId,
         openHandles: cache.databases.size,
         path: pathname,

@@ -1,4 +1,4 @@
-# MiniMax (OpenClaw plugin)
+# MiniMax (Zero to Agent plugin)
 
 Bundled MiniMax plugin for both:
 

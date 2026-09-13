@@ -1,4 +1,4 @@
-// Resolves cleanup inputs from current OpenClaw config and state paths.
+// Resolves cleanup inputs from current Zero to Agent config and state paths.
 import {
   readConfigFileSnapshot,
   readSourceConfigBestEffort,
@@ -41,7 +41,7 @@ export async function resolveCleanupPlanForRemoval(runtime: RuntimeEnv) {
     const issues = snapshot.valid ? workspaceWarnings : snapshot.issues;
     const issueSummary = formatConfigIssueSummary(issues) ?? "configuration read failed";
     runtime.error(
-      `Cannot safely remove OpenClaw state because workspace configuration could not be resolved: ${issueSummary}. Fix the configuration and retry.`,
+      `Cannot safely remove Zero to Agent state because workspace configuration could not be resolved: ${issueSummary}. Fix the configuration and retry.`,
     );
     return undefined;
   }

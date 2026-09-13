@@ -1,16 +1,16 @@
 ---
-summary: "Deploy OpenClaw Gateway to a Kubernetes cluster with Kustomize"
+summary: "Deploy Zero to Agent Gateway to a Kubernetes cluster with Kustomize"
 read_when:
-  - You want to run OpenClaw on a Kubernetes cluster
-  - You want to test OpenClaw in a Kubernetes environment
+  - You want to run Zero to Agent on a Kubernetes cluster
+  - You want to test Zero to Agent in a Kubernetes environment
 title: "Kubernetes"
 ---
 
-A minimal starting point for running OpenClaw on Kubernetes, not a production-ready deployment. It covers the core resources and is meant to be adapted to your environment.
+A minimal starting point for running Zero to Agent on Kubernetes, not a production-ready deployment. It covers the core resources and is meant to be adapted to your environment.
 
 ## Why not Helm
 
-OpenClaw is a single container with some config files. The interesting customization is in agent content (Markdown files, skills, config overrides), not infrastructure templating. Kustomize handles overlays without the overhead of a Helm chart. Layer a Helm chart on top of these manifests if your deployment grows more complex.
+Zero to Agent is a single container with some config files. The interesting customization is in agent content (Markdown files, skills, config overrides), not infrastructure templating. Kustomize handles overlays without the overhead of a Helm chart. Layer a Helm chart on top of these manifests if your deployment grows more complex.
 
 ## What you need
 
@@ -110,14 +110,14 @@ Edit the `AGENTS.md` in `scripts/k8s/manifests/configmap.yaml` and redeploy:
 
 Edit `openclaw.json` in `scripts/k8s/manifests/configmap.yaml`. See [Gateway configuration](/gateway/configuration) for the full reference.
 
-The init container seeds `openclaw.json` and workspace `AGENTS.md` only when each file is missing from the PVC. The persisted copy is the source of truth after first boot: changes made through OpenClaw (`onboard`, `channels add`, `doctor --fix`, Control UI) survive pod restarts, and updating the ConfigMap does not overwrite an existing PVC copy. To intentionally reseed a file from an updated ConfigMap, delete the persisted copy and restart:
+The init container seeds `openclaw.json` and workspace `AGENTS.md` only when each file is missing from the PVC. The persisted copy is the source of truth after first boot: changes made through Zero to Agent (`onboard`, `channels add`, `doctor --fix`, Control UI) survive pod restarts, and updating the ConfigMap does not overwrite an existing PVC copy. To intentionally reseed a file from an updated ConfigMap, delete the persisted copy and restart:
 
 ```bash
 kubectl exec -n openclaw deploy/openclaw -- rm /home/node/.openclaw/openclaw.json
 kubectl rollout restart -n openclaw deploy/openclaw
 ```
 
-Deployments created from the previous template applied ConfigMap edits on every pod start (and discarded any config changes made through OpenClaw). If you relied on that flow, use the reseed commands above after ConfigMap edits.
+Deployments created from the previous template applied ConfigMap edits on every pod start (and discarded any config changes made through Zero to Agent). If you relied on that flow, use the reseed commands above after ConfigMap edits.
 
 ### Add providers
 
@@ -151,7 +151,7 @@ OPENCLAW_NAMESPACE=my-namespace ./scripts/k8s/deploy.sh
 Edit the `image` field in `scripts/k8s/manifests/deployment.yaml`:
 
 ```yaml
-# Bump this immutable versioned tag when upgrading OpenClaw.
+# Bump this immutable versioned tag when upgrading Zero to Agent.
 image: ghcr.io/openclaw/openclaw:2026.7.1-2-slim
 ```
 
@@ -181,13 +181,13 @@ This applies all manifests and restarts the pod to pick up any config or secret 
 
 For the default `openclaw` namespace, this deletes the namespace and everything in it, including the PVC.
 
-For a custom namespace, `--delete` removes only OpenClaw resources and preserves the namespace and unrelated workloads:
+For a custom namespace, `--delete` removes only Zero to Agent resources and preserves the namespace and unrelated workloads:
 
 ```bash
 OPENCLAW_NAMESPACE=my-namespace ./scripts/k8s/deploy.sh --delete
 ```
 
-Use `--delete-resources` to request this scoped teardown explicitly in any namespace. Both scoped modes delete the OpenClaw Deployment, Service, PVC, ConfigMap, and generated Secret. Deleting the PVC removes OpenClaw's claim and access to its persisted data; whether the backing volume and data are deleted depends on the PersistentVolume or StorageClass reclaim policy (`Delete` or `Retain`).
+Use `--delete-resources` to request this scoped teardown explicitly in any namespace. Both scoped modes delete the Zero to Agent Deployment, Service, PVC, ConfigMap, and generated Secret. Deleting the PVC removes Zero to Agent's claim and access to its persisted data; whether the backing volume and data are deleted depends on the PersistentVolume or StorageClass reclaim policy (`Delete` or `Retain`).
 
 To delete a custom namespace and every workload in it, explicitly opt in:
 

@@ -1,5 +1,5 @@
 /**
- * Mirrors Codex native subagent lifecycle and completion into OpenClaw task
+ * Mirrors Codex native subagent lifecycle and completion into Zero to Agent task
  * runtime records, with app-server history as the recovery source.
  */
 import {

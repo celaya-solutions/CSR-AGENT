@@ -1,4 +1,4 @@
-// Ollama plugin entrypoint registers its OpenClaw integration.
+// Ollama plugin entrypoint registers its Zero to Agent integration.
 import { collectConfiguredModelRefValues } from "@openclaw/model-catalog-core/configured-model-refs";
 import { findNormalizedProviderKey } from "@openclaw/model-catalog-core/provider-id";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";

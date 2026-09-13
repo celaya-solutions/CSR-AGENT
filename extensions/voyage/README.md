@@ -1,8 +1,8 @@
-# OpenClaw Voyage Provider
+# Zero to Agent Voyage Provider
 
-Official OpenClaw memory embedding provider plugin for Voyage AI.
+Official Zero to Agent memory embedding provider plugin for Voyage AI.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/voyage-provider

@@ -32,7 +32,7 @@ type ResolveManagedCodexNativeCommandOptions = {
   resolvePackageJson?: (packageName: string, root: string) => string | undefined;
 };
 
-/** Records the process-stable plugin root prepared by OpenClaw's plugin loader. */
+/** Records the process-stable plugin root prepared by Zero to Agent's plugin loader. */
 export function setManagedCodexPluginRoot(pluginRoot: string | undefined): void {
   registeredCodexPlugin.root = pluginRoot;
 }
@@ -258,7 +258,7 @@ async function findManagedCodexAppServerCommandPaths(params: {
   throw new Error(
     [
       `Managed Codex app-server binary was not found for ${MANAGED_CODEX_APP_SERVER_PACKAGE}.`,
-      "Reinstall or update OpenClaw, or run pnpm install in a source checkout.",
+      "Reinstall or update Zero to Agent, or run pnpm install in a source checkout.",
       "Set plugins.entries.codex.config.appServer.command or OPENCLAW_CODEX_APP_SERVER_BIN to use a custom Codex binary.",
     ].join(" "),
   );

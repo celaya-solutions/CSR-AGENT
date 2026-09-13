@@ -1,4 +1,4 @@
-// Gmi plugin entrypoint registers its OpenClaw integration.
+// Gmi plugin entrypoint registers its Zero to Agent integration.
 import { readConfiguredProviderCatalogEntries } from "openclaw/plugin-sdk/provider-catalog-shared";
 import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
 import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";

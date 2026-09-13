@@ -517,7 +517,7 @@ const CodeModeSchema = z
     z.literal("auto"),
     z
       .object({
-        /** OpenClaw Code Mode default, overridden by per-model codeMode. Default: false; "auto" engages catalog-preferred models. */
+        /** Zero to Agent Code Mode default, overridden by per-model codeMode. Default: false; "auto" engages catalog-preferred models. */
         enabled: z.union([z.boolean(), z.literal("auto")]).optional(),
         /** Guest runtime. Only quickjs-wasi is supported. */
         runtime: z.literal("quickjs-wasi").optional(),
@@ -778,7 +778,7 @@ export const ToolsSchema = z
       .strict()
       .optional(),
     loopDetection: ToolLoopDetectionSchema,
-    /** Compact large OpenClaw, MCP, and client tool catalogs behind search/call tools. */
+    /** Compact large Zero to Agent, MCP, and client tool catalogs behind search/call tools. */
     toolSearch: ToolSearchSchema,
     /** Global Code Mode defaults and limits; agent/model settings can override activation. */
     codeMode: CodeModeSchema,

@@ -16,8 +16,8 @@
     "target": "Omarchy"
   },
   {
-    "source": "OpenClaw",
-    "target": "OpenClaw"
+    "source": "Zero to Agent",
+    "target": "Zero to Agent"
   },
   {
     "source": "macOS platform notes",
@@ -304,8 +304,8 @@
     "target": "构建 Gateway 客户端"
   },
   {
-    "source": "Embedding OpenClaw",
-    "target": "嵌入 OpenClaw"
+    "source": "Embedding Zero to Agent",
+    "target": "嵌入 Zero to Agent"
   },
   {
     "source": "Secure file operations",
@@ -852,8 +852,8 @@
     "target": "致谢"
   },
   {
-    "source": "OpenClaw lore",
-    "target": "OpenClaw 传说"
+    "source": "Zero to Agent lore",
+    "target": "Zero to Agent 传说"
   },
   {
     "source": "Features",
@@ -1304,8 +1304,8 @@
     "target": "常见问题"
   },
   {
-    "source": "What is OpenClaw?",
-    "target": "什么是 OpenClaw？"
+    "source": "What is Zero to Agent?",
+    "target": "什么是 Zero to Agent？"
   },
   {
     "source": "Skills and automation",
@@ -2036,12 +2036,12 @@
     "target": "Agent runtime architecture"
   },
   {
-    "source": "OpenClaw agent runtime workflow",
-    "target": "OpenClaw agent runtime workflow"
+    "source": "Zero to Agent agent runtime workflow",
+    "target": "Zero to Agent agent runtime workflow"
   },
   {
-    "source": "OpenClaw agent runtime architecture",
-    "target": "OpenClaw agent runtime architecture"
+    "source": "Zero to Agent agent runtime architecture",
+    "target": "Zero to Agent agent runtime architecture"
   },
   {
     "source": "Install and Configure Plugins",
@@ -2504,8 +2504,8 @@
     "target": "定时任务：故障排查"
   },
   {
-    "source": "Browser (OpenClaw-managed)",
-    "target": "浏览器（OpenClaw 托管）"
+    "source": "Browser (Zero to Agent-managed)",
+    "target": "浏览器（Zero to Agent 托管）"
   },
   {
     "source": "Anthropic",
@@ -2716,8 +2716,8 @@
     "target": "Gateway 配置参考"
   },
   {
-    "source": "v2026.8.1 (AKA OpenClaw 2.0)",
-    "target": "v2026.8.1 (AKA OpenClaw 2.0)"
+    "source": "v2026.8.1 (AKA Zero to Agent 2.0)",
+    "target": "v2026.8.1 (AKA Zero to Agent 2.0)"
   },
   {
     "source": "v2026.8.2",
@@ -2832,8 +2832,8 @@
     "target": "Gateway 远程访问"
   },
   {
-    "source": "Updating OpenClaw",
-    "target": "更新 OpenClaw"
+    "source": "Updating Zero to Agent",
+    "target": "更新 Zero to Agent"
   },
   {
     "source": "Connect a machine",
@@ -4132,8 +4132,8 @@
     "target": "节点托管的 MCP 服务器与技能"
   },
   {
-    "source": "Host OpenClaw sessions on a node",
-    "target": "在节点上托管 OpenClaw 会话"
+    "source": "Host Zero to Agent sessions on a node",
+    "target": "在节点上托管 Zero to Agent 会话"
   },
   {
     "source": "Node session catalogs",
@@ -4516,8 +4516,8 @@
     "target": "运行与配置策略检查"
   },
   {
-    "source": "Run OpenClaw as an MCP server",
-    "target": "将 OpenClaw 作为 MCP 服务器运行"
+    "source": "Run Zero to Agent as an MCP server",
+    "target": "将 Zero to Agent 作为 MCP 服务器运行"
   },
   {
     "source": "Manage saved MCP servers",
@@ -4736,8 +4736,8 @@
     "target": "溯源"
   },
   {
-    "source": "OpenClaw and Hermes Agent",
-    "target": "OpenClaw 与 Hermes Agent"
+    "source": "Zero to Agent and Hermes Agent",
+    "target": "Zero to Agent 与 Hermes Agent"
   },
   {
     "source": "Matrix setup",

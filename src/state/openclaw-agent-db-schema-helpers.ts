@@ -141,18 +141,18 @@ export function assertOpenClawAgentCurrentRuntimeSchema(
   const metadata = readExistingAgentSchemaMeta(database);
   if (!metadata) {
     throw new Error(
-      `OpenClaw agent database ${options.pathname} has no schema ownership metadata.`,
+      `Zero to Agent agent database ${options.pathname} has no schema ownership metadata.`,
     );
   }
   assertExistingAgentSchemaOwner(metadata, agentId, options.pathname);
   if (metadata.schemaVersion !== OPENCLAW_AGENT_SCHEMA_VERSION) {
     throw new Error(
-      `OpenClaw agent database ${options.pathname} metadata schema version ${metadata.schemaVersion ?? "invalid"} does not match ${OPENCLAW_AGENT_SCHEMA_VERSION}; run openclaw doctor --fix before using it.`,
+      `Zero to Agent agent database ${options.pathname} metadata schema version ${metadata.schemaVersion ?? "invalid"} does not match ${OPENCLAW_AGENT_SCHEMA_VERSION}; run openclaw doctor --fix before using it.`,
     );
   }
   if (hasRetiredAgentStateLeaseSchema(database)) {
     throw new Error(
-      `OpenClaw agent database ${options.pathname} retains retired state_leases storage; run openclaw doctor --fix before using it.`,
+      `Zero to Agent agent database ${options.pathname} retains retired state_leases storage; run openclaw doctor --fix before using it.`,
     );
   }
   assertOpenClawAgentSchemaContains(database, options.pathname, OPENCLAW_AGENT_SCHEMA_SQL);
@@ -191,7 +191,7 @@ export function ensureSessionKeyContractSchemaInTransaction(db: DatabaseSync): v
   const start = OPENCLAW_AGENT_SCHEMA_SQL.indexOf(SESSION_KEY_CONTRACT_SCHEMA_START);
   const end = OPENCLAW_AGENT_SCHEMA_SQL.indexOf(SESSION_KEY_CONTRACT_SCHEMA_END, start);
   if (start === -1 || end === -1) {
-    throw new Error("OpenClaw agent session-key contract schema markers are missing.");
+    throw new Error("Zero to Agent agent session-key contract schema markers are missing.");
   }
   db.exec(OPENCLAW_AGENT_SCHEMA_SQL.slice(start, end)); // sqlite-allow-raw -- Idempotent additive lazy ensure.
 }
@@ -203,20 +203,20 @@ export function repairAndAssertOpenClawAgentV14SchemaForMigration(
   const userVersion = readSqliteUserVersion(database);
   if (userVersion !== 14) {
     throw new Error(
-      `OpenClaw agent database ${options.pathname} uses schema version ${userVersion}; expected 14 before migrating it.`,
+      `Zero to Agent agent database ${options.pathname} uses schema version ${userVersion}; expected 14 before migrating it.`,
     );
   }
   const agentId = normalizeAgentId(options.agentId);
   const metadata = readExistingAgentSchemaMeta(database);
   if (!metadata) {
     throw new Error(
-      `OpenClaw agent database ${options.pathname} has no schema ownership metadata.`,
+      `Zero to Agent agent database ${options.pathname} has no schema ownership metadata.`,
     );
   }
   assertExistingAgentSchemaOwner(metadata, agentId, options.pathname);
   if (metadata.schemaVersion !== 14) {
     throw new Error(
-      `OpenClaw agent database ${options.pathname} metadata schema version ${metadata.schemaVersion ?? "invalid"} does not match 14; repair the ownership metadata before migrating it.`,
+      `Zero to Agent agent database ${options.pathname} metadata schema version ${metadata.schemaVersion ?? "invalid"} does not match 14; repair the ownership metadata before migrating it.`,
     );
   }
 
@@ -290,7 +290,7 @@ export function assertAgentSchemaVersion(
   const userVersion = readSqliteUserVersion(db);
   if (userVersion !== options.version || metadata?.schemaVersion !== options.version) {
     throw new Error(
-      `OpenClaw agent database ${options.pathname} did not converge on schema version ${options.version}.`,
+      `Zero to Agent agent database ${options.pathname} did not converge on schema version ${options.version}.`,
     );
   }
   assertOpenClawAgentSchemaContains(

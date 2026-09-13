@@ -554,7 +554,7 @@ async function runReclamationWorkerPort(
     } else {
       throw new AggregateError(
         [error, ...cleanup.cleanupWarnings.map((warning) => new Error(warning))],
-        "SQLite session reclamation failed and Worker cleanup is incomplete; restart OpenClaw before deleting the owning agent",
+        "SQLite session reclamation failed and Worker cleanup is incomplete; restart Zero to Agent before deleting the owning agent",
         { cause: error },
       );
     }

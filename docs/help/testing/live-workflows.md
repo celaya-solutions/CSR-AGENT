@@ -12,7 +12,7 @@ When debugging real providers/models (requires real creds):
 
 - Live suite (models + gateway tool/image probes): `pnpm test:live`
 - Target one live file quietly: `pnpm test:live -- src/agents/models.profiles.live.test.ts`
-- Runtime performance reports: dispatch `OpenClaw Performance` with
+- Runtime performance reports: dispatch `Zero to Agent Performance` with
   `live_openai_candidate=true` for a real `openai/gpt-5.6-luna` agent turn or
   `deep_profile=true` for Kova CPU/heap/trace artifacts. Daily scheduled runs
   publish mock-provider, deep-profile, and GPT-5.6 Luna lane reports to
@@ -27,11 +27,11 @@ When debugging real providers/models (requires real creds):
     Models whose metadata advertises `image` input also run a tiny image turn.
     Disable the extra probes with `OPENCLAW_LIVE_MODEL_FILE_PROBE=0` or
     `OPENCLAW_LIVE_MODEL_IMAGE_PROBE=0` when isolating provider failures.
-  - CI coverage: daily `OpenClaw Scheduled Live And E2E Checks` and manual
-    `OpenClaw Release Checks` both call the reusable live/E2E workflow with
+  - CI coverage: daily `Zero to Agent Scheduled Live And E2E Checks` and manual
+    `Zero to Agent Release Checks` both call the reusable live/E2E workflow with
     `include_live_suites: true`, which includes Docker live model matrix jobs
     sharded by provider.
-  - For focused CI reruns, dispatch `OpenClaw Live And E2E Checks (Reusable)`
+  - For focused CI reruns, dispatch `Zero to Agent Live And E2E Checks (Reusable)`
     with `include_live_suites: true` and `live_models_only: true`.
   - Add new high-signal provider secrets to `scripts/ci-hydrate-live-auth.sh`
     plus `.github/workflows/openclaw-live-and-e2e-checks-reusable.yml` and its
@@ -52,11 +52,11 @@ When debugging real providers/models (requires real creds):
     This exits after the sub-agent probe unless
     `OPENCLAW_LIVE_CODEX_HARNESS_SUBAGENT_ONLY=0` is set.
 - Codex on-demand install smoke: `pnpm test:docker:codex-on-demand`
-  - Installs the packaged OpenClaw tarball in Docker, runs OpenAI API-key
+  - Installs the packaged Zero to Agent tarball in Docker, runs OpenAI API-key
     onboarding, and verifies the Codex plugin plus `@openai/codex` dependency
     were downloaded into the managed npm project root on demand.
 - Codex npm-plugin live package smoke: `pnpm test:docker:live-codex-npm-plugin`
-  - Installs the candidate OpenClaw package and exact Codex plugin into Docker,
+  - Installs the candidate Zero to Agent package and exact Codex plugin into Docker,
     then uses a real OpenAI key for CLI preflight and same-session turns.
   - Its zero-retry medium-thinking follow-through turn must send progress, keep
     working through randomized workspace reads and an exact artifact write,
@@ -66,20 +66,20 @@ When debugging real providers/models (requires real creds):
     through `npm-pack:`, verifies the dependency under the managed npm
     project root, then asks a live OpenAI model to call the plugin tool and
     return the hidden slug.
-- OpenClaw rescue command smoke: `pnpm test:live:system-agent-rescue-channel`
+- Zero to Agent rescue command smoke: `pnpm test:live:system-agent-rescue-channel`
   - Opt-in belt-and-suspenders check for the message-channel rescue command
     surface. Exercises `/openclaw status`, queues a persistent model
     change, replies `/openclaw yes`, and verifies the audit/config write
     path.
-- OpenClaw first-run Docker smoke: `pnpm test:docker:system-agent-first-run`
-  - Starts from an empty OpenClaw state dir and first proves the packaged
+- Zero to Agent first-run Docker smoke: `pnpm test:docker:system-agent-first-run`
+  - Starts from an empty Zero to Agent state dir and first proves the packaged
     `openclaw setup` CLI fails closed without inference. It then
     tests and activates fake Claude through the packaged activation module.
     Only afterward does a fuzzy packaged CLI request reach the planner and
     resolve to typed setup, followed by one-shot model, agent, Discord config,
     and SecretRef operations. It validates config and audit entries. This is
     supporting gate/operation evidence, not an interactive onboarding or
-    OpenClaw agent/tool/approval proof. The same lane is exposed in QA Lab by
+    Zero to Agent agent/tool/approval proof. The same lane is exposed in QA Lab by
     `pnpm openclaw qa suite --scenario system-agent-ring-zero-setup`.
 - Moonshot/Kimi cost smoke: with `MOONSHOT_API_KEY` set, run
   `openclaw models list --provider moonshot --json`, then run an isolated

@@ -410,7 +410,7 @@ export async function claimTailscaleRoute(
     }
   }
   if (adopted) {
-    info("Tailscale route adopted from a previous OpenClaw release");
+    info("Tailscale route adopted from a previous Zero to Agent release");
   }
   return claim;
 }

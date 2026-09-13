@@ -51,7 +51,7 @@ export type GatewayEvent = {
   stateVersion?: unknown;
 };
 
-/** Minimal transport interface consumed by the OpenClaw SDK client. */
+/** Minimal transport interface consumed by the Zero to Agent SDK client. */
 export type OpenClawTransport = {
   request<T = unknown>(
     method: string,

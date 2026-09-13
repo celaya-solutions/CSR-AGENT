@@ -1,4 +1,4 @@
-// Featherless plugin entrypoint registers its OpenClaw integration.
+// Featherless plugin entrypoint registers its Zero to Agent integration.
 import type {
   ProviderResolveDynamicModelContext,
   ProviderRuntimeModel,

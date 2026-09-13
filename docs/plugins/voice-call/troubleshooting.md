@@ -142,7 +142,7 @@ under your control.
 
 Twilio and Plivo URL signatures use `publicUrl` when it is configured: its
 scheme, host, and path are preserved, while the request query is applied.
-Without `publicUrl`, OpenClaw reconstructs the URL from the request. Telnyx
+Without `publicUrl`, Zero to Agent reconstructs the URL from the request. Telnyx
 signatures do not include the request URL. If signatures fail:
 
 - Confirm the provider webhook URL exactly matches `publicUrl`, including scheme, host, and path.

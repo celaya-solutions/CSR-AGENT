@@ -62,7 +62,7 @@ export const buzzPlugin = createChatChannelPlugin<ResolvedBuzzAccount, BuzzProbe
       selectionLabel: "Buzz",
       docsPath: "/channels/buzz",
       docsLabel: "buzz",
-      blurb: "Connect OpenClaw agents to Buzz team rooms.",
+      blurb: "Connect Zero to Agent agents to Buzz team rooms.",
       markdownCapable: true,
       order: 56,
     },

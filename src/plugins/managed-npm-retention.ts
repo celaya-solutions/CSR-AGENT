@@ -82,7 +82,7 @@ export async function clearRetainedManagedNpmInstallMarker(packageDir: string): 
   try {
     await fs.promises.rmdir(path.dirname(info.markerPath));
   } catch {
-    // Best effort: keep the OpenClaw-owned marker directory if it is not empty.
+    // Best effort: keep the Zero to Agent-owned marker directory if it is not empty.
   }
   return true;
 }

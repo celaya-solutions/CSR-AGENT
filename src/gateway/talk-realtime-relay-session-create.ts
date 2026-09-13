@@ -488,7 +488,7 @@ export function createTalkRealtimeRelaySession(
           if (forcedConsult.kind === "already_delivered") {
             const result = relay.harness.forcedConsults.isCancelled(forcedConsult.handle)
               ? buildRealtimeVoiceAgentCancelProviderResult(
-                  "OpenClaw cancelled this consult before completion. Do not restart it.",
+                  "Zero to Agent cancelled this consult before completion. Do not restart it.",
                 )
               : buildAlreadyDeliveredToolResult();
             return submitForcedConsultProviderResult(

@@ -156,7 +156,8 @@ export const ZoomMeetingsRuntime = MeetingPlatformAdapter.createRuntimeFacade<
       speech: {
         audioBridgeUnavailable: "Realtime speech requires an active Chrome audio bridge.",
         browserUnverified: "Zoom browser state has not been verified yet.",
-        microphoneMuted: "Turn on the OpenClaw Zoom microphone before asking OpenClaw to speak.",
+        microphoneMuted:
+          "Turn on the Zero to Agent Zoom microphone before asking Zero to Agent to speak.",
         microphoneMutedReason: "zoom-microphone-muted",
         notInCall: "Zoom has not reported that the browser guest is in the call.",
         notInCallReason: "not-in-call",

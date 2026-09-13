@@ -156,7 +156,7 @@ export function hasOfficialPluginVersionCandidates(params: {
 }
 
 /**
- * Compare active official external plugin installs against an OpenClaw host
+ * Compare active official external plugin installs against a Zero to Agent host
  * version and return any mismatches.
  *
  * @param params.gatewayVersion The host version the plugins must match.

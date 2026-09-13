@@ -1,8 +1,8 @@
-# OpenClaw Qwen Cloud Provider
+# Zero to Agent Qwen Cloud Provider
 
-Official OpenClaw provider plugin for Qwen Cloud.
+Official Zero to Agent provider plugin for Qwen Cloud.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/qwen-provider

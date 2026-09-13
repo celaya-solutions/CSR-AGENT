@@ -82,7 +82,7 @@ export async function runQaSelfCheckAgainstState(params: {
     }
   });
   const report = renderQaMarkdownReport({
-    title: "OpenClaw QA E2E Self-Check",
+    title: "Zero to Agent QA E2E Self-Check",
     startedAt,
     finishedAt,
     checks,

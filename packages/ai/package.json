@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/ai",
   "version": "2026.9.4",
-  "description": "Reusable model provider adapters and streaming runtime from OpenClaw",
+  "description": "Reusable model provider adapters and streaming runtime from Zero to Agent",
   "keywords": [
     "ai",
     "anthropic",
@@ -16,7 +16,7 @@
     "url": "https://github.com/openclaw/openclaw/issues"
   },
   "license": "MIT",
-  "author": "OpenClaw Foundation (https://openclaw.org)",
+  "author": "Zero to Agent Foundation (https://openclaw.org)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/openclaw/openclaw.git",

@@ -1,13 +1,13 @@
 ---
 summary: "File logs, console output, CLI tailing, and the Control UI Logs tab"
 read_when:
-  - You need a beginner-friendly overview of OpenClaw logging
+  - You need a beginner-friendly overview of Zero to Agent logging
   - You want to configure log levels, formats, or redaction
   - You are troubleshooting and need to find logs quickly
 title: "Logging"
 ---
 
-OpenClaw has two main log surfaces:
+Zero to Agent has two main log surfaces:
 
 - **File logs** (JSON lines) written by the Gateway.
 - **Console output** in the terminal running the Gateway.
@@ -35,12 +35,12 @@ to stay within filesystem filename limits. An explicit `logging.file` overrides
 these defaults.
 
 The date uses the gateway host's local timezone. When `/tmp/openclaw` is unsafe
-or unavailable (and always on Windows), OpenClaw uses a user-scoped
+or unavailable (and always on Windows), Zero to Agent uses a user-scoped
 `openclaw-<uid>` directory under the OS temp dir instead. Dated log files are
 pruned after 24 hours.
 
 Each file rotates when the next write would exceed `logging.maxFileBytes`
-(default: 100 MB). OpenClaw keeps up to five numbered archives beside the
+(default: 100 MB). Zero to Agent keeps up to five numbered archives beside the
 active file, such as `openclaw-YYYY-MM-DD.1.log` or
 `openclaw-dev-YYYY-MM-DD.1.log`, and keeps writing to a fresh active log instead
 of suppressing diagnostics.
@@ -150,7 +150,7 @@ available:
 - `session_id`: active session id/key when the log call carries session context.
 - `channel`: active channel when the log call carries channel context.
 
-OpenClaw preserves the original structured log arguments alongside these fields
+Zero to Agent preserves the original structured log arguments alongside these fields
 so existing parsers that read numbered tslog argument keys keep working.
 
 Talk, realtime voice, and managed-room activity emits bounded lifecycle log
@@ -254,7 +254,7 @@ Available flags:
   including bounded activation facts, the final visible surface, and names of
   provider-native tools filtered because code mode owns the tool surface.
 
-These flags log through normal OpenClaw logging, so `openclaw logs --follow`
+These flags log through normal Zero to Agent logging, so `openclaw logs --follow`
 and the Control UI Logs tab show them. For backward compatibility,
 `OPENCLAW_DEBUG_CODE_MODE` also promotes general model-transport diagnostics to
 `info`; dedicated code-mode diagnostics are emitted only when that flag is
@@ -280,7 +280,7 @@ for the routes and thresholds that enable clearing.
 ### Trace correlation
 
 File logs are JSONL. When a log call carries a valid diagnostic trace context,
-OpenClaw writes the trace fields as top-level JSON keys (`traceId`, `spanId`,
+Zero to Agent writes the trace fields as top-level JSON keys (`traceId`, `spanId`,
 `parentSpanId`, `traceFlags`) so external log processors can correlate the line
 with OTEL spans and provider `traceparent` propagation.
 
@@ -388,7 +388,7 @@ completion behavior.
 
 ### Slow agent database opens
 
-The `slow OpenClaw agent database open` warning includes `phaseDurationsMs` when
+The `slow Zero to Agent agent database open` warning includes `phaseDurationsMs` when
 a persistent database open takes at least one second:
 
 | Phase           | Work included                                                                                           |
@@ -637,7 +637,7 @@ to `"pretty"`.
 
 ### Redaction
 
-OpenClaw can redact sensitive tokens before they hit console output, file logs,
+Zero to Agent can redact sensitive tokens before they hit console output, file logs,
 OTLP log records, persisted session transcript text, or Control UI tool
 event payloads (tool start args, partial/final result payloads, derived
 exec output, and patch summaries):
@@ -670,7 +670,7 @@ The built-in defaults cover common API credentials and payment-credential field
 names such as card number, CVC/CVV, shared payment token, and payment credential
 when they appear as JSON fields, URL parameters, CLI flags, or assignments.
 
-OpenClaw also redacts safety-boundary payloads shown to UI clients, support
+Zero to Agent also redacts safety-boundary payloads shown to UI clients, support
 bundles, diagnostics observers, approval prompts, or agent tools. Custom
 `logging.redactPatterns` can add project-specific patterns on those surfaces.
 

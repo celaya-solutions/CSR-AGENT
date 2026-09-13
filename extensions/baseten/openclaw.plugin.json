@@ -2,7 +2,7 @@
   "id": "baseten",
   "categories": ["models"],
   "name": "Baseten",
-  "description": "OpenClaw Baseten provider plugin.",
+  "description": "Zero to Agent Baseten provider plugin.",
   "activation": {
     "onStartup": false
   },

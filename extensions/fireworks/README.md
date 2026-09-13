@@ -1,6 +1,6 @@
-# Fireworks OpenClaw provider
+# Fireworks Zero to Agent provider
 
-Official OpenClaw provider plugin for Fireworks.
+Official Zero to Agent provider plugin for Fireworks.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/fireworks-provider
 
 ## Docs
 
-See `docs/providers/fireworks.md` in the OpenClaw repository, or the published docs at `https://docs.openclaw.ai/providers/fireworks`.
+See `docs/providers/fireworks.md` in the Zero to Agent repository, or the published docs at `https://docs.openclaw.ai/providers/fireworks`.

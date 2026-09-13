@@ -148,9 +148,9 @@ export const AgentDefaultsBaseSchema = z
          * the built-in summarizeInStages(). Falls back to built-in on failure.
          */
         provider: z.string().optional(),
-        /** Thinking level for embedded OpenClaw compaction summaries. Default: low. */
+        /** Thinking level for embedded Zero to Agent compaction summaries. Default: low. */
         thinkingLevel: z.union([AgentThinkingLevelSchema, z.literal("inherit")]).optional(),
-        /** Embedded OpenClaw keepRecentTokens budget used for cut-point selection. */
+        /** Embedded Zero to Agent keepRecentTokens budget used for cut-point selection. */
         keepRecentTokens: z.number().int().positive().optional(),
         /** Identifier-preservation instruction policy for compaction summaries. */
         identifierPolicy: z.union([z.literal("strict"), z.literal("off")]).optional(),

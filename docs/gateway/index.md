@@ -77,7 +77,7 @@ Gateway config reload watches the active config file path (resolved from profile
 
 ## OpenAI-compatible endpoints
 
-OpenClaw's highest-leverage compatibility surface:
+Zero to Agent's highest-leverage compatibility surface:
 
 - `GET /v1/models`
 - `GET /v1/models/{id}`
@@ -147,7 +147,7 @@ openclaw gateway probe
 What to expect:
 
 - `gateway status --deep` can report `Other gateway-like services detected (best effort)` and print cleanup hints when stale launchd/systemd/schtasks installs are still around.
-- `gateway probe` can warn about `multiple reachable gateway identities` when distinct gateways answer, or when OpenClaw cannot prove reachable targets are the same gateway. An SSH tunnel, proxy URL, or configured remote URL to the same gateway is one gateway with multiple transports, even when transport ports differ.
+- `gateway probe` can warn about `multiple reachable gateway identities` when distinct gateways answer, or when Zero to Agent cannot prove reachable targets are the same gateway. An SSH tunnel, proxy URL, or configured remote URL to the same gateway is one gateway with multiple transports, even when transport ports differ.
 - If that is intentional, isolate ports, config/state, and workspace roots per gateway.
 
 Checklist per instance:
@@ -213,7 +213,7 @@ LaunchAgent labels are `ai.openclaw.gateway` (default) or `ai.openclaw.<profile>
 
 ### Existing system LaunchDaemons
 
-OpenClaw installs and manages a per-user LaunchAgent. It does not install or manage system LaunchDaemons. If a custom LaunchDaemon already uses the same gateway label, OpenClaw refuses to write, start, restart, or repair a user LaunchAgent because two `KeepAlive` managers can repeatedly restart the same gateway.
+Zero to Agent installs and manages a per-user LaunchAgent. It does not install or manage system LaunchDaemons. If a custom LaunchDaemon already uses the same gateway label, Zero to Agent refuses to write, start, restart, or repair a user LaunchAgent because two `KeepAlive` managers can repeatedly restart the same gateway.
 
 The ownership check reads `launchctl print system/<label>` and also checks installed plists under `/Library/LaunchDaemons`. It fails closed when system ownership cannot be verified, and `--force` does not bypass it. `openclaw gateway status` reports a loaded same-label system job; add `--deep` to scan installed system service files.
 
@@ -246,7 +246,7 @@ Manual user-unit example when you need a custom install path:
 
 ```ini
 [Unit]
-Description=OpenClaw Gateway
+Description=Zero to Agent Gateway
 After=network-online.target
 Wants=network-online.target
 StartLimitBurst=10
@@ -280,9 +280,9 @@ openclaw gateway restart
 openclaw gateway stop
 ```
 
-Native Windows managed startup uses a Scheduled Task named `OpenClaw Gateway`
-(or `OpenClaw Gateway (<profile>)` for named profiles). If Scheduled Task
-creation is denied, OpenClaw falls back to a per-user Startup-folder launcher
+Native Windows managed startup uses a Scheduled Task named `Zero to Agent Gateway`
+(or `Zero to Agent Gateway (<profile>)` for named profiles). If Scheduled Task
+creation is denied, Zero to Agent falls back to a per-user Startup-folder launcher
 that points at `gateway.cmd` inside the state directory.
 
   </Tab>
@@ -301,19 +301,19 @@ its `[Service]` section:
 User=<user>
 ```
 
-Replace `<user>` with the non-root account that owns the OpenClaw state and
+Replace `<user>` with the non-root account that owns the Zero to Agent state and
 configuration. A system unit without `User=` runs as root. Running the Gateway
 and its agent commands as root is unsafe and unsupported for this setup.
 
 When `Group=` is omitted, systemd uses the selected account's primary group.
-By default, `User=` also supplies that account's `HOME`, which OpenClaw uses
+By default, `User=` also supplies that account's `HOME`, which Zero to Agent uses
 for normal state and configuration lookup. For intentional custom locations,
 set `OPENCLAW_STATE_DIR` and `OPENCLAW_CONFIG_PATH` in the unit environment.
 Do not copy configuration into root's home as a workaround. On a single-user
 host, the user unit above with `loginctl enable-linger` is the supported way
 to keep the Gateway running without a login session.
 
-Do not also let `openclaw doctor --fix` install a user-level gateway service for the same profile/port. Doctor refuses that automatic install when it finds a system-level OpenClaw gateway service; use `OPENCLAW_SERVICE_REPAIR_POLICY=external` when the system unit owns the lifecycle.
+Do not also let `openclaw doctor --fix` install a user-level gateway service for the same profile/port. Doctor refuses that automatic install when it finds a system-level Zero to Agent gateway service; use `OPENCLAW_SERVICE_REPAIR_POLICY=external` when the system unit owns the lifecycle.
 
 After writing the unit, reload systemd and enable it:
 

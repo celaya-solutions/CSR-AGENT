@@ -1,6 +1,6 @@
-# Mattermost OpenClaw channel
+# Mattermost Zero to Agent channel
 
-Official OpenClaw channel plugin for Mattermost.
+Official Zero to Agent channel plugin for Mattermost.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/mattermost
 
 ## Docs
 
-See `docs/channels/mattermost.md` in the OpenClaw repository, or the published docs at `https://docs.openclaw.ai/channels/mattermost`.
+See `docs/channels/mattermost.md` in the Zero to Agent repository, or the published docs at `https://docs.openclaw.ai/channels/mattermost`.

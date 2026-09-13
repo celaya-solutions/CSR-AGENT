@@ -1,9 +1,9 @@
-# OpenClaw Xiaomi Provider
+# Zero to Agent Xiaomi Provider
 
-Official OpenClaw provider plugin for Xiaomi MiMo pay-as-you-go and Token Plan
+Official Zero to Agent provider plugin for Xiaomi MiMo pay-as-you-go and Token Plan
 models, usage tracking, and text-to-speech.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/xiaomi-provider

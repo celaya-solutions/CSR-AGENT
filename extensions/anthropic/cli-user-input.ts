@@ -38,7 +38,7 @@ async function runClaudeUserInput(
   if (!parsed.ok) {
     return {
       behavior: "deny",
-      message: `OpenClaw rejected malformed Claude user questions: ${parsed.failure}. Correct the invalid field and retry AskUserQuestion.`,
+      message: `Zero to Agent rejected malformed Claude user questions: ${parsed.failure}. Correct the invalid field and retry AskUserQuestion.`,
     };
   }
   const questions = parsed.questions;

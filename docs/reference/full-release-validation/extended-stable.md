@@ -100,7 +100,7 @@ context, and effective inputs; a beta or historical full receipt cannot silently
 replace stable npm qualification.
 
 Native publication owns the deferred qualification. For an npm-stable release,
-`OpenClaw Release Publish` starts an exact-source full CI run with Android enabled
+`Zero to Agent Release Publish` starts an exact-source full CI run with Android enabled
 in parallel with core publication. Only successful native qualification and core
 publication permit the separate Android job to issue a v3 approval receipt and
 dispatch the tag-owned APK publisher. The receipt binds the exact native CI run,

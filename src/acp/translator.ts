@@ -49,7 +49,7 @@ type AcpGatewayAgentOptions = AcpServerOptions & {
   sessionStore?: AcpSessionStore;
 };
 
-/** ACP Agent implementation backed by the OpenClaw Gateway and replay ledger. */
+/** ACP Agent implementation backed by the Zero to Agent Gateway and replay ledger. */
 export class AcpGatewayAgent implements Agent {
   private readonly sessionUpdates: AcpTranslatorSessionUpdates;
   private readonly promptStream: AcpTranslatorPromptStream;

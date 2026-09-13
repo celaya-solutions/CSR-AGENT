@@ -1,6 +1,6 @@
 # @openclaw/buzz
 
-Official Buzz channel plugin for OpenClaw. It connects an OpenClaw agent to approved Buzz rooms for text conversations and threaded replies.
+Official Buzz channel plugin for Zero to Agent. It connects a Zero to Agent agent to approved Buzz rooms for text conversations and threaded replies.
 
 ## Requirements
 
@@ -18,7 +18,7 @@ Use `wss://` outside local development.
 openclaw channels add --channel buzz
 ```
 
-OpenClaw installs the plugin if needed, asks for the relay URL, and generates a dedicated bot identity.
+Zero to Agent installs the plugin if needed, asks for the relay URL, and generates a dedicated bot identity.
 
 Give the displayed **public key only** to a Buzz owner or admin:
 
@@ -59,17 +59,17 @@ Send a test message:
 openclaw message send \
   --channel buzz \
   --target <ROOM_UUID> \
-  --message "Hello from OpenClaw"
+  --message "Hello from Zero to Agent"
 ```
 
 ## Security and scope
 
-- Never give OpenClaw a human owner's private key.
-- The generated bot private key is stored in OpenClaw configuration; only its public key is displayed.
+- Never give Zero to Agent a human owner's private key.
+- The generated bot private key is stored in Zero to Agent configuration; only its public key is displayed.
 - Treat Buzz messages as untrusted agent input.
 - Currently supported: text conversations, threads, typing, and directory
   lookup in group rooms.
-- Not yet supported: DMs, media, reactions, or creating rooms from OpenClaw.
+- Not yet supported: DMs, media, reactions, or creating rooms from Zero to Agent.
 
 Full documentation: https://docs.openclaw.ai/channels/buzz
 

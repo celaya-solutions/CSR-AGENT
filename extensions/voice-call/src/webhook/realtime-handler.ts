@@ -234,7 +234,7 @@ function buildForcedConsultSpeechPrompt(result: string): string {
       ? trimmed
       : `${truncateUtf16Safe(trimmed, FORCED_CONSULT_RESULT_MAX_CHARS - 16).trimEnd()} [truncated]`;
   return [
-    "Internal OpenClaw consult result is ready.",
+    "Internal Zero to Agent consult result is ready.",
     "Do not call tools for this internal result.",
     "Speak the following answer to the caller now, briefly and naturally:",
     bounded,
@@ -1036,7 +1036,7 @@ export class RealtimeCallHandler {
       audioFormat: REALTIME_VOICE_AUDIO_FORMAT_G711_ULAW_8KHZ,
       interruptResponseOnInputAudio,
       instructions: handlesAgentConsult
-        ? `${instructions}\n\nUse native agent delegation for OpenClaw work. End-call and custom realtime function tools are unavailable in this session; the caller can hang up to end the call.`
+        ? `${instructions}\n\nUse native agent delegation for Zero to Agent work. End-call and custom realtime function tools are unavailable in this session; the caller can hang up to end the call.`
         : instructions,
       tools: handlesAgentConsult ? [] : this.config.tools,
       ...(handlesAgentConsult
@@ -2179,14 +2179,15 @@ export class RealtimeCallHandler {
         }
         return await submitFinalToolResult({
           status: "cancelled",
-          message: "OpenClaw cancelled this consult before completion. Do not restart it.",
+          message: "Zero to Agent cancelled this consult before completion. Do not restart it.",
         });
       }
       if (forcedConsult) {
         if (forcedConsult.completedAt || forcedMatch.kind === "already_delivered") {
           return await submitFinalToolResult({
             status: "already_delivered",
-            message: "OpenClaw already delivered this consult result internally. Do not repeat it.",
+            message:
+              "Zero to Agent already delivered this consult result internally. Do not repeat it.",
           });
         }
         forcedConsult.sendSpeechPrompt = false;

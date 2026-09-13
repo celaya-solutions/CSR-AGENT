@@ -1,8 +1,8 @@
-# OpenClaw Arcee AI Provider
+# Zero to Agent Arcee AI Provider
 
-Official OpenClaw provider plugin for Arcee AI.
+Official Zero to Agent provider plugin for Arcee AI.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/arcee-provider

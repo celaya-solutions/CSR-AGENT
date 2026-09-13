@@ -60,7 +60,7 @@ function claimOwnershipRow(
   if (current) {
     if (current.managerId !== managerId) {
       throw new Error(
-        `OpenClaw shared state is already claimed by external manager ${current.managerId}; ` +
+        `Zero to Agent shared state is already claimed by external manager ${current.managerId}; ` +
           `manager ${managerId} cannot replace that durable ownership.`,
       );
     }
@@ -111,7 +111,7 @@ function repairMalformedOwnershipClaim(
           busyTimeoutMs: OPENCLAW_SQLITE_BUSY_TIMEOUT_MS,
           checkpointIntervalMs: 0,
           checkpointMode: "TRUNCATE",
-          databaseLabel: "OpenClaw shared state ownership",
+          databaseLabel: "Zero to Agent shared state ownership",
           databasePath,
         });
         const ownership = runSqliteImmediateTransactionSync(

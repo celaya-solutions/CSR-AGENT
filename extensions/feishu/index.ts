@@ -1,4 +1,4 @@
-// Feishu plugin entrypoint registers its OpenClaw integration.
+// Feishu plugin entrypoint registers its Zero to Agent integration.
 import {
   defineBundledChannelEntry,
   loadBundledEntryExportSync,

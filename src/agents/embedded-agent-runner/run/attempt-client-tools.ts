@@ -162,7 +162,7 @@ export function prepareEmbeddedAttemptClientTools(params: {
       ),
     );
     // Terminal observations are name-only, so ownership is valid only when one
-    // concrete OpenClaw or client tool owns the normalized name.
+    // concrete Zero to Agent or client tool owns the normalized name.
     const sideEffectToolOwners = collectSideEffectToolOwners(
       [...params.uncompactedEffectiveTools, ...clientToolDefs],
       {

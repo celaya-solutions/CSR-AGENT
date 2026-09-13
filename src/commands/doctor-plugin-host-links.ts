@@ -93,7 +93,7 @@ export async function listPluginOpenClawHostLinkIssues(
   };
 }
 
-/** Relinks npm-owned plugin packages to the current OpenClaw host package. */
+/** Relinks npm-owned plugin packages to the current Zero to Agent host package. */
 export async function maybeRepairPluginOpenClawHostLinks(
   params: PluginHostLinkDoctorParams,
 ): Promise<boolean> {
@@ -103,7 +103,7 @@ export async function maybeRepairPluginOpenClawHostLinks(
     if (audit.peerLinkIssues.length > 0) {
       note(
         [
-          "Managed npm OpenClaw host peer links need repair:",
+          "Managed npm Zero to Agent host peer links need repair:",
           ...audit.peerLinkIssues.map((issue) => `- ${issue.packageName}: ${issue.reason}`),
           `Repair with ${formatCliCommand("openclaw doctor --fix")} to relink managed npm plugin packages.`,
         ].join("\n"),
@@ -135,7 +135,7 @@ export async function maybeRepairPluginOpenClawHostLinks(
     if (audit.registeredPeerLinkIssues.length > 0) {
       note(
         [
-          "Registered npm plugin OpenClaw host links need repair:",
+          "Registered npm plugin Zero to Agent host links need repair:",
           ...audit.registeredPeerLinkIssues.map(
             (issue) => `- ${issue.packageName}: ${issue.reason}`,
           ),
@@ -181,13 +181,13 @@ export async function maybeRepairPluginOpenClawHostLinks(
 
   if (repaired > 0) {
     note(
-      `Repaired OpenClaw host peer link(s) for ${repaired} managed npm plugin package(s).`,
+      `Repaired Zero to Agent host peer link(s) for ${repaired} managed npm plugin package(s).`,
       "Plugin registry",
     );
   }
   if (registeredRepair.repaired > 0) {
     note(
-      `Repaired OpenClaw host peer link(s) for ${registeredRepair.repaired} registered npm plugin package(s).`,
+      `Repaired Zero to Agent host peer link(s) for ${registeredRepair.repaired} registered npm plugin package(s).`,
       "Plugin registry",
     );
   }
@@ -196,7 +196,7 @@ export async function maybeRepairPluginOpenClawHostLinks(
     .map((message) => `- ${message.message}`);
   if (warnings.length > 0) {
     note(
-      ["Could not repair all managed npm OpenClaw host peer links:", ...warnings].join("\n"),
+      ["Could not repair all managed npm Zero to Agent host peer links:", ...warnings].join("\n"),
       "Plugin registry",
     );
   }

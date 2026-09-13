@@ -1,4 +1,4 @@
-// Openai plugin entrypoint registers its OpenClaw integration.
+// Openai plugin entrypoint registers its Zero to Agent integration.
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { resolvePluginConfigObject } from "openclaw/plugin-sdk/plugin-config-runtime";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";

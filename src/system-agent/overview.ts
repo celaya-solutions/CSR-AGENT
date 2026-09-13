@@ -1,5 +1,5 @@
 import { resolveAmbientOwnerAgentId } from "../agents/agent-scope-config.js";
-// OpenClaw overview gathers config, agent, tool, docs, source, and gateway status.
+// Zero to Agent overview gathers config, agent, tool, docs, source, and gateway status.
 import { listAgentEntries, resolveAgentEffectiveModelPrimary } from "../agents/agent-scope.js";
 import {
   OPENCLAW_DOCS_URL,
@@ -246,7 +246,7 @@ export function formatSystemAgentOverview(overview: SystemAgentOverview): string
       ? ["Config issues:", ...overview.config.issues.map((issue) => `  - ${issue}`)]
       : [];
   return [
-    "OpenClaw online. Little claws, typed tools.",
+    "Zero to Agent online. Little claws, typed tools.",
     "",
     `Config: ${configStatus}`,
     `Path: ${overview.config.path}`,
@@ -263,7 +263,7 @@ export function formatSystemAgentOverview(overview: SystemAgentOverview): string
     `AI: ${
       overview.defaultModel
         ? `conversation runs on ${overview.defaultModel}`
-        : "inference unavailable; run openclaw onboard before starting OpenClaw"
+        : "inference unavailable; run openclaw onboard before starting Zero to Agent"
     }`,
     `Docs: ${overview.references.docsPath ?? overview.references.docsUrl}`,
     overview.references.sourcePath
@@ -319,7 +319,7 @@ function formatStartupAction(overview: SystemAgentOverview): string | undefined 
 }
 
 /**
- * Welcome shown right after inference activation. OpenClaw owns the
+ * Welcome shown right after inference activation. Zero to Agent owns the
  * remaining workspace, Gateway, channel, and agent setup.
  */
 export function formatSystemAgentOnboardingWelcome(overview: SystemAgentOverview): string {
@@ -341,7 +341,7 @@ export function formatSystemAgentStartupMessage(overview: SystemAgentOverview): 
     ? `${overview.defaultAgentId} (${agent.name})`
     : overview.defaultAgentId;
   return [
-    "Hi, I'm OpenClaw — caretaker of this gateway, config, channels, and agents.",
+    "Hi, I'm Zero to Agent — caretaker of this gateway, config, channels, and agents.",
     // Inference status stays independent of the recovery action line: with an
     // invalid config AND no model, both problems must be visible.
     overview.defaultModel ? `Model: ${overview.defaultModel}.` : "Inference is unavailable.",

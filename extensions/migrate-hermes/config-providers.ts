@@ -236,7 +236,7 @@ export function providerManualItems(
           source: `${source}.transport`,
           message: `Hermes provider "${id}" uses unsupported transport "${transport}".`,
           recommendation:
-            "Configure an equivalent OpenClaw provider plugin or API adapter manually.",
+            "Configure an equivalent Zero to Agent provider plugin or API adapter manually.",
         }),
       );
     } else if (baseUrlConfig.unresolved) {
@@ -264,8 +264,9 @@ export function providerManualItems(
         createMigrationManualItem({
           id: `manual:model-provider-inline-key:${sanitizeName(id)}`,
           source: `${source}.api_key`,
-          message: `Hermes provider "${id}" contains an inline API key that was not copied into OpenClaw config.`,
-          recommendation: "Move the key to an environment variable or OpenClaw secret provider.",
+          message: `Hermes provider "${id}" contains an inline API key that was not copied into Zero to Agent config.`,
+          recommendation:
+            "Move the key to an environment variable or Zero to Agent secret provider.",
         }),
       );
     }
@@ -303,7 +304,7 @@ export function providerManualItems(
         createMigrationManualItem({
           id: `manual:model-provider-extra-body:${sanitizeName(id)}`,
           source: `${source}.extra_body`,
-          message: `Hermes provider "${id}" adds request body fields that OpenClaw cannot import generically.`,
+          message: `Hermes provider "${id}" adds request body fields that Zero to Agent cannot import generically.`,
           recommendation:
             "Configure an equivalent provider plugin or supported request option manually.",
         }),
@@ -317,7 +318,7 @@ export function providerManualItems(
           source: `${source}.key_env`,
           message: `Hermes provider "${id}" references ${apiKeyEnv}, but that value was not present in the Hermes .env file.`,
           recommendation:
-            "Configure an OpenClaw auth profile for this provider or expose the variable to the OpenClaw runtime.",
+            "Configure a Zero to Agent auth profile for this provider or expose the variable to the Zero to Agent runtime.",
         }),
       );
     }

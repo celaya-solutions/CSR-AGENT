@@ -140,7 +140,7 @@ Use code_execution to calculate the 7-day moving average for these numbers: ...
 ```
 
 ```text
-Use x_search to find posts mentioning OpenClaw this week, then use code_execution to count them by day.
+Use x_search to find posts mentioning Zero to Agent this week, then use code_execution to count them by day.
 ```
 
 ```text
@@ -177,6 +177,6 @@ exception), so the agent can self-correct:
   </Card>
   <Card title="Code Mode" href="/tools/code-mode" icon="code">
     A separate surface: JavaScript/TypeScript orchestration of enabled tools in
-    OpenClaw's own worker, not this remote Python tool.
+    Zero to Agent's own worker, not this remote Python tool.
   </Card>
 </CardGroup>

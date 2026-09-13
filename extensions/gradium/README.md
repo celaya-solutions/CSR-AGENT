@@ -1,8 +1,8 @@
-# OpenClaw Gradium Plugin
+# Zero to Agent Gradium Plugin
 
-Official OpenClaw plugin for Gradium.
+Official Zero to Agent plugin for Gradium.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/gradium-speech

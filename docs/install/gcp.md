@@ -1,14 +1,14 @@
 ---
-summary: "Run OpenClaw Gateway 24/7 on a GCP Compute Engine VM with Docker"
+summary: "Run Zero to Agent Gateway 24/7 on a GCP Compute Engine VM with Docker"
 doc-schema-version: 1
 read_when:
-  - You want OpenClaw running 24/7 on GCP
+  - You want Zero to Agent running 24/7 on GCP
   - You want a persistent Gateway on a Compute Engine VM
   - You need GCP provisioning, firewall, or SSH tunnel guidance
 title: "GCP"
 ---
 
-Run a persistent OpenClaw Gateway on a Debian Compute Engine VM. This page
+Run a persistent Zero to Agent Gateway on a Debian Compute Engine VM. This page
 covers GCP provisioning, network access, and machine operations; the shared
 [Docker VM runtime](/install/docker-vm-runtime) page owns container setup,
 persistence, custom binaries, verification, and updates.
@@ -44,7 +44,7 @@ in [Docker VM runtime](/install/docker-vm-runtime).
 
   <Step title="Create the project">
     ```bash
-    gcloud projects create my-openclaw-project --name="OpenClaw Gateway"
+    gcloud projects create my-openclaw-project --name="Zero to Agent Gateway"
     gcloud config set project my-openclaw-project
     gcloud services enable compute.googleapis.com
     ```
@@ -190,7 +190,7 @@ dedicated service account with the narrowest role that works:
 
 ```bash
 gcloud iam service-accounts create openclaw-deploy \
-  --display-name="OpenClaw Deployment"
+  --display-name="Zero to Agent Deployment"
 
 gcloud projects add-iam-policy-binding my-openclaw-project \
   --member="serviceAccount:openclaw-deploy@my-openclaw-project.iam.gserviceaccount.com" \

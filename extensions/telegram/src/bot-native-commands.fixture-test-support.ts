@@ -98,7 +98,7 @@ export function createTelegramGroupCommandContext(params?: {
       chat: {
         id: params?.chatId ?? -1001234567890,
         type: "supergroup" as const,
-        title: params?.title ?? "OpenClaw",
+        title: params?.title ?? "Zero to Agent",
       },
       from: { id: params?.userId ?? 200, username: params?.username ?? "bob" },
     },
@@ -123,7 +123,7 @@ export function createTelegramTopicCommandContext(params?: {
       chat: {
         id: params?.chatId ?? -1001234567890,
         type: "supergroup" as const,
-        title: params?.title ?? "OpenClaw",
+        title: params?.title ?? "Zero to Agent",
         is_forum: true,
       },
       message_thread_id: params?.threadId ?? 42,

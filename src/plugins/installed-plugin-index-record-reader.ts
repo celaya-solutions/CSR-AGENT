@@ -115,7 +115,7 @@ function readManagedNpmInstallTimestampMs(params: {
   projectRoot: string;
   sharedLegacyRoot: boolean;
 }): number {
-  // Isolated flat/generation roots have an OpenClaw-owned project manifest that
+  // Isolated flat/generation roots have a Zero to Agent-owned project manifest that
   // is rewritten during install. The legacy root is shared, so only its
   // package-local directory mtime can represent this plugin's install.
   const timestampPaths = params.sharedLegacyRoot

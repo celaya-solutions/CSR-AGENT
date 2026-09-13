@@ -9,18 +9,18 @@ title: "Android app"
 ---
 
 <Note>
-The official Android app is available on [Google Play](https://play.google.com/store/apps/details?id=ai.openclaw.app&hl=en_IN) and, for sideloading, as a signed standalone APK on selected [GitHub Releases](https://github.com/openclaw/openclaw/releases). Not every release includes the APK and checksum. See [Install outside Google Play](/platforms/android#install-outside-google-play) to find and verify both files. It is a companion node and requires a running OpenClaw Gateway. Source: [apps/android](https://github.com/openclaw/openclaw/tree/main/apps/android) ([build instructions](https://github.com/openclaw/openclaw/blob/main/apps/android/README.md)).
+The official Android app is available on [Google Play](https://play.google.com/store/apps/details?id=ai.openclaw.app&hl=en_IN) and, for sideloading, as a signed standalone APK on selected [GitHub Releases](https://github.com/openclaw/openclaw/releases). Not every release includes the APK and checksum. See [Install outside Google Play](/platforms/android#install-outside-google-play) to find and verify both files. It is a companion node and requires a running Zero to Agent Gateway. Source: [apps/android](https://github.com/openclaw/openclaw/tree/main/apps/android) ([build instructions](https://github.com/openclaw/openclaw/blob/main/apps/android/README.md)).
 </Note>
 
 ## Support snapshot
 
 - Role: companion node app (Android does not host the Gateway).
 - Gateway required: yes (run it on macOS, Linux, or Windows via WSL2).
-- Install: [Google Play](https://play.google.com/store/apps/details?id=ai.openclaw.app&hl=en_IN) or `OpenClaw-Android.apk` from a [GitHub Release](https://github.com/openclaw/openclaw/releases) that lists both required assets (see [Install outside Google Play](/platforms/android#install-outside-google-play)), [Getting Started](/start/getting-started) for the Gateway, then [Pairing](/channels/pairing).
+- Install: [Google Play](https://play.google.com/store/apps/details?id=ai.openclaw.app&hl=en_IN) or `Zero to Agent-Android.apk` from a [GitHub Release](https://github.com/openclaw/openclaw/releases) that lists both required assets (see [Install outside Google Play](/platforms/android#install-outside-google-play)), [Getting Started](/start/getting-started) for the Gateway, then [Pairing](/channels/pairing).
 - Gateway: [Runbook](/gateway) + [Configuration](/gateway/configuration).
   - Protocols: [Gateway protocol](/gateway/protocol) (nodes + control plane).
 - Select an agent in the sidebar to view its credential status in **Settings → Providers & Models**. The page updates when the Gateway publishes model, credential, or config changes. Use **Refresh** to recheck model availability.
-- **Settings → OpenClaw** opens a dedicated Gateway settings assistant when the operator connection has `operator.admin` and the Gateway supports `openclaw.chat`. Its setup conversation stays separate from ordinary Chat, redacts secret replies locally, and moves to Chat only after you tap **Open Chat**.
+- **Settings → Zero to Agent** opens a dedicated Gateway settings assistant when the operator connection has `operator.admin` and the Gateway supports `openclaw.chat`. Its setup conversation stays separate from ordinary Chat, redacts secret replies locally, and moves to Chat only after you tap **Open Chat**.
 
 Its reply field switches to masked input for secret prompts. Tap it again if a prompt change closes the keyboard. Android sends sensitive replies without trimming them and clears unsent drafts when you leave this page or background the app.
 
@@ -45,7 +45,7 @@ The Wear OS companion uses the paired Android phone's authenticated Gateway conn
 
 ## Install outside Google Play
 
-Selected GitHub Releases include a universal `OpenClaw-Android.apk` and `OpenClaw-Android-SHA256SUMS.txt`. The APK is built from the release tag, signed with the OpenClaw Android release key, and carries GitHub Actions provenance. Android assets may be attached after a release becomes public. Select a release by its listed assets, not by the latest Gateway release tag.
+Selected GitHub Releases include a universal `Zero to Agent-Android.apk` and `Zero to Agent-Android-SHA256SUMS.txt`. The APK is built from the release tag, signed with the Zero to Agent Android release key, and carries GitHub Actions provenance. Android assets may be attached after a release becomes public. Select a release by its listed assets, not by the latest Gateway release tag.
 
 List published releases that contain both required assets:
 
@@ -53,8 +53,8 @@ List published releases that contain both required assets:
 gh api --paginate "repos/openclaw/openclaw/releases?per_page=50" \
   --jq '.[] | select(.draft | not) | {
     tag: .tag_name,
-    apk: ([.assets[].name] | any(. == "OpenClaw-Android.apk")),
-    checksum: ([.assets[].name] | any(. == "OpenClaw-Android-SHA256SUMS.txt"))
+    apk: ([.assets[].name] | any(. == "Zero to Agent-Android.apk")),
+    checksum: ([.assets[].name] | any(. == "Zero to Agent-Android-SHA256SUMS.txt"))
   } | select(.apk and .checksum)'
 ```
 
@@ -64,10 +64,10 @@ Pick a release that lists both assets, then download and verify that exact tag b
 release_tag=vYYYY.M.PATCH
 gh release download "$release_tag" \
   --repo openclaw/openclaw \
-  --pattern OpenClaw-Android.apk \
-  --pattern OpenClaw-Android-SHA256SUMS.txt
-sha256sum --check OpenClaw-Android-SHA256SUMS.txt
-gh attestation verify OpenClaw-Android.apk \
+  --pattern Zero to Agent-Android.apk \
+  --pattern Zero to Agent-Android-SHA256SUMS.txt
+sha256sum --check Zero to Agent-Android-SHA256SUMS.txt
+gh attestation verify Zero to Agent-Android.apk \
   --repo openclaw/openclaw \
   --signer-workflow openclaw/openclaw/.github/workflows/android-release.yml \
   --source-ref "refs/tags/${release_tag}" \
@@ -81,14 +81,14 @@ Google Play and standalone APK installs use different update channels and may ha
 </Warning>
 
 <Note>
-Building a release artifact (APK or app bundle) from source or a fork requires your own Android signing identity. Debug builds use an automatically generated debug signing key. The official OpenClaw release key is not included in the repository. See [Sign your app](https://developer.android.com/studio/publish/app-signing) for how to generate and configure a signing key for release builds.
+Building a release artifact (APK or app bundle) from source or a fork requires your own Android signing identity. Debug builds use an automatically generated debug signing key. The official Zero to Agent release key is not included in the repository. See [Sign your app](https://developer.android.com/studio/publish/app-signing) for how to generate and configure a signing key for release builds.
 </Note>
 
 ## Mirror and control Android from a remote Mac
 
 [scrcpy](https://github.com/Genymobile/scrcpy) mirrors an Android screen in a macOS window and
 forwards keyboard and pointer input through Android Debug Bridge (ADB). This is an operator-side
-workflow, separate from the OpenClaw node connection. It is useful when the Android device and the
+workflow, separate from the Zero to Agent node connection. It is useful when the Android device and the
 Mac are in different locations but share a private Tailscale network.
 
 ### Before you begin
@@ -467,31 +467,31 @@ Secret answer fields mask typed or pasted values and request password input with
 
 ## Assistant entrypoints
 
-Android supports launching OpenClaw from the system assistant trigger (Google Assistant). Holding the home button (or another `ACTION_ASSIST` trigger) opens the app; saying "Hey Google, ask OpenClaw `<prompt>`" matches the app's declared App Actions query pattern and hands the prompt into the chat composer without auto-sending it.
+Android supports launching Zero to Agent from the system assistant trigger (Google Assistant). Holding the home button (or another `ACTION_ASSIST` trigger) opens the app; saying "Hey Google, ask Zero to Agent `<prompt>`" matches the app's declared App Actions query pattern and hands the prompt into the chat composer without auto-sending it.
 
 This uses Android **App Actions** (`shortcuts.xml` capability) declared in the app manifest. No gateway-side configuration is needed — the assistant intent is handled entirely by the Android app.
 
 <Note>
-App Actions availability depends on the device, Google Play Services version, and whether the user has set OpenClaw as the default assistant app.
+App Actions availability depends on the device, Google Play Services version, and whether the user has set Zero to Agent as the default assistant app.
 </Note>
 
 ## Notification forwarding
 
 Android can forward device notifications to the Gateway as `node.event` items. This is configured **on the device**, in the app's Settings sheet — not in Gateway/`openclaw.json` config.
 
-| Setting                     | Description                                                                                                                                                                                            |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Forward Notification Events | Master toggle. Off by default; requires Notification Listener Access to be granted first.                                                                                                              |
-| Package Filter              | **Allowlist** (only listed package IDs forwarded) or **Blocklist** (default: all packages except listed IDs). OpenClaw's own package is always excluded in Blocklist mode to prevent forwarding loops. |
-| Quiet Hours                 | Local HH:mm start/end window that suppresses forwarding. Disabled by default; defaults to `22:00`-`07:00` once enabled.                                                                                |
-| Max Events / Minute         | Per-device rate limit on forwarded notifications. Default 20.                                                                                                                                          |
-| Route Session Key           | Optional. Pins forwarded notification events into a specific session instead of the device's default notification route.                                                                               |
+| Setting                     | Description                                                                                                                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Forward Notification Events | Master toggle. Off by default; requires Notification Listener Access to be granted first.                                                                                                                   |
+| Package Filter              | **Allowlist** (only listed package IDs forwarded) or **Blocklist** (default: all packages except listed IDs). Zero to Agent's own package is always excluded in Blocklist mode to prevent forwarding loops. |
+| Quiet Hours                 | Local HH:mm start/end window that suppresses forwarding. Disabled by default; defaults to `22:00`-`07:00` once enabled.                                                                                     |
+| Max Events / Minute         | Per-device rate limit on forwarded notifications. Default 20.                                                                                                                                               |
+| Route Session Key           | Optional. Pins forwarded notification events into a specific session instead of the device's default notification route.                                                                                    |
 
 <Note>
 Notification forwarding requires the Android Notification Listener permission. The app prompts for this during setup.
 </Note>
 
-WhatsApp, WhatsApp Business, Telegram, Telegram X, Discord, and Signal notifications are always excluded. Their messages are already owned by native OpenClaw channel sessions; forwarding the Android notification as a separate node event could route a reply through the wrong conversation.
+WhatsApp, WhatsApp Business, Telegram, Telegram X, Discord, and Signal notifications are always excluded. Their messages are already owned by native Zero to Agent channel sessions; forwarding the Android notification as a separate node event could route a reply through the wrong conversation.
 
 ## Related
 

@@ -22,7 +22,7 @@ pass there.
 | [Continue a failed validation](/reference/full-release-validation/continuation)                     | Rerunning failed child jobs on an existing parent, and the post-merge continuation proof. |
 | [Extended-stable and changelog-only validation](/reference/full-release-validation/extended-stable) | Extended-stable dispatch, changelog-only reuse, coverage policies, and Telegram waivers.  |
 | [Top-level stages](/reference/full-release-validation/stages)                                       | The umbrella stage matrix, evidence reuse, artifact producers, and decision states.       |
-| [Release checks stages](/reference/full-release-validation/release-checks)                          | The `OpenClaw Release Checks` stage matrix and the Docker release-path chunks.            |
+| [Release checks stages](/reference/full-release-validation/release-checks)                          | The `Zero to Agent Release Checks` stage matrix and the Docker release-path chunks.       |
 | [Release profiles and focused reruns](/reference/full-release-validation/profiles)                  | Comparing profile coverage and picking a focused `rerun_group` or suite filter.           |
 | [Evidence to keep](/reference/full-release-validation/evidence)                                     | Recording evidence after a pass, and the backing workflow files.                          |
 

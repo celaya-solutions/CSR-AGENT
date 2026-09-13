@@ -14,7 +14,7 @@ pnpm openclaw qa slack
 ```
 
 Targets one real private Slack channel with two distinct bots: a driver bot
-controlled by the harness and a SUT bot started by the child OpenClaw gateway
+controlled by the harness and a SUT bot started by the child Zero to Agent gateway
 through the bundled Slack plugin.
 
 Required env when `--credential-source env`:
@@ -146,12 +146,12 @@ then _Install to Workspace_:
 ```json
 {
   "display_information": {
-    "name": "OpenClaw QA Driver",
-    "description": "Test driver bot for OpenClaw QA Slack live lane"
+    "name": "Zero to Agent QA Driver",
+    "description": "Test driver bot for Zero to Agent QA Slack live lane"
   },
   "features": {
     "bot_user": {
-      "display_name": "OpenClaw QA Driver",
+      "display_name": "Zero to Agent QA Driver",
       "always_online": true
     }
   },
@@ -181,12 +181,12 @@ reaction handling yet.
 ```json
 {
   "display_information": {
-    "name": "OpenClaw QA SUT",
-    "description": "OpenClaw QA SUT connector for OpenClaw"
+    "name": "Zero to Agent QA SUT",
+    "description": "Zero to Agent QA SUT connector for Zero to Agent"
   },
   "features": {
     "bot_user": {
-      "display_name": "OpenClaw QA SUT",
+      "display_name": "Zero to Agent QA SUT",
       "always_online": true
     },
     "app_home": {
@@ -261,8 +261,8 @@ In the QA workspace, create a channel (e.g. `#openclaw-qa`) and invite both
 bots from inside the channel:
 
 ```text
-/invite @OpenClaw QA Driver
-/invite @OpenClaw QA SUT
+/invite @Zero to Agent QA Driver
+/invite @Zero to Agent QA SUT
 ```
 
 Copy the `Cxxxxxxxxxx` id from _channel info → About → Channel ID_ - that

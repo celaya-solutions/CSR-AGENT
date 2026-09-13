@@ -108,7 +108,7 @@ export async function createCopilotSessionSetup(params: {
   const promptTools = promptPolicyResult?.tools ?? [];
   const finalDeveloperInstructions = promptBuild.developerInstructions;
   // Restricted turns may expose native ask_user only when its policy-filtered
-  // OpenClaw equivalent survived the canonical tool catalog.
+  // Zero to Agent equivalent survived the canonical tool catalog.
   const includeAskUser =
     !ringZeroSystemAgentRun &&
     (attemptInput.pluginHarnessToolPolicyRestricted !== true ||

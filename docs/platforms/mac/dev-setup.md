@@ -1,5 +1,5 @@
 ---
-summary: "Setup guide for developers working on the OpenClaw macOS app"
+summary: "Setup guide for developers working on the Zero to Agent macOS app"
 read_when:
   - Setting up the macOS development environment
 title: "macOS dev setup"
@@ -7,7 +7,7 @@ title: "macOS dev setup"
 
 # macOS developer setup
 
-Build and run the OpenClaw macOS application from source.
+Build and run the Zero to Agent macOS application from source.
 
 The packaged app requires macOS 15.0 or later. The build host must also meet
 the Xcode requirements below.
@@ -38,7 +38,7 @@ pnpm install
 ./scripts/package-mac-app.sh
 ```
 
-Outputs `dist/OpenClaw.app`. Packaging requires a real signing identity by
+Outputs `dist/Zero to Agent.app`. Packaging requires a real signing identity by
 default and fails if none is available. Ad-hoc signing is an explicit opt-in;
 it does not preserve TCC permissions. See [macOS signing](/platforms/mac/signing).
 
@@ -101,7 +101,7 @@ fresh profile, choose **This Mac** during onboarding; the app installs the
 matching user-space CLI and runtime before starting the Gateway wizard.
 
 For manual development recovery, install the matching CLI yourself. Read the
-version from the app: choose **About OpenClaw** in the menu bar, or run
+version from the app: choose **About Zero to Agent** in the menu bar, or run
 `openclaw-mac status --json`, which reports the app version and build.
 
 The npm command below is for npm 12 or npm 11.16+. On npm 11.15 and earlier,
@@ -113,7 +113,7 @@ npm install -g openclaw@<version> --allow-scripts=openclaw
 
 `pnpm add -g --allow-build=openclaw openclaw@<version>` and
 `bun add -g --trust openclaw@<version>` also work. Bun's `--trust` allows the
-OpenClaw lifecycle scripts for that install. Node remains the recommended
+Zero to Agent lifecycle scripts for that install. Node remains the recommended
 runtime for the Gateway itself.
 
 ## Run native tests safely
@@ -222,7 +222,7 @@ mlx-swift Metal compilation errors non-deterministically (a different `.metal`
 file each run, `Could not read serialized diagnostics file` then a nonzero
 `metal` exit), because the beta `metal` compiler and its separately downloaded
 Metal Toolchain are still unstable. This is an upstream toolchain issue, not an
-OpenClaw one.
+Zero to Agent one.
 
 If you do not need on-device MLX voice, skip the helper:
 

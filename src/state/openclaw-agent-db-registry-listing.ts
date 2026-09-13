@@ -127,7 +127,7 @@ function readRegisteredAgentDatabases(
     );
     if (!artifactPreserving && schemaMigrations.length > 0) {
       throw new Error(
-        `OpenClaw state database ${pathname} has a legacy agent database registry schema; run openclaw doctor --fix to migrate it.`,
+        `Zero to Agent state database ${pathname} has a legacy agent database registry schema; run openclaw doctor --fix to migrate it.`,
       );
     }
     const registryTable = database
@@ -137,7 +137,7 @@ function readRegisteredAgentDatabases(
       return [];
     }
     if (registryTable.type !== "table") {
-      throw new Error(`OpenClaw state database ${pathname} has an invalid agent registry.`);
+      throw new Error(`Zero to Agent state database ${pathname} has an invalid agent registry.`);
     }
     const db = getNodeSqliteKysely<OpenClawAgentRegistryDatabase>(database);
     return executeSqliteQuerySync(
@@ -160,7 +160,7 @@ function readRegisteredAgentDatabases(
     : withExistingOpenClawStateDatabaseReadOnly(read, options);
   if (entries === undefined) {
     if (hasUnavailableMissingSqlitePath(pathname)) {
-      throw new Error(`OpenClaw state database ${pathname} is unavailable.`);
+      throw new Error(`Zero to Agent state database ${pathname} is unavailable.`);
     }
     return [];
   }
@@ -176,7 +176,7 @@ export function inspectOpenClawRegisteredAgentDatabases(
   return readRegisteredAgentDatabases(options, true);
 }
 
-/** List agent databases recorded in the shared OpenClaw state registry. */
+/** List agent databases recorded in the shared Zero to Agent state registry. */
 export function listOpenClawRegisteredAgentDatabases(
   options: AgentDatabaseRegistryListOptions = {},
 ): OpenClawRegisteredAgentDatabase[] {

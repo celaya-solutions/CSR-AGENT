@@ -66,7 +66,7 @@ type StateDatabaseCoordinatorLease = {
 
 export class StateDatabaseCoordinatorContentionError extends SqliteCoordinatorError {
   constructor(readonly family: CoordinatorFamily) {
-    super(`another OpenClaw process owns ${family}`);
+    super(`another Zero to Agent process owns ${family}`);
     this.name = "StateDatabaseCoordinatorContentionError";
   }
 }
@@ -74,7 +74,7 @@ export class StateDatabaseCoordinatorContentionError extends SqliteCoordinatorEr
 export class StateSchemaMutationConflictError extends SqliteCoordinatorError {
   constructor(databasePath: string, cause: unknown) {
     super(
-      `OpenClaw refused shared state schema mutation at ${databasePath} because another Gateway owns that state directory. Stop that Gateway or perform the update through its managed restart path, then retry.`,
+      `Zero to Agent refused shared state schema mutation at ${databasePath} because another Gateway owns that state directory. Stop that Gateway or perform the update through its managed restart path, then retry.`,
       cause,
     );
     this.name = "StateSchemaMutationConflictError";
@@ -87,7 +87,7 @@ export function resolveStateLifecycleRuntimeDirectory(): string {
     return captured.directory;
   }
   return process.platform === "win32"
-    ? path.join(os.homedir(), "AppData", "Local", "OpenClaw", "locks")
+    ? path.join(os.homedir(), "AppData", "Local", "Zero to Agent", "locks")
     : "/tmp";
 }
 

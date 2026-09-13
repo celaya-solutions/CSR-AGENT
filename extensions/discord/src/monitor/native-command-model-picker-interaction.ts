@@ -611,7 +611,7 @@ async function handleDiscordModelPickerInteraction(params: {
       );
     };
     const legacyRuntimeNotice =
-      "This OpenClaw version supports model-only selection here. Update OpenClaw to change runtimes in the picker.";
+      "This Zero to Agent version supports model-only selection here. Update Zero to Agent to change runtimes in the picker.";
     if (modelOnlyHost && (parsed.runtime || parsed.runtimeToken || !supportsModelOnlySelection())) {
       await showNotice(legacyRuntimeNotice);
       return;

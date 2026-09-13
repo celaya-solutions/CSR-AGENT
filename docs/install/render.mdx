@@ -1,12 +1,12 @@
 ---
-summary: "Deploy OpenClaw on Render with Infrastructure-as-Code"
+summary: "Deploy Zero to Agent on Render with Infrastructure-as-Code"
 read_when:
-  - Deploying OpenClaw to Render
+  - Deploying Zero to Agent to Render
   - You want a declarative cloud deploy with Render Blueprints
 title: "Render"
 ---
 
-Deploy OpenClaw on [Render](https://render.com) using the repo's `render.yaml` Blueprint. It declares the service, disk, and environment variables in one file.
+Deploy Zero to Agent on [Render](https://render.com) using the repo's `render.yaml` Blueprint. It declares the service, disk, and environment variables in one file.
 
 ## Prerequisites
 
@@ -59,7 +59,7 @@ services:
 | Starter   | Never             | 1GB+          | Personal use, small teams     |
 | Standard+ | Never             | 1GB+          | Production, multiple channels |
 
-The Blueprint defaults to `starter`. To use the free tier, change `plan: free` **and delete the `disk:` block** in your fork's `render.yaml`; Render rejects a Blueprint that attaches a persistent disk to a free instance. Without that disk, OpenClaw state resets on every deploy.
+The Blueprint defaults to `starter`. To use the free tier, change `plan: free` **and delete the `disk:` block** in your fork's `render.yaml`; Render rejects a Blueprint that attaches a persistent disk to a free instance. Without that disk, Zero to Agent state resets on every deploy.
 
 ## After deployment
 
@@ -92,8 +92,8 @@ Render redeploys automatically when the connected repo's branch gets a new commi
 
 ## Scaling
 
-- **Vertical**: change the plan for more CPU/RAM. Usually sufficient for OpenClaw.
-- **Horizontal**: increase instance count (Standard plan and above). Requires sticky sessions or external state management since OpenClaw keeps runtime state on the local disk.
+- **Vertical**: change the plan for more CPU/RAM. Usually sufficient for Zero to Agent.
+- **Horizontal**: increase instance count (Standard plan and above). Requires sticky sessions or external state management since Zero to Agent keeps runtime state on the local disk.
 
 ## Backups and migration
 
@@ -161,4 +161,4 @@ See [Docker](/install/docker) for the full local container workflow.
 
 - Set up messaging channels: [Channels](/channels)
 - Configure the Gateway: [Gateway configuration](/gateway/configuration)
-- Keep OpenClaw up to date: [Updating](/install/updating)
+- Keep Zero to Agent up to date: [Updating](/install/updating)

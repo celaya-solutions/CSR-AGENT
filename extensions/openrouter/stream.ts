@@ -68,7 +68,7 @@ function mergeOpenRouterAuthHeaders(options: Parameters<StreamFn>[2]): Parameter
     headers.set("HTTP-Referer", "https://openclaw.ai");
   }
   if (!headers.has("x-openrouter-title")) {
-    headers.set("X-OpenRouter-Title", "OpenClaw");
+    headers.set("X-OpenRouter-Title", "Zero to Agent");
   }
   return {
     ...options,

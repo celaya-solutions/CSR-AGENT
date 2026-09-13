@@ -32,7 +32,7 @@ frozen-target compatibility repair or intentional omission.
 
 Useful artifacts:
 
-- `release-package-under-test` from `OpenClaw Release Checks`
+- `release-package-under-test` from `Zero to Agent Release Checks`
 - Docker release-path artifacts under `.artifacts/docker-tests/`
 - Package Acceptance `package-under-test` and Docker acceptance artifacts
 - Cross-OS release-check artifacts for each OS and suite

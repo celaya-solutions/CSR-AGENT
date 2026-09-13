@@ -155,7 +155,7 @@ export type SystemAgentVerifiedInferenceDeps = SystemAgentConfiguredRouteDeps & 
   fingerprintPluginRuntimeArtifact?: (record: PluginRuntimeArtifactIdentitySource) => string;
 };
 
-/** Exact child harness artifact every verified embedded OpenClaw call must carry. */
+/** Exact child harness artifact every verified embedded Zero to Agent call must carry. */
 export function resolveSystemAgentExpectedAgentHarnessRuntimeArtifact(
   binding: SystemAgentVerifiedInferenceBinding,
 ): ExpectedAgentHarnessRuntimeArtifact | undefined {

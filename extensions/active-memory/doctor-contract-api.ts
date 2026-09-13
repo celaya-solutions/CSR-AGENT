@@ -89,7 +89,7 @@ function parseLegacyToggleEntries(parsed: unknown): ActiveMemoryToggleEntry[] | 
   return entries;
 }
 
-/** State migrations exposed to OpenClaw doctor for Active Memory. */
+/** State migrations exposed to Zero to Agent doctor for Active Memory. */
 export const stateMigrations: PluginDoctorStateMigration[] = [
   defineLegacyJsonStateMigration<ActiveMemoryToggleEntry[]>({
     id: "active-memory-session-toggles-json-to-plugin-state",

@@ -1,4 +1,4 @@
-// OpenClaw state database manages shared persisted state and migrations.
+// Zero to Agent state database manages shared persisted state and migrations.
 import { existsSync } from "node:fs";
 import type { DatabaseSync } from "node:sqlite";
 import { clearNodeSqliteKyselyCacheForDatabase } from "../infra/kysely-sync.js";
@@ -565,7 +565,7 @@ function openOpenClawStateDatabaseWithBusyTimeout(
     if (errors.length > 0) {
       throw createSqliteLifecycleAggregateError(
         [error, ...errors],
-        `Fresh OpenClaw state database open failed releasing access and closing its unpublished handle for ${pathname}.`,
+        `Fresh Zero to Agent state database open failed releasing access and closing its unpublished handle for ${pathname}.`,
         error,
       );
     }

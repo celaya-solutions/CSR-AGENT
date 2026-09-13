@@ -125,7 +125,7 @@ export async function runPostUpgradeProbes(params: {
       level: "warn",
       code: "plugin.version_drift",
       plugin: entry.pluginId,
-      message: `Plugin ${entry.pluginId} is ${entry.installedVersion}, but OpenClaw is ${VERSION}. ${updateCommand ? `Run \`${updateCommand}\`, then restart the Gateway.` : "No confirmed repair target is available; check registry availability and rerun this command."}`,
+      message: `Plugin ${entry.pluginId} is ${entry.installedVersion}, but Zero to Agent is ${VERSION}. ${updateCommand ? `Run \`${updateCommand}\`, then restart the Gateway.` : "No confirmed repair target is available; check registry availability and rerun this command."}`,
     });
   }
 

@@ -1,45 +1,45 @@
 ---
 summary: "Dynamic tools, web search, image loading, turn liveness, and runtime boundaries"
 read_when:
-  - You want to know which OpenClaw tools reach a Codex turn
+  - You want to know which Zero to Agent tools reach a Codex turn
   - You are debugging turn liveness or parallel chats
-  - You need the ownership split between OpenClaw and Codex
+  - You need the ownership split between Zero to Agent and Codex
 title: "Codex runtime behavior"
 sidebarTitle: "Runtime behavior"
 ---
 
-What the Codex harness owns during a turn, and what stays with OpenClaw. Part of the [Codex harness](/plugins/codex-harness) guide; [Where each section moved](/plugins/codex-harness#where-each-section-moved) lists every section.
+What the Codex harness owns during a turn, and what stays with Zero to Agent. Part of the [Codex harness](/plugins/codex-harness) guide; [Where each section moved](/plugins/codex-harness#where-each-section-moved) lists every section.
 
 ## Dynamic tools and web search
 
-Codex dynamic tools default to `searchable` loading. OpenClaw normally does
+Codex dynamic tools default to `searchable` loading. Zero to Agent normally does
 not expose dynamic tools that duplicate Codex-native workspace operations:
 `read`, `write`, `edit`, `apply_patch`, `exec`, `process`,
 `get_goal`, `create_goal`, `update_goal`, `tool_call`, `tool_describe`,
 `tool_search`, and `tool_search_code`. Goal operations stay native to Codex,
-so OpenClaw does not project a second goal store into Codex turns. Most
-remaining OpenClaw integration tools, such as messaging, media, cron,
+so Zero to Agent does not project a second goal store into Codex turns. Most
+remaining Zero to Agent integration tools, such as messaging, media, cron,
 browser, nodes, gateway, `progress_card`, and `heartbeat_respond` are available through
 Codex tool search under the `openclaw` namespace, keeping the initial model
 context smaller. The restricted-turn shell fallback is the exception for
 `exec` and `process` when a finite allowlist disables native Code Mode;
 runtime allowlists and `codexDynamicToolsExclude` still apply.
 When native shell remains active and Gateway access is policy-eligible,
-OpenClaw instead publishes the distinct `gateway_exec` and `gateway_process`
-names so native shell and the OpenClaw-managed environment path cannot be
+Zero to Agent instead publishes the distinct `gateway_exec` and `gateway_process`
+names so native shell and the Zero to Agent-managed environment path cannot be
 confused.
 
-Tools marked `catalogMode: "direct-only"`, including the OpenClaw `computer`
+Tools marked `catalogMode: "direct-only"`, including the Zero to Agent `computer`
 tool, use the `openclaw_direct` namespace instead. Codex treats that namespace
 as `DirectModelOnly`, so those tools stay directly model-visible in normal and
 code-mode-only threads rather than crossing nested Code Mode `tools.*` calls.
 
 Web search uses Codex's hosted `web_search` tool by default when search is
 enabled and no managed provider is selected. Native hosted search and
-OpenClaw's managed `web_search` dynamic tool are mutually exclusive so
-managed search cannot bypass native domain restrictions. OpenClaw uses the
+Zero to Agent's managed `web_search` dynamic tool are mutually exclusive so
+managed search cannot bypass native domain restrictions. Zero to Agent uses the
 managed tool when hosted search is unavailable, explicitly disabled, or
-replaced by a selected managed provider. OpenClaw keeps Codex's standalone
+replaced by a selected managed provider. Zero to Agent keeps Codex's standalone
 `web.run` extension disabled because production app-server traffic rejects
 its user-defined `web` namespace. `tools.web.search.enabled: false`
 disables both paths, as do tool-disabled LLM-only runs. Codex treats
@@ -53,8 +53,8 @@ restricted thread and preserve the existing binding for later resume.
 `sessions_yield`, `sessions_spawn`, and message-tool-only source replies stay
 direct because they are turn-control or delegation contracts. Guidance still
 prefers Codex's native `spawn_agent` as the primary Codex subagent surface,
-while explicit OpenClaw or ACP delegation remains directly callable through
-`sessions_spawn`. In Codex Code Mode, generic OpenClaw
+while explicit Zero to Agent or ACP delegation remains directly callable through
+`sessions_spawn`. In Codex Code Mode, generic Zero to Agent
 dynamic-tool results are JSON text rather than JavaScript objects, so parse
 JSON-looking results before reading fields. Codex also serializes nested
 dynamic calls; submit several `sessions_spawn` calls in a bounded loop rather
@@ -71,20 +71,20 @@ debugging the full tool payload.
 ## Image loader ownership
 
 For image-capable models with Codex native tools enabled, Codex owns
-`view_image` and OpenClaw suppresses its duplicate loader. The native Codex
+`view_image` and Zero to Agent suppresses its duplicate loader. The native Codex
 schema accepts one local filesystem `path`. For text-only models, or when the
-native tool surface is disabled, OpenClaw supplies `view_image` with its
+native tool surface is disabled, Zero to Agent supplies `view_image` with its
 `path`/`paths` schema and delegated vision route. Callers must use the schema
 advertised for the active run.
 
 ## Turn liveness and timeouts
 
-Codex owns provider-stream liveness and native turn completion. OpenClaw waits
+Codex owns provider-stream liveness and native turn completion. Zero to Agent waits
 for the exact `turn/completed` outcome rather than interrupting a quiet turn or
 treating assistant output as completion. The existing
 `agents.defaults.timeoutSeconds` limit is an elapsed execution budget per
 attempt: progress does not reset it, and `0` means unlimited execution.
-OpenClaw still bounds its own requests, dynamic tools, cancellation, and local
+Zero to Agent still bounds its own requests, dynamic tools, cancellation, and local
 settlement. See [Timeouts](/plugins/codex-harness-reference#timeouts) for those
 budgets, Stop and replay behavior, and Doctor migration of retired idle settings.
 
@@ -93,7 +93,7 @@ budgets, Stop and replay behavior, and Doctor migration of retired idle settings
 The Control UI shows a notice above the composer when Codex reports cyber
 safety buffering, a cyber-policy refusal, or a provider model reroute for
 high-risk cyber activity. These notices use structured app-server events;
-OpenClaw does not infer classifier activity from the assistant's wording.
+Zero to Agent does not infer classifier activity from the assistant's wording.
 
 Buffering means the provider is still processing the request. Its notice clears
 when assistant output starts or the turn ends. A blocked notice remains until
@@ -111,7 +111,7 @@ can use it.
 
 OpenAI declines some defensive-cyber work on its general models and directs
 approved workspaces to a Daybreak model instead. When a turn ends in a
-cyber-policy refusal, OpenClaw retries it once on the configured Daybreak model
+cyber-policy refusal, Zero to Agent retries it once on the configured Daybreak model
 so the refused work reaches the tier allowed to answer it. This is on by
 default and is configured under
 `plugins.entries.codex.config.appServer.cyberFailover`.
@@ -133,7 +133,7 @@ work that was actually refused:
 - The retry does not mirror the prompt into the transcript a second time. The
   refused attempt's own terminal row is discarded with its result rather than
   staged, so a successful escalation returns the Daybreak answer; the refused
-  turn still exists upstream in the native Codex thread, which OpenClaw does not
+  turn still exists upstream in the native Codex thread, which Zero to Agent does not
   rewrite.
 - Only OpenAI's own cyber refusal on the current attempt escalates. Another
   provider's refusal, another category, and a refusal inherited from an earlier
@@ -145,10 +145,10 @@ work that was actually refused:
 Authorization stays server-owned. `model/list` advertises Daybreak to every
 client, so catalog presence does not prove entitlement: an unentitled workspace
 still receives `401`/`403` on use, and each such attempt costs the transport's
-full reconnect ladder. OpenClaw therefore treats the retry itself as the only
+full reconnect ladder. Zero to Agent therefore treats the retry itself as the only
 evidence and reports an `unavailable` notice rather than a silent block. If the
 fallback target is denied without tool activity, side effects, native
-continuation, or interruption, OpenClaw keeps the original refusal even when
+continuation, or interruption, Zero to Agent keeps the original refusal even when
 the fallback produced no assistant message. Otherwise, its result is preserved
 so those facts reach the runner.
 
@@ -164,26 +164,26 @@ each pay the reconnect ladder before the first result lands.
 
 Independent chats can share a Codex app-server and run concurrently. Resuming
 an idle chat does not require unrelated chats, model discovery, or tool-catalog
-reads to finish. OpenClaw coordinates its own lifecycle operations for each
+reads to finish. Zero to Agent coordinates its own lifecycle operations for each
 native thread and preserves that thread's identity across ordinary resumes.
 A closed, replaced, or retired client still cannot complete a stale handoff.
 
 After a completed provider failure, you can continue in the same chat with its
-existing configuration. OpenClaw retains the configured native thread, including
+existing configuration. Zero to Agent retains the configured native thread, including
 for `/codex resume` of that chat's already-bound thread. Native provider policy refusals
-end the current attempt without a native retry. OpenClaw's configured cyber
+end the current attempt without a native retry. Zero to Agent's configured cyber
 fallback described above is a separate attempt. A later user message is a
 separate turn; it does not supply a native policy override or user confirmation.
 
 With Codex app-server `0.153.4`, first-time adoption or changed configuration of a
-loaded failed thread still requires native unloading. OpenClaw preserves the
+loaded failed thread still requires native unloading. Zero to Agent preserves the
 thread and reports missing configuration confirmation instead of assuming the
 changes took effect. Existing active-turn and parent-controlled-thread checks
 still apply.
 
 This coordination does not make native configuration replacement atomic against
 Codex-internal controllers. Native subagent reloads or another native controller
-can operate outside OpenClaw's thread queue. Avoid concurrently reconfiguring the
+can operate outside Zero to Agent's thread queue. Avoid concurrently reconfiguring the
 same native thread through multiple controllers; observing native teardown alone
 does not reserve it against a subsequent native reload.
 
@@ -191,24 +191,24 @@ does not reserve it against a subsequent native reload.
 
 The Codex harness changes the low-level embedded agent executor only.
 
-- OpenClaw dynamic tools are supported. Codex asks OpenClaw to execute
-  those tools, so OpenClaw remains in the execution path.
+- Zero to Agent dynamic tools are supported. Codex asks Zero to Agent to execute
+  those tools, so Zero to Agent remains in the execution path.
 - Codex-native shell, patch, MCP, and native app tools are owned by Codex.
-  OpenClaw can observe or block selected native events through the
+  Zero to Agent can observe or block selected native events through the
   supported relay, but it does not rewrite native tool arguments.
-- `gateway_exec` and `gateway_process` are OpenClaw-owned dynamic tools. They
+- `gateway_exec` and `gateway_process` are Zero to Agent-owned dynamic tools. They
   deliberately re-enter Gateway exec preparation for agent-readable Secret
   Store environment and protected egress; those values never flow into Codex
   native shell.
-- Codex owns native compaction. OpenClaw keeps a transcript mirror for
+- Codex owns native compaction. Zero to Agent keeps a transcript mirror for
   channel history, search, `/new`, `/reset`, and future model or harness
-  switching, but does not replace Codex compaction with an OpenClaw or
+  switching, but does not replace Codex compaction with a Zero to Agent or
   context-engine summarizer.
   Completed commentary and tool activity are saved during the turn rather than
   waiting for its final answer, preserving completed work across Gateway interruption.
 - Media generation, media understanding, TTS, approvals, and messaging-tool
-  output continue through the matching OpenClaw provider/model settings.
-- `tool_result_persist` applies to OpenClaw-owned transcript tool results,
+  output continue through the matching Zero to Agent provider/model settings.
+- `tool_result_persist` applies to Zero to Agent-owned transcript tool results,
   not Codex-native tool result records.
 
 For hook layers, supported V1 surfaces, native permission handling, queue

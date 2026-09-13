@@ -28,9 +28,9 @@ type ProviderAuthMethodNonInteractiveValidationContext = Parameters<
 >[0];
 
 const ANTHROPIC_SETUP_TOKEN_NOTE_LINES = [
-  "Anthropic setup-token auth is supported in OpenClaw.",
-  "OpenClaw prefers the native Claude CLI runtime when it is available on the host.",
-  "Anthropic staff told us this OpenClaw path is allowed again.",
+  "Anthropic setup-token auth is supported in Zero to Agent.",
+  "Zero to Agent prefers the native Claude CLI runtime when it is available on the host.",
+  "Anthropic staff told us this Zero to Agent path is allowed again.",
   `If you want a direct API billing path instead, use ${formatCliCommand("openclaw models auth login --provider anthropic --method api-key --set-default")} or ${formatCliCommand("openclaw models auth login --provider anthropic --method cli --set-default")}.`,
 ] as const;
 

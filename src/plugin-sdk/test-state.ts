@@ -1,4 +1,4 @@
-// Test-state exports provide isolated OpenClaw filesystem and environment fixtures.
+// Test-state exports provide isolated Zero to Agent filesystem and environment fixtures.
 export {
   createOpenClawTestState,
   withOpenClawTestState,

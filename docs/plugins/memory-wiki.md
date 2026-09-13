@@ -112,7 +112,7 @@ openclaw wiki okf import ./bundles/ga4
 Import an unpacked Open Knowledge Format bundle into wiki concept pages. Good
 fit when a data catalog, documentation crawler, or enrichment agent already
 produces OKF: keep OKF as the portable exchange artifact, let `memory-wiki`
-turn it into OpenClaw-native concept pages and compiled digests.
+turn it into Zero to Agent-native concept pages and compiled digests.
 
 - non-reserved `.md` files are concept documents
 - each imported concept requires a non-empty `type` frontmatter field; missing `type` produces a `missing-type` warning and the file is skipped
@@ -206,7 +206,7 @@ claims:
 ## Compile pipeline
 
 Compile reads wiki pages, normalizes summaries, and persists a machine-facing
-snapshot in OpenClaw's shared SQLite plugin state. Runtime code uses the
+snapshot in Zero to Agent's shared SQLite plugin state. Runtime code uses the
 lifecycle-owned owner snapshot to load SQLite during async prompt preparation;
 synchronous prompt assembly never scrapes Markdown or reads cache files.
 Compiled output also powers first-pass wiki indexing for search/get, claim-id
@@ -353,7 +353,7 @@ Put config under `plugins.entries.memory-wiki.config`:
           obsidian: {
             enabled: true,
             useOfficialCli: true,
-            vaultName: "OpenClaw Wiki",
+            vaultName: "Zero to Agent Wiki",
             openAfterWrites: false,
           },
           bridge: {
@@ -419,7 +419,7 @@ directory.
 ### Per-agent vaults
 
 Set `vault.scope` to `agent` to give every configured agent a separate wiki.
-In this scope, `vault.path` is a parent directory and OpenClaw appends the
+In this scope, `vault.path` is a parent directory and Zero to Agent appends the
 normalized agent id:
 
 ```json5

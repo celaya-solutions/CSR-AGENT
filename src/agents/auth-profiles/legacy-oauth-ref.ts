@@ -1,6 +1,6 @@
 /**
  * Legacy OAuth reference recognizer.
- * Used by migration/health code to detect older Codex/OpenClaw credential
+ * Used by migration/health code to detect older Codex/Zero to Agent credential
  * sidecar references without accepting arbitrary ref-like objects.
  */
 import { isRecord } from "@openclaw/normalization-core/record-coerce";

@@ -1,4 +1,4 @@
-// OpenClaw Control – Service Worker
+// Zero to Agent Control – Service Worker
 // Handles offline caching and push notifications.
 
 const CACHE_PREFIX = "openclaw-control-";
@@ -144,10 +144,10 @@ self.addEventListener("push", (event) => {
   try {
     data = event.data.json();
   } catch {
-    data = { title: "OpenClaw", body: event.data.text() };
+    data = { title: "Zero to Agent", body: event.data.text() };
   }
 
-  const title = data.title || "OpenClaw";
+  const title = data.title || "Zero to Agent";
   const options = {
     body: data.body || "",
     icon: "./apple-touch-icon.png",

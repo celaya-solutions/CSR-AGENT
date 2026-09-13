@@ -5,7 +5,7 @@ read_when:
 title: "Nextcloud Talk"
 ---
 
-Nextcloud Talk is a downloadable channel plugin (`@openclaw/nextcloud-talk`) that connects OpenClaw to a self-hosted Nextcloud instance through a Talk webhook bot. Direct messages, rooms, reactions, and markdown messages are supported; media goes out as URLs.
+Nextcloud Talk is a downloadable channel plugin (`@openclaw/nextcloud-talk`) that connects Zero to Agent to a self-hosted Nextcloud instance through a Talk webhook bot. Direct messages, rooms, reactions, and markdown messages are supported; media goes out as URLs.
 
 ## Install
 
@@ -29,13 +29,13 @@ Check the [application result](/plugins/manage-plugins#apply-changes-and-inspect
 2. On your Nextcloud server, create a bot:
 
    ```bash
-   ./occ talk:bot:install "OpenClaw" "<shared-secret>" "<webhook-url>" --feature webhook --feature response --feature reaction
+   ./occ talk:bot:install "Zero to Agent" "<shared-secret>" "<webhook-url>" --feature webhook --feature response --feature reaction
    ```
 
    Keep `--feature response`: without it, outbound replies fail with 401. Repair an existing bot with `./occ talk:bot:state --feature webhook --feature response --feature reaction <botId> 1`.
 
 3. Enable the bot in the target room settings.
-4. Configure OpenClaw:
+4. Configure Zero to Agent:
    - Config: `channels.nextcloud-talk.baseUrl` + `channels.nextcloud-talk.botSecret`
    - Or env: `NEXTCLOUD_TALK_BOT_SECRET` (default account only)
 
@@ -84,7 +84,7 @@ Minimal config:
 
 - Bots cannot initiate DMs. The user must message the bot first.
 - The webhook URL must be reachable from the Nextcloud server; set `webhookPublicUrl` when the gateway sits behind a proxy. Webhook requests are HMAC-SHA256 signed with the bot secret; invalid signatures are rejected and rate limited.
-- Message webhooks return HTTP 200 only after the raw event is durably stored; storage failures return HTTP 500. The durable `200` carries `x-openclaw-delivery-accepted: durable`, so reverse proxies can require the marker to distinguish OpenClaw acceptance from a generic `200`. Unsupported non-message events return HTTP 200 without the marker and are logged as ignored.
+- Message webhooks return HTTP 200 only after the raw event is durably stored; storage failures return HTTP 500. The durable `200` carries `x-openclaw-delivery-accepted: durable`, so reverse proxies can require the marker to distinguish Zero to Agent acceptance from a generic `200`. Unsupported non-message events return HTTP 200 without the marker and are logged as ignored.
 - The webhook listener admits at most 64 concurrent unauthenticated body reads; overflow requests receive `HTTP/1.1 429` with `Connection: close`. Requests on one keep-alive connection are answered in order, so a queued delivery's `200` acknowledgement always flushes before any overflow rejection closes the socket. The 64-read budget is fixed and not configurable. Deployments that regularly saturate it should reduce or buffer upstream concurrency (for example, cap reverse-proxy fan-in toward the listener) and accept that deliveries refused during saturation may be lost.
 - Media uploads are not supported by the bot API; outbound media is appended as an `Attachment: <url>` line.
 - The webhook payload does not distinguish DMs from rooms; set `apiUser` + `apiPassword` to enable room-type lookups (cached about 5 minutes). Without them, every conversation is treated as a room.

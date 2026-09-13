@@ -2,7 +2,7 @@
   "id": "gmi",
   "categories": ["models"],
   "name": "GMI Cloud",
-  "description": "OpenClaw GMI Cloud provider plugin.",
+  "description": "Zero to Agent GMI Cloud provider plugin.",
   "activation": {
     "onStartup": false
   },

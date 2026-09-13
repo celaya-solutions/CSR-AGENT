@@ -208,7 +208,7 @@ export async function azureSpeechTTS(params: {
         "Content-Type": "application/ssml+xml",
         "Ocp-Apim-Subscription-Key": params.apiKey,
         "X-Microsoft-OutputFormat": outputFormat,
-        "User-Agent": "OpenClaw",
+        "User-Agent": "Zero to Agent",
       },
       body: buildAzureSpeechSsml({
         text: params.text,

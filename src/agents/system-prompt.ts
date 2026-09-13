@@ -1,5 +1,5 @@
 /**
- * OpenClaw system prompt renderer.
+ * Zero to Agent system prompt renderer.
  *
  * Assembles runtime, workspace, tooling, memory, delegation, channel, and cache-boundary prompt sections.
  */
@@ -600,7 +600,7 @@ function buildMessagingSection(params: {
       : []),
     subagentOrchestrationGuidance,
     completionEventGuidance,
-    "- Provider messaging: never exec/curl; OpenClaw routes.",
+    "- Provider messaging: never exec/curl; Zero to Agent routes.",
     messageToolAvailable
       ? [
           "",
@@ -692,8 +692,8 @@ function buildDocsSection(params: {
     docsPath ? "Mirror: https://docs.openclaw.ai" : undefined,
     sourcePath ? `Source: ${sourcePath}` : "Source: https://github.com/openclaw/openclaw",
     docsPath
-      ? `OpenClaw behavior questions: docs first${params.readToolName ? ` via \`${params.readToolName}\`/local search` : " using available tools"}. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.`
-      : "OpenClaw behavior questions: docs mirror first when web exists. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.",
+      ? `Zero to Agent behavior questions: docs first${params.readToolName ? ` via \`${params.readToolName}\`/local search` : " using available tools"}. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.`
+      : "Zero to Agent behavior questions: docs mirror first when web exists. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.",
     params.hasGateway
       ? "Config field: use `gateway(config.schema.lookup)` with an exact path only when that action is exposed by the tool schema. Otherwise use `docs/gateway/configuration.md` and `docs/gateway/configuration-reference.md`."
       : "Configuration docs: `docs/gateway/configuration.md`, `docs/gateway/configuration-reference.md`.",
@@ -803,7 +803,7 @@ export function buildAgentSystemPrompt(params: {
   proactiveSubagentOrchestration?: boolean;
   /** Whether ACP-specific routing guidance should be included. Defaults to true. */
   acpEnabled?: boolean;
-  /** Prompt surface controls runtime-specific fallback fragments. Defaults to OpenClaw main. */
+  /** Prompt surface controls runtime-specific fallback fragments. Defaults to Zero to Agent main. */
   promptSurface?: AgentPromptSurfaceKind;
   /** Registered runtime slash/native command names such as `codex`. */
   nativeCommandNames?: string[];
@@ -837,7 +837,7 @@ export function buildAgentSystemPrompt(params: {
   const runtimeInfo = params.runtimeInfo;
   const modelIdentityLine = buildModelIdentityPromptLine(runtimeInfo?.model);
   if (promptMode === "none") {
-    return ["You are a personal assistant running inside OpenClaw.", modelIdentityLine]
+    return ["You are a personal assistant running inside Zero to Agent.", modelIdentityLine]
       .filter(Boolean)
       .join("\n");
   }
@@ -893,7 +893,7 @@ export function buildAgentSystemPrompt(params: {
     gateway:
       "Read this Gateway's config/schema; owner-only self-update on explicit request; automatic restart and completion notice",
     agents_list: acpSpawnRuntimeEnabled
-      ? "List allowed OpenClaw subagent ids; not ACP ids"
+      ? "List allowed Zero to Agent subagent ids; not ACP ids"
       : "List allowed subagent ids",
     sessions_list: "List visible sessions; filters/last",
     sessions_history: "Read visible session/subagent history",
@@ -1095,7 +1095,7 @@ export function buildAgentSystemPrompt(params: {
     }),
     "",
   ];
-  // CLI backends own native file tools outside OpenClaw's projected tool list.
+  // CLI backends own native file tools outside Zero to Agent's projected tool list.
   // Keep their skill catalog visible while embedded runs require a real read tool.
   const canAccessSkills = params.codeModeActive
     ? visibleTools.has("exec")
@@ -1182,7 +1182,7 @@ export function buildAgentSystemPrompt(params: {
   });
   const stablePrefix = cacheStablePromptPrefix(stablePrefixCacheKey, () => {
     const lines = [
-      "You are a personal assistant running inside OpenClaw.",
+      "You are a personal assistant running inside Zero to Agent.",
       "",
       ...(includeToolGuidance
         ? [
@@ -1304,7 +1304,7 @@ export function buildAgentSystemPrompt(params: {
           `Only start a new \`${tool}\` call if the user clearly asks for different/new media.`,
         ]),
       "",
-      "## OpenClaw Control",
+      "## Zero to Agent Control",
       "Do not invent commands.",
       hasOpenClaw
         ? "Gateway restart, config, channels, plugins, agents, models/providers: ask `openclaw`."
@@ -1315,7 +1315,7 @@ export function buildAgentSystemPrompt(params: {
         "For the Gateway hosting this session:",
         "In a connected chat, the owner can send `/update` with commands.restart enabled (the default), regardless of the agent's tool profile.",
         hasGateway
-          ? "Update OpenClaw: `gateway` action update.run, only on an explicit owner request; the runtime coordinates restart and completion notices. If refused, explain why and relay the tool's exact recovery instructions; any manual update command is for the operator to run outside the Gateway service."
+          ? "Update Zero to Agent: `gateway` action update.run, only on an explicit owner request; the runtime coordinates restart and completion notices. If refused, explain why and relay the tool's exact recovery instructions; any manual update command is for the operator to run outside the Gateway service."
           : "For a chat update request, direct the user to `/update`. Outside chat, use the Control UI or ask the operator to run `openclaw update` in a terminal.",
         "Missing chat ownership needs owner setup in the Control UI or help from the Gateway operator.",
         "Never run openclaw update, npm install -g openclaw, or stop/restart the gateway service via exec.",
@@ -1401,7 +1401,7 @@ export function buildAgentSystemPrompt(params: {
       params.sandboxInfo?.enabled ? "" : "",
       ...bootstrapSystemPromptSections,
       "## Workspace Files (injected)",
-      "User-editable; OpenClaw loads below as Project Context.",
+      "User-editable; Zero to Agent loads below as Project Context.",
       "",
     ];
 

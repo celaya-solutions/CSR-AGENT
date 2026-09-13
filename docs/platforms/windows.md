@@ -1,13 +1,13 @@
 ---
 summary: "Windows support: Windows Hub, native CLI and Gateway, WSL2 gateway setup, node mode, and troubleshooting"
 read_when:
-  - Installing OpenClaw on Windows
+  - Installing Zero to Agent on Windows
   - Choosing between Windows Hub, native Windows, and WSL2
   - Setting up the Windows companion app or Windows node mode
 title: "Windows"
 ---
 
-OpenClaw ships a native **Windows Hub** companion app plus Windows CLI support.
+Zero to Agent ships a native **Windows Hub** companion app plus Windows CLI support.
 Use Windows Hub for a desktop app with setup, tray status, chat, Command
 Center diagnostics, and Windows node capabilities. Use the PowerShell
 installer for the CLI/Gateway directly. Use WSL2 for the most
@@ -19,7 +19,7 @@ Windows Hub is the native WinUI companion app for Windows 10 20H2+ and
 Windows 11. It installs without administrator privileges and ships signed x64
 and ARM64 installers from its own release page.
 
-Windows Hub publishes independently from the OpenClaw CLI and Gateway. Download
+Windows Hub publishes independently from the Zero to Agent CLI and Gateway. Download
 the latest stable Hub installer from the
 [Windows Hub releases page](https://github.com/openclaw/openclaw-windows-node/releases/latest)
 or directly via `releases/latest/download`:
@@ -28,11 +28,11 @@ or directly via `releases/latest/download`:
 - [OpenClawCompanion-Setup-arm64.exe](https://github.com/openclaw/openclaw-windows-node/releases/latest/download/OpenClawCompanion-Setup-arm64.exe)
 
 If a link above 404s, visit the [Windows Hub releases page](https://github.com/openclaw/openclaw-windows-node/releases)
-and open the newest stable Windows Hub release. Regular OpenClaw stable releases
+and open the newest stable Windows Hub release. Regular Zero to Agent stable releases
 also mirror a pinned, release-validated Windows Hub build; that mirror can lag a
 newer standalone Hub release.
 
-After install, launch **OpenClaw Companion** from the Start menu or system
+After install, launch **Zero to Agent Companion** from the Start menu or system
 tray. The installer also adds shortcuts for Gateway Setup, Chat, Settings,
 Check for Updates, and uninstall.
 
@@ -69,7 +69,7 @@ the tray to confirm connection, pairing, node status, and channel health.
 
 ## Windows node mode
 
-Windows Hub can register as an OpenClaw node so the agent can use declared
+Windows Hub can register as a Zero to Agent node so the agent can use declared
 Windows-native capabilities through the Gateway. Node commands must be
 declared by the node, included in its approved surface, and allowed by Gateway
 policy before they run; see
@@ -118,7 +118,7 @@ and `camera.clip` need explicit `gateway.nodes.commands.allow` opt-in.
 
 Windows Hub can expose the same Windows-native capability registry as a local
 MCP server on loopback, so local MCP clients can drive Windows capabilities
-without a running OpenClaw Gateway.
+without a running Zero to Agent Gateway.
 
 Enable it in Windows Hub Settings under the developer/advanced section. The
 app shows the loopback endpoint and bearer token once the server is enabled.
@@ -134,7 +134,7 @@ Mode matrix:
 
 ## Native Windows CLI and Gateway
 
-For terminal-first use, install OpenClaw from PowerShell:
+For terminal-first use, install Zero to Agent from PowerShell:
 
 ```powershell
 iwr -useb https://openclaw.ai/install.ps1 | iex
@@ -149,13 +149,13 @@ openclaw gateway status --json
 ```
 
 Managed startup uses Windows Scheduled Tasks when available. The task keeps
-the readable `gateway.cmd` script in the OpenClaw state dir but launches it
+the readable `gateway.cmd` script in the Zero to Agent state dir but launches it
 through a generated `gateway.vbs` WScript wrapper, so the background Gateway
-does not open a visible console window. If task creation is denied, OpenClaw
+does not open a visible console window. If task creation is denied, Zero to Agent
 falls back to a per-user Startup-folder login item.
 
 The hidden launcher owns the supervised Gateway process tree. Ending the task
-with `schtasks /end /tn "OpenClaw Gateway"`, `Stop-ScheduledTask`, or Task
+with `schtasks /end /tn "Zero to Agent Gateway"`, `Stop-ScheduledTask`, or Task
 Scheduler's **End** action terminates the Gateway and its descendants. After
 updating an older installation, run `openclaw gateway install --force` to
 regenerate the launcher if the update did not refresh it.
@@ -215,7 +215,7 @@ Restart WSL from PowerShell:
 wsl --shutdown
 ```
 
-Then install OpenClaw inside WSL with the Linux quickstart:
+Then install Zero to Agent inside WSL with the Linux quickstart:
 
 ```bash
 curl -fsSL https://openclaw.ai/install.sh | bash
@@ -316,8 +316,8 @@ occupied port. Fix the logged cause, then run `openclaw gateway start`.
 
 ### The tray icon does not appear
 
-Check Task Manager for `OpenClaw.Tray.WinUI.exe`. If it is running, open the
-hidden tray-icons area and pin it. If not, launch **OpenClaw Companion** from
+Check Task Manager for `Zero to Agent.Tray.WinUI.exe`. If it is running, open the
+hidden tray-icons area and pin it. If not, launch **Zero to Agent Companion** from
 the Start menu.
 
 ### Local setup fails

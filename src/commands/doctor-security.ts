@@ -99,8 +99,8 @@ function collectExecPolicyConflictWarnings(
   approvals: ExecApprovalsFile,
 ): SecurityAuditFinding[] {
   const findings: SecurityAuditFinding[] = [];
-  const defaultRequestedSecuritySource = "OpenClaw default (full)";
-  const defaultRequestedAskSource = "OpenClaw default (off)";
+  const defaultRequestedSecuritySource = "Zero to Agent default (full)";
+  const defaultRequestedAskSource = "Zero to Agent default (off)";
 
   const maybeWarn = (params: {
     scopeLabel: string;

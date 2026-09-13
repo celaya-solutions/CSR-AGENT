@@ -1,4 +1,4 @@
-// Raft plugin entrypoint registers its OpenClaw integration.
+// Raft plugin entrypoint registers its Zero to Agent integration.
 import { defineBundledChannelEntry } from "openclaw/plugin-sdk/channel-entry-contract";
 
 export default defineBundledChannelEntry({

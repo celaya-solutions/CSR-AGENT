@@ -1,8 +1,8 @@
-# OpenClaw Kilo Gateway Provider
+# Zero to Agent Kilo Gateway Provider
 
-Official OpenClaw provider plugin for Kilo Gateway.
+Official Zero to Agent provider plugin for Kilo Gateway.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/kilocode-provider

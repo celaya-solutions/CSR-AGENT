@@ -1,9 +1,9 @@
 ---
-summary: "Schema-accurate configuration examples for common OpenClaw setups"
+summary: "Schema-accurate configuration examples for common Zero to Agent setups"
 read_when:
-  - Learning how to configure OpenClaw
+  - Learning how to configure Zero to Agent
   - Looking for configuration examples
-  - Setting up OpenClaw for the first time
+  - Setting up Zero to Agent for the first time
 title: "Configuration examples"
 ---
 

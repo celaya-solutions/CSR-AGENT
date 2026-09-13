@@ -1,4 +1,4 @@
-// State database path helpers resolve shared OpenClaw state DB paths.
+// State database path helpers resolve shared Zero to Agent state DB paths.
 import path from "node:path";
 import { resolveStateDir } from "../config/paths.js";
 

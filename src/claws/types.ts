@@ -1,4 +1,4 @@
-// Shared types for grouped OpenClaw Claw manifests and read-only add plans.
+// Shared types for grouped Zero to Agent Claw manifests and read-only add plans.
 import type { ToolProfileId } from "../agents/tool-policy-shared.js";
 import type { AgentConfig } from "../config/types.agents.js";
 

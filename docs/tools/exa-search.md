@@ -48,7 +48,7 @@ on the next startup. See [Apply changes and inspect](/plugins/manage-plugins#app
         config: {
           webSearch: {
             apiKey: "exa-...", // optional if EXA_API_KEY is set
-            baseUrl: "https://api.exa.ai", // optional; OpenClaw appends /search
+            baseUrl: "https://api.exa.ai", // optional; Zero to Agent appends /search
           },
         },
       },
@@ -71,7 +71,7 @@ a gateway install, put it in `~/.openclaw/.env`. See
 ## Base URL override
 
 Set `plugins.entries.exa.config.webSearch.baseUrl` to route Exa search
-requests through a compatible proxy or alternate endpoint. OpenClaw
+requests through a compatible proxy or alternate endpoint. Zero to Agent
 normalizes bare hosts by prepending `https://` and appends `/search` unless
 the path already ends there. The resolved endpoint is part of the search
 cache key, so results from different endpoints are never shared.

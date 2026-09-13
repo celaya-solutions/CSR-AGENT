@@ -1,6 +1,6 @@
-# Tavily OpenClaw plugin
+# Tavily Zero to Agent plugin
 
-Official OpenClaw plugin for Tavily.
+Official Zero to Agent plugin for Tavily.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/tavily-plugin
 
 ## Docs
 
-See `docs/tools/tavily.md` in the OpenClaw repository, or the published docs at `https://docs.openclaw.ai/tools/tavily`.
+See `docs/tools/tavily.md` in the Zero to Agent repository, or the published docs at `https://docs.openclaw.ai/tools/tavily`.

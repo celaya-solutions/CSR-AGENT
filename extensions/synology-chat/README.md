@@ -1,11 +1,11 @@
-# OpenClaw Synology Chat
+# Zero to Agent Synology Chat
 
-Official OpenClaw channel plugin for Synology Chat conversations and direct messages.
+Official Zero to Agent channel plugin for Synology Chat conversations and direct messages.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/synology-chat
 ```
 
-Configure Synology Chat credentials and allowed conversations in OpenClaw, then use the plugin to route messages between Synology Chat and OpenClaw agents.
+Configure Synology Chat credentials and allowed conversations in Zero to Agent, then use the plugin to route messages between Synology Chat and Zero to Agent agents.

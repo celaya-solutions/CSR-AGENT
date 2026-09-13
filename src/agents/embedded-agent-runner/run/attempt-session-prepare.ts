@@ -136,7 +136,7 @@ export async function prepareEmbeddedAttemptAgentSession(input: {
     extensionFactories,
   });
   await resourceLoader.reload();
-  // reload() rehydrates disk settings. Reapply OpenClaw's context budget and
+  // reload() rehydrates disk settings. Reapply Zero to Agent's context budget and
   // auto-compaction guards before the session can submit a prompt (#75799).
   applyAgentCompactionSettingsFromConfig({
     settingsManager,

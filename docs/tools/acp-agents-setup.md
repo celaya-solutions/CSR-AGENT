@@ -2,7 +2,7 @@
 summary: "Setting up ACP agents: acpx harness config, plugin setup, permissions"
 read_when:
   - Installing or configuring the acpx harness for Claude Code / Codex / Gemini CLI
-  - Enabling the plugin-tools or OpenClaw-tools MCP bridge
+  - Enabling the plugin-tools or Zero to Agent-tools MCP bridge
   - Configuring ACP permission modes
 title: "ACP agents — setup"
 ---
@@ -16,7 +16,7 @@ app-server runtime config, use [Codex harness](/plugins/codex-harness). For
 OpenAI API keys or Codex OAuth model-provider config, use
 [OpenAI](/providers/openai).
 
-Codex has two OpenClaw routes:
+Codex has two Zero to Agent routes:
 
 | Route                      | Config/command                                         | Setup page                              |
 | -------------------------- | ------------------------------------------------------ | --------------------------------------- |
@@ -44,7 +44,7 @@ Built-in acpx harness aliases (from the pinned `acpx` dependency):
 | `kiro`       | [Kiro CLI](https://kiro.dev)                                                                           |
 | `mux`        | [Mux](https://mux.coder.com)                                                                           |
 | `opencode`   | [OpenCode](https://opencode.ai)                                                                        |
-| `openclaw`   | OpenClaw ACP bridge (native `openclaw acp`)                                                            |
+| `openclaw`   | Zero to Agent ACP bridge (native `openclaw acp`)                                                       |
 | `pi`         | [Pi Coding Agent](https://github.com/earendil-works/pi)                                                |
 | `qoder`      | [Qoder CLI](https://docs.qoder.com/cli/acp)                                                            |
 | `qwen`       | [Qwen Code](https://github.com/QwenLM/qwen-code)                                                       |
@@ -52,15 +52,15 @@ Built-in acpx harness aliases (from the pinned `acpx` dependency):
 
 `factory-droid` and `factorydroid` also resolve to the built-in `droid` adapter.
 
-When OpenClaw uses the acpx backend, prefer these values for `agentId` unless your acpx config defines custom agent aliases.
+When Zero to Agent uses the acpx backend, prefer these values for `agentId` unless your acpx config defines custom agent aliases.
 If your local Cursor install still exposes ACP as `agent acp`, override the `cursor` agent command in your acpx config instead of changing the built-in default.
 
-Direct acpx CLI usage can also target arbitrary adapters via `--agent <command>`, but that raw escape hatch is an acpx CLI feature (not the normal OpenClaw `agentId` path).
+Direct acpx CLI usage can also target arbitrary adapters via `--agent <command>`, but that raw escape hatch is an acpx CLI feature (not the normal Zero to Agent `agentId` path).
 
 Model control is adapter-capability dependent. Codex ACP model refs are
-normalized by OpenClaw before startup. Other harnesses need ACP `models` plus
+normalized by Zero to Agent before startup. Other harnesses need ACP `models` plus
 `session/set_model` support; if a harness exposes neither that ACP capability
-nor its own startup model flag, OpenClaw/acpx cannot force a model selection.
+nor its own startup model flag, Zero to Agent/acpx cannot force a model selection.
 
 ## Required config
 
@@ -121,7 +121,7 @@ See [Configuration Reference](/gateway/configuration-reference).
 
 ## Repair existing bare-session histories
 
-ACPX isolates bare session names by OpenClaw owner. If a session reports
+ACPX isolates bare session names by Zero to Agent owner. If a session reports
 `SESSION_OWNER_MIGRATION_REQUIRED`, stop the Gateway and run
 `openclaw doctor --fix`, then restart. Doctor uses the same service workspace
 as the Gateway; ACPX's default state directory is `<service workspace>/state`.
@@ -226,16 +226,16 @@ See [Plugins](/tools/plugin).
 
 `acpx` auto-downloads ACP adapters (for example the Claude and Codex ACP
 bridges) via `npx` on first use. You do not need to install adapter packages
-manually, and there is no separate postinstall step for OpenClaw itself. If an
+manually, and there is no separate postinstall step for Zero to Agent itself. If an
 adapter download or spawn fails, `/acp doctor` reports the failure.
 
 ### Plugin tools MCP bridge
 
-By default, ACPX sessions do **not** expose OpenClaw plugin-registered tools to
+By default, ACPX sessions do **not** expose Zero to Agent plugin-registered tools to
 the ACP harness.
 
 If you want ACP agents such as Codex or Claude Code to call installed
-OpenClaw plugin tools such as memory recall/store, enable the dedicated bridge:
+Zero to Agent plugin tools such as memory recall/store, enable the dedicated bridge:
 
 ```bash
 openclaw config set plugins.entries.acpx.config.pluginToolsMcpBridge true
@@ -245,7 +245,7 @@ What this does:
 
 - Injects a built-in MCP server named `openclaw-plugin-tools` into ACPX session
   bootstrap.
-- Exposes plugin tools already registered by installed and enabled OpenClaw
+- Exposes plugin tools already registered by installed and enabled Zero to Agent
   plugins.
 - Passes the active ACP session identity to plugin tool factories, so
   agent-scoped tools stay in that agent's namespace.
@@ -256,15 +256,15 @@ Security and trust notes:
 - This expands the ACP harness tool surface.
 - ACP agents get access only to plugin tools already active in the gateway.
 - Treat this as the same trust boundary as letting those plugins execute in
-  OpenClaw itself.
+  Zero to Agent itself.
 - Review installed plugins before enabling it.
 
 Custom `mcpServers` still work as before. The built-in plugin-tools bridge is an
 additional opt-in convenience, not a replacement for generic MCP server config.
 
-### OpenClaw tools MCP bridge
+### Zero to Agent tools MCP bridge
 
-By default, ACPX sessions also do **not** expose built-in OpenClaw tools through
+By default, ACPX sessions also do **not** expose built-in Zero to Agent tools through
 MCP. Enable the separate core-tools bridge when an ACP agent needs selected
 built-in tools such as `cron`:
 
@@ -276,7 +276,7 @@ What this does:
 
 - Injects a built-in MCP server named `openclaw-tools` into ACPX session
   bootstrap.
-- Exposes selected built-in OpenClaw tools. The initial server exposes `cron`.
+- Exposes selected built-in Zero to Agent tools. The initial server exposes `cron`.
 - Keeps core-tool exposure explicit and default-off.
 
 ### Runtime operation timeout configuration
@@ -290,7 +290,7 @@ different operation limit:
 openclaw config set plugins.entries.acpx.config.timeoutSeconds 180
 ```
 
-Runtime turns use OpenClaw agent/run timeouts, including `/acp timeout`.
+Runtime turns use Zero to Agent agent/run timeouts, including `/acp timeout`.
 `sessions_spawn` does not accept per-call timeout overrides; the operator path
 is `agents.defaults.subagents.runTimeoutSeconds`. With the default hybrid reload
 mode, changing `timeoutSeconds` automatically reloads the plugin. See
@@ -317,9 +317,9 @@ permission prompts. This does not disable ACP form or URL elicitation during a
 channel-delivered turn: those requests use transient Gateway questions instead.
 The acpx plugin provides two config keys that control harness permissions:
 
-These ACPX harness permissions are separate from OpenClaw exec approvals and separate from CLI-backend vendor bypass flags such as Claude CLI `--permission-mode bypassPermissions`. ACPX `approve-all` is the harness-level break-glass switch for ACP sessions.
+These ACPX harness permissions are separate from Zero to Agent exec approvals and separate from CLI-backend vendor bypass flags such as Claude CLI `--permission-mode bypassPermissions`. ACPX `approve-all` is the harness-level break-glass switch for ACP sessions.
 
-For the broader comparison between OpenClaw `tools.exec.mode`, Codex Guardian
+For the broader comparison between Zero to Agent `tools.exec.mode`, Codex Guardian
 approvals, and ACPX harness permissions, see
 [Permission modes](/tools/permission-modes).
 
@@ -355,7 +355,7 @@ With the default hybrid reload mode, these changes automatically reload the plug
 See [Config hot reload](/gateway/configuration/hot-reload) for other reload modes.
 
 <Warning>
-OpenClaw defaults to `permissionMode=approve-reads` and `nonInteractivePermissions=fail`. In non-interactive ACP sessions, any write or exec that triggers a permission prompt can fail with `PermissionPromptUnavailableError: Permission prompt unavailable in non-interactive mode`.
+Zero to Agent defaults to `permissionMode=approve-reads` and `nonInteractivePermissions=fail`. In non-interactive ACP sessions, any write or exec that triggers a permission prompt can fail with `PermissionPromptUnavailableError: Permission prompt unavailable in non-interactive mode`.
 
 If you need to restrict permissions, set `nonInteractivePermissions` to `deny` so sessions degrade gracefully instead of crashing.
 </Warning>

@@ -227,7 +227,7 @@ export async function beginDoctorMaintenance(params: {
       throw error;
     }
     throw new Error(
-      `Doctor could not enter maintenance. ${String(error)} Stop the Gateway service and other OpenClaw processes using this state, then run ${formatCliCommand("openclaw doctor --fix", env)} from an independent shell.`,
+      `Doctor could not enter maintenance. ${String(error)} Stop the Gateway service and other Zero to Agent processes using this state, then run ${formatCliCommand("openclaw doctor --fix", env)} from an independent shell.`,
       { cause: error },
     );
   }

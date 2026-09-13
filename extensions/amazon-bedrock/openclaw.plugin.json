@@ -2,7 +2,7 @@
   "id": "amazon-bedrock",
   "categories": ["models"],
   "name": "Amazon Bedrock",
-  "description": "OpenClaw Amazon Bedrock provider plugin with model discovery, embeddings, and guardrail support.",
+  "description": "Zero to Agent Amazon Bedrock provider plugin with model discovery, embeddings, and guardrail support.",
   "activation": {
     "onStartup": false
   },
@@ -58,7 +58,7 @@
     },
     "discovery.enabled": {
       "label": "Enable Discovery",
-      "help": "When false, OpenClaw keeps the Amazon Bedrock plugin available but skips implicit startup discovery. When true, discovery can run even without AWS auth env markers."
+      "help": "When false, Zero to Agent keeps the Amazon Bedrock plugin available but skips implicit startup discovery. When true, discovery can run even without AWS auth env markers."
     },
     "discovery.region": {
       "label": "Discovery Region",

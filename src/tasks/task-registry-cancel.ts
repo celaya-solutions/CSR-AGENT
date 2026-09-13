@@ -159,7 +159,7 @@ export async function cancelTaskById(params: {
         // The live cron service owns the abort signal; registry finalization below
         // keeps CLI/Gateway callers aligned while the run unwinds.
       } else if (!childSessionKey) {
-        // Harness-mirrored rows have no OpenClaw child session to terminate.
+        // Harness-mirrored rows have no Zero to Agent child session to terminate.
         // Cancellation clears only their task-registry record.
       } else if (task.runtime === "acp") {
         const { getAcpSessionManager } = await loadTaskRegistryControlRuntime();

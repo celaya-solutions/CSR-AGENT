@@ -606,14 +606,14 @@ function renderSummary(params: {
     return `${label} snapshot skipped`;
   };
   return [
-    "# OpenClaw Diagnostics Export",
+    "# Zero to Agent Diagnostics Export",
     "",
     "Attach this zip to the bug report. It is designed for maintainers to inspect without asking for raw logs first.",
     "",
     "## Generated",
     "",
     `Generated: ${params.generatedAt}`,
-    `OpenClaw: ${VERSION}`,
+    `Zero to Agent: ${VERSION}`,
     "",
     "## Contents",
     "",

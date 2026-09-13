@@ -1,8 +1,8 @@
-# OpenClaw Vydra Provider
+# Zero to Agent Vydra Provider
 
-Official OpenClaw provider plugin for Vydra image, video, and speech generation.
+Official Zero to Agent provider plugin for Vydra image, video, and speech generation.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/vydra-provider

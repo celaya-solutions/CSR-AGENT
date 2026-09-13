@@ -1,6 +1,6 @@
-# Z.AI OpenClaw provider
+# Z.AI Zero to Agent provider
 
-Official OpenClaw provider plugin for Z.AI.
+Official Zero to Agent provider plugin for Z.AI.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/zai-provider
 
 ## Docs
 
-See `docs/providers/zai.md` in the OpenClaw repository, or the published docs at `https://docs.openclaw.ai/providers/zai`.
+See `docs/providers/zai.md` in the Zero to Agent repository, or the published docs at `https://docs.openclaw.ai/providers/zai`.

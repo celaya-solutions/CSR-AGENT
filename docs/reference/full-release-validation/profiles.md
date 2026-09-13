@@ -66,7 +66,7 @@ Use `live_suite_filter` with `rerun_group=live-e2e` when one live suite failed.
 The former `release-checks` aggregate retry handle is invalid. It silently
 expanded to every release-check lane, including package and Docker setup. Pick
 one concrete group after classifying the failed surface.
-The umbrella/controller also rejects `qa`; direct `OpenClaw Release Checks`
+The umbrella/controller also rejects `qa`; direct `Zero to Agent Release Checks`
 dispatches may use it only as a deliberate manual aggregate of `qa-parity` and
 `qa-live`. Live and QA-live filters must match their owning group; cross-OS
 filters are also accepted for `all`.
@@ -114,4 +114,4 @@ them blocking. When
 WhatsApp, or Slack, the matching `OPENCLAW_RELEASE_QA_*_LIVE_CI_ENABLED` repo
 variable must be enabled; otherwise input capture fails instead of silently skipping the lane.
 Use controller groups `qa-parity` or `qa-live` for fresh QA evidence. A direct
-manual `OpenClaw Release Checks` dispatch may use `qa` to aggregate both.
+manual `Zero to Agent Release Checks` dispatch may use `qa` to aggregate both.

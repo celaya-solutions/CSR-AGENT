@@ -14,11 +14,11 @@ Chrome, Chrome node, and Twilio transports, the Parallels macOS VM topology, and
 
 A full Gateway or model API key is not required inside a macOS VM just to give it Chrome. Run the Gateway and agent locally; run a node host in the VM.
 
-| Runs where           | What                                                                                            |
-| -------------------- | ----------------------------------------------------------------------------------------------- |
-| Gateway host         | OpenClaw Gateway, agent workspace, model/API keys, realtime provider, Google Meet plugin config |
-| Parallels macOS VM   | OpenClaw CLI/node host, Chrome, SoX, BlackHole 2ch, a Chrome profile signed in to Google        |
-| Not needed in the VM | Gateway service, agent config, model provider setup                                             |
+| Runs where           | What                                                                                                 |
+| -------------------- | ---------------------------------------------------------------------------------------------------- |
+| Gateway host         | Zero to Agent Gateway, agent workspace, model/API keys, realtime provider, Google Meet plugin config |
+| Parallels macOS VM   | Zero to Agent CLI/node host, Chrome, SoX, BlackHole 2ch, a Chrome profile signed in to Google        |
+| Not needed in the VM | Gateway service, agent config, model provider setup                                                  |
 
 Install VM dependencies, reboot, verify:
 
@@ -75,7 +75,7 @@ Route Meet through that node:
         config: {
           defaultTransport: "chrome-node",
           chrome: {
-            guestName: "OpenClaw Agent",
+            guestName: "Zero to Agent Agent",
             autoJoin: true,
             reuseExistingTab: true,
           },
@@ -103,7 +103,7 @@ openclaw googlemeet test-speech https://meet.google.com/abc-defg-hij
 
 During realtime join, browser automation fills the guest name, clicks Join/Ask to join, and accepts Meet's first-run "Use microphone" prompt when it appears (or "Continue without microphone" during observe-only join and browser-only meeting creation). If the profile is signed out, Meet is waiting for host admission, Chrome needs mic/camera permission, or Meet is stuck on an unresolved prompt, the result includes `manualAction: { reason, message }`. Stop retrying, report that message plus `browserUrl`/`browserTitle`, and retry only after the manual action completes.
 
-If `chromeNode.node` is omitted, OpenClaw auto-selects only when exactly one connected node advertises both `googlemeet.chrome` and browser control; pin `chromeNode.node` (node id, display name, or remote IP) when several capable nodes are connected.
+If `chromeNode.node` is omitted, Zero to Agent auto-selects only when exactly one connected node advertises both `googlemeet.chrome` and browser control; pin `chromeNode.node` (node id, display name, or remote IP) when several capable nodes are connected.
 
 ### Common failure checks
 
@@ -113,19 +113,19 @@ If `chromeNode.node` is omitted, OpenClaw auto-selects only when exactly one con
 | `No connected Google Meet-capable node`                  | Install `npm:@openclaw/google-meet` in the VM, run `openclaw plugins enable browser`, start `openclaw node run`, and approve pairing. If Google Meet was explicitly disabled, enable it too. Confirm `gateway.nodes.commands.allow` includes `googlemeet.chrome` and `browser.proxy`. |
 | `BlackHole 2ch audio device not found`                   | On macOS, install `blackhole-2ch` on the host being checked and reboot.                                                                                                                                                                                                               |
 | `PipeWire-Pulse is unavailable`                          | On Linux, start the desktop user's `pipewire-pulse` service and install `pulseaudio-utils`; do not run the node as root or outside the Chrome user's audio session.                                                                                                                   |
-| Chrome opens but cannot join                             | Sign in to the browser profile in the VM, or keep `chrome.guestName` set. Guest auto-join uses OpenClaw browser automation through the node browser proxy; point the node's `browser.defaultProfile` (or a named existing-session profile) at the profile you want.                   |
-| Duplicate Meet tabs                                      | Leave `chrome.reuseExistingTab: true`. OpenClaw activates an existing tab for the same URL, and creation reuses an in-progress `.../new` or Google account prompt tab, before opening another.                                                                                        |
-| No audio                                                 | Route Meet mic/speaker through the virtual audio path used by OpenClaw; use separate virtual devices or Loopback-style routing for clean duplex audio.                                                                                                                                |
+| Chrome opens but cannot join                             | Sign in to the browser profile in the VM, or keep `chrome.guestName` set. Guest auto-join uses Zero to Agent browser automation through the node browser proxy; point the node's `browser.defaultProfile` (or a named existing-session profile) at the profile you want.              |
+| Duplicate Meet tabs                                      | Leave `chrome.reuseExistingTab: true`. Zero to Agent activates an existing tab for the same URL, and creation reuses an in-progress `.../new` or Google account prompt tab, before opening another.                                                                                   |
+| No audio                                                 | Route Meet mic/speaker through the virtual audio path used by Zero to Agent; use separate virtual devices or Loopback-style routing for clean duplex audio.                                                                                                                           |
 
 ## Install notes
 
-The Chrome talk-back default uses host audio tools that OpenClaw does not bundle or redistribute:
+The Chrome talk-back default uses host audio tools that Zero to Agent does not bundle or redistribute:
 
 - `sox`: command-line audio utility. The plugin issues explicit CoreAudio device commands for the default 24 kHz PCM16 audio bridge.
 - `blackhole-2ch`: macOS virtual audio driver providing the `BlackHole 2ch` device Chrome/Meet route through.
-- `pactl`, `pacat`, and `parec`: Linux PulseAudio utilities used against PipeWire-Pulse to provision and stream through `OpenClaw Meeting Audio`.
+- `pactl`, `pacat`, and `parec`: Linux PulseAudio utilities used against PipeWire-Pulse to provision and stream through `Zero to Agent Meeting Audio`.
 
-SoX is licensed `LGPL-2.0-only AND GPL-2.0-only`; BlackHole is GPL-3.0. If you build an installer or appliance that bundles BlackHole with OpenClaw, review BlackHole's upstream licensing or get a separate license from Existential Audio.
+SoX is licensed `LGPL-2.0-only AND GPL-2.0-only`; BlackHole is GPL-3.0. If you build an installer or appliance that bundles BlackHole with Zero to Agent, review BlackHole's upstream licensing or get a separate license from Existential Audio.
 
 ## Transports
 
@@ -137,7 +137,7 @@ SoX is licensed `LGPL-2.0-only AND GPL-2.0-only`; BlackHole is GPL-3.0. If you b
 
 ### Chrome
 
-Opens the Meet URL through OpenClaw browser control and joins as the signed-in OpenClaw browser profile. For talk-back modes, the plugin checks or provisions the host's native virtual-audio backend before browser work. Local Chrome also runs any configured audio bridge health command at this point; `chrome-node` runs that check on the node when starting its bridge. The talk-back bridge starts only after browser health confirms virtual input/output audio routing. For local Chrome, pick the profile with `browser.defaultProfile`; `chrome.browserProfile` is passed to `chrome-node` hosts instead.
+Opens the Meet URL through Zero to Agent browser control and joins as the signed-in Zero to Agent browser profile. For talk-back modes, the plugin checks or provisions the host's native virtual-audio backend before browser work. Local Chrome also runs any configured audio bridge health command at this point; `chrome-node` runs that check on the node when starting its bridge. The talk-back bridge starts only after browser health confirms virtual input/output audio routing. For local Chrome, pick the profile with `browser.defaultProfile`; `chrome.browserProfile` is passed to `chrome-node` hosts instead.
 
 ```bash
 openclaw googlemeet join https://meet.google.com/abc-defg-hij --transport chrome
@@ -146,7 +146,7 @@ openclaw googlemeet join https://meet.google.com/abc-defg-hij --transport chrome
 
 With generated input commands, the shared browser bridge captures participant playback separately from assistant output. The native backend injects assistant audio into Meet's virtual microphone and captures that injection for waveform verification. Remote playback is kept off the microphone bus, and the same path runs locally or on a paired node. Explicit `chrome.audioInputCommand` overrides retain their configured provider-input path. Live requires managed isolated capture, so remove an input override before selecting it. If the required native backend or browser capture is unavailable, the join fails with an audio-path error.
 
-If startup fails after OpenClaw acquires a command-pair audio bridge, it attempts to stop that bridge before rolling back a tab opened by the failed join. This startup cleanup leaves reused or adopted tabs, including `chrome.launch: false` sessions, untouched. Node cleanup targets the returned bridge ID; if node startup fails before returning an ID, the Gateway cannot guarantee remote bridge cleanup. External bridge commands manage their own process lifecycle.
+If startup fails after Zero to Agent acquires a command-pair audio bridge, it attempts to stop that bridge before rolling back a tab opened by the failed join. This startup cleanup leaves reused or adopted tabs, including `chrome.launch: false` sessions, untouched. Node cleanup targets the returned bridge ID; if node startup fails before returning an ID, the Gateway cannot guarantee remote bridge cleanup. External bridge commands manage their own process lifecycle.
 
 ### Twilio
 
@@ -174,7 +174,7 @@ Enable Voice Call on the Gateway host, not the Chrome node:
           realtime: {
             enabled: true,
             provider: "google",
-            instructions: "Join this Google Meet as an OpenClaw agent. Be brief.",
+            instructions: "Join this Google Meet as a Zero to Agent agent. Be brief.",
             toolPolicy: "safe-read-only",
             providers: {
               google: {

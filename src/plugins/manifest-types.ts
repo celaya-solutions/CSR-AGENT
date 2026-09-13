@@ -249,7 +249,7 @@ export type PluginManifestDoctorContract = {
   resolveSessionStoreAgentIds?: boolean;
   /**
    * @deprecated Declare static ownership in top-level sessionRouteStateOwners instead.
-   * Removal plan: remove the module fallback in OpenClaw 2027.1 after external plugins migrate.
+   * Removal plan: remove the module fallback in Zero to Agent 2027.1 after external plugins migrate.
    */
   sessionRouteStateOwners?: boolean;
   /**

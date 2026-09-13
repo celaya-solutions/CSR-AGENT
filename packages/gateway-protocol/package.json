@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/gateway-protocol",
   "version": "2026.9.4",
-  "description": "Typed schemas and runtime validators for the OpenClaw Gateway WebSocket protocol",
+  "description": "Typed schemas and runtime validators for the Zero to Agent Gateway WebSocket protocol",
   "keywords": [
     "gateway",
     "openclaw",
@@ -14,7 +14,7 @@
     "url": "https://github.com/openclaw/openclaw/issues"
   },
   "license": "MIT",
-  "author": "OpenClaw Foundation (https://openclaw.org)",
+  "author": "Zero to Agent Foundation (https://openclaw.org)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/openclaw/openclaw.git",

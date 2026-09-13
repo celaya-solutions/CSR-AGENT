@@ -82,7 +82,7 @@ function validateConfigFileSnapshot(
       snapshot.issues.length > 0
         ? renderConfigValidationIssueLines(snapshot).join("\n")
         : "Unknown validation issue.";
-    runtime.error(`OpenClaw config is invalid: ${snapshot.path}\n${issues}`);
+    runtime.error(`Zero to Agent config is invalid: ${snapshot.path}\n${issues}`);
     runtime.error(
       isPluginPackagingRuntimeOutputInvalidConfigSnapshot(snapshot)
         ? `Fix: ${formatPluginPackagingRuntimeOutputRecoveryHint()}`
@@ -111,7 +111,7 @@ function validateConfigFileSnapshot(
   return snapshot;
 }
 
-/** Read and return a valid OpenClaw config, or null after reporting validation errors. */
+/** Read and return a valid Zero to Agent config, or null after reporting validation errors. */
 export async function requireValidConfig(
   runtime: RuntimeEnv,
   opts?: ConfigValidationOptions,

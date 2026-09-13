@@ -16,7 +16,7 @@ title: "Menu bar"
 - **Quick Chat** opens the floating main-session composer. Its current global shortcut appears beside the item.
 - **Settings…** (Cmd-,) opens Dashboard settings. App and device preferences live under **This Mac**, voice controls under **Talk**, and app update preferences under **Updates**.
 - **Connection…** opens the native Connection window. This is a standard macOS settings window with **Connection** and **Gateways** toolbar tabs. **Debug** also appears while the developer toggle is enabled. The window remains available when the Gateway is unreachable.
-- **About OpenClaw** opens the standard macOS About panel with version, build information, and credits.
+- **About Zero to Agent** opens the standard macOS About panel with version, build information, and credits.
 
 The app's main **Gateways** menu is always present. It lists the primary Gateway, when configured, followed by saved Gateways, with Command-1 through Command-9 assigned in that order. Each card shows health, version and shortened build ID, endpoint, latency, and the number of open dashboard windows when available. Browser-authenticated profiles also show **Access** and their session expiry. A **Primary** badge identifies the primary Gateway. A front-window marker follows the frontmost dashboard window. Selecting a card opens that Gateway's dashboard window or brings its existing window to the front. Hold Option to reveal **New … Window**, or press Option-Command with the same digit. Both open another independent window for that Gateway. **Manage Gateways…** opens **Connection → Gateways** and remains available when no Gateways are configured.
 
@@ -30,7 +30,7 @@ Manual Cron refreshes and successful job changes supersede older reads. An in-fl
 
 ## State model
 
-- Source: `WorkActivityStore` (`apps/macos/Sources/OpenClaw/WorkActivityStore.swift`).
+- Source: `WorkActivityStore` (`apps/macos/Sources/Zero to Agent/WorkActivityStore.swift`).
 - Events arrive as `ControlAgentEvent` with a `runId`. The handler (`ControlChannel.routeWorkActivity`) reads `sessionKey` from the event payload and defaults to `"main"` if absent.
 - Priority: the main session (`sessionKey == "main"` by default) always wins. If main is active, its state shows immediately. If main is idle, the most recently active non-main session shows instead. The store does not flip mid-activity. It only switches when the current session goes idle or main becomes active.
 - Activity kinds:
@@ -74,7 +74,7 @@ Manual Cron refreshes and successful job changes supersede older reads. An in-fl
 
 ## Status row text (menu)
 
-- With two or more Gateways, the connection label appends the primary Gateway's catalog display name, such as `OpenClaw Active — Mac Studio`.
+- With two or more Gateways, the connection label appends the primary Gateway's catalog display name, such as `Zero to Agent Active — Mac Studio`.
 - While work is active: `<Session role> · <activity label>` (`"\(roleLabel) · \(activity.label)"` in `MenuContentView`), where role label is `Main` or `Other`.
 - When idle: falls back to the health summary.
 

@@ -109,7 +109,7 @@ Add `sms.send` separately only when the node should also be able to send message
 Low-level invoke:
 
 ```bash
-openclaw nodes invoke --node <idOrNameOrIp> --command sms.send --params '{"to":"+15555550123","message":"Hello from OpenClaw"}'
+openclaw nodes invoke --node <idOrNameOrIp> --command sms.send --params '{"to":"+15555550123","message":"Hello from Zero to Agent"}'
 ```
 
 Notes:

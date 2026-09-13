@@ -1,4 +1,4 @@
-// Github Copilot plugin entrypoint registers its OpenClaw integration.
+// Github Copilot plugin entrypoint registers its Zero to Agent integration.
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import {
   definePluginEntry,

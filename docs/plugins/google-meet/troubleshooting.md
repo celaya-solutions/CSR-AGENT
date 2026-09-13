@@ -127,17 +127,17 @@ Run `googlemeet test-listen` for observe-only joins or `googlemeet test-speech` 
 
 Common manual actions: sign in to the Chrome profile; admit the guest from the Meet host account; grant Chrome microphone/camera permissions when the native prompt appears; close or repair a stuck Meet permission dialog.
 
-Do not report "not signed in" just because Meet asks "Do you want people to hear you in the meeting?"; that is Meet's audio-choice interstitial. OpenClaw clicks **Use microphone** through browser automation when available and keeps waiting for the real meeting state; for create-only browser fallback it may click **Continue without microphone** instead, since minting the URL does not need the realtime audio path.
+Do not report "not signed in" just because Meet asks "Do you want people to hear you in the meeting?"; that is Meet's audio-choice interstitial. Zero to Agent clicks **Use microphone** through browser automation when available and keeps waiting for the real meeting state; for create-only browser fallback it may click **Continue without microphone** instead, since minting the URL does not need the realtime audio path.
 
 ### Meeting creation fails
 
 `googlemeet create` uses the Meet API `spaces.create` when OAuth is configured, otherwise the pinned Chrome node browser. Confirm:
 
 - **API creation**: `oauth.clientId` and `oauth.refreshToken` (or matching `OPENCLAW_GOOGLE_MEET_*` env vars) are present, and the refresh token was minted after create support was added; older tokens may lack `meetings.space.created`, so rerun `openclaw googlemeet auth login --json`.
-- **Browser fallback**: `defaultTransport: "chrome-node"` and `chromeNode.node` point at a connected node with `browser.proxy` and `googlemeet.chrome`; the OpenClaw Chrome profile on that node is signed in and can open `https://meet.google.com/new`.
+- **Browser fallback**: `defaultTransport: "chrome-node"` and `chromeNode.node` point at a connected node with `browser.proxy` and `googlemeet.chrome`; the Zero to Agent Chrome profile on that node is signed in and can open `https://meet.google.com/new`.
 - **Browser fallback retries**: reuse an existing `.../new` or Google account prompt tab before opening a new one; retry the tool call rather than manually opening another tab.
 - **Manual action**: if the tool returns `manualAction`, use `browser.nodeId`, `browser.targetId`, `browserUrl`, and `manualAction.message` to guide the operator; do not retry in a loop.
-- **Audio-choice interstitial**: if Meet shows "Do you want people to hear you in the meeting?", leave the tab open. OpenClaw should click **Use microphone** or (create-only) **Continue without microphone** and keep waiting for the generated URL; if it cannot, the error should mention `meet-audio-choice-required`, not `google-login-required`.
+- **Audio-choice interstitial**: if Meet shows "Do you want people to hear you in the meeting?", leave the tab open. Zero to Agent should click **Use microphone** or (create-only) **Continue without microphone** and keep waiting for the generated URL; if it cannot, the error should mention `meet-audio-choice-required`, not `google-login-required`.
 
 ### Agent joins but does not talk
 
@@ -146,7 +146,7 @@ openclaw googlemeet setup
 openclaw googlemeet doctor
 ```
 
-Use `mode: "agent"` for the STT -> OpenClaw agent -> TTS path, or `mode: "bidi"` for realtime voice, including GPT-Live. `mode: "transcribe"` intentionally starts no talk-back bridge. For observe-only debugging, run `openclaw googlemeet status --json <session-id>` after participants speak and check `captioning`, `transcriptLines`, `lastCaptionText`. If `inCall` is true but `transcriptLines` stays `0`, Meet captions may be disabled, no one has spoken since the observer was installed, the Meet UI changed, or live captions are unavailable for the meeting language/account.
+Use `mode: "agent"` for the STT -> Zero to Agent agent -> TTS path, or `mode: "bidi"` for realtime voice, including GPT-Live. `mode: "transcribe"` intentionally starts no talk-back bridge. For observe-only debugging, run `openclaw googlemeet status --json <session-id>` after participants speak and check `captioning`, `transcriptLines`, `lastCaptionText`. If `inCall` is true but `transcriptLines` stays `0`, Meet captions may be disabled, no one has spoken since the observer was installed, the Meet UI changed, or live captions are unavailable for the meeting language/account.
 
 `googlemeet test-speech` checks the selected talk-back path and requires a fresh assistant-output waveform on the virtual microphone capture path. If `speechOutputVerified` is false and `speechOutputTimedOut` is true, inspect both provider output and the native injection/loopback fields; accepted output bytes alone do not prove speech reached Meet's microphone.
 

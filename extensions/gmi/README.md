@@ -1,9 +1,9 @@
-# OpenClaw GMI Cloud Provider
+# Zero to Agent GMI Cloud Provider
 
-Official OpenClaw provider plugin for hosted GMI Cloud models through an
+Official Zero to Agent provider plugin for hosted GMI Cloud models through an
 OpenAI-compatible API.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/gmi-provider

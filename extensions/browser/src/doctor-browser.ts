@@ -191,7 +191,7 @@ function formatLegacyClawdBrowserProfileResidueNote(
 ): string {
   return [
     `- Legacy managed browser profile residue was found at ${residue.legacyProfileDir}.`,
-    `- The canonical OpenClaw-managed browser profile is ${residue.canonicalUserDataDir}.`,
+    `- The canonical Zero to Agent-managed browser profile is ${residue.canonicalUserDataDir}.`,
     `- If no browser is using the legacy profile, run ${formatCliCommand("openclaw doctor --fix")} to archive it safely instead of deleting it in place.`,
   ].join("\n");
 }
@@ -279,8 +279,8 @@ export async function noteChromeMcpBrowserReadiness(
   if (!browserExecutable && managedProfiles.length > 0) {
     noteFn(
       [
-        `- OpenClaw-managed browser profile(s) are configured: ${managedProfileLabel}.`,
-        "- No Chromium-based browser executable was found on this host for OpenClaw-managed launch.",
+        `- Zero to Agent-managed browser profile(s) are configured: ${managedProfileLabel}.`,
+        "- No Chromium-based browser executable was found on this host for Zero to Agent-managed launch.",
         "- Install Chrome, Chromium, Brave, Edge, or set browser.executablePath explicitly.",
       ].join("\n"),
       "Browser",
@@ -288,7 +288,9 @@ export async function noteChromeMcpBrowserReadiness(
   }
 
   if (missingDisplay || shouldWarnRootNoSandbox) {
-    const lines = [`- OpenClaw-managed browser profile(s) are configured: ${managedProfileLabel}.`];
+    const lines = [
+      `- Zero to Agent-managed browser profile(s) are configured: ${managedProfileLabel}.`,
+    ];
     if (missingDisplay) {
       lines.push(
         "- No DISPLAY or WAYLAND_DISPLAY is set, and browser.headless is false. Managed browser launch needs a desktop session, Xvfb, or browser.headless: true.",
@@ -318,7 +320,7 @@ export async function noteChromeMcpBrowserReadiness(
         "- These profiles use an explicit Chromium user data directory instead of Chrome's default auto-connect path.",
         `- Verify the matching Chromium-based browser is version ${CHROME_MCP_MIN_MAJOR}+ on the same host as the Gateway or node.`,
         `- Enable remote debugging in that browser's inspect page (${REMOTE_DEBUGGING_PAGES}).`,
-        "- Keep the browser running and accept the attach consent prompt the first time OpenClaw connects.",
+        "- Keep the browser running and accept the attach consent prompt the first time Zero to Agent connects.",
       ].join("\n"),
       "Browser",
     );
@@ -331,10 +333,10 @@ export async function noteChromeMcpBrowserReadiness(
   if (!chrome) {
     const lines = [
       `- Chrome MCP existing-session is configured for profile(s): ${profileLabel}.`,
-      `- Google Chrome was not found on this host for auto-connect profile(s): ${autoProfileLabel}. OpenClaw does not bundle Chrome.`,
+      `- Google Chrome was not found on this host for auto-connect profile(s): ${autoProfileLabel}. Zero to Agent does not bundle Chrome.`,
       `- Install Google Chrome ${CHROME_MCP_MIN_MAJOR}+ on the same host as the Gateway or node, or set browser.profiles.<name>.userDataDir for a different Chromium-based browser.`,
       `- Enable remote debugging in the browser inspect page (${REMOTE_DEBUGGING_PAGES}).`,
-      "- Keep the browser running and accept the attach consent prompt the first time OpenClaw connects.",
+      "- Keep the browser running and accept the attach consent prompt the first time Zero to Agent connects.",
       "- Docker, headless, and sandbox browser flows stay on raw CDP; this check only applies to host-local Chrome MCP attach.",
     ];
     if (explicitProfiles.length > 0) {
@@ -369,7 +371,7 @@ export async function noteChromeMcpBrowserReadiness(
 
   lines.push(`- Enable remote debugging in the browser inspect page (${REMOTE_DEBUGGING_PAGES}).`);
   lines.push(
-    "- Keep the browser running and accept the attach consent prompt the first time OpenClaw connects.",
+    "- Keep the browser running and accept the attach consent prompt the first time Zero to Agent connects.",
   );
   if (explicitProfiles.length > 0) {
     lines.push(

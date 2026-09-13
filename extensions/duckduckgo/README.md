@@ -1,8 +1,8 @@
-# OpenClaw DuckDuckGo Plugin
+# Zero to Agent DuckDuckGo Plugin
 
-Official OpenClaw plugin for DuckDuckGo web search.
+Official Zero to Agent plugin for DuckDuckGo web search.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/duckduckgo-plugin

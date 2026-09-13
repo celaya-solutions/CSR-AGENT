@@ -91,7 +91,7 @@ function errorHarnessOutcome(
 }
 
 /**
- * Wraps one OpenClaw Claude CLI turn in synthetic harness/run boundaries.
+ * Wraps one Zero to Agent Claude CLI turn in synthetic harness/run boundaries.
  * The child run scope makes every real Claude CLI model call nest beneath it.
  */
 export async function runClaudeCliAgentTurnWithDiagnostics(

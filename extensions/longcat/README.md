@@ -1,9 +1,9 @@
-# OpenClaw LongCat Provider
+# Zero to Agent LongCat Provider
 
-Official OpenClaw provider plugin for LongCat-2.0 through LongCat's hosted
+Official Zero to Agent provider plugin for LongCat-2.0 through LongCat's hosted
 OpenAI-compatible API.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/longcat-provider

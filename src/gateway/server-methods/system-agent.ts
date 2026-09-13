@@ -1,4 +1,4 @@
-// OpenClaw gateway methods host the setup/repair conversation for clients.
+// Zero to Agent gateway methods host the setup/repair conversation for clients.
 import {
   buildSystemAgentInferenceUnavailableErrorDetails,
   buildSystemAgentSessionInvalidatedErrorDetails,
@@ -398,7 +398,7 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
         respond(
           false,
           undefined,
-          errorShape(ErrorCodes.INVALID_REQUEST, "OpenClaw caller identity unavailable."),
+          errorShape(ErrorCodes.INVALID_REQUEST, "Zero to Agent caller identity unavailable."),
         );
         return undefined;
       }
@@ -409,9 +409,13 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
         respond(
           false,
           undefined,
-          errorShape(ErrorCodes.INVALID_REQUEST, "OpenClaw session belongs to another caller.", {
-            details: buildSystemAgentSessionInvalidatedErrorDetails(),
-          }),
+          errorShape(
+            ErrorCodes.INVALID_REQUEST,
+            "Zero to Agent session belongs to another caller.",
+            {
+              details: buildSystemAgentSessionInvalidatedErrorDetails(),
+            },
+          ),
         );
         return undefined;
       }
@@ -433,8 +437,8 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
           errorShape(
             ErrorCodes.INVALID_REQUEST,
             params.wizardCancel !== undefined
-              ? "No active OpenClaw chat session is awaiting that wizard cancel."
-              : "No active OpenClaw chat session is awaiting that wizard answer.",
+              ? "No active Zero to Agent chat session is awaiting that wizard cancel."
+              : "No active Zero to Agent chat session is awaiting that wizard answer.",
             { details: buildSystemAgentSessionInvalidatedErrorDetails() },
           ),
         );
@@ -458,7 +462,7 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
             undefined,
             errorShape(
               ErrorCodes.UNAVAILABLE,
-              `OpenClaw requires working inference: ${inference.error}`,
+              `Zero to Agent requires working inference: ${inference.error}`,
               {
                 details: buildSystemAgentInferenceUnavailableErrorDetails(),
               },
@@ -595,7 +599,7 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
           respond(
             false,
             undefined,
-            errorShape(ErrorCodes.INVALID_REQUEST, "OpenClaw chat input is missing."),
+            errorShape(ErrorCodes.INVALID_REQUEST, "Zero to Agent chat input is missing."),
           );
           return undefined;
         }

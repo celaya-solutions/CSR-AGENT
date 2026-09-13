@@ -126,7 +126,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
       ? getActiveAgentRunDelegatedAuthority(callerIdentity.operationalRunInstance)
       : undefined);
   if (!approvalAuthority) {
-    throw new Error("delegated OpenClaw approval requires an active run authority");
+    throw new Error("delegated Zero to Agent approval requires an active run authority");
   }
   const runtimeApprovalAuthority: AgentRuntimeDelegatedAuthority = callerIdentity?.workerTurnClaim
     ? { kind: "worker", ...approvalAuthority, turnClaim: callerIdentity.workerTurnClaim }
@@ -156,7 +156,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
   const assertLiveApprovalAuthority = () => {
     if (!isAuthorityActive() || params.sessions.get(params.sessionId) !== params.session) {
       throw new Error(
-        "OpenClaw change cancelled: system-agent approval authority is no longer active. Retry the request if it is still needed.",
+        "Zero to Agent change cancelled: system-agent approval authority is no longer active. Retry the request if it is still needed.",
       );
     }
   };
@@ -189,7 +189,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
         if (pending?.proposalHash === proposal.hash) {
           return { kind: "approval", ...pending };
         }
-        throw new Error("OpenClaw change is no longer pending. Retry the request.");
+        throw new Error("Zero to Agent change is no longer pending. Retry the request.");
       }
       const applyDecision = async (
         decision: ExecApprovalDecision | null,
@@ -210,16 +210,16 @@ export async function prepareDelegatedSystemAgentApproval(params: {
       if (callerIdentity?.fullPermission === true) {
         const reply = await applyDecision("allow-once");
         if (!reply) {
-          throw new Error("OpenClaw change is no longer pending. Retry the request.");
+          throw new Error("Zero to Agent change is no longer pending. Retry the request.");
         }
         return { kind: "completed", reply };
       }
       if (!manager) {
-        throw new Error("OpenClaw approval registry unavailable");
+        throw new Error("Zero to Agent approval registry unavailable");
       }
       const description = describeSystemAgentPersistentOperation(proposal.operation);
       const request: SystemAgentApprovalRequestPayload = {
-        title: "OpenClaw change",
+        title: "Zero to Agent change",
         description,
         command: description,
         proposalHash: proposal.hash,
@@ -246,12 +246,12 @@ export async function prepareDelegatedSystemAgentApproval(params: {
         completion: completion.promise,
       };
       const cancelledReply = {
-        text: "OpenClaw change cancelled. No change. Retry the request if it is still needed.",
+        text: "Zero to Agent change cancelled. No change. Retry the request if it is still needed.",
         action: "none" as const,
         applied: false,
       };
       const failedReply = {
-        text: "OpenClaw change failed to complete. Check the current settings and OpenClaw status before retrying.",
+        text: "Zero to Agent change failed to complete. Check the current settings and Zero to Agent status before retrying.",
         action: "none" as const,
         applied: false,
       };
@@ -349,7 +349,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
             throw error;
           }
         },
-        afterDecisionErrorLabel: "OpenClaw approval apply failed",
+        afterDecisionErrorLabel: "Zero to Agent approval apply failed",
       }).catch((error: unknown) => {
         // Gateway closure retires observation; a genuine decision still owns completion.
         if (!(error instanceof ApprovalObserverClosedError)) {

@@ -1,4 +1,4 @@
-// File Transfer plugin entrypoint registers its OpenClaw integration.
+// File Transfer plugin entrypoint registers its Zero to Agent integration.
 import {
   definePluginEntry,
   type AnyAgentTool,

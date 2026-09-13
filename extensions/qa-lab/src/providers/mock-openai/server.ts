@@ -2578,12 +2578,12 @@ async function buildResponsesPayload(
     if (
       !taskEvidenceText ||
       (!taskEvidenceText.includes("# Personal task ledger") &&
-        !taskEvidenceText.includes("Task: prepare a local OpenClaw PR readiness note."))
+        !taskEvidenceText.includes("Task: prepare a local Zero to Agent PR readiness note."))
     ) {
       return buildToolCallEventsWithArgs("read", { path: "PERSONAL_TASK_LEDGER.md" });
     }
     if (
-      taskEvidenceText.includes("Task: prepare a local OpenClaw PR readiness note.") &&
+      taskEvidenceText.includes("Task: prepare a local Zero to Agent PR readiness note.") &&
       taskEvidenceText.includes("Done: local evidence captured in personal-task-status.txt.")
     ) {
       return buildToolCallEventsWithArgs("write", {

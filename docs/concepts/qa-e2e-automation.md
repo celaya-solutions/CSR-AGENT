@@ -9,7 +9,7 @@ read_when:
 title: "QA overview"
 ---
 
-The private QA stack exercises OpenClaw in a realistic, channel-shaped way that
+The private QA stack exercises Zero to Agent in a realistic, channel-shaped way that
 a unit test cannot.
 
 Pieces:

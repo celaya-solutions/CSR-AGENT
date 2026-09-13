@@ -73,7 +73,7 @@ function throwPluginRegistryPersistenceFailed(
   repair = 'Run "openclaw doctor --fix" and retry.',
 ): never {
   throw new Error(
-    `OpenClaw refreshed the plugin registry but could not verify the persisted replacement (${reason}); refusing to write the migration checkpoint. ${repair}`,
+    `Zero to Agent refreshed the plugin registry but could not verify the persisted replacement (${reason}); refusing to write the migration checkpoint. ${repair}`,
   );
 }
 

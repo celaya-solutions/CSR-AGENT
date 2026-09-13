@@ -1,7 +1,7 @@
 /**
- * openclaw built-in tool: ring-zero setup/repair actions for the OpenClaw
+ * openclaw built-in tool: ring-zero setup/repair actions for the Zero to Agent
  * agent. Never exposed to normal agents — construction is bound to a host-owned
- * per-run scope, and every action funnels through OpenClaw's typed operation
+ * per-run scope, and every action funnels through Zero to Agent's typed operation
  * union with approval assertions and the audit log.
  */
 import path from "node:path";
@@ -29,7 +29,7 @@ import { stringEnum } from "../schema/typebox.js";
 import { textResult, ToolInputError, readToolStringParam, type AnyAgentTool } from "./common.js";
 
 export type SystemAgentToolOptions = {
-  /** Verified inference owner, distinct from the internal OpenClaw execution agent. */
+  /** Verified inference owner, distinct from the internal Zero to Agent execution agent. */
   agentId?: string;
   /** Where setup side effects run; the gateway surface never manages its own daemon. */
   surface: "cli" | "gateway";
@@ -217,7 +217,7 @@ const SystemAgentToolSchema = Type.Object({
   target: Type.Optional(
     stringEnum(["guided", "classic", "channels", "search", "gateway"], {
       description:
-        "Setup target for open_setup. channels/search/gateway open masked terminal flows; guided/classic require exiting OpenClaw and running openclaw onboard.",
+        "Setup target for open_setup. channels/search/gateway open masked terminal flows; guided/classic require exiting Zero to Agent and running openclaw onboard.",
     }),
   ),
   query: Type.Optional(Type.String({ description: "Search query for plugin_search" })),
@@ -427,7 +427,7 @@ function operationForAction(params: Record<string, unknown>): SystemAgentOperati
 export function createSystemAgentTool(options: SystemAgentToolOptions): AnyAgentTool {
   return {
     name: "openclaw",
-    label: "OpenClaw",
+    label: "Zero to Agent",
     // Setup authority is never discoverable through tool catalogs: the host
     // scopes it to this run and the model must receive it directly.
     catalogMode: "direct-only",
@@ -474,7 +474,7 @@ export function createSystemAgentTool(options: SystemAgentToolOptions): AnyAgent
                   : directive.kind === "memory-import"
                     ? `${SYSTEM_AGENT_DIRECTIVE_PREFIX} the host chat now starts guided copy-only memory import with the user. Tell the user the detected local-agent memory choices come next; do not describe steps yourself.`
                     : directive.kind === "model-setup"
-                      ? `${SYSTEM_AGENT_DIRECTIVE_PREFIX} the active inference route cannot be changed inside OpenClaw. Tell the user to exit OpenClaw and run \`openclaw onboard\`; do not ask for provider credentials here.`
+                      ? `${SYSTEM_AGENT_DIRECTIVE_PREFIX} the active inference route cannot be changed inside Zero to Agent. Tell the user to exit Zero to Agent and run \`openclaw onboard\`; do not ask for provider credentials here.`
                       : directive.kind === "open-tui"
                         ? `${SYSTEM_AGENT_DIRECTIVE_PREFIX} the host now hands the user over to their normal agent. Say goodbye briefly.`
                         : directive.target === "channels"
@@ -483,7 +483,7 @@ export function createSystemAgentTool(options: SystemAgentToolOptions): AnyAgent
                             ? `${SYSTEM_AGENT_DIRECTIVE_PREFIX} the host now opens masked terminal web search setup. Tell the user the terminal wizard comes next.`
                             : directive.target === "gateway"
                               ? `${SYSTEM_AGENT_DIRECTIVE_PREFIX} the host now opens masked terminal Gateway setup. Tell the user the terminal wizard comes next.`
-                              : `${SYSTEM_AGENT_DIRECTIVE_PREFIX} ${directive.target} setup cannot run inside OpenClaw because it may change the active inference route. Tell the user to exit OpenClaw and run \`openclaw onboard\`.`,
+                              : `${SYSTEM_AGENT_DIRECTIVE_PREFIX} ${directive.target} setup cannot run inside Zero to Agent because it may change the active inference route. Tell the user to exit Zero to Agent and run \`openclaw onboard\`.`,
           {},
         );
       }

@@ -1,8 +1,8 @@
-# OpenClaw DeepSeek Provider
+# Zero to Agent DeepSeek Provider
 
-Official OpenClaw provider plugin for DeepSeek.
+Official Zero to Agent provider plugin for DeepSeek.
 
-Install from OpenClaw:
+Install from Zero to Agent:
 
 ```bash
 openclaw plugins install @openclaw/deepseek-provider

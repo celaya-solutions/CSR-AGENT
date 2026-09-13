@@ -189,7 +189,7 @@ export async function writeQaSuiteArtifacts(params: {
         }
       : undefined;
   const report = renderQaMarkdownReport({
-    title: "OpenClaw QA Scenario Suite",
+    title: "Zero to Agent QA Scenario Suite",
     inProgress: params.status === "running",
     startedAt: params.startedAt,
     finishedAt: params.finishedAt,

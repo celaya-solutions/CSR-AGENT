@@ -10,7 +10,7 @@
       { "id": "memory-core-qmd-file-locks-to-sqlite-leases" }
     ]
   },
-  "name": "OpenClaw Memory",
+  "name": "Zero to Agent Memory",
   "cliCommands": [
     {
       "name": "memory",
@@ -215,7 +215,7 @@
                     "type": "number",
                     "minimum": 0,
                     "maximum": 1,
-                    "description": "Maximum fraction of prior MEMORY.md entries a consolidation rewrite may remove before OpenClaw rejects it and uses append-only fallback."
+                    "description": "Maximum fraction of prior MEMORY.md entries a consolidation rewrite may remove before Zero to Agent rejects it and uses append-only fallback."
                   },
                   "execution": {
                     "type": "object",

@@ -74,7 +74,7 @@ export async function noteMacDisabledGatewayLaunchAgent(env: NodeJS.ProcessEnv =
   );
 }
 
-/** Returns a warning for stale OpenClaw updater launchd jobs left after interrupted updates. */
+/** Returns a warning for stale Zero to Agent updater launchd jobs left after interrupted updates. */
 async function collectMacStaleOpenClawUpdateLaunchdJobsWarning(): Promise<string | null> {
   if (process.platform !== "darwin") {
     return null;
@@ -86,7 +86,7 @@ async function collectMacStaleOpenClawUpdateLaunchdJobsWarning(): Promise<string
   }
 
   return [
-    "- Stale OpenClaw updater launchd job(s) detected.",
+    "- Stale Zero to Agent updater launchd job(s) detected.",
     ...jobs.map((job) => {
       const exitStatus =
         job.lastExitStatus !== undefined ? `, last exit ${job.lastExitStatus}` : "";

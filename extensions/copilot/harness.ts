@@ -537,7 +537,7 @@ export function createCopilotAgentHarness(
     string,
     Map<Promise<DeferredCompactionCleanupOutcome>, DeferredCompactionCleanup>
   >();
-  // Maps OpenClaw session id (from AgentHarnessAttemptParams.sessionId) to
+  // Maps Zero to Agent session id (from AgentHarnessAttemptParams.sessionId) to
   // the SDK session id + client that owns it. Populated by
   // runCopilotAttempt via the onSessionEstablished callback so that
   // reset(params) can call client.deleteSession on the right client.
@@ -646,7 +646,7 @@ export function createCopilotAgentHarness(
       }
       const openclawSessionId = typeof params.sessionId === "string" ? params.sessionId : undefined;
 
-      // Reuse the SDK session across turns within the same OpenClaw session so
+      // Reuse the SDK session across turns within the same Zero to Agent session so
       // Copilot's prompt cache, tool history, and compaction state survive.
       // Compatibility covers provider/model/cwd/auth; incompatible state starts
       // a fresh ordinary attempt but cannot be used for settled finalization.
@@ -962,9 +962,9 @@ export function createCopilotAgentHarness(
     async compact(
       params: AgentHarnessCompactParams,
     ): Promise<AgentHarnessCompactResult | undefined> {
-      // The SDK owns Copilot history compaction. OpenClaw only resumes
+      // The SDK owns Copilot history compaction. Zero to Agent only resumes
       // the tracked SDK session and calls the session-scoped RPC; durable
-      // OpenClaw session/transcript state stays in SQLite, with no marker
+      // Zero to Agent session/transcript state stays in SQLite, with no marker
       // sidecars under the workspace.
       const openclawSessionId = typeof params.sessionId === "string" ? params.sessionId : undefined;
       if (!openclawSessionId) {
@@ -1009,7 +1009,7 @@ export function createCopilotAgentHarness(
           : undefined;
       if (!compatibleTracked) {
         // Durable bindings only carry SDK session ids. Manual SDK compaction also
-        // needs the live SessionConfig with OpenClaw hooks/tools, so preserve the
+        // needs the live SessionConfig with Zero to Agent hooks/tools, so preserve the
         // binding for the next attempt and let the host compact transcript state.
         return {
           ok: false,

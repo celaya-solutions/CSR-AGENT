@@ -1,4 +1,4 @@
-// Exa plugin entrypoint registers its OpenClaw integration.
+// Exa plugin entrypoint registers its Zero to Agent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { createExaWebSearchProvider } from "./src/exa-web-search-provider.js";
 

@@ -153,7 +153,8 @@ export async function createAndJoinMeetFromParams(params: {
   return {
     ...created,
     joined: true,
-    nextAction: "Share meetingUri with participants; the OpenClaw agent has started the join flow.",
+    nextAction:
+      "Share meetingUri with participants; the Zero to Agent agent has started the join flow.",
     join,
   };
 }

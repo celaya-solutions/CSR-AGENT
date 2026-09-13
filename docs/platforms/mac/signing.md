@@ -7,7 +7,7 @@ title: "macOS signing"
 
 # mac signing (debug builds)
 
-[`scripts/package-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/package-mac-app.sh) builds a staged app, calls [`scripts/codesign-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/codesign-mac-app.sh), and verifies the signed worker before replacing `dist/OpenClaw.app`. macOS ties TCC permissions to the bundle ID and code signature. Keep both stable across rebuilds, and keep the app at a fixed path. macOS then keeps its TCC grants (notifications, accessibility, screen recording, mic, speech).
+[`scripts/package-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/package-mac-app.sh) builds a staged app, calls [`scripts/codesign-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/codesign-mac-app.sh), and verifies the signed worker before replacing `dist/Zero to Agent.app`. macOS ties TCC permissions to the bundle ID and code signature. Keep both stable across rebuilds, and keep the app at a fixed path. macOS then keeps its TCC grants (notifications, accessibility, screen recording, mic, speech).
 
 - Debug bundle identifier defaults to `ai.openclaw.mac.debug` (override with `BUNDLE_ID=...`).
 - Node: `>=24.16.0 <25` or `>=26.1.0` (repo `package.json` `engines`). The packager also builds the Control UI (`pnpm ui:build`).
@@ -44,7 +44,7 @@ DISABLE_LIBRARY_VALIDATION=1 scripts/package-mac-app.sh                         
 
 ## Build metadata for About
 
-Choose **About OpenClaw** to open the standard macOS About panel. It shows the app version and build, with the build timestamp and git commit from Info.plist in its credits. The panel shows missing or invalid timestamp and commit values as unavailable. Re-run the packager after code changes to refresh these values. App update controls live under **Dashboard → Settings → Updates → This Mac**.
+Choose **About Zero to Agent** to open the standard macOS About panel. It shows the app version and build, with the build timestamp and git commit from Info.plist in its credits. The panel shows missing or invalid timestamp and commit values as unavailable. Re-run the packager after code changes to refresh these values. App update controls live under **Dashboard → Settings → Updates → This Mac**.
 
 ## Related
 

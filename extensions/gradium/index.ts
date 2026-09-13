@@ -1,4 +1,4 @@
-// Gradium plugin entrypoint registers its OpenClaw integration.
+// Gradium plugin entrypoint registers its Zero to Agent integration.
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { buildGradiumSpeechProvider } from "./speech-provider.js";
 

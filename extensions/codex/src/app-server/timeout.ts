@@ -1,5 +1,5 @@
 /**
- * Thin Codex app-server timeout adapter around OpenClaw's shared timeout helper.
+ * Thin Codex app-server timeout adapter around Zero to Agent's shared timeout helper.
  */
 import { withTimeout as withSharedTimeout } from "openclaw/plugin-sdk/time-runtime";
 

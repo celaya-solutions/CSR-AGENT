@@ -75,7 +75,7 @@ function parseReefIdentityPendingRecord(value: unknown): ReefIdentityPendingReco
 
 function reefIdentityConflict(binding: ReefIdentityBinding): Error {
   return new Error(
-    `This OpenClaw state already holds the Reef identity @${binding.handle} on ${binding.relayUrl}. Re-register the same handle and relay.`,
+    `This Zero to Agent state already holds the Reef identity @${binding.handle} on ${binding.relayUrl}. Re-register the same handle and relay.`,
   );
 }
 

@@ -22,7 +22,7 @@ read_when:
 
     - macOS launchd stdout and stderr: `~/Library/Logs/openclaw/gateway.log` (profiles use `gateway-<profile>.log`; both streams share this file, so startup failures that happen before the logger starts are recorded here too).
     - Linux: `journalctl --user -u openclaw-gateway[-<profile>].service -n 200 --no-pager`.
-    - Windows: `schtasks /Query /TN "OpenClaw Gateway (<profile>)" /V /FO LIST`.
+    - Windows: `schtasks /Query /TN "Zero to Agent Gateway (<profile>)" /V /FO LIST`.
 
     See [Troubleshooting](/gateway/troubleshooting) for more.
 
@@ -38,10 +38,10 @@ read_when:
 
   </Accordion>
 
-  <Accordion title="I closed my terminal on Windows - how do I restart OpenClaw?">
+  <Accordion title="I closed my terminal on Windows - how do I restart Zero to Agent?">
     Three Windows install modes:
 
-    **1) Windows Hub local setup**: the native app manages a local app-owned WSL Gateway. Open **OpenClaw Companion** from the Start menu or tray, then use **Gateway Setup** or the Connections tab.
+    **1) Windows Hub local setup**: the native app manages a local app-owned WSL Gateway. Open **Zero to Agent Companion** from the Start menu or tray, then use **Gateway Setup** or the Connections tab.
 
     **2) Manual WSL2 Gateway**: the Gateway runs inside Linux.
     ```powershell
@@ -99,7 +99,7 @@ read_when:
 
     Then match the error:
 
-    - `BOT_COMMANDS_TOO_MUCH`: the Telegram menu has too many entries. OpenClaw already trims to the Telegram limit and retries with fewer commands, but some menu entries may still be dropped. Reduce plugin/skill/custom commands, or disable `channels.telegram.commands.native` if you do not need the menu.
+    - `BOT_COMMANDS_TOO_MUCH`: the Telegram menu has too many entries. Zero to Agent already trims to the Telegram limit and retries with fewer commands, but some menu entries may still be dropped. Reduce plugin/skill/custom commands, or disable `channels.telegram.commands.native` if you do not need the menu.
     - `TypeError: fetch failed`, `Network request for 'setMyCommands' failed!`, or similar network errors: on a VPS or behind a proxy, confirm outbound HTTPS is allowed and DNS works for `api.telegram.org`.
 
     If the Gateway is remote, check logs on the Gateway host.

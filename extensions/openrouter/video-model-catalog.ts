@@ -248,7 +248,7 @@ function resolveOpenRouterVideoCatalogRequest(params: {
       defaultHeaders: {
         Authorization: `Bearer ${params.apiKey}`,
         "HTTP-Referer": "https://openclaw.ai",
-        "X-OpenRouter-Title": "OpenClaw",
+        "X-OpenRouter-Title": "Zero to Agent",
       },
       request,
     }),

@@ -519,7 +519,7 @@ export const smsPlugin: ChannelPlugin<ResolvedSmsAccount, SmsProbe> = createChat
   pairing: {
     text: {
       idLabel: "phoneNumber",
-      message: "OpenClaw: your SMS access has been approved.",
+      message: "Zero to Agent: your SMS access has been approved.",
       normalizeAllowEntry: normalizeSmsAllowFrom,
       notify: async ({ cfg, id, message, accountId }) => {
         const account = resolveSmsAccount(cfg, accountId);

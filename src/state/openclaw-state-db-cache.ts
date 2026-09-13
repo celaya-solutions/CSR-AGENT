@@ -290,7 +290,7 @@ function closeStaleCachedOpenClawStateDatabase(database: OpenClawStateDatabase):
   notifyOpenClawStateDatabaseClosed(database);
   throwStateDatabaseCleanupErrors(
     errors,
-    `Stale OpenClaw state database cleanup failed for ${database.path}.`,
+    `Stale Zero to Agent state database cleanup failed for ${database.path}.`,
   );
 }
 
@@ -405,7 +405,7 @@ function retireOpenClawStateDatabaseHandle(
     }
     throwStateDatabaseCleanupErrors(
       errors,
-      `OpenClaw state database cleanup failed for ${database.path}.`,
+      `Zero to Agent state database cleanup failed for ${database.path}.`,
     );
   });
 }
@@ -446,7 +446,7 @@ function retireOpenClawStateDatabaseHandles(
       errors.push(error);
     }
   }
-  throwStateDatabaseCleanupErrors(errors, "OpenClaw state database cleanup failed.");
+  throwStateDatabaseCleanupErrors(errors, "Zero to Agent state database cleanup failed.");
   return found;
 }
 

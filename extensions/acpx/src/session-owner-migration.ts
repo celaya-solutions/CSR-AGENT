@@ -23,7 +23,7 @@ type Claim = Awaited<
 function sessionDirectory(input: MigrationInput): string {
   if (!input.serviceWorkspaceDir) {
     throw new Error(
-      "ACP ownership repair requires the Gateway service workspace; upgrade OpenClaw Doctor.",
+      "ACP ownership repair requires the Gateway service workspace; upgrade Zero to Agent Doctor.",
     );
   }
   return path.join(

@@ -14,7 +14,7 @@ The macOS app logs through swift-log (unified logging by default) and can also w
 
 - Enable: **Debug pane -> Logs -> App logging -> "Write rolling diagnostics log (JSONL)"** (off by default).
 - Verbosity: **Debug pane -> Logs -> App logging -> Verbosity** picker.
-- Location: `~/Library/Logs/OpenClaw/diagnostics.jsonl`.
+- Location: `~/Library/Logs/Zero to Agent/diagnostics.jsonl`.
 - Rotation: rotates at 5 MB; up to 5 backups suffixed `.1`...`.5` (oldest dropped).
 - Clear: **Debug pane -> Logs -> App logging -> "Clear"** deletes the active file and all backups.
 
@@ -40,7 +40,7 @@ This also protects private interpolations in strings that are concatenated befor
 
 Some shared components use native OSLog directly rather than the app's swift-log bridge. Native OSLog normally redacts private values; explicitly public values remain visible. For those native events, a subsystem plist in `/Library/Preferences/Logging/Subsystems/` can enable private-data capture. This is not a way to reveal the bridge's `<private>` placeholders or hashes. Background: [macOS logging privacy shenanigans](https://steipete.me/posts/2025/logging-privacy-shenanigans).
 
-## Enable for OpenClaw (`ai.openclaw`)
+## Enable for Zero to Agent (`ai.openclaw`)
 
 Use this only when you need private values from **native OSLog** events. Check for an existing `ai.openclaw.plist` first and preserve it so you can restore the prior settings afterward. Write the plist to a temp file, then install it atomically as root:
 
