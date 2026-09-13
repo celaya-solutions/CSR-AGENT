@@ -18,16 +18,16 @@ cuts can be made against evidence rather than assumption.
 
 ## 0. Pin
 
-| Field         | Value                                              |
-| ------------- | -------------------------------------------------- |
-| Upstream repo | https://github.com/openclaw/openclaw.git           |
-| Pinned commit | `2a3b63857db35193c378e9a1481a4eb2b23e39ac`         |
-| Commit date   | 2026-09-12 19:21:29 -0700                          |
-| Version       | 2026.9.4                                           |
-| Tag at HEAD   | none (HEAD is not a release tag)                   |
-| Nearest tag   | `release-publish/088d0f5b8755-1789111799`          |
-| Work branch   | `csr-course`                                       |
-| License       | MIT, "Copyright (c) 2026 Zero to Agent Foundation" |
+| Field         | Value                                         |
+| ------------- | --------------------------------------------- |
+| Upstream repo | https://github.com/openclaw/openclaw.git      |
+| Pinned commit | `2a3b63857db35193c378e9a1481a4eb2b23e39ac`    |
+| Commit date   | 2026-09-12 19:21:29 -0700                     |
+| Version       | 2026.9.4                                      |
+| Tag at HEAD   | none (HEAD is not a release tag)              |
+| Nearest tag   | `release-publish/088d0f5b8755-1789111799`     |
+| Work branch   | `csr-course`                                  |
+| License       | MIT, "Copyright (c) 2026 OpenClaw Foundation" |
 
 ## 1. Build and boot (verbatim, as run)
 
@@ -338,27 +338,27 @@ recorded here and left for your decision.
 
 ## 10. Branding string surface
 
-| String          | Occurrences | Tracked files |
-| --------------- | ----------- | ------------- |
-| `Zero to Agent` | 110,378     | 14,387        |
-| `OPENCLAW_`     | 41,129      | —             |
-| `.openclaw`     | 14,052      | —             |
+| String      | Occurrences | Tracked files |
+| ----------- | ----------- | ------------- |
+| `OpenClaw`  | 110,378     | 14,387        |
+| `OPENCLAW_` | 41,129      | —             |
+| `.openclaw` | 14,052      | —             |
 
-By top directory (files containing `Zero to Agent`): `src` 7,270 · `extensions` 3,004 ·
+By top directory (files containing `OpenClaw`): `src` 7,270 · `extensions` 3,004 ·
 `apps` 1,317 · `docs` 1,164 · `ui` 421 · `test` 397 · `scripts` 385 ·
 `packages` 88 · rest 300.
 
 Canonical definitions, as opposed to references:
 
-| Thing                 | Location                                                                                                     |
-| --------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Package name          | `package.json:2`                                                                                             |
-| CLI binary            | `package.json:22-23` → `openclaw.mjs`                                                                        |
-| Config dir            | `src/config/state-dir.ts:9` (`NEW_STATE_DIRNAME`), `src/utils.ts:76`                                         |
-| Config filename       | `src/config/paths.ts:31` (`CONFIG_FILENAME`)                                                                 |
-| UI title              | `ui/index.html:9`, plus copy at `:367,371,374,455`                                                           |
-| Default system prompt | `src/agents/system-prompt.ts:840` and `:1185` — "You are a personal assistant running inside Zero to Agent." |
-| Version output        | `package.json` version, surfaced through `openclaw.mjs` / `node-version.mjs`                                 |
+| Thing                 | Location                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------- |
+| Package name          | `package.json:2`                                                                                        |
+| CLI binary            | `package.json:22-23` → `openclaw.mjs`                                                                   |
+| Config dir            | `src/config/state-dir.ts:9` (`NEW_STATE_DIRNAME`), `src/utils.ts:76`                                    |
+| Config filename       | `src/config/paths.ts:31` (`CONFIG_FILENAME`)                                                            |
+| UI title              | `ui/index.html:9`, plus copy at `:367,371,374,455`                                                      |
+| Default system prompt | `src/agents/system-prompt.ts:840` and `:1185` — "You are a personal assistant running inside OpenClaw." |
+| Version output        | `package.json` version, surfaced through `openclaw.mjs` / `node-version.mjs`                            |
 
 **Risk flagged for Phase 4.2.** A blind `grep`-and-replace across 110,378
 occurrences is not safe. The count mixes user-visible strings with internal
