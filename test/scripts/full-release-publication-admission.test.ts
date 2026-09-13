@@ -148,6 +148,7 @@ describe("publication dispatch transport", () => {
     value: unknown;
     pass?: boolean;
     identityFailure?: boolean;
+    error?: string;
     extra?: Record<string, string>;
   }>([
     { name: "explicit identity", value: envelope, pass: true },
@@ -159,38 +160,59 @@ describe("publication dispatch transport", () => {
     {
       name: "missing purpose",
       value: { trustedWorkflow: identity, publicationSelection: selection },
+      error: "source-admission envelope requires identity, purpose and selection",
     },
     {
       name: "missing identity",
       value: { validationPurpose: "publish", publicationSelection: selection },
+      error: "source-admission envelope requires identity, purpose and selection",
     },
-    { name: "old flat identity", value: identity },
-    { name: "extra envelope field", value: { ...envelope, extra: true } },
+    { name: "old flat identity", value: identity, error: "invalid source-admission envelope" },
+    {
+      name: "extra envelope field",
+      value: { ...envelope, extra: true },
+      error: "invalid source-admission envelope",
+    },
     {
       name: "extra identity field",
       value: { ...envelope, trustedWorkflow: { ...identity, extra: true } },
+      error: "invalid source-admission tooling identity",
     },
-    { name: "invalid intent", value: { ...envelope, validationPurpose: "diagnostic" } },
+    {
+      name: "invalid intent",
+      value: { ...envelope, validationPurpose: "diagnostic" },
+      error: "nonpublish purpose must omit publication selection",
+    },
     {
       name: "wrong identity SHA",
       value: { ...envelope, trustedWorkflow: { ...identity, sha: "b".repeat(40) } },
       identityFailure: true,
+      error: "direct workflow identity must match the executing workflow ref and SHA",
     },
     {
       name: "conflicting representation",
       value: envelope,
       extra: { validation_purpose: "diagnostic" },
+      error: "source intent must use only the trusted_workflow_json envelope",
     },
-    { name: "malformed JSON", value: "{" },
+    { name: "malformed JSON", value: "{", error: "JSON at position 1" },
   ])(
     "decodes $name before identity effects in the real workflow bodies",
-    ({ name, value, pass, identityFailure, extra }) => {
+    ({ name, value, pass, identityFailure, error, extra }) => {
       const root = temps.make("openclaw-publication-transport-");
       for (const file of [
         "scripts/full-release-publication-contract.mjs",
+        "scripts/clawhub-prepared-artifact.mjs",
+        "scripts/clawhub-parent-authorization.mjs",
+        "scripts/plugin-publication-artifact.mjs",
         "scripts/release-tooling-identity.mjs",
+        "scripts/lib/actions-artifact-archive.mjs",
+        "scripts/lib/arg-utils.runtime.mjs",
+        "scripts/lib/bounded-response.mjs",
         "scripts/lib/record-shared.mjs",
         "scripts/lib/canonical-json.mjs",
+        "scripts/lib/npm-core-release-packages.json",
+        "scripts/lib/npm-publish-plan.mjs",
         "scripts/lib/release-version.mjs",
       ]) {
         const destination = join(root, "workflow", file);
@@ -296,6 +318,8 @@ console.log('{"status":"identical"}');
         expect(readFileSync(calls, "utf8").trim().split("\n")).toHaveLength(1);
       } else {
         expect(status, stderr).toBe(1);
+        expect(stderr).not.toContain("ERR_MODULE_NOT_FOUND");
+        expect(stderr).toContain(expectDefined(error, "expected rejection reason"));
         expect(completed).toEqual(identityFailure ? ["publication_dispatch"] : []);
         expect(existsSync(calls)).toBe(false);
         expect(steps.tooling_identity).toBeUndefined();
@@ -1712,6 +1736,7 @@ describe("FRV publication source admission", () => {
           "--method",
           "GET",
         ],
+        ["api", "repos/openclaw/openclaw/actions/artifacts/456"],
       ]);
     },
     30_000,
@@ -1759,6 +1784,7 @@ describe("FRV publication source admission", () => {
         "--method",
         "GET",
       ],
+      ["api", "repos/openclaw/openclaw/actions/artifacts/456"],
     ]);
   }, 30_000);
 

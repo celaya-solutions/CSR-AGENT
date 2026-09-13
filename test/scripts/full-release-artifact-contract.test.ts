@@ -36,13 +36,18 @@ import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
 
 const SHA = "a".repeat(40);
 
-function registryEvidence(runId = "123", warningCount = 0) {
+function registryEvidence(
+  runId = "123",
+  warningCount = 0,
+  validationInputs: Record<string, string> = {},
+) {
   const source = createPublicationSourceFact(
     publicationSourceRequest({
       PUBLICATION_INPUTS_JSON: JSON.stringify({
         ref: SHA,
         release_profile: "full",
         rerun_group: "all",
+        ...validationInputs,
         trusted_workflow_json: publicationDispatchEnvelope(null, {
           validationPurpose: "publish",
           publicationSelection: {
@@ -136,19 +141,21 @@ function registryEvidence(runId = "123", warningCount = 0) {
   };
 }
 
-function registryBudgetFixture(warningCount = 0) {
-  const { record, source } = registryEvidence("123", warningCount);
+function registryBudgetFixture(warningCount = 0, validationInputs: Record<string, string> = {}) {
+  const { record, source } = registryEvidence("123", warningCount, validationInputs);
+  const releaseProfile = source.coverage.release_profile;
+  const runReleaseSoak = source.coverage.run_release_soak;
   const candidateRequest = buildFullReleaseCandidateRequest({
     repository: source.repository,
     targetSha: source.candidateSha,
     toolingSha: source.workflow.sha,
-    releaseProfile: "full",
-    releaseSoak: true,
+    releaseProfile,
+    releaseSoak: runReleaseSoak === "true",
     upgradeSurvivorBaseline: "openclaw@latest",
     upgradeSurvivorBaselines: "",
     upgradeSurvivorScenarios: "reported-issues",
     allowFrozenTargetScenarioOmissions: false,
-    allowUnreleasedChangelog: false,
+    allowUnreleasedChangelog: source.coverage.allow_unreleased_changelog === "true",
     packagePublished: false,
     sharedImagePolicy: "no-push-artifact",
   });
@@ -158,7 +165,7 @@ function registryBudgetFixture(warningCount = 0) {
     parentRunAttempt: 1,
     workflowRef: "release-ci/test",
     workflowSha: SHA,
-    releaseProfile: "full",
+    releaseProfile,
     rerunGroup: "all",
     resolveTargetResult: "success",
   };
@@ -185,9 +192,9 @@ function registryBudgetFixture(warningCount = 0) {
     workflowRefType: "branch",
     workflowSha: SHA,
     targetRef: source.candidateSha,
-    releaseProfile: "full",
+    releaseProfile,
     rerunGroup: "all",
-    runReleaseSoak: "true",
+    runReleaseSoak,
     validationInputs: {},
   };
   return { record, source, plan, context, candidateRequest };
@@ -195,6 +202,103 @@ function registryBudgetFixture(warningCount = 0) {
 
 describe("retained publication admission", () => {
   const directories = useAutoCleanupTempDirTracker(afterEach);
+
+  it.each(["beta", "stable"])(
+    "writes fresh %s performance and Telegram evidence through the actual workflow command",
+    (releaseProfile) => {
+      const telegram = {
+        npm_telegram_package_spec: "openclaw@2026.9.9",
+        npm_telegram_provider_mode: "live-frontier",
+        npm_telegram_scenario: "telegram-status-command",
+        skip_package_telegram_e2e: "true",
+        allow_unreleased_changelog: "true",
+      };
+      const { plan, context } = registryBudgetFixture(0, {
+        ...telegram,
+        release_profile: releaseProfile,
+      });
+      expect(plan.evidenceReuse.requested).toBe(false);
+      const workflow = parse(readFileSync(".github/workflows/full-release-validation.yml", "utf8"));
+      const writer = workflow.jobs.summary.steps.find(
+        (step: { name: string }) => step.name === "Write release validation manifest",
+      );
+      const directory = directories.make("publication-fresh-manifest-");
+      const planPath = join(directory, "plan.json");
+      const drainPath = join(directory, "drain.json");
+      writeFileSync(planPath, serializeReleaseArtifact(plan));
+      writeFileSync(drainPath, serializeReleaseArtifact({ children: {} }));
+      const inputs = {
+        ...telegram,
+        release_profile: releaseProfile,
+        ref: context.targetRef,
+        rerun_group: context.rerunGroup,
+        run_release_soak: false,
+      };
+      const expressionContext = {
+        inputs,
+        needs: { resolve_target: { outputs: { skip_package_telegram_e2e: "true" } } },
+      };
+      const selectedEnv = Object.fromEntries(
+        [
+          "RELEASE_PROFILE",
+          "NPM_TELEGRAM_PACKAGE_SPEC",
+          "NPM_TELEGRAM_PROVIDER_MODE",
+          "NPM_TELEGRAM_SCENARIO",
+          "SKIP_PACKAGE_TELEGRAM_E2E",
+          "ALLOW_UNRELEASED_CHANGELOG",
+        ].map((key) => [
+          key,
+          String(
+            runInNewContext(
+              writer.env[key].replace(/^\$\{\{\s*|\s*\}\}$/gu, ""),
+              expressionContext,
+            ),
+          ),
+        ]),
+      );
+      const result = spawnSync("bash", ["-c", writer.run], {
+        encoding: "utf8",
+        env: {
+          ...Object.fromEntries(Object.keys(writer.env).map((key) => [key, ""])),
+          ...selectedEnv,
+          PATH: process.env.PATH,
+          RUNNER_TEMP: directory,
+          GITHUB_RUN_ID: context.runId,
+          GITHUB_RUN_ATTEMPT: context.runAttempt,
+          GITHUB_REF_NAME: context.workflowRef,
+          GITHUB_SHA: context.workflowSha,
+          GITHUB_REF: context.workflowFullRef,
+          GITHUB_REF_TYPE: context.workflowRefType,
+          TARGET_REF: context.targetRef,
+          RERUN_GROUP: context.rerunGroup,
+          RUN_RELEASE_SOAK: context.runReleaseSoak,
+          RELEASE_EXECUTION_PLAN_PATH: planPath,
+          DIAGNOSTIC_DRAIN_PATH: drainPath,
+        },
+      });
+      expect(result.status, result.stderr).toBe(0);
+      const manifest = JSON.parse(
+        readFileSync(
+          join(directory, "full-release-validation/full-release-validation-manifest.json"),
+          "utf8",
+        ),
+      );
+      expect(manifest.releaseProfile).toBe(releaseProfile);
+      expect(manifest.controls).toMatchObject({
+        performanceBlocking: releaseProfile !== "beta",
+        performanceReportPublication: "artifact-only",
+      });
+      expect(manifest.childRuns.productPerformance.blocking).toBe(releaseProfile !== "beta");
+      expect(manifest.validationInputs).toMatchObject({
+        npmTelegramPackageSpec: "openclaw@2026.9.9",
+        npmTelegramProviderMode: "live-frontier",
+        npmTelegramScenario: "telegram-status-command",
+        skipPackageTelegramE2e: "true",
+        allowUnreleasedChangelog: "true",
+      });
+      expect(manifest.publicationAdmission).toEqual(plan.publicationAdmission);
+    },
+  );
 
   it("separates immutable observation bytes from post-upload admission and ZIP digest", () => {
     const { observations, admission, record } = registryEvidence();
