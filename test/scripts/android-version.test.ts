@@ -216,7 +216,7 @@ describe("renderAndroidReleaseNotes", () => {
     expect(
       renderAndroidReleaseNotes(
         { canonicalVersion: "2026.6.2" },
-        "# OpenClaw Android Changelog\n\n## Unreleased\n\nFuture Android changes.\n\n## 2026.6.2 - 2026-06-02\n\nPinned Android release notes.\n",
+        "# Zero to Agent Android Changelog\n\n## Unreleased\n\nFuture Android changes.\n\n## 2026.6.2 - 2026-06-02\n\nPinned Android release notes.\n",
       ),
     ).toBe("Pinned Android release notes.\n");
   });
@@ -225,7 +225,7 @@ describe("renderAndroidReleaseNotes", () => {
     expect(
       renderAndroidReleaseNotes(
         { canonicalVersion: "2026.6.2" },
-        "# OpenClaw Android Changelog\n\n## Unreleased\n\nPending Android notes.\n",
+        "# Zero to Agent Android Changelog\n\n## Unreleased\n\nPending Android notes.\n",
       ),
     ).toBe("Pending Android notes.\n");
   });
@@ -234,7 +234,7 @@ describe("renderAndroidReleaseNotes", () => {
     expect(() =>
       renderAndroidReleaseNotes(
         { canonicalVersion: "2026.6.2" },
-        "# OpenClaw Android Changelog\n\n## 2026.6.1\n\nOld notes.\n",
+        "# Zero to Agent Android Changelog\n\n## 2026.6.1\n\nOld notes.\n",
       ),
     ).toThrow("Unable to find Android changelog notes for 2026.6.2");
   });
@@ -295,7 +295,7 @@ describe("checkAndroidVersioning", () => {
       version: "2026.8.2",
       versionCode: 2026080201,
       iosChangelog:
-        "# OpenClaw iOS Changelog\n\n" +
+        "# Zero to Agent iOS Changelog\n\n" +
         "## Unreleased\n\n" +
         "## 2026.8.21\n\nCurrent revision notes.\n\n" +
         "## 2026.8.20\n\nPrior revision notes.\n",
@@ -337,7 +337,7 @@ describe("checkAndroidVersioning", () => {
     const prepared = writeAndroidFixture({
       version: "2026.8.2",
       versionCode: 2026080201,
-      iosChangelog: "# OpenClaw iOS Changelog\n\n## Unreleased\n\nPrepared notes.\n",
+      iosChangelog: "# Zero to Agent iOS Changelog\n\n## Unreleased\n\nPrepared notes.\n",
       releaseNotes: "Prepared notes.\n",
       versionProperties: renderAndroidVersionProperties({
         canonicalVersion: "2026.8.2",
@@ -354,7 +354,8 @@ describe("checkAndroidVersioning", () => {
     const finalized = writeAndroidFixture({
       version: "2026.8.2",
       versionCode: 2026080201,
-      iosChangelog: "# OpenClaw iOS Changelog\n\n## Unreleased\n\n## 2026.8.20\n\nFinal notes.\n",
+      iosChangelog:
+        "# Zero to Agent iOS Changelog\n\n## Unreleased\n\n## 2026.8.20\n\nFinal notes.\n",
       releaseNotes: "Final notes.\n",
       versionProperties: renderAndroidVersionProperties({
         canonicalVersion: "2026.8.2",
@@ -371,7 +372,7 @@ describe("checkAndroidVersioning", () => {
       version: "2026.7.4",
       versionCode: 2026070401,
       mobileVersion: "2026.8.1",
-      changelog: "# OpenClaw Android Changelog\n\n## 2026.7.4\n\nLegacy notes.\n",
+      changelog: "# Zero to Agent Android Changelog\n\n## 2026.7.4\n\nLegacy notes.\n",
       releaseNotes: "Legacy notes.\n",
       versionProperties:
         "# Shared Android version defaults.\n" +

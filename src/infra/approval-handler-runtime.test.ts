@@ -199,7 +199,7 @@ describe("createChannelApprovalHandlerFromCapability", () => {
     const request = {
       id: "system-agent:1",
       request: {
-        title: "OpenClaw change",
+        title: "Zero to Agent change",
         description: "restart the Gateway",
         command: "restart the Gateway",
         proposalHash: "a".repeat(64),

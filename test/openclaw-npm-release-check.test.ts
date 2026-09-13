@@ -1,4 +1,4 @@
-// OpenClaw npm release check tests validate package release checks.
+// Zero to Agent npm release check tests validate package release checks.
 import { execFileSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -34,7 +34,7 @@ const REQUIRED_PACKED_PATHS = [
   ...WORKSPACE_TEMPLATE_PACK_PATHS,
 ] as const;
 
-describe("prepared OpenClaw AI dependency", () => {
+describe("prepared Zero to Agent AI dependency", () => {
   it("requires the packed root to depend on the exact prepared AI version", () => {
     expect(() =>
       assertPreparedOpenClawAiDependency({
@@ -658,7 +658,7 @@ describe("collectForbiddenPackedPathErrors", () => {
     expect(
       collectForbiddenPackedPathErrors([
         "dist-runtime/extensions/example/runtime.js",
-        "dist/OpenClaw.app/Contents/MacOS/OpenClaw",
+        "dist/OpenClaw.app/Contents/MacOS/Zero to Agent",
         "dist/extensions/qa-channel/runtime-api.js",
         "dist/extensions/qa-channel/package.json",
         "dist/extensions/qa-lab/runtime-api.js",
@@ -674,7 +674,7 @@ describe("collectForbiddenPackedPathErrors", () => {
         "qa/scenarios/index.yaml",
       ]),
     ).toEqual([
-      'npm package must not include local application build output "dist/OpenClaw.app/Contents/MacOS/OpenClaw".',
+      'npm package must not include local application build output "dist/OpenClaw.app/Contents/MacOS/Zero to Agent".',
       'npm package must not include local runtime build output "dist-runtime/extensions/example/runtime.js".',
       'npm package must not include private QA channel artifact "dist/extensions/qa-channel/package.json".',
       'npm package must not include private QA channel artifact "dist/extensions/qa-channel/runtime-api.js".',

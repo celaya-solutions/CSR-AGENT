@@ -102,7 +102,7 @@ const FULL_RELEASE_CHILD_DISPATCHES = [
     jobName: "release_checks_independent",
     kind: "release-checks",
     nonceSuffix: "-release-checks-independent",
-    runName: "OpenClaw Release Checks",
+    runName: "Zero to Agent Release Checks",
     stepName: "Dispatch release checks independent phase",
     workflow: "openclaw-release-checks.yml",
   },
@@ -110,7 +110,7 @@ const FULL_RELEASE_CHILD_DISPATCHES = [
     jobName: "release_checks_candidate",
     kind: "release-checks",
     nonceSuffix: "-release-checks-candidate",
-    runName: "OpenClaw Release Checks",
+    runName: "Zero to Agent Release Checks",
     stepName: "Dispatch release checks candidate phase",
     workflow: "openclaw-release-checks.yml",
   },
@@ -126,8 +126,8 @@ const FULL_RELEASE_CHILD_DISPATCHES = [
     jobName: "performance",
     kind: "performance",
     nonceSuffix: "",
-    runName: "OpenClaw Performance",
-    stepName: "Dispatch OpenClaw Performance",
+    runName: "Zero to Agent Performance",
+    stepName: "Dispatch Zero to Agent Performance",
     workflow: "openclaw-performance.yml",
   },
   {
@@ -3133,7 +3133,7 @@ function createReleaseChecksContextFixture() {
   const git = (...args: string[]) =>
     execFileSync("git", args, { cwd: repo, encoding: "utf8" }).trim();
   git("init", "-q", "--initial-branch=release/2026.8.1");
-  git("config", "user.name", "OpenClaw Test");
+  git("config", "user.name", "Zero to Agent Test");
   git("config", "user.email", "openclaw-test@example.com");
   writeFileSync(resolve(repo, "package.json"), '{"version":1}\n', "utf8");
   git("add", "package.json");
@@ -3954,7 +3954,7 @@ function runOpenClawNpmTrustedRefGuard(overrides: Record<string, string>) {
   const job = workflowJob(OPENCLAW_NPM_RELEASE_WORKFLOW, "validate_publish_request");
   const script = workflowStep(job, "Require trusted workflow ref for publish").run;
   if (!script) {
-    throw new Error("Expected OpenClaw npm trusted ref guard");
+    throw new Error("Expected Zero to Agent npm trusted ref guard");
   }
   const binDir = tempDirs.make("openclaw-npm-trusted-ref-");
   const ghPath = `${binDir}/gh`;
@@ -4267,7 +4267,7 @@ globalThis.fetch = async (url) => {
 
 async function runReleasePublishPreflightConsumerGuard(params: ProtectedPreflightConsumerParams) {
   const job = workflowJob(RELEASE_PUBLISH_WORKFLOW, "resolve_release_target");
-  const script = workflowStep(job, "Download OpenClaw npm preflight manifest").run;
+  const script = workflowStep(job, "Download Zero to Agent npm preflight manifest").run;
   if (!script) {
     throw new Error("Expected release publish preflight consumer guard");
   }
@@ -4426,7 +4426,7 @@ async function runOpenClawNpmPreflightConsumerGuard(params: ProtectedPreflightCo
   const job = workflowJob(OPENCLAW_NPM_RELEASE_WORKFLOW, "publish_openclaw_npm");
   const script = workflowStep(job, "Verify preflight run metadata").run;
   if (!script) {
-    throw new Error("Expected OpenClaw npm preflight consumer guard");
+    throw new Error("Expected Zero to Agent npm preflight consumer guard");
   }
   const workdir = tempDirs.make("openclaw-npm-preflight-consumer-");
   const binDir = resolve(workdir, "bin");
@@ -4494,7 +4494,7 @@ exit 64
         url: "https://github.com/openclaw/openclaw/actions/runs/111",
         workflowName: params.fullReleasePreflight
           ? "Full Release Validation"
-          : "OpenClaw NPM Release",
+          : "Zero to Agent NPM Release",
       }),
       MOCK_PREFLIGHT_METADATA: JSON.stringify({
         run_attempt: 1,
@@ -4740,8 +4740,14 @@ describe("package acceptance workflow", () => {
     const workflow = readWorkflow(RELEASE_PUBLISH_WORKFLOW);
     const input = workflow.on?.workflow_dispatch?.inputs?.plugin_sdk_api_acknowledgement;
     const resolveJob = workflowJob(RELEASE_PUBLISH_WORKFLOW, "resolve_release_target");
-    const downloadPreflight = workflowStep(resolveJob, "Download OpenClaw npm preflight manifest");
-    const validateEvidence = workflowStep(resolveJob, "Validate OpenClaw npm preflight manifest");
+    const downloadPreflight = workflowStep(
+      resolveJob,
+      "Download Zero to Agent npm preflight manifest",
+    );
+    const validateEvidence = workflowStep(
+      resolveJob,
+      "Validate Zero to Agent npm preflight manifest",
+    );
     const publishJob = workflowJob(RELEASE_PUBLISH_WORKFLOW, "publish");
     const dispatch = releasePublishOrchestration(publishJob);
 
@@ -5109,7 +5115,7 @@ dispatch_workflow_at_ref "$WORKFLOW_REF" "$PARENT_WORKFLOW_SHA" plugin-clawhub-r
     });
     expect(mismatchedName.status).toBe(1);
     expect(mismatchedName.stderr).toContain(
-      "SHA-pinned release-publish tag does not match the OpenClaw npm workflow SHA",
+      "SHA-pinned release-publish tag does not match the Zero to Agent npm workflow SHA",
     );
 
     const moved = runOpenClawNpmTrustedRefGuard({
@@ -5119,7 +5125,7 @@ dispatch_workflow_at_ref "$WORKFLOW_REF" "$PARENT_WORKFLOW_SHA" plugin-clawhub-r
     });
     expect(moved.status).toBe(1);
     expect(moved.stderr).toContain(
-      "SHA-pinned release-publish tag does not resolve to the OpenClaw npm workflow SHA",
+      "SHA-pinned release-publish tag does not resolve to the Zero to Agent npm workflow SHA",
     );
   });
 
@@ -6143,7 +6149,7 @@ const args = process.argv.slice(2);
 if (args[0] === "view") {
   console.log(JSON.stringify({ version: "${version}", "dist-tags.beta": "${version}", "dist.integrity": "sha512-fixture", "dist.tarball": "https://example.invalid/openclaw.tgz" }));
 } else if (args[0] === "run" && args[1] === "view") {
-  console.log(JSON.stringify({ workflowName: args[2] === "101" ? "Plugin NPM Release" : "OpenClaw NPM Release", headBranch: "main", event: "workflow_dispatch", status: "completed", conclusion: "success", jobs: [] }));
+  console.log(JSON.stringify({ workflowName: args[2] === "101" ? "Plugin NPM Release" : "Zero to Agent NPM Release", headBranch: "main", event: "workflow_dispatch", status: "completed", conclusion: "success", jobs: [] }));
 } else { throw new Error("Unexpected verifier mutation: " + args.join(" ")); }
 `,
           { mode: 0o755 },
@@ -6563,10 +6569,10 @@ wait_for_run openclaw-npm-release.yml 404 "$EXPECTED_SHA" "$STARTED_JOB" "$APPRO
     const publishOrchestration = releasePublishOrchestration(publishJob);
 
     for (const stepName of [
-      "Download OpenClaw npm preflight manifest",
+      "Download Zero to Agent npm preflight manifest",
       "Resolve full release validation run",
       "Download full release validation manifest",
-      "Validate OpenClaw npm preflight manifest",
+      "Validate Zero to Agent npm preflight manifest",
       "Validate full release validation manifest",
     ]) {
       expect(workflowStep(resolveJob, stepName).if).toContain(
@@ -6683,7 +6689,7 @@ printf 'native_failed=%s\\n' "$native_failed"
       const summary = readFileSync(summaryPath, "utf8");
       if (assetsVerified) {
         expect(summary).toContain("previously published assets verified");
-        expect(summary).toContain("releases/download/v2026.8.1/OpenClaw-Android.apk");
+        expect(summary).toContain("releases/download/v2026.8.1/Zero to Agent-Android.apk");
         expect(summary).not.toContain("actions/runs/456");
       } else if (dispatchFailure) {
         expect(summary).not.toContain("actions/runs/456");
@@ -6870,7 +6876,7 @@ NODE
       expect(JSON.parse(readFileSync(approvalPath, "utf8"))).toEqual({
         version: 3,
         repository: "openclaw/openclaw",
-        workflow: "OpenClaw Release Publish",
+        workflow: "Zero to Agent Release Publish",
         parentRunId: "123",
         parentRunAttempt: 2,
         workflowBranch: "main",
@@ -6899,7 +6905,7 @@ NODE
     git("remote", "add", "origin", root);
     git(
       "-c",
-      "user.name=OpenClaw Test",
+      "user.name=Zero to Agent Test",
       "-c",
       "user.email=openclaw-test@example.com",
       "commit",
@@ -6913,7 +6919,7 @@ NODE
     git("add", "scripts/android-native-ci.mjs");
     git(
       "-c",
-      "user.name=OpenClaw Test",
+      "user.name=Zero to Agent Test",
       "-c",
       "user.email=openclaw-test@example.com",
       "commit",
@@ -7067,7 +7073,9 @@ NODE
       expect(script).toBeDefined();
       const root = tempDirs.make("stable-closeout-recovery-");
       const runPath = join(root, "run.json");
-      const jobs = npm ? [{ name: "Publish plugins, then OpenClaw", conclusion: "success" }] : [];
+      const jobs = npm
+        ? [{ name: "Publish plugins, then Zero to Agent", conclusion: "success" }]
+        : [];
       if (docker === "current" || docker === "both") {
         jobs.push({ name: "Publish Docker images / Publish prepared Docker images", conclusion });
       }
@@ -7080,7 +7088,7 @@ NODE
       writeFileSync(
         runPath,
         JSON.stringify({
-          workflowName: "OpenClaw Release Publish",
+          workflowName: "Zero to Agent Release Publish",
           event: "workflow_dispatch",
           status: "completed",
           conclusion: "failure",
@@ -7977,7 +7985,7 @@ test "$package_manager" = "pnpm@12.1.0"
       "Artifact-backed Telegram E2E requires the complete prerelease plugin registry tuple.",
     );
     expect(npmTelegramWorkflow).toContain(
-      "Prerelease plugin registry inputs require an artifact-backed OpenClaw package.",
+      "Prerelease plugin registry inputs require an artifact-backed Zero to Agent package.",
     );
     expect(npmTelegramWorkflow).toContain(
       'expected_registry_suffix="-${PREPUBLISH_PLUGIN_REGISTRY_ARTIFACT_RUN_ID}-${PREPUBLISH_PLUGIN_REGISTRY_ARTIFACT_RUN_ATTEMPT}"',
@@ -8255,7 +8263,7 @@ test "$package_manager" = "pnpm@12.1.0"
     const releaseChecksWorkflow = readFileSync(RELEASE_CHECKS_WORKFLOW, "utf8");
     const performanceJob = workflowStep(
       workflowJob(FULL_RELEASE_VALIDATION_WORKFLOW, "performance"),
-      "Dispatch OpenClaw Performance",
+      "Dispatch Zero to Agent Performance",
     ).run;
 
     expect(workflow).toContain("TARGET_SHA: ${{ needs.resolve_target.outputs.sha }}");
@@ -8320,7 +8328,7 @@ test "$package_manager" = "pnpm@12.1.0"
     const workflow = readFileSync(FULL_RELEASE_VALIDATION_WORKFLOW, "utf8");
     const performanceStep = workflowStep(
       workflowJob(FULL_RELEASE_VALIDATION_WORKFLOW, "performance"),
-      "Dispatch OpenClaw Performance",
+      "Dispatch Zero to Agent Performance",
     );
     const summaryStep = workflowStep(
       workflowJob(FULL_RELEASE_VALIDATION_WORKFLOW, "summary"),
@@ -8799,8 +8807,8 @@ describe("package artifact reuse", () => {
     expect(workflow).toContain(
       "OPENCLAW_ALLOW_FROZEN_TARGET_SCENARIO_OMISSIONS: ${{ inputs.allow_frozen_target_scenario_omissions && '1' || '0' }}",
     );
-    expect(workflow).toContain("Download current-run OpenClaw Docker E2E package");
-    expect(workflow).toContain("Download previous-run OpenClaw Docker E2E package");
+    expect(workflow).toContain("Download current-run Zero to Agent Docker E2E package");
+    expect(workflow).toContain("Download previous-run Zero to Agent Docker E2E package");
     expect(workflow).toContain(
       "needs.validate_selected_ref.outputs.package_artifact_present == 'true'",
     );
@@ -10884,7 +10892,7 @@ printf '%s\\n' "$DEEPSEEK_API_KEY" "$DEEPINFRA_API_KEY"`,
       });
 
       expect(result.status).not.toBe(0);
-      expect(result.stderr).toContain("must be a canonical OpenClaw release branch or tag");
+      expect(result.stderr).toContain("must be a canonical Zero to Agent release branch or tag");
       expect(result.output).not.toContain("ci_release_scope=");
     },
   );
@@ -11288,7 +11296,7 @@ printf '%s\\n' "$DEEPSEEK_API_KEY" "$DEEPINFRA_API_KEY"`,
       rerunGroup: "package",
       skipTelegram: "false",
       overrides: {},
-      expected: "Package Telegram E2E: OpenClaw Release Checks Package Acceptance",
+      expected: "Package Telegram E2E: Zero to Agent Release Checks Package Acceptance",
     },
     {
       label: "focused Telegram without a package",
@@ -11948,7 +11956,7 @@ printf '%s\\n' "$DEEPSEEK_API_KEY" "$DEEPINFRA_API_KEY"`,
       });
       expect(result.status, contextRef).toBe(1);
       expect(result.stderr).toContain(
-        "target_context_ref must be a canonical OpenClaw release branch or tag.",
+        "target_context_ref must be a canonical Zero to Agent release branch or tag.",
       );
     }
 
@@ -12118,7 +12126,7 @@ printf '%s\\n' "$DEEPSEEK_API_KEY" "$DEEPINFRA_API_KEY"`,
     expect(runtimePairValidation).toContain(
       'node --import tsx trusted-suite-validator/scripts/validate-qa-runtime-pair-summary.mts "${validator_args[@]}"',
     );
-    const coreRestartRun = workflowStep(laneJob, "Run OpenClaw core restart proof").run;
+    const coreRestartRun = workflowStep(laneJob, "Run Zero to Agent core restart proof").run;
     expect(coreRestartRun).toContain("--scenario gateway-restart-inflight-run");
     expect(coreRestartRun).toContain('--output-dir ".artifacts/qa-e2e/openclaw-core-restart"');
     const trustedValidatorCheckout = workflowStep(
@@ -12664,7 +12672,7 @@ printf '%s\\n' "$DEEPSEEK_API_KEY" "$DEEPINFRA_API_KEY"`,
       'target_version="$(jq -er',
       "is not reachable from release context branch",
       "does not match release tag",
-      "target_context_ref must be a canonical OpenClaw release branch or tag.",
+      "target_context_ref must be a canonical Zero to Agent release branch or tag.",
     ]);
     expect(npmTelegramJob.name).toBe("Run package Telegram E2E");
     expect(npmTelegramJob.needs).toEqual(["resolve_target", "evidence_reuse"]);
@@ -12849,7 +12857,7 @@ printf '%s\\n' "$DEEPSEEK_API_KEY" "$DEEPINFRA_API_KEY"`,
       "Array.isArray(manifest.corePackageTarballs)",
       "manifest.corePackageTarballs === undefined",
       "package artifact tarball set does not match preflight manifest",
-      "package candidate manifest does not match the OpenClaw tarball",
+      "package candidate manifest does not match the Zero to Agent tarball",
       "Package Telegram artifact SHA-256 differs from package_sha256.",
       "package candidate digest mismatch",
       "Package Telegram artifact tarball differs from package_file_name.",
@@ -12987,7 +12995,7 @@ printf '%s\\n' "$DEEPSEEK_API_KEY" "$DEEPINFRA_API_KEY"`,
 
     expect(result.status).toBe(1);
     expect(result.stderr).toContain(
-      "Prerelease plugin registry inputs require an artifact-backed OpenClaw package.",
+      "Prerelease plugin registry inputs require an artifact-backed Zero to Agent package.",
     );
   });
 
@@ -13909,7 +13917,7 @@ printf '%s\\n' "$DEEPSEEK_API_KEY" "$DEEPINFRA_API_KEY"`,
         "git",
         [
           "-c",
-          "user.name=OpenClaw Test",
+          "user.name=Zero to Agent Test",
           "-c",
           "user.email=openclaw-test@example.com",
           "-c",
@@ -14137,7 +14145,7 @@ promote_windows_release_assets
       "Windows source release asset digest does not match the pinned digest",
     );
     expect(windowsWorkflow).toContain(
-      "CN=OpenClaw Foundation, O=OpenClaw Foundation, L=Mill Valley, S=California, C=US",
+      "CN=Zero to Agent Foundation, O=Zero to Agent Foundation, L=Mill Valley, S=California, C=US",
     );
     expect(windowsWorkflow).toContain("has unexpected signer subject");
     expect(windowsWorkflow).toContain("OpenClawCompanion-SHA256SUMS.txt");
@@ -14205,8 +14213,8 @@ promote_windows_release_assets
       "Attested Android release approval does not match this run request.",
     );
     expect(androidWorkflow).toContain('--artifact", "third-party');
-    expect(androidWorkflow).toContain("OpenClaw-Android.apk");
-    expect(androidWorkflow).toContain("OpenClaw-Android-SHA256SUMS.txt");
+    expect(androidWorkflow).toContain("Zero to Agent-Android.apk");
+    expect(androidWorkflow).toContain("Zero to Agent-Android-SHA256SUMS.txt");
     expect(androidWorkflow).toContain("actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6");
     expect(androidWorkflow).toContain("--signer-workflow");
     expect(androidWorkflow).toContain('--source-ref "refs/tags/${RELEASE_TAG}"');
@@ -14238,7 +14246,7 @@ promote_windows_release_assets
 
     expect(releaseWorkflow).toContain("promote_android_release_asset()");
     expect(releaseWorkflow).toContain("is_android_release()");
-    expect(androidWorkflow).toContain("requires a final or correction OpenClaw release tag");
+    expect(androidWorkflow).toContain("requires a final or correction Zero to Agent release tag");
     expect(androidWorkflow).toContain("previous_version_code");
     expect(androidWorkflow).toContain("must exceed ${previous_tag} versionCode");
     expect(androidWorkflow).toContain("standalone channel bootstrap");
@@ -14253,8 +14261,8 @@ promote_windows_release_assets
     expect(releaseWorkflow).toContain("finalize_github_release:");
 
     expect(androidDocs).toContain("github.com/openclaw/openclaw/releases");
-    expect(androidDocs).not.toContain("releases/latest/download/OpenClaw-Android.apk");
-    expect(androidDocs).toContain("gh attestation verify OpenClaw-Android.apk");
+    expect(androidDocs).not.toContain("releases/latest/download/Zero to Agent-Android.apk");
+    expect(androidDocs).toContain("gh attestation verify Zero to Agent-Android.apk");
     expect(androidDocs).toContain('--source-ref "refs/tags/${release_tag}"');
     expect(releaseDocs).toContain("signed standalone Android APK");
   });
@@ -14279,7 +14287,7 @@ promote_windows_release_assets
       "if ($stableRelease -and $sourceRelease.isPrerelease)",
     );
     const rejectUnexpectedTargetAssetsIndex = windowsWorkflow.indexOf(
-      "Target OpenClaw release contains unexpected OpenClawCompanion assets before upload",
+      "Target Zero to Agent release contains unexpected OpenClawCompanion assets before upload",
     );
     const uploadAssetsIndex = windowsWorkflow.indexOf("gh release upload $env:RELEASE_TAG");
 
@@ -15122,7 +15130,7 @@ wait_for_run plugin-clawhub-new.yml 123 "${expectedSha}" || status=$?
     expect(performancePublishPath.reduce((total, timeout) => total + timeout, 0)).toBe(280);
     const performanceParent = workflowJob(FULL_RELEASE_VALIDATION_WORKFLOW, "performance");
     expect(performanceParent["timeout-minutes"]).toBe(15);
-    expect(workflowStep(performanceParent, "Dispatch OpenClaw Performance").run).toContain(
+    expect(workflowStep(performanceParent, "Dispatch Zero to Agent Performance").run).toContain(
       "-f publish_reports=false",
     );
     for (const [pathName, path] of [

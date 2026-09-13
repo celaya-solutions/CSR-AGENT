@@ -228,7 +228,7 @@ suite.define(() => {
         methodResponses: {
           "chat.startup": {
             agentsList: {
-              agents: [{ id: "main", name: "OpenClaw" }],
+              agents: [{ id: "main", name: "Zero to Agent" }],
               defaultId: "main",
               mainKey: "main",
               scope: "agent",

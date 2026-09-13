@@ -70,7 +70,7 @@ describe("delegation capability", () => {
     { label: "session launch", toolsAllow: ["sessions_spawn"] },
     { label: "session glob", toolsAllow: ["sessions_*"] },
     { label: "session group", toolsAllow: ["group:sessions"] },
-    { label: "OpenClaw delegation", toolsAllow: ["openclaw"] },
+    { label: "Zero to Agent delegation", toolsAllow: ["openclaw"] },
   ])("preserves $label delegation for completion reports", ({ toolsAllow }) => {
     expect(
       resolveDelegationCapability({

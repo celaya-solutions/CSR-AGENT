@@ -1195,7 +1195,7 @@ export function parseRegistryNpmSpec(spec: string) {
     );
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("staged OpenClaw script entrypoint not found");
+    expect(result.stderr).toContain("staged Zero to Agent script entrypoint not found");
   });
 
   it("installs validated Docker packages from the staged metadata export", () => {

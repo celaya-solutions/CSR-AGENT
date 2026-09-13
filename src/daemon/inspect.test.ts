@@ -24,7 +24,7 @@ const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 // Real content from the openclaw-gateway.service unit file (the canonical gateway unit).
 const GATEWAY_SERVICE_CONTENTS = `\
 [Unit]
-Description=OpenClaw Gateway
+Description=Zero to Agent Gateway
 After=network-online.target
 Wants=network-online.target
 
@@ -41,7 +41,7 @@ WantedBy=default.target
 // Real content from the openclaw-test.service unit file (a non-gateway openclaw service).
 const TEST_SERVICE_CONTENTS = `\
 [Unit]
-Description=OpenClaw test service
+Description=Zero to Agent test service
 After=default.target
 
 [Service]
@@ -63,7 +63,7 @@ Environment=HOME=/home/clawdbot
 
 const COMPANION_SERVICE_CONTENTS = `\
 [Unit]
-Description=OpenClaw companion worker
+Description=Zero to Agent companion worker
 After=openclaw-gateway.service
 Requires=openclaw-gateway.service
 
@@ -73,7 +73,7 @@ ExecStart=/usr/bin/node /opt/openclaw-worker/dist/index.js worker
 
 const CUSTOM_OPENCLAW_GATEWAY_CONTENTS = `\
 [Unit]
-Description=Custom OpenClaw gateway
+Description=Custom Zero to Agent gateway
 
 [Service]
 ExecStart=/usr/bin/node /opt/openclaw/dist/entry.js gateway --port 18888
@@ -205,12 +205,12 @@ describe("renderGatewayServiceCleanupHints", () => {
       renderGatewayServiceCleanupHints([
         {
           platform: "win32",
-          label: "\\OpenClaw Gateway Backup",
-          detail: "task: \\OpenClaw Gateway Backup",
+          label: "\\Zero to Agent Gateway Backup",
+          detail: "task: \\Zero to Agent Gateway Backup",
           scope: "system",
         },
       ]),
-    ).toEqual(['schtasks /Delete /TN "\\OpenClaw Gateway Backup" /F']);
+    ).toEqual(['schtasks /Delete /TN "\\Zero to Agent Gateway Backup" /F']);
   });
 
   it.each(["$(Start-Process calc)", "%OPENCLAW_GATEWAY_TASK%", "unsafe&task", "task`name"])(
@@ -513,12 +513,12 @@ describe("findExtraGatewayServices (win32)", () => {
 
   it("collects only non-openclaw marker tasks from schtasks output", async () => {
     // Real schtasks /Query /FO LIST /V output prefixes root-folder task
-    // names with a backslash (e.g. TaskName:\OpenClaw Gateway).
+    // names with a backslash (e.g. TaskName:\Zero to Agent Gateway).
     execSchtasksMock.mockResolvedValueOnce({
       code: 0,
       stdout: [
-        "TaskName:\\OpenClaw Gateway",
-        "Task To Run: C:\\Program Files\\OpenClaw\\openclaw.exe gateway run",
+        "TaskName:\\Zero to Agent Gateway",
+        "Task To Run: C:\\Program Files\\Zero to Agent\\openclaw.exe gateway run",
         "",
         "TaskName: Clawdbot Legacy",
         "Task To Run: C:\\clawdbot\\clawdbot.exe run",
@@ -531,7 +531,7 @@ describe("findExtraGatewayServices (win32)", () => {
     });
 
     const result = await findExtraGatewayServices({}, { deep: true });
-    // The \OpenClaw Gateway task is the live launcher — it must be skipped.
+    // The \Zero to Agent Gateway task is the live launcher — it must be skipped.
     // Only the unrelated clawdbot task should be flagged.
     expect(result).toEqual([
       {
@@ -549,14 +549,14 @@ describe("findExtraGatewayServices (win32)", () => {
     execSchtasksMock.mockResolvedValueOnce({
       code: 0,
       stdout: [
-        "TaskName:\\OpenClaw Gateway",
-        "Task To Run: C:\\Program Files\\OpenClaw\\openclaw.exe gateway run",
+        "TaskName:\\Zero to Agent Gateway",
+        "Task To Run: C:\\Program Files\\Zero to Agent\\openclaw.exe gateway run",
         "",
-        "TaskName:\\OpenClaw Gateway (dev)",
-        "Task To Run: C:\\Program Files\\OpenClaw\\openclaw.exe gateway run --profile dev",
+        "TaskName:\\Zero to Agent Gateway (dev)",
+        "Task To Run: C:\\Program Files\\Zero to Agent\\openclaw.exe gateway run --profile dev",
         "",
-        "TaskName:\\OpenClaw Gateway Backup",
-        "Task To Run: C:\\Program Files\\OpenClaw\\openclaw.exe gateway run",
+        "TaskName:\\Zero to Agent Gateway Backup",
+        "Task To Run: C:\\Program Files\\Zero to Agent\\openclaw.exe gateway run",
         "",
       ].join("\n"),
       stderr: "",
@@ -566,9 +566,9 @@ describe("findExtraGatewayServices (win32)", () => {
     expect(result).toEqual([
       {
         platform: "win32",
-        label: "\\OpenClaw Gateway Backup",
+        label: "\\Zero to Agent Gateway Backup",
         detail:
-          "task: \\OpenClaw Gateway Backup, run: C:\\Program Files\\OpenClaw\\openclaw.exe gateway run",
+          "task: \\Zero to Agent Gateway Backup, run: C:\\Program Files\\Zero to Agent\\openclaw.exe gateway run",
         scope: "system",
         marker: "openclaw",
         legacy: false,

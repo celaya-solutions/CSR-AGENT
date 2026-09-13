@@ -4425,7 +4425,7 @@ describe("deliverOutboundPayloads", () => {
     expect(afterCommit).toHaveBeenCalledTimes(1);
   });
 
-  it("includes OpenClaw tmp root in plugin mediaLocalRoots", async () => {
+  it("includes Zero to Agent tmp root in plugin mediaLocalRoots", async () => {
     const sendMatrix = vi.fn().mockResolvedValue({ messageId: "m-media", roomId: "!room" });
 
     await deliverMatrix({
@@ -5210,7 +5210,7 @@ describe("deliverOutboundPayloads", () => {
           text: [
             "visible",
             "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
-            "OpenClaw runtime context (internal):",
+            "Zero to Agent runtime context (internal):",
             "<<<BEGIN_UNTRUSTED_CHILD_RESULT>>>",
             "raw child output",
             "<<<END_UNTRUSTED_CHILD_RESULT>>>",
@@ -5284,7 +5284,7 @@ describe("deliverOutboundPayloads", () => {
   it("queues a spool copy while the live send keeps the producer's path", async () => {
     const sendMatrix = vi.fn().mockResolvedValue({ messageId: "m-spool", roomId: "!room:example" });
     // Production shape: no explicit mediaAccess, and the source sits in the
-    // OpenClaw temp root that TTS actually writes to. Staging must resolve the
+    // Zero to Agent temp root that TTS actually writes to. Staging must resolve the
     // same capability the live send resolves, so a fabricated localRoots here
     // would hide whether the two gates agree.
     const sourceDir = await fsPromises.realpath(
@@ -5345,7 +5345,7 @@ describe("deliverOutboundPayloads", () => {
       ...matrixChunkConfig,
       tools: { fs: { workspaceOnly: true } },
     } as OpenClawConfig;
-    // Deliberately outside the OpenClaw temp root: that root is itself a default
+    // Deliberately outside the Zero to Agent temp root: that root is itself a default
     // media root, so a state dir inside it would admit the source by containment
     // and hide whether the agent-scoped capability is what grants access.
     const openClawState = await createOpenClawTestState({

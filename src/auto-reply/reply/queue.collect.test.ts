@@ -1727,7 +1727,7 @@ describe("followup queue collect routing", () => {
     enqueueTestRun(
       key,
       {
-        prompt: "[OpenClaw room event]",
+        prompt: "[Zero to Agent room event]",
         originatingChannel: "telegram",
         originatingTo: "-100123",
       },
@@ -1756,7 +1756,7 @@ describe("followup queue collect routing", () => {
     await drainRecordedQueue(key, runFollowup, done);
 
     expect(calls).toHaveLength(2);
-    expect(calls[0]?.prompt).toBe("[OpenClaw room event]");
+    expect(calls[0]?.prompt).toBe("[Zero to Agent room event]");
     expect(calls[0]?.currentInboundEventKind).toBe("room_event");
     expect(calls[0]?.currentInboundAudio).toBe(true);
     expect(calls[0]?.currentInboundContext?.text).toBe("room event body");

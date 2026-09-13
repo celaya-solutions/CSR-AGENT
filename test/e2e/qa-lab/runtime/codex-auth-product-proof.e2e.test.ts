@@ -22,7 +22,7 @@ const ACCOUNT_ID = "qa-codex-account";
 const MODEL = "openai/gpt-5.6-luna";
 const MISSING_PROFILE_ID = "openai:missing";
 const SELECTED_AUTH_PROFILE_UNAVAILABLE_USER_TEXT =
-  "The selected auth profile is unavailable in this agent's OpenClaw credential store. " +
+  "The selected auth profile is unavailable in this agent's Zero to Agent credential store. " +
   "Import or migrate that credential into the agent, select another configured profile, or run `openclaw configure`, then retry.";
 const PRODUCT_OUTPUT = "QA_CODEX_AUTH_PRODUCT_PROOF_OK";
 const REQUEST_TIMEOUT_MS = 60_000;

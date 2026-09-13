@@ -101,7 +101,7 @@ function resolveExpectedOwnershipCoordinatorPath(databasePath: string): string {
   const canonicalDatabasePath = resolvePathViaExistingAncestorSync(databasePath);
   const runtimeDirectory =
     process.platform === "win32"
-      ? path.join(os.homedir(), "AppData", "Local", "OpenClaw", "locks")
+      ? path.join(os.homedir(), "AppData", "Local", "Zero to Agent", "locks")
       : "/tmp";
   const canonicalRuntimeDirectory = resolvePathViaExistingAncestorSync(runtimeDirectory);
   const suffix =

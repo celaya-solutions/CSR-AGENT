@@ -30,7 +30,7 @@ const args = process.argv.slice(2);
 fs.appendFileSync(process.env.ARGV_LOG, JSON.stringify(args) + '\\n');
 const supported = (options.commands ?? ['install', 'enable', 'update']).includes(args[1]);
 if (args.includes('--help')) {
-  console.log('OpenClaw 2026.8.1\\nOptions:');
+  console.log('Zero to Agent 2026.8.1\\nOptions:');
   console.log(supported ? '  --accept-capabilities  Accept capabilities' : '  --force  Confirm source');
   if (options.hang) setInterval(() => {}, 1000);
   else process.exit(options.helpStatus ?? 0);
@@ -42,7 +42,7 @@ if (args.includes('--help')) {
       if (args[1] === 'enable') fs.rmSync(marker, { force: true });
     }
     if (args[0] === 'demo-npm' && fs.existsSync(marker)) {
-      console.error('OpenClaw does not know the command "demo-npm".');
+      console.error('Zero to Agent does not know the command "demo-npm".');
       process.exit(43);
     }
   }

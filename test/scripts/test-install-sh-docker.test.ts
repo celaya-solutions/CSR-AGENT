@@ -826,7 +826,7 @@ describe("test-install-sh-docker", () => {
         "set -euo pipefail",
         'case "${1:-}" in',
         "  --version)",
-        "    printf 'OpenClaw v2026.6.21-beta.1\\r\\n'",
+        "    printf 'Zero to Agent v2026.6.21-beta.1\\r\\n'",
         "    ;;",
         "  --help)",
         "    printf 'usage\\n'",
@@ -847,7 +847,7 @@ describe("test-install-sh-docker", () => {
         [
           "set -euo pipefail",
           "source scripts/docker/install-sh-common/cli-verify.sh",
-          "printf 'parsed=%s\\n' \"$(extract_openclaw_semver 'OpenClaw v2026.6.21-beta.1+build.7')\"",
+          "printf 'parsed=%s\\n' \"$(extract_openclaw_semver 'Zero to Agent v2026.6.21-beta.1+build.7')\"",
           "verify_installed_cli openclaw 2026.6.21-beta.1",
         ].join("\n"),
       ],
@@ -1229,7 +1229,7 @@ printf 'status=%s\\n' "$status"
     expect(workflow).toContain(
       "git for-each-ref --format='%(refname:short)' --contains \"$selected_sha\" refs/remotes/origin",
     );
-    expect(workflow).toContain("reachable from an OpenClaw branch or release tag");
+    expect(workflow).toContain("reachable from a Zero to Agent branch or release tag");
   });
 
   it("downloads the OpenShell installer completely before execution", () => {
@@ -1776,7 +1776,7 @@ printf 'command-status=%s\\n' "$command_result"
 const fs = require("node:fs");
 const args = process.argv.slice(2);
 if (args[0] === "--version") {
-  console.log("OpenClaw " + fs.readFileSync(process.env.FAKE_VERSION_FILE, "utf8"));
+  console.log("Zero to Agent " + fs.readFileSync(process.env.FAKE_VERSION_FILE, "utf8"));
 } else if (args[0] === "update") {
   const before = fs.readFileSync(process.env.FAKE_VERSION_FILE, "utf8");
   fs.appendFileSync(process.env.FAKE_CALLS_FILE, JSON.stringify(args) + "\\n");
@@ -2443,7 +2443,7 @@ syncBuiltinESMExports();
     expect(unsupported.stderr).toContain("Bun 1.4 or newer is required; found 1.3.14");
   });
 
-  it("requires Bun to trust and execute OpenClaw lifecycle scripts", () => {
+  it("requires Bun to trust and execute Zero to Agent lifecycle scripts", () => {
     const tempDir = tempDirs.make("openclaw-bun-trusted-lifecycle-");
     const packageRoot = join(tempDir, "node_modules", "openclaw");
     const globalManifestPath = join(tempDir, "package.json");
@@ -2478,7 +2478,7 @@ syncBuiltinESMExports();
       { encoding: "utf8" },
     );
     expect(blocked.status).not.toBe(0);
-    expect(blocked.stderr).toContain("OpenClaw lifecycle scripts remain blocked by Bun");
+    expect(blocked.stderr).toContain("Zero to Agent lifecycle scripts remain blocked by Bun");
 
     writeFileSync(untrustedOutputPath, "");
     writeFileSync(join(packageRoot, ".openclaw-lifecycle-pending"), "pending\n");
@@ -2494,7 +2494,7 @@ syncBuiltinESMExports();
       { encoding: "utf8" },
     );
     expect(skipped.status).not.toBe(0);
-    expect(skipped.stderr).toContain("OpenClaw package lifecycle did not complete");
+    expect(skipped.stderr).toContain("Zero to Agent package lifecycle did not complete");
   });
 
   it.runIf(process.platform !== "win32").each([
@@ -2578,7 +2578,7 @@ if [ "\${1:-}" = "pm" ] && [ "\${2:-}" = "-g" ] && [ "\${3:-}" = "untrusted" ]; 
   exit 0
 fi
 if [ "\${1:-}" = "run" ] && [ "\${2:-}" = "--bun" ]; then
-  echo "OpenClaw 2026.6.17"
+  echo "Zero to Agent 2026.6.17"
   exit 0
 fi
 if [[ "\${1:-}" == */verify-fs-safe-native.mjs ]]; then
@@ -2590,7 +2590,7 @@ if [[ "\${1:-}" == */verify-fs-safe-native.mjs ]]; then
 fi
 if [[ "\${1:-}" == */openclaw.mjs ]]; then
   if [ "$FAKE_BUN_RUNTIME" = "unsupported" ]; then
-    echo 'openclaw: the Bun runtime is unsupported because OpenClaw requires node:sqlite.' >&2
+    echo 'openclaw: the Bun runtime is unsupported because Zero to Agent requires node:sqlite.' >&2
     exit 1
   fi
   if [ "$FAKE_BUN_RUNTIME" = "unexpected-failure" ]; then
@@ -2636,7 +2636,7 @@ import http from "node:http";
 
 const args = process.argv.slice(2);
 if (args[0] === "--version") {
-  console.log("OpenClaw 2026.6.17");
+  console.log("Zero to Agent 2026.6.17");
 } else if (args[0] === "--help") {
   console.log("Usage: openclaw");
 } else if (args[0] === "infer") {

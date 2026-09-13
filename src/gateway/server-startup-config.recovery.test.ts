@@ -511,7 +511,7 @@ describe("gateway startup config validation", () => {
 
     await expectStartupRejects(
       new RegExp(
-        'openclaw-startup-recovery\\.json:1 — gateway\\.mode: Invalid input \\(allowed: "local", "remote"\\), got: "nope".*Config was last written by OpenClaw 9999\\.1\\.1, but you are running',
+        'openclaw-startup-recovery\\.json:1 — gateway\\.mode: Invalid input \\(allowed: "local", "remote"\\), got: "nope".*Config was last written by Zero to Agent 9999\\.1\\.1, but you are running',
         "s",
       ),
     );
@@ -616,7 +616,7 @@ describe("gateway startup config validation", () => {
         {
           path: "plugins.entries.feishu",
           message:
-            "plugin feishu: plugin requires OpenClaw >=2026.4.23, but this host is 2026.4.22; skipping load",
+            "plugin feishu: plugin requires Zero to Agent >=2026.4.23, but this host is 2026.4.22; skipping load",
         },
       ],
     });

@@ -147,7 +147,7 @@ describe("cli program (nodes push)", () => {
     async ({
       extraArgs,
       environment,
-      title = "OpenClaw",
+      title = "Zero to Agent",
       body = "Push test for node ios-node",
     }) => {
       const result: PushTestResult = {

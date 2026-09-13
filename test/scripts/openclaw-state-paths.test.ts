@@ -11,7 +11,7 @@ const state = path.join(path.sep, "tmp", "openclaw-state");
 const rawState = `${state}/../raw `;
 const rawConfig = " ./raw config.json ";
 
-describe("OpenClaw E2E state paths", () => {
+describe("Zero to Agent E2E state paths", () => {
   it.each([
     ["returns raw state path bytes", resolveState, [home, undefined, rawState], rawState],
     ["preserves whitespace state overrides", resolveState, [home, undefined, " \t "], " \t "],

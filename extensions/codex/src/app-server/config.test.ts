@@ -695,7 +695,7 @@ describe("Codex app-server config", () => {
       env: { OPENCLAW_BUILD_PRIVATE_QA: "1", OPENCLAW_QA_FORCE_RUNTIME: "codex" },
     },
     {
-      label: "forced private-QA OpenClaw runtime",
+      label: "forced private-QA Zero to Agent runtime",
       env: { OPENCLAW_BUILD_PRIVATE_QA: "1", OPENCLAW_QA_FORCE_RUNTIME: "openclaw" },
     },
   ])("preserves production yolo filesystem policy for $label", ({ env }) => {
@@ -2228,7 +2228,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
     });
   });
 
-  it("maps normalized OpenClaw auto exec mode to guardian-reviewed local execution", () => {
+  it("maps normalized Zero to Agent auto exec mode to guardian-reviewed local execution", () => {
     const runtime = resolveRuntimeForTest({
       pluginConfig: {},
       execMode: "auto",
@@ -2304,7 +2304,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
   });
 
   it.each(["deny", "allowlist"] as const)(
-    "blocks Codex app-server local execution for normalized OpenClaw %s exec mode",
+    "blocks Codex app-server local execution for normalized Zero to Agent %s exec mode",
     (execMode) => {
       expect(() =>
         resolveRuntimeForTest({
@@ -2317,7 +2317,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
     },
   );
 
-  it("maps normalized OpenClaw ask exec mode away from Codex yolo", () => {
+  it("maps normalized Zero to Agent ask exec mode away from Codex yolo", () => {
     const runtime = resolveRuntimeForTest({
       pluginConfig: {},
       execMode: "ask",
@@ -2428,7 +2428,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
     });
   });
 
-  it("fails closed when normalized OpenClaw ask mode cannot use user approvals", () => {
+  it("fails closed when normalized Zero to Agent ask mode cannot use user approvals", () => {
     expect(() =>
       resolveRuntimeForTest({
         pluginConfig: {},
@@ -2468,7 +2468,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
       error: "tools.exec.mode=ask requires Codex app-server prompting approvals",
     },
   ] as const)(
-    "fails closed when normalized OpenClaw $execMode mode can only use $policies approvals",
+    "fails closed when normalized Zero to Agent $execMode mode can only use $policies approvals",
     ({ execMode, policies, error }) => {
       expect(() =>
         resolveRuntimeForTest({
@@ -2485,7 +2485,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
   it.each([
     { execMode: "auto" as const, approvalsReviewer: "auto_review" },
     { execMode: "ask" as const, approvalsReviewer: "user" },
-  ])("honors managed prompting approvals for OpenClaw $execMode mode", (expected) => {
+  ])("honors managed prompting approvals for Zero to Agent $execMode mode", (expected) => {
     const runtime = resolveRuntimeForTest({
       pluginConfig: {},
       execMode: expected.execMode,
@@ -2500,7 +2500,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
     });
   });
 
-  it("keeps normalized OpenClaw full exec mode on default Codex yolo", () => {
+  it("keeps normalized Zero to Agent full exec mode on default Codex yolo", () => {
     const runtime = resolveRuntimeForTest({
       pluginConfig: {},
       execMode: "full",
@@ -2558,7 +2558,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
     });
   });
 
-  it("uses user approvals when normalized OpenClaw auto mode cannot use Codex auto-review", () => {
+  it("uses user approvals when normalized Zero to Agent auto mode cannot use Codex auto-review", () => {
     const runtime = resolveRuntimeForTest({
       pluginConfig: {},
       execMode: "auto",
@@ -2598,7 +2598,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
     },
   );
 
-  it("keeps normalized OpenClaw auto mode when legacy app-server yolo was schema-defaulted", () => {
+  it("keeps normalized Zero to Agent auto mode when legacy app-server yolo was schema-defaulted", () => {
     const runtime = resolveRuntimeForTest({
       pluginConfig: {
         appServer: {
@@ -2631,7 +2631,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
     });
   });
 
-  it("forces guarded policy fields for normalized OpenClaw auto mode", () => {
+  it("forces guarded policy fields for normalized Zero to Agent auto mode", () => {
     const runtime = resolveRuntimeForTest({
       pluginConfig: {
         appServer: {
@@ -2752,7 +2752,7 @@ allowed_sandbox_modes = ["read-only", "workspace-write"]
     );
   });
 
-  it("clamps legacy full exec with ask when an OpenClaw sandbox is active", () => {
+  it("clamps legacy full exec with ask when a Zero to Agent sandbox is active", () => {
     const config = {
       tools: {
         exec: {

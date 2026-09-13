@@ -823,7 +823,7 @@ describe("resolveTsdownBuildInvocation", () => {
     });
 
     expect(shortfall?.fatal).toBe(true);
-    expect(shortfall?.message).toContain("resolved OpenClaw build heap is 732MB");
+    expect(shortfall?.message).toContain("resolved Zero to Agent build heap is 732MB");
     expect(shortfall?.message).toContain("OPENCLAW_TSDOWN_MAX_OLD_SPACE_MB=<MB>");
   });
 

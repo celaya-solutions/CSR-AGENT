@@ -338,7 +338,7 @@ function checkTarball({
         expect(result.stderr).not.toContain(text);
       }
       if (successText) {
-        expect(result.stdout).toContain("OpenClaw package tarball integrity passed.");
+        expect(result.stdout).toContain("Zero to Agent package tarball integrity passed.");
       }
     },
     version,
@@ -361,16 +361,18 @@ describe("check-openclaw-package-tarball", () => {
     const unknown = spawnSync("node", [CHECK_SCRIPT, "--tag"], { encoding: "utf8" });
 
     expect(unknown.status).not.toBe(0);
-    expect(unknown.stderr).toContain("Unknown OpenClaw package tarball check option: --tag");
-    expect(unknown.stderr).not.toContain("OpenClaw package tarball does not exist");
+    expect(unknown.stderr).toContain("Unknown Zero to Agent package tarball check option: --tag");
+    expect(unknown.stderr).not.toContain("Zero to Agent package tarball does not exist");
 
     const extra = spawnSync("node", [CHECK_SCRIPT, "openclaw.tgz", "extra"], {
       encoding: "utf8",
     });
 
     expect(extra.status).not.toBe(0);
-    expect(extra.stderr).toContain("Unexpected OpenClaw package tarball check argument: extra");
-    expect(extra.stderr).not.toContain("OpenClaw package tarball does not exist");
+    expect(extra.stderr).toContain(
+      "Unexpected Zero to Agent package tarball check argument: extra",
+    );
+    expect(extra.stderr).not.toContain("Zero to Agent package tarball does not exist");
   });
 
   it("rejects owner-only tar entry modes", () => {
@@ -397,7 +399,7 @@ describe("check-openclaw-package-tarball", () => {
         });
 
         expect(result.status, result.stderr).toBe(0);
-        expect(result.stdout).toContain("OpenClaw package tarball integrity passed.");
+        expect(result.stdout).toContain("Zero to Agent package tarball integrity passed.");
         expect(result.stderr).toMatch(/npm pack inventory \(npm \d+\.\d+\.\d+/u);
       },
       "2026.9.4",
@@ -879,7 +881,7 @@ syncBuiltinESMExports();
     checkTarball({
       files: {
         "dist/index.js": "export {};\n",
-        "README.md": "# OpenClaw\n",
+        "README.md": "# Zero to Agent\n",
       },
       options: {
         packageJson: { files: ["dist", "!README*"] },
@@ -1334,7 +1336,7 @@ syncBuiltinESMExports();
       strict: true,
       status: "nonzero",
       stderr: [
-        "package.json dependencies.@openclaw/ai must be listed in bundleDependencies because it is private to the OpenClaw workspace",
+        "package.json dependencies.@openclaw/ai must be listed in bundleDependencies because it is private to the Zero to Agent workspace",
         "package.json dependencies.@openclaw/ai must be bundled in node_modules/@openclaw/ai",
       ],
     },

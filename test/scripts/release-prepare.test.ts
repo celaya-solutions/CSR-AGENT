@@ -170,7 +170,7 @@ describe("release preparation manifest", () => {
       execFileSync("git", ["config", "user.email", "release-test@openclaw.invalid"], {
         cwd: rootDir,
       });
-      execFileSync("git", ["config", "user.name", "OpenClaw Release Test"], { cwd: rootDir });
+      execFileSync("git", ["config", "user.name", "Zero to Agent Release Test"], { cwd: rootDir });
       writeFileSync(path.join(rootDir, "package.json"), '{"version":"2026.7.2"}\n');
       writeFileSync(path.join(rootDir, "generated.txt"), `${"a".repeat(33 * 1024 * 1024)}\n`);
       execFileSync("git", ["add", "."], { cwd: rootDir });

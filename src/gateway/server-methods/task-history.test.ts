@@ -128,7 +128,7 @@ describe("tasks.history", () => {
     });
   });
 
-  it("reads the OpenClaw child transcript through chat history and preserves pagination", async () => {
+  it("reads the Zero to Agent child transcript through chat history and preserves pagination", async () => {
     await withHistoryState(async () => {
       const scope = {
         agentId: "main",

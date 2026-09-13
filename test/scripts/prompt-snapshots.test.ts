@@ -220,7 +220,7 @@ describe("happy path prompt snapshots", () => {
     );
     expect(telegram).toContain("### User: Codex Config Instructions");
     expect(telegram).toContain("### User: Turn Input Text");
-    expect(telegram).toContain("OpenClaw runtime context for this turn:");
+    expect(telegram).toContain("Zero to Agent runtime context for this turn:");
     expect(telegram).toContain("<SOUL.md contents will be here>");
     expect(telegram).toContain("<IDENTITY.md contents will be here>");
     expect(telegram).toContain("<USER.md contents will be here>");
@@ -261,7 +261,7 @@ describe("happy path prompt snapshots", () => {
       const entry = turn.additionalContext[key]!;
       const role = entry.kind === "application" ? "Developer" : "User";
       const tag = entry.kind === "application" ? key : `external_${key}`;
-      const index = telegram.indexOf(`### ${role}: OpenClaw Additional Context (${key})`);
+      const index = telegram.indexOf(`### ${role}: Zero to Agent Additional Context (${key})`);
       expect(index).toBeGreaterThan(previous);
       expect(index).toBeLessThan(userInput);
       const text = `<${tag}>${entry.value}</${tag}>`;
@@ -294,16 +294,16 @@ describe("happy path prompt snapshots", () => {
       expect(turn.collaborationMode.settings.developer_instructions).toBeNull();
       const parentLocal = renderedPromptSection(
         snapshot,
-        "### Request Instructions: OpenClaw Parent-Local Context",
+        "### Request Instructions: Zero to Agent Parent-Local Context",
         "### Developer: Codex Permission Instructions",
       );
-      expect(parentLocal).toContain("## OpenClaw Agent Soul");
+      expect(parentLocal).toContain("## Zero to Agent Agent Soul");
       for (const name of ["SOUL.md", "IDENTITY.md", "USER.md"]) {
         expect(parentLocal).toContain("<" + name + " contents will be here>");
       }
       const shared = renderedPromptSection(
         snapshot,
-        "### Developer: OpenClaw Runtime Instructions",
+        "### Developer: Zero to Agent Runtime Instructions",
         "### Developer: Codex Collaboration Mode Instructions",
       );
       const collaboration = renderedPromptSection(
@@ -323,7 +323,7 @@ describe("happy path prompt snapshots", () => {
       }
       expect(collaboration).not.toContain("HEARTBEAT.md");
       expect(snapshot).not.toContain("Heartbeat = useful proactive progress");
-      expect(snapshot).not.toContain("This is an OpenClaw heartbeat turn.");
+      expect(snapshot).not.toContain("This is a Zero to Agent heartbeat turn.");
       expect(snapshot).not.toContain("simulatedHeartbeatWorkspaceFile");
     }
   });

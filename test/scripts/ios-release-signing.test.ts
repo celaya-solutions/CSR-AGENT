@@ -58,15 +58,17 @@ describe("scripts/ios-release-signing.mjs", () => {
     expect(output).toContain("OPENCLAW_CODE_SIGN_STYLE = Manual");
     expect(output).toContain("OPENCLAW_CODE_SIGN_IDENTITY = Apple Distribution");
     expect(output).toContain("OPENCLAW_APP_GROUP_ID = group.ai.openclawfoundation.app.shared");
-    expect(output).toContain("OPENCLAW_APP_PROFILE = OpenClaw App Store ai.openclawfoundation.app");
     expect(output).toContain(
-      "OPENCLAW_SHARE_PROFILE = OpenClaw App Store ai.openclawfoundation.app.share",
+      "OPENCLAW_APP_PROFILE = Zero to Agent App Store ai.openclawfoundation.app",
     );
     expect(output).toContain(
-      "OPENCLAW_ACTIVITY_WIDGET_PROFILE = OpenClaw App Store ai.openclawfoundation.app.activitywidget",
+      "OPENCLAW_SHARE_PROFILE = Zero to Agent App Store ai.openclawfoundation.app.share",
     );
     expect(output).toContain(
-      "OPENCLAW_WATCH_APP_PROFILE = OpenClaw App Store ai.openclawfoundation.app.watchkitapp",
+      "OPENCLAW_ACTIVITY_WIDGET_PROFILE = Zero to Agent App Store ai.openclawfoundation.app.activitywidget",
+    );
+    expect(output).toContain(
+      "OPENCLAW_WATCH_APP_PROFILE = Zero to Agent App Store ai.openclawfoundation.app.watchkitapp",
     );
     expect(output).not.toContain("OPENCLAW_WATCH_EXTENSION_PROFILE");
   });

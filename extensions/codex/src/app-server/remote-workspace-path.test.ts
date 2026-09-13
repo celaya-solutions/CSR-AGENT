@@ -141,6 +141,6 @@ describe("Codex remote workspace paths", () => {
         localWorkspaceRoot,
         remoteWorkspaceRoot,
       }),
-    ).toThrow("outside OpenClaw workspace root");
+    ).toThrow("outside Zero to Agent workspace root");
   });
 });

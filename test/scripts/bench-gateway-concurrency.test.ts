@@ -876,7 +876,7 @@ describe("gateway concurrency benchmark script", () => {
     });
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain("OpenClaw Gateway concurrency benchmark");
+    expect(result.stdout).toContain("Zero to Agent Gateway concurrency benchmark");
   });
 
   it("ends CLI failures with the required wrapper marker", () => {

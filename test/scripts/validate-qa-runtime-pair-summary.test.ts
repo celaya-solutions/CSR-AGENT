@@ -170,7 +170,7 @@ function reportFor(scenarios: ReturnType<typeof scenario>[]) {
 
 function markdownFor(scenarios: ReturnType<typeof scenario>[]) {
   return [
-    "# OpenClaw Runtime Parity Report — openclaw vs codex",
+    "# Zero to Agent Runtime Parity Report — openclaw vs codex",
     "",
     "- Verdict: pass",
     ...scenarios.flatMap((entry) => [
@@ -440,7 +440,7 @@ describe("frozen QA runtime-pair summary validation", () => {
       pass: true,
     };
     const markdown =
-      "# OpenClaw Runtime Parity Report — openclaw vs codex\n\n- Verdict: pass\n\n### tracked advisory gap\n\n- status: pass\n- drift: structural\n- openclaw: pass (0 tool calls)\n- codex: pass (0 tool calls)\n";
+      "# Zero to Agent Runtime Parity Report — openclaw vs codex\n\n- Verdict: pass\n\n### tracked advisory gap\n\n- status: pass\n- drift: structural\n- openclaw: pass (0 tool calls)\n- codex: pass (0 tool calls)\n";
     expect(validateQaRuntimePairReport(fixture, reportSummary, markdown)).toMatchObject({
       total: 1,
       passed: 1,
@@ -640,7 +640,7 @@ describe("frozen QA runtime-pair summary validation", () => {
       pass: true,
     };
     const markdown =
-      "# OpenClaw Runtime Parity Report — openclaw vs codex\n\n- Verdict: pass\n\n### Passing\n\n- status: pass\n- drift: none\n- openclaw: pass (0 tool calls)\n- codex: pass (0 tool calls)\n";
+      "# Zero to Agent Runtime Parity Report — openclaw vs codex\n\n- Verdict: pass\n\n### Passing\n\n- status: pass\n- drift: none\n- openclaw: pass (0 tool calls)\n- codex: pass (0 tool calls)\n";
     expect(validateQaRuntimePairReport(fixture, reportSummary, markdown)).toMatchObject({
       total: 1,
       passed: 1,

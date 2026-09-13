@@ -78,8 +78,8 @@ describe("splitSdkTools", () => {
     expect(isCodeModeControlTool(wrapToolDefinition(definition))).toBe(true);
   });
 
-  it("keeps OpenClaw-managed custom tools in OpenClaw runtime's session allowlist", () => {
-    // Session tools are OpenClaw-managed custom tools; dropping them from the
+  it("keeps Zero to Agent-managed custom tools in Zero to Agent runtime's session allowlist", () => {
+    // Session tools are Zero to Agent-managed custom tools; dropping them from the
     // allowlist would break inter-agent routing even when sandboxing is enabled.
     const { customTools } = splitSdkTools({
       tools: [createStubTool("read"), createStubTool("sessions_spawn")],

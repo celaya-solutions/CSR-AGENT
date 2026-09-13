@@ -373,7 +373,7 @@ describe("extended-stable npm release request", () => {
 
 describe("extended-stable npm run identity", () => {
   const validPreflight = {
-    workflowName: "OpenClaw NPM Release",
+    workflowName: "Zero to Agent NPM Release",
     event: "workflow_dispatch",
     conclusion: "success",
     headBranch: branch,
@@ -462,7 +462,7 @@ describe("extended-stable npm run identity", () => {
       }),
     ).toBe(pluginRun);
     for (const changes of [
-      { workflowName: "OpenClaw NPM Release" },
+      { workflowName: "Zero to Agent NPM Release" },
       { displayTitle: `Plugin NPM Release [default] ${sha}` },
       { displayTitle: `Plugin NPM Release [extended-stable] ${"b".repeat(40)}` },
       { status: "in_progress" },

@@ -167,7 +167,7 @@ describe("resolve-openclaw-package-candidate", () => {
     expect(refPackageBuild).toContain('"--allow-unreleased-changelog"');
   });
 
-  it("accepts only OpenClaw release package specs for npm candidates", () => {
+  it("accepts only Zero to Agent release package specs for npm candidates", () => {
     for (const spec of [
       "openclaw@beta",
       "openclaw@alpha",
@@ -468,7 +468,7 @@ printf '[{"filename":"openclaw-%s.tgz"}]\\n' "$version"
     for (const filename of unsafeFilenames) {
       await expect(
         moveNewestPackedTarballForTest(dir, JSON.stringify([{ filename }]), "openclaw-current.tgz"),
-      ).rejects.toThrow("npm pack reported unsafe OpenClaw tarball filename");
+      ).rejects.toThrow("npm pack reported unsafe Zero to Agent tarball filename");
     }
   });
 
@@ -484,7 +484,7 @@ printf '[{"filename":"openclaw-%s.tgz"}]\\n' "$version"
           ["npm notice", filename].join("\n"),
           "openclaw-current.tgz",
         ),
-      ).rejects.toThrow("npm pack reported unsafe OpenClaw tarball filename");
+      ).rejects.toThrow("npm pack reported unsafe Zero to Agent tarball filename");
     }
   });
 
@@ -1573,7 +1573,7 @@ esac
           '["@openclaw/codex"]',
         ]),
       ).rejects.toThrow(
-        `package_ref ${sourceSha} resolved to ${sourceSha}, which is not reachable from an OpenClaw branch or release tag`,
+        `package_ref ${sourceSha} resolved to ${sourceSha}, which is not reachable from a Zero to Agent branch or release tag`,
       );
     } finally {
       process.env.PATH = previousPath;

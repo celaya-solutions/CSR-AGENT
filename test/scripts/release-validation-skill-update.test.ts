@@ -153,7 +153,7 @@ test.each([".clawhub", ".clawdhub"])(
       JSON.stringify({
         ...origin,
         registry: " https://clawhub.ai/ ",
-        ownerHandle: " OpenClaw ",
+        ownerHandle: " Zero to Agent ",
       }),
     );
     const normalized = await runChecker(scriptPath, workspace);

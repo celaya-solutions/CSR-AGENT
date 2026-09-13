@@ -2852,7 +2852,7 @@ describe("handleToolExecutionEnd timeout metadata", () => {
     {
       name: "records compact cwd labels without exposing them in default payload warnings",
       toolCallId: "tool-exec-repo-raw-command",
-      args: { command: "git status", workdir: "/Users/agent/Projects/OpenClaw" },
+      args: { command: "git status", workdir: "/Users/agent/Projects/Zero to Agent" },
       meta: "check git status (repo), `git status`",
     },
   ])("$name", async ({ toolCallId, args, meta }) => {

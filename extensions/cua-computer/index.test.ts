@@ -168,8 +168,8 @@ describe("cua-computer plugin registration", () => {
       ok: false,
       code: "COMPUTER_DRIVER_PACKAGE_MISSING",
       diagnostic:
-        "COMPUTER_DRIVER_PACKAGE_MISSING: native package absent. Fix: reinstall OpenClaw.",
-      fixHint: "Reinstall OpenClaw.",
+        "COMPUTER_DRIVER_PACKAGE_MISSING: native package absent. Fix: reinstall Zero to Agent.",
+      fixHint: "Reinstall Zero to Agent.",
     });
 
     registerPlugin({
@@ -180,7 +180,7 @@ describe("cua-computer plugin registration", () => {
     });
 
     expect(error).toHaveBeenCalledWith(
-      "COMPUTER_DRIVER_PACKAGE_MISSING: native package absent. Fix: reinstall OpenClaw.",
+      "COMPUTER_DRIVER_PACKAGE_MISSING: native package absent. Fix: reinstall Zero to Agent.",
     );
   });
 

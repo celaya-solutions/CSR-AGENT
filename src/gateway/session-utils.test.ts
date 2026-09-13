@@ -2039,7 +2039,7 @@ describe("gateway session utils", () => {
 
   test.each([
     {
-      name: "a locked Codex session under OpenClaw config",
+      name: "a locked Codex session under Zero to Agent config",
       configuredRuntime: "openclaw",
       expectedRuntime: "codex",
       entry: {
@@ -2094,7 +2094,7 @@ describe("gateway session utils", () => {
   });
 
   test.each([true, false])(
-    "does not reuse stale transcript context after an OpenClaw to Codex change (lightweight=%s)",
+    "does not reuse stale transcript context after a Zero to Agent to Codex change (lightweight=%s)",
     async (lightweightListRow) => {
       await withStateDirEnv("session-utils-stale-transcript-context-", async ({ stateDir }) => {
         const sessionId = "stale-transcript-context";
@@ -2115,7 +2115,7 @@ describe("gateway session utils", () => {
           messages: [
             {
               role: "assistant",
-              content: "old OpenClaw turn",
+              content: "old Zero to Agent turn",
               provider: "openai",
               model: "gpt-5.5",
               usage: { input: 1, output: 1 },
@@ -2756,7 +2756,7 @@ describe("gateway session utils", () => {
   test("buildGatewaySessionRow prefers generated titles over Android node stamps", () => {
     const cfg = { agents: { list: [{ id: "main", default: true }] } } as OpenClawConfig;
     const key = "agent:main:node-1234567890ab";
-    const stamp = "OpenClaw App · Pixel · 1234567890ab";
+    const stamp = "Zero to Agent App · Pixel · 1234567890ab";
     const entry = {
       sessionId: "node-1",
       updatedAt: 1,
@@ -2776,7 +2776,7 @@ describe("gateway session utils", () => {
 
     const manualPrefix = {
       ...entry,
-      label: "OpenClaw App · Release planning · 1234567890ab",
+      label: "Zero to Agent App · Release planning · 1234567890ab",
     } as SessionEntry;
     const manualRow = buildGatewaySessionRow({
       cfg,
@@ -2785,7 +2785,7 @@ describe("gateway session utils", () => {
       key,
       entry: manualPrefix,
     });
-    expect(manualRow.displayName).toBe("OpenClaw App · Release planning · 1234567890ab");
+    expect(manualRow.displayName).toBe("Zero to Agent App · Release planning · 1234567890ab");
   });
 
   test("buildGatewaySessionRow displayName prefers the human chat title for group sessions", () => {

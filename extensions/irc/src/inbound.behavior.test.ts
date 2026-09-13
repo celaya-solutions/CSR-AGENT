@@ -59,7 +59,7 @@ function createAccount(overrides?: Partial<ResolvedIrcAccount>): ResolvedIrcAcco
     accountId: "default",
     enabled: true,
     server: "irc.example.com",
-    nick: "OpenClaw",
+    nick: "Zero to Agent",
     config: {
       dmPolicy: "pairing",
       allowFrom: [],
@@ -122,7 +122,7 @@ describe("irc inbound behavior", () => {
     expect(sendReply).toHaveBeenCalledWith(
       "alice",
       [
-        "OpenClaw: access not configured.",
+        "Zero to Agent: access not configured.",
         "",
         "Your IRC id: alice!ident@example.com",
         "Pairing code:",
@@ -335,8 +335,18 @@ describe("irc inbound behavior", () => {
   });
 
   it.each([
-    { label: "ordinary nick", nick: "OpenClaw", text: "OpenClaw: hello", mentioned: true },
-    { label: "ASCII case folding", nick: "OpenClaw", text: "openclaw: hello", mentioned: true },
+    {
+      label: "ordinary nick",
+      nick: "Zero to Agent",
+      text: "Zero to Agent: hello",
+      mentioned: true,
+    },
+    {
+      label: "ASCII case folding",
+      nick: "Zero to Agent",
+      text: "openclaw: hello",
+      mentioned: true,
+    },
     { label: "leading bracket", nick: "[Claw]", text: "[Claw]: hello", mentioned: true },
     { label: "trailing bracket", nick: "Claw]", text: "hello Claw],", mentioned: true },
     { label: "leading caret", nick: "^Claw", text: "^Claw, hello", mentioned: true },

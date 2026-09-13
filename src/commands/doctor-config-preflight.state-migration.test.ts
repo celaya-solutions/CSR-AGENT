@@ -1081,7 +1081,7 @@ describe("runDoctorConfigPreflight state migration", () => {
       async () => snapshot,
       () =>
         expect(runDoctorConfigPreflight(startupCheckpointOptions)).rejects.toThrow(
-          "OpenClaw config is invalid",
+          "Zero to Agent config is invalid",
         ),
     );
 

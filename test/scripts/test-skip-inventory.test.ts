@@ -212,7 +212,7 @@ describe("collectTestSkipInventoryReport", () => {
 
     const rendered = renderTestSkipInventoryReport(report, { limit: 4 });
 
-    expect(rendered).toContain("OpenClaw test skip inventory");
+    expect(rendered).toContain("Zero to Agent test skip inventory");
     expect(rendered).toContain("Findings: 14 in 4 file(s)");
     expect(rendered).toContain("platform-gate: 6");
     expect(rendered).toContain("- src/example.test.ts (11)");

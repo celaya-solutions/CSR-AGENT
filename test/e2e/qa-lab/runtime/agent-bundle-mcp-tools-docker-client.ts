@@ -1,4 +1,4 @@
-// OpenClaw bundle MCP tools Docker harness.
+// Zero to Agent bundle MCP tools Docker harness.
 // Imports packaged dist modules so tool materialization is verified against the
 // npm tarball installed in the functional image.
 import { randomUUID } from "node:crypto";
@@ -36,7 +36,7 @@ import { McpServer } from ${JSON.stringify(sdkMcpServerPath)};
 import { StdioServerTransport } from ${JSON.stringify(sdkStdioServerPath)};
 
 const server = new McpServer({ name: "agent-bundle-mcp-tools-probe", version: "1.0.0" });
-const probeTool = server.tool("docker_probe", "Docker OpenClaw MCP tool availability probe", async () => ({
+const probeTool = server.tool("docker_probe", "Docker Zero to Agent MCP tool availability probe", async () => ({
   content: [{ type: "text", text: "agent-bundle-mcp-tools-ok" }],
 }));
 probeTool.update({ _meta: { ui: { resourceUri: ${JSON.stringify(APP_URI)} } } });

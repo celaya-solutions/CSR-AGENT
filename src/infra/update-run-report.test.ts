@@ -95,7 +95,7 @@ describe("update run report", () => {
         after: { version: "2026.8.1", sha: "9f3c21a0000000000000000000000000000000aa" },
       }),
     );
-    expect(report.headline).toBe("✅ OpenClaw updated to 9f3c21a0 (from 11111111).");
+    expect(report.headline).toBe("✅ Zero to Agent updated to 9f3c21a0 (from 11111111).");
     expect(report.markdown).toContain(report.headline);
   });
 
@@ -112,15 +112,15 @@ describe("update run report", () => {
     ].map((record) => renderUpdateRunReport(record).markdown);
     expect(reports).toMatchInlineSnapshot(`
       [
-        "✅ OpenClaw updated to 2026.9.2 (from 2026.9.1).
+        "✅ Zero to Agent updated to 2026.9.2 (from 2026.9.1).
       Phases: staging (300ms)",
-        "⚠️ OpenClaw update failed: restart-unhealthy. The gateway is running 2026.9.1.
+        "⚠️ Zero to Agent update failed: restart-unhealthy. The gateway is running 2026.9.1.
       Phases: staging (300ms)
       Verification: service running.
       Run openclaw triage to diagnose and repair the failed update.",
-        "ℹ️ OpenClaw update skipped: dry-run.
+        "ℹ️ Zero to Agent update skipped: dry-run.
       Phases: staging (300ms)",
-        "↩️ OpenClaw update rolled back to 2026.9.1: build-failed.
+        "↩️ Zero to Agent update rolled back to 2026.9.1: build-failed.
       Phases: staging (300ms)",
       ]
     `);
@@ -256,7 +256,7 @@ describe("update run report", () => {
         ],
       }),
     );
-    expect(report.headline).toBe("⬆️ OpenClaw update in progress: verifying.");
+    expect(report.headline).toBe("⬆️ Zero to Agent update in progress: verifying.");
     expect(report.markdown).not.toContain("openclaw doctor");
     expect(report.markdown).not.toContain("Run the update manually");
     expect(report.markdown).toContain(

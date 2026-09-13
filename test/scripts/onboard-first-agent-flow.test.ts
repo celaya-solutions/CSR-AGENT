@@ -25,7 +25,7 @@ source scripts/e2e/lib/onboard/scenario.sh
 trap 'rm -rf "$ONBOARD_TMP_DIR"' EXIT
 WIZARD_LOG_PATH="$CASE_ROOT/prompts.log"
 export WIZARD_LOG_PATH
-prompts=("Help make OpenClaw better?")
+prompts=("Help make Zero to Agent better?")
 if [[ "$LAYOUT" == team ]]; then
   prompts+=($'\\e[36mWhat would you like to create?\\e[39m\\n● One agent\\n○ A small team')
 fi

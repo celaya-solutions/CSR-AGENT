@@ -176,7 +176,7 @@ describe("brave web search provider", () => {
     vi.stubEnv("BRAVE_API_KEY", "");
     const tool = createBraveTool();
 
-    const result = await tool.execute({ query: "OpenClaw docs" });
+    const result = await tool.execute({ query: "Zero to Agent docs" });
 
     expect(result).toEqual({
       error: "missing_brave_api_key",

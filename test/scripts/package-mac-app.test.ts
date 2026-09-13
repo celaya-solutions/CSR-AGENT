@@ -111,7 +111,7 @@ ROOT_DIR=${JSON.stringify(root)}
 APP_STAGE_DIR=${JSON.stringify(stage)}
 SWIFT_BUILD_RESULTS=""
 SWIFT_BUILD_PID=""
-PRODUCT=OpenClaw
+PRODUCT=Zero to Agent
 BUILD_CONFIG=release
 PEEKABOO_LOCKED_SOURCE_COMMIT=${commit}
 SKIP_MLX_TTS=0
@@ -195,7 +195,7 @@ describe("packaged worker freshness", () => {
       const root = tempDirs.make("openclaw-package-stage-");
       const dist = path.join(root, "dist");
       const output = tempDirs.make("openclaw-package-stage-output-");
-      const previousApp = path.join(dist, "OpenClaw.app/Contents/MacOS/OpenClaw");
+      const previousApp = path.join(dist, "OpenClaw.app/Contents/MacOS/Zero to Agent");
       const { files, packageManager, version } = JSON.parse(
         readFileSync("package.json", "utf8"),
       ) as {
@@ -240,7 +240,10 @@ printf '%s' "$APP_STAGE_DIR"
       writeFileSync(path.join(swiftResults, "arm64/peekaboo-commit"), "private stage canary\n");
       writeFileSync(path.join(swiftResults, "cleanup-complete"), "verified\n");
       mkdirSync(path.join(stage, "OpenClaw.app/Contents/MacOS"), { recursive: true });
-      writeFileSync(path.join(stage, "OpenClaw.app/Contents/MacOS/OpenClaw"), "candidate app\n");
+      writeFileSync(
+        path.join(stage, "OpenClaw.app/Contents/MacOS/Zero to Agent"),
+        "candidate app\n",
+      );
       try {
         expect(statSync(stage).dev).toBe(statSync(dist).dev);
         expect(statSync(stage).mode & 0o777).toBe(0o700);
@@ -289,14 +292,19 @@ ${cleanup}
 
   it.each([
     "dist/OpenClaw.app",
-    "dist/OpenClaw-proof.app",
+    "dist/Zero to Agent-proof.app",
     "dist/.openclaw-package.fixture/OpenClaw.app",
   ])("bounds expanded package exclusions to the app root %s", (app) => {
     const manifest = JSON.parse(readFileSync("package.json", "utf8")) as { files: string[] };
     const exclusions = manifest.files
       .filter((entry) => entry.startsWith("!"))
       .map((entry) => entry.slice(1));
-    const entries = [app, `${app}/Contents`, `${app}/Contents/MacOS/OpenClaw`, "dist/entry.js"];
+    const entries = [
+      app,
+      `${app}/Contents`,
+      `${app}/Contents/MacOS/Zero to Agent`,
+      "dist/entry.js",
+    ];
     // npm 12 expands files globs into individual ignore rules. Exclude the app
     // directory, which also excludes its contents, not every payload file separately.
     const matches = entries.filter((entry) =>
@@ -949,7 +957,7 @@ function runStopPackagedAppHarness(killZeroStatus: 0 | 1) {
   const toolsDir = tempDirs.make("openclaw-package-stop-tools-");
 
   const appRoot = path.join(root, "dist", "OpenClaw.app");
-  const appBinary = path.join(appRoot, "Contents", "MacOS", "OpenClaw");
+  const appBinary = path.join(appRoot, "Contents", "MacOS", "Zero to Agent");
   const lsofPath = path.join(toolsDir, "lsof");
   const pgrepPath = path.join(toolsDir, "pgrep");
   const sleepPath = path.join(toolsDir, "sleep");
@@ -968,7 +976,7 @@ function runStopPackagedAppHarness(killZeroStatus: 0 | 1) {
   return runHelper(`
     set -euo pipefail
     APP_DESTINATION=${JSON.stringify(appRoot)}
-    PRODUCT=OpenClaw
+    PRODUCT=Zero to Agent
     PATH=${JSON.stringify(`${toolsDir}:/usr/bin:/bin`)}
     kill() {
       if [[ "\${1:-}" == "-0" ]]; then
@@ -1204,7 +1212,7 @@ describe("package-mac-app plist stamping", () => {
     );
   });
 
-  it("stamps and validates independent OpenClaw and Peekaboo source revisions", () => {
+  it("stamps and validates independent Zero to Agent and Peekaboo source revisions", () => {
     const { result, openClawCommit, peekabooCommit } = runSourceProvenanceStampHarness();
 
     expect(result.status, result.stderr).toBe(0);
@@ -1213,7 +1221,7 @@ describe("package-mac-app plist stamping", () => {
   });
 
   it.each([
-    { key: "OpenClawGitCommit", diagnostic: "Release app OpenClaw source mismatch" },
+    { key: "OpenClawGitCommit", diagnostic: "Release app Zero to Agent source mismatch" },
     { key: "PeekabooSourceCommit", diagnostic: "Release app Peekaboo source mismatch" },
   ])("fails release validation independently for a wrong $key", ({ key, diagnostic }) => {
     const { result } = runSourceProvenanceStampHarness(key);
@@ -1715,7 +1723,7 @@ describe("package-mac-app plist stamping", () => {
     });
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("OpenClaw macOS app packaging requires Swift tools 6.3+");
+    expect(result.stderr).toContain("Zero to Agent macOS app packaging requires Swift tools 6.3+");
     expect(result.stderr).toContain("Current Swift is 6.0");
   });
 
@@ -1754,7 +1762,7 @@ describe("package-mac-app plist stamping", () => {
     });
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("OpenClaw macOS app packaging requires Xcode 26.4+");
+    expect(result.stderr).toContain("Zero to Agent macOS app packaging requires Xcode 26.4+");
     expect(result.stderr).toContain("current Xcode is 26.3");
   });
 
@@ -1811,7 +1819,7 @@ describe("package-mac-app plist stamping", () => {
     expect(result.status).toBe(1);
     const diagnosticIndex = result.stderr.indexOf(diagnostic);
     const guidanceIndex = result.stderr.indexOf(
-      "ERROR: OpenClaw macOS app packaging requires a full Xcode developer directory",
+      "ERROR: Zero to Agent macOS app packaging requires a full Xcode developer directory",
     );
     expect(diagnosticIndex).toBeGreaterThanOrEqual(0);
     expect(guidanceIndex).toBeGreaterThan(diagnosticIndex);
@@ -1855,15 +1863,15 @@ describe("package-mac-app plist stamping", () => {
     expect(result.stderr).toBe("");
   });
 
-  it("does not kill unrelated OpenClaw processes during packaging", () => {
+  it("does not kill unrelated Zero to Agent processes during packaging", () => {
     const script = readFileSync(scriptPath, "utf8");
     const stopBlock = script.slice(
       script.indexOf("running_packaged_app_pids()"),
       script.indexOf('echo "🔏 Signing bundle'),
     );
 
-    expect(script).not.toContain("killall -q OpenClaw");
-    expect(stopBlock).toContain('local app_binary="$APP_DESTINATION/Contents/MacOS/OpenClaw"');
+    expect(script).not.toContain("killall -q Zero to Agent");
+    expect(stopBlock).toContain('local app_binary="$APP_DESTINATION/Contents/MacOS/Zero to Agent"');
     expect(stopBlock).toContain('pgrep -x "$PRODUCT"');
     expect(stopBlock).toContain('grep -Fx "$app_binary"');
     expect(stopBlock).toContain(
@@ -1887,7 +1895,7 @@ describe("package-mac-app plist stamping", () => {
       const callerTemp = path.join(tempRoot, "caller temp [*]");
       const eventsPath = path.join(tempRoot, "events");
       const observationsPath = path.join(tempRoot, "worker-scratch.jsonl");
-      const identity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+      const identity = "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)";
       for (const directory of [scriptsDir, appRoot, callerHome, callerTemp]) {
         mkdirSync(directory, { recursive: true });
       }
@@ -1996,7 +2004,7 @@ try {
     const result = runStopPackagedAppHarness(0);
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("ERROR: Packaged OpenClaw bundle did not exit: 123");
+    expect(result.stderr).toContain("ERROR: Packaged Zero to Agent bundle did not exit: 123");
   });
 
   it("fails release packaging when the Swift compatibility library is missing", () => {

@@ -217,7 +217,7 @@ describe("scripts/connect.sh", () => {
     const privateTargetPath = readFileSync(fixture.targetPath, "utf8").trim();
     expect(result.status).toBe(23);
     expect(result.stderr).toContain(
-      "OpenClaw could not connect or install the session-host service.",
+      "Zero to Agent could not connect or install the session-host service.",
     );
     expect(existsSync(privateTargetPath)).toBe(false);
     expect(existsSync(dirname(privateTargetPath))).toBe(false);

@@ -524,7 +524,7 @@ describe("anthropic cli migration", () => {
     });
   });
 
-  it("does not copy native Claude credentials into OpenClaw", () => {
+  it("does not copy native Claude credentials into Zero to Agent", () => {
     const result = buildAnthropicCliMigrationResult({});
     expect(result.profiles).toEqual([]);
   });

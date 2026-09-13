@@ -374,7 +374,7 @@ describe("durable task registry churn benchmark", () => {
       { cwd: process.cwd(), encoding: "utf8", env: { ...process.env, NODE_NO_WARNINGS: "1" } },
     );
     expect(help.status).toBe(0);
-    expect(help.stdout).toContain("OpenClaw durable task registry churn benchmark");
+    expect(help.stdout).toContain("Zero to Agent durable task registry churn benchmark");
     expect(help.stdout).toContain("--sizes <list>");
     expect(help.stderr).toBe("");
 

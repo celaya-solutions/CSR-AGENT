@@ -81,10 +81,10 @@ describe("check-package-dist-imports", () => {
       expect(result.error, result.stderr).toBeUndefined();
       expect(result.status, result.stderr).toBe(accepted ? 0 : 1);
       if (accepted) {
-        expect(result.stdout).toContain("OpenClaw package dist import closure passed.");
+        expect(result.stdout).toContain("Zero to Agent package dist import closure passed.");
       } else {
         expect(result.stderr).toContain("Unexpected package dist import check argument");
-        expect(result.stdout).not.toContain("OpenClaw package dist import closure passed.");
+        expect(result.stdout).not.toContain("Zero to Agent package dist import closure passed.");
       }
     },
   );
@@ -124,7 +124,7 @@ describe("check-package-dist-imports", () => {
     const result = spawnSync("node", [CHECK_SCRIPT, root], { encoding: "utf8" });
 
     expect(result.status, result.stderr).toBe(0);
-    expect(result.stdout).toContain("OpenClaw package dist import closure passed.");
+    expect(result.stdout).toContain("Zero to Agent package dist import closure passed.");
   });
 
   it("ignores import.meta.url probes outside packaged dist", () => {
@@ -150,6 +150,6 @@ describe("check-package-dist-imports", () => {
     const result = spawnSync("node", [CHECK_SCRIPT, root], { encoding: "utf8" });
 
     expect(result.status, result.stderr).toBe(0);
-    expect(result.stdout).toContain("OpenClaw package dist import closure passed.");
+    expect(result.stdout).toContain("Zero to Agent package dist import closure passed.");
   });
 });

@@ -209,7 +209,7 @@ describe("cli json stdout contract", () => {
           ok: false,
           error: {
             type: "cli_error",
-            message: expect.stringContaining("OpenClaw config is invalid"),
+            message: expect.stringContaining("Zero to Agent config is invalid"),
           },
           issues: expect.arrayContaining([
             expect.objectContaining({ path: "gateway.bind", message: expect.any(String) }),

@@ -1,4 +1,4 @@
-// OpenClaw source performance isolation executes the workflow's real shared-shell path.
+// Zero to Agent source performance isolation executes the workflow's real shared-shell path.
 import { spawnSync } from "node:child_process";
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -37,11 +37,11 @@ function findStep(name: string, job: string): WorkflowStep {
   return step as WorkflowStep;
 }
 
-describe("OpenClaw source performance isolation", () => {
+describe("Zero to Agent source performance isolation", () => {
   it("isolates the source performance gateway from network and scheduled work", () => {
     const workflow = readWorkflow();
     const job = workflow.jobs?.source_performance;
-    const targetStepName = "Run OpenClaw source performance probes";
+    const targetStepName = "Run Zero to Agent source performance probes";
     const step = findStep(targetStepName, "source_performance");
     const jobSteps = job?.steps ?? [];
     const targetStepIndex = jobSteps.findIndex((candidate) => candidate.name === targetStepName);

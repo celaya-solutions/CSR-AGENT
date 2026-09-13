@@ -357,7 +357,7 @@ promote_android_release_asset
     fs.writeFileSync(path.join(tempRoot, "publishing"), "");
     fs.symlinkSync(path.join(process.cwd(), "scripts"), path.join(tempRoot, "scripts"), "dir");
     fs.mkdirSync(path.join(tempRoot, "dist"));
-    for (const name of ["OpenClaw-Android.apk", "OpenClaw-Android-SHA256SUMS.txt"]) {
+    for (const name of ["Zero to Agent-Android.apk", "Zero to Agent-Android-SHA256SUMS.txt"]) {
       fs.writeFileSync(path.join(tempRoot, "dist", name), "fixture");
     }
     result = spawnSync(
@@ -391,7 +391,7 @@ function approvalRun(overrides: Record<string, unknown> = {}) {
     repository: "openclaw/openclaw",
     status: "in_progress",
     url: "https://github.com/openclaw/openclaw/actions/runs/123",
-    workflowName: "OpenClaw Release Publish",
+    workflowName: "Zero to Agent Release Publish",
     ...overrides,
   };
 }
@@ -405,7 +405,7 @@ function writeClawHubApproval(overrides: Record<string, unknown> = {}) {
       version: 2,
       kind: "clawhub-bootstrap",
       repository: "openclaw/openclaw",
-      workflow: "OpenClaw Release Publish",
+      workflow: "Zero to Agent Release Publish",
       parentRunId: "123",
       parentRunAttempt: 2,
       workflowBranch: "main",
@@ -622,8 +622,8 @@ describe("scripts/validate-release-publish-approval.mjs", () => {
       });
       expect(result.status, result.stderr).toBe(0);
       expect(result.uploads).toEqual([
-        "dist/OpenClaw-Android.apk#OpenClaw-Android.apk",
-        "dist/OpenClaw-Android-SHA256SUMS.txt#OpenClaw-Android-SHA256SUMS.txt",
+        "dist/Zero to Agent-Android.apk#Zero to Agent-Android.apk",
+        "dist/Zero to Agent-Android-SHA256SUMS.txt#Zero to Agent-Android-SHA256SUMS.txt",
       ]);
       expect(result.waitedForAndroid).toBe(false);
     },
@@ -684,8 +684,8 @@ describe("scripts/validate-release-publish-approval.mjs", () => {
     const result = runAndroidApproval({ recovery, publication: { afterAdmission: parent } });
     expect(result.status, result.stderr).toBe(0);
     expect(result.uploads).toEqual([
-      "dist/OpenClaw-Android.apk#OpenClaw-Android.apk",
-      "dist/OpenClaw-Android-SHA256SUMS.txt#OpenClaw-Android-SHA256SUMS.txt",
+      "dist/Zero to Agent-Android.apk#Zero to Agent-Android.apk",
+      "dist/Zero to Agent-Android-SHA256SUMS.txt#Zero to Agent-Android-SHA256SUMS.txt",
     ]);
   });
 

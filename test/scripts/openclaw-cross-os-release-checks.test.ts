@@ -241,7 +241,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
         OPENCLAW_PROFILE: "work",
         OPENCLAW_STATE_DIR: "C:\\temp\\lane\\.openclaw",
         OPENCLAW_CONFIG_PATH: "C:\\temp\\lane\\.openclaw\\openclaw.json",
-        OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Gateway (work)",
+        OPENCLAW_WINDOWS_TASK_NAME: "Zero to Agent Gateway (work)",
         OPENCLAW_TASK_SCRIPT_NAME: "work.cmd",
         OPENCLAW_TASK_SCRIPT: "C:\\temp\\work.cmd",
         OPENCLAW_SERVICE_KIND: "node",
@@ -455,7 +455,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
 
   it("requires dashboard root markers and same-origin asset URLs", () => {
     const html = [
-      "<title>OpenClaw Control</title>",
+      "<title>Zero to Agent Control</title>",
       "<openclaw-app></openclaw-app>",
       '<link rel="stylesheet" href="/assets/index.css">',
       '<script type="module" src="assets/index.js"></script>',
@@ -524,7 +524,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   it("restarts an exited manual gateway once after the exact startup migration refusal", async () => {
     await withTempDirAsync("openclaw-cross-os-gateway-restart-", async (dir) => {
       const refusal =
-        "OpenClaw plugin migration inputs changed during startup convergence; refusing to report the gateway ready.";
+        "Zero to Agent plugin migration inputs changed during startup convergence; refusing to report the gateway ready.";
       const first = createGatewayHandleFixture({
         dir,
         name: "first",
@@ -571,12 +571,12 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
       name: "paraphrased refusal",
       beforeLaunch: "",
       afterLaunch:
-        "OpenClaw plugin migration inputs changed during startup convergence: refusing to report the gateway ready.\n",
+        "Zero to Agent plugin migration inputs changed during startup convergence: refusing to report the gateway ready.\n",
     },
     {
       name: "stale refusal from an earlier launch",
       beforeLaunch:
-        "OpenClaw plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n",
+        "Zero to Agent plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n",
       afterLaunch: "gateway crashed before binding\n",
     },
   ])("does not restart after $name", async ({ beforeLaunch, afterLaunch }) => {
@@ -618,7 +618,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
         dir,
         name: "gateway",
         afterLaunch:
-          "OpenClaw plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n",
+          "Zero to Agent plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n",
         exited: false,
       });
       const holder = { current: gateway.handle as GatewayHandle | null };
@@ -647,7 +647,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   it("fails after a second startup migration refusal without looping", async () => {
     await withTempDirAsync("openclaw-cross-os-gateway-second-refusal-", async (dir) => {
       const refusal =
-        "OpenClaw plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n";
+        "Zero to Agent plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n";
       const first = createGatewayHandleFixture({
         dir,
         name: "first",
@@ -747,7 +747,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
     });
   });
 
-  it("gives the Windows packaged updater wrapper enough headroom for OpenClaw timeout output", () => {
+  it("gives the Windows packaged updater wrapper enough headroom for Zero to Agent timeout output", () => {
     expect(CROSS_OS_WINDOWS_PACKAGED_UPGRADE_STEP_TIMEOUT_SECONDS).toBeLessThanOrEqual(10 * 60);
     expect(CROSS_OS_WINDOWS_PACKAGED_UPGRADE_WRAPPER_TIMEOUT_MS).toBeGreaterThan(
       CROSS_OS_WINDOWS_PACKAGED_UPGRADE_STEP_TIMEOUT_SECONDS * 1000,
@@ -1849,7 +1849,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   it("wraps installed Windows CLI cmd fallbacks without Node shell argv", () => {
     expect(
       resolveInstalledCliInvocation(
-        win32.join(String.raw`C:\OpenClaw Prefix`, "openclaw.cmd"),
+        win32.join(String.raw`C:\Zero to Agent Prefix`, "openclaw.cmd"),
         ["gateway", "run", "--port", "1234"],
         {
           comSpec: String.raw`C:\Windows\System32\cmd.exe`,
@@ -1862,7 +1862,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
         "/d",
         "/s",
         "/c",
-        String.raw`""C:\OpenClaw Prefix\openclaw.cmd" gateway run --port 1234"`,
+        String.raw`""C:\Zero to Agent Prefix\openclaw.cmd" gateway run --port 1234"`,
       ],
       shell: false,
       windowsVerbatimArguments: true,

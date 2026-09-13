@@ -41,7 +41,7 @@ describe("llama-server stream payload", () => {
     });
   });
 
-  it("does not force thinking on when OpenClaw selected another level", async () => {
+  it("does not force thinking on when Zero to Agent selected another level", async () => {
     const payloadHook = capturePayloadHook("high");
     const payload = { model: "model" };
 

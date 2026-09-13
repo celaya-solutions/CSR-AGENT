@@ -127,7 +127,7 @@ describe("agent database open timings", () => {
     const { options, pathname, advance } = createTimedOpen(690);
     const database = openOpenClawAgentDatabase(options);
     expect(database.db.isOpen).toBe(true);
-    expect(logger.warn).toHaveBeenCalledExactlyOnceWith("slow OpenClaw agent database open", {
+    expect(logger.warn).toHaveBeenCalledExactlyOnceWith("slow Zero to Agent agent database open", {
       agentId: options.agentId,
       elapsedMs: 1_000,
       path: pathname,
@@ -162,7 +162,7 @@ describe("agent database open timings", () => {
     closeOpenClawAgentDatabaseByPath(pathname);
     logger.warn.mockClear();
     expect(openOpenClawAgentDatabase(options).db.isOpen).toBe(true);
-    expect(logger.warn).toHaveBeenCalledExactlyOnceWith("slow OpenClaw agent database open", {
+    expect(logger.warn).toHaveBeenCalledExactlyOnceWith("slow Zero to Agent agent database open", {
       agentId: options.agentId,
       elapsedMs: 1_150,
       path: pathname,
@@ -231,7 +231,7 @@ describe("agent database open timings", () => {
         integrity_check: "ok",
       });
       expect(logger.warn).toHaveBeenCalledExactlyOnceWith(
-        "slow OpenClaw agent database open",
+        "slow Zero to Agent agent database open",
         expect.objectContaining({
           elapsedMs: drift === "physical" ? 1_310 : 1_150,
           integrityGateOutcome: drift === "physical" ? "failed" : "cached",
@@ -270,7 +270,7 @@ describe("agent database open timings", () => {
 
     expect(isOpen).toBe(true);
     expect(admissions).toBe(2);
-    expect(logger.warn).toHaveBeenCalledExactlyOnceWith("slow OpenClaw agent database open", {
+    expect(logger.warn).toHaveBeenCalledExactlyOnceWith("slow Zero to Agent agent database open", {
       agentId: options.agentId,
       elapsedMs: 1_430,
       path: pathname,
@@ -337,27 +337,30 @@ describe("agent database open timings", () => {
       expect(databases).toHaveLength(2);
       expect(databases[1]).toBe(databases[0]);
       expect(databases[0]?.db.isOpen).toBe(true);
-      expect(logger.warn).toHaveBeenCalledExactlyOnceWith("slow OpenClaw agent database open", {
-        agentId: options.agentId,
-        elapsedMs: 1_310,
-        path: pathname,
-        pid: process.pid,
-        threadId,
-        isMainThread,
-        admissionMode: "async",
-        thresholdMs: 1_000,
-        integrityGateMs: 1_000,
-        integrityGateOutcome: "healthy",
-        canonicalIndexMs: 0,
-        repairedIndexCount: 0,
-        phaseDurationsMs: {
-          open: 60,
-          validation: 1_000,
-          configuration: 80,
-          schema: 90,
-          registration: 80,
+      expect(logger.warn).toHaveBeenCalledExactlyOnceWith(
+        "slow Zero to Agent agent database open",
+        {
+          agentId: options.agentId,
+          elapsedMs: 1_310,
+          path: pathname,
+          pid: process.pid,
+          threadId,
+          isMainThread,
+          admissionMode: "async",
+          thresholdMs: 1_000,
+          integrityGateMs: 1_000,
+          integrityGateOutcome: "healthy",
+          canonicalIndexMs: 0,
+          repairedIndexCount: 0,
+          phaseDurationsMs: {
+            open: 60,
+            validation: 1_000,
+            configuration: 80,
+            schema: 90,
+            registration: 80,
+          },
         },
-      });
+      );
       expect(logger.warn.mock.calls[0]?.[1]).not.toHaveProperty("integrityCheckSyncMs");
       expect(logger.warn.mock.calls[0]?.[1]).not.toHaveProperty("integrityOutsideCheckMs");
     } finally {

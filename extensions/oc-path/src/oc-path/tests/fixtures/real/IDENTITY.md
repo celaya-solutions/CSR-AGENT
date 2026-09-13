@@ -4,7 +4,7 @@ Example Org / Platform Team
 
 ## Team
 
-OpenClaw infrastructure & tooling
+Zero to Agent infrastructure & tooling
 
 ## Trust Level
 

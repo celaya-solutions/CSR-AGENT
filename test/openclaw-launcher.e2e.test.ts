@@ -1,4 +1,4 @@
-// OpenClaw launcher E2E tests validate launcher process behavior.
+// Zero to Agent launcher E2E tests validate launcher process behavior.
 import { spawn, spawnSync } from "node:child_process";
 import { once } from "node:events";
 import fs from "node:fs/promises";
@@ -564,7 +564,7 @@ describe("openclaw launcher", () => {
       },
     );
     expect(result.status, result.stderr).toBe(0);
-    expect(result.stdout).toMatch(/OpenClaw 2026\.9\.3|diagnostic-entry/);
+    expect(result.stdout).toMatch(/Zero to Agent 2026\.9\.3|diagnostic-entry/);
   });
 
   it("admits lossless Node builds outside the support table while retaining the major floor", async () => {

@@ -284,7 +284,7 @@ describe("runSystemAgentTurn", () => {
     expect(first.sessionManager).toBeUndefined();
   });
 
-  it("uses the default agent CLI route while keeping OpenClaw session identity", async () => {
+  it("uses the default agent CLI route while keeping Zero to Agent session identity", async () => {
     const stateDir = useTempStateDir();
     const agentDir = path.join(stateDir, "ops-agent");
     const config = {
@@ -350,12 +350,12 @@ describe("runSystemAgentTurn", () => {
       openClaw: ["openclaw"],
     });
     expect(call.toolsAllow).toBeUndefined();
-    expect(requireValue(call.systemAgentTool, "missing CLI OpenClaw tool").proposalRef).toBe(
+    expect(requireValue(call.systemAgentTool, "missing CLI Zero to Agent tool").proposalRef).toBe(
       session.proposalRef,
     );
   });
 
-  it("rejects an always-on CLI backend before launching OpenClaw", async () => {
+  it("rejects an always-on CLI backend before launching Zero to Agent", async () => {
     useTempStateDir();
     cliBackendsTesting.setDepsForTest({
       resolveRuntimeCliBackends: () => [
@@ -404,7 +404,7 @@ describe("runSystemAgentTurn", () => {
     expect((failure as SystemAgentInferenceUnavailableError).failures).toEqual([
       expect.objectContaining({
         message: expect.stringContaining(
-          "CLI backend google-gemini-cli cannot enforce OpenClaw's exact tool availability",
+          "CLI backend google-gemini-cli cannot enforce Zero to Agent's exact tool availability",
         ),
       }),
     ]);
@@ -670,7 +670,7 @@ describe("runSystemAgentTurn", () => {
             {
               id: "ops",
               default: true,
-              // Keep the model owner's policy stable. OpenClaw executes with
+              // Keep the model owner's policy stable. Zero to Agent executes with
               // its own identity and therefore follows the changing global policy.
               tools: { exec: { mode: "ask" } },
             },
@@ -869,9 +869,9 @@ describe("runSystemAgentTurn", () => {
       params: { temperature: 0.2 },
       tools: { allow: ["read"], deny: ["exec"] },
     });
-    expect(requireValue(call.systemAgentTool, "missing embedded OpenClaw tool").proposalRef).toBe(
-      session.proposalRef,
-    );
+    expect(
+      requireValue(call.systemAgentTool, "missing embedded Zero to Agent tool").proposalRef,
+    ).toBe(session.proposalRef);
   });
 
   it("threads operator-approval-only into the real ring-zero tool and stages the delegated proposal", async () => {
@@ -922,7 +922,7 @@ describe("runSystemAgentTurn", () => {
     );
     expect(reply?.text).toContain("requesting session's permission policy");
     expect(reply?.text).toContain("returns the final outcome");
-    expect(reply?.text).not.toContain("OpenClaw operator UI");
+    expect(reply?.text).not.toContain("Zero to Agent operator UI");
     expect(reply?.text).not.toContain("ask the user to reply yes");
     // Staging still registers the exact proposal for host authorization.
     expect(session.proposalRef.current).toBeDefined();

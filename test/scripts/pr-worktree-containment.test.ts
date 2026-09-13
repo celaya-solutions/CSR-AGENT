@@ -47,7 +47,7 @@ function git(root: string, ...args: string[]) {
 function createFixtureTemplate() {
   const root = templateDirs.make("openclaw-pr-worktree-containment-template-");
   git(root, "init", "--initial-branch=main");
-  git(root, "config", "user.name", "OpenClaw Test");
+  git(root, "config", "user.name", "Zero to Agent Test");
   git(root, "config", "user.email", "test@openclaw.invalid");
   writeFileSync(join(root, "fixture.txt"), "main\n");
   git(root, "add", "fixture.txt");
@@ -78,7 +78,7 @@ function createFixture(): Fixture {
 function createReviewFixtureTemplate() {
   const root = templateDirs.make("openclaw-pr-review-transition-template-");
   git(root, "init", "--initial-branch=main");
-  git(root, "config", "user.name", "OpenClaw Test");
+  git(root, "config", "user.name", "Zero to Agent Test");
   git(root, "config", "user.email", "test@openclaw.invalid");
   writeFileSync(join(root, "transition-a.txt"), "base-a\n");
   writeFileSync(join(root, "transition-b.txt"), "base-b\n");

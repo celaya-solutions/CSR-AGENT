@@ -868,7 +868,7 @@ describe("agentCliCommand", () => {
           localGatewayLockOptions: { ...lockOptions, pollIntervalMs: 2, timeoutMs: 15 },
         }),
       ).rejects.toThrow(
-        `another embedded OpenClaw state writer is active (pid ${process.pid}); lock timeout after 15ms`,
+        `another embedded Zero to Agent state writer is active (pid ${process.pid}); lock timeout after 15ms`,
       );
       expect(agentCommand).toHaveBeenCalledTimes(1);
 

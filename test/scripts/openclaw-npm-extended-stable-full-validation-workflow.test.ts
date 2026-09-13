@@ -98,7 +98,7 @@ describe("extended-stable Full Release Validation workflow", () => {
       },
       {
         job: "performance",
-        step: "Dispatch OpenClaw Performance",
+        step: "Dispatch Zero to Agent Performance",
         workflow: "openclaw-performance.yml",
         target: '-f target_ref="$TARGET_SHA"',
       },

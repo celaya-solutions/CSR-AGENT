@@ -96,7 +96,7 @@ function barnacleIssueContext(
       sender: options.sender,
       issue: {
         number: 456,
-        title: "OpenClaw issue",
+        title: "Zero to Agent issue",
         body: "",
         author_association: "CONTRIBUTOR",
         user: {

@@ -159,7 +159,7 @@ version = "9.9.9"
 
     for (const args of [
       ["init"],
-      ["config", "user.name", "OpenClaw Test"],
+      ["config", "user.name", "Zero to Agent Test"],
       ["config", "user.email", "test@example.invalid"],
       ["add", "codex-rs/Cargo.toml"],
       ["commit", "-m", "tagged source"],

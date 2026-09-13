@@ -108,7 +108,7 @@ describe("doctor database schema preflight", () => {
     expect((failure as Error).message).toMatch(/file is not a database/iu);
     expect((failure as Error).message).toContain("left unchanged");
     expect((failure as Error).message).toContain("restore this file from a verified backup");
-    expect((failure as Error).message).toContain("Stop OpenClaw processes");
+    expect((failure as Error).message).toContain("Stop Zero to Agent processes");
     expect((failure as Error).message).not.toContain("openclaw doctor --fix");
     expect(fs.readFileSync(statePath, "utf8")).toBe("not a sqlite database");
     expect(autoMigrateLegacyStateDir).not.toHaveBeenCalled();

@@ -582,7 +582,7 @@ describe("preflightWorkerWorkspace", () => {
       await git(
         root,
         "-c",
-        "user.name=OpenClaw Test",
+        "user.name=Zero to Agent Test",
         "-c",
         "user.email=test@openclaw.invalid",
         "commit",
@@ -642,7 +642,7 @@ describe("preflightWorkerWorkspace", () => {
       await git(
         root,
         "-c",
-        "user.name=OpenClaw Test",
+        "user.name=Zero to Agent Test",
         "-c",
         "user.email=test@openclaw.invalid",
         "commit",

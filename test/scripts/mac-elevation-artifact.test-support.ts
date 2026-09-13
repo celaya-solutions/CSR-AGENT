@@ -17,7 +17,7 @@ export const buildInfo = {
   builtAt: "2026-08-28T00:00:00Z",
   buildId: "fixture-build",
 };
-const authority = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+const authority = "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)";
 const entitlements = "<plist><dict/></plist>\n";
 export const workerRoot = "Contents/Resources/node-worker";
 export const workerDist = "lib/node_modules/openclaw/dist";
@@ -66,7 +66,7 @@ export async function artifactFixture(mac: MacScriptFixture) {
 <key>OpenClawWorkerBuildID</key><string>${buildInfo.buildId}</string>
 </dict></plist>`,
   );
-  await write(app + "/Contents/MacOS/OpenClaw", binaries.universal, 0o755);
+  await write(app + "/Contents/MacOS/Zero to Agent", binaries.universal, 0o755);
   await write(app + "/Contents/MacOS/openclaw-mlx-tts", binaries.universal, 0o755);
   await write(
     app + "/Contents/Frameworks/shared [fixture].dylib",
@@ -106,7 +106,7 @@ deny() { printf '%s\\n' "$*" >>"$TEST_FORBIDDEN"; exit 97; }
 shasum() {
   [[ "$1 $2" == '-a 256' && "$#" -le 3 ]] || deny unexpected-shasum
   shift 2
-  if [[ -n "\${WORK_ROOT:-}" && "\${1:-}" == "$WORK_ROOT/OpenClaw.app/Contents/MacOS/OpenClaw" ]]; then record candidate-helper-hash; fi
+  if [[ -n "\${WORK_ROOT:-}" && "\${1:-}" == "$WORK_ROOT/OpenClaw.app/Contents/MacOS/Zero to Agent" ]]; then record candidate-helper-hash; fi
   /usr/bin/openssl dgst -sha256 -r "$@"
 }
 for tool in launchctl open kill pkill killall pgrep lsof defaults diskutil sqlite3 security osascript openclaw node python python3 curl ssh; do
@@ -270,7 +270,7 @@ plutil() {
     architectures: {
       main: await runMacFixtureTool(
         "/usr/bin/lipo",
-        ["-archs", app + "/Contents/MacOS/OpenClaw"],
+        ["-archs", app + "/Contents/MacOS/Zero to Agent"],
         root,
         mac,
       ),

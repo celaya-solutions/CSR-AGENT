@@ -1135,7 +1135,7 @@ describe("scripts/crabbox-wrapper", () => {
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
     expect(result.stderr).toContain(
-      "provider=aws requires managed Crabbox broker authentication for OpenClaw proof",
+      "provider=aws requires managed Crabbox broker authentication for Zero to Agent proof",
     );
     expect(result.stderr).toContain("login --url https://crabbox.openclaw.ai");
   });
@@ -1149,7 +1149,7 @@ describe("scripts/crabbox-wrapper", () => {
 
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
-    expect(result.stderr).toContain("provider=aws failed readiness for OpenClaw proof");
+    expect(result.stderr).toContain("provider=aws failed readiness for Zero to Agent proof");
     expect(result.stderr).not.toContain("login --url");
   });
 
@@ -1206,7 +1206,7 @@ describe("scripts/crabbox-wrapper", () => {
 
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
-    expect(result.stderr).toContain("provider=aws failed readiness for OpenClaw proof");
+    expect(result.stderr).toContain("provider=aws failed readiness for Zero to Agent proof");
   });
 
   it("accepts managed broker token-command auth when doctor is healthy", () => {
@@ -1314,7 +1314,7 @@ describe("scripts/crabbox-wrapper", () => {
 
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
-    expect(result.stderr).toContain("provider=azure failed readiness for OpenClaw proof");
+    expect(result.stderr).toContain("provider=azure failed readiness for Zero to Agent proof");
   });
 
   it("keeps workload configuration away from administrative commands", () => {
@@ -1384,7 +1384,7 @@ describe("scripts/crabbox-wrapper", () => {
 
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
-    expect(result.stderr).toContain("provider=azure failed readiness for OpenClaw proof");
+    expect(result.stderr).toContain("provider=azure failed readiness for Zero to Agent proof");
   });
 
   it.each(["aws", "azure", "daytona"])(
@@ -1472,7 +1472,9 @@ describe("scripts/crabbox-wrapper", () => {
 
       expect(result.status).toBe(2);
       expect(result.stdout).toBe("");
-      expect(result.stderr).toContain(`provider=${provider} failed readiness for OpenClaw proof`);
+      expect(result.stderr).toContain(
+        `provider=${provider} failed readiness for Zero to Agent proof`,
+      );
     },
   );
 
@@ -2047,7 +2049,7 @@ esac
     ]);
 
     const expectedMessage =
-      "[crabbox] provider=docker using short host-visible work root for OpenClaw Docker tests";
+      "[crabbox] provider=docker using short host-visible work root for Zero to Agent Docker tests";
     if (process.platform === "linux") {
       expect(result.stderr).toContain(expectedMessage);
     } else {
@@ -2289,7 +2291,7 @@ esac
 
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
-    expect(result.stderr).toContain("provider=aws failed readiness for OpenClaw proof");
+    expect(result.stderr).toContain("provider=aws failed readiness for Zero to Agent proof");
     expect(result.stderr).toMatch(/recovery: run `\S+crabbox doctor --provider aws --json`/u);
   });
 
@@ -2304,7 +2306,7 @@ esac
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
     expect(result.stderr).toContain(
-      "provider=aws requires managed Crabbox broker authentication for OpenClaw proof",
+      "provider=aws requires managed Crabbox broker authentication for Zero to Agent proof",
     );
     expect(result.stderr).toContain("login --url https://crabbox.openclaw.ai");
   });
@@ -2320,7 +2322,7 @@ esac
 
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
-    expect(result.stderr).toContain("provider=aws failed readiness for OpenClaw proof");
+    expect(result.stderr).toContain("provider=aws failed readiness for Zero to Agent proof");
   });
 
   it("defaults AWS macOS warmups to on-demand capacity", () => {
@@ -2380,7 +2382,7 @@ esac
       "--package-path",
       "apps/macos",
       "--product",
-      "OpenClaw",
+      "Zero to Agent",
     ]);
     expect(output.args).toContain("--shell");
     expect(remoteCommand).toContain("openclaw_crabbox_require_macos_swift_63");
@@ -2388,13 +2390,13 @@ esac
     expect(remoteCommand).toContain("/Applications/Xcode-26*.app");
     expect(remoteCommand).toContain("/Applications/Xcode_2[7-9]*.app");
     expect(remoteCommand).toContain('sudo xcode-select -s "$openclaw_developer"');
-    expect(remoteCommand).toContain("OpenClaw macOS app proof requires Swift tools 6.3+");
+    expect(remoteCommand).toContain("Zero to Agent macOS app proof requires Swift tools 6.3+");
     expect(remoteCommand).toContain("xcodebuild -version");
-    expect(remoteCommand).toContain("OpenClaw macOS app proof requires Xcode 26.4+");
+    expect(remoteCommand).toContain("Zero to Agent macOS app proof requires Xcode 26.4+");
     expect(remoteCommand).not.toContain("openclaw_crabbox_bootstrap_macos_js");
     expectGroupedShellCommand(
       remoteCommand,
-      "swift build --package-path apps/macos --product OpenClaw",
+      "swift build --package-path apps/macos --product Zero to Agent",
     );
   });
 
@@ -2403,8 +2405,8 @@ esac
       runSuccessfulMacosCommand(["pnpm", "mac:package"]),
       "pnpm mac:package",
       (remoteCommand) => {
-        expect(remoteCommand).toContain("OpenClaw macOS app proof requires Swift tools 6.3+");
-        expect(remoteCommand).toContain("OpenClaw macOS app proof requires Xcode 26.4+");
+        expect(remoteCommand).toContain("Zero to Agent macOS app proof requires Swift tools 6.3+");
+        expect(remoteCommand).toContain("Zero to Agent macOS app proof requires Xcode 26.4+");
       },
     );
   });
@@ -2889,14 +2891,16 @@ esac
   it("preflights Swift for AWS macOS script-stdin Swift builds", () => {
     const script = [
       "set -euo pipefail",
-      "swift build --package-path apps/macos --product OpenClaw",
+      "swift build --package-path apps/macos --product Zero to Agent",
     ].join("\n");
     const { output } = runSuccessfulMacosScript(script);
     expect(output.scriptContent).toContain("openclaw_crabbox_bootstrap_macos_js");
     expect(output.scriptContent).toContain("openclaw_crabbox_require_macos_swift_63");
     expect(output.scriptContent).toContain("openclaw_crabbox_require_macos_swift_63 || exit $?");
-    expect(output.scriptContent).toContain("OpenClaw macOS app proof requires Swift tools 6.3+");
-    expect(output.scriptContent).toContain("OpenClaw macOS app proof requires Xcode 26.4+");
+    expect(output.scriptContent).toContain(
+      "Zero to Agent macOS app proof requires Swift tools 6.3+",
+    );
+    expect(output.scriptContent).toContain("Zero to Agent macOS app proof requires Xcode 26.4+");
     expect(output.scriptContent).toContain(`\n${script}`);
   });
 
@@ -3297,7 +3301,7 @@ esac
 
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
-    expect(result.stderr).toContain("provider=aws failed readiness for OpenClaw proof");
+    expect(result.stderr).toContain("provider=aws failed readiness for Zero to Agent proof");
   });
 
   it("keeps unsupported provider selections rejected", () => {

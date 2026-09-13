@@ -68,7 +68,7 @@ function betaArtifact(tag = TAG) {
     releaseUrl: `https://github.com/openclaw/openclaw/releases/tag/${tag}`,
     releaseCommit: RELEASE_COMMIT,
     guidanceMainSha: GUIDANCE_SHA,
-    title: "OpenClaw 2026.8.1 beta feedback",
+    title: "Zero to Agent 2026.8.1 beta feedback",
     body: campaignBody(tag),
   };
 }
@@ -176,7 +176,7 @@ describe("release-validation campaign publisher", () => {
     expect(result.action).toBe("create");
     expect(calls.creates).toEqual([
       expect.objectContaining({
-        title: "OpenClaw 2026.8.1 beta feedback",
+        title: "Zero to Agent 2026.8.1 beta feedback",
         labels: ["release-validation"],
       }),
     ]);

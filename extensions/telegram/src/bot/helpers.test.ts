@@ -494,7 +494,7 @@ describe("describeReplyTarget", () => {
             },
             {
               type: "photo",
-              caption: { text: "Chart", credit: "OpenClaw" },
+              caption: { text: "Chart", credit: "Zero to Agent" },
             },
             {
               type: "buttons",

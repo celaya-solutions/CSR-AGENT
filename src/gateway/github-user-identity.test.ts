@@ -280,7 +280,7 @@ describe("authenticated GitHub identity sync", () => {
       const headers = fetchMock.mock.calls[0]?.[1]?.headers;
       expect(headers).toMatchObject({
         Accept: "application/vnd.github+json",
-        "User-Agent": "OpenClaw-Control-UI",
+        "User-Agent": "Zero to Agent-Control-UI",
         "X-GitHub-Api-Version": "2022-11-28",
       });
       expect(headers).not.toHaveProperty("Authorization");

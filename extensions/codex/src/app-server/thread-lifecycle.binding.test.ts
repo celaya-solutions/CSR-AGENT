@@ -681,7 +681,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
     ).toMatchObject({ config: { project_doc_max_bytes: 200_000 } });
   });
 
-  it("preserves the OpenClaw project-document budget for Codex's unauthored default", async () => {
+  it("preserves the Zero to Agent project-document budget for Codex's unauthored default", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     const fixture = await createSequentialLifecycleHarness(() => threadStartResult("thread-1"), {
@@ -1091,9 +1091,9 @@ describe("Codex app-server thread lifecycle bindings", () => {
         ]);
         const policy = JSON.stringify(requests.at(-1)?.params);
         expect(policy).toContain(
-          developerInstructions || "earlier OpenClaw generic policy is withdrawn",
+          developerInstructions || "earlier Zero to Agent generic policy is withdrawn",
         );
-        expect(policy).toContain("It replaces earlier OpenClaw-supplied generic policy");
+        expect(policy).toContain("It replaces earlier Zero to Agent-supplied generic policy");
         expect((await readCodexAppServerBinding(sessionFile))?.threadId).toBe(threadId);
       } finally {
         releaseLeasedSharedCodexAppServerClient(wire.client);
@@ -2933,7 +2933,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
     },
   );
 
-  it("resumes the same restricted OpenClaw thread so turn two retains native memory", async () => {
+  it("resumes the same restricted Zero to Agent thread so turn two retains native memory", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     await writeCodexAppServerBinding(sessionFile, {
@@ -3285,7 +3285,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
     });
   });
 
-  it("starts a fresh restricted OpenClaw thread for a new app-server client", async () => {
+  it("starts a fresh restricted Zero to Agent thread for a new app-server client", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     const params = createParams(sessionFile, workspaceDir);
@@ -3437,7 +3437,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
     },
   );
 
-  it("fails closed before starting OpenClaw when inherited MCP enumeration fails", async () => {
+  it("fails closed before starting Zero to Agent when inherited MCP enumeration fails", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     await writeCodexAppServerBinding(sessionFile, {
@@ -3497,7 +3497,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
     },
     { expectedError: /config layers/u, name: "malformed", layer: { name: {} } },
   ])(
-    "fails closed on $name config layers before OpenClaw thread/start",
+    "fails closed on $name config layers before Zero to Agent thread/start",
     async ({ expectedError, layer }) => {
       const sessionFile = path.join(tempDir, "session.jsonl");
       const workspaceDir = path.join(tempDir, "workspace");
@@ -3527,7 +3527,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
   );
 
   it.each(["hooks", "managed_hooks"] as const)(
-    "fails closed on non-empty %s requirements before OpenClaw thread/start",
+    "fails closed on non-empty %s requirements before Zero to Agent thread/start",
     async (requirementsKey) => {
       const sessionFile = path.join(tempDir, "session.jsonl");
       const workspaceDir = path.join(tempDir, "workspace");

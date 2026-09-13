@@ -69,7 +69,7 @@ async function waitForExtensionId(context: BrowserContext, extensionPath: string
       setTimeout(resolve, 100);
     });
   } while (Date.now() < deadline);
-  throw new Error("Chromium did not report the loaded OpenClaw extension");
+  throw new Error("Chromium did not report the loaded Zero to Agent extension");
 }
 
 async function loadUnpackedExtension(
@@ -103,7 +103,7 @@ async function exactOwnedManifestsExist(
         !Array.isArray(manifest.allowed_origins) ||
         JSON.stringify(manifest.allowed_origins) !== JSON.stringify(expectedOrigins) ||
         !(await fs.readFile(manifest.path, "utf8")).includes(
-          "# OpenClaw native messaging bootstrap v1",
+          "# Zero to Agent native messaging bootstrap v1",
         )
       ) {
         return false;
@@ -225,7 +225,9 @@ describe.runIf(runE2E)("Chrome native bootstrap Chromium E2E", () => {
             diagnostic.mark("http.request", true);
             res.once("finish", () => diagnostic.mark("http.finish", res.statusCode));
             res.writeHead(200, { "content-type": "text/html" });
-            res.end("<title>OpenClaw selected tab</title><h1>OpenClaw created destination</h1>");
+            res.end(
+              "<title>Zero to Agent selected tab</title><h1>Zero to Agent created destination</h1>",
+            );
             return;
           }
           res.writeHead(426);
@@ -368,7 +370,7 @@ describe.runIf(runE2E)("Chrome native bootstrap Chromium E2E", () => {
         const controlled = await context.newPage();
         await controlled.goto(
           `data:text/html,${encodeURIComponent(
-            '<title>OpenClaw E2E</title><style>body{margin:0}#spacer{height:2200px}#target{display:block;width:240px;height:96px;background:#1457d9;color:white;border:0;font:20px sans-serif}</style><div id="spacer"></div><button id="target">Offscreen target</button>',
+            '<title>Zero to Agent E2E</title><style>body{margin:0}#spacer{height:2200px}#target{display:block;width:240px;height:96px;background:#1457d9;color:white;border:0;font:20px sans-serif}</style><div id="spacer"></div><button id="target">Offscreen target</button>',
           )}`,
         );
 

@@ -2734,7 +2734,7 @@ describe("native hook relay registry", () => {
     expect(testing.getNativeHookRelayRegistrationForTests(relay.relayId)).toBeUndefined();
   });
 
-  it("uses the Codex no-op output when no OpenClaw hook decides", async () => {
+  it("uses the Codex no-op output when no Zero to Agent hook decides", async () => {
     const relay = registerNativeHookRelay({
       provider: "codex",
       sessionId: "session-1",
@@ -2753,7 +2753,7 @@ describe("native hook relay registry", () => {
     }
   });
 
-  it("maps Codex PreToolUse to OpenClaw before_tool_call and blocks before execution", async () => {
+  it("maps Codex PreToolUse to Zero to Agent before_tool_call and blocks before execution", async () => {
     const beforeToolCall = vi.fn(async () => ({
       block: true,
       blockReason: "repo policy blocks this command",
@@ -2982,7 +2982,7 @@ describe("native hook relay registry", () => {
     expect(onPreToolUseFailure).not.toHaveBeenCalled();
   });
 
-  it("normalizes Codex exec_command cmd input before running OpenClaw policy", async () => {
+  it("normalizes Codex exec_command cmd input before running Zero to Agent policy", async () => {
     const beforeToolCall = vi.fn(async () => ({
       block: true,
       blockReason: "shell command blocked",
@@ -3081,7 +3081,7 @@ describe("native hook relay registry", () => {
     });
   });
 
-  it("normalizes Codex exec_command argv cmd input before running OpenClaw policy", async () => {
+  it("normalizes Codex exec_command argv cmd input before running Zero to Agent policy", async () => {
     const beforeToolCall = vi.fn(async () => ({
       block: true,
       blockReason: "argv command blocked",
@@ -3260,7 +3260,7 @@ describe("native hook relay registry", () => {
         hookEventName: "PreToolUse",
         permissionDecision: "deny",
         permissionDecisionReason:
-          "OpenClaw tool policy rewrote Codex app-server approval params; refusing original request.",
+          "Zero to Agent tool policy rewrote Codex app-server approval params; refusing original request.",
       },
     });
     expect(beforeToolCall).toHaveBeenCalledTimes(1);
@@ -3299,7 +3299,7 @@ describe("native hook relay registry", () => {
         hookEventName: "PreToolUse",
         permissionDecision: "deny",
         permissionDecisionReason:
-          "OpenClaw tool policy rewrote Codex app-server approval params; refusing original request.",
+          "Zero to Agent tool policy rewrote Codex app-server approval params; refusing original request.",
       },
     });
     expect(beforeToolCall).toHaveBeenCalledTimes(1);
@@ -3343,7 +3343,7 @@ describe("native hook relay registry", () => {
         hookEventName: "PreToolUse",
         permissionDecision: "deny",
         permissionDecisionReason:
-          "OpenClaw tool policy rewrote Codex app-server approval params; refusing original request.",
+          "Zero to Agent tool policy rewrote Codex app-server approval params; refusing original request.",
       },
     });
     expect(beforeToolCall).toHaveBeenCalledTimes(1);
@@ -3674,7 +3674,7 @@ describe("native hook relay registry", () => {
         hookEventName: "PreToolUse",
         permissionDecision: "deny",
         permissionDecisionReason:
-          "OpenClaw tool policy rewrote Codex app-server approval params; refusing original request.",
+          "Zero to Agent tool policy rewrote Codex app-server approval params; refusing original request.",
       },
     });
     expect(response.stderr).toBe("");
@@ -3682,7 +3682,7 @@ describe("native hook relay registry", () => {
     expect(beforeToolCall).toHaveBeenCalledTimes(1);
   });
 
-  it("maps Codex PostToolUse to OpenClaw after_tool_call observation", async () => {
+  it("maps Codex PostToolUse to Zero to Agent after_tool_call observation", async () => {
     const afterToolCall = vi.fn();
     initializeGlobalHookRunner(
       createMockPluginRegistry([{ hookName: "after_tool_call", handler: afterToolCall }]),
@@ -3730,7 +3730,7 @@ describe("native hook relay registry", () => {
     });
   });
 
-  it("maps Codex MCP PreToolUse to OpenClaw before_tool_call and can block", async () => {
+  it("maps Codex MCP PreToolUse to Zero to Agent before_tool_call and can block", async () => {
     const beforeToolCall = vi.fn(async () => ({
       block: true,
       blockReason: "MCP writes require review",
@@ -3757,7 +3757,7 @@ describe("native hook relay registry", () => {
         tool_name: "mcp__memory__create_entities",
         tool_use_id: "mcp-call-1",
         tool_input: {
-          entities: [{ name: "OpenClaw", entityType: "project", observations: ["test"] }],
+          entities: [{ name: "Zero to Agent", entityType: "project", observations: ["test"] }],
         },
       },
     });
@@ -3773,7 +3773,7 @@ describe("native hook relay registry", () => {
     expectRecordFields(event, {
       toolName: "mcp__memory__create_entities",
       params: {
-        entities: [{ name: "OpenClaw", entityType: "project", observations: ["test"] }],
+        entities: [{ name: "Zero to Agent", entityType: "project", observations: ["test"] }],
       },
       runId: "run-1",
       toolCallId: "mcp-call-1",
@@ -3844,7 +3844,7 @@ describe("native hook relay registry", () => {
     });
   });
 
-  it("maps Codex MCP PostToolUse to OpenClaw after_tool_call observation", async () => {
+  it("maps Codex MCP PostToolUse to Zero to Agent after_tool_call observation", async () => {
     const afterToolCall = vi.fn();
     initializeGlobalHookRunner(
       createMockPluginRegistry([{ hookName: "after_tool_call", handler: afterToolCall }]),
@@ -3892,7 +3892,7 @@ describe("native hook relay registry", () => {
     });
   });
 
-  it("routes Codex MCP PermissionRequest payloads through OpenClaw approval policy", async () => {
+  it("routes Codex MCP PermissionRequest payloads through Zero to Agent approval policy", async () => {
     const relay = registerNativeHookRelay({
       provider: "codex",
       agentId: "agent-1",
@@ -4262,7 +4262,7 @@ describe("native hook relay registry", () => {
     expect(approvalRequester).toHaveBeenCalledTimes(3);
   });
 
-  it("defers PermissionRequest when OpenClaw approval does not decide", async () => {
+  it("defers PermissionRequest when Zero to Agent approval does not decide", async () => {
     testing.setNativeHookRelayPermissionApprovalRequesterForTests(
       vi.fn(async () => "defer" as const),
     );

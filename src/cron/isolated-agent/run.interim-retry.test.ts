@@ -34,7 +34,7 @@ function requireEmbeddedAgentCall(index: number): {
       }
     | undefined;
   if (!call) {
-    throw new Error(`Expected embedded OpenClaw agent call ${index}`);
+    throw new Error(`Expected embedded Zero to Agent agent call ${index}`);
   }
   return call;
 }

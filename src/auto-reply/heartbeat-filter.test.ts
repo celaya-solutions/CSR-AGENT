@@ -205,10 +205,10 @@ describe("isHeartbeatOkResponse", () => {
 
 describe("filterHeartbeatTranscriptArtifacts", () => {
   it.each([
-    "[OpenClaw heartbeat poll]",
-    "[OpenClaw exec completion]",
-    "[OpenClaw cron wake]",
-    "[OpenClaw session event]",
+    "[Zero to Agent heartbeat poll]",
+    "[Zero to Agent exec completion]",
+    "[Zero to Agent cron wake]",
+    "[Zero to Agent session event]",
   ])("removes no-op wake pairs for %s", (marker) => {
     const messages = [
       { role: "user", content: "Hello" },
@@ -829,7 +829,7 @@ describe("filterHeartbeatTranscriptArtifacts", () => {
         { type: "text", text: "what model are you" },
       ],
     };
-    const assistantMessage = { role: "assistant", content: "I am OpenClaw." };
+    const assistantMessage = { role: "assistant", content: "I am Zero to Agent." };
     const messages = [
       { role: "user", content: INTERNAL_WAKE_TRANSCRIPT_PROMPTS.heartbeat },
       {

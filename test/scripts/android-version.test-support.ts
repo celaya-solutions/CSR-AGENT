@@ -46,15 +46,15 @@ export function writeAndroidFixture(params: {
     "utf8",
   );
   const releaseNotes =
-    "OpenClaw is now available on Android.\n\nConnect to your OpenClaw Gateway.\n";
+    "Zero to Agent is now available on Android.\n\nConnect to your Zero to Agent Gateway.\n";
   fs.writeFileSync(
     path.join(rootDir, "apps", "android", "CHANGELOG.md"),
-    params.changelog ?? `# OpenClaw Android Changelog\n\n## Unreleased\n\n${releaseNotes}`,
+    params.changelog ?? `# Zero to Agent Android Changelog\n\n## Unreleased\n\n${releaseNotes}`,
     "utf8",
   );
   fs.writeFileSync(
     path.join(rootDir, "apps", "ios", "CHANGELOG.md"),
-    params.iosChangelog ?? `# OpenClaw iOS Changelog\n\n## Unreleased\n\n${releaseNotes}`,
+    params.iosChangelog ?? `# Zero to Agent iOS Changelog\n\n## Unreleased\n\n${releaseNotes}`,
     "utf8",
   );
   fs.writeFileSync(

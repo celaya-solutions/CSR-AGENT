@@ -31,7 +31,7 @@ describe("AppSidebar agent roster", () => {
           expect(sidebar.querySelector(".sidebar-workspace-header__main")).not.toBeNull(),
         );
         const header = sidebar.querySelector(".sidebar-workspace-header");
-        expect(header?.textContent).toContain(name?.trim() || "OpenClaw");
+        expect(header?.textContent).toContain(name?.trim() || "Zero to Agent");
         expect(header?.querySelector(".sidebar-agent-card__avatar")).toBeNull();
         expect(header?.querySelector("img")?.getAttribute("src")).toBe("/favicon.svg");
         expect(sidebar.querySelector("openclaw-sidebar-agent-card")).toBeNull();
@@ -143,7 +143,7 @@ describe("AppSidebar agent roster", () => {
       expect.objectContaining({ pathname: "/chat/working/recent" }),
     );
     expect(sidebar.querySelector(".sidebar-workspace-header__main")?.textContent).toContain(
-      "OpenClaw",
+      "Zero to Agent",
     );
     expect(sidebar.querySelector("openclaw-sidebar-agent-card")).toBeNull();
     sidebar

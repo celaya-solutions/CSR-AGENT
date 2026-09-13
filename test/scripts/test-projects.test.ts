@@ -2500,7 +2500,7 @@ describe("scripts/test-projects changed-target routing", () => {
     ]);
   });
 
-  it("routes OpenClaw Docker E2E script targets instead of skipping changed tests", () => {
+  it("routes Zero to Agent Docker E2E script targets instead of skipping changed tests", () => {
     const targets = [
       "scripts/e2e/system-agent-first-run-docker.sh",
       "test/e2e/qa-lab/runtime/system-agent-first-run-docker-client.ts",
@@ -3229,7 +3229,7 @@ describe("scripts/test-projects changed-target routing", () => {
   it("skips app-only changes because app tests are separate from Vitest lanes", () => {
     expect(
       buildVitestRunPlans(["--changed", "origin/main"], process.cwd(), () => [
-        "apps/macos/OpenClaw/AppDelegate.swift",
+        "apps/macos/Zero to Agent/AppDelegate.swift",
       ]),
     ).toStrictEqual([]);
   });

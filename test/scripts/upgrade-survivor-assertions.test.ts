@@ -1650,7 +1650,7 @@ process.stdout.write(sessionDir + "\\n");
     }
   });
 
-  it("accepts the ACPX OpenClaw tools bridge scenario during seed", () => {
+  it("accepts the ACPX Zero to Agent tools bridge scenario during seed", () => {
     const root = mkdtempSync(join(tmpdir(), "openclaw-upgrade-survivor-acpx-"));
     try {
       const stateDir = join(root, "state");
@@ -1672,7 +1672,7 @@ process.stdout.write(sessionDir + "\\n");
     }
   });
 
-  it("asserts the ACPX OpenClaw tools bridge config survived", () => {
+  it("asserts the ACPX Zero to Agent tools bridge config survived", () => {
     expect(() =>
       assertConfig({
         acceptedIntents: ["acpx-openclaw-tools-bridge"],

@@ -178,7 +178,7 @@ describe("resolveAgentHarnessPolicy", () => {
       agentId: undefined,
       sessionKey: "agent:writer:main",
     },
-  ])("keeps $name on OpenClaw", ({ agents, agentId, sessionKey }) => {
+  ])("keeps $name on Zero to Agent", ({ agents, agentId, sessionKey }) => {
     const config = openAIProviderConfig({});
     config.agents = agents;
     expect(
@@ -193,7 +193,7 @@ describe("resolveAgentHarnessPolicy", () => {
     ).toEqual({ runtime: "openclaw", runtimeSource: "implicit" });
   });
 
-  it("keeps prepared request overrides on OpenClaw", () => {
+  it("keeps prepared request overrides on Zero to Agent", () => {
     expect(
       resolveAgentHarnessPolicy({
         provider: "openai",

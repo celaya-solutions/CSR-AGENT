@@ -37,7 +37,7 @@ afterEach(() => {
   closeOpenClawStateDatabaseForTest();
 });
 
-describe("OpenClaw database schema preflight", () => {
+describe("Zero to Agent database schema preflight", () => {
   function snapshotSourceFamily(databasePath: string) {
     const paths = [databasePath, `${databasePath}-wal`, `${databasePath}-shm`].filter(
       fs.existsSync,

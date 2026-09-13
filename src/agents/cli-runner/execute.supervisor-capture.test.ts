@@ -935,7 +935,7 @@ describe("executePreparedCliRun supervisor output capture", () => {
       name: "FailoverError",
       message:
         "Claude CLI ended the turn without a reply (terminal_reason: hook_stopped, stop_reason: tool_use). " +
-        "OpenClaw run: run-hook-stopped. OpenClaw session: session-1. " +
+        "Zero to Agent run: run-hook-stopped. Zero to Agent session: session-1. " +
         "Claude session: claude-hook-stopped. Tool actions may already have run; verify their effects before retrying. " +
         "A Claude Code hook stopped this turn; user-scope hooks (including plugin hooks) " +
         "apply to headless runs — move or disable that hook.",
@@ -984,7 +984,7 @@ describe("executePreparedCliRun supervisor output capture", () => {
       name: "FailoverError",
       message:
         "Claude CLI stopped after reaching the maximum number of turns (limit: 1). " +
-        "OpenClaw run: run-max-turns. OpenClaw session: session-1. " +
+        "Zero to Agent run: run-max-turns. Zero to Agent session: session-1. " +
         "Claude session: claude-session-max-turns. Tool actions may already have run; verify their effects before retrying. " +
         "Retry with a higher --max-turns value or a narrower task.",
       sessionId: "session-1",

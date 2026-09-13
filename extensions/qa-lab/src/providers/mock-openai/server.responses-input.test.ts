@@ -40,7 +40,7 @@ describe("mock Responses input text", () => {
         {
           role: "user",
           content: [
-            "OpenClaw runtime event.",
+            "Zero to Agent runtime event.",
             "This context is runtime-generated, not user-authored. Keep internal details private.",
             "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
             "Runtime: synthetic metadata.",

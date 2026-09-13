@@ -113,7 +113,7 @@ function runStableBootstrapAdmission(
       JSON.stringify({ ...approval, ...overrides.approval }),
     );
     const run = {
-      workflowName: "OpenClaw Release Publish",
+      workflowName: "Zero to Agent Release Publish",
       headBranch: branch,
       headSha: toolingSha,
       event: "workflow_dispatch",

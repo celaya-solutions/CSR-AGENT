@@ -194,8 +194,8 @@ function reusedEvidenceChildren() {
   return [
     ["normalCi", "101", "CI"],
     ["pluginPrerelease", "202", "Plugin Prerelease"],
-    ["releaseChecks", "303", "OpenClaw Release Checks"],
-    ["productPerformance", "505", "OpenClaw Performance"],
+    ["releaseChecks", "303", "Zero to Agent Release Checks"],
+    ["productPerformance", "505", "Zero to Agent Performance"],
   ].map(([role, runId, name]) => ({
     displayTitle: `${name} full-release-validation-99-1`,
     headBranch: "release-ci/tooling",
@@ -3808,8 +3808,8 @@ title="CI full-release-validation-77-1-ci"
 workflow="ci.yml"
 case "$run_id" in
   202) title="Plugin Prerelease full-release-validation-77-1-plugin-prerelease"; workflow="plugin-prerelease.yml" ;;
-  303) title="OpenClaw Release Checks full-release-validation-77-1-release-checks"; workflow="openclaw-release-checks.yml" ;;
-  505) title="OpenClaw Performance full-release-validation-77-1"; workflow="openclaw-performance.yml" ;;
+  303) title="Zero to Agent Release Checks full-release-validation-77-1-release-checks"; workflow="openclaw-release-checks.yml" ;;
+  505) title="Zero to Agent Performance full-release-validation-77-1"; workflow="openclaw-performance.yml" ;;
 esac
 status="completed"
 [ "$run_id" = 101 ] && status="$FRV_FAILED_RUN_STATUS"

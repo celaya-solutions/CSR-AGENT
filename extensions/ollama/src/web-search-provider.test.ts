@@ -298,7 +298,7 @@ describe("ollama web search provider", () => {
     fetchWithSsrFGuardMock.mockResolvedValue(
       searchResponse(
         {
-          title: "OpenClaw",
+          title: "Zero to Agent",
           url: "https://openclaw.ai/docs",
           content: "Gateway docs and setup details",
         },

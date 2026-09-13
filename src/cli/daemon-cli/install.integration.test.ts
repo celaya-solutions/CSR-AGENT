@@ -594,7 +594,7 @@ describe("runDaemonInstall integration", () => {
     }
   });
 
-  it("refuses service install when config was written by a newer OpenClaw", async () => {
+  it("refuses service install when config was written by a newer Zero to Agent", async () => {
     await fs.writeFile(
       configPath,
       JSON.stringify(

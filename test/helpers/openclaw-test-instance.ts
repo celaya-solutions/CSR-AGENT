@@ -1,4 +1,4 @@
-// OpenClaw test instance helper spawns isolated OpenClaw processes.
+// Zero to Agent test instance helper spawns isolated Zero to Agent processes.
 import { type ChildProcess, type ChildProcessByStdio, spawn, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
@@ -90,7 +90,7 @@ const COMMAND_TIMEOUT_MS = 30_000;
 const LOG_TAIL_MAX_BYTES = 256 * 1024;
 const GATEWAY_MIGRATION_CONVERGENCE_MAX_RESTARTS = 1;
 const GATEWAY_MIGRATION_CONVERGENCE_REFUSAL_PREFIX =
-  "OpenClaw plugin migration inputs changed during startup convergence;";
+  "Zero to Agent plugin migration inputs changed during startup convergence;";
 const GATEWAY_MIGRATION_CONVERGENCE_RESTART_MARKER =
   "[openclaw-test-instance] restarting gateway after migration convergence refusal\n";
 const entrypointPromises = new Map<string, Promise<string[]>>();

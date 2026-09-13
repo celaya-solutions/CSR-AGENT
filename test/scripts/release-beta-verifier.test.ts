@@ -133,7 +133,7 @@ describe("verifyBetaRelease workflow outcomes", () => {
       });
     }
     const run = {
-      workflowName: telegram ? "NPM Telegram Beta E2E" : "OpenClaw NPM Release",
+      workflowName: telegram ? "NPM Telegram Beta E2E" : "Zero to Agent NPM Release",
       headBranch: "main",
       event: "workflow_dispatch",
       status: "completed",
@@ -286,7 +286,7 @@ if (path.basename(process.argv[1]) === "npm" && args[0] === "view") {
     const fixture = workflowFixture({ conclusion: "failure" }, false);
     const result = runCli(fixture);
     expect(result.status, result.stderr).toBe(1);
-    expect(result.stderr).toContain("OpenClaw NPM Release: run 44 is completed/failure");
+    expect(result.stderr).toContain("Zero to Agent NPM Release: run 44 is completed/failure");
     expect(existsSync(join(fixture.rootDir, "evidence.json"))).toBe(false);
     expect(
       JSON.parse(
@@ -425,7 +425,7 @@ if (path.basename(process.argv[1]) === "npm" && args[0] === "view") {
     const result = runCli(fixture);
     expect(result.status, result.stderr).toBe(1);
     expect(result.stderr).toContain("diagnostics unavailable");
-    expect(result.stderr).toContain("OpenClaw NPM Release: run 44 is completed/failure");
+    expect(result.stderr).toContain("Zero to Agent NPM Release: run 44 is completed/failure");
     expect(existsSync(join(fixture.rootDir, "evidence.json"))).toBe(false);
   });
 
@@ -771,7 +771,7 @@ syncBuiltinESMExports();`,
     const fixture = workflowFixture(run, false);
 
     await expect(verifyBetaRelease(fixture.args, { rootDir: fixture.rootDir })).rejects.toThrow(
-      "OpenClaw NPM Release: run 44 is",
+      "Zero to Agent NPM Release: run 44 is",
     );
   });
 });

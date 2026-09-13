@@ -1313,12 +1313,12 @@ describe("devices cli list", () => {
       paired: [
         pairedDevice({
           deviceId: deviceIdA,
-          displayName: "OpenClaw Desktop",
+          displayName: "Zero to Agent Desktop",
           clientId: "openclaw-macos",
         }),
         pairedDevice({
           deviceId: deviceIdB,
-          displayName: "OpenClaw Desktop",
+          displayName: "Zero to Agent Desktop",
           clientId: "openclaw-macos",
         }),
       ],
@@ -1329,8 +1329,8 @@ describe("devices cli list", () => {
     const output = stripAnsi(readRuntimeOutput());
     expect(output).toContain("Device ID");
     expect(output).toContain("Full device IDs");
-    expect(output.split("\n")).toContain(`  ${deviceIdA}  OpenClaw Desktop`);
-    expect(output.split("\n")).toContain(`  ${deviceIdB}  OpenClaw Desktop`);
+    expect(output.split("\n")).toContain(`  ${deviceIdA}  Zero to Agent Desktop`);
+    expect(output.split("\n")).toContain(`  ${deviceIdB}  Zero to Agent Desktop`);
   });
 });
 

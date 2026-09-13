@@ -121,7 +121,7 @@ describe("gateway update action", () => {
       ok: false,
       code: "owner_required",
       message:
-        "Only the OpenClaw owner can start an update from chat. Ask the operator to add `telegram:123456789` to `commands.ownerAllowFrom`.",
+        "Only the Zero to Agent owner can start an update from chat. Ask the operator to add `telegram:123456789` to `commands.ownerAllowFrom`.",
     });
     expect(callGatewayToolMock).not.toHaveBeenCalled();
     expect(dispatchMock).not.toHaveBeenCalled();

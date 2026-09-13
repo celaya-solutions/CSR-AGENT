@@ -120,13 +120,13 @@ describe("renderContributionRecordEntry", () => {
     expect(
       renderContributionRecordEntry({
         number: 124,
-        title: "Fix #45, #45, and OpenClaw/imsg#141",
+        title: "Fix #45, #45, and Zero to Agent/imsg#141",
         externalReferences: ["openclaw/imsg#141"],
         priorReferences: [67],
         linkedIssues: [{ number: 45 }, { number: 67 }],
         thanks: [],
       }),
-    ).toBe("- **PR #124** Related #45, OpenClaw/imsg#141, #67.");
+    ).toBe("- **PR #124** Related #45, Zero to Agent/imsg#141, #67.");
   });
 
   it("renders every source PR even without issue references or credits", () => {
@@ -444,7 +444,7 @@ describe("renderContributionRecordEntry", () => {
   });
 
   it("accepts case-only differences in cross-repository references", () => {
-    const line = "- **PR #127** Related OpenClaw/imsg#143.";
+    const line = "- **PR #127** Related Zero to Agent/imsg#143.";
     const source = [
       "## 2026.7.1",
       "",

@@ -81,7 +81,7 @@ async function clearFinished(processTool: ProcessTool, sessionId: string): Promi
   expect(cleared.details).toMatchObject({ status: "completed" });
 }
 
-test("OpenClaw executes and controls the complete real process lifecycle", async () => {
+test("Zero to Agent executes and controls the complete real process lifecycle", async () => {
   resetProcessRegistryForTests();
   const scopeKey = `agent:qa:exec-lifecycle-${process.pid}`;
   const execTool = createExecTool({

@@ -631,7 +631,7 @@ describe("buildEmbeddedCompactionRuntimeContext", () => {
     ).toBe("custom");
   });
 
-  it("preserves direct OpenAI compaction for the OpenClaw runtime", () => {
+  it("preserves direct OpenAI compaction for the Zero to Agent runtime", () => {
     const result = resolveEmbeddedCompactionTarget({
       config: {
         models: {
@@ -654,8 +654,8 @@ describe("buildEmbeddedCompactionRuntimeContext", () => {
   });
 
   it.each([
-    { selection: "implicit OpenClaw", harnessRuntime: undefined, nativeCompaction: undefined },
-    { selection: "bound OpenClaw", harnessRuntime: "openclaw", nativeCompaction: undefined },
+    { selection: "implicit Zero to Agent", harnessRuntime: undefined, nativeCompaction: undefined },
+    { selection: "bound Zero to Agent", harnessRuntime: "openclaw", nativeCompaction: undefined },
     { selection: "bound Codex", harnessRuntime: "codex", nativeCompaction: true },
   ])("keeps $selection ownership for custom OpenAI Responses compaction", (fixture) => {
     const result = resolveEmbeddedCompactionTarget({

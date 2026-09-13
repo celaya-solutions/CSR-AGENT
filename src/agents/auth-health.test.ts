@@ -164,7 +164,7 @@ describe("buildAuthHealthSummary", () => {
     );
   });
 
-  it("does not replace missing OpenClaw auth with a native Codex login", () => {
+  it("does not replace missing Zero to Agent auth with a native Codex login", () => {
     vi.spyOn(Date, "now").mockReturnValue(now);
     mockFreshCodexCliCredentials();
     const store = {

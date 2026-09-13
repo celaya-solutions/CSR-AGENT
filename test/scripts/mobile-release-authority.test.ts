@@ -155,7 +155,7 @@ function writeBaseReleaseFiles(repository: string): void {
     repository,
     "apps/ios/CHANGELOG.md",
     [
-      "# OpenClaw iOS Changelog",
+      "# Zero to Agent iOS Changelog",
       "",
       "## Unreleased",
       "",
@@ -736,7 +736,7 @@ function signIntentFile(fixture: Fixture, outputs: Record<string, string>): void
           appStoreVersion: "2026.9.20",
           buildNumber: "8",
           internalGroupId: "group-123",
-          internalGroupName: "OpenClaw Internal",
+          internalGroupName: "Zero to Agent Internal",
         }
       : {
           ...common,
@@ -2083,7 +2083,7 @@ describe("mobile release authority", () => {
       for (const repository of [trusted, target]) {
         fs.mkdirSync(repository);
         git(repository, "init", "-q");
-        git(repository, "config", "user.name", "OpenClaw Test");
+        git(repository, "config", "user.name", "Zero to Agent Test");
         git(repository, "config", "user.email", "test@openclaw.invalid");
       }
       writeFile(trusted, actionPath, trustedAction);
@@ -3339,7 +3339,7 @@ fi
       const repository = tempRoots.make(`openclaw-mobile-release-source-${platform}-`);
       git(repository, "init");
       git(repository, "config", "user.email", "release-test@openclaw.invalid");
-      git(repository, "config", "user.name", "OpenClaw Release Test");
+      git(repository, "config", "user.name", "Zero to Agent Release Test");
       copyFile(repository, ".gitignore");
       copyFile(repository, "apps/android/.gitignore");
       writeFile(repository, "tracked.txt", "clean\n");
@@ -3923,7 +3923,7 @@ fi
           expect(args.at(-1)).toBe(keychainPath);
           return {
             stderr: "",
-            stdout: `  1) ${identityHash} "Apple Distribution: OpenClaw Foundation (FWJYW4S8P8)"\n`,
+            stdout: `  1) ${identityHash} "Apple Distribution: Zero to Agent Foundation (FWJYW4S8P8)"\n`,
           };
         }
         const probePath = args.at(-1);
@@ -3950,7 +3950,7 @@ fi
           runCommand,
         }),
       ).resolves.toEqual({
-        identity: "Apple Distribution: OpenClaw Foundation (FWJYW4S8P8)",
+        identity: "Apple Distribution: Zero to Agent Foundation (FWJYW4S8P8)",
         teamId: "FWJYW4S8P8",
       });
       expect(calls.map(({ executable }) => executable)).toEqual([

@@ -405,8 +405,8 @@ describe("OpenResponses HTTP API (e2e)", () => {
   it.each([
     [false, "SDK plain-text response", "SDK plain-text response"],
     [true, "SDK plain-text response", "SDK plain-text response"],
-    [false, "", "No response from OpenClaw."],
-    [true, "", "No response from OpenClaw."],
+    [false, "", "No response from Zero to Agent."],
+    [true, "", "No response from Zero to Agent."],
   ])(
     "returns visible official SDK response text (stream: %s, text: %s)",
     async (stream, text, expected) => {

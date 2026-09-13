@@ -61,7 +61,7 @@ type AuthTestLifecycle = {
   cleanup: () => Promise<void>;
 };
 
-/** Capture env and track isolated OpenClaw state fixtures for cleanup. */
+/** Capture env and track isolated Zero to Agent state fixtures for cleanup. */
 export function createAuthTestLifecycle(envKeys: string[]): AuthTestLifecycle {
   const envSnapshot = captureEnv(envKeys);
   const cleanups: Array<() => Promise<void>> = [];

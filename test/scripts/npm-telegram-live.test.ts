@@ -151,7 +151,7 @@ describe("package Telegram live Docker E2E", () => {
     ).toBe(".artifacts/custom");
   });
 
-  it("keeps the installed OpenClaw command as the package SUT", async () => {
+  it("keeps the installed Zero to Agent command as the package SUT", async () => {
     const prefix = mkTempRoot();
     const command = path.join(prefix, "bin", "openclaw");
     const harnessCommand = path.join(mkTempRoot(), "bin", "openclaw");
@@ -211,7 +211,7 @@ describe("package Telegram live Docker E2E", () => {
     expect(script).toContain('-v "$OUTPUT_DIR_HOST:$OUTPUT_DIR_CONTAINER"');
   });
 
-  it("uses the container temp root for OpenClaw runtime scratch files", () => {
+  it("uses the container temp root for Zero to Agent runtime scratch files", () => {
     const script = readFileSync(DOCKER_SCRIPT_PATH, "utf8");
     const dockerEnvStart = script.indexOf("docker_env=(");
     const dockerEnvEnd = script.indexOf(")\n\nforward_env_if_set", dockerEnvStart);

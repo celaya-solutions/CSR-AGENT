@@ -74,7 +74,7 @@ beforeEach(() => {
 });
 
 describe("install security scan official bypass", () => {
-  it("bypasses plugin install friction for bundled OpenClaw sources", async () => {
+  it("bypasses plugin install friction for bundled Zero to Agent sources", async () => {
     const sourceDir = makeTempDir();
     const result = await scanBundleInstallSourceRuntime({
       logger: {},
@@ -100,7 +100,7 @@ describe("install security scan official bypass", () => {
     expectOnlyOperatorPolicyRan();
   });
 
-  it("bypasses skill install friction for bundled OpenClaw sources", async () => {
+  it("bypasses skill install friction for bundled Zero to Agent sources", async () => {
     const result = await evaluateSkillInstallPolicyRuntime({
       installId: "node",
       logger: {},

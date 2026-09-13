@@ -2769,7 +2769,7 @@ describe("before_tool_call requireApproval handling", () => {
 
     const result = await runBeforeToolCallHook({
       toolName: "web_search",
-      params: { query: "OpenClaw" },
+      params: { query: "Zero to Agent" },
       ctx: { agentId: "main", sessionKey: "main" },
     });
 

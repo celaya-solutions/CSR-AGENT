@@ -34,7 +34,7 @@ describe("Parallels runtime companion setup", () => {
     async (version) => {
       const readCli = vi.fn((args: string[]) =>
         args[0] === "--version"
-          ? `OpenClaw ${version} (abcdef0)\n`
+          ? `Zero to Agent ${version} (abcdef0)\n`
           : "Options:\n  --accept-capabilities  Accept declared capabilities\n",
       );
       const installCli = vi.fn().mockResolvedValue(undefined);
@@ -52,7 +52,7 @@ describe("Parallels runtime companion setup", () => {
   it("propagates companion installation failures before onboarding can continue", async () => {
     const error = new Error("existing plugin install must not be overwritten");
     const readCli = (args: string[]) =>
-      args[0] === "--version" ? "OpenClaw 2026.8.1" : "  --accept-capabilities  Accept\n";
+      args[0] === "--version" ? "Zero to Agent 2026.8.1" : "  --accept-capabilities  Accept\n";
     const installCli = vi.fn().mockRejectedValue(error);
     await expect(
       installSmokeRuntimeCompanions({ provider: "openai", readCli, installCli }),
@@ -65,7 +65,7 @@ describe("Parallels runtime companion setup", () => {
     const installCli = vi.fn();
     await expect(
       installSmokeRuntimeCompanions({ provider: "openai", readCli, installCli }),
-    ).rejects.toThrow("could not resolve installed OpenClaw version");
+    ).rejects.toThrow("could not resolve installed Zero to Agent version");
     expect(installCli).not.toHaveBeenCalled();
   });
 });

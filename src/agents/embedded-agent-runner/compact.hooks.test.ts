@@ -1083,7 +1083,7 @@ describe("compactEmbeddedAgentSessionDirect hooks", () => {
     } as never);
     selectAgentHarnessForPreparedModelProvidersMock.mockReturnValue({
       id: "openclaw",
-      label: "OpenClaw test harness",
+      label: "Zero to Agent test harness",
       supports: () => ({ supported: true }),
       runAttempt: vi.fn(),
     } as never);
@@ -2817,7 +2817,7 @@ describe("compactEmbeddedAgentSessionDirect hooks", () => {
     });
   });
 
-  it("preserves direct OpenAI API-key compaction when OpenClaw runtime is active", async () => {
+  it("preserves direct OpenAI API-key compaction when Zero to Agent runtime is active", async () => {
     resolveAgentHarnessPolicyMock.mockReturnValue({ runtime: "openclaw" });
 
     const result = await compactEmbeddedAgentSessionDirect({
@@ -5405,7 +5405,7 @@ describe("compactEmbeddedAgentSession hooks (ownsCompaction engine)", () => {
     }
   });
 
-  it("preserves concrete OpenClaw pins over explicit Codex policy for queued compaction", async () => {
+  it("preserves concrete Zero to Agent pins over explicit Codex policy for queued compaction", async () => {
     resolveAgentHarnessPolicyMock.mockReturnValue({
       runtime: "codex",
       runtimeSource: "model",

@@ -270,7 +270,7 @@ function resolveChannelMcpInvocation(params: {
   }
 
   throw new Error(
-    "OpenClaw channel MCP entry not found: expected dist/index.(m)js or src/mcp/channel-server.ts",
+    "Zero to Agent channel MCP entry not found: expected dist/index.(m)js or src/mcp/channel-server.ts",
   );
 }
 

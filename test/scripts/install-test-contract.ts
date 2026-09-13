@@ -455,7 +455,7 @@ export function defineInstallerNpmRetryContract(installer: InstallerContract) {
     },
   );
 
-  it("fails after retrying the exact npm spec when npm exits zero without installing OpenClaw", () => {
+  it("fails after retrying the exact npm spec when npm exits zero without installing Zero to Agent", () => {
     const fixture = npmRetryFixture(installer);
     const result = fixture.run("latest", "success", "", false);
     expect(result.status).toBe(1);
@@ -464,7 +464,7 @@ export function defineInstallerNpmRetryContract(installer: InstallerContract) {
       "openclaw@latest",
     ]);
     const output = installer.prefix ? result.stdout : `${result.stdout}\n${result.stderr}`;
-    expect(output).toContain("npm install did not produce a usable OpenClaw package");
+    expect(output).toContain("npm install did not produce a usable Zero to Agent package");
     expect(output).not.toContain("openclaw@next");
     if (installer.prefix) {
       expect(result.stdout).not.toContain('"status":"ok"');

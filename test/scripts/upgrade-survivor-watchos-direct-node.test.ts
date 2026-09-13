@@ -32,7 +32,7 @@ function createTlsFixture(root: string) {
       "-days",
       "1",
       "-subj",
-      "/CN=OpenClaw watchOS survivor test CA",
+      "/CN=Zero to Agent watchOS survivor test CA",
       "-addext",
       "basicConstraints=critical,CA:TRUE",
       "-addext",

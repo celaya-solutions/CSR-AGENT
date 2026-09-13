@@ -241,7 +241,7 @@ describe("collectPluginNpmPublishedRuntimeErrors", () => {
     ).toStrictEqual([]);
   });
 
-  it("flags plugin npm packages without an OpenClaw plugin manifest", () => {
+  it("flags plugin npm packages without a Zero to Agent plugin manifest", () => {
     expect(
       collectPluginNpmPublishedRuntimeErrors({
         packageJson: {

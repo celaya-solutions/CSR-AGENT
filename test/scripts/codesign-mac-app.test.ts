@@ -122,7 +122,7 @@ describe("codesign-mac-app temp file hygiene", () => {
       await mkdir(captureDir);
       await writeFile(path.join(app, "Contents", "MacOS", "openclaw-mac"), "#!/bin/sh\n");
       await writeFile(path.join(app, "Contents", "MacOS", "openclaw-mlx-tts"), "#!/bin/sh\n");
-      await writeFile(path.join(app, "Contents", "MacOS", "OpenClaw"), "#!/bin/sh\n");
+      await writeFile(path.join(app, "Contents", "MacOS", "Zero to Agent"), "#!/bin/sh\n");
       await installFakeCodesign(binDir);
 
       const result = await mac.run(codesignCommand, [...codesignArgs, app], {
@@ -204,7 +204,7 @@ describe("codesign-mac-app temp file hygiene", () => {
       );
 
       expect(script).toContain(
-        'ELEVATION_IDENTITY="Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)"',
+        'ELEVATION_IDENTITY="Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)"',
       );
       expect(script).toContain('ELEVATION_TEAM_ID="FWJYW4S8P8"');
       expect(elevationProfile).toContain("<dict/>");
@@ -224,7 +224,7 @@ describe("codesign-mac-app temp file hygiene", () => {
         await mkdir(path.join(app, "Contents", "MacOS"), { recursive: true });
         await mkdir(resources, { recursive: true });
         await mkdir(binDir);
-        await writeFile(path.join(app, "Contents", "MacOS", "OpenClaw"), "#!/bin/sh\n");
+        await writeFile(path.join(app, "Contents", "MacOS", "Zero to Agent"), "#!/bin/sh\n");
         const cuaDriver = path.join(resources, "cua-driver");
         if (kind === "file") {
           await writeFile(cuaDriver, "driver\n");
@@ -240,7 +240,7 @@ describe("codesign-mac-app temp file hygiene", () => {
             ...process.env,
             OPENCLAW_MAC_SIGNING_VARIANT: "elevation-host",
             PATH: `${binDir}${path.delimiter}${process.env.PATH ?? ""}`,
-            SIGN_IDENTITY: "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
+            SIGN_IDENTITY: "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)",
             TMPDIR: tempRoot,
           },
         });
@@ -259,7 +259,7 @@ describe("codesign-mac-app temp file hygiene", () => {
         const binDir = path.join(tempRoot, "bin");
         await mkdir(path.join(app, "Contents", "MacOS"), { recursive: true });
         await mkdir(binDir);
-        await writeFile(path.join(app, "Contents", "MacOS", "OpenClaw"), "#!/bin/sh\n");
+        await writeFile(path.join(app, "Contents", "MacOS", "Zero to Agent"), "#!/bin/sh\n");
         await installElevationFakeCodesign(binDir);
 
         const result = await mac.run(codesignCommand, [...codesignArgs, app], {
@@ -270,7 +270,7 @@ describe("codesign-mac-app temp file hygiene", () => {
             CODESIGN_FAKE_SECOND_AUTHORITY: "1",
             OPENCLAW_MAC_SIGNING_VARIANT: "elevation-host",
             PATH: `${binDir}${path.delimiter}${process.env.PATH ?? ""}`,
-            SIGN_IDENTITY: "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
+            SIGN_IDENTITY: "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)",
             TMPDIR: tempRoot,
           },
         });
@@ -291,7 +291,7 @@ describe("codesign-mac-app temp file hygiene", () => {
         const binDir = path.join(tempRoot, "bin");
         await mkdir(path.join(app, "Contents", "MacOS"), { recursive: true });
         await mkdir(binDir);
-        await writeFile(path.join(app, "Contents", "MacOS", "OpenClaw"), "#!/bin/sh\n");
+        await writeFile(path.join(app, "Contents", "MacOS", "Zero to Agent"), "#!/bin/sh\n");
         await installElevationFakeCodesign(binDir);
 
         const result = await mac.run(codesignCommand, [...codesignArgs, app], {
@@ -302,7 +302,7 @@ describe("codesign-mac-app temp file hygiene", () => {
             CODESIGN_FAKE_NO_AUTHORITY: "1",
             OPENCLAW_MAC_SIGNING_VARIANT: "elevation-host",
             PATH: `${binDir}${path.delimiter}${process.env.PATH ?? ""}`,
-            SIGN_IDENTITY: "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
+            SIGN_IDENTITY: "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)",
             TMPDIR: tempRoot,
           },
         });
@@ -319,7 +319,7 @@ describe("codesign-mac-app temp file hygiene", () => {
       const binDir = path.join(tempRoot, "bin");
       await mkdir(path.join(app, "Contents", "MacOS"), { recursive: true });
       await mkdir(binDir);
-      await writeFile(path.join(app, "Contents", "MacOS", "OpenClaw"), "#!/bin/sh\n");
+      await writeFile(path.join(app, "Contents", "MacOS", "Zero to Agent"), "#!/bin/sh\n");
       await installElevationFakeCodesign(binDir);
 
       const result = await mac.run(codesignCommand, [...codesignArgs, app], {
@@ -330,7 +330,7 @@ describe("codesign-mac-app temp file hygiene", () => {
           CODESIGN_FAKE_FAIL_AFTER_METADATA: "1",
           OPENCLAW_MAC_SIGNING_VARIANT: "elevation-host",
           PATH: `${binDir}${path.delimiter}${process.env.PATH ?? ""}`,
-          SIGN_IDENTITY: "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
+          SIGN_IDENTITY: "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)",
           TMPDIR: tempRoot,
         },
       });
@@ -351,7 +351,7 @@ describe("codesign-mac-app temp file hygiene", () => {
       await mkdir(path.join(app, "Contents", "MacOS"), { recursive: true });
       await mkdir(binDir);
       await writeFile(path.join(app, "Contents", "MacOS", "openclaw-mlx-tts"), "#!/bin/sh\n");
-      await writeFile(path.join(app, "Contents", "MacOS", "OpenClaw"), "#!/bin/sh\n");
+      await writeFile(path.join(app, "Contents", "MacOS", "Zero to Agent"), "#!/bin/sh\n");
       await installTransientFakeCodesign(binDir);
 
       const result = await mac.run(codesignCommand, [...codesignArgs, app], {
@@ -364,7 +364,7 @@ describe("codesign-mac-app temp file hygiene", () => {
           CODESIGN_TIMESTAMP_RETRY_DELAY_SECONDS: "0",
           CODESIGN_TRANSIENT_FAILURES: "2",
           PATH: `${binDir}${path.delimiter}${process.env.PATH ?? ""}`,
-          SIGN_IDENTITY: "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
+          SIGN_IDENTITY: "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)",
           SKIP_TEAM_ID_CHECK: "1",
           TMPDIR: tempRoot,
         },
@@ -405,7 +405,7 @@ describe("codesign-mac-app temp file hygiene", () => {
             CODESIGN_TIMESTAMP_RETRY_DELAY_SECONDS: "0",
             CODESIGN_TRANSIENT_FAILURES: "0",
             PATH: `${binDir}:/usr/bin:/bin`,
-            SIGN_IDENTITY: "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
+            SIGN_IDENTITY: "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)",
             SKIP_TEAM_ID_CHECK: "1",
             TMPDIR: tempRoot,
           },
@@ -480,7 +480,7 @@ describe("codesign-mac-app temp file hygiene", () => {
         await mkdir(path.join(app, "Contents", "MacOS"), { recursive: true });
         await mkdir(binDir);
         await mkdir(captureDir);
-        await writeFile(path.join(app, "Contents", "MacOS", "OpenClaw"), "#!/bin/sh\n");
+        await writeFile(path.join(app, "Contents", "MacOS", "Zero to Agent"), "#!/bin/sh\n");
         await installFakeCodesign(binDir);
         const fakeSecurity = path.join(binDir, "security");
         await writeFile(
@@ -1064,7 +1064,7 @@ with open(sys.argv[1], 'ab', buffering=0) as stream:
         const helper = await fixture.put("Contents/MacOS/openclaw-mlx-tts");
         const cua = await fixture.put("Contents/Resources/cua-driver");
         const worker = await fixture.put(workerPath + "node");
-        await fixture.put("Contents/MacOS/OpenClaw");
+        await fixture.put("Contents/MacOS/Zero to Agent");
         const sparkle = "Contents/Frameworks/Sparkle.framework";
         for (const member of [
           "Sparkle",
@@ -1173,7 +1173,7 @@ with open(sys.argv[1], 'ab', buffering=0) as stream:
         const fixture = await makeSigningFixture(
           mac,
           mac.createTempDir("openclaw-metadata-"),
-          "Injected\nFormat=Mach-O thin (arm64)\nCodeDirectory v=20400\nTeamIdentifier=FWJYW4S8P8\nAuthority=Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)\n.app",
+          "Injected\nFormat=Mach-O thin (arm64)\nCodeDirectory v=20400\nTeamIdentifier=FWJYW4S8P8\nAuthority=Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)\n.app",
         );
         const native = await fixture.put(workerPath + "node");
         const configs: Record<string, Record<string, unknown>> = {

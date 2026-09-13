@@ -118,7 +118,7 @@ function createTemplateRepo() {
   // This shared template must not inherit the operator's Git hooks or identity.
   const options = { cwd: dir, env: createPrFixtureEnv(dir, process.env.PATH ?? "") };
   execFileSync("git", ["init", "-q", "-b", "main"], options);
-  execFileSync("git", ["config", "user.name", "OpenClaw Test"], options);
+  execFileSync("git", ["config", "user.name", "Zero to Agent Test"], options);
   execFileSync("git", ["config", "user.email", "test@openclaw.invalid"], options);
   writeFileSync(join(dir, "base.txt"), "base\n");
   execFileSync("git", ["add", "base.txt"], options);

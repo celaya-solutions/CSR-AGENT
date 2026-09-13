@@ -262,7 +262,7 @@ describe.skipIf(process.platform !== "darwin")(
     );
 
     it.concurrent.for([
-      ["Contents/MacOS/OpenClaw", false],
+      ["Contents/MacOS/Zero to Agent", false],
       [`${workerRoot}/arm64/${addon}`, true],
     ] as const)(
       "rejects generic raw-fat64 signatures at %s",
@@ -545,7 +545,7 @@ describe.skipIf(process.platform !== "darwin")(
         }
         const preserved = [
           ...targets,
-          "Contents/MacOS/OpenClaw",
+          "Contents/MacOS/Zero to Agent",
           "Contents/MacOS/openclaw-mlx-tts",
           ...[0o644, 0o700, 0o750].map((mode) => `Contents/Frameworks/thin-${mode}.dylib`),
           ...["arm64", "x86_64"].flatMap((arch) =>
@@ -799,7 +799,7 @@ describe.skipIf(process.platform !== "darwin")(
     );
 
     it.concurrent.for([
-      "Contents/MacOS/OpenClaw",
+      "Contents/MacOS/Zero to Agent",
       "Contents/MacOS/openclaw-mlx-tts",
       "Contents/Frameworks/shared [fixture].dylib",
     ])("rejects thin shared code at %s", async (relative, { mac }) =>
@@ -972,7 +972,7 @@ describe.skipIf(process.platform !== "darwin")(
     );
 
     it.concurrent.for([
-      ["sourceCommit", "OpenClaw source"],
+      ["sourceCommit", "Zero to Agent source"],
       ["peekabooCommit", "Peekaboo source"],
       ["version", "version"],
       ["build", "build"],

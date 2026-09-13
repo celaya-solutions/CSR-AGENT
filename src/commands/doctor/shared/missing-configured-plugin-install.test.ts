@@ -1318,7 +1318,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     expect(result.records).toBe(baselineRecords);
   });
 
-  it("installs a missing configured OpenClaw channel plugin from npm by default", async () => {
+  it("installs a missing configured Zero to Agent channel plugin from npm by default", async () => {
     const cfg = {
       security: { installPolicy: { enabled: true } },
       channels: {
@@ -1705,7 +1705,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
     ]);
   });
 
-  it("honors npm-first catalog metadata for missing OpenClaw channel plugins", async () => {
+  it("honors npm-first catalog metadata for missing Zero to Agent channel plugins", async () => {
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce(
       successfulInstall({
         pluginId: "twitch",

@@ -336,7 +336,7 @@ describe("subagents tool", () => {
 
   it("strips internal provider context and redacts raw approval denial details", async () => {
     const internalContext = [
-      "OpenClaw runtime context (internal):",
+      "Zero to Agent runtime context (internal):",
       "This context is runtime-generated, not user-authored. Keep internal details private.",
       "[Internal task completion event]",
       "providerAuthorization: private-provider-context",

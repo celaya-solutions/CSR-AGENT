@@ -491,10 +491,10 @@ describe("Parallels smoke model selection", () => {
     expect(isLikelyMacosDesktopHome("/var/empty")).toBe(false);
   });
 
-  it("extracts the last OpenClaw version from a bounded log tail", async () => {
+  it("extracts the last Zero to Agent version from a bounded log tail", async () => {
     const tempDir = makeTempDir(tempDirs, "openclaw-parallels-log-tail-");
     const logPath = join(tempDir, "phase.log");
-    writeFileSync(logPath, ["OpenClaw 0.0.1", "x".repeat(4 * 1024 * 1024)].join("\n"));
+    writeFileSync(logPath, ["Zero to Agent 0.0.1", "x".repeat(4 * 1024 * 1024)].join("\n"));
     await expect(extractLastOpenClawVersionFromLog(logPath)).resolves.toBe("");
 
     writeFileSync(logPath, "\nOpenClaw 2026.6.6\nOpenClaw 2026.6.7", { flag: "a" });
@@ -516,7 +516,7 @@ describe("Parallels smoke model selection", () => {
     }
   });
 
-  it("owns the reusable Windows VM and OpenClaw baseline lifecycle", () => {
+  it("owns the reusable Windows VM and Zero to Agent baseline lifecycle", () => {
     const controller = readFileSync(WINDOWS_PREPARE_WRAPPER, "utf8");
     expect(controller).toContain("ensure_wsl_features");
     expect(controller).toContain("resolve_winget_manifest");
@@ -641,10 +641,10 @@ ensure_vm_running`,
   });
 
   it("uses a forced Windows gateway stop only when the installed CLI supports it", () => {
-    expect(windows).toContain("Invoke-OpenClaw gateway stop --help");
+    expect(windows).toContain("Invoke-Zero to Agent gateway stop --help");
     expect(windows).toContain("$stopHelp -match");
     expect(windows).toContain("$gatewayArgs += '--force'");
-    expect(windows).toContain("Invoke-OpenClaw @gatewayArgs");
+    expect(windows).toContain("Invoke-Zero to Agent @gatewayArgs");
     expect(windows).not.toContain('const forceFlag = action === "stop"');
   });
 
@@ -1855,7 +1855,7 @@ if (commandArgs[0] === "list") {
     expect(orchestrator).not.toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("scrub_future_plugin_entries");
-    expect(updateScripts).toContain("Invoke-OpenClaw update");
+    expect(updateScripts).toContain("Invoke-Zero to Agent update");
     expect(updateScripts).toContain("Parallels npm update smoke test assistant.");
   });
 
@@ -2570,7 +2570,7 @@ if (commandArgs[0] === "list") {
     expect(npmUpdate).toContain("recordTiming");
   });
 
-  it("resolves Windows OpenClaw commands without assuming the npm shim path", () => {
+  it("resolves Windows Zero to Agent commands without assuming the npm shim path", () => {
     expect(powershell).toContain("windowsOpenClawResolver");
     expect(powershell).toContain("OPENCLAW_PARALLELS_AGENT_RUNTIME_POLICY_SUPPORTED");
     expect(powershell).toContain("Programs\\nodejs");
@@ -2582,7 +2582,7 @@ if (commandArgs[0] === "list") {
     expect(powershell).toContain("$ErrorActionPreference = 'Continue'");
     expect(powershell).toContain("$PSNativeCommandUseErrorActionPreference = $false");
     expect(windows).toContain("windowsOpenClawResolver");
-    expect(windows).toContain("Invoke-OpenClaw gateway");
+    expect(windows).toContain("Invoke-Zero to Agent gateway");
     expect(windows).not.toContain("Join-Path $env:APPDATA 'npm\\\\openclaw.cmd'");
   });
 });

@@ -219,7 +219,7 @@ describe("packaged Control UI postinstall inventory", () => {
       const result = checkPackedPackage(tarball);
 
       expect(result.status, result.stderr).toBe(0);
-      expect(result.stdout).toContain("OpenClaw package tarball integrity passed.");
+      expect(result.stdout).toContain("Zero to Agent package tarball integrity passed.");
 
       const installedPackageRoot = installPackedPackage(root, tarball);
       expect(existsSync(join(installedPackageRoot, CODE_MODE_WORKER_PATH))).toBe(true);

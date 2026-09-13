@@ -38,9 +38,9 @@ function isolatedWrapperEnv(root: string) {
   const home = join(root, "home");
   mkdirSync(home, { recursive: true });
   return {
-    GIT_AUTHOR_NAME: "OpenClaw Test",
+    GIT_AUTHOR_NAME: "Zero to Agent Test",
     GIT_AUTHOR_EMAIL: "test@example.invalid",
-    GIT_COMMITTER_NAME: "OpenClaw Test",
+    GIT_COMMITTER_NAME: "Zero to Agent Test",
     GIT_COMMITTER_EMAIL: "test@example.invalid",
     GIT_CONFIG_GLOBAL: "/dev/null",
     GIT_CONFIG_NOSYSTEM: "1",

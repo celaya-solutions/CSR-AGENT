@@ -139,7 +139,7 @@ describe("Git candidate activation", () => {
     remote = path.join(directory, "remote");
     await fs.mkdir(remote);
     await git(remote, "init", "--initial-branch=main");
-    await git(remote, "config", "user.name", "OpenClaw Test");
+    await git(remote, "config", "user.name", "Zero to Agent Test");
     await git(remote, "config", "user.email", "openclaw@example.com");
     await fs.writeFile(
       path.join(remote, "package.json"),
@@ -159,7 +159,7 @@ describe("Git candidate activation", () => {
     await git(remote, "commit", "-m", "base");
     beforeSha = await git(remote, "rev-parse", "HEAD");
     await git(directory, "clone", "--quiet", remote, root);
-    await git(root, "config", "user.name", "OpenClaw Test");
+    await git(root, "config", "user.name", "Zero to Agent Test");
     await git(root, "config", "user.email", "openclaw@example.com");
     virtualStoreLayout = "node_modules/.pnpm";
     await writeRuntime(root, beforeSha, path.join(directory, "shared-store"), virtualStoreLayout);
@@ -707,7 +707,7 @@ describe("Git candidate activation", () => {
       if (localCommit) {
         expect(await fs.readFile(path.join(root, "local.txt"), "utf8")).toBe("operator change\n");
         const committer = await git(root, "log", "-1", "--format=%cn <%ce>");
-        expect.soft(committer === "OpenClaw Test <openclaw@example.com>").toBe(true);
+        expect.soft(committer === "Zero to Agent Test <openclaw@example.com>").toBe(true);
       }
       await expectRuntime(root, current);
       const manifest: { virtualStoreDir: string } = JSON.parse(

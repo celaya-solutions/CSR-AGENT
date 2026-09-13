@@ -205,7 +205,7 @@ async function writeIpaFixture(root: string): Promise<string> {
   }
 
   addTree(path.join(root, "Payload"), "Payload");
-  const ipaPath = path.join(root, "OpenClaw.ipa");
+  const ipaPath = path.join(root, "Zero to Agent.ipa");
   const buffer = await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
   writeFileSync(ipaPath, buffer);
   return ipaPath;
@@ -240,14 +240,14 @@ async function writeValidFixture(
 
   const infoBody = [
     plistString("CFBundleIdentifier", "ai.openclawfoundation.app"),
-    plistString("CFBundleDisplayName", options.displayName ?? "OpenClaw"),
+    plistString("CFBundleDisplayName", options.displayName ?? "Zero to Agent"),
     plistString("OpenClawGitCommit", options.buildCommit ?? BUILD_COMMIT),
     plistString("OpenClawBuildTimestamp", options.buildTimestamp ?? BUILD_TIMESTAMP),
     plistString("OpenClawPushMode", options.pushMode ?? "appStore"),
     plistString("OpenClawPushRelayBaseURL", ""),
     plistString(
       "NSHealthShareUsageDescription",
-      "OpenClaw reads Health data for Health Summaries.",
+      "Zero to Agent reads Health data for Health Summaries.",
     ),
     options.healthUpdateUsage === null
       ? ""
@@ -255,7 +255,7 @@ async function writeValidFixture(
         ? plistBool("NSHealthUpdateUsageDescription", options.healthUpdateUsage)
         : plistString(
             "NSHealthUpdateUsageDescription",
-            options.healthUpdateUsage ?? "OpenClaw reads Health data for Health Summaries.",
+            options.healthUpdateUsage ?? "Zero to Agent reads Health data for Health Summaries.",
           ),
     options.legacyKey ? plistString("OpenClawPushRelayProfile", "production") : "",
   ].join("");
@@ -266,7 +266,7 @@ async function writeValidFixture(
     path.join(localizedDir, "InfoPlist.strings"),
     plist(
       options.localizedDisplayName === undefined
-        ? plistString("NSCameraUsageDescription", "OpenClaw verwendet die Kamera.")
+        ? plistString("NSCameraUsageDescription", "Zero to Agent verwendet die Kamera.")
         : plistString("CFBundleDisplayName", options.localizedDisplayName),
     ),
     "utf8",
@@ -296,7 +296,7 @@ async function writeValidFixture(
     profilePath,
     plist(
       [
-        plistString("Name", "OpenClaw App Store ai.openclawfoundation.app"),
+        plistString("Name", "Zero to Agent App Store ai.openclawfoundation.app"),
         plistArray("TeamIdentifier", ["FWJYW4S8P8"]),
         plistDict(
           "Entitlements",
@@ -476,7 +476,7 @@ describe("scripts/ios-validate-app-store-ipa.sh", () => {
   it("rejects an IPA with the wrong canonical display name", async () => {
     const root = mkdtempSync(path.join(os.tmpdir(), "openclaw-ios-ipa-"));
     tempDirs.push(root);
-    const fixture = await writeValidFixture(root, { displayName: "OpenClaw Debug" });
+    const fixture = await writeValidFixture(root, { displayName: "Zero to Agent Debug" });
 
     const result = runValidator(fixture);
 

@@ -203,7 +203,7 @@ describe("session transcript provenance", () => {
         type: "message",
         message: {
           role: "user",
-          content: "[OpenClaw heartbeat poll]",
+          content: "[Zero to Agent heartbeat poll]",
           provenance: { kind: "internal_system", sourceTool: "heartbeat" },
         },
       },
@@ -255,7 +255,7 @@ describe("session transcript provenance", () => {
     const filePath = await writeTranscript("normal.jsonl", [
       {
         type: "message",
-        message: { role: "user", content: "[OpenClaw heartbeat poll]" },
+        message: { role: "user", content: "[Zero to Agent heartbeat poll]" },
       },
       {
         type: "message",
@@ -274,7 +274,7 @@ describe("session transcript provenance", () => {
         type: "message",
         message: {
           role: "user",
-          content: "[OpenClaw heartbeat poll]",
+          content: "[Zero to Agent heartbeat poll]",
           provenance: { kind: "internal_system", sourceTool: "heartbeat" },
         },
       },

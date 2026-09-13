@@ -638,7 +638,9 @@ describe("install-cli.sh", () => {
       `);
 
       expect(result.status).toBe(1);
-      expect(result.stdout).toContain("OpenClaw 2026.7.1-2 is older than config writer 2026.7.2");
+      expect(result.stdout).toContain(
+        "Zero to Agent 2026.7.1-2 is older than config writer 2026.7.2",
+      );
       expect(result.stderr).not.toContain("unexpected mutation");
       expect(readFileSync(openclaw, "utf8")).toBe("existing-managed-cli\n");
     } finally {
@@ -735,7 +737,7 @@ describe("install-cli.sh", () => {
       [
         "#!/bin/bash",
         'printf "%s\\n" "$*" >> "$COMMAND_LOG"',
-        'if [[ "$1" == "--version" ]]; then printf "OpenClaw 2026.8.25\\n"; exit 0; fi',
+        'if [[ "$1" == "--version" ]]; then printf "Zero to Agent 2026.8.25\\n"; exit 0; fi',
         'if [[ "$*" == "gateway install --force" ]]; then',
         '  printf "%s\\n" "Replacing unsupported Gateway service Node 22.23.1 (/old/node) with /new/node; refreshing the install."',
         '  if [[ "$SERVICE_STREAM" == stdout ]]; then printf "%s\\n" "$SERVICE_ERROR"; else printf "%s\\n" "$SERVICE_ERROR" >&2; fi',
@@ -779,7 +781,7 @@ describe("install-cli.sh", () => {
         expect(result.stdout).toContain('"event":"done"');
         expect(result.stdout).toContain('"reason":"definition-mutation-denied"');
       } else {
-        expect(result.stdout).toContain("OpenClaw installed (OpenClaw 2026.8.25).");
+        expect(result.stdout).toContain("Zero to Agent installed (Zero to Agent 2026.8.25).");
       }
     } else {
       expect(result.stdout).toContain('"reason":"install-failed"');
@@ -812,9 +814,9 @@ describe("install-cli.sh", () => {
       );
 
       expect(result.status).toBe(1);
-      expect(result.stdout).toContain("Installed OpenClaw CLI did not return a version");
+      expect(result.stdout).toContain("Installed Zero to Agent CLI did not return a version");
       expect(result.stdout).not.toContain('"event":"done"');
-      expect(result.stdout).not.toContain("OpenClaw installed.");
+      expect(result.stdout).not.toContain("Zero to Agent installed.");
       expect(existsSync(refreshLog)).toBe(false);
     },
   );
@@ -831,7 +833,7 @@ describe("install-cli.sh", () => {
       const openclaw = join(bin, "openclaw");
       const refreshLog = join(tmp, "gateway-refresh.log");
       mkdirSync(bin, { recursive: true });
-      writeFileSync(openclaw, '#!/bin/bash\nprintf "OpenClaw 2026.8.1\\n"\nexit 1\n');
+      writeFileSync(openclaw, '#!/bin/bash\nprintf "Zero to Agent 2026.8.1\\n"\nexit 1\n');
       chmodSync(openclaw, 0o755);
 
       const result = runInstallCliShell(
@@ -848,9 +850,9 @@ describe("install-cli.sh", () => {
       );
 
       expect(result.status).toBe(1);
-      expect(result.stdout).toContain("Installed OpenClaw CLI did not return a version");
+      expect(result.stdout).toContain("Installed Zero to Agent CLI did not return a version");
       expect(result.stdout).not.toContain('"event":"done"');
-      expect(result.stdout).not.toContain("OpenClaw installed.");
+      expect(result.stdout).not.toContain("Zero to Agent installed.");
       expect(existsSync(refreshLog)).toBe(false);
     },
   );
@@ -1890,7 +1892,7 @@ describe("install-cli.sh", () => {
 
   defineInstallerNpmConfigContract(installerContract);
 
-  it("rejects OpenClaw GitHub source targets for npm installs", () => {
+  it("rejects Zero to Agent GitHub source targets for npm installs", () => {
     const result = runInstallCliShell(`
       set -euo pipefail
       source "${SCRIPT_PATH}"
@@ -1899,7 +1901,9 @@ describe("install-cli.sh", () => {
     `);
 
     expect(result.status).toBe(1);
-    expect(result.stdout).toContain("npm installs do not support OpenClaw GitHub source targets");
+    expect(result.stdout).toContain(
+      "npm installs do not support Zero to Agent GitHub source targets",
+    );
     expect(result.stdout).toContain("--install-method git --version main");
   });
 

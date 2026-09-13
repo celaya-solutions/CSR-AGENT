@@ -658,7 +658,7 @@ describe("openclaw live updater", () => {
     });
   });
 
-  test("ignores restart-window logs emitted by a foreign OpenClaw checkout", () => {
+  test("ignores restart-window logs emitted by a foreign Zero to Agent checkout", () => {
     const root = tempDirs.make("openclaw-log-attribution-");
     const sourceRoot = path.join(root, "managed/openclaw/dist");
     const foreignRoot = path.join(root, "worktree/openclaw");
@@ -1282,7 +1282,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
     expect(result.url).toBeNull();
   });
 
-  test("accepts supported OpenClaw GitHub origins", () => {
+  test("accepts supported Zero to Agent GitHub origins", () => {
     expect(originMatches("https://github.com/openclaw/openclaw.git")).toBe(true);
     expect(originMatches("git@github.com:openclaw/openclaw.git")).toBe(true);
     expect(originMatches("https://github.com/example/openclaw.git")).toBe(false);
@@ -1572,8 +1572,8 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
   });
 
   test("accepts only the delayed exact target bundle process", () => {
-    const executable = "/fixture/live-checkout/dist/OpenClaw.app/Contents/MacOS/OpenClaw";
-    const foreign = "41 /tmp/agent/OpenClaw.app/Contents/MacOS/OpenClaw";
+    const executable = "/fixture/live-checkout/dist/OpenClaw.app/Contents/MacOS/Zero to Agent";
+    const foreign = "41 /tmp/agent/OpenClaw.app/Contents/MacOS/Zero to Agent";
     expect(findExactMacTarget(foreign, executable)).toBeNull();
     expect(findExactMacTarget(`${foreign}\n42 ${executable} --attach-only`, executable)).toEqual({
       executable,
@@ -1620,7 +1620,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
 
   test("fast-forwards, builds exact SHA, restarts Gateway, then proves exact Mac target", async () => {
     const { root, mirror, seed } = makeFixture({ includeSeed: true });
-    mkdirSync(path.join(seed, "apps/macos/Sources/OpenClaw"), { recursive: true });
+    mkdirSync(path.join(seed, "apps/macos/Sources/Zero to Agent"), { recursive: true });
     writeFileSync(path.join(seed, "apps/macos/Sources/OpenClaw/App.swift"), "// changed\n");
     git(seed, "add", ".");
     git(seed, "commit", "-m", "mac change");
@@ -1637,7 +1637,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
       {
         runCommand: commands.runCommand,
         verifyMacTarget: () => ({
-          executable: path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/OpenClaw"),
+          executable: path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/Zero to Agent"),
           pid: 123,
         }),
       },
@@ -1674,7 +1674,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
       "pnpm openclaw health --verbose --json",
     ]);
     expect(output.macTarget?.executable).toBe(
-      path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/OpenClaw"),
+      path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/Zero to Agent"),
     );
   });
 
@@ -3541,7 +3541,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
 
   test("retains failed exact-bundle Mac proof for the next heartbeat", async () => {
     const { root, mirror, seed } = makeFixture({ includeSeed: true });
-    mkdirSync(path.join(seed, "apps/macos/Sources/OpenClaw"), { recursive: true });
+    mkdirSync(path.join(seed, "apps/macos/Sources/Zero to Agent"), { recursive: true });
     writeFileSync(path.join(seed, "apps/macos/Sources/OpenClaw/App.swift"), "// changed\n");
     git(seed, "add", ".");
     git(seed, "commit", "-m", "mac change");
@@ -3588,7 +3588,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
 
   test("records pending Mac work before Gateway maintenance can fail", async () => {
     const { root, mirror, seed } = makeFixture({ includeSeed: true });
-    mkdirSync(path.join(seed, "apps/macos/Sources/OpenClaw"), { recursive: true });
+    mkdirSync(path.join(seed, "apps/macos/Sources/Zero to Agent"), { recursive: true });
     writeFileSync(path.join(seed, "apps/macos/Sources/OpenClaw/App.swift"), "// changed\n");
     git(seed, "add", ".");
     git(seed, "commit", "-m", "mac change");

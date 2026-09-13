@@ -74,10 +74,10 @@ function runCleanupFunction(fakePs: string) {
       cleanupFunction,
       'ROOT_DIR="/worktree"',
       'APP_BUNDLE=""',
-      'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/OpenClaw"',
-      'DEBUG_PROCESS_PATTERN="/worktree/apps/macos/.build/debug/OpenClaw"',
-      'LOCAL_PROCESS_PATTERN="/worktree/apps/macos/.build-local/debug/OpenClaw"',
-      'RELEASE_PROCESS_PATTERN="/worktree/apps/macos/.build/release/OpenClaw"',
+      'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/Zero to Agent"',
+      'DEBUG_PROCESS_PATTERN="/worktree/apps/macos/.build/debug/Zero to Agent"',
+      'LOCAL_PROCESS_PATTERN="/worktree/apps/macos/.build-local/debug/Zero to Agent"',
+      'RELEASE_PROCESS_PATTERN="/worktree/apps/macos/.build/release/Zero to Agent"',
       "kill() {",
       '  printf "%s\\n" "$*" >> "$OPENCLAW_TEST_KILL_CALLS"',
       "  return 0",
@@ -135,8 +135,8 @@ function runManagedSupervisorClassifier(
       '  grep "^$1|$2|" "$OPENCLAW_TEST_LOADED_JOBS" |',
       "    awk -F'|' '{ print \"program = \" $3; print \"properties = \" $4 }'",
       "}",
-      'TARGET_EXECUTABLE="/worktree/dist/OpenClaw.app/Contents/MacOS/OpenClaw"',
-      'INSTALLED_EXECUTABLE="/Applications/OpenClaw.app/Contents/MacOS/OpenClaw"',
+      'TARGET_EXECUTABLE="/worktree/dist/OpenClaw.app/Contents/MacOS/Zero to Agent"',
+      'INSTALLED_EXECUTABLE="/Applications/OpenClaw.app/Contents/MacOS/Zero to Agent"',
       "managed_openclaw_supervisor_labels",
     ].join("\n"),
   );
@@ -362,9 +362,9 @@ function runForeignProcessClassifier(fakePs: string) {
     [
       "#!/usr/bin/env bash",
       functions,
-      'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/OpenClaw"',
-      'TARGET_EXECUTABLE="/Users/steipete/openclaw/dist/OpenClaw.app/Contents/MacOS/OpenClaw"',
-      'INSTALLED_EXECUTABLE="/Applications/OpenClaw.app/Contents/MacOS/OpenClaw"',
+      'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/Zero to Agent"',
+      'TARGET_EXECUTABLE="/Users/steipete/openclaw/dist/OpenClaw.app/Contents/MacOS/Zero to Agent"',
+      'INSTALLED_EXECUTABLE="/Applications/OpenClaw.app/Contents/MacOS/Zero to Agent"',
       "foreign_openclaw_process_pids",
     ].join("\n"),
   );
@@ -383,7 +383,7 @@ afterEach(() => {
 
 describe("scripts/restart-mac.sh", () => {
   it("preserves an explicit signing identity through signed packaging", () => {
-    const identity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+    const identity = "Developer ID Application: Zero to Agent Foundation (FWJYW4S8P8)";
     const result = runSigningEnvironmentBlock(identity);
 
     expect(result.status).toBe(0);
@@ -524,7 +524,7 @@ describe("scripts/restart-mac.sh", () => {
     );
   });
 
-  it("keeps restart cleanup scoped to known OpenClaw app and build paths", () => {
+  it("keeps restart cleanup scoped to known Zero to Agent app and build paths", () => {
     const script = readFileSync(restartScriptPath, "utf8");
     const cleanupBlock = script.slice(
       script.indexOf("kill_all_openclaw()"),
@@ -541,9 +541,9 @@ describe("scripts/restart-mac.sh", () => {
     expect(cleanupBlock).toContain('"${RELEASE_PROCESS_PATTERN}"');
     expect(cleanupBlock).not.toContain("APP_PROCESS_PATTERN");
     expect(cleanupBlock).not.toContain("pkill");
-    expect(cleanupBlock).not.toContain('pkill -x "OpenClaw"');
+    expect(cleanupBlock).not.toContain('pkill -x "Zero to Agent"');
     expect(cleanupBlock).not.toContain("pgrep");
-    expect(cleanupBlock).not.toContain('pgrep -x "OpenClaw"');
+    expect(cleanupBlock).not.toContain('pgrep -x "Zero to Agent"');
   });
 
   it("stops launchd supervision before killing app processes", () => {
@@ -599,19 +599,19 @@ describe("scripts/restart-mac.sh", () => {
       {
         domain: "gui/501",
         label: "ai.openclaw.mac.custom",
-        program: "/Applications/OpenClaw.app/Contents/MacOS/OpenClaw",
+        program: "/Applications/OpenClaw.app/Contents/MacOS/Zero to Agent",
         properties: "keepalive | runatload",
       },
       {
         domain: "user/501",
         label: "ai.openclaw.mac.target",
-        program: "/worktree/dist/OpenClaw.app/Contents/MacOS/OpenClaw",
+        program: "/worktree/dist/OpenClaw.app/Contents/MacOS/Zero to Agent",
         properties: "keepalive",
       },
       {
         domain: "gui/501",
         label: "application.ai.openclaw.mac.123",
-        program: "/Applications/OpenClaw.app/Contents/MacOS/OpenClaw",
+        program: "/Applications/OpenClaw.app/Contents/MacOS/Zero to Agent",
       },
       {
         domain: "system",
@@ -687,10 +687,10 @@ describe("scripts/restart-mac.sh", () => {
     const result = runForeignProcessClassifier(
       [
         "#!/usr/bin/env bash",
-        "printf '%s\\n' '  101 /Applications/OpenClaw.app/Contents/MacOS/OpenClaw --attach-only'",
-        "printf '%s\\n' '  102 /Users/steipete/openclaw/dist/OpenClaw.app/Contents/MacOS/OpenClaw --attach-only'",
-        "printf '%s\\n' '  103 /tmp/agent/OpenClaw.app/Contents/MacOS/OpenClaw --attach-only'",
-        "printf '%s\\n' '  104 /bin/sh test.sh /Applications/OpenClaw.app/Contents/MacOS/OpenClaw'",
+        "printf '%s\\n' '  101 /Applications/OpenClaw.app/Contents/MacOS/Zero to Agent --attach-only'",
+        "printf '%s\\n' '  102 /Users/steipete/openclaw/dist/OpenClaw.app/Contents/MacOS/Zero to Agent --attach-only'",
+        "printf '%s\\n' '  103 /tmp/agent/OpenClaw.app/Contents/MacOS/Zero to Agent --attach-only'",
+        "printf '%s\\n' '  104 /bin/sh test.sh /Applications/OpenClaw.app/Contents/MacOS/Zero to Agent'",
       ].join("\n"),
     );
 
@@ -737,7 +737,7 @@ describe("scripts/restart-mac.sh", () => {
     const { killCalls, result } = runCleanupFunction(
       [
         "#!/usr/bin/env bash",
-        "printf '%s\\n' '  321 /worktree/dist/OpenClaw.app/Contents/MacOS/OpenClaw --attach-only'",
+        "printf '%s\\n' '  321 /worktree/dist/OpenClaw.app/Contents/MacOS/Zero to Agent --attach-only'",
       ].join("\n"),
     );
 
@@ -753,7 +753,7 @@ describe("scripts/restart-mac.sh", () => {
         "#!/usr/bin/env bash",
         'kill_count="$(wc -l < "$OPENCLAW_TEST_KILL_CALLS" 2>/dev/null || echo 0)"',
         'if [[ "$kill_count" -lt 11 ]]; then',
-        "  printf '%s\\n' '  321 /worktree/dist/OpenClaw.app/Contents/MacOS/OpenClaw --attach-only'",
+        "  printf '%s\\n' '  321 /worktree/dist/OpenClaw.app/Contents/MacOS/Zero to Agent --attach-only'",
         "fi",
       ].join("\n"),
     );
@@ -790,11 +790,11 @@ describe("scripts/restart-mac.sh", () => {
     expect(result.stderr).toBe("");
   });
 
-  it("does not kill unrelated OpenClaw app bundles", () => {
+  it("does not kill unrelated Zero to Agent app bundles", () => {
     const { killCalls, result } = runCleanupFunction(
       [
         "#!/usr/bin/env bash",
-        "printf '%s\\n' '  654 /tmp/Other/OpenClaw.app/Contents/MacOS/OpenClaw'",
+        "printf '%s\\n' '  654 /tmp/Other/OpenClaw.app/Contents/MacOS/Zero to Agent'",
       ].join("\n"),
     );
 

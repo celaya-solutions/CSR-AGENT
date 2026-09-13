@@ -1,4 +1,4 @@
-/** Tests merging user OpenClaw MCP server config into Claude bundle-MCP overlays. */
+/** Tests merging user Zero to Agent MCP server config into Claude bundle-MCP overlays. */
 import fs from "node:fs/promises";
 import http from "node:http";
 import path from "node:path";
@@ -106,7 +106,7 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
     authMocks.resolveMcpOAuthAccessToken.mockReset();
   });
 
-  it("merges user-configured mcp.servers from OpenClaw config", async () => {
+  it("merges user-configured mcp.servers from Zero to Agent config", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
       "openclaw-cli-bundle-mcp-user-servers-",
     );
@@ -143,7 +143,7 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
     await prepared.cleanup?.();
   });
 
-  it("translates OpenClaw transport field on user mcp.servers into Claude type", async () => {
+  it("translates Zero to Agent transport field on user mcp.servers into Claude type", async () => {
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
       "openclaw-cli-bundle-mcp-user-servers-transport-",
     );
@@ -357,7 +357,7 @@ describe("prepareCliBundleMcpConfig user mcp.servers", () => {
   });
 
   it("user mcp.servers do not override the loopback additionalConfig", async () => {
-    // The OpenClaw loopback server is generated runtime state and must win over
+    // The Zero to Agent loopback server is generated runtime state and must win over
     // user config with the same server name.
     const workspaceDir = await cliBundleMcpHarness.tempHarness.createTempDir(
       "openclaw-cli-bundle-mcp-user-servers-loopback-",

@@ -909,7 +909,7 @@ describe("failover-error", () => {
 
     it("returns true for Codex missing tool-result local execution failures", () => {
       const missingToolResultMessage =
-        "OpenClaw recorded a native Codex tool.call without a matching tool.result before the turn completed.";
+        "Zero to Agent recorded a native Codex tool.call without a matching tool.result before the turn completed.";
       expect(isNonProviderRuntimeCoordinationError({ reason: "missing_tool_result" })).toBe(true);
       expect(
         isNonProviderRuntimeCoordinationError({

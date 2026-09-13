@@ -444,7 +444,7 @@ describe("Codex Computer Use setup", () => {
       "thread/start",
       {
         input: [],
-        developerInstructions: "OpenClaw Computer Use readiness probe",
+        developerInstructions: "Zero to Agent Computer Use readiness probe",
         ephemeral: true,
       },
       { timeoutMs: 60_000 },

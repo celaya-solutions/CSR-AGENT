@@ -77,14 +77,14 @@ describe("listGatewayAgentsBasic", () => {
         agents: {
           list: [
             { id: "main", default: true },
-            { id: "openclaw", name: "OpenClaw" },
+            { id: "openclaw", name: "Zero to Agent" },
           ],
         },
       };
 
       expect(listGatewayAgentsBasic(cfg).agents).toEqual([
         { id: "main", kind: "agent", name: undefined },
-        { id: "openclaw", kind: "agent", name: "OpenClaw" },
+        { id: "openclaw", kind: "agent", name: "Zero to Agent" },
       ]);
     });
   });

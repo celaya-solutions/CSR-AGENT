@@ -107,7 +107,7 @@ describe("gateway restart benchmark script", () => {
 
   it("prints help without running benchmark cases", () => {
     expect(helpResult.status).toBe(0);
-    expect(helpResult.stdout).toContain("OpenClaw Gateway restart benchmark");
+    expect(helpResult.stdout).toContain("Zero to Agent Gateway restart benchmark");
     expect(helpResult.stdout).toContain("--restarts <n>");
     expect(helpResult.stdout).toContain("Timeout for initial startup and each restart");
     expect(helpResult.stdout).toContain("--post-ready-delay-ms <ms>");

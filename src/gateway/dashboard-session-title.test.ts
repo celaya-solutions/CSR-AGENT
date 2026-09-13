@@ -272,12 +272,12 @@ describe("maybeGenerateDashboardSessionTitle", () => {
       "manual rename shaped like its Android device stamp",
       {
         sessionKey: "agent:main:node-1234567890ab",
-        entry: { ...baseEntry, label: "OpenClaw App · Release planning · 1234567890ab" },
+        entry: { ...baseEntry, label: "Zero to Agent App · Release planning · 1234567890ab" },
       },
     ],
     [
       "manual prefix-containing label",
-      { entry: { ...baseEntry, label: "OpenClaw App · Release planning" } },
+      { entry: { ...baseEntry, label: "Zero to Agent App · Release planning" } },
     ],
     ["persisted display name", { entry: { ...baseEntry, displayName: "My release" } }],
     ["group subject", { entry: { ...baseEntry, subject: "Release team" } }],
@@ -307,7 +307,7 @@ describe("maybeGenerateDashboardSessionTitle", () => {
   it("titles over an Android platform auto-label without treating it as a rename", async () => {
     const entry = {
       ...baseEntry,
-      autoLabel: "OpenClaw App · Pixel · 1234567890ab",
+      autoLabel: "Zero to Agent App · Pixel · 1234567890ab",
     };
     mockSessionUpdate(entry);
 
@@ -567,7 +567,7 @@ describe("buildDashboardSessionTitleSource", () => {
 });
 
 describe("hasExplicitSessionName", () => {
-  const androidStamp = "OpenClaw App · Pixel · 1234567890ab";
+  const androidStamp = "Zero to Agent App · Pixel · 1234567890ab";
   it("treats automatic device metadata as unnamed", () => {
     const entry = { ...baseEntry, autoLabel: androidStamp };
     expect(hasExplicitSessionName(entry)).toBe(false);
@@ -576,15 +576,15 @@ describe("hasExplicitSessionName", () => {
 
   it.each([
     androidStamp,
-    "OpenClaw App · Release planning",
-    "OpenClaw App · Release planning · 1234567890ab",
+    "Zero to Agent App · Release planning",
+    "Zero to Agent App · Release planning · 1234567890ab",
   ])("keeps a prefix-containing manual name %j", (label) => {
     const entry = { ...baseEntry, label, displayName: "Generated" };
     expect(hasExplicitSessionName(entry)).toBe(true);
     expect(resolveExplicitSessionName(entry)).toBe(label);
   });
 
-  it.each(["OpenClaw App", "OpenClaw App · 1234567890ab"])(
+  it.each(["Zero to Agent App", "Zero to Agent App · 1234567890ab"])(
     "preserves ambiguous legacy label %j as an explicit name",
     (label) => {
       expect(hasExplicitSessionName({ ...baseEntry, label })).toBe(true);

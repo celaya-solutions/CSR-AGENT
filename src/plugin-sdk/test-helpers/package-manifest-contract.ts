@@ -82,7 +82,7 @@ export function describePackageManifestContract(params: PackageManifestContractP
 
         expect(
           comparison,
-          `${packagePath} should require at least OpenClaw ${minHostVersionBaseline}`,
+          `${packagePath} should require at least Zero to Agent ${minHostVersionBaseline}`,
         ).toBeGreaterThanOrEqual(0);
       });
     }

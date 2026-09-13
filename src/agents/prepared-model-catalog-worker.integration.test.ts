@@ -870,7 +870,7 @@ describe("prepared model catalog worker boundary", () => {
     },
   );
 
-  it("keeps native Codex logins out of prepared OpenClaw profiles", async () => {
+  it("keeps native Codex logins out of prepared Zero to Agent profiles", async () => {
     const codexHome = makeTempDir("openclaw-prepared-codex-");
     writeCodexAuth(codexHome, "startup");
     const fixture = await withEnvAsync({ CODEX_HOME: codexHome }, () =>

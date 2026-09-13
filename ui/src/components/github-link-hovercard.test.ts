@@ -134,8 +134,8 @@ describe("openclaw-github-link-hovercard-provider", () => {
       login: "roboclaw-bot",
       mergedAt: "2026-07-04T09:53:52Z",
       number: 131440,
-      owner: "OpenClaw",
-      repo: "OpenClaw",
+      owner: "Zero to Agent",
+      repo: "Zero to Agent",
       state: "closed",
       title: "fix(ui): open people cards from one row",
       updatedAt: "2026-07-05T09:55:00Z",
@@ -178,8 +178,8 @@ describe("openclaw-github-link-hovercard-provider", () => {
       kind: "pull",
       login: "roboclaw-bot",
       number: 131442,
-      owner: "OpenClaw",
-      repo: "OpenClaw",
+      owner: "Zero to Agent",
+      repo: "Zero to Agent",
       state: "open",
       title: "fix(ui): one row",
       updatedAt: "2026-07-05T09:55:00Z",
@@ -204,8 +204,8 @@ describe("openclaw-github-link-hovercard-provider", () => {
       kind: "pull",
       login: "roboclaw-bot",
       number: 131441,
-      owner: "OpenClaw",
-      repo: "OpenClaw",
+      owner: "Zero to Agent",
+      repo: "Zero to Agent",
       state: "open",
       title: "fix(ui): one row",
       updatedAt: "2026-07-05T09:55:00Z",
@@ -235,8 +235,8 @@ describe("openclaw-github-link-hovercard-provider", () => {
       login: "steipete",
       mergedAt: "2026-07-04T09:53:52Z",
       number: 99816,
-      owner: "OpenClaw",
-      repo: "OpenClaw",
+      owner: "Zero to Agent",
+      repo: "Zero to Agent",
       state: "closed",
       title: "fix(agents): derive conversation scope from trusted group facts",
       updatedAt: "2026-07-05T09:55:00Z",
@@ -315,7 +315,7 @@ describe("openclaw-github-link-hovercard-provider", () => {
       const surface = kind === "pull" ? "pull" : "issues";
       const baseHref = `https://github.com/openclaw/openclaw/${surface}/99815`;
       const commentHref = `${baseHref}#issuecomment-123`;
-      const variantHref = `https://github.com/OpenClaw/OpenClaw/${surface}/99815/?view=activity#issuecomment-456`;
+      const variantHref = `https://github.com/Zero to Agent/Zero to Agent/${surface}/99815/?view=activity#issuecomment-456`;
       const { anchor, provider } = createLink(baseHref);
       const request = vi.fn().mockResolvedValue(issuePreviewResponse({ kind }));
       provider.client = { request } as unknown as GatewayBrowserClient;

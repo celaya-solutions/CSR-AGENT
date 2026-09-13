@@ -122,7 +122,7 @@ describe("cli json stdout contract", () => {
         expect(result.status, result.stderr).toBe(1);
         if ("human" in testCase) {
           if ("tty" in testCase) {
-            expect(result.stdout).toContain("OpenClaw");
+            expect(result.stdout).toContain("Zero to Agent");
           } else {
             expect(result.stdout).toBe("");
           }

@@ -225,8 +225,8 @@ describe("Scheduled Task stop/restart cleanup", () => {
       await expect(suspendScheduledTaskAutoStartForUpdate(env)).resolves.toBe(true);
 
       expect(schtasksCalls).toEqual([
-        ["/Query", "/TN", "OpenClaw Gateway", "/XML"],
-        ["/Change", "/TN", "OpenClaw Gateway", "/DISABLE"],
+        ["/Query", "/TN", "Zero to Agent Gateway", "/XML"],
+        ["/Change", "/TN", "Zero to Agent Gateway", "/DISABLE"],
       ]);
     });
   });
@@ -241,7 +241,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
 
       await expect(suspendScheduledTaskAutoStartForUpdate(env)).resolves.toBe(false);
 
-      expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenClaw Gateway", "/XML"]]);
+      expect(schtasksCalls).toEqual([["/Query", "/TN", "Zero to Agent Gateway", "/XML"]]);
     });
   });
 
@@ -257,7 +257,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
         "schtasks XML query failed: ERROR: The system cannot find the file specified.",
       );
 
-      expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenClaw Gateway", "/XML"]]);
+      expect(schtasksCalls).toEqual([["/Query", "/TN", "Zero to Agent Gateway", "/XML"]]);
       expect(spawnSync).toHaveBeenCalledOnce();
     });
   });
@@ -280,7 +280,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
 
       await expect(suspendScheduledTaskAutoStartForUpdate(env)).resolves.toBe(false);
 
-      expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenClaw Gateway", "/XML"]]);
+      expect(schtasksCalls).toEqual([["/Query", "/TN", "Zero to Agent Gateway", "/XML"]]);
       expect(spawnSync).toHaveBeenCalledOnce();
     });
   });
@@ -311,9 +311,9 @@ describe("Scheduled Task stop/restart cleanup", () => {
       );
 
       expect(schtasksCalls).toEqual([
-        ["/Query", "/TN", "OpenClaw Gateway", "/XML"],
-        ["/Change", "/TN", "OpenClaw Gateway", "/DISABLE"],
-        ["/Change", "/TN", "OpenClaw Gateway", "/ENABLE"],
+        ["/Query", "/TN", "Zero to Agent Gateway", "/XML"],
+        ["/Change", "/TN", "Zero to Agent Gateway", "/DISABLE"],
+        ["/Change", "/TN", "Zero to Agent Gateway", "/ENABLE"],
       ]);
     });
   });
@@ -327,7 +327,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
         "Start Menu",
         "Programs",
         "Startup",
-        "OpenClaw Gateway.cmd",
+        "Zero to Agent Gateway.cmd",
       );
       await fs.mkdir(path.dirname(startupEntry), { recursive: true });
       await fs.writeFile(startupEntry, "@echo off\r\n", "utf8");
@@ -347,7 +347,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
 
       await expect(suspendScheduledTaskAutoStartForUpdate(env)).resolves.toBe(false);
 
-      expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenClaw Gateway", "/XML"]]);
+      expect(schtasksCalls).toEqual([["/Query", "/TN", "Zero to Agent Gateway", "/XML"]]);
       expect(spawnSync).toHaveBeenCalledOnce();
     });
   });
@@ -361,7 +361,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
         "Start Menu",
         "Programs",
         "Startup",
-        "OpenClaw Gateway.cmd",
+        "Zero to Agent Gateway.cmd",
       );
       await fs.mkdir(path.dirname(startupEntry), { recursive: true });
       await fs.writeFile(startupEntry, "@echo off\r\n", "utf8");
@@ -392,7 +392,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
 
       await expect(resumeScheduledTaskAutoStartAfterUpdate(env)).resolves.toBe(true);
 
-      expect(schtasksCalls).toEqual([["/Change", "/TN", "OpenClaw Gateway", "/ENABLE"]]);
+      expect(schtasksCalls).toEqual([["/Change", "/TN", "Zero to Agent Gateway", "/ENABLE"]]);
     });
   });
 
@@ -427,8 +427,8 @@ describe("Scheduled Task stop/restart cleanup", () => {
 
       expect(schtasksCalls).toEqual([
         ["/Query"],
-        ["/Query", "/TN", "OpenClaw Gateway"],
-        ["/End", "/TN", "OpenClaw Gateway"],
+        ["/Query", "/TN", "Zero to Agent Gateway"],
+        ["/End", "/TN", "Zero to Agent Gateway"],
       ]);
       expect(spawnSync).toHaveBeenCalledOnce();
       expect(onMutation).toHaveBeenCalledWith({ mode: "schtasks-stop" });
@@ -646,7 +646,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
         }),
       ).resolves.toBeUndefined();
 
-      expect(schtasksCalls).toContainEqual(["/Run", "/TN", "OpenClaw Gateway"]);
+      expect(schtasksCalls).toContainEqual(["/Run", "/TN", "Zero to Agent Gateway"]);
       expect(onMutation).toHaveBeenCalledWith({ mode: "schtasks-start" });
       expect(
         expectDefined(onMutation.mock.invocationCallOrder[0], "start audit call order"),
@@ -718,7 +718,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
     await withPreparedGatewayTask(async ({ env, stdout }) => {
       pushSuccessfulSchtasksResponses(3);
       env.OPENCLAW_SERVICE_KIND = "node";
-      env.OPENCLAW_WINDOWS_TASK_NAME = "OpenClaw Node";
+      env.OPENCLAW_WINDOWS_TASK_NAME = "Zero to Agent Node";
       findVerifiedGatewayListenerPidsOnPortSync.mockReturnValue([4242]);
       inspectPortUsageMock.mockResolvedValue(busyPortUsage(4242));
 
@@ -729,8 +729,8 @@ describe("Scheduled Task stop/restart cleanup", () => {
       expect(killProcessTreeMock).not.toHaveBeenCalled();
       expect(schtasksCalls).toEqual([
         ["/Query"],
-        ["/Query", "/TN", "OpenClaw Node"],
-        ["/End", "/TN", "OpenClaw Node"],
+        ["/Query", "/TN", "Zero to Agent Node"],
+        ["/End", "/TN", "Zero to Agent Node"],
       ]);
     });
   });
@@ -757,9 +757,9 @@ describe("Scheduled Task stop/restart cleanup", () => {
       expect(onMutation).toHaveBeenCalledWith({ mode: "schtasks-restart" });
       expect(schtasksCalls).toEqual([
         ["/Query"],
-        ["/Query", "/TN", "OpenClaw Gateway"],
-        ["/End", "/TN", "OpenClaw Gateway"],
-        ["/Run", "/TN", "OpenClaw Gateway"],
+        ["/Query", "/TN", "Zero to Agent Gateway"],
+        ["/End", "/TN", "Zero to Agent Gateway"],
+        ["/Run", "/TN", "Zero to Agent Gateway"],
       ]);
     });
   });
@@ -788,7 +788,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
         ).rejects.toThrow("repair continuation retired");
 
         expect(schtasksCalls.filter(([action]) => action === "/End" || action === "/Run")).toEqual(
-          stage === "routing" ? [] : [["/End", "/TN", "OpenClaw Gateway"]],
+          stage === "routing" ? [] : [["/End", "/TN", "Zero to Agent Gateway"]],
         );
         expect(killProcessTreeMock).not.toHaveBeenCalled();
       });
@@ -799,7 +799,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
     await withPreparedGatewayTask(async ({ env, stdout }) => {
       pushSuccessfulSchtasksResponses(4);
       env.OPENCLAW_SERVICE_KIND = "node";
-      env.OPENCLAW_WINDOWS_TASK_NAME = "OpenClaw Node";
+      env.OPENCLAW_WINDOWS_TASK_NAME = "Zero to Agent Node";
       findVerifiedGatewayListenerPidsOnPortSync.mockReturnValue([5151]);
       inspectPortUsageMock.mockResolvedValue(busyPortUsage(5151));
 
@@ -812,9 +812,9 @@ describe("Scheduled Task stop/restart cleanup", () => {
       expect(killProcessTreeMock).not.toHaveBeenCalled();
       expect(schtasksCalls).toEqual([
         ["/Query"],
-        ["/Query", "/TN", "OpenClaw Node"],
-        ["/End", "/TN", "OpenClaw Node"],
-        ["/Run", "/TN", "OpenClaw Node"],
+        ["/Query", "/TN", "Zero to Agent Node"],
+        ["/End", "/TN", "Zero to Agent Node"],
+        ["/Run", "/TN", "Zero to Agent Node"],
       ]);
     });
   });
@@ -834,7 +834,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
       );
       expect(onMutation).toHaveBeenCalledWith({ mode: "schtasks-end" });
       expect(onMutation).not.toHaveBeenCalledWith({ mode: "schtasks-restart" });
-      expect(schtasksCalls.at(-1)).toEqual(["/Run", "/TN", "OpenClaw Gateway"]);
+      expect(schtasksCalls.at(-1)).toEqual(["/Run", "/TN", "Zero to Agent Gateway"]);
     });
   });
 });

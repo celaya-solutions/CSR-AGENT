@@ -60,7 +60,7 @@ describe("release wrapper scripts", () => {
     }
   });
 
-  it("loads the OpenClaw ClawHub plan CLI and validates required arguments before planning", () => {
+  it("loads the Zero to Agent ClawHub plan CLI and validates required arguments before planning", () => {
     const result = runTsxScript("scripts/openclaw-release-clawhub-plan.ts", [
       "--bootstrap-workflow-ref",
       "main",

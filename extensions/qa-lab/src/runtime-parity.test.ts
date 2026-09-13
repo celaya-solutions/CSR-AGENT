@@ -285,7 +285,7 @@ describe("runtime parity", () => {
           data: {
             toolCallId: "search-1",
             name: "web_search",
-            arguments: { query: "OpenClaw runtime parity fixed query" },
+            arguments: { query: "Zero to Agent runtime parity fixed query" },
           },
         },
         {
@@ -297,7 +297,7 @@ describe("runtime parity", () => {
             isError: false,
             result: {
               status: "completed",
-              query: "OpenClaw runtime parity fixed query",
+              query: "Zero to Agent runtime parity fixed query",
             },
           },
         },
@@ -354,7 +354,7 @@ describe("runtime parity", () => {
           data: {
             toolCallId: "search-1",
             name: "web_search",
-            arguments: { query: "OpenClaw runtime parity fixed query" },
+            arguments: { query: "Zero to Agent runtime parity fixed query" },
           },
         },
         {

@@ -133,7 +133,7 @@ describe("k8s manifests", () => {
     expect(gateway).toMatchObject({ mode: "local", port: 18789 });
     expect(auth).toMatchObject({ mode: "token" });
     expect(defaults).toMatchObject({ workspace: "~/.openclaw/workspace" });
-    expect(data["AGENTS.md"]).toContain("OpenClaw Assistant");
+    expect(data["AGENTS.md"]).toContain("Zero to Agent Assistant");
     expect(pvc).toMatchObject({
       apiVersion: "v1",
       kind: "PersistentVolumeClaim",

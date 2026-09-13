@@ -70,7 +70,7 @@ export default {
   cacheDir: ${JSON.stringify(path.join(root, ".vite"))},
   test: {
     ...tooling.test, dir: ${JSON.stringify(root)}, include: ["progress-*.test.ts"], maxWorkers: 1,
-    // Pure Vitest fixtures need no OpenClaw environment setup or shared-state runner.
+    // Pure Vitest fixtures need no Zero to Agent environment setup or shared-state runner.
     setupFiles: [], runner: undefined,
     sequence: { ...tooling.test.sequence, sequencer: OrderedFixtures },
   },

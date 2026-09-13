@@ -96,7 +96,7 @@ describe("1Password SecretRef setup", () => {
     ]);
   });
 
-  it("builds arbitrary known OpenClaw and auth-profile targets", async () => {
+  it("builds arbitrary known Zero to Agent and auth-profile targets", async () => {
     const plan = await createSetupPlan([
       "--target",
       "channels.telegram.botToken=op://openclaw/Telegram/botToken",
@@ -124,7 +124,7 @@ describe("1Password SecretRef setup", () => {
   });
 
   it("encodes native 1Password refs with spaces and selectors", async () => {
-    const nativeRef = "op://Personal/OpenClaw QA API Key/password?attribute=value%20one";
+    const nativeRef = "op://Personal/Zero to Agent QA API Key/password?attribute=value%20one";
     const plan = await createSetupPlan(["--provider-key", `openai=${nativeRef}`]);
     expect(plan.targets[0]).toMatchObject({
       providerId: "openai",

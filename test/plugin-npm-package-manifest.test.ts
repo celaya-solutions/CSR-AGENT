@@ -443,7 +443,7 @@ describe("plugin npm package manifest staging", () => {
         existsSync: () => false,
         platform: "win32",
       }),
-    ).toThrow("OpenClaw refuses to shell out to bare npm on Windows");
+    ).toThrow("Zero to Agent refuses to shell out to bare npm on Windows");
   });
 
   it("retries timed-out bundled dependency installs after cleaning partial output", () => {

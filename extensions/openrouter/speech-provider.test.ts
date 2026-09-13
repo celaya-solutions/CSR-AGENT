@@ -122,7 +122,7 @@ describe("openrouter speech provider", () => {
         Authorization: "Bearer sk-openrouter",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://openclaw.ai",
-        "X-OpenRouter-Title": "OpenClaw",
+        "X-OpenRouter-Title": "Zero to Agent",
       },
       provider: "openrouter",
       capability: "audio",
@@ -138,7 +138,7 @@ describe("openrouter speech provider", () => {
       authorization: "Bearer sk-openrouter",
       "content-type": "application/json",
       "http-referer": "https://openclaw.ai",
-      "x-openrouter-title": "OpenClaw",
+      "x-openrouter-title": "Zero to Agent",
     });
     expect(request).toEqual({
       url: "https://openrouter.ai/api/v1/audio/speech",

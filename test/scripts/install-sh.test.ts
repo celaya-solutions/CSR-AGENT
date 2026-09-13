@@ -101,7 +101,7 @@ describe("install.sh", () => {
         },
       });
       expect(result.status, result.stdout + result.stderr).toBe(0);
-      expect(result.stdout).toContain("OpenClaw installer (macOS + Linux)");
+      expect(result.stdout).toContain("Zero to Agent installer (macOS + Linux)");
       expect(result.stderr).not.toContain("Run this installer with /bin/bash");
       expect(readdirSync(tmp)).toEqual([]);
     } finally {
@@ -1588,11 +1588,11 @@ EOF
       git_install_lockfile_flag() { printf '%s\\n' '--frozen-lockfile'; }
       run_quiet_step() {
         printf 'step:%s|%s\\n' "$1" "\${*:2}"
-        if [[ "$1" == "Cloning OpenClaw" ]]; then
+        if [[ "$1" == "Cloning Zero to Agent" ]]; then
           target="\${*: -1}"
           mkdir -p "$target/.git"
           printf 'complete\\n' > "$target/checkout.marker"
-        elif [[ "$1" == "Building OpenClaw" ]]; then
+        elif [[ "$1" == "Building Zero to Agent" ]]; then
           mkdir -p "$repo/dist"
           printf '%s\\n' 'process.stdout.write("fixture-version\\n");' > "$repo/dist/entry.js"
         fi
@@ -1609,7 +1609,7 @@ EOF
 
     expect(result.status, JSON.stringify(result)).toBe(0);
     expect(result.stdout).toContain(
-      "step:Cloning OpenClaw|git clone --filter=blob:none https://github.com/openclaw/openclaw.git",
+      "step:Cloning Zero to Agent|git clone --filter=blob:none https://github.com/openclaw/openclaw.git",
     );
     expect(result.stdout).toContain("/.openclaw-clone.");
   });
@@ -2135,7 +2135,7 @@ EOF
       expect(result.stderr).not.toContain("forbidden external command");
 
       const output = result.stdout;
-      const successMatches = output.match(/OpenClaw installed successfully/g) ?? [];
+      const successMatches = output.match(/Zero to Agent installed successfully/g) ?? [];
       const doctorIndex = output.indexOf("event:doctor");
       const verificationIndex = output.indexOf("event:verification");
       const successIndex = output.indexOf("event:success:");
@@ -2204,7 +2204,7 @@ EOF
     expect(result.stdout).not.toContain("old-owner-removed");
   });
 
-  it("rejects OpenClaw GitHub source targets for npm installs", () => {
+  it("rejects Zero to Agent GitHub source targets for npm installs", () => {
     const result = runInstallShell(`
       set -euo pipefail
       source "${SCRIPT_PATH}"
@@ -2218,7 +2218,9 @@ EOF
 
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("status=1");
-    expect(result.stdout).toContain("npm installs do not support OpenClaw GitHub source targets");
+    expect(result.stdout).toContain(
+      "npm installs do not support Zero to Agent GitHub source targets",
+    );
     expect(result.stdout).toContain("--install-method git --version main");
   });
 
@@ -2231,7 +2233,7 @@ EOF
     writeFileSync(join(packageDir, "dist", "entry.js"), "export {};\n");
     writeFileSync(
       join(packageDir, "openclaw.mjs"),
-      '#!/usr/bin/env node\nprocess.stdout.write("OpenClaw fixture\\n");\n',
+      '#!/usr/bin/env node\nprocess.stdout.write("Zero to Agent fixture\\n");\n',
     );
     chmodSync(join(packageDir, "openclaw.mjs"), 0o755);
 
@@ -2248,7 +2250,7 @@ EOF
       );
 
       expect(result.status, result.stderr || result.stdout).toBe(0);
-      expect(result.stdout).toContain("OpenClaw fixture");
+      expect(result.stdout).toContain("Zero to Agent fixture");
     } finally {
       rmSync(tmp, { force: true, recursive: true });
     }
@@ -2327,7 +2329,7 @@ EOF
         "parse_args --verify",
         "configure_install_stage_total",
         'ui_stage "Preparing environment"',
-        'ui_stage "Installing OpenClaw"',
+        'ui_stage "Installing Zero to Agent"',
         'ui_stage "Finalizing setup"',
         'ui_stage "Verifying installation"',
       ].join("\n"),
@@ -2619,7 +2621,7 @@ EOF
       install_homebrew() { echo unexpected-homebrew; exit 91; }
       install_node() { echo unexpected-system-install; exit 92; }
       ui_stage() {
-        if [[ "$1" == "Installing OpenClaw" ]]; then
+        if [[ "$1" == "Installing Zero to Agent" ]]; then
           printf 'selected=%s\\n' "$(command -v node)"
           exit 0
         fi
@@ -4212,7 +4214,7 @@ exit 0
   });
 });
 
-describe("install.sh duplicate OpenClaw install detection", () => {
+describe("install.sh duplicate Zero to Agent install detection", () => {
   it("warns with concrete package paths and versions for duplicate npm roots", () => {
     const result = runInstallShell(`
       set -euo pipefail
@@ -4229,7 +4231,7 @@ describe("install.sh duplicate OpenClaw install detection", () => {
     `);
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain("Multiple OpenClaw global installs detected");
+    expect(result.stdout).toContain("Multiple Zero to Agent global installs detected");
     expect(result.stdout).toContain("2026.3.7");
     expect(result.stdout).toContain("2026.3.1");
     expect(result.stdout).toContain("/brew/openclaw");
@@ -4238,7 +4240,7 @@ describe("install.sh duplicate OpenClaw install detection", () => {
     expect(result.stdout).toContain("npm uninstall -g openclaw");
   });
 
-  it("stays quiet when only one OpenClaw npm root exists", () => {
+  it("stays quiet when only one Zero to Agent npm root exists", () => {
     const result = runInstallShell(`
       set -euo pipefail
       source "${SCRIPT_PATH}"
@@ -4252,7 +4254,7 @@ describe("install.sh duplicate OpenClaw install detection", () => {
     `);
 
     expect(result.status).toBe(0);
-    expect(result.stdout).not.toContain("Multiple OpenClaw global installs detected");
+    expect(result.stdout).not.toContain("Multiple Zero to Agent global installs detected");
   });
 
   it("needs_stdin_isolation returns true when stdin is piped", () => {

@@ -1,6 +1,6 @@
 // Shared MCP-channel QA/Docker E2E fixture helpers.
 // The mounted test harness imports packaged dist modules so bridge assertions run
-// against the OpenClaw npm tarball installed in the functional image.
+// against the Zero to Agent npm tarball installed in the functional image.
 import crypto from "node:crypto";
 import process from "node:process";
 import { setTimeout as delay } from "node:timers/promises";

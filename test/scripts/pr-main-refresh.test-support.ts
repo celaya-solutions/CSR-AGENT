@@ -52,7 +52,7 @@ function createMainRefreshTemplate(directory: string) {
   const { git } = createFixtureGit(root);
   git(root, "init", "--bare", "-b", "main", origin);
   git(root, "init", "-b", "main", canonical);
-  git(canonical, "config", "user.name", "OpenClaw Test");
+  git(canonical, "config", "user.name", "Zero to Agent Test");
   git(canonical, "config", "user.email", "test@example.invalid");
   git(canonical, "config", "core.hooksPath", "/dev/null");
   git(canonical, "config", "extensions.worktreeConfig", "true");

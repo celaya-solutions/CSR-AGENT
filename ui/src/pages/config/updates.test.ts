@@ -652,7 +652,9 @@ describe("renderUpdates", () => {
         )!;
         await view.updateComplete;
         expect(view.querySelector(".update-run-view__report")?.textContent).toContain(
-          status === "succeeded" ? "OpenClaw updated to 2026.9.2" : `OpenClaw update ${status}`,
+          status === "succeeded"
+            ? "Zero to Agent updated to 2026.9.2"
+            : `Zero to Agent update ${status}`,
         );
         if (status !== "succeeded") {
           const recovery = row("Recovery");

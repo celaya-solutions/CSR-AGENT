@@ -186,7 +186,7 @@ describe("Periphery scope workflows", () => {
   it("ignores scoped files added only by base-branch drift", async () => {
     const repoRoot = makeTempRepoRoot(tempDirs, "openclaw-periphery-scope-");
     git(repoRoot, ["init", "--initial-branch=main"]);
-    git(repoRoot, ["config", "user.name", "OpenClaw Test"]);
+    git(repoRoot, ["config", "user.name", "Zero to Agent Test"]);
     git(repoRoot, ["config", "user.email", "openclaw-test@example.com"]);
 
     writeFixture(repoRoot, "docs/base.md", "base\n");

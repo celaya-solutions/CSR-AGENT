@@ -22,7 +22,7 @@ function makeRepository(): { root: string; commit: string } {
       "-c",
       "user.email=release-test@openclaw.test",
       "-c",
-      "user.name=OpenClaw Release Test",
+      "user.name=Zero to Agent Release Test",
       "commit",
       "--quiet",
       "-m",

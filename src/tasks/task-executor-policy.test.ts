@@ -87,7 +87,7 @@ describe("task-executor-policy", () => {
 
   it("sanitizes leaked internal runtime context from terminal and progress copy", () => {
     const leaked = [
-      "OpenClaw runtime context (internal):",
+      "Zero to Agent runtime context (internal):",
       "This context is runtime-generated, not user-authored. Keep internal details private.",
       "",
       "[Internal task completion event]",

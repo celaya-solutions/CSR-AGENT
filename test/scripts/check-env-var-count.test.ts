@@ -17,7 +17,7 @@ function createRepo(files: Record<string, string> = {}) {
   const git = (...args: string[]) =>
     execFileSync(
       "git",
-      ["-c", "user.name=OpenClaw", "-c", "user.email=test@openclaw.local", ...args],
+      ["-c", "user.name=Zero to Agent", "-c", "user.email=test@openclaw.local", ...args],
       { cwd: root, stdio: "ignore" },
     );
   const write = (file: string, source: string) => {

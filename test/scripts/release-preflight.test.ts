@@ -115,7 +115,7 @@ function makeReleaseFixture(
   } = {},
 ): string {
   const root = makeTempDir(tempDirs, "openclaw-release-preflight-fixture-");
-  const plistDir = join(root, "apps", "macos", "Sources", "OpenClaw", "Resources");
+  const plistDir = join(root, "apps", "macos", "Sources", "Zero to Agent", "Resources");
   mkdirSync(plistDir, { recursive: true });
   writeFileSync(
     join(root, "package.json"),
@@ -504,7 +504,15 @@ process.once("exit", () => {
   it("fails closed when required macOS plist values are missing", () => {
     const fakePnpm = makeFakePnpm();
     const root = makeReleaseFixture();
-    const plistPath = join(root, "apps", "macos", "Sources", "OpenClaw", "Resources", "Info.plist");
+    const plistPath = join(
+      root,
+      "apps",
+      "macos",
+      "Sources",
+      "Zero to Agent",
+      "Resources",
+      "Info.plist",
+    );
     writeFileSync(
       plistPath,
       readFileSync(plistPath, "utf8").replace(
@@ -526,7 +534,15 @@ process.once("exit", () => {
       buildVersion: "2026061000",
       shortVersion: "2026.6.10",
     });
-    const plistPath = join(root, "apps", "macos", "Sources", "OpenClaw", "Resources", "Info.plist");
+    const plistPath = join(
+      root,
+      "apps",
+      "macos",
+      "Sources",
+      "Zero to Agent",
+      "Resources",
+      "Info.plist",
+    );
     const before = readFileSync(plistPath, "utf8");
     const result = runPreflight(["--fix"], fakePnpm, {}, root);
 

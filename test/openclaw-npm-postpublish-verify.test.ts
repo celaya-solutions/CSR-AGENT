@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-// OpenClaw npm postpublish tests validate postpublish verification behavior.
+// Zero to Agent npm postpublish tests validate postpublish verification behavior.
 import {
   existsSync,
   mkdirSync,
@@ -455,7 +455,7 @@ describe("npm registry provenance verification", () => {
           },
         }),
       ).rejects.toThrow(
-        `does not bind ${extendedStableVersion} to the trusted OpenClaw GitHub release workflow`,
+        `does not bind ${extendedStableVersion} to the trusted Zero to Agent GitHub release workflow`,
       );
       expect(verificationCalls).toBe(0);
     },
@@ -500,7 +500,9 @@ describe("npm registry provenance verification", () => {
           verificationCalls += 1;
         },
       }),
-    ).rejects.toThrow("does not bind 2026.3.23 to the trusted OpenClaw GitHub release workflow");
+    ).rejects.toThrow(
+      "does not bind 2026.3.23 to the trusted Zero to Agent GitHub release workflow",
+    );
     expect(verificationCalls).toBe(0);
   });
 
@@ -537,7 +539,7 @@ describe("npm registry provenance verification", () => {
           attempts += 1;
           if (attempts === 1) {
             throw new Error(
-              "npm provenance attestation does not bind 2026.3.23 to the trusted OpenClaw GitHub release workflow.",
+              "npm provenance attestation does not bind 2026.3.23 to the trusted Zero to Agent GitHub release workflow.",
             );
           }
           if (attempts === 2) {
@@ -1021,11 +1023,11 @@ describe("collectInstalledContextEngineRuntimeErrors", () => {
 
 describe("normalizeInstalledBinaryVersion", () => {
   it("accepts decorated CLI version output", () => {
-    expect(normalizeInstalledBinaryVersion("OpenClaw 2026.4.8 (9ece252)")).toBe("2026.4.8");
-    expect(normalizeInstalledBinaryVersion("OpenClaw 2026.4.8-beta.1 (9ece252)")).toBe(
+    expect(normalizeInstalledBinaryVersion("Zero to Agent 2026.4.8 (9ece252)")).toBe("2026.4.8");
+    expect(normalizeInstalledBinaryVersion("Zero to Agent 2026.4.8-beta.1 (9ece252)")).toBe(
       "2026.4.8-beta.1",
     );
-    expect(normalizeInstalledBinaryVersion("OpenClaw 2026.4.8-alpha.1 (9ece252)")).toBe(
+    expect(normalizeInstalledBinaryVersion("Zero to Agent 2026.4.8-alpha.1 (9ece252)")).toBe(
       "2026.4.8-alpha.1",
     );
   });

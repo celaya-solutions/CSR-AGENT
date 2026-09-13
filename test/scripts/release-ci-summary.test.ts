@@ -267,7 +267,7 @@ process.stdout.write(readFileSync(process.env.ARCHIVE));
       expect(result.stderr).toBe("");
       expect(result.status).toBe(0);
       expect(result.stdout).toContain(
-        `child: ${childRunId} OpenClaw Release Checks completed/failure`,
+        `child: ${childRunId} Zero to Agent Release Checks completed/failure`,
       );
       expect(result.stdout).toContain(
         "advisory: releaseChecksCandidate completed/failure cross_os_release_checks / Windows / packaged fresh",
@@ -2010,7 +2010,7 @@ describe("release CI summary child correlation", () => {
         validate({ [fixture.runId]: 2, [String(fixture.childRun.id)]: 2 }),
       ).rejects.toThrowError(
         expect.objectContaining({
-          message: "successful parent manifest predates OpenClaw Release Checks attempt 2",
+          message: "successful parent manifest predates Zero to Agent Release Checks attempt 2",
           refreshable: true,
         }),
       );
@@ -2726,10 +2726,10 @@ describe("release CI summary child correlation", () => {
       },
       {
         displayTitle:
-          "OpenClaw Release Checks full-release-validation-29090000000-3-release-checks",
+          "Zero to Agent Release Checks full-release-validation-29090000000-3-release-checks",
         headBranch: "release/2026.7.1",
         manifestKey: "releaseChecks",
-        name: "OpenClaw Release Checks",
+        name: "Zero to Agent Release Checks",
         parentJobName: "Run release/live/Docker/QA validation",
         suffix: "-release-checks",
         trustedRef: "parent",
@@ -2756,10 +2756,10 @@ describe("release CI summary child correlation", () => {
         workflow: "npm-telegram-beta-e2e.yml",
       },
       {
-        displayTitle: "OpenClaw Performance full-release-validation-29090000000-3",
+        displayTitle: "Zero to Agent Performance full-release-validation-29090000000-3",
         headBranch: "release/2026.7.1",
         manifestKey: "productPerformance",
-        name: "OpenClaw Performance",
+        name: "Zero to Agent Performance",
         parentJobName: "Run product performance evidence",
         suffix: "",
         trustedRef: "parent",
@@ -2799,13 +2799,13 @@ describe("release CI summary child correlation", () => {
       },
       {
         displayTitle:
-          "OpenClaw Release Checks full-release-validation-29090000000-3-release-checks-independent",
+          "Zero to Agent Release Checks full-release-validation-29090000000-3-release-checks-independent",
         manifestKey: "releaseChecksIndependent",
         parentJobName: "Run release checks independent validation",
       },
       {
         displayTitle:
-          "OpenClaw Release Checks full-release-validation-29090000000-3-release-checks-candidate",
+          "Zero to Agent Release Checks full-release-validation-29090000000-3-release-checks-candidate",
         manifestKey: "releaseChecksCandidate",
         parentJobName: "Run release checks candidate validation",
       },
@@ -2813,7 +2813,7 @@ describe("release CI summary child correlation", () => {
   });
 
   it("ignores same-SHA and nearby-name runs without the exact parent dispatch binding", () => {
-    const expected = "OpenClaw Performance full-release-validation-29090000000-3";
+    const expected = "Zero to Agent Performance full-release-validation-29090000000-3";
     const exact = {
       display_title: expected,
       event: "workflow_dispatch",
@@ -2825,7 +2825,7 @@ describe("release CI summary child correlation", () => {
       selectExactChildRun(
         [
           {
-            display_title: "OpenClaw Performance",
+            display_title: "Zero to Agent Performance",
             event: "workflow_dispatch",
             head_branch: "main",
             head_sha: exact.head_sha,
@@ -2870,7 +2870,7 @@ describe("release CI summary child correlation", () => {
   });
 
   it("returns one exact child after a full bounded pagination scan", () => {
-    const expected = "OpenClaw Performance full-release-validation-29090000000-3";
+    const expected = "Zero to Agent Performance full-release-validation-29090000000-3";
     const exact = {
       display_title: expected,
       event: "workflow_dispatch",
@@ -3613,10 +3613,13 @@ describe("release CI summary child correlation", () => {
         {
           originAttempt: 1,
           runId: 28717802171,
-          title: "OpenClaw Performance full-release-validation-28717729503-1",
+          title: "Zero to Agent Performance full-release-validation-28717729503-1",
         },
       ],
-      ["releaseChecks", { originAttempt: 1, runId: 28717802397, title: "OpenClaw Release Checks" }],
+      [
+        "releaseChecks",
+        { originAttempt: 1, runId: 28717802397, title: "Zero to Agent Release Checks" },
+      ],
     ]);
     const fingerprint = {
       completed_at: "2026-07-04T20:29:21Z",

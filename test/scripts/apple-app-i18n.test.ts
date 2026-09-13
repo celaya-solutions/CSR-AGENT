@@ -174,7 +174,7 @@ describe("Apple app i18n catalogs", () => {
         "Waiting",
       ]),
     );
-    expect(keys).not.toContain("OpenClaw");
+    expect(keys).not.toContain("Zero to Agent");
     expect(keys.some((key) => key.includes("\\("))).toBe(false);
   });
 
@@ -528,11 +528,11 @@ describe("Apple app i18n catalogs", () => {
       ),
     ).toBe("Utilisez l’appareil photo pour scanner les codes de configuration.");
     expect(
-      selectInfoPlistTranslation("OpenClaw Share", [], {
-        source: "OpenClaw Share",
-        value: "OpenClaw Partager",
+      selectInfoPlistTranslation("Zero to Agent Share", [], {
+        source: "Zero to Agent Share",
+        value: "Zero to Agent Partager",
       }),
-    ).toBe("OpenClaw Partager");
+    ).toBe("Zero to Agent Partager");
     expect(
       selectInfoPlistTranslation(
         "Use the camera to scan setup codes.",
@@ -596,7 +596,7 @@ describe("Apple app i18n catalogs", () => {
         "utf8",
       );
       expect(frenchInfoPlist).toContain(
-        '"NSUserNotificationUsageDescription" = "OpenClaw a besoin de l’autorisation d’envoyer des notifications pour afficher des alertes concernant les actions de l’agent.";',
+        '"NSUserNotificationUsageDescription" = "Zero to Agent a besoin de l’autorisation d’envoyer des notifications pour afficher des alertes concernant les actions de l’agent.";',
       );
       expect(frenchInfoPlist).toContain('"NSScreenCaptureDescription" = ');
       expect(frenchInfoPlist).toContain('"NSLocationUsageDescription" = ');

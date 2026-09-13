@@ -39,7 +39,7 @@ describe("release upgrade baseline resolver", () => {
   it("rejects the candidate itself as an upgrade baseline", () => {
     expect(() =>
       resolveReleaseUpgradeBaseline("2026.7.1", ["2026.7.1-beta.2", "2026.7.1", "2026.8.1"]),
-    ).toThrow("no published stable OpenClaw baseline predates candidate");
+    ).toThrow("no published stable Zero to Agent baseline predates candidate");
   });
 
   it.each([
@@ -48,7 +48,7 @@ describe("release upgrade baseline resolver", () => {
     ["2026.7.1", []],
   ])("rejects missing stable baselines for %s", (candidate, versions) => {
     expect(() => resolveReleaseUpgradeBaseline(candidate, versions)).toThrow(
-      "no published stable OpenClaw baseline",
+      "no published stable Zero to Agent baseline",
     );
   });
 

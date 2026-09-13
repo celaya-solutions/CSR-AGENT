@@ -86,7 +86,7 @@ describe("official Codex plugin version drift doctor evidence", () => {
     try {
       noteWorkspaceStatus(config, { pluginVersionReadiness: readiness });
       expect(noteSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Running Gateway: OpenClaw 2026.5.30"),
+        expect.stringContaining("Running Gateway: Zero to Agent 2026.5.30"),
         "Plugin restart readiness",
       );
     } finally {
@@ -117,7 +117,7 @@ describe("official Codex plugin version drift doctor evidence", () => {
     try {
       noteWorkspaceStatus(config, { pluginVersionReadiness: readiness });
       expect(noteSpy).toHaveBeenCalledWith(
-        expect.stringContaining(`Running Gateway: OpenClaw ${runningGatewayVersion}`),
+        expect.stringContaining(`Running Gateway: Zero to Agent ${runningGatewayVersion}`),
         "Plugin restart readiness",
       );
     } finally {
@@ -158,7 +158,7 @@ describe("official Codex plugin version drift doctor evidence", () => {
         {
           checkId: "core/doctor/workspace-status",
           severity: "warning",
-          message: `Plugin codex is ${installedVersion}, but a Gateway restart will load OpenClaw ${gatewayVersion}.`,
+          message: `Plugin codex is ${installedVersion}, but a Gateway restart will load Zero to Agent ${gatewayVersion}.`,
           path: "plugins.entries.codex",
           target: "codex",
           requirement: "plugin-version-drift",
@@ -176,7 +176,7 @@ describe("official Codex plugin version drift doctor evidence", () => {
         );
         expect(driftNotes).toHaveLength(1);
         expect(driftNotes[0]?.[0]).toContain(
-          `1 active official plugin not on post-restart OpenClaw ${gatewayVersion}`,
+          `1 active official plugin not on post-restart Zero to Agent ${gatewayVersion}`,
         );
         expect(driftNotes[0]?.[0]).toContain(
           `codex: ${installedVersion} (npm) -> expected ${gatewayVersion}`,

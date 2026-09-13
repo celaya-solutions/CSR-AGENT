@@ -1073,7 +1073,7 @@ print_log_tail "$LOG_PATH"
     const compiledRoot = tempDirs.make("openclaw-compiled-test-state-");
     const missingResult = resolveEntrypoint(compiledRoot);
     expect(missingResult.status).toBe(1);
-    expect(missingResult.stderr).toContain("OpenClaw test-state entrypoint not found");
+    expect(missingResult.stderr).toContain("Zero to Agent test-state entrypoint not found");
 
     const compiledDir = join(compiledRoot, "scripts/lib");
     mkdirSync(compiledDir, { recursive: true });
@@ -2768,7 +2768,7 @@ docker_e2e_docker_run_cmd run demo
 
       expect(result.status).toBe(2);
       expect(result.stderr).toContain(`invalid ${envName}: ${value}`);
-      expect(result.stderr).not.toContain("OpenClaw package tarball does not exist");
+      expect(result.stderr).not.toContain("Zero to Agent package tarball does not exist");
     },
   );
 
@@ -2781,7 +2781,7 @@ docker_e2e_docker_run_cmd run demo
     const pluginCorrupt = readFileSync(PLUGIN_UPDATE_CORRUPT_SCENARIO_PATH, "utf8");
 
     expect(multiNode).toContain(
-      'openclaw_e2e_install_package "$ARTIFACTS/install-a.log" "OpenClaw package under node-A prefix" "$NPM_PREFIX_A"',
+      'openclaw_e2e_install_package "$ARTIFACTS/install-a.log" "Zero to Agent package under node-A prefix" "$NPM_PREFIX_A"',
     );
     expectTextToIncludeAll(updateChannel, [
       'openclaw_e2e_maybe_timeout "${OPENCLAW_E2E_NPM_INSTALL_TIMEOUT:-600s}" npm install --omit=dev --no-fund --no-audit',
@@ -3071,7 +3071,7 @@ docker_e2e_docker_run_cmd run demo
     }
   });
 
-  it("wraps package-backed scenario OpenClaw CLI calls with the shared timeout helper", () => {
+  it("wraps package-backed scenario Zero to Agent CLI calls with the shared timeout helper", () => {
     const paths = [
       CODEX_ON_DEMAND_DOCKER_E2E_PATH,
       CODEX_MEDIA_PATH_SCENARIO_PATH,
@@ -3167,7 +3167,7 @@ outer
     expectOrderedScriptFragments(readFileSync(RELEASE_TYPED_ONBOARDING_SCENARIO_PATH, "utf8"), [
       'wait_for_log "Continue?"',
       "send $'y\\r'",
-      'wait_for_log "Help make OpenClaw better?"',
+      'wait_for_log "Help make Zero to Agent better?"',
       "send $'\\r'",
       "wait_for_first_agent_prompt onboarding_log_contains 60 0.4",
       "send $'\\r'",
@@ -3175,7 +3175,7 @@ outer
       "send $'ollama\\r'",
     ]);
     expectOrderedScriptFragments(readFileSync(ONBOARD_SCENARIO_PATH, "utf8"), [
-      'wait_for_log "Help make OpenClaw better?"',
+      'wait_for_log "Help make Zero to Agent better?"',
       "send $'\\r'",
       "wait_for_first_agent_prompt log_contains 120 0.8",
       "send $'\\r'",
@@ -3519,7 +3519,7 @@ fi
     execFileSync("bash", ["-lc", script], { encoding: "utf8" });
   });
 
-  it("bounds upgrade survivor foreground OpenClaw CLI calls", () => {
+  it("bounds upgrade survivor foreground Zero to Agent CLI calls", () => {
     const runner = readFileSync(UPGRADE_SURVIVOR_DOCKER_E2E_PATH, "utf8");
     const publishedRunner = readFileSync(UPGRADE_SURVIVOR_RUN_SCRIPT, "utf8");
     const updateRestartAuth = readFileSync(UPGRADE_SURVIVOR_UPDATE_RESTART_AUTH_PATH, "utf8");
@@ -8453,7 +8453,7 @@ done
     const serviceName = "openclaw-gateway-fixture.service";
     const unitPath = join(home, ".config/systemd/user", serviceName);
     writeExecutables(binDir, {
-      // Bind fixture identity here: native manager children do not inherit OpenClaw selectors.
+      // Bind fixture identity here: native manager children do not inherit Zero to Agent selectors.
       busctl: readFileSync(DOCTOR_SWITCH_BUSCTL_SHIM_PATH, "utf8").replace(
         "process.env.OPENCLAW_SYSTEMD_UNIT",
         JSON.stringify(serviceName),

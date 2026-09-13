@@ -411,7 +411,7 @@ describe("applySystemAgentSetup transaction boundaries", () => {
   });
 
   it.each([
-    { id: "OpenClaw", reserved: "openclaw" },
+    { id: "Zero to Agent", reserved: "openclaw" },
     { id: "crestodian", reserved: "crestodian" },
   ])("rejects the reserved user agent id $id", async ({ id, reserved }) => {
     const config = {
@@ -898,7 +898,7 @@ describe("applySystemAgentSetup transaction boundaries", () => {
     expect(result.lines).toEqual(
       expect.arrayContaining([
         "Workspace files: workspace exploded",
-        "OpenClaw exec approval: approval exploded; local model harnesses may ask again.",
+        "Zero to Agent exec approval: approval exploded; local model harnesses may ask again.",
         "Gateway service: service exploded",
       ]),
     );

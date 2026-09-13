@@ -99,7 +99,7 @@ const current = env.CONSENT === "1";
 const help = args.includes("--help");
 const fail = (message) => { console.error(message); process.exit(31); };
 if (help) {
-  console.log("OpenClaw ${version}\\nUsage: openclaw plugins install [options] <source>");
+  console.log("Zero to Agent ${version}\\nUsage: openclaw plugins install [options] <source>");
   if (current) console.log("  --accept-capabilities  Accept reviewed plugin capabilities");
   const probe = events.filter((event) => event.includes("--help")).length;
   if (probe === Number(env.FAIL_PROBE)) {

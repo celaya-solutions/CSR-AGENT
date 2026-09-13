@@ -41,7 +41,7 @@ describe("maybeOfferUpdateBeforeDoctor", () => {
     await expect(runOffer({ root: "/repo/link", confirm })).resolves.toEqual({ updated: false });
 
     expect(confirm).toHaveBeenCalledWith({
-      message: "Update OpenClaw from git before running doctor?",
+      message: "Update Zero to Agent from git before running doctor?",
       initialValue: true,
     });
     expect(mocks.note).not.toHaveBeenCalledWith(
@@ -201,7 +201,7 @@ describe("maybeOfferUpdateBeforeDoctor", () => {
         }),
       );
       expect(mocks.note).toHaveBeenCalledWith(
-        "Restarted the running gateway service after updating OpenClaw.",
+        "Restarted the running gateway service after updating Zero to Agent.",
         "Update",
       );
     },
@@ -259,7 +259,7 @@ describe("maybeOfferUpdateBeforeDoctor", () => {
       if (outcome === "healthy") {
         expect(runtime.exit).not.toHaveBeenCalled();
         expect(mocks.note).toHaveBeenCalledWith(
-          "Restarted the running gateway service after updating OpenClaw.",
+          "Restarted the running gateway service after updating Zero to Agent.",
           "Update",
         );
         expect(mocks.waitForHealthyRestart.mock.invocationCallOrder[0]).toBeLessThan(
@@ -275,7 +275,7 @@ describe("maybeOfferUpdateBeforeDoctor", () => {
           expect.stringContaining("Update completed, but gateway service restart failed"),
         );
         expect(mocks.note).not.toHaveBeenCalledWith(
-          "Restarted the running gateway service after updating OpenClaw.",
+          "Restarted the running gateway service after updating Zero to Agent.",
           "Update",
         );
       }

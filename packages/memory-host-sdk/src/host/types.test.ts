@@ -43,7 +43,7 @@ describe("memory search staleness", () => {
     ).toMatchObject({ warning: expect.stringContaining("embedding model changed") });
   });
 
-  it("attributes an OpenClaw-owned format mismatch and names the repair cost", () => {
+  it("attributes a Zero to Agent-owned format mismatch and names the repair cost", () => {
     const status: MemoryProviderStatus = {
       backend: "builtin",
       provider: "openai",

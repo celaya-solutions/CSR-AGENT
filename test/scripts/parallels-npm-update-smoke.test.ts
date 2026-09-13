@@ -608,7 +608,7 @@ openclaw() {
   esac
   printf '%s|%s|%s\\n' "$1" "\${NPM_CONFIG_REGISTRY-}" "\${npm_config_registry-}" >>'${logPath}'
   case "$1" in
-    --version) echo 'OpenClaw 2026.7.1-beta.3' ;;
+    --version) echo 'Zero to Agent 2026.7.1-beta.3' ;;
   esac
 }
 ${script}`,
@@ -640,7 +640,7 @@ ${script}`,
 
     for (const script of [macosUpdateScript(input), linuxUpdateScript(input)]) {
       expect(script).toContain(
-        "OpenClaw plugin migration inputs changed during startup convergence;",
+        "Zero to Agent plugin migration inputs changed during startup convergence;",
       );
       expect(script).toContain("gateway_launch_log_offset=");
       expect(script).toContain("gateway_pid=$!");
@@ -662,7 +662,7 @@ ${script}`,
     });
 
     expect(script).toContain(
-      "OpenClaw plugin migration inputs changed during startup convergence;",
+      "Zero to Agent plugin migration inputs changed during startup convergence;",
     );
     expect(script).toContain("$script:gatewayProcess.HasExited");
     expect(script).toContain("$script:gatewayProcess.WaitForExit()");
@@ -671,7 +671,7 @@ ${script}`,
     expect(script).toContain("Select-String -Path $script:gatewayLogPath -SimpleMatch");
     expect(script).toContain("$script:gatewayRestartCount = 1");
     expect(script).not.toContain("$attempt -eq 4");
-    expect(script).not.toContain("Invoke-OpenClaw gateway restart");
+    expect(script).not.toContain("Invoke-Zero to Agent gateway restart");
   });
 
   it("keeps POSIX provider secrets out of executable command lines", () => {
@@ -1496,13 +1496,13 @@ exit 7
       updateTarget: "2026.5.3-beta.2",
     });
 
-    const updateIndex = script.indexOf("Invoke-OpenClaw update --tag");
+    const updateIndex = script.indexOf("Invoke-Zero to Agent update --tag");
     const scopedIndex = script.indexOf(
       "Invoke-WithScopedEnv @{ OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS",
     );
-    const versionIndex = script.indexOf("Invoke-OpenClaw --version", scopedIndex);
+    const versionIndex = script.indexOf("Invoke-Zero to Agent --version", scopedIndex);
     const startIndex = script.indexOf("\nStart-OpenClawGateway\n", updateIndex);
-    const agentIndex = script.indexOf("Invoke-OpenClaw agent --local");
+    const agentIndex = script.indexOf("Invoke-Zero to Agent agent --local");
 
     expect(updateIndex).toBeGreaterThanOrEqual(0);
     expect(scopedIndex).toBeGreaterThanOrEqual(0);

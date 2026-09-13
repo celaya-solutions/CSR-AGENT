@@ -134,7 +134,7 @@ describe("vault CLI setup plan", () => {
     ]);
   });
 
-  it("generates arbitrary known OpenClaw and auth-profile targets", async () => {
+  it("generates arbitrary known Zero to Agent and auth-profile targets", async () => {
     const plan = await createSetupPlan([
       "--target",
       "channels.telegram.botToken=channels/telegram/botToken",

@@ -287,7 +287,7 @@ describe("memory_search real manager", () => {
     },
   );
 
-  it("attributes a persisted provenance mismatch to OpenClaw", async () => {
+  it("attributes a persisted provenance mismatch to Zero to Agent", async () => {
     const cfg = fixture.createConfig({
       provider: "none",
       vectorEnabled: false,
@@ -317,7 +317,7 @@ describe("memory_search real manager", () => {
       unavailable: true,
       error: "index provenance classifier changed",
       warning:
-        "Tell the user: memory search is paused because this OpenClaw version changed the memory index format (index provenance classifier changed); no configuration change is needed.",
+        "Tell the user: memory search is paused because this Zero to Agent version changed the memory index format (index provenance classifier changed); no configuration change is needed.",
       action:
         "Tell the user to run: openclaw memory status --index --agent main. Rebuilding uses keyword indexing only and does not call an embedding provider.",
     });

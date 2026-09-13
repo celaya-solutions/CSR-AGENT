@@ -1996,7 +1996,7 @@ async function createGitWorkspace(root: string): Promise<string> {
   await execFileAsync("git", ["-C", workspace, "add", "README.md"]);
   await execFileAsync("git", [
     "-c",
-    "user.name=OpenClaw Test",
+    "user.name=Zero to Agent Test",
     "-c",
     "user.email=openclaw-test@example.invalid",
     "-C",

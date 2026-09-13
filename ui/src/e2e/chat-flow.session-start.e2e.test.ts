@@ -184,7 +184,9 @@ suite.define(() => {
       expect(await gateway.getRequests("agents.list")).toHaveLength(1);
 
       await gateway.resolveDeferred("agents.list", {
-        agents: [{ id: "main", model: { primary: "openai/hydrated-model" }, name: "OpenClaw" }],
+        agents: [
+          { id: "main", model: { primary: "openai/hydrated-model" }, name: "Zero to Agent" },
+        ],
         defaultId: "main",
         mainKey: "main",
         scope: "agent",

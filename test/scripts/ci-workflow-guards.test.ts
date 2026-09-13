@@ -4158,7 +4158,9 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
         expect(readFileSync(receipt, "utf8")).toBe(fixture.expected);
       } else {
         expect(result.status).not.toBe(0);
-        expect(result.stderr).toContain("no published stable OpenClaw baseline predates candidate");
+        expect(result.stderr).toContain(
+          "no published stable Zero to Agent baseline predates candidate",
+        );
         expect(existsSync(receipt)).toBe(false);
       }
     } finally {
@@ -4512,7 +4514,7 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
       const result = runCiReleaseRefValidation({ ref: contextRef, targetSha });
       expect(result.status, contextRef).toBe(1);
       expect(result.output).toContain(
-        "target_context_ref must be a canonical OpenClaw release branch.",
+        "target_context_ref must be a canonical Zero to Agent release branch.",
       );
     }
 
@@ -4581,7 +4583,7 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
   ] as const)("rejects wrong-namespace $kind ref $ref before remote admission", (identity) => {
     const result = runCiReleaseRefValidation({ ...identity, targetSha: "a".repeat(40) });
     expect(result.status).not.toBe(0);
-    expect(result.output).toContain("must be a canonical OpenClaw release");
+    expect(result.output).toContain("must be a canonical Zero to Agent release");
     expect(result.outputs).not.toHaveProperty("eligible");
   });
 
@@ -4792,7 +4794,7 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
     expect(codeqlInitializeIndex).toBeLessThan(codeqlBuildIndex);
     expect(codeqlBuildIndex).toBeLessThan(codeqlAnalyzeIndex);
     expect(codeqlBuild.run).toBe(
-      "swift build --package-path apps/macos --product OpenClaw --arch arm64 --disable-index-store -debug-info-format none",
+      "swift build --package-path apps/macos --product Zero to Agent --arch arm64 --disable-index-store -debug-info-format none",
     );
     expect(codeqlSelect.run).toContain("/Applications/Xcode_26.6.app/Contents/Developer");
     expect(codeqlSelect.run).toContain('if [[ "$xcode_version" != 26.6* ]]; then');
@@ -10584,7 +10586,7 @@ exit 1
     };
 
     const releaseBuildCommand =
-      "build --package-path apps/macos --product OpenClaw --configuration release";
+      "build --package-path apps/macos --product Zero to Agent --configuration release";
     const packageResetCommand = "package --package-path apps/macos reset";
 
     const absentFramework = runBuildFixture("absent", "fail");
@@ -16557,7 +16559,7 @@ printf '%s\n' "\${CURL_SUCCESS_IP:-203.0.113.7}"
         type: "string",
       },
       ref: {
-        description: "OpenClaw branch, tag, or SHA containing the maturity score source",
+        description: "Zero to Agent branch, tag, or SHA containing the maturity score source",
         required: true,
         type: "string",
       },
@@ -18648,10 +18650,10 @@ it("pins simple release admission owners before selected checkout and preserves 
     "Linux unsigned bundle staging",
   );
   expect(stageLinuxBundles.run).toContain(
-    'cp "${debs[0]}" "dist/linux-app/release/OpenClaw-${version}-amd64.deb"',
+    'cp "${debs[0]}" "dist/linux-app/release/Zero to Agent-${version}-amd64.deb"',
   );
   expect(stageLinuxBundles.run).toContain(
-    'cp "${appimages[0]}" "dist/linux-app/unsigned/OpenClaw-${version}-amd64.AppImage"',
+    'cp "${appimages[0]}" "dist/linux-app/unsigned/Zero to Agent-${version}-amd64.AppImage"',
   );
   const buildLinuxJson = JSON.stringify(linux.jobs.build_linux);
   expect(buildLinuxJson).not.toContain("${{ secrets.");
@@ -18761,7 +18763,7 @@ it("pins simple release admission owners before selected checkout and preserves 
     'printf \'%s  %s\\n\' "$MINISIGN_BINARY_SHA256" "${RUNNER_TEMP}/bin/minisign"',
   );
   expect(signAppImage.run).toContain(
-    'appimage="dist/signing-input/OpenClaw-${version}-amd64.AppImage"',
+    'appimage="dist/signing-input/Zero to Agent-${version}-amd64.AppImage"',
   );
   expect(signAppImage.run).toContain('"${RUNNER_TEMP}/bin/cargo-tauri" signer sign "$appimage"');
   expect(signAppImage.run).toContain(
@@ -18965,10 +18967,10 @@ it("pins simple release admission owners before selected checkout and preserves 
     "Linux release publication step",
   );
   expect(publishLinuxBundles.run).toContain(
-    'linux_signature=$(cat "dist/input/linux/signatures/OpenClaw-${version}-amd64.AppImage.sig")',
+    'linux_signature=$(cat "dist/input/linux/signatures/Zero to Agent-${version}-amd64.AppImage.sig")',
   );
   expect(publishLinuxBundles.run).toContain(
-    '--arg linux_url "${url_base}/OpenClaw-${version}-amd64.AppImage"',
+    '--arg linux_url "${url_base}/Zero to Agent-${version}-amd64.AppImage"',
   );
   expect(publishLinuxBundles.run).toContain(
     '"linux-x86_64": {signature: $linux_signature, url: $linux_url}',
@@ -19234,7 +19236,7 @@ it("pins simple release admission owners before selected checkout and preserves 
       selectedTagRoot,
       "apps/linux/src-tauri/target/release/bundle/appimage",
     );
-    const appDir = path.join(bundleDir, "OpenClaw.AppDir");
+    const appDir = path.join(bundleDir, "Zero to Agent.AppDir");
     const appImage = path.join(bundleDir, "OpenClaw_2026.8.2_amd64.AppImage");
     const cacheRoot = path.join(selectedTagRoot, ".cache");
     const toolSourceDir = path.join(selectedTagRoot, "tool-sources");
@@ -19532,7 +19534,7 @@ it("pins simple release admission owners before selected checkout and preserves 
     const armToolSourceDir = path.join(selectedTagRoot, "arm-tool-sources");
     const armCacheRoot = path.join(selectedTagRoot, ".arm-cache");
     const armBundleDir = path.join(selectedTagRoot, "arm-bundle");
-    const armAppDir = path.join(armBundleDir, "OpenClaw.AppDir");
+    const armAppDir = path.join(armBundleDir, "Zero to Agent.AppDir");
     const armAppImage = path.join(armBundleDir, "OpenClaw_2026.8.2_arm64.AppImage");
     const armPluginSentinel = path.join(selectedTagRoot, "arm-plugin-executed");
     mkdirSync(armToolSourceDir);
@@ -19661,7 +19663,7 @@ it("pins simple release admission owners before selected checkout and preserves 
 
     const signingRoot = tempDirs.make("openclaw-linux-signing-job-");
     const signingInput = path.join(signingRoot, "dist/signing-input");
-    const finalizedArtifact = path.join(signingInput, "OpenClaw-2026.8.2-amd64.AppImage");
+    const finalizedArtifact = path.join(signingInput, "Zero to Agent-2026.8.2-amd64.AppImage");
     mkdirSync(signingInput, { recursive: true });
     writeFileSync(finalizedArtifact, "trusted-finalized-bytes");
     const linuxSigningTools = writeSigningToolFixtures(signingRoot);
@@ -19687,23 +19689,26 @@ it("pins simple release admission owners before selected checkout and preserves 
     expect(readFileSync(finalizedArtifact, "utf8")).toBe("trusted-finalized-bytes");
     expect(
       readFileSync(
-        path.join(signingRoot, "dist/linux-app/release/OpenClaw-2026.8.2-amd64.AppImage"),
+        path.join(signingRoot, "dist/linux-app/release/Zero to Agent-2026.8.2-amd64.AppImage"),
         "utf8",
       ),
     ).toBe("trusted-finalized-bytes");
     expect(
       readFileSync(
-        path.join(signingRoot, "dist/linux-app/signatures/OpenClaw-2026.8.2-amd64.AppImage.sig"),
+        path.join(
+          signingRoot,
+          "dist/linux-app/signatures/Zero to Agent-2026.8.2-amd64.AppImage.sig",
+        ),
         "utf8",
       ),
     ).toBe(
-      `${Buffer.from("ephemeral-signature:OpenClaw-2026.8.2-amd64.AppImage").toString("base64")}\n`,
+      `${Buffer.from("ephemeral-signature:Zero to Agent-2026.8.2-amd64.AppImage").toString("base64")}\n`,
     );
     expect(readFileSync(linuxSigningTools.tauriLog, "utf8")).toBe(
-      "signer sign dist/signing-input/OpenClaw-2026.8.2-amd64.AppImage\n",
+      "signer sign dist/signing-input/Zero to Agent-2026.8.2-amd64.AppImage\n",
     );
     expect(readFileSync(linuxSigningTools.minisignLog, "utf8")).toBe(
-      "OpenClaw-2026.8.2-amd64.AppImage\n",
+      "Zero to Agent-2026.8.2-amd64.AppImage\n",
     );
     expect(existsSync(path.join(signingRoot, ".release-tooling"))).toBe(false);
     expect(existsSync(path.join(signingRoot, "apps"))).toBe(false);
@@ -19711,11 +19716,11 @@ it("pins simple release admission owners before selected checkout and preserves 
     const desktopSigningRoot = tempDirs.make("openclaw-desktop-signing-job-");
     const macosInput = path.join(
       desktopSigningRoot,
-      "dist/signing-input/macos/OpenClaw-2026.8.2-darwin-aarch64.app.tar.gz",
+      "dist/signing-input/macos/Zero to Agent-2026.8.2-darwin-aarch64.app.tar.gz",
     );
     const windowsInput = path.join(
       desktopSigningRoot,
-      "dist/signing-input/windows/OpenClaw-2026.8.2-windows-x86_64.exe",
+      "dist/signing-input/windows/Zero to Agent-2026.8.2-windows-x86_64.exe",
     );
     mkdirSync(path.dirname(macosInput), { recursive: true });
     mkdirSync(path.dirname(windowsInput), { recursive: true });
@@ -19747,7 +19752,7 @@ it("pins simple release admission owners before selected checkout and preserves 
       readFileSync(
         path.join(
           desktopSigningRoot,
-          "dist/desktop-test/macos/release/OpenClaw-2026.8.2-darwin-aarch64.app.tar.gz",
+          "dist/desktop-test/macos/release/Zero to Agent-2026.8.2-darwin-aarch64.app.tar.gz",
         ),
         "utf8",
       ),
@@ -19756,7 +19761,7 @@ it("pins simple release admission owners before selected checkout and preserves 
       readFileSync(
         path.join(
           desktopSigningRoot,
-          "dist/desktop-test/windows/release/OpenClaw-2026.8.2-windows-x86_64.exe",
+          "dist/desktop-test/windows/release/Zero to Agent-2026.8.2-windows-x86_64.exe",
         ),
         "utf8",
       ),
@@ -19766,31 +19771,31 @@ it("pins simple release admission owners before selected checkout and preserves 
         readFileSync(
           path.join(
             desktopSigningRoot,
-            "dist/desktop-test/macos/signatures/OpenClaw-2026.8.2-darwin-aarch64.app.tar.gz.sig",
+            "dist/desktop-test/macos/signatures/Zero to Agent-2026.8.2-darwin-aarch64.app.tar.gz.sig",
           ),
           "utf8",
         ),
         "base64",
       ).toString(),
-    ).toContain("OpenClaw-2026.8.2-darwin-aarch64.app.tar.gz");
+    ).toContain("Zero to Agent-2026.8.2-darwin-aarch64.app.tar.gz");
     expect(
       Buffer.from(
         readFileSync(
           path.join(
             desktopSigningRoot,
-            "dist/desktop-test/windows/signatures/OpenClaw-2026.8.2-windows-x86_64.exe.sig",
+            "dist/desktop-test/windows/signatures/Zero to Agent-2026.8.2-windows-x86_64.exe.sig",
           ),
           "utf8",
         ),
         "base64",
       ).toString(),
-    ).toContain("OpenClaw-2026.8.2-windows-x86_64.exe");
+    ).toContain("Zero to Agent-2026.8.2-windows-x86_64.exe");
     expect(readFileSync(desktopSigningTools.tauriLog, "utf8")).toBe(
-      "signer sign dist/signing-input/macos/OpenClaw-2026.8.2-darwin-aarch64.app.tar.gz\n" +
-        "signer sign dist/signing-input/windows/OpenClaw-2026.8.2-windows-x86_64.exe\n",
+      "signer sign dist/signing-input/macos/Zero to Agent-2026.8.2-darwin-aarch64.app.tar.gz\n" +
+        "signer sign dist/signing-input/windows/Zero to Agent-2026.8.2-windows-x86_64.exe\n",
     );
     expect(readFileSync(desktopSigningTools.minisignLog, "utf8")).toBe(
-      "OpenClaw-2026.8.2-darwin-aarch64.app.tar.gz\nOpenClaw-2026.8.2-windows-x86_64.exe\n",
+      "Zero to Agent-2026.8.2-darwin-aarch64.app.tar.gz\nOpenClaw-2026.8.2-windows-x86_64.exe\n",
     );
     expect(existsSync(path.join(desktopSigningRoot, ".release-tooling"))).toBe(false);
     expect(existsSync(path.join(desktopSigningRoot, "apps"))).toBe(false);
@@ -19849,8 +19854,8 @@ it("pins every Performance Git owner before checkout and preserves Git deadlines
   const workflow = parse(source);
   const targets = [
     ["resolve_target", "Checkout target metadata", undefined, 10],
-    ["kova", "Checkout OpenClaw", "Decide lane", 240],
-    ["source_performance", "Checkout OpenClaw source target", undefined, 120],
+    ["kova", "Checkout Zero to Agent", "Decide lane", 240],
+    ["source_performance", "Checkout Zero to Agent source target", undefined, 120],
     ["publish", "Checkout performance publisher helper", "Decide report publication lane", 30],
   ] as const;
   for (const [jobId, checkout, decision, timeout] of targets) {

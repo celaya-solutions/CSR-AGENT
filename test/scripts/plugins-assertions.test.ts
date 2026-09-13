@@ -1925,7 +1925,7 @@ fs.renameSync = (source, destination) => {
       });
 
       expect(result.status).not.toBe(0);
-      expect(result.stderr).toContain("failed to read OpenClaw config");
+      expect(result.stderr).toContain("failed to read Zero to Agent config");
     } finally {
       rmSync(root, { force: true, recursive: true });
     }

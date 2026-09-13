@@ -33,7 +33,7 @@ describe("changelog release HTML", () => {
     const result = render("## 2026.8.2\n\n### Fixes\n- Current release.\n", "2026.8.2", true);
     expect(result.status, result.stderr).toBe(0);
     expect(result.stdout).toBe(
-      `<h2>OpenClaw 2026.8.2</h2>\n<h3>Fixes</h3>\n<ul>\n<li>Current release.</li>\n</ul>\n${footer}\n`,
+      `<h2>Zero to Agent 2026.8.2</h2>\n<h3>Fixes</h3>\n<ul>\n<li>Current release.</li>\n</ul>\n${footer}\n`,
     );
   });
 
@@ -61,7 +61,7 @@ describe("changelog release HTML", () => {
       const result = renderFile(route === "index" ? indexPath : entryPath, version);
       expect(result.status, result.stderr).toBe(0);
       expect(result.stdout).toBe(
-        `<h2>OpenClaw ${version}</h2>\n<h3>Release notes</h3>\n<ul>\n<li>Current release.</li>\n</ul>\n${footer}\n`,
+        `<h2>Zero to Agent ${version}</h2>\n<h3>Release notes</h3>\n<ul>\n<li>Current release.</li>\n</ul>\n${footer}\n`,
       );
     },
   );
@@ -87,7 +87,7 @@ describe("changelog release HTML", () => {
     expect(result.status, result.stderr).toBe(0);
     expect(result.stdout).toBe(
       [
-        "<h2>OpenClaw 2026.8.2</h2>",
+        "<h2>Zero to Agent 2026.8.2</h2>",
         "<h3>Highlights</h3>",
         "<ul>",
         "<li><strong>Fast</strong> & reliable <code>path\\file</code></li>",
@@ -116,7 +116,7 @@ describe("changelog release HTML", () => {
     expect(result.status, result.stderr).toBe(0);
     expect(result.stdout).toBe(
       [
-        "<h2>OpenClaw 2026.8.2</h2>",
+        "<h2>Zero to Agent 2026.8.2</h2>",
         "<h3>Contributions</h3>",
         "<ul>",
         ...entries.map(
@@ -134,7 +134,7 @@ describe("changelog release HTML", () => {
     const result = render("## 2026.8.1\n- Previous release\n");
     expect(result.status, result.stderr).toBe(0);
     expect(result.stdout).toBe(
-      `<h2>OpenClaw 2026.8.2</h2>\n<p>Latest OpenClaw update.</p>\n${footer}\n`,
+      `<h2>Zero to Agent 2026.8.2</h2>\n<p>Latest Zero to Agent update.</p>\n${footer}\n`,
     );
   });
 });

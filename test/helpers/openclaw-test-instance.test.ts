@@ -1,4 +1,4 @@
-// OpenClaw test instance tests cover spawned test instance lifecycle.
+// Zero to Agent test instance tests cover spawned test instance lifecycle.
 import { AsyncLocalStorage, createHook } from "node:async_hooks";
 import { execFile, spawn } from "node:child_process";
 import { EventEmitter, once } from "node:events";
@@ -28,7 +28,7 @@ import { createDeferred, withTestTimeout } from "./promise.js";
 import { runQaGatewayFixture } from "./qa-gateway-cleanup.js";
 
 const MIGRATION_CONVERGENCE_REFUSAL =
-  "OpenClaw plugin migration inputs changed during startup convergence;";
+  "Zero to Agent plugin migration inputs changed during startup convergence;";
 const RESTART_MARKER =
   "[openclaw-test-instance] restarting gateway after migration convergence refusal";
 const fakeInstances: {

@@ -608,7 +608,7 @@ describe("scripts/plan-release-workflow-matrix.mjs", () => {
       "${{ inputs.allow_unreleased_changelog }}",
     );
     const packageStep = requiredJob(definition, "prepare_docker_e2e_image").steps.find(
-      (step: WorkflowStep) => step.name === "Pack OpenClaw package for Docker E2E",
+      (step: WorkflowStep) => step.name === "Pack Zero to Agent package for Docker E2E",
     );
     const requiredPackageStep = expectDefined(packageStep, "Docker E2E package step");
     expect(requiredPackageStep.env?.ALLOW_UNRELEASED_CHANGELOG).toBe(

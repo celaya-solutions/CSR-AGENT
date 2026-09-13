@@ -47,7 +47,7 @@ function fixture(params?: {
     "apps/android/CHANGELOG.md": "# Android changelog\n\nuntouched\n",
     "apps/android/fastlane/Fastfile": "# untouched android fastfile\n",
     "apps/ios/CHANGELOG.md":
-      "# OpenClaw iOS Changelog\n\n## Unreleased\n\n- Shared mobile release notes.\n\n## 2026.8.10\n\n- Previous notes.\n",
+      "# Zero to Agent iOS Changelog\n\n## Unreleased\n\n- Shared mobile release notes.\n\n## 2026.8.10\n\n- Previous notes.\n",
     "apps/ios/fastlane/Fastfile": "# untouched ios fastfile\n",
     "apps/macos/Sources/OpenClaw/Resources/Info.plist": "<plist>untouched</plist>\n",
     ".github/workflows/release.yml": "name: untouched\n",
@@ -294,7 +294,7 @@ describe("mobile release cutter", () => {
     writeFile(
       rootDir,
       "apps/ios/CHANGELOG.md",
-      "# OpenClaw iOS Changelog\n\n## Unreleased\n\n- Retry fix.\n\n## 2026.8.20\n\n- Existing release note.\n",
+      "# Zero to Agent iOS Changelog\n\n## Unreleased\n\n- Retry fix.\n\n## 2026.8.20\n\n- Existing release note.\n",
     );
     applyMobileReleasePlan(
       planMobileRelease({ gatewayVersion: "2026.8.2", phase: "prepare", rootDir }),

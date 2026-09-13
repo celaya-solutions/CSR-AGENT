@@ -16,43 +16,46 @@ describe("qa compaction scenario catalog", () => {
       faultMode: "reasoning-only-output-once",
       summaryMarker: "QA-COMPACTION-REASONING-RECOVERED-SUMMARY",
     },
-  ])("keeps $id on the OpenClaw compaction owner", ({ id, coverage, faultMode, summaryMarker }) => {
-    const scenario = requireFlowScenario(readQaScenarioById(id));
-    const flow = JSON.stringify(scenario.execution.flow);
-    const serializedScenario = JSON.stringify(scenario);
+  ])(
+    "keeps $id on the Zero to Agent compaction owner",
+    ({ id, coverage, faultMode, summaryMarker }) => {
+      const scenario = requireFlowScenario(readQaScenarioById(id));
+      const flow = JSON.stringify(scenario.execution.flow);
+      const serializedScenario = JSON.stringify(scenario);
 
-    expect(scenario.runtimePairLane).toBeUndefined();
-    expect(scenario.coverage?.primary).toEqual([coverage]);
-    expect(scenario.coverage?.secondary ?? []).toEqual([]);
-    expect(scenario.gatewayConfigPatch).toMatchObject({
-      agents: { defaults: { compaction: { mode: "default" } } },
-    });
-    expect(flow).toContain("env.runtimeId === 'openclaw'");
-    expect(flow).toContain("initialRequests[0].errorCode === 'context_length_exceeded'");
-    expect(flow).toContain("initialRequests.length === 2");
-    expect(flow).toContain("compactionSummaryRequests.length === 2");
-    expect(flow).toContain(
-      `compactionSummaryRequests[0].compactionSummaryFaultMode === config.faultMode`,
-    );
-    expect(flow).toContain("compactionSummaryRequests[1].compactionSummaryFaultMode === 'none'");
-    expect(flow).toContain(
-      "compactionSummaryRequests[0].cursor < compactionSummaryRequests[1].cursor",
-    );
-    expect(flow).toContain(
-      "scenarioRequests.every((request) => request.model === scenarioRequests[0].model)",
-    );
-    expect(flow).toContain("transcript.compactionSummaries.length === 1");
-    expect(flow).toContain("transcript.compactionSummaries[0].includes(config.summaryMarker)");
-    expect(flow).toContain("String(transcript.finalText ?? '').trim() === config.finalMarker");
-    expect(flow).toContain("sessionEntry?.compactionCount === 1");
-    expect(flow).toContain("request.requestKind === 'tool-continuation'");
-    expect(flow).toContain("finalOutbound.length === 1");
-    expect(serializedScenario).toContain(faultMode);
-    expect(serializedScenario).toContain(summaryMarker);
-    expect(serializedScenario).not.toContain("codex");
-  });
+      expect(scenario.runtimePairLane).toBeUndefined();
+      expect(scenario.coverage?.primary).toEqual([coverage]);
+      expect(scenario.coverage?.secondary ?? []).toEqual([]);
+      expect(scenario.gatewayConfigPatch).toMatchObject({
+        agents: { defaults: { compaction: { mode: "default" } } },
+      });
+      expect(flow).toContain("env.runtimeId === 'openclaw'");
+      expect(flow).toContain("initialRequests[0].errorCode === 'context_length_exceeded'");
+      expect(flow).toContain("initialRequests.length === 2");
+      expect(flow).toContain("compactionSummaryRequests.length === 2");
+      expect(flow).toContain(
+        `compactionSummaryRequests[0].compactionSummaryFaultMode === config.faultMode`,
+      );
+      expect(flow).toContain("compactionSummaryRequests[1].compactionSummaryFaultMode === 'none'");
+      expect(flow).toContain(
+        "compactionSummaryRequests[0].cursor < compactionSummaryRequests[1].cursor",
+      );
+      expect(flow).toContain(
+        "scenarioRequests.every((request) => request.model === scenarioRequests[0].model)",
+      );
+      expect(flow).toContain("transcript.compactionSummaries.length === 1");
+      expect(flow).toContain("transcript.compactionSummaries[0].includes(config.summaryMarker)");
+      expect(flow).toContain("String(transcript.finalText ?? '').trim() === config.finalMarker");
+      expect(flow).toContain("sessionEntry?.compactionCount === 1");
+      expect(flow).toContain("request.requestKind === 'tool-continuation'");
+      expect(flow).toContain("finalOutbound.length === 1");
+      expect(serializedScenario).toContain(faultMode);
+      expect(serializedScenario).toContain(summaryMarker);
+      expect(serializedScenario).not.toContain("codex");
+    },
+  );
 
-  it("assigns compaction retry and pruning to OpenClaw with an early Codex gap", () => {
+  it("assigns compaction retry and pruning to Zero to Agent with an early Codex gap", () => {
     const scenario = requireFlowScenario(readQaScenarioById("compaction-retry-mutating-tool"));
     const flow = JSON.stringify(scenario.execution.flow);
     const serializedScenario = JSON.stringify(scenario);
@@ -116,13 +119,13 @@ describe("qa compaction scenario catalog", () => {
     ]);
     expect(scenario.coverage?.secondary ?? []).toEqual([]);
     expect(scenario.successCriteria).toContain(
-      "One coded over-threshold provider overflow produces one persisted OpenClaw overflow compaction and one compacted retry retaining durable current context.",
+      "One coded over-threshold provider overflow produces one persisted Zero to Agent overflow compaction and one compacted retry retaining durable current context.",
     );
     expect(scenario.successCriteria).toContain(
-      "OpenClaw performs exactly one successful write, then one terminal continuation after zero-or-more causally linked waits, and returns the exact file content and final marker.",
+      "Zero to Agent performs exactly one successful write, then one terminal continuation after zero-or-more causally linked waits, and returns the exact file content and final marker.",
     );
     expect(scenario.successCriteria).toContain(
-      "OpenClaw proves session-memory.pruning by retaining a nonempty contiguous suffix ending at block 15 while pruning marker block 10.",
+      "Zero to Agent proves session-memory.pruning by retaining a nonempty contiguous suffix ending at block 15 while pruning marker block 10.",
     );
     expect(scenario.successCriteria).toContain(
       "The Codex runtime-pair cell reports a known harness gap before gateway, session, or provider work and makes no compaction coverage claim.",

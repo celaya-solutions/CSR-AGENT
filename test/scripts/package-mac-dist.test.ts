@@ -67,7 +67,7 @@ function makeDistributionFixture(layout: "native" | "xcode", missingArch?: strin
     if (arch === missingArch) {
       continue;
     }
-    const binary = path.join(products, "OpenClaw");
+    const binary = path.join(products, "Zero to Agent");
     const symbols = `${binary}.dSYM`;
     for (const args of [
       ["clang", "-arch", arch, "-g", source, "-o", binary],
@@ -161,7 +161,7 @@ describe("package-mac-dist plist validation", () => {
     const script = readFileSync(scriptPath, "utf8");
     const readBlock = script.slice(
       script.indexOf("VERSION="),
-      script.indexOf('ZIP="$ROOT_DIR/dist/OpenClaw-$VERSION.zip"'),
+      script.indexOf('ZIP="$ROOT_DIR/dist/Zero to Agent-$VERSION.zip"'),
     );
 
     expect(script).toContain('source "$ROOT_DIR/scripts/lib/plistbuddy.sh"');
@@ -286,7 +286,7 @@ describe("package-mac-dist plist validation", () => {
     `);
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("OpenClaw macOS app packaging requires Swift tools 6.3+");
+    expect(result.stderr).toContain("Zero to Agent macOS app packaging requires Swift tools 6.3+");
     expect(result.stderr).toContain("Current Swift is 6.0");
     expect(result.stderr).not.toContain("node should not run before Swift preflight");
   });
@@ -493,13 +493,13 @@ describe("package-mac-dist plist validation", () => {
         plist,
         readFileSync(plist, "utf8").replace(
           "</dict>",
-          "<key>CFBundleExecutable</key><string>OpenClaw</string></dict>",
+          "<key>CFBundleExecutable</key><string>Zero to Agent</string></dict>",
         ),
       );
       mkdirSync(path.join(app, "Contents/MacOS"));
       copyFileSync(
-        path.join(fixture.root, "apps/macos/.build/arm64/release/OpenClaw"),
-        path.join(app, "Contents/MacOS/OpenClaw"),
+        path.join(fixture.root, "apps/macos/.build/arm64/release/Zero to Agent"),
+        path.join(app, "Contents/MacOS/Zero to Agent"),
       );
       const signed = spawnSync("/usr/bin/codesign", ["--force", "--sign", "-", app], {
         encoding: "utf8",
@@ -561,8 +561,10 @@ fi
       const resumed = fixture.run({ resume: true, notarize: true });
       expect(resumed.status, resumed.stderr).toBe(0);
       expect(readFileSync(path.join(fixture.root, "submissions"), "utf8")).toBe("submit\n");
-      expect(existsSync(path.join(fixture.root, "dist/OpenClaw-2026.8.2.zip"))).toBe(true);
-      expect(existsSync(path.join(fixture.root, "dist/OpenClaw-2026.8.2.dSYM.zip"))).toBe(true);
+      expect(existsSync(path.join(fixture.root, "dist/Zero to Agent-2026.8.2.zip"))).toBe(true);
+      expect(existsSync(path.join(fixture.root, "dist/Zero to Agent-2026.8.2.dSYM.zip"))).toBe(
+        true,
+      );
       renameSync(path.join(fixture.root, "saved-build-products"), path.join(fixture.root, "apps"));
       writeFileSync(
         path.join(fixture.root, "scripts/package-mac-app.sh"),
@@ -625,13 +627,13 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
       const fixture = makeDistributionFixture(layout);
       const result = fixture.run();
       expect(result.status, result.stderr).toBe(0);
-      const archive = path.join(fixture.root, "dist", "OpenClaw-2026.8.2.dSYM.zip");
+      const archive = path.join(fixture.root, "dist", "Zero to Agent-2026.8.2.dSYM.zip");
       const extracted = path.join(fixture.root, "extracted");
       const unpack = spawnSync("ditto", ["-x", "-k", archive, extracted], { encoding: "utf8" });
       expect(unpack.status, unpack.stderr).toBe(0);
       const uuid = spawnSync(
         "xcrun",
-        ["dwarfdump", "--uuid", path.join(extracted, "OpenClaw.dSYM")],
+        ["dwarfdump", "--uuid", path.join(extracted, "Zero to Agent.dSYM")],
         { encoding: "utf8" },
       );
       expect(uuid.status, uuid.stderr).toBe(0);
@@ -642,7 +644,7 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
           .map((line) => line.split(" ").slice(0, 3).join(" "))
           .sort(),
       ).toEqual(fixture.expectedUUIDs.sort());
-      expect(existsSync(path.join(fixture.root, "dist", "OpenClaw.dSYM"))).toBe(false);
+      expect(existsSync(path.join(fixture.root, "dist", "Zero to Agent.dSYM"))).toBe(false);
     },
   );
 
@@ -651,6 +653,8 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
     const result = fixture.run();
     expect(result.status).not.toBe(0);
     expect(result.stderr).toContain("dSYM not found for architecture(s): x86_64");
-    expect(existsSync(path.join(fixture.root, "dist", "OpenClaw-2026.8.2.dSYM.zip"))).toBe(false);
+    expect(existsSync(path.join(fixture.root, "dist", "Zero to Agent-2026.8.2.dSYM.zip"))).toBe(
+      false,
+    );
   });
 });

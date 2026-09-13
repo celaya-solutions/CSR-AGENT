@@ -356,7 +356,7 @@ describe("mock OpenAI response markers", () => {
     },
   );
 
-  it("echoes dynamic OpenClaw E2E and update serving markers", async () => {
+  it("echoes dynamic Zero to Agent E2E and update serving markers", async () => {
     await withMockServer(mockOpenAiPath, {}, async (baseUrl) => {
       const servingMarker = "update-verified-67a60fb5-203d-4d08-bfba-6f5a053af61b";
       const cases = [
@@ -366,7 +366,7 @@ describe("mock OpenAI response markers", () => {
         })),
         {
           marker: servingMarker,
-          prompt: `This is an OpenClaw update serving check. Do not use tools. Reply with exactly: ${servingMarker}`,
+          prompt: `This is a Zero to Agent update serving check. Do not use tools. Reply with exactly: ${servingMarker}`,
         },
       ];
       for (const { marker, prompt } of cases) {

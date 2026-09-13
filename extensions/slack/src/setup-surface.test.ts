@@ -97,12 +97,12 @@ describe("slackSetupWizard.prepare", () => {
     const manifest = requireFirstStringArg(plain, "Slack manifest plain text");
     expect(JSON.parse(manifest)).toEqual({
       display_information: {
-        name: "OpenClaw",
-        description: "OpenClaw connector for OpenClaw",
+        name: "Zero to Agent",
+        description: "Zero to Agent connector for Zero to Agent",
       },
       features: {
         bot_user: {
-          display_name: "OpenClaw",
+          display_name: "Zero to Agent",
           always_online: true,
         },
         app_home: {
@@ -111,7 +111,8 @@ describe("slackSetupWizard.prepare", () => {
           messages_tab_read_only_enabled: false,
         },
         agent_view: {
-          agent_description: "OpenClaw connects Slack Agent View conversations to OpenClaw agents.",
+          agent_description:
+            "Zero to Agent connects Slack Agent View conversations to Zero to Agent agents.",
           suggested_prompts: [
             {
               title: "What can you do?",
@@ -130,7 +131,7 @@ describe("slackSetupWizard.prepare", () => {
         slash_commands: [
           {
             command: "/openclaw",
-            description: "Send a message to OpenClaw",
+            description: "Send a message to Zero to Agent",
             should_escape: false,
           },
         ],

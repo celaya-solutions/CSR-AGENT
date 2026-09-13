@@ -1208,7 +1208,7 @@ describe("write-cli-startup-metadata", () => {
         commit: string;
         version: string;
       };
-      const banner = `OpenClaw ${buildInfo.version} (${buildInfo.commit.slice(0, 7)})`;
+      const banner = `Zero to Agent ${buildInfo.version} (${buildInfo.commit.slice(0, 7)})`;
       return {
         config: `${banner}\nUsage: openclaw config\n`,
         doctor: `${banner}\nUsage: openclaw doctor\n`,
@@ -1258,7 +1258,7 @@ describe("write-cli-startup-metadata", () => {
     await writeMetadata();
     expect(renderCount).toBe(1);
     expect(commandRenderCount).toBe(4);
-    expect(readFileSync(outputPath, "utf8")).toContain("OpenClaw 2026.7.2 (aaaaaaa)");
+    expect(readFileSync(outputPath, "utf8")).toContain("Zero to Agent 2026.7.2 (aaaaaaa)");
 
     writeFixtureFile(
       distDir,
@@ -1268,7 +1268,7 @@ describe("write-cli-startup-metadata", () => {
     await writeMetadata();
     expect(renderCount).toBe(2);
     expect(commandRenderCount).toBe(8);
-    expect(readFileSync(outputPath, "utf8")).toContain("OpenClaw 2026.7.2 (bbbbbbb)");
+    expect(readFileSync(outputPath, "utf8")).toContain("Zero to Agent 2026.7.2 (bbbbbbb)");
 
     writeFixtureFile(
       distDir,
@@ -1281,6 +1281,6 @@ describe("write-cli-startup-metadata", () => {
     const written = JSON.parse(readFileSync(outputPath, "utf8")) as {
       subcommandHelpText: { models: string };
     };
-    expect(written.subcommandHelpText.models).toContain("OpenClaw 2026.7.3 (bbbbbbb)");
+    expect(written.subcommandHelpText.models).toContain("Zero to Agent 2026.7.3 (bbbbbbb)");
   });
 });
