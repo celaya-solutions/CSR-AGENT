@@ -228,15 +228,12 @@ describeControlUiE2e("Control UI Plugins mocked Gateway E2E", () => {
       expect(await page.getByRole("link", { name: "openclaw/openclaw", exact: true }).count()).toBe(
         0,
       );
+      // No public registry ships with this build: author and store links stay plain text.
+      expect(await page.getByRole("link", { name: "@openclaw", exact: true }).count()).toBe(0);
       expect(
-        await page.getByRole("link", { name: "@openclaw", exact: true }).getAttribute("href"),
-      ).toBe("https://registry.example.test/openclaw");
-      expect(await page.getByRole("link", { name: "Security audit" }).getAttribute("href")).toBe(
-        "https://registry.example.test/openclaw/plugins/matrix/security-audit",
-      );
-      expect(await page.getByRole("link", { name: "View on ClawHub" }).getAttribute("href")).toBe(
-        "https://registry.example.test/openclaw/plugins/matrix",
-      );
+        await page.locator(".plugin-catalog-detail__security").first().getAttribute("href"),
+      ).toBeNull();
+      expect(await page.getByRole("link", { name: "View on ClawHub" }).count()).toBe(0);
       expect(await page.getByRole("tab", { name: "Plugins", exact: true }).count()).toBe(0);
       expect(
         await page.getByRole("button", { name: "Install", exact: true }).evaluate((button) => {

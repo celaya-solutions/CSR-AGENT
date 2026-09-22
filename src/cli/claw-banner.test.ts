@@ -32,17 +32,17 @@ async function runStatic() {
     .filter((row) => row.length > 0);
 }
 
-const EXPECTED_MASCOT = [
-  " •●●:.        .:●●•",
-  ":●●●●:        :●●●●:",
-  ".●●●●:.:•●●•:.:●●●●.",
-  " .●●●: •●●●●• :●●●.",
-  " ..:••●●●●●●●●••:..",
-  ".::••••●●●●●●••••::.",
-  " . .:  •●●●●•  :. .",
-  "    .  :●●●●:  .",
-  "      .●●●●●●.",
-  "       :••••:",
+const EXPECTED_MARK = [
+  "           ▼",
+  "           █",
+  "┃ ┃ ┃ ┃ ┃  █  ┃ ┃",
+  "┃ ┃ ┃ ┃ ┃  █  ┃ ┃",
+  "┃ ┃ ┃ ┃ ┃  █  ┃ ┃",
+  "           █",
+  " ┃ ┃ ┃ ┃ ┃ █ ┃ ┃",
+  " ┃ ┃ ┃ ┃ ┃ █ ┃ ┃",
+  " ┃ ┃ ┃ ┃ ┃ █ ┃ ┃",
+  "           █",
 ] as const;
 
 describe("printClawBanner", () => {
@@ -51,7 +51,7 @@ describe("printClawBanner", () => {
     await printClawBanner(runtime, { columns: 120, isTty: false, env: {} });
     const output = stripAnsi(String(log.mock.calls[0]?.[0]));
     const rows = output.split("\n").filter((row) => row.length > 0);
-    expect(rows.map((row) => row.slice(0, 20).trimEnd())).toEqual(EXPECTED_MASCOT);
+    expect(rows.map((row) => row.slice(0, 20).trimEnd())).toEqual(EXPECTED_MARK);
     expect(output).toContain("█▀▀▀█ █▀▀▀█ █▀▀▀▀ █▄  █");
   });
 
@@ -80,8 +80,8 @@ describe("printClawBanner", () => {
       frames.some((frame) => {
         const [first = "", second = ""] = stripAnsi(frame).split("\n");
         return (
-          first.slice(0, 20).trimEnd() === "•●•.:.        .:.•●•" &&
-          second.slice(0, 20).trimEnd() === ":●●●•:        :•●●●:"
+          first.slice(0, 20).trimEnd() === "           ▽" &&
+          second.slice(0, 20).trimEnd() === "           ╽"
         );
       }),
     ).toBe(true);
@@ -145,8 +145,8 @@ describe("printClawBanner", () => {
     expect(process.listenerCount("SIGINT")).toBe(beforeSigint);
   });
 
-  it("varies snips and shimmer passes with the rng", async () => {
-    // rng below the thresholds adds a second shimmer pass and a second snip.
+  it("varies blinks and shimmer passes with the rng", async () => {
+    // rng below the thresholds adds a second shimmer pass and a second blink.
     const maximal = (await runAnimated(() => 0)).filter((c) => c.includes("\x1b[K"));
     const minimal = (await runAnimated(() => 0.99)).filter((c) => c.includes("\x1b[K"));
     expect(maximal.length).toBeGreaterThan(minimal.length);

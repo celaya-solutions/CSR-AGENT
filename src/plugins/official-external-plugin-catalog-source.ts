@@ -26,20 +26,24 @@ const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE = "clawhub-public";
 
 const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_ID = "clawhub-official";
 
+const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_CLAWHUB_SOURCE_REF = "public-clawhub";
+
 const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_NPM_SOURCE_REF = "public-npm";
 
 const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_CLAWHUB_TRUSTED_KEYS: readonly OfficialExternalPluginCatalogFeedSigningKey[] =
   [];
 
 /**
- * This build ships no hosted catalog feed and no default registry source: the
- * bundled catalog is the only source until an operator configures a feed
- * profile pointing at a server they run.
+ * This build ships no hosted catalog feed, so the bundled catalog is the only
+ * source until a default feed profile is added here for a server we run. The
+ * ClawHub source names no host: it resolves to the operator-configured
+ * registry (OPENCLAW_CLAWHUB_URL) and refuses when none is set.
  */
 export const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_PROFILE_CONFIG: OfficialExternalPluginCatalogProfileConfig =
   {
     feeds: {},
     sources: {
+      [DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_CLAWHUB_SOURCE_REF]: { type: "clawhub" },
       [DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_NPM_SOURCE_REF]: {
         type: "npm",
         registry: "https://registry.npmjs.org/",

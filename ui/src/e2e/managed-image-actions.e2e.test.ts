@@ -36,9 +36,7 @@ suite.define(() => {
     const artifactId = `artifact_managed_image_${attachmentId}`;
     const imageUrl = `/api/chat/media/outgoing/agent%3Amain%3Amain/${attachmentId}/full`;
     const ticketedUrl = `${imageUrl}?mediaTicket=ticket-e2e`;
-    const imageBytes = await readFile(
-      path.join(process.cwd(), "docs/assets/openclaw-banner-dark.png"),
-    );
+    const imageBytes = await readFile(path.join(process.cwd(), "docs/assets/openagent-banner.png"));
     const requestedVariants: string[] = [];
     await page.route(`**${controlUiBasePath}/api/chat/media/outgoing/**`, async (route) => {
       const request = route.request();

@@ -226,7 +226,14 @@ describe("managed plugin catalog", () => {
   const privateRegistry = "https://private.example/clawhub";
   it.each([
     ["foreign registry", "clawhub", `${privateRegistry}/`, undefined, false],
-    ["public registry", "clawhub", "https://registry.example.test/", undefined, true],
+    // The configured registry plays the public default's role; nothing is public without one.
+    [
+      "configured default registry",
+      "clawhub",
+      "https://registry.example.test/",
+      "https://registry.example.test",
+      true,
+    ],
     ["custom primary override", "clawhub", `${privateRegistry}/`, privateRegistry, true],
     [
       "custom secondary override",
@@ -237,8 +244,8 @@ describe("managed plugin catalog", () => {
       "CLAWHUB_URL",
     ],
     ["different custom registry", "clawhub", "https://other.example/", privateRegistry, false],
-    ["public npm counterpart", "npm", undefined, undefined, true],
-    ["public npm counterpart on custom registry", "npm", undefined, privateRegistry, false],
+    ["npm counterpart on the configured registry", "npm", undefined, privateRegistry, true],
+    ["npm counterpart without a configured registry", "npm", undefined, undefined, false],
     ["unproven registry", "clawhub", undefined, undefined, false],
   ] as const)(
     "binds remote discovery to the effective registry: %s",

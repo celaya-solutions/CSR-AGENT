@@ -100,7 +100,7 @@ describe("official plugin install trust", () => {
           source: "clawhub",
           spec: "clawhub:@openclaw/acpx",
           clawhubPackage: "@openclaw/acpx",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubChannel: "official",
           resolvedName: "@openclaw/acpx",
           ...overrides,
@@ -324,7 +324,7 @@ describe("trusted official npm install records", () => {
           spec: "clawhub:@openclaw/fish-audio-speech",
           clawhubPackage: "@openclaw/fish-audio-speech",
           clawhubChannel: "official",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
         },
       }),
     ).toBeUndefined();

@@ -118,7 +118,7 @@ describe("ClawHub publisher identity across skills.search, skills.detail, and sk
   });
 
   it.each([
-    { configured: undefined, registry: "https://registry.example.test" },
+    { configured: "https://registry.example.test", registry: "https://registry.example.test" },
     { configured: "https://registry.example/", registry: "https://registry.example" },
   ])(
     "preserves publisher and registry identity from $registry",

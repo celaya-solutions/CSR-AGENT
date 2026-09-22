@@ -445,8 +445,7 @@ export const BINDLE = svg`
   </g>
 `;
 
-// On lobster days (see src/shared/lobster-day.ts, shared with the CLI
-// banner cousin) the pet wears a little sailor cap - unless the seed already
+// On lobster days (see src/shared/lobster-day.ts) the pet wears a little sailor cap - unless the seed already
 // rolled headwear, which keeps its place.
 export const HEADWEAR: ReadonlySet<LobsterPetAccessory> = new Set([
   "crown",

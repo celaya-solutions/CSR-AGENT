@@ -61,7 +61,7 @@ describeControlUiE2e("Control UI image lightbox", () => {
   });
 
   it("opens transcript and sidebar images in one accessible modal", async () => {
-    const banner = await readFile(path.join(process.cwd(), "docs/assets/openclaw-banner-dark.png"));
+    const banner = await readFile(path.join(process.cwd(), "docs/assets/openagent-banner.png"));
     const bannerBase64 = banner.toString("base64");
     const dataUrl = `data:image/png;base64,${bannerBase64}`;
     const context = await newContext({
