@@ -5,24 +5,11 @@ read_when:
 title: "OpenAgent"
 ---
 
-# OpenAgent 🦞
+# OpenAgent
 
 <p align="center">
-    <img
-        src="/assets/openclaw-hero-light.png"
-        alt="OpenAgent"
-        width="500"
-        class="dark:hidden"
-    />
-    <img
-        src="/assets/openclaw-hero-dark.png"
-        alt="OpenAgent"
-        width="500"
-        class="hidden dark:block"
-    />
+    <img src="/assets/celaya-mark.svg" alt="Celaya Solutions" width="160" />
 </p>
-
-> _"EXFOLIATE! EXFOLIATE!"_ — A space lobster, probably
 
 <p align="center">
   <strong>Your AI assistant, on your own hardware, in every chat app you already use.</strong><br />

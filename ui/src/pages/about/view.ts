@@ -1,13 +1,7 @@
-import { expectDefined } from "@openclaw/normalization-core";
 import { html, nothing, type TemplateResult } from "lit";
+import { inferControlUiPublicAssetPath } from "../../app/public-assets.ts";
 import type { ControlUiBuildInfo } from "../../build-info.ts";
 import { icons } from "../../components/icons.ts";
-import {
-  canonicalLobsterLook,
-  lobsterLookStyle,
-  renderLobsterSvg,
-} from "../../components/lobster-pet-look.ts";
-import { LOBSTER_PET_PALETTES } from "../../components/lobster-pet-palettes.ts";
 import {
   renderSettingsPage,
   renderSettingsRow,
@@ -29,8 +23,6 @@ type AboutProps = {
   gatewayVersion: string | null;
   copyState: AboutCommitCopyState;
   onCopyCommit: () => void;
-  clawdWaving: boolean;
-  onPokeClawd: () => void;
 };
 
 const SHORT_COMMIT_LENGTH = 12;
@@ -152,24 +144,16 @@ function renderCommit(props: AboutProps) {
   `;
 }
 
-// The same canonical crimson Clawd as the chat welcome hero, rendered big.
-// The poke button replays the claw wave; ambient motion lives in about.css.
 function renderHero(props: AboutProps) {
-  const palette =
-    LOBSTER_PET_PALETTES.find((entry) => entry.id === "crimson") ??
-    expectDefined(LOBSTER_PET_PALETTES[0], "about lobster palette");
-  const look = canonicalLobsterLook(palette);
   return html`
     <section class="about-hero">
-      <button
-        type="button"
-        class="about-hero__clawd ${props.clawdWaving ? "about-hero__clawd--wave" : ""}"
-        style=${lobsterLookStyle(look)}
-        aria-label=${t("aboutPage.waveHello")}
-        @click=${props.onPokeClawd}
-      >
-        ${renderLobsterSvg(look)}
-      </button>
+      <img
+        class="about-hero__mark"
+        src=${inferControlUiPublicAssetPath("favicon.svg")}
+        alt=""
+        width="120"
+        height="120"
+      />
       <h2 class="about-hero__name">${t("aboutPage.productName")}</h2>
       <p class="about-hero__tagline">${t("aboutPage.tagline")}</p>
       ${

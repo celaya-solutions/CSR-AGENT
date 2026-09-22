@@ -540,7 +540,7 @@ export const en: TranslationMap & {
   },
   communityInvite: {
     cardLabel: "Join the OpenAgent community on Discord",
-    artAlt: "A lobster beside the Discord mark on a lit seafloor pedestal",
+    artAlt: "The Celaya Solutions mark beside the Discord mark",
     title: "Come build with us",
     body: "Ask anything, show what you're making, and find out what everyone else is building.",
     bodyGreeting: "Or just say hi.",
@@ -3121,7 +3121,6 @@ export const en: TranslationMap & {
   aboutPage: {
     productName: "OpenAgent",
     tagline: "Your personal AI assistant, running on your own devices.",
-    waveHello: "Wave hello to Clawd",
     linksLabel: "Community and resources",
     linkWebsite: "Website",
     linkDocs: "Docs",

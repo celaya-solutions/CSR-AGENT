@@ -98,7 +98,7 @@ describe("buildStatusMessageParts presentation", () => {
     );
     expect(parts.text).toContain("⏱️ Uptime: gateway 1h · system 2d");
     expect(parts.text).toContain("Telegram rich messages: on");
-    expect(parts.presentation.title).toMatch(/^🦞 OpenAgent /);
+    expect(parts.presentation.title).toMatch(/^OpenAgent /);
     const table = parts.presentation.blocks.find((block) => block.type === "table");
     expect(table).toBeDefined();
     if (table?.type !== "table") {
