@@ -254,7 +254,7 @@ openclaw agents set-identity --workspace ~/.openclaw/workspace --from-identity
 Override fields explicitly:
 
 ```bash
-openclaw agents set-identity --agent main --name "OpenAgent" --emoji "🦞" --avatar avatars/openclaw.png
+openclaw agents set-identity --agent main --name "OpenAgent" --emoji "🤖" --avatar avatars/openclaw.png
 ```
 
 Relocate the stored workspace:

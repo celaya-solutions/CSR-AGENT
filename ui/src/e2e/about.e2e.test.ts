@@ -289,23 +289,9 @@ suite.define(() => {
       const xLink = hero.getByRole("link", { name: "X (Twitter)", exact: true });
       await expect.poll(() => xLink.getAttribute("href")).toBe("https://x.com/openclaw");
 
-      const clawd = page.getByRole("button", { name: "Wave hello to Clawd" });
-      // CLAWD_WAVE_MS clears the class after 1400ms, so click and read it in one browser step.
-      const clawdWaving = await clawd.evaluate(async (element) => {
-        const button = element as HTMLButtonElement;
-        const owner = element.closest("openclaw-about-page") as
-          | (HTMLElement & {
-              updateComplete: Promise<unknown>;
-            })
-          | null;
-        if (!owner) {
-          throw new Error("About page owner is unavailable");
-        }
-        button.click();
-        await owner.updateComplete;
-        return button.classList.contains("about-hero__clawd--wave");
-      });
-      expect(clawdWaving).toBe(true);
+      await expect
+        .poll(() => hero.locator("img.about-hero__mark").getAttribute("src"))
+        .toMatch(/favicon\.svg$/);
 
       await expect.poll(() => page.locator(".about-footer").textContent()).toContain("MIT License");
 

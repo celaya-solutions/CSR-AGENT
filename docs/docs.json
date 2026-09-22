@@ -7,8 +7,8 @@
     "library": "lucide"
   },
   "logo": {
-    "light": "/assets/pixel-lobster.svg",
-    "dark": "/assets/pixel-lobster.svg"
+    "light": "/assets/celaya-mark.svg",
+    "dark": "/assets/celaya-mark.svg"
   },
   "fonts": {
     "body": {
@@ -18,7 +18,7 @@
       "family": "DM Sans"
     }
   },
-  "favicon": "/assets/pixel-lobster.svg",
+  "favicon": "/assets/celaya-mark.svg",
   "colors": {
     "primary": "#D84A31",
     "dark": "#E05540",
