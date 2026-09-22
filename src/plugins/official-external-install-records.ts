@@ -1,5 +1,6 @@
 // Defines official external install records for plugins.
 import type { PluginInstallRecord } from "../config/types.plugins.js";
+import { isDefaultClawHubBaseUrl } from "../infra/clawhub-client.js";
 import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
 import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
 import {
@@ -107,7 +108,7 @@ function isOfficialClawHubInstallRecord(record: PluginInstallRecord): boolean {
   if (record.source !== "clawhub" || record.clawhubChannel !== "official") {
     return false;
   }
-  return (record.clawhubUrl ?? "").trim().replace(/\/+$/, "") === "https://clawhub.ai";
+  return record.clawhubUrl !== undefined && isDefaultClawHubBaseUrl(record.clawhubUrl);
 }
 
 /** Resolves one package identity from a current trusted official ClawHub install record. */

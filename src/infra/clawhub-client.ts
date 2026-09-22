@@ -529,9 +529,13 @@ export function resolveClawHubBaseUrl(baseUrl?: string): string {
   return normalizeBaseUrl(baseUrl);
 }
 
-/** No registry is treated as the vendor's official one in this build. */
-export function isDefaultClawHubBaseUrl(_baseUrl?: string): boolean {
-  return false;
+/**
+ * The operator-configured registry takes the role the vendor registry had
+ * upstream: it is the default, and its official flags carry official trust.
+ * With no registry configured, nothing is official.
+ */
+export function isDefaultClawHubBaseUrl(baseUrl?: string): boolean {
+  return isClawHubRegistryConfigured() && normalizeBaseUrl(baseUrl) === normalizeBaseUrl();
 }
 
 export function isClawHubTelemetryDisabled(): boolean {

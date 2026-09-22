@@ -447,11 +447,10 @@ suite.define(() => {
         await page.getByRole("heading", { level: 1, name: "Workboard", exact: true }).waitFor();
         await page.getByRole("link", { name: "Settings", exact: true }).waitFor();
         await page.getByText("Plan and track agent-owned work.", { exact: true }).waitFor();
-        await page.getByRole("link", { name: "View on ClawHub", exact: true }).waitFor();
-        const securityAudit = page.getByRole("link", { name: /Security audit/iu });
-        expect(await securityAudit.getAttribute("href")).toBe(
-          "https://registry.example.test/openclaw/plugins/workboard/security-audit",
-        );
+        // No public registry ships with this build, so the detail has no store links.
+        expect(await page.getByRole("link", { name: "View on ClawHub" }).count()).toBe(0);
+        const securityAudit = page.locator(".plugin-catalog-detail__security");
+        expect(await securityAudit.getAttribute("href")).toBeNull();
         expect(await securityAudit.getAttribute("class")).toContain(
           "plugin-catalog-detail__security--pass",
         );

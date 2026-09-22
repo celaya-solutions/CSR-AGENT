@@ -9,6 +9,10 @@ import {
 } from "../../../config/plugin-install-record-map.js";
 import type { ConfigFileSnapshot, OpenClawConfig } from "../../../config/types.openclaw.js";
 import type { PluginInstallRecord } from "../../../config/types.plugins.js";
+import {
+  isClawHubRegistryConfigured,
+  resolveClawHubBaseUrl,
+} from "../../../infra/clawhub-client.js";
 import { inspectPersistedInstalledPluginIndexInstallRecordsSync } from "../../../plugins/installed-plugin-index-record-state.js";
 import {
   loadInstalledPluginIndexInstallRecords,
@@ -38,6 +42,11 @@ export function migrateOfficialPluginInstallProvenance(
   records: Record<string, PluginInstallRecord>,
 ): Record<string, PluginInstallRecord> {
   const migrated = copyPluginInstallRecordMap(records);
+  // Legacy records predate stored registry URLs; they can only be attributed to
+  // the registry this install is configured to use.
+  if (!isClawHubRegistryConfigured()) {
+    return migrated;
+  }
   for (const [pluginId, record] of Object.entries(records)) {
     // Partial or conflicting authority is not a legacy shape. Local sources must
     // be reinstalled; package metadata cannot establish the missing source fact.
@@ -52,7 +61,7 @@ export function migrateOfficialPluginInstallProvenance(
     }
     const normalized: PluginInstallRecord = {
       ...record,
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: resolveClawHubBaseUrl(),
       clawhubChannel: "official",
     };
     const packageName = resolveTrustedOfficialClawHubPackageName(normalized);

@@ -43,8 +43,6 @@ process.env.VITEST = "true";
 // Tests frequently point bundled plugin discovery at temp fixture roots. Production still rejects
 // arbitrary OPENCLAW_BUNDLED_PLUGINS_DIR overrides unless this Vitest-only opt-in is present.
 process.env.OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR ??= "1";
-// Builds ship without a default skill/plugin registry; tests exercise one at a reserved host.
-process.env.OPENCLAW_CLAWHUB_URL ??= "https://registry.example.test";
 // Vitest fork workers can load transitive lockfile helpers many times per worker.
 // Raise listener budget to avoid noisy MaxListeners warnings and warning-stack overhead.
 const TEST_PROCESS_MAX_LISTENERS = 256;

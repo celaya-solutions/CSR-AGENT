@@ -200,6 +200,7 @@ function resolveRestoreEntries(): RestoreEntry[] {
   return [
     ...HERMETIC_TEST_ENV_KEYS.map((key) => ({ key, value: process.env[key] })),
     { key: "OPENCLAW_TEST_FAST", value: process.env.OPENCLAW_TEST_FAST },
+    { key: "OPENCLAW_CLAWHUB_URL", value: process.env.OPENCLAW_CLAWHUB_URL },
     {
       key: "OPENCLAW_STRICT_FAST_REPLY_CONFIG",
       value: process.env.OPENCLAW_STRICT_FAST_REPLY_CONFIG,
@@ -244,6 +245,8 @@ function initializeIsolatedTestEnv(tempHome: string): void {
   setTestEnvValue("OPENCLAW_TEST_HOME", tempHome);
   setTestEnvValue("OPENCLAW_TEST_FAST", "1");
   setTestEnvValue("OPENCLAW_STRICT_FAST_REPLY_CONFIG", "1");
+  // Builds ship without a default skill/plugin registry; tests exercise one at a reserved host.
+  setTestEnvValue("OPENCLAW_CLAWHUB_URL", "https://registry.example.test");
   deleteTestEnvValue("OPENCLAW_ALLOW_SLOW_REPLY_TESTS");
 
   // OPENCLAW_HOME takes precedence over HOME, so both must be isolated together.
