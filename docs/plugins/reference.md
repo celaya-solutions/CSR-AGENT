@@ -13,7 +13,7 @@ This section holds one reference page for each OpenAgent plugin. Each page state
 the package, the install route, and the surface the plugin adds.
 
 This page is a pointer, not the index. The browsable list of all
-154 generated plugin reference pages lives in
+18 generated plugin reference pages lives in
 [Plugin inventory](/plugins/plugin-inventory), sorted by distribution, package,
 and description.
 

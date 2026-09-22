@@ -251,7 +251,7 @@ describe("run-tsgo sparse guard", () => {
       }),
     ).toMatchInlineSnapshot(`
       "tsconfig.ui.json cannot be typechecked from this sparse checkout because tracked project inputs are missing or only partially included:
-      - apps/shared/OpenClawKit/Sources/OpenClawKit/Resources/tool-display.json
+      - ui/src/lib/chat/tool-display.json
       Expand this worktree's sparse checkout to include those paths, or rerun in a full worktree."
     `);
   });

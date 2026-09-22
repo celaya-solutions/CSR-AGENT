@@ -1,7 +1,7 @@
 {
  "shared": [
   "__vite-browser-external",
-  "apps/shared/OpenClawKit/Sources/OpenClawKit/Resources/tool-display.json",
+  "ui/src/lib/chat/tool-display.json",
   "node_modules/@awesome.me/webawesome/dist/chunks/chunk.2LXKNNNE.js",
   "node_modules/@awesome.me/webawesome/dist/chunks/chunk.3H2FQERJ.js",
   "node_modules/@awesome.me/webawesome/dist/chunks/chunk.3NKIHICW.js",
