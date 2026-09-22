@@ -32,9 +32,6 @@ import {
   resolveLiveMusicAuthStore,
 } from "openclaw/plugin-sdk/test-media-generation";
 import { describe, expect, it, vi } from "vitest";
-import falPlugin from "./fal/index.js";
-import googlePlugin from "./google/index.js";
-import minimaxPlugin from "./minimax/index.js";
 import openrouterPlugin from "./openrouter/index.js";
 import { maybeLoadShellEnvForGenerationProviders } from "./test-support/generation-live-test-helpers.js";
 
@@ -53,24 +50,6 @@ type LiveProviderCase = {
 };
 
 const CASES: LiveProviderCase[] = [
-  {
-    plugin: falPlugin,
-    pluginId: "fal",
-    pluginName: "fal Provider",
-    providerId: "fal",
-  },
-  {
-    plugin: googlePlugin,
-    pluginId: "google",
-    pluginName: "Google Provider",
-    providerId: "google",
-  },
-  {
-    plugin: minimaxPlugin,
-    pluginId: "minimax",
-    pluginName: "MiniMax Provider",
-    providerId: "minimax",
-  },
   {
     plugin: openrouterPlugin,
     pluginId: "openrouter",

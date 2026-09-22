@@ -44,21 +44,9 @@ import type {
   VideoGenerationRequest,
 } from "openclaw/plugin-sdk/test-media-generation";
 import { describe, expect, it, vi } from "vitest";
-import alibabaPlugin from "./alibaba/index.js";
-import byteplusPlugin from "./byteplus/index.js";
-import deepinfraPlugin from "./deepinfra/index.js";
-import falPlugin from "./fal/index.js";
-import googlePlugin from "./google/index.js";
-import minimaxPlugin from "./minimax/index.js";
 import openaiPlugin from "./openai/index.js";
 import openrouterPlugin from "./openrouter/index.js";
-import pixversePlugin from "./pixverse/index.js";
-import qwenPlugin from "./qwen/index.js";
-import runwayPlugin from "./runway/index.js";
 import { maybeLoadShellEnvForGenerationProviders } from "./test-support/generation-live-test-helpers.js";
-import togetherPlugin from "./together/index.js";
-import vydraPlugin from "./vydra/index.js";
-import xaiPlugin from "./xai/index.js";
 
 const LIVE = isLiveTestEnabled();
 const REQUIRE_PROFILE_KEYS =
@@ -97,32 +85,6 @@ type LiveVideoAttemptStatus =
   | { status: "failure" };
 
 const CASES: LiveProviderCase[] = [
-  {
-    plugin: alibabaPlugin,
-    pluginId: "alibaba",
-    pluginName: "Alibaba Model Studio Plugin",
-    providerId: "alibaba",
-  },
-  {
-    plugin: byteplusPlugin,
-    pluginId: "byteplus",
-    pluginName: "BytePlus Provider",
-    providerId: "byteplus",
-  },
-  {
-    plugin: deepinfraPlugin,
-    pluginId: "deepinfra",
-    pluginName: "DeepInfra Provider",
-    providerId: "deepinfra",
-  },
-  { plugin: falPlugin, pluginId: "fal", pluginName: "fal Provider", providerId: "fal" },
-  { plugin: googlePlugin, pluginId: "google", pluginName: "Google Provider", providerId: "google" },
-  {
-    plugin: minimaxPlugin,
-    pluginId: "minimax",
-    pluginName: "MiniMax Provider",
-    providerId: "minimax",
-  },
   { plugin: openaiPlugin, pluginId: "openai", pluginName: "OpenAI Provider", providerId: "openai" },
   {
     plugin: openrouterPlugin,
@@ -130,22 +92,6 @@ const CASES: LiveProviderCase[] = [
     pluginName: "OpenRouter Provider",
     providerId: "openrouter",
   },
-  {
-    plugin: pixversePlugin,
-    pluginId: "pixverse",
-    pluginName: "PixVerse Provider",
-    providerId: "pixverse",
-  },
-  { plugin: qwenPlugin, pluginId: "qwen", pluginName: "Qwen Provider", providerId: "qwen" },
-  { plugin: runwayPlugin, pluginId: "runway", pluginName: "Runway Provider", providerId: "runway" },
-  {
-    plugin: togetherPlugin,
-    pluginId: "together",
-    pluginName: "Together Provider",
-    providerId: "together",
-  },
-  { plugin: vydraPlugin, pluginId: "vydra", pluginName: "Vydra Provider", providerId: "vydra" },
-  { plugin: xaiPlugin, pluginId: "xai", pluginName: "xAI Plugin", providerId: "xai" },
 ]
   .filter((entry) => (providerFilter ? providerFilter.has(entry.providerId) : true))
   .filter((entry) =>

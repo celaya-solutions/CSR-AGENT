@@ -91,6 +91,7 @@ allowBuilds:
   "@openclaw/crabline": true
   rastermill: true
   node-pty: true
+  baileys: set this to true or false
 
 patchedDependencies:
   "@awesome.me/webawesome@3.12.0": patches/@awesome.me__webawesome@3.12.0.patch
