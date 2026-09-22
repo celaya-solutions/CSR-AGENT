@@ -21,25 +21,17 @@ function readJson(filePath) {
 }
 
 const selected = {
-  clickclack: {
+  discord: {
+    entries: ["index.js", "setup-entry.js"],
+    capability: "channel",
+  },
+  telegram: {
+    entries: ["index.js", "setup-entry.js"],
+    capability: "channel",
+  },
+  duckduckgo: {
     entries: ["index.js"],
-    capability: "channel",
-  },
-  slack: {
-    entries: ["index.js", "setup-entry.js"],
-    capability: "channel",
-  },
-  msteams: {
-    entries: ["index.js", "setup-entry.js"],
-    capability: "channel",
-  },
-  whatsapp: {
-    entries: ["index.js", "setup-entry.js"],
-    capability: "channel",
-  },
-  clawrouter: {
-    entries: ["index.js"],
-    capability: "text-inference",
+    capability: "web-search",
   },
 };
 
@@ -85,7 +77,7 @@ for (const [pluginId, expected] of Object.entries(selected)) {
   );
 }
 
-for (const pluginId of ["clickclack", "slack", "whatsapp"]) {
+for (const pluginId of ["discord", "duckduckgo"]) {
   const packageJson = readJson(`/app/dist/extensions/${pluginId}/package.json`);
   assert(
     packageJson.openclaw?.build?.bundledDist === false,
@@ -94,10 +86,8 @@ for (const pluginId of ["clickclack", "slack", "whatsapp"]) {
 }
 
 const declaredDependencies = {
-  clickclack: ["ws"],
-  slack: ["@slack/bolt", "@slack/web-api"],
-  msteams: ["@microsoft/teams.apps"],
-  whatsapp: ["audio-decode", "baileys"],
+  discord: ["discord-api-types", "ws"],
+  telegram: ["grammy"],
 };
 for (const [pluginId, dependencies] of Object.entries(declaredDependencies)) {
   const packageJson = readJson(`/app/dist/extensions/${pluginId}/package.json`);
@@ -111,12 +101,11 @@ for (const [pluginId, dependencies] of Object.entries(declaredDependencies)) {
   }
 }
 
-assertFile("/app/dist/extensions/slack/skills/slack/SKILL.md");
-assertAbsent("/app/dist/extensions/amazon-bedrock");
-assertAbsent("/app/extensions/amazon-bedrock");
-assertAbsent("/app/node_modules/@aws-sdk/client-bedrock");
-assertAbsent("/app/dist/extensions/signal");
-assertAbsent("/app/extensions/signal");
+assertFile("/app/dist/extensions/discord/skills/discord/SKILL.md");
+assertAbsent("/app/dist/extensions/ollama");
+assertAbsent("/app/extensions/ollama");
+assertAbsent("/app/dist/extensions/openrouter");
+assertAbsent("/app/extensions/openrouter");
 assertAbsent("/home/node/.cache/ms-playwright");
 
 console.log(`Selected-plugin runtime proof passed (${process.arch})`);

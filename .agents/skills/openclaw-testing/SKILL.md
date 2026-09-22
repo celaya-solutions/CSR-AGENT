@@ -31,15 +31,12 @@ desktop/platform behavior, or an explicit operator request.
 
 For specialized proof, load only the selected route:
 
-- Remote leases and credentials: [`$crabbox`](../crabbox/SKILL.md), with the
-  OpenAgent bootstrap binding below.
 - Package installation, plugin package trust, Docker/live lane selection or
   reruns: [Package And Docker Proof](references/package-and-docker.md).
 - Release candidates, full-validation dispatch, evidence identity or recovery:
   [`$release-openclaw-ci`](../release-openclaw-ci/SKILL.md). A narrow green rerun
   does not itself authorize publication. Do not substitute moving `main` for
   the recorded candidate or Tooling SHA.
-- Plugin release matrix: [`$release-openclaw-plugin-testing`](../release-openclaw-plugin-testing/SKILL.md).
 - New or changed Docker lanes: [`$openclaw-docker-e2e-authoring`](../openclaw-docker-e2e-authoring/SKILL.md).
 - Channel/UI behavior: the relevant channel proof skill or
   [`$control-ui-e2e`](../control-ui-e2e/SKILL.md); mock-Gateway boundary proof is
@@ -48,23 +45,8 @@ For specialized proof, load only the selected route:
 ## Source And State Boundaries
 
 Untrusted contributor/fork tooling must never execute locally, including its
-wrapper or config. Use secretless fork CI or sanitized direct AWS under
-`$crabbox`; never credential-hydrated Testbox. Credentialed execution requires
-maintainer approval after review, and never hydrates an untrusted lease.
-
-For untrusted OpenAgent AWS proof, supply the clean trusted `main` copy of
-`scripts/crabbox-untrusted-bootstrap.sh` as Crabbox's
-`<trusted-bootstrap-script>`. Bind the fresh lease and `--fresh-pr` checkout to
-the reviewed full head SHA. The trusted bootstrap verifies that SHA, the IMDSv2
-no-role boundary, and the package-manager pin before installing into an isolated
-`HOME`. Keep `CRABBOX_ENV_ALLOW=CI`, `--no-hydrate`, no instance role, and no
-Tailscale. A moved head needs a fresh lease; missing no-role proof or no remote
-PR means secretless CI. Read the Crabbox untrusted procedure before allocation.
-
-For trusted remote proof, use `node scripts/crabbox-wrapper.mjs` with the
-resolved provider; do not silently switch providers or bypass sync/security
-exclusions. Save and reuse task-owned leases, verify the materialized candidate,
-keep evidence outside the synced checkout, and stop owned leases at handoff.
+wrapper or config. Use secretless fork CI instead. Credentialed execution
+requires maintainer approval after review.
 
 Use isolated state and a free port. Never restart, edit, or test against an
 operator Gateway or real data without explicit per-task approval. Do not kill

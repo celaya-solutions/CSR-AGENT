@@ -180,14 +180,6 @@ function assertChannelConfig() {
       assertTokenField("token", expectedTokens[0]);
       return;
     }
-    case "slack": {
-      if (expectedTokens.length !== 2) {
-        throw new Error("slack channel config assertion requires bot and app tokens");
-      }
-      assertTokenField("botToken", expectedTokens[0]);
-      assertTokenField("appToken", expectedTokens[1]);
-      return;
-    }
     default:
       throw new Error(`unsupported channel config assertion: ${channel}`);
   }

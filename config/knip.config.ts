@@ -46,7 +46,6 @@ const repositoryScriptEntries = [
   // Invoked by the documented macOS Computer Use live-proof shell rig.
   "scripts/dev/computer-use-macos-live-proof.ts!",
   "scripts/dev/ios-node-e2e.ts!",
-  "scripts/diffs-shiki-curated.ts!",
   // Reusable Docker workflows invoke this from the downloaded .release-harness tree.
   "scripts/docker-e2e.mts!",
   // Docker and package-install harnesses invoke this verifier by path.
@@ -81,7 +80,6 @@ const repositoryScriptEntries = [
   "scripts/e2e/lib/fleet-cache/prepare-podman-storage.mjs!",
   "scripts/e2e/lib/fleet-cache/probe-podman-cell.mjs!",
   "scripts/e2e/lib/fleet-cache/runtime-preflight.mjs!",
-  "scripts/e2e/lib/npm-telegram-live/prepare-package.mts!",
   "scripts/e2e/lib/onboard/assert-config.mjs!",
   "scripts/e2e/lib/onboard/write-config.mjs!",
   "scripts/e2e/lib/openai-chat-tools/client.mjs!",
@@ -136,10 +134,6 @@ const repositoryScriptEntries = [
   // Invoked by scripts/lib/live-docker-stage.sh during container validation.
   "scripts/live-docker-normalize-config.ts!",
   // Mantis controllers launch these observers and bridge by path inside isolated runtimes.
-  "scripts/mantis/observe-request-telegram-qa.mts!",
-  "scripts/mantis/observe-request-web-ui.mts!",
-  "scripts/mantis/telegram-proof-bridge.mjs!",
-  "scripts/mcp-code-mode-gateway-e2e.ts!",
   // Existing explicit Linux proof driver imports the inactive capsule adapter.
   // Reachability for auditing is not registration or permission to execute it.
   "scripts/openclaw-release-clawhub-plan.ts!",
@@ -169,8 +163,6 @@ const repositoryScriptEntries = [
   "scripts/pr-lib/process-group-runner.mjs!",
   "scripts/pre-commit/filter-staged-files.mjs!",
   "scripts/print-live-docker-plugin-selection.mjs!",
-  "scripts/qa-coverage-report.ts!",
-  "scripts/qa-parity-report.ts!",
   "scripts/resolve-frozen-codex-live-suite.mjs!",
   // Changed-file checks invoke this targeted UI Stylelint entrypoint by path.
   "scripts/run-stylelint.mts!",
@@ -303,7 +295,6 @@ const rootEntries = [
   "apps/android/app/src/main/assets/katex/renderer.js!",
   "apps/linux/ui/main.js!",
   "apps/linux/ui/quickchat.js!",
-  "scripts/qa/render-maturity-docs.ts!",
   bundledPluginFile("telegram", "src/audit.ts", "!"),
   bundledPluginFile("telegram", "src/token.ts", "!"),
   "src/hooks/bundled/*/handler.ts!",
@@ -576,13 +567,6 @@ const config = {
     "examples/ai-chat": {
       entry: ["index.mjs!"],
       project: ["**/*.{js,mjs,cjs,ts,mts,cts}!"],
-    },
-    "qa/convex-credential-broker": {
-      // Convex discovers these registered functions and schemas by filename.
-      entry: ["convex/credentials.ts!", "convex/crons.ts!", "convex/http.ts!", "convex/schema.ts!"],
-      // This intentionally standalone package is not linked into the pnpm workspace.
-      ignoreBinaries: ["convex"],
-      project: ["convex/**/*.ts!"],
     },
     ui: {
       entry: [
@@ -902,18 +886,6 @@ const config = {
     [`${BUNDLED_PLUGIN_ROOT_DIR}/pixverse`]: bundledPluginWorkspace(),
     [`${BUNDLED_PLUGIN_ROOT_DIR}/qianfan`]: bundledPluginWorkspace(),
     [`${BUNDLED_PLUGIN_ROOT_DIR}/qwen`]: bundledPluginWorkspace(),
-    [`${BUNDLED_PLUGIN_ROOT_DIR}/qa-lab`]: bundledPluginWorkspace([
-      // Core loads the CLI facade by basename; QA Lab also owns a nested Vite app.
-      "cli.ts!",
-      "web/index.html!",
-      "web/src/app.ts!",
-      "web/src/main.ts!",
-      "web/vite.config.ts!",
-      // Imported directly from the GitHub Actions smoke-plan script.
-      "src/ci-smoke-plan.ts!",
-      // Imported directly from the GitHub Actions evidence workflow.
-      "src/profile-evidence-sharding.ts!",
-    ]),
     [`${BUNDLED_PLUGIN_ROOT_DIR}/senseaudio`]: bundledPluginWorkspace(),
     [`${BUNDLED_PLUGIN_ROOT_DIR}/slack`]: bundledPluginWorkspace([
       // The vendor integrity test executes this verifier by path.

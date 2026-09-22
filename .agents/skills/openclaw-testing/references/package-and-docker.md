@@ -83,10 +83,6 @@ For container Gateway UI proof, use `scripts/docker/setup.sh` and
 mount the operator's `~/.openclaw` and claim port 18789; do not reuse them for
 proof. The setup script seeds allowed browser origins for the published port.
 
-For skill installation, prefer `pnpm test:docker:skill-install` or the
-`skill-install` lane: it resolves a live ClawHub slug and verifies origin/lock
-metadata with uploaded archives disabled.
-
 ## Rerun From Evidence
 
 Read the failed lane's log, `summary.json`, and `failures.json` under

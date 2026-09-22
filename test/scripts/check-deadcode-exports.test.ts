@@ -2,7 +2,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import YAML from "yaml";
 import allExportsKnipConfig from "../../config/knip.all-exports.config.ts";
 import knipConfig from "../../config/knip.config.ts";
 import scriptExportsKnipConfig from "../../config/knip.scripts-exports.config.ts";
@@ -21,28 +20,6 @@ const fullUiWorkspace = allExportsKnipConfig.workspaces.ui;
 const scriptRootWorkspace = scriptExportsKnipConfig.workspaces["."];
 if (!fullRootWorkspace || !fullExtensionWorkspace || !fullUiWorkspace || !scriptRootWorkspace) {
   throw new Error("deadcode Knip configs must define root, extension, and UI workspaces");
-}
-
-function listQaScenarioExecutionPaths(dir = "qa/scenarios"): string[] {
-  return fs
-    .readdirSync(dir, { withFileTypes: true })
-    .flatMap((entry) => {
-      const entryPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        return listQaScenarioExecutionPaths(entryPath);
-      }
-      if (!entry.isFile() || (!entry.name.endsWith(".yaml") && !entry.name.endsWith(".yml"))) {
-        return [];
-      }
-      const document = YAML.parse(fs.readFileSync(entryPath, "utf8")) as {
-        scenario?: { execution?: { kind?: unknown; path?: unknown } };
-      };
-      const execution = document.scenario?.execution;
-      return execution?.kind !== "flow" && typeof execution?.path === "string"
-        ? [execution.path]
-        : [];
-    })
-    .toSorted();
 }
 
 describe("check-deadcode-exports", () => {
@@ -109,39 +86,6 @@ describe("check-deadcode-exports", () => {
         }
       }
     }
-
-    expect(allExportsKnipConfig.workspaces["extensions/qa-lab"]?.entry).toContain(
-      "src/gateway-child-artifacts-runtime.test-support.ts!",
-    );
-  });
-
-  it("models every QA scenario execution path as a full-tree root", () => {
-    const rootEntries = fullRootWorkspace.entry;
-    const executionPaths = listQaScenarioExecutionPaths();
-
-    expect(executionPaths.length).toBeGreaterThan(0);
-    for (const executionPath of executionPaths) {
-      expect(fs.existsSync(executionPath), executionPath).toBe(true);
-      expect(rootEntries, executionPath).toContain(`${executionPath}!`);
-    }
-    expect(rootEntries).toContain(
-      "test/e2e/qa-lab/runtime/fixtures/voice-call-runtime-plugin/index.js!",
-    );
-  });
-
-  it("models path-launched Mantis runtime roots separately from its cross-repository test fixture", () => {
-    const runtimeEntries = [
-      "scripts/mantis/observe-request-telegram-qa.mts!",
-      "scripts/mantis/observe-request-web-ui.mts!",
-      "scripts/mantis/telegram-proof-bridge.mjs!",
-    ];
-    for (const workspace of [knipConfig.workspaces["."], fullRootWorkspace, scriptRootWorkspace]) {
-      expect(workspace.entry).toEqual(expect.arrayContaining(runtimeEntries));
-    }
-    const fixture = "test/fixtures/mantis-request-producer.mts!";
-    expect(fullRootWorkspace.entry).toContain(fixture);
-    expect(knipConfig.workspaces["."].entry).not.toContain(fixture);
-    expect(scriptRootWorkspace.entry).not.toContain(fixture);
   });
 
   it("keeps the script unused-export scan scoped to real executable roots", () => {
@@ -193,14 +137,6 @@ describe("check-deadcode-exports", () => {
       entry: ["index.mjs!"],
       project: ["**/*.{js,mjs,cjs,ts,mts,cts}!"],
     });
-    expect(knipConfig.workspaces["qa/convex-credential-broker"].project).toContain(
-      "convex/**/*.ts!",
-    );
-    expect(knipConfig.workspaces["qa/convex-credential-broker"].ignoreBinaries).toEqual(["convex"]);
-  });
-
-  it("tracks production script consumers of plugin exports", () => {
-    expect(knipConfig.workspaces["."].entry).toContain("scripts/qa/render-maturity-docs.ts!");
   });
 
   it("tracks the workflow-invoked producer verifier as an executable root", () => {
@@ -281,7 +217,6 @@ describe("check-deadcode-exports", () => {
     );
     expect(knipConfig.workspaces["extensions/diffs"].entry).toContain("src/viewer-client.ts!");
     expect(knipConfig.workspaces["extensions/mxc"].entry).toContain("src/mxc-spawn-launcher.mjs!");
-    expect(knipConfig.workspaces["extensions/qa-lab"].entry).toContain("src/ci-smoke-plan.ts!");
   });
 
   it("models the Browser facades loaded by basename", () => {

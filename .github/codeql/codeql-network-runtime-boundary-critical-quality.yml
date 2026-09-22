@@ -16,8 +16,6 @@ paths:
   - src/proxy-capture
   - src/secrets/egress-proxy
   - extensions/codex/src/app-server/transport-websocket.ts
-  - extensions/irc/src
-  - extensions/qa-lab/src
   - packages/net-policy/src
 
 paths-ignore:
@@ -35,4 +33,3 @@ paths-ignore:
   - "**/*mock*"
   - "**/*fixture*"
   - "**/*bench*"
-  - "extensions/diffs/assets/**"

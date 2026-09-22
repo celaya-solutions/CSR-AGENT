@@ -56,12 +56,9 @@ const OPTIONAL_LIVE_SHARD_FILE_ENVS = new Map([
   ["src/gateway/gateway-openai-long-context.live.test.ts", ["OPENCLAW_LIVE_OPENAI_LONG_CONTEXT"]],
   ["src/gateway/gateway-trajectory-export.live.test.ts", ["OPENCLAW_LIVE_CODEX_HARNESS"]],
   ["src/infra/push-apns-http2.live.test.ts", ["OPENCLAW_LIVE_APNS_REACHABILITY"]],
-  ["test/e2e/crabbox-sandbox.live.test.ts", ["OPENCLAW_E2E_CRABBOX"]],
   ["test/image-generation.infer-cli.live.test.ts", ["OPENCLAW_LIVE_INFER_CLI_TEST"]],
 ]);
 const SKIPPED_ASSERTION_STATUSES = new Set(["disabled", "pending", "skipped", "todo"]);
-const QA_RUNTIME_LIVE_TEST = "extensions/qa-lab/src/matrix-channel-driver.lifecycle.live.test.ts";
-const QA_RUNTIME_ARTIFACT = "dist/extensions/qa-lab/runtime-api.js";
 const SOURCE_PERFORMANCE_ARTIFACT = `dist/${RUNTIME_POSTBUILD_STAMP_FILE}`;
 type LiveShardPreparation = {
   env: NodeJS.ProcessEnv;
@@ -431,13 +428,6 @@ export function resolveLiveShardPreparation(files: string[]): LiveShardPreparati
             },
           }
         : {}),
-    };
-  }
-  if (files.includes(QA_RUNTIME_LIVE_TEST)) {
-    return {
-      env: { OPENCLAW_BUILD_PRIVATE_QA: "1" },
-      profile: "qaRuntime",
-      requiredArtifact: QA_RUNTIME_ARTIFACT,
     };
   }
   return null;

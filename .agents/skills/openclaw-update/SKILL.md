@@ -13,12 +13,10 @@ Identify the host, runtime user, profile/state root, service, running executable
 
 Read the owner runbook and choose the matching workflow:
 
-| Installation                               | Update path                                                                                                                                                |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Canonical live main checkout and macOS app | [openclaw-live-updater](../openclaw-live-updater/SKILL.md).                                                                                                |
-| Operator-configured Team server            | [update-team-server](../update-team-server/SKILL.md).                                                                                                      |
-| Other managed deployments                  | Deployment-specific skill/runbook and existing owner, including containers and declarative installations.                                                  |
-| Standard package or single-user source     | [Updating](../../../docs/install/updating.md) and the [update CLI contract](../../../docs/cli/update.md), using the owning CLI on the target host/profile. |
+| Installation                           | Update path                                                                                                                                                |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Other managed deployments              | Deployment-specific skill/runbook and existing owner, including containers and declarative installations.                                                  |
+| Standard package or single-user source | [Updating](../../../docs/install/updating.md) and the [update CLI contract](../../../docs/cli/update.md), using the owning CLI on the target host/profile. |
 
 Follow the selected workflow's commands, locks, backup/migration requirements, recovery, and cleanup. Do not apply standard CLI updates inside a separately managed release or running container, mutate files used by a live Gateway, or overwrite dirty checkouts.
 

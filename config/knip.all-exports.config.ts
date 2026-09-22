@@ -6,36 +6,13 @@
  * too, so a helper used by a src/ or plugin test cannot be mistaken for dead
  * code while genuinely unused test and script exports still fail the gate.
  */
-import fs from "node:fs";
 import path from "node:path";
-import YAML from "yaml";
 import { vitestWorkerBuildEntries } from "../scripts/lib/vitest-worker-build-entries.mts";
 import { vitestWorkerDeclarationEntries } from "../scripts/lib/vitest-worker-declarations.mts";
 import productionConfig from "./knip.config.ts";
 
 const TEST_ENTRY_GLOB = "**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts}!";
 
-function listQaScenarioExecutionEntries(dir = "qa/scenarios"): string[] {
-  const entries = fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const entryPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      return listQaScenarioExecutionEntries(entryPath);
-    }
-    if (!entry.isFile() || (!entry.name.endsWith(".yaml") && !entry.name.endsWith(".yml"))) {
-      return [];
-    }
-    const document = YAML.parse(fs.readFileSync(entryPath, "utf8")) as {
-      scenario?: { execution?: { kind?: unknown; path?: unknown } };
-    };
-    const execution = document.scenario?.execution;
-    return execution?.kind !== "flow" && typeof execution?.path === "string"
-      ? [`${execution.path}!`]
-      : [];
-  });
-  return [...new Set(entries)].toSorted((left, right) => left.localeCompare(right));
-}
-
-const QA_SCENARIO_EXECUTION_ENTRIES = listQaScenarioExecutionEntries();
 const ROOT_TEST_ENTRY_GLOBS = [
   "*.{test,spec}.{js,mjs,cjs,ts,mts,cts}!",
   "src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts}!",
@@ -51,8 +28,6 @@ const ROOT_TEST_ENTRY_GLOBS = [
   "test/helpers/openclaw-test-instance.cli.test-support.mjs!",
   // The public QA Gateway child launches this transport proxy by path.
   "test/fixtures/qa-gateway-rpc-proxy.mjs!",
-  // ClawSweeper's paired consumer proof launches this cross-repository fixture by path.
-  "test/fixtures/mantis-request-producer.mts!",
   // Prior-release fixture generation invokes this CLI from the selected release checkout.
   "test/fixtures/state-corpus/generate.mjs!",
   // Vitest loads these by configuration or module alias rather than imports.
@@ -76,8 +51,6 @@ const ROOT_TEST_ENTRY_GLOBS = [
   // Invoked directly by the Docker image-auth scenario.
   "test/e2e/qa-lab/runtime/openai-image-auth-docker-client.ts!",
   "test/e2e/qa-lab/runtime/system-agent-first-run-docker-client.ts!",
-  // QA scenario YAML dispatches these scripts/tests by path rather than import.
-  ...QA_SCENARIO_EXECUTION_ENTRIES,
   // Invoked directly by the sandbox bind-conflict E2E verification script.
   "scripts/e2e-sandbox-bind-conflict.mts!",
   // The Voice Call QA scenario loads this fixture through a generated plugin directory.
@@ -121,11 +94,6 @@ const workspaces = Object.fromEntries(
               TEST_ENTRY_GLOB,
               // Vitest's root aliases execute these Discord-owned runtime adapters.
               ...(workspace === "extensions/discord" ? ["test/*-runtime.ts!"] : []),
-              // QA Lab loads these plugin fixtures by path during the Gateway
-              // E2E, so nothing imports their entry files. Matched as a group:
-              // a per-fixture list silently rots into a knip failure the next
-              // time a scenario needs its own fixture plugin.
-              ...(workspace === "extensions/qa-lab" ? ["test-fixtures/*/index.js!"] : []),
             ]),
       ],
       project:

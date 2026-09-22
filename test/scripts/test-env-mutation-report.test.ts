@@ -46,7 +46,7 @@ process.env.NOT_OPENCLAW = "ignored";
   );
   writeRepoFile(
     repoRoot,
-    "scripts/mcp-code-mode-gateway-e2e.ts",
+    "scripts/example-gateway-e2e.ts",
     `
 process.env.OPENCLAW_CONFIG_PATH = "script-harness";
 `,
@@ -81,7 +81,7 @@ describe("collectTestEnvMutationReport", () => {
       })),
     ).toEqual([
       {
-        file: "scripts/mcp-code-mode-gateway-e2e.ts",
+        file: "scripts/example-gateway-e2e.ts",
         key: "OPENCLAW_CONFIG_PATH",
         operation: "assign",
       },

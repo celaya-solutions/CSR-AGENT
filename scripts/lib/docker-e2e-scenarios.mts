@@ -215,13 +215,6 @@ function createPackageUpdateMaintenanceLanes() {
         weight: 3,
       },
     ),
-    npmLane("skill-install", "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:skill-install", {
-      retryPatterns: LIVE_RETRY_PATTERNS,
-      retries: 1,
-      stateScenario: "empty",
-      timeoutMs: 10 * 60 * 1000,
-      weight: 2,
-    }),
     npmLane("upgrade-survivor", upgradeSurvivorCommand, {
       stateScenario: "upgrade-survivor",
       timeoutMs: 20 * 60 * 1000,
@@ -501,11 +494,6 @@ export const mainLanes: DockerE2eLane[] = [
     "OPENCLAW_NPM_ONBOARD_CHANNEL=discord OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-onboard-channel-agent",
     npmOnboardLaneOptions,
   ),
-  npmLane(
-    "npm-onboard-slack-channel-agent",
-    "OPENCLAW_NPM_ONBOARD_CHANNEL=slack OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-onboard-channel-agent",
-    npmOnboardLaneOptions,
-  ),
   // Prerelease validation must pair frozen core bytes with matching target plugin bytes.
   // The lanes above leave channel source selection to the published catalog.
   npmLane(
@@ -517,17 +505,6 @@ export const mainLanes: DockerE2eLane[] = [
     {
       ...npmOnboardLaneOptions,
       prepublishPluginPackages: ["@openclaw/codex", "@openclaw/discord"],
-    },
-  ),
-  npmLane(
-    "npm-onboard-slack-candidate-channel-agent",
-    liveDockerScriptCommand(
-      "e2e/npm-onboard-channel-agent-docker.sh",
-      "OPENCLAW_NPM_ONBOARD_CHANNEL=slack OPENCLAW_NPM_ONBOARD_USE_SOURCE_PLUGIN_PACKAGE=1",
-    ),
-    {
-      ...npmOnboardLaneOptions,
-      prepublishPluginPackages: ["@openclaw/codex", "@openclaw/slack"],
     },
   ),
   npmLane(
@@ -694,13 +671,6 @@ export const mainLanes: DockerE2eLane[] = [
       stateScenario: "empty",
     },
   ),
-  liveLane("npm-telegram-live", "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-telegram-live", {
-    e2eImageKind: "bare",
-    provider: "openai",
-    resources: ["live:telegram", "npm", "service"],
-    timeoutMs: 30 * 60 * 1000,
-    weight: 3,
-  }),
   lane("qr", "pnpm test:docker:qr"),
 ];
 
@@ -914,9 +884,7 @@ const releasePathPackageUpdateOpenAiLanes = [
 const releasePathPackageOnboardingLanes = scheduledLaneList(
   "npm-onboard-channel-agent",
   "npm-onboard-discord-channel-agent",
-  "npm-onboard-slack-channel-agent",
   "doctor-switch",
-  "skill-install",
 );
 const releasePathPackageMigrationLanes = scheduledLaneList(
   "update-channel-switch",
