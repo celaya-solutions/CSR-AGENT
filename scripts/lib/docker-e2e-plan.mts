@@ -30,6 +30,14 @@ import {
   supportsUpgradeSurvivorScenarioAtBaseline,
 } from "./upgrade-survivor-policy.mjs";
 
+type OfficialExternalChannelCatalogEntry = {
+  name: string;
+  openclaw?: { channel?: { id?: string }; install?: { npmSpec?: string } };
+};
+// The shipped catalog may be empty, which JSON import typing would infer as never[].
+const officialExternalChannelEntries: readonly OfficialExternalChannelCatalogEntry[] =
+  officialExternalChannelCatalog.entries ?? [];
+
 export { DEFAULT_LIVE_RETRIES };
 export { normalizeReleaseProfile };
 export { normalizeUpgradeSurvivorBaselineSpec };
@@ -711,12 +719,12 @@ export function requiredPrepublishPluginPackagesForLanes(poolLanes: DockerE2eLan
       }
     }
   }
-  for (const packageName of (officialExternalChannelCatalog.entries ?? [])
+  for (const packageName of officialExternalChannelEntries
     .filter((entry) => {
       const channelId = entry.openclaw?.channel?.id;
       const install = entry.openclaw?.install;
       return (
-        typeof entry.name === "string" &&
+        channelId !== undefined &&
         configuredChannelIds.has(channelId) &&
         install?.npmSpec === entry.name
       );

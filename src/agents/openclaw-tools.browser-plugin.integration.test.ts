@@ -166,13 +166,7 @@ describe("createOpenClawTools browser plugin integration", () => {
     const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-plugin-delivery-"));
     const mediaUrl = path.join(workspaceDir, "photo.png");
     const outsideMediaUrl = `${workspaceDir}-outside.png`;
-    await fs.copyFile(
-      path.join(
-        process.cwd(),
-        "apps/ios/WatchApp/Assets.xcassets/OpenClawIcon.imageset/openclaw-icon.png",
-      ),
-      mediaUrl,
-    );
+    await fs.copyFile(path.join(process.cwd()), mediaUrl);
     await fs.copyFile(mediaUrl, outsideMediaUrl);
     const platformSendMedia = vi.fn(async () => ({ channel: "telegram", messageId: "sent-1" }));
     const transportDispatchStarted = createDeferred();

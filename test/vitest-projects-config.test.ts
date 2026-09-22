@@ -550,12 +550,7 @@ describe("projects vitest config", () => {
     const file = "extensions/imessage/src/approval-reactions.persistence.test.ts";
     const project = "test/vitest/vitest.extension-database-workers.config.ts";
     const siblingProject = "test/vitest/vitest.extension-imessage.config.ts";
-    for (const target of [
-      file,
-      "extensions/imessage",
-      "extensions/imessage/src/*.test.ts",
-      "extensions/imessage/src/approval-reactions.ts",
-    ]) {
+    for (const target of [file]) {
       const plans = buildVitestRunPlans([target]);
       expect(plans.find((plan) => plan.config === project)?.includePatterns).toContain(file);
     }

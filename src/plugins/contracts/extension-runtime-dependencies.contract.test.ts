@@ -17,7 +17,6 @@ const EXTENSION_RUNTIME_FILE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs"
 const BUILTIN_MODULES = new Set(builtinModules.map((moduleId) => moduleId.replace(/^node:/, "")));
 const OPTIONAL_UNDECLARED_RUNTIME_IMPORTS = new Map<string, Set<string>>([
   [
-    "extensions/canvas",
     // The A2UI bundle probes this optional markdown renderer and falls back when absent.
     new Set(["@a2ui/markdown-it"]),
   ],
@@ -35,12 +34,10 @@ const INDIRECT_RUNTIME_DEPENDENCIES = new Map<string, Set<string>>([
     new Set(["zod"]),
   ],
   [
-    "extensions/whatsapp",
     // Baileys loads this optional peer for audio decoding.
     new Set(["audio-decode"]),
   ],
   [
-    "extensions/memory-lancedb",
     // LanceDB imports apache-arrow at runtime through its peer dependency.
     new Set(["apache-arrow"]),
   ],
@@ -50,7 +47,6 @@ const INDIRECT_RUNTIME_DEPENDENCIES = new Map<string, Set<string>>([
     new Set(["json5"]),
   ],
   [
-    "extensions/tlon",
     // The Tlon plugin manifest exposes the bundled skill from this package path.
     new Set(["@tloncorp/tlon-skill"]),
   ],
@@ -63,7 +59,6 @@ const COMPUTED_RUNTIME_DEPENDENCIES = new Map<string, Set<string>>([
     new Set(["@discord/embedded-app-sdk"]),
   ],
   [
-    "extensions/lobster",
     // Keep Lobster external to the plugin bundle; its computed core import is resolved at runtime.
     new Set(["@clawdbot/lobster"]),
   ],

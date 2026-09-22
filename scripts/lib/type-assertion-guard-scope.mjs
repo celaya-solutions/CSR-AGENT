@@ -34,8 +34,6 @@ const TYPE_ASSERTION_TEST_PATH_MARKERS = [
 
 // Burn-down ledger for chained assertions — shrink only; see PR #124060/#124073/#124079/#124082.
 export const CHAINED_ASSERTION_EXCLUDED_ROOTS = [
-  "extensions/amazon-bedrock-mantle/mantle-anthropic.runtime.ts", // duplicate SDK installs make the Anthropic client class nominal
-  "extensions/anthropic-vertex/stream-runtime.ts", // Undici and DOM fetch return types use distinct body namespaces
   "extensions/browser/src/browser/bridge-server.ts", // Express app crosses the browser route registrar SDK seam
   "extensions/browser/src/browser/pw-session-actions.ts", // Playwright role overloads cannot express runtime-selected roles
   "extensions/browser/src/browser/pw-session.page-cdp.ts", // Playwright CDP typings require a closed method-name map
@@ -48,62 +46,19 @@ export const CHAINED_ASSERTION_EXCLUDED_ROOTS = [
   "extensions/codex/src/app-server/event-projector-tool-transcript.ts", // Codex transcript synthesis extends the public AgentMessage union
   "extensions/codex/src/app-server/run-attempt-resources.ts", // staged attempt resources initialize required lifecycle fields later
   "extensions/codex/src/app-server/run-attempt-runtime.ts", // supervised Codex models bridge the agent-harness model generic
-  "extensions/copilot/harness.ts", // test support
-  "extensions/copilot/src/attempt-execution.ts", // Copilot SDK session implementations expose incompatible private shapes
-  "extensions/copilot/src/attempt-transcript-journal.ts", // OpenAgent transcript metadata extends the public AgentMessage union
-  "extensions/copilot/src/byok-proxy.ts", // DOM and Node readable streams use distinct type namespaces
-  "extensions/copilot/src/isolated-completion.ts", // Copilot SDK isolated sessions expose a narrower private shape
-  "extensions/copilot/src/runtime.ts", // staged Copilot client state initializes after async acquisition
-  "extensions/copilot/src/tool-bridge.ts", // plugin tool metadata crosses duplicate SDK package types
-  "extensions/diagnostics-otel/src/service.ts", // optional diagnostics capabilities are private runtime extensions
-  "extensions/diagnostics-prometheus/src/service.ts", // exporter health reporting is a private diagnostics bridge
   "extensions/discord/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
   "extensions/discord/src/components.modal.ts", // test-only fallback preserves partially mocked Discord module graphs
   "extensions/discord/src/monitor/gateway-plugin.ts", // Discord gateway lifecycle needs private SDK state
   "extensions/discord/src/monitor/message-handler.hydration.ts", // hydrated Discord messages bridge SDK constructor-private fields
   "extensions/discord/src/monitor/provider.startup-log.ts", // reconnect attempts are private Discord gateway diagnostics
   "extensions/discord/src/monitor/threading.starter.ts", // Discord thread channels narrow a dependency union after runtime checks
-  "extensions/github-copilot/index.ts", // config merge patches are intentionally deeper than Partial<OpenClawConfig>
-  "extensions/google/realtime-voice-provider.ts", // provider tool schemas and lifecycle fields bridge Google SDK versions
-  "extensions/googlechat/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
-  "extensions/imessage/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
-  "extensions/line/src/outbound.ts", // LINE batch overload requires a bounded tuple that slice cannot retain
   "extensions/llm-task/index.ts", // tool factory bridges plugin-local and public AgentTool package types
-  "extensions/matrix/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
-  "extensions/matrix/src/matrix/client/logging.ts", // Matrix SDK logger singleton has an undeclared loglevel capability
-  "extensions/matrix/src/test-runtime.ts", // test support
-  "extensions/msteams/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
-  "extensions/msteams/src/attachments/shared.ts", // Vitest mock metadata is intentionally probed in production test support
-  "extensions/msteams/src/sdk-proactive.ts", // proactive sends require private Teams app transport internals
-  "extensions/msteams/src/sdk.ts", // Teams SDK public and deep-import types disagree across package boundaries
-  "extensions/qa-lab/src/harness-runtime.ts", // test harness runtime implements the public PluginRuntime surface
-  "extensions/qa-lab/src/suite-runtime-agent-session.ts", // symbol-keyed session metadata extends transcript entries
-  "extensions/reef/protocol/envelope.ts", // signed version fields authenticate before unsupported versions are rejected
-  "extensions/signal/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
-  "extensions/slack/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
-  "extensions/slack/src/monitor/events/agent.ts", // Slack app typings omit the agent event registrar
-  "extensions/slack/src/monitor/events/assistant.ts", // Slack app typings omit the assistant event registrar
-  "extensions/slack/src/monitor/events/messages.ts", // app mentions adapt into the shared Slack message pipeline
-  "extensions/slack/src/monitor/slash.ts", // Slack action and options overloads omit runtime middleware fields
-  "extensions/slack/src/progress-blocks.ts", // Slack runtime supports url_source ahead of its published types
-  "extensions/slack/src/streaming.ts", // failed-stream recovery clears a private Slack SDK buffer
-  "extensions/sms/src/channel.ts", // channel runtime crosses the public plugin adapter seam
-  "extensions/synology-chat/src/channel.ts", // plugin factory implementation carries a narrower runtime surface
-  "extensions/synology-chat/src/test-http-utils.ts", // test support
   "extensions/telegram/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
   "extensions/telegram/src/client-fetch.ts", // Telegram and DOM fetch signatures use distinct body namespaces
   "extensions/telegram/src/doctor-contract.ts", // legacy doctor migration normalizes retired untyped config shapes
   "extensions/telegram/src/fetch.ts", // Node DNS and Undici fetch overloads bridge DOM-compatible runtime calls
   "extensions/telegram/src/outbound-media.ts", // Telegram API operation selection crosses overloaded method signatures
   "extensions/telegram/src/telegram-ingress-supersede-auth.ts", // Telegraf message input narrows into the ingress message contract
-  "extensions/voice-call/src/webhook.ts", // voice runtime layers a core config subset into the full config contract
-  "extensions/whatsapp/src/approval-native.ts", // approval runtime dynamically implements the public channel adapter seam
-  "extensions/whatsapp/src/inbound/group-metadata-cache.ts", // Baileys event overloads are stricter than its emitted payloads
-  "extensions/whatsapp/src/inbound/message-delivery.ts", // Baileys listener registration erases per-event callback parameters
-  "extensions/whatsapp/src/inbound/socket-session.ts", // Baileys emitter typings omit generic listener and detach capabilities
-  "extensions/whatsapp/src/session.ts", // Baileys WebSocket and emitter cleanup use undeclared runtime capabilities
-  "extensions/workboard/src/store-core.ts", // legacy keyed store multiplexes cards, boards, subscriptions, and attachments
-  "extensions/zalouser/src/zca-client.ts", // optional zca-js runtime is loaded through a local lazy module facade
   "packages/ai/src/providers/anthropic.ts", // Anthropic compaction blocks are absent from the SDK content union
   "packages/ai/src/providers/openai-chatgpt-responses.ts", // raw Codex events and runtime WebSockets outpace SDK and DOM types
   "packages/ai/src/transports/openai-completions-transport.ts", // compatible-provider payloads are a superset of the OpenAI SDK request

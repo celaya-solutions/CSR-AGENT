@@ -503,8 +503,6 @@ export const sharedVitestConfig = {
     exclude: [
       "dist/**",
       "test/fixtures/**",
-      "apps/macos/**",
-      "apps/macos/.build/**",
       "**/node_modules/**",
       "**/vendor/**",
       "dist/OpenClaw.app/**",
@@ -518,7 +516,6 @@ export const sharedVitestConfig = {
       all: false,
       exclude: [
         `${BUNDLED_PLUGIN_ROOT_DIR}/**`,
-        "apps/**",
         "ui/**",
         "test/**",
         "src/**/*.test.ts",

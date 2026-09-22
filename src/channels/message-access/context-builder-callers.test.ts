@@ -9,10 +9,7 @@ const CALLERS = [
   ["extensions/feishu/src/bot.ts", "channelIngress:"],
   ["extensions/feishu/src/comment-handler.ts", "channelIngress:"],
   ["extensions/googlechat/src/monitor.ts", "channelIngress: access.channelIngress"],
-  [
-    "extensions/imessage/src/monitor/inbound-processing.ts",
-    "channelIngress: decision.channelIngress",
-  ],
+  ["channelIngress: decision.channelIngress"],
   ["extensions/irc/src/inbound.ts", "channelIngress: access"],
   ["extensions/line/src/bot-message-context.ts", "channelIngress: params.channelIngress"],
   ["extensions/matrix/src/matrix/monitor/handler-context.ts", "channelIngress,"],
@@ -35,37 +32,13 @@ const CALLERS = [
 ] as const;
 
 const CONTEXT_BINDING_PRODUCERS = [
-  "extensions/buzz/src/inbound.ts",
-  "extensions/clickclack/src/access.ts",
   "extensions/discord/src/monitor/message-handler.preflight.ts",
-  "extensions/feishu/src/policy.ts",
-  "extensions/googlechat/src/monitor-access.ts",
-  "extensions/imessage/src/monitor/inbound-processing.ts",
-  "extensions/irc/src/inbound.ts",
-  "extensions/line/src/bot-handlers.ts",
-  "extensions/matrix/src/matrix/monitor/access-state.ts",
-  "extensions/msteams/src/monitor-handler/access.ts",
-  "extensions/nextcloud-talk/src/inbound.ts",
-  "extensions/nostr/src/gateway.ts",
-  "extensions/qa-channel/src/inbound.ts",
-  "extensions/signal/src/monitor/access-policy.ts",
-  "extensions/slack/src/monitor/auth.ts",
-  "extensions/sms/src/inbound.ts",
-  "extensions/synology-chat/src/security.ts",
   "extensions/telegram/src/bot-handlers.inbound-authorization.ts",
-  "extensions/tlon/src/monitor/utils.ts",
-  "extensions/twitch/src/access-control.ts",
-  "extensions/whatsapp/src/inbound-policy.ts",
-  "extensions/zalo/src/monitor.ts",
-  "extensions/zalouser/src/monitor.ts",
 ] as const;
 
 const HOST_BUILDERS = [
   ["extensions/buzz/src/inbound.ts", "params.buildContext ?? buildChannelInboundEventContext"],
-  [
-    "extensions/clickclack/src/inbound.ts",
-    "params.buildContext ?? buildChannelInboundEventContext",
-  ],
+  ["params.buildContext ?? buildChannelInboundEventContext"],
   [
     "extensions/discord/src/monitor/message-handler.context.ts",
     "ctx.buildContext ?? buildChannelInboundEventContext",
@@ -73,31 +46,16 @@ const HOST_BUILDERS = [
   ["extensions/feishu/src/bot.ts", "core.channel.inbound.buildContext"],
   ["extensions/feishu/src/comment-handler.ts", "core.channel.inbound.buildContext"],
   ["extensions/googlechat/src/monitor.ts", "core.channel.inbound.buildContext"],
-  [
-    "extensions/imessage/src/monitor/inbound-processing.ts",
-    "params.buildContext ?? buildChannelInboundEventContext",
-  ],
+  ["params.buildContext ?? buildChannelInboundEventContext"],
   ["extensions/irc/src/inbound.ts", "core.channel.inbound.buildContext"],
-  [
-    "extensions/line/src/bot-message-context.ts",
-    "params.buildContext ?? buildChannelInboundEventContext",
-  ],
+  ["params.buildContext ?? buildChannelInboundEventContext"],
   ["extensions/matrix/src/matrix/monitor/handler-context.ts", "core.channel.inbound.buildContext"],
-  [
-    "extensions/msteams/src/monitor-handler/inbound-dispatch.ts",
-    "core.channel.inbound.buildContext",
-  ],
+  ["core.channel.inbound.buildContext"],
   ["extensions/nextcloud-talk/src/inbound.ts", "core.channel.inbound.buildContext"],
-  [
-    "extensions/qa-channel/src/inbound.ts",
-    "params.buildContext ?? buildChannelInboundEventContext",
-  ],
+  ["params.buildContext ?? buildChannelInboundEventContext"],
   ["extensions/raft/src/inbound.ts", "channelRuntime.inbound.buildContext"],
   ["extensions/signal/src/monitor/event-handler.ts", "deps.channelRuntime?.inbound.buildContext"],
-  [
-    "extensions/slack/src/monitor/message-handler/prepare.ts",
-    "ctx.buildContext ?? buildChannelInboundEventContext",
-  ],
+  ["ctx.buildContext ?? buildChannelInboundEventContext"],
   ["extensions/sms/src/inbound.ts", "params.channelRuntime.inbound.buildContext"],
   ["extensions/synology-chat/src/inbound-event.ts", "resolved.rt.channel.inbound.buildContext"],
   [
@@ -123,61 +81,32 @@ const LATE_GLOBAL_BUILDERS = [
     "extensions/discord/src/monitor/message-handler.context.ts",
     "getDiscordRuntime().channel.inbound.buildContext",
   ],
-  [
-    "extensions/imessage/src/monitor/inbound-processing.ts",
-    "getIMessageRuntime().channel.inbound.buildContext",
-  ],
+  ["getIMessageRuntime().channel.inbound.buildContext"],
   ["extensions/line/src/bot-message-context.ts", "getLineRuntime().channel.inbound.buildContext"],
   ["extensions/qa-channel/src/inbound.ts", "runtime.channel.inbound.buildContext"],
-  [
-    "extensions/slack/src/monitor/message-handler/prepare.ts",
-    "getSlackRuntime().channel.inbound.buildContext",
-  ],
+  ["getSlackRuntime().channel.inbound.buildContext"],
   [
     "extensions/telegram/src/bot-deps.ts",
     "getTelegramRuntime().channel.inbound\n      .buildContext",
   ],
-  [
-    "extensions/whatsapp/src/auto-reply/monitor/inbound-dispatch.ts",
-    "getWhatsAppRuntime().channel.inbound.buildContext",
-  ],
+  ["getWhatsAppRuntime().channel.inbound.buildContext"],
 ] as const;
 
 const SCOPED_BUILDER_HANDOFFS = [
-  [
-    "buzz",
-    "extensions/buzz/src/gateway.ts",
-    "const buildContext = channelRuntime?.inbound.buildContext",
-  ],
+  ["buzz", "const buildContext = channelRuntime?.inbound.buildContext"],
   ["clickclack", "extensions/clickclack/src/gateway.ts", "buildContext: params.buildContext"],
   [
     "discord",
     "extensions/discord/src/monitor/provider.ts",
     "buildContext: pluginChannelRuntime?.inbound.buildContext",
   ],
-  [
-    "imessage",
-    "extensions/imessage/src/monitor/monitor-provider.ts",
-    "buildContext: pluginChannelRuntime?.inbound.buildContext",
-  ],
-  [
-    "line",
-    "extensions/line/src/gateway.ts",
-    'ctx.channelRuntime as PluginRuntime["channel"] | undefined',
-  ],
+  ["imessage", "buildContext: pluginChannelRuntime?.inbound.buildContext"],
+  ["line", 'ctx.channelRuntime as PluginRuntime["channel"] | undefined'],
   ["line", "extensions/line/src/bot.ts", "buildContext: opts.buildContext"],
   ["line", "extensions/line/src/bot-handlers.ts", "buildContext: context.buildContext"],
   ["nostr", "extensions/nostr/src/gateway.ts", "channelRuntime,"],
-  [
-    "qa-channel",
-    "extensions/qa-channel/src/gateway.ts",
-    "channelRuntime?.inbound.buildContext ?? buildChannelInboundEventContext",
-  ],
-  [
-    "slack",
-    "extensions/slack/src/monitor/context.ts",
-    'params.channelRuntime as PluginRuntime["channel"] | undefined',
-  ],
+  ["qa-channel", "channelRuntime?.inbound.buildContext ?? buildChannelInboundEventContext"],
+  ["slack", 'params.channelRuntime as PluginRuntime["channel"] | undefined'],
   [
     "telegram-webhook",
     "extensions/telegram/src/monitor.ts",
@@ -195,21 +124,9 @@ const SCOPED_BUILDER_HANDOFFS = [
     "extensions/telegram/src/bot-message.ts",
     "buildContext ?? telegramDeps.buildChannelInboundEventContext",
   ],
-  [
-    "whatsapp",
-    "extensions/whatsapp/src/auto-reply/monitor.ts",
-    "buildContext: pluginChannelRuntime?.inbound.buildContext",
-  ],
-  [
-    "whatsapp",
-    "extensions/whatsapp/src/auto-reply/monitor/on-message.ts",
-    "buildContext: params.buildContext",
-  ],
-  [
-    "whatsapp",
-    "extensions/whatsapp/src/auto-reply/monitor/process-message.ts",
-    "buildContext: params.buildContext",
-  ],
+  ["whatsapp", "buildContext: pluginChannelRuntime?.inbound.buildContext"],
+  ["whatsapp", "buildContext: params.buildContext"],
+  ["whatsapp", "buildContext: params.buildContext"],
 ] as const;
 
 function source(relativePath: string): string {

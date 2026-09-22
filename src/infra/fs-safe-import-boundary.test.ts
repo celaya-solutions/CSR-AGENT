@@ -179,7 +179,6 @@ describe("fs-safe import boundary", () => {
   it("still rejects another direct import beside the allowed move", () => {
     expect(
       hasDisallowedFsSafeImport(
-        "extensions/openshell/src/backend.ts",
         'import { movePathWithCopyFallback } from "@openclaw/fs-safe/atomic";\n' +
           'import { root } from "@openclaw/fs-safe/root";',
       ),

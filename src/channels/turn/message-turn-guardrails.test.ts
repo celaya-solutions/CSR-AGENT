@@ -12,36 +12,16 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../
 const migratedMessageTurnFiles = [
   "extensions/discord/src/monitor/message-handler.context.ts",
   "extensions/discord/src/monitor/message-handler.preflight.ts",
-  "extensions/feishu/src/bot.ts",
-  "extensions/imessage/src/monitor/inbound-processing.ts",
-  "extensions/line/src/bot-handlers.ts",
-  "extensions/line/src/bot-message-context.ts",
-  "extensions/mattermost/src/mattermost/monitor-posts.ts",
-  "extensions/msteams/src/monitor-handler/message-handler.ts",
-  "extensions/signal/src/monitor/event-handler.ts",
-  "extensions/slack/src/monitor/message-handler/prepare.ts",
   "extensions/telegram/src/bot-message-context.body.ts",
   "extensions/telegram/src/bot-message-context.session.ts",
   "extensions/telegram/src/bot-message-dispatch-context.ts",
   "extensions/telegram/src/bot-message-dispatch.ts",
-  "extensions/whatsapp/src/auto-reply/monitor/group-gating.ts",
-  "extensions/zalouser/src/monitor.ts",
 ];
 
 const historyWindowFiles = [
   "extensions/discord/src/monitor/message-handler.context.ts",
-  "extensions/feishu/src/bot.ts",
-  "extensions/imessage/src/monitor/inbound-processing.ts",
-  "extensions/line/src/bot-handlers.ts",
-  "extensions/line/src/group-history.ts",
-  "extensions/mattermost/src/mattermost/monitor-posts.ts",
-  "extensions/msteams/src/monitor-handler/message-handler.ts",
-  "extensions/signal/src/monitor/event-handler.ts",
-  "extensions/slack/src/monitor/message-handler/prepare.ts",
   "extensions/telegram/src/bot-message-dispatch-context.ts",
   "extensions/telegram/src/group-history-window.ts",
-  "extensions/whatsapp/src/auto-reply/monitor/group-gating.ts",
-  "extensions/zalouser/src/monitor.ts",
 ];
 
 const lowLevelHistoryHelpers = [
@@ -53,10 +33,7 @@ const lowLevelHistoryHelpers = [
   "recordPendingHistoryEntryWithMedia",
 ];
 
-const legacyReplyHistoryCompatibilityFiles = new Set([
-  "extensions/mattermost/runtime-api.ts",
-  "extensions/mattermost/src/mattermost/runtime-api.ts",
-]);
+const legacyReplyHistoryCompatibilityFiles = new Set([]);
 
 const skippedExtensionScanDirs = new Set([
   ".cache",

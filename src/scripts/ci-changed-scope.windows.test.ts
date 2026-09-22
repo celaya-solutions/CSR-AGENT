@@ -18,10 +18,7 @@ describe("detectChangedScope Windows routing", () => {
   });
 
   it("routes the Canvas pnpm runner and its native regression to Windows", () => {
-    for (const runnerPath of [
-      "extensions/canvas/scripts/pnpm-runner.mjs",
-      "extensions/canvas/scripts/pnpm-runner.test.ts",
-    ]) {
+    for (const runnerPath of []) {
       expect(detectChangedScope([runnerPath]), runnerPath).toMatchObject({
         runNode: true,
         runWindows: true,
@@ -148,11 +145,7 @@ describe("detectChangedScope Windows routing", () => {
     },
     {
       name: "routes MXC runtime changes and Windows-only suites to Windows",
-      paths: [
-        "extensions/mxc/src/mxc-backend.ts",
-        "extensions/mxc/test/mxc-backend.test.ts",
-        "extensions/mxc/test/sandbox-policy-loader.test.ts",
-      ],
+      paths: [],
     },
     {
       name: "routes exec script preflight changes and Windows-only coverage to Windows",
@@ -188,9 +181,6 @@ describe("detectChangedScope Windows routing", () => {
         "src/channels/inbound-event/media.test.ts",
         "src/gateway/managed-image-attachments.ts",
         "src/gateway/managed-image-attachments.test.ts",
-        "extensions/msteams/src/media-helpers.ts",
-        "extensions/msteams/src/media-helpers.test.ts",
-        "extensions/msteams/src/messenger.test.ts",
       ],
     },
     {

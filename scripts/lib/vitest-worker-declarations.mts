@@ -20,8 +20,6 @@ export const vitestWorkerDeclarationEntries = {
     "src/commands/doctor-config-runtime.test-support.ts",
   "test-support/channel-ingress-gateway-restart-entrypoint":
     "test/fixtures/channel-ingress-gateway-restart-entrypoint.ts",
-  "extensions/qa-lab/gateway-child-artifacts-runtime.test-support":
-    "extensions/qa-lab/src/gateway-child-artifacts-runtime.test-support.ts",
   "plugins/loader-sdk-bridge-artifacts.test-support":
     "src/plugins/loader-sdk-bridge-artifacts.test-support.ts",
   "agents/code-mode-retention-entrypoint.test-support":

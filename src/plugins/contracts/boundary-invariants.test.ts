@@ -14,19 +14,10 @@ const sourceCache = new Map<string, string>();
 const tsFilesCache = new Map<string, string[]>();
 const BUNDLED_TYPED_HOOK_REGISTRATION_FILES = [
   "extensions/acpx/index.ts",
-  "extensions/active-memory/index.ts",
-  "extensions/clickclack/src/discussions/register.ts",
   "extensions/codex/index.ts",
-  "extensions/diffs/src/plugin.ts",
   "extensions/discord/subagent-hooks-api.ts",
-  "extensions/feishu/subagent-hooks-api.ts",
-  "extensions/matrix/subagent-hooks-api.ts",
   "extensions/memory-core/index.ts",
   "extensions/memory-core/src/dreaming.ts",
-  "extensions/memory-lancedb/index.ts",
-  "extensions/onepassword/index.ts",
-  "extensions/visitor-access/index.ts",
-  "extensions/workboard/index.ts",
 ] as const;
 const BUNDLED_TYPED_HOOK_REGISTRATION_GUARDS = {
   "extensions/acpx/index.ts": ["reply_dispatch"],

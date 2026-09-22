@@ -18,7 +18,6 @@ function bundledPluginFile(pluginId: string, relativePath: string, suffix = ""):
 // files by path. They are executable roots rather than importable library modules.
 const repositoryScriptEntries = [
   // apps/linux/README.md invokes this live Windows native-browser proof driver by path.
-  "apps/linux/scripts/test-inline-browser.mjs!",
   "scripts/render-proof-video.mts!",
   // CI imports this selector from its trusted harness inside an inline Node script.
   ".github/actions/git-owner/test-prerequisites.mjs!",
@@ -29,7 +28,6 @@ const repositoryScriptEntries = [
   ".github/actions/setup-node-env/seed-bun-from-image.mjs!",
   // setup-pnpm-store-cache invokes this helper from composite-action YAML.
   ".github/actions/setup-pnpm-store-cache/seed-pnpm-from-image.mjs!",
-  "apps/android/scripts/build-release-artifacts.ts!",
   "scripts/bundle-a2ui.mts!",
   "scripts/build-discord-activity-sdk.mts!",
   // package-mac-app.sh launches the architecture scheduler by path.
@@ -299,10 +297,6 @@ const rootEntries = [
   // Mintlify executes every JavaScript file in the docs content directory on each page.
   "docs/nav-tabs-underline.js!",
   // Native applications load these JavaScript assets directly rather than through Node imports.
-  "apps/android/app/src/main/assets/katex/katex.min.js!",
-  "apps/android/app/src/main/assets/katex/renderer.js!",
-  "apps/linux/ui/main.js!",
-  "apps/linux/ui/quickchat.js!",
   "scripts/qa/render-maturity-docs.ts!",
   bundledPluginFile("telegram", "src/audit.ts", "!"),
   bundledPluginFile("telegram", "src/token.ts", "!"),
@@ -560,7 +554,6 @@ const config = {
       stylelint: { config: ["config/stylelint.config.mjs"] },
       project: [
         ".github/actions/**/*.{js,mjs,cjs,ts,mts,cts}!",
-        "apps/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "config/**/*.{ts,mts,cts}!",
         "docs/**/*.js!",
         "security/**/*.{js,mjs,cjs,ts,mts,cts}!",

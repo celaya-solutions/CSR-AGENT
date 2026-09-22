@@ -76,8 +76,6 @@ export const unitTestAdditionalExcludePatterns = [
 
 const sharedBaseExcludePatterns = [
   "dist/**",
-  "apps/macos/**",
-  "apps/macos/.build/**",
   "**/node_modules/**",
   "**/vendor/**",
   "dist/OpenClaw.app/**",

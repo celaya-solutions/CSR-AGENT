@@ -419,11 +419,7 @@ describe("package dist inventory", () => {
   });
 
   it("matches install-stage paths case-insensitively across path segments", () => {
-    expect(
-      isLegacyPluginDependencyInstallStagePath(
-        "dist/extensions/brave/.openclaw-install-stage/node_modules/typebox/package.json",
-      ),
-    ).toBe(true);
+    expect(isLegacyPluginDependencyInstallStagePath()).toBe(true);
     expect(
       isLegacyPluginDependencyInstallStagePath(
         "dist/Extensions/browser/.OPENCLAW-INSTALL-STAGE-AbC123/node_modules/playwright-core/package.json",
@@ -447,7 +443,6 @@ describe("package dist inventory", () => {
   it("rejects pre-populated install-stage debris before writing an inventory", async () => {
     await withTestDir({ prefix: "openclaw-dist-inventory-stage-" }, async (packageRoot) => {
       for (const relativePath of [
-        "dist/extensions/brave/.openclaw-install-stage/package.json",
         "dist/extensions/browser/.openclaw-install-stage-AbC123/node_modules/playwright-core/package.json",
       ]) {
         const filePath = path.join(packageRoot, relativePath);

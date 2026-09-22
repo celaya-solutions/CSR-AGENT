@@ -43,14 +43,8 @@ describe("host env security policy parity", () => {
 
     const rawPolicy = JSON.parse(fs.readFileSync(policyPath, "utf8"));
     const policy = loadHostEnvSecurityPolicy(rawPolicy);
-    const generatedSource = readRepoFile(
-      repoRoot,
-      "apps/macos/Sources/OpenClaw/HostEnvSecurityPolicy.generated.swift",
-    );
-    const sanitizerSource = readRepoFile(
-      repoRoot,
-      "apps/macos/Sources/OpenClaw/HostEnvSanitizer.swift",
-    );
+    const generatedSource = readRepoFile(repoRoot);
+    const sanitizerSource = readRepoFile(repoRoot);
 
     const swiftBlockedKeys = parseSwiftStringArray(generatedSource, "static let blockedKeys");
     const swiftBlockedInheritedKeys = parseSwiftStringArray(

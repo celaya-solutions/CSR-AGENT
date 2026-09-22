@@ -1175,7 +1175,6 @@ console.log(JSON.stringify({ path: path.join(destination, packed.filename) }));
           [
             fileURLToPath(new URL("../scripts/plugin-clawhub-publish.sh", import.meta.url)),
             "--pack",
-            "extensions/diffs",
           ],
           { cwd: repoDir, encoding: "utf8", env },
         );

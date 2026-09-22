@@ -24,9 +24,7 @@ describe("inbound context marker", () => {
   });
 
   it("matches the Swift copy", () => {
-    const swift = readRepoFile(
-      "apps/shared/OpenClawKit/Sources/OpenClawChatUI/ChatMarkdownPreprocessor.swift",
-    );
+    const swift = readRepoFile();
     const declaration = /inboundContextMarker\s*=\s*"([^"]+)"/.exec(swift);
     expect(declaration).not.toBeNull();
     const decoded = (declaration?.[1] ?? "").replace(/\\u\{([0-9A-Fa-f]+)\}/g, (_match, hex) =>

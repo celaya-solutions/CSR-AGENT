@@ -44,10 +44,7 @@ const OPENAI_CACHE_REASONING = "none" as unknown as never;
 const OPENAI_PREFIX = buildStableCachePrefix("openai");
 const OPENAI_MCP_PREFIX = buildStableCachePrefix("openai-mcp-style");
 const ANTHROPIC_PREFIX = buildStableCachePrefix("anthropic");
-const LIVE_TEST_PNG_URL = new URL(
-  "../../../apps/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
-  import.meta.url,
-);
+const LIVE_TEST_PNG_URL = new URL(import.meta.url);
 
 type LiveCacheRegressionResult = {
   regressions: string[];

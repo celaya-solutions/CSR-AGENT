@@ -40,10 +40,7 @@ const runtimeConsumers = [
     mode: "runtime" as const,
     dir: "",
   })),
-  ...[
-    "extensions/deepinfra/provider.contract.test.ts",
-    "extensions/google-meet/src/transports/chrome-startup.test.ts",
-  ].map((file) => ({
+  ...[].map((file) => ({
     file,
     configs: ["test/vitest/vitest.extensions.config.ts"],
     mode: "runtime" as const,

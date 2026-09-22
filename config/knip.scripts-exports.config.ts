@@ -24,7 +24,6 @@ const scriptEntries = productionConfig.workspaces["."].entry.filter(
 
 const repositoryToolEntries = [
   ".github/actions/setup-node-env/dependency-fingerprint.mjs!",
-  "apps/android/scripts/build-release-artifacts.ts!",
   "security/opengrep/check-rule-metadata.mjs!",
   "security/opengrep/compile-rules.mjs!",
   "skills/meme-maker/scripts/meme.mjs!",
@@ -81,7 +80,6 @@ const config = {
       project: [
         ".github/actions/**/*.{js,mjs,cjs,ts,mts,cts}!",
         ".agents/skills/**/scripts/**/*.{js,mjs,cjs,ts,mts,cts}!",
-        "apps/android/scripts/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "security/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "skills/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "scripts/**/*.{js,mjs,cjs,ts,mts,cts}!",

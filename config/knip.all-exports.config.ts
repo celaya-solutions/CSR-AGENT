@@ -99,7 +99,6 @@ const workspaces = Object.fromEntries(
             // plugin workspaces; do not duplicate plugin runtime dependencies.
             ignoreDependencies: [
               ...("ignoreDependencies" in settings ? settings.ignoreDependencies : []),
-              "baileys",
               "discord-api-types",
             ],
           }

@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { parse as parseYaml } from "yaml";
-import officialExternalChannelSeed from "./lib/official-external-channel-seed.json" with { type: "json" };
 import { collectExcludedPackagedExtensionDirs } from "./lib/packaged-extension-dirs.mts";
 import { isRecord, trimString } from "./lib/record-shared.mjs";
 import { writeTextFileIfChanged } from "./runtime-postbuild-shared.mjs";
@@ -227,77 +226,22 @@ function setUniqueCatalogEntry(
   entriesByChannelId.set(channelKey, { entry, owner });
 }
 
-function stripSeedOnlyDocsMetadata(entry: CatalogEntry): CatalogEntry {
-  const hostConfig = isRecord(entry.openclaw.channelHostConfig)
-    ? entry.openclaw.channelHostConfig
-    : null;
-  if (!hostConfig || !("docsInventory" in hostConfig)) {
-    return entry;
-  }
-  const runtimeHostConfig = { ...hostConfig };
-  delete runtimeHostConfig.docsInventory;
-  return {
-    ...entry,
-    openclaw: {
-      ...entry.openclaw,
-      channelHostConfig: runtimeHostConfig,
-    },
-  };
-}
-
 /**
- * Collects publishable channel catalog entries from bundled and external channels.
+ * Collects publishable channel catalog entries from bundled channels.
  * @internal Directly tested script implementation detail.
  */
 export function buildOfficialChannelCatalog(params: CatalogParams = {}): {
   entries: CatalogEntry[];
 } {
   const repoRoot = params.cwd ?? params.repoRoot ?? process.cwd();
-  const seedEntriesByChannelId = new Map<string, CatalogOwnerEntry>();
-  for (const entry of Array.isArray(officialExternalChannelSeed.entries)
-    ? officialExternalChannelSeed.entries
-    : []) {
-    const defaultChoice = entry.openclaw.install.defaultChoice;
-    if (defaultChoice !== "clawhub" && defaultChoice !== "npm" && defaultChoice !== "local") {
-      throw new Error(`invalid install choice for official channel seed package "${entry.name}"`);
-    }
-    const channelConfigs = toCatalogChannelConfigs(entry.openclaw.channelConfigs);
-    if (!channelConfigs) {
-      throw new Error(`invalid channel configs for official channel seed package "${entry.name}"`);
-    }
-    const catalogEntry = {
-      ...entry,
-      openclaw: {
-        ...entry.openclaw,
-        channelConfigs,
-        install: { ...entry.openclaw.install, defaultChoice },
-      },
-    } satisfies CatalogEntry;
-    setUniqueCatalogEntry(
-      seedEntriesByChannelId,
-      stripSeedOnlyDocsMetadata(catalogEntry),
-      `scripts/lib/official-external-channel-seed.json package "${trimString(entry.name)}"`,
-    );
-  }
-
-  const repositoryEntriesByChannelId = new Map<string, CatalogOwnerEntry>();
+  const entriesByChannelId = new Map<string, CatalogOwnerEntry>();
   for (const { dirName, packageJson, pluginManifest } of readRepositoryPackageJsons(repoRoot)) {
     const entry = buildCatalogEntry(packageJson, pluginManifest);
     if (entry) {
-      setUniqueCatalogEntry(
-        repositoryEntriesByChannelId,
-        entry,
-        `extensions/${dirName}/package.json`,
-      );
+      setUniqueCatalogEntry(entriesByChannelId, entry, `extensions/${dirName}/package.json`);
     }
   }
 
-  // Repository packages deliberately replace same-id external seeds when a
-  // channel moves in tree. Duplicates within either ownership class are errors.
-  const entriesByChannelId = new Map(seedEntriesByChannelId);
-  for (const [channelId, entry] of repositoryEntriesByChannelId) {
-    entriesByChannelId.set(channelId, entry);
-  }
   const entries = [...entriesByChannelId.values()].map(({ entry }) => entry);
   entries.sort((left, right) => {
     const leftId = trimString(left.openclaw?.channel?.id) || left.name;
@@ -596,15 +540,6 @@ function readDocsNavCounts(repoRoot: string) {
 
 function buildHiddenChannelDocsRoutes(repoRoot: string) {
   const channelsById = new Map<string, Record<string, unknown>>();
-  for (const entry of Array.isArray(officialExternalChannelSeed.entries)
-    ? officialExternalChannelSeed.entries
-    : []) {
-    const channel = isRecord(entry?.openclaw?.channel) ? entry.openclaw.channel : null;
-    const channelId = trimString(channel?.id);
-    if (channelId && channel) {
-      channelsById.set(channelId, channel);
-    }
-  }
   for (const { packageJson } of readRepositoryPackageJsons(repoRoot)) {
     const manifest =
       isRecord(packageJson) && isRecord(packageJson.openclaw) ? packageJson.openclaw : {};
