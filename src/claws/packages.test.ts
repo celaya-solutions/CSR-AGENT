@@ -57,7 +57,7 @@ const probePlugin = vi.fn(async ({ spec }: { spec: string }) => {
     extensions: [],
     clawhub: {
       source: "clawhub" as const,
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubPackage: packageName,
       clawhubFamily: "code-plugin" as const,
       integrity,
@@ -213,7 +213,7 @@ describe("preflightClawPackage isolated plugin inspection", () => {
       },
       clawhub: {
         source: "clawhub" as const,
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@owner/audit",
         clawhubFamily: "code-plugin" as const,
         integrity,
@@ -282,7 +282,7 @@ describe("preflightClawPackage isolated plugin inspection", () => {
       },
       clawhub: {
         source: "clawhub" as const,
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@owner/audit",
         clawhubFamily: "code-plugin" as const,
         integrity,
@@ -335,7 +335,7 @@ describe("preflightClawPackage isolated plugin inspection", () => {
       },
       clawhub: {
         source: "clawhub" as const,
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@owner/audit",
         clawhubFamily: "code-plugin" as const,
         integrity,
@@ -564,7 +564,7 @@ describe("installClawPackages", () => {
       },
       clawhub: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@owner/audit",
         clawhubFamily: "code-plugin",
         integrity,
@@ -630,7 +630,7 @@ describe("installClawPackages", () => {
             },
             clawhub: {
               source: "clawhub",
-              clawhubUrl: "https://clawhub.ai",
+              clawhubUrl: "https://registry.example.test",
               clawhubPackage: "@owner/audit",
               clawhubFamily: "code-plugin",
               integrity,

@@ -161,7 +161,7 @@ function createClawHubInstallResult(params: {
     packageName: params.packageName,
     clawhub: {
       source: "clawhub",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubPackage: params.packageName,
       clawhubFamily: "code-plugin",
       clawhubChannel: params.channel,
@@ -1780,7 +1780,7 @@ describe("plugins cli install", () => {
     expect(configWriteMock).toHaveBeenCalledWith(enabledCfg);
     expect(runtimeLogsContain("Installed plugin: demo")).toBe(true);
     expect(reportClawHubPluginInstallTelemetryMock).toHaveBeenCalledWith({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       packageName: "demo",
       version: "1.2.3",
     });

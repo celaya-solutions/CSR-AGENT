@@ -206,7 +206,7 @@ describe("plugins marketplace refresh", () => {
       entries: [{ name: "@openclaw/acpx" }],
       error: "hosted catalog feed returned HTTP 503",
       metadata: {
-        url: "https://clawhub.ai/v1/feeds/plugins",
+        url: "https://registry.example.test/v1/feeds/plugins",
         status: 503,
       },
     });
@@ -310,23 +310,26 @@ describe("plugins marketplace refresh", () => {
       source: "bundled-fallback",
       entries: [{ name: "@openclaw/acpx" }],
       error:
-        "hosted catalog feed fetch failed for https://clawhub.ai/v1/feeds/plugins?token=secret#frag",
+        "hosted catalog feed fetch failed for https://registry.example.test/v1/feeds/plugins?token=secret#frag",
       metadata: {
-        url: "https://clawhub.ai/v1/feeds/plugins?token=secret#frag",
+        url: "https://registry.example.test/v1/feeds/plugins?token=secret#frag",
         status: 503,
       },
     });
 
     const { runPluginMarketplaceRefreshCommand } = await import("./plugins-cli.runtime.js");
     await runPluginMarketplaceRefreshCommand({
-      feedUrl: "https://clawhub.ai/v1/feeds/plugins?token=secret#frag",
+      feedUrl: "https://registry.example.test/v1/feeds/plugins?token=secret#frag",
       json: true,
     });
 
     expect(mocks.defaultRuntime.writeJson).toHaveBeenCalledWith(
       expect.objectContaining({
-        metadata: expect.objectContaining({ url: "https://clawhub.ai/v1/feeds/plugins" }),
-        error: "hosted catalog feed fetch failed for https://clawhub.ai/v1/feeds/plugins",
+        metadata: expect.objectContaining({
+          url: "https://registry.example.test/v1/feeds/plugins",
+        }),
+        error:
+          "hosted catalog feed fetch failed for https://registry.example.test/v1/feeds/plugins",
       }),
     );
 
@@ -334,11 +337,11 @@ describe("plugins marketplace refresh", () => {
     mocks.defaultRuntime.log.mockClear();
 
     await runPluginMarketplaceRefreshCommand({
-      feedUrl: "https://clawhub.ai/v1/feeds/plugins?token=secret#frag",
+      feedUrl: "https://registry.example.test/v1/feeds/plugins?token=secret#frag",
     });
 
     const output = mocks.defaultRuntime.log.mock.calls.map(([value]) => String(value)).join("\n");
-    expect(output).toContain("https://clawhub.ai/v1/feeds/plugins");
+    expect(output).toContain("https://registry.example.test/v1/feeds/plugins");
     expect(output).not.toContain("token=secret");
     expect(output).not.toContain("#frag");
   });
@@ -350,7 +353,7 @@ describe("plugins marketplace refresh", () => {
       entries: [{ name: "@openclaw/acpx" }],
       error: "hosted catalog feed checksum mismatch: expected sha256:expected",
       metadata: {
-        url: "https://clawhub.ai/v1/feeds/plugins",
+        url: "https://registry.example.test/v1/feeds/plugins",
         status: 200,
         checksum: "sha256:actual",
       },

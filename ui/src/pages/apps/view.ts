@@ -187,11 +187,6 @@ const APP_SECTIONS: readonly AppSection[] = [
         desc: () => t("appsPage.cards.plugins.desc"),
         ctas: [
           { kind: "internal", routeId: "plugins", label: () => t("appsPage.ctaOpenPlugins") },
-          {
-            kind: "external",
-            href: "https://clawhub.ai",
-            label: () => t("appsPage.ctaBrowseClawHub"),
-          },
         ],
       },
     ],

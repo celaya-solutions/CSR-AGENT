@@ -36,7 +36,7 @@ vi.mock("../../infra/clawhub-artifacts.js", () => ({
 }));
 
 vi.mock("../../infra/clawhub-client.js", () => ({
-  resolveClawHubBaseUrl: vi.fn(() => "https://clawhub.ai"),
+  resolveClawHubBaseUrl: vi.fn(() => "https://registry.example.test"),
 }));
 
 vi.mock("../../skills/lifecycle/install.js", () => ({

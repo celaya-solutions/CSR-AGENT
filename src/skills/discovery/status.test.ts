@@ -88,7 +88,7 @@ describe("buildWorkspaceSkillStatus", () => {
         `${JSON.stringify(
           {
             version: 1,
-            registry: "https://clawhub.ai/",
+            registry: "https://registry.example.test/",
             slug: "agentreceipt",
             installedVersion: "1.2.3",
             installedAt: 123,
@@ -107,7 +107,7 @@ describe("buildWorkspaceSkillStatus", () => {
               agentreceipt: {
                 version: "1.2.3",
                 installedAt: 123,
-                registry: "https://clawhub.ai/",
+                registry: "https://registry.example.test/",
               },
             },
           },
@@ -125,7 +125,7 @@ describe("buildWorkspaceSkillStatus", () => {
       expect(report.skills[0]?.clawhub).toEqual({
         status: "linked",
         valid: true,
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "agentreceipt",
         installedVersion: "1.2.3",
         installedAt: 123,
@@ -160,7 +160,7 @@ describe("buildWorkspaceSkillStatus", () => {
       expect(report.skills[0]?.clawhub).toMatchObject({
         status: "linked",
         valid: true,
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "agentreceipt",
         installedVersion: "1.2.3",
         installedAt: 123,
@@ -203,7 +203,7 @@ describe("buildWorkspaceSkillStatus", () => {
         workspaceDir,
         skillDir,
         slug: "agentreceipt",
-        originRegistry: "https://clawhub.ai",
+        originRegistry: "https://registry.example.test",
         lockRegistry: "https://example.invalid",
       });
 
@@ -845,7 +845,7 @@ async function writeClawHubStatusFixture(params: {
     `${JSON.stringify(
       {
         version: 1,
-        registry: params.originRegistry ?? "https://clawhub.ai",
+        registry: params.originRegistry ?? "https://registry.example.test",
         slug: params.slug,
         installedVersion,
         installedAt,
@@ -869,7 +869,7 @@ async function writeClawHubStatusFixture(params: {
           [params.slug]: {
             version: params.lockVersion ?? installedVersion,
             installedAt,
-            registry: params.lockRegistry ?? "https://clawhub.ai",
+            registry: params.lockRegistry ?? "https://registry.example.test",
           },
         },
       },

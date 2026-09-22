@@ -179,7 +179,7 @@ describe("ClawHub message recommendations", () => {
         {
           clawhub: {
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "calendar",
             ownerHandle: "another",
           },

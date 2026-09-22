@@ -2977,7 +2977,7 @@ docker_e2e_docker_run_cmd run demo
       ]);
       expect(script).not.toContain("CLAWHUB_EXPECTED_VERSION");
       expect(script).not.toContain("/__fixture__/requests");
-      expect(script).not.toContain("https://clawhub.ai");
+      expect(script).not.toContain("https://registry.example.test");
       const fixtureDirectoryIndex = script.indexOf('mkdir -p "$fixture_root"');
       const registryStartIndex = script.indexOf("openclaw_prepublish_plugin_registry_start");
       expect(fixtureDirectoryIndex).toBeGreaterThanOrEqual(0);

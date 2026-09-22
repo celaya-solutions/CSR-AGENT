@@ -21,7 +21,7 @@ import {
 import { normalizeWebPushDevicePreferences } from "./push-web-preferences.js";
 
 export const WEB_PUSH_VAPID_STATE_KEY = "webPush.vapidKeys";
-export const DEFAULT_WEB_PUSH_VAPID_SUBJECT = "https://openclaw.ai";
+export const DEFAULT_WEB_PUSH_VAPID_SUBJECT = "https://celayasolutions.com";
 const WEB_PUSH_MAX_ENDPOINT_LENGTH = 2048;
 const WEB_PUSH_MAX_KEY_LENGTH = 512;
 const WEB_PUSH_APPROVAL_RECOVERY_MAX_APPROVALS = 1_024;

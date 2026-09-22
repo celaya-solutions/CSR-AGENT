@@ -137,6 +137,19 @@ type HostedCatalogLoadResult = Awaited<
   ReturnType<typeof loadConfiguredHostedOfficialExternalPluginCatalogEntries>
 >;
 
+// Builds ship no hosted feed or registry source; tests configure one like an operator would.
+const TEST_CATALOG_CONFIG: HostedCatalogConfig = {
+  feeds: {
+    "clawhub-public": {
+      url: "https://registry.example.test/v1/feeds/plugins",
+      feedId: "clawhub-official",
+    },
+  },
+  sources: {
+    "public-clawhub": { type: "clawhub", baseUrl: "https://registry.example.test" },
+  },
+};
+
 function loadHostedCatalog(
   params: HostedCatalogLoadParams = {},
 ): ReturnType<typeof loadConfiguredHostedOfficialExternalPluginCatalogEntries> {
@@ -571,7 +584,7 @@ describe("official external plugin catalog", () => {
       catalogConfig: {
         feeds: {
           "clawhub-public": {
-            url: "https://clawhub.ai/v1/feeds/plugins",
+            url: "https://registry.example.test/v1/feeds/plugins",
             feedId: "clawhub-official",
             verification: {
               mode: "signed",
@@ -601,7 +614,7 @@ describe("official external plugin catalog", () => {
       catalogConfig: {
         feeds: {
           "clawhub-public": {
-            url: "https://clawhub.ai/v1/feeds/plugins",
+            url: "https://registry.example.test/v1/feeds/plugins",
             feedId: "clawhub-official",
             verification: {
               mode: "signed",
@@ -627,7 +640,7 @@ describe("official external plugin catalog", () => {
       catalogConfig: {
         feeds: {
           "clawhub-public": {
-            url: "https://clawhub.ai/v1/feeds/plugins",
+            url: "https://registry.example.test/v1/feeds/plugins",
             feedId: "clawhub-official",
             verification: { mode: "unsigned" },
           },
@@ -650,7 +663,7 @@ describe("official external plugin catalog", () => {
       catalogConfig: {
         feeds: {
           "clawhub-public": {
-            url: "https://clawhub.ai/v1/feeds/plugins",
+            url: "https://registry.example.test/v1/feeds/plugins",
             feedId: "clawhub-official",
             verification: {
               mode: "signed",
@@ -743,33 +756,27 @@ describe("official external plugin catalog", () => {
       ],
     });
     const result = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       fetchImpl: vi.fn(async () => new Response(body, { status: 200 })),
       snapshotStore: null,
     });
 
     expectHosted(result);
-    expect(result.entries.map((entry) => entry.id)).toEqual([
-      "@acme/trusted",
-      "@acme/disabled",
-      "@acme/community",
-      "@acme/missing-authority",
-    ]);
-    const [trusted, disabled, community, missingAuthority] = result.entries;
-    if (!trusted || !disabled || !community || !missingAuthority) {
-      throw new Error("expected schema-v2 marketplace entries");
+    // Every configured feed must name install sources, so entries without a
+    // resolvable sourceRef are dropped rather than kept as unavailable.
+    expect(result.entries.map((entry) => entry.id)).toEqual(["@acme/trusted"]);
+    const [trusted] = result.entries;
+    if (!trusted) {
+      throw new Error("expected the trusted schema-v2 marketplace entry");
     }
-    expect(resolveOfficialExternalPluginInstall(trusted)).toEqual({
+    expect(
+      resolveOfficialExternalPluginInstall(trusted, { catalogConfig: TEST_CATALOG_CONFIG }),
+    ).toEqual({
       clawhubSpec: "clawhub:@acme/trusted@1.2.3",
       defaultChoice: "clawhub",
       expectedIntegrity: "sha256-s1XdoEQDvsqri7qwaf0eewV4Ji50WeWYzFsZYVtb2rk=",
     });
     expect(trusted.featured).toBe(true);
-    expect(disabled).not.toHaveProperty("featured");
-    expect(resolveOfficialExternalPluginInstall(disabled)).toBeNull();
-    expect(resolveOfficialExternalPluginInstall(community)).toBeNull();
-    expect(missingAuthority).toMatchObject({ state: "unavailable" });
-    expect(getOfficialExternalPluginCatalogManifest(missingAuthority)?.install).toBeUndefined();
-    expect(resolveOfficialExternalPluginInstall(missingAuthority)).toBeNull();
   });
 
   it("requires complete schema-v2 install authority when either trust field is present", () => {
@@ -797,7 +804,7 @@ describe("official external plugin catalog", () => {
     const stateDir = mkdtempSync(path.join(os.tmpdir(), "openclaw-hosted-store-"));
     try {
       const store = createSqliteHostedOfficialExternalPluginCatalogSnapshotStore({ stateDir });
-      const url = "https://clawhub.ai/v1/feeds/plugins";
+      const url = "https://registry.example.test/v1/feeds/plugins";
 
       const firstBody = JSON.stringify({ entries: [] });
       const secondBody = JSON.stringify({ entries: [{}] });
@@ -1676,17 +1683,17 @@ describe("official external plugin catalog", () => {
     ],
     [
       "credential-bearing URLs",
-      "https://user:test-auth-token@clawhub.ai/v1/feeds/plugins",
+      "https://user:test-auth-token@registry.example.test/v1/feeds/plugins",
       "must not include credentials",
     ],
     [
       "query-bearing URLs",
-      "https://clawhub.ai/v1/feeds/plugins?query=test-value",
+      "https://registry.example.test/v1/feeds/plugins?query=test-value",
       "must not include query strings or fragments",
     ],
     [
       "fragment-bearing URLs",
-      "https://clawhub.ai/v1/feeds/plugins#fragment",
+      "https://registry.example.test/v1/feeds/plugins#fragment",
       "must not include query strings or fragments",
     ],
   ])("rejects direct hosted feed overrides with %s", async (_label, feedUrl, expectedError) => {
@@ -1702,7 +1709,7 @@ describe("official external plugin catalog", () => {
 
   it.each([
     ["configured profile", {}],
-    ["direct feed URL override", { feedUrl: "https://clawhub.ai/v1/feeds/plugins" }],
+    ["direct feed URL override", { feedUrl: "https://packages.acme.example/openclaw/feed" }],
   ])("keeps a legacy signed profile without feedId usable via %s", async (_label, options) => {
     const signed = signedHostedCatalogFeed({
       feed: hostedCatalogFeed({ sequence: 8, pluginName: "@openclaw/legacy-profile" }),
@@ -1732,7 +1739,7 @@ describe("official external plugin catalog", () => {
     );
     const result = await loadHostedCatalog({
       feedProfile: "acme",
-      feedUrl: "https://clawhub.ai/v1/feeds/plugins",
+      feedUrl: "https://packages.acme.example/openclaw/feed",
       catalogConfig: signedCatalogConfig(signed.publicKeyPem),
       fetchImpl: vi.fn(async () => dsseResponse(unsignedBody, { status: 200 })),
       snapshotStore: null,
@@ -1829,6 +1836,7 @@ describe("official external plugin catalog", () => {
       entries: [],
     });
     const mismatch = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       expectedSha256: "sha256:not-current",
       fetchImpl: vi.fn(async () => new Response(validBody, { status: 200 })),
       snapshotStore: null,
@@ -1841,6 +1849,7 @@ describe("official external plugin catalog", () => {
     }
 
     const oversized = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       maxBytes: 4,
       fetchImpl: vi.fn(async () => new Response("12345", { status: 200 })),
       snapshotStore: null,
@@ -1858,6 +1867,7 @@ describe("official external plugin catalog", () => {
     const arrayBuffer = vi.fn(response.arrayBuffer.bind(response));
     Object.defineProperty(response, "arrayBuffer", { value: arrayBuffer });
     const nonStreaming = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       maxBytes: 4096,
       fetchImpl: vi.fn(async () => response),
       snapshotStore: null,
@@ -1880,6 +1890,7 @@ describe("official external plugin catalog", () => {
       entries: [],
     });
     const seeded = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       fetchImpl: vi.fn(
         async () =>
           new Response(body, {
@@ -1893,6 +1904,7 @@ describe("official external plugin catalog", () => {
     expectHosted(seeded);
 
     const reused = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       ifNoneMatch: '"snapshot-v1"',
       fetchImpl: vi.fn(
         async () => new Response(null, { status: 304, headers: { etag: '"snapshot-v1"' } }),
@@ -1907,31 +1919,35 @@ describe("official external plugin catalog", () => {
 
   it("prefers feed install candidates before legacy install metadata", () => {
     expect(
-      resolveOfficialExternalPluginInstall({
-        name: "@legacy/plain-package",
-        kind: "plugin",
-        state: "available",
-        publisher: { id: "openclaw", trust: "official" },
-        install: {
-          candidates: [
-            {
-              sourceRef: "public-clawhub",
-              package: "@openclaw/candidate-package",
-              version: "1.2.3",
-              integrity: "sha256:b355dda04403becaab8bbab069fd1e7b0578262e7459e598cc5b19615b5bdab9",
-            },
-          ],
-        },
-        openclaw: {
-          plugin: { id: "candidate-package" },
+      resolveOfficialExternalPluginInstall(
+        {
+          name: "@legacy/plain-package",
+          kind: "plugin",
+          state: "available",
+          publisher: { id: "openclaw", trust: "official" },
           install: {
-            npmSpec: "@legacy/plain-package",
-            minHostVersion: ">=2026.6.1",
-            expectedIntegrity: "sha256:manifest",
-            allowInvalidConfigRecovery: true,
+            candidates: [
+              {
+                sourceRef: "public-clawhub",
+                package: "@openclaw/candidate-package",
+                version: "1.2.3",
+                integrity:
+                  "sha256:b355dda04403becaab8bbab069fd1e7b0578262e7459e598cc5b19615b5bdab9",
+              },
+            ],
+          },
+          openclaw: {
+            plugin: { id: "candidate-package" },
+            install: {
+              npmSpec: "@legacy/plain-package",
+              minHostVersion: ">=2026.6.1",
+              expectedIntegrity: "sha256:manifest",
+              allowInvalidConfigRecovery: true,
+            },
           },
         },
-      }),
+        { catalogConfig: TEST_CATALOG_CONFIG },
+      ),
     ).toEqual({
       clawhubSpec: "clawhub:@openclaw/candidate-package@1.2.3",
       defaultChoice: "clawhub",

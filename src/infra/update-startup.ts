@@ -1515,6 +1515,7 @@ export function createGatewayUpdateCheck(params: {
             params.log.info("remote model catalog refresh failed", { error: result.error });
           } else if (
             result.status !== "disabled" &&
+            sourceUrl !== undefined &&
             (observedCatalog?.sourceUrl !== sourceUrl ||
               observedCatalog.generatedAt !== result.generatedAt)
           ) {

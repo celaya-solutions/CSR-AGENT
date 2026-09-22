@@ -450,7 +450,7 @@ suite.define(() => {
         await page.getByRole("link", { name: "View on ClawHub", exact: true }).waitFor();
         const securityAudit = page.getByRole("link", { name: /Security audit/iu });
         expect(await securityAudit.getAttribute("href")).toBe(
-          "https://clawhub.ai/openclaw/plugins/workboard/security-audit",
+          "https://registry.example.test/openclaw/plugins/workboard/security-audit",
         );
         expect(await securityAudit.getAttribute("class")).toContain(
           "plugin-catalog-detail__security--pass",

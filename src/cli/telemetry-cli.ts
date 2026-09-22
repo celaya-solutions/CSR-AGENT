@@ -11,18 +11,18 @@ import { applyParentDefaultHelpAction } from "./program/parent-default-help.js";
 
 const TELEMETRY_REASON_LABELS = {
   enabled: "enabled in configuration",
-  "automated-environment": "disabled in an automated environment (CI is set)",
   "do-not-track": "disabled by DO_NOT_TRACK",
   "config-disabled": "disabled in configuration",
   "never-asked": "consent has not been requested",
   "update-disabled": "update checks are disabled",
+  "no-endpoint": "no endpoint is configured (set OPENCLAW_TELEMETRY_ENDPOINT to your own server)",
 } satisfies Record<ReturnType<typeof resolveTelemetryStatus>["reason"], string>;
 
 async function showTelemetry(options: { json?: boolean }): Promise<void> {
   const config = getRuntimeConfig({ skipPluginValidation: true });
   const telemetry = resolveTelemetryStatus(config);
   const request =
-    telemetry.reason === "update-disabled" || telemetry.reason === "automated-environment"
+    !telemetry.endpoint || telemetry.reason === "update-disabled"
       ? null
       : {
           method: telemetry.enabled ? "POST" : "GET",
@@ -48,7 +48,7 @@ async function showTelemetry(options: { json?: boolean }): Promise<void> {
 
   defaultRuntime.log(`Feature stats: ${telemetry.enabled ? "enabled" : "disabled"}`);
   defaultRuntime.log(`Reason: ${TELEMETRY_REASON_LABELS[telemetry.reason]}`);
-  defaultRuntime.log(`Endpoint: ${telemetry.endpoint}`);
+  defaultRuntime.log(`Endpoint: ${telemetry.endpoint ?? "none"}`);
   defaultRuntime.log(
     `Last ping: ${telemetry.lastPingAt ? new Date(telemetry.lastPingAt).toISOString() : "never"}`,
   );

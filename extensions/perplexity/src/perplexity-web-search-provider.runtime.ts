@@ -90,7 +90,7 @@ function buildPerplexityRequestHeaders(apiKey: string, acceptJson = false): Reco
     "Content-Type": "application/json",
     ...(acceptJson ? { Accept: "application/json" } : {}),
     Authorization: `Bearer ${apiKey}`,
-    "HTTP-Referer": "https://openclaw.ai",
+    "HTTP-Referer": "https://celayasolutions.com",
     "X-Title": "OpenAgent Web Search",
   };
 }

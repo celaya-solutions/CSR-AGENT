@@ -145,21 +145,6 @@
   white-space: nowrap;
 }
 
-.plugin-card-author--linked {
-  position: relative;
-  z-index: 3;
-  width: max-content;
-  max-width: 100%;
-  justify-self: start;
-  text-decoration: none;
-}
-
-.plugin-card-author--linked:hover {
-  color: var(--text-strong);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
 .installed-plugins-card__summary {
   display: -webkit-box;
   min-height: calc(2 * 1.4em);
@@ -1242,12 +1227,6 @@ h3.settings-row__title {
 
 .plugin-catalog-detail__security--danger .plugin-catalog-detail__security-score span {
   background: var(--danger);
-}
-
-.plugin-catalog-detail__clawhub {
-  width: 100%;
-  justify-content: center;
-  text-decoration: none;
 }
 
 .plugin-catalog-detail--loading .skeleton {

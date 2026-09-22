@@ -271,7 +271,10 @@ describe("listChannelCatalogEntries", () => {
             installPath: rootDir,
             ...("legacy" in scenario
               ? {}
-              : { clawhubUrl: "https://clawhub.ai", clawhubChannel: "official" as const }),
+              : {
+                  clawhubUrl: "https://registry.example.test",
+                  clawhubChannel: "official" as const,
+                }),
           }
         : {
             source: "npm",

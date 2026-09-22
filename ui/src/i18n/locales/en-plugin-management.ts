@@ -80,7 +80,6 @@ const enPluginManagement = {
     detailBack: "Back to Explore plugins",
     detailLoading: "Loading plugin details…",
     detailSections: "Plugin details",
-    detailViewOnClawHub: "View on ClawHub",
     detailUpdated: "Updated",
     detailType: "Type",
     detailSecurity: "Security audit",

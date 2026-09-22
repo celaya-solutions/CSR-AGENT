@@ -104,7 +104,7 @@ function hostedCatalog(entries: unknown[]) {
     source: "hosted",
     entries,
     feed: { schemaVersion: 1, id: "test", generatedAt: "now", sequence: 1, entries: [] },
-    metadata: { url: "https://clawhub.ai/feed", status: 200, checksum: "hash" },
+    metadata: { url: "https://registry.example.test/feed", status: 200, checksum: "hash" },
   };
 }
 
@@ -633,7 +633,7 @@ describe("plugin management Featured authority", () => {
         packageName: "@openclaw/new-tool",
         installRecord: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubChannel: "official",
           clawhubPackage: "@openclaw/new-tool",
         },
@@ -662,7 +662,7 @@ describe("plugin management Featured authority", () => {
         packageName: null,
         installRecord: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubChannel: "official",
           clawhubPackage: "@openclaw/new-tool",
         },
@@ -828,7 +828,7 @@ describe("plugin management Featured authority", () => {
       packageName: "@acme/first",
       installRecord: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubChannel: "official",
         clawhubPackage: "@acme/first",
       },
@@ -840,7 +840,7 @@ describe("plugin management Featured authority", () => {
       packageName: "@acme/second",
       installRecord: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubChannel: "official",
         clawhubPackage: "@acme/second",
       },

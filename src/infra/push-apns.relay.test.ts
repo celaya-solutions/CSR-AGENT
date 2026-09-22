@@ -67,7 +67,7 @@ describe("push-apns.relay", () => {
 
       expect(resolved.ok).toBe(false);
       if (!resolved.ok) {
-        expect(resolved.error).toContain("relay registrations without the hosted relay origin");
+        expect(resolved.error).toContain("to the relay you run");
       }
     });
 

@@ -116,7 +116,7 @@ function mockClawHubWorkboardInstall() {
         packageName: "community/workboard",
         clawhub: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "community/workboard",
           clawhubFamily: "code-plugin",
         },

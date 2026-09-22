@@ -50,7 +50,7 @@ function mockHostedOfficialCatalog(entries: unknown[]) {
     source: "hosted",
     entries,
     feed: { schemaVersion: 1, id: "test", generatedAt: "now", sequence: 1, entries: [] },
-    metadata: { url: "https://clawhub.ai/feed", status: 200, checksum: "hash" },
+    metadata: { url: "https://registry.example.test/feed", status: 200, checksum: "hash" },
   });
 }
 
@@ -226,7 +226,7 @@ describe("managed plugin catalog", () => {
   const privateRegistry = "https://private.example/clawhub";
   it.each([
     ["foreign registry", "clawhub", `${privateRegistry}/`, undefined, false],
-    ["public registry", "clawhub", "https://clawhub.ai/", undefined, true],
+    ["public registry", "clawhub", "https://registry.example.test/", undefined, true],
     ["custom primary override", "clawhub", `${privateRegistry}/`, privateRegistry, true],
     [
       "custom secondary override",
@@ -305,7 +305,7 @@ describe("managed plugin catalog", () => {
         packageVersion: "1.2.3",
         installRecord: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "@openclaw/memory-tools",
           version: "1.2.3",
         },
@@ -336,7 +336,7 @@ describe("managed plugin catalog", () => {
         packageVersion: "4.5.6",
         installRecord: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "community/memory",
           version: "4.5.6",
         },
@@ -363,7 +363,7 @@ describe("managed plugin catalog", () => {
 
     expect(mocks.pluginVersionCategories).toHaveBeenCalledOnce();
     expect(mocks.pluginVersionCategories).toHaveBeenCalledWith({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       skipAuth: true,
       packages: [{ name: "community/memory", version: "4.5.6" }],
     });

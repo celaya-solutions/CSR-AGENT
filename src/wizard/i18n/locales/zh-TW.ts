@@ -1189,8 +1189,6 @@ export const zh_TW = {
       webSearchUnavailableAction:
         "重新啟用該 provider 或選擇其他 provider 前，web_search 無法運作。",
       webUiUrl: "Web UI：{url}",
-      whatNow: '下一步：https://openclaw.ai/showcase（"What People Are Building"）。',
-      whatNowTitle: "下一步",
       workspaceBackupTitle: "工作區備份",
       workspaceDocs: "文件：https://docs.openclaw.ai/concepts/agent-workspace",
       workspaceReady: "你的工作區已就緒。",

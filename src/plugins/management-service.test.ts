@@ -124,7 +124,7 @@ function mockHostedOfficialCatalog(entries: unknown[]) {
     source: "hosted",
     entries,
     feed: { schemaVersion: 1, id: "test", generatedAt: "now", sequence: 1, entries: [] },
-    metadata: { url: "https://clawhub.ai/feed", status: 200, checksum: "hash" },
+    metadata: { url: "https://registry.example.test/feed", status: 200, checksum: "hash" },
   });
 }
 

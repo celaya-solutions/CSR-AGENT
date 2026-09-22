@@ -32,7 +32,7 @@ export async function resolveOpenRouterGenerationRequestContext(params: {
     defaultHeaders: {
       Authorization: `Bearer ${auth.apiKey}`,
       ...(params.jsonContentType ? { "Content-Type": "application/json" } : {}),
-      "HTTP-Referer": "https://openclaw.ai",
+      "HTTP-Referer": "https://celayasolutions.com",
       "X-OpenRouter-Title": "OpenAgent",
     },
     request: sanitizeConfiguredModelProviderRequest(

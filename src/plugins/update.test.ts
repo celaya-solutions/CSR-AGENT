@@ -214,7 +214,7 @@ function createSuccessfulClawHubUpdateResult(params?: {
     packageName: params?.clawhubPackage ?? "legacy-chat",
     clawhub: {
       source: "clawhub" as const,
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubPackage: params?.clawhubPackage ?? "legacy-chat",
       clawhubFamily: "code-plugin" as const,
       clawhubChannel: "official" as const,
@@ -308,7 +308,7 @@ function createClawHubInstallConfig(
           source: "clawhub" as const,
           spec: params.spec ?? `clawhub:${clawhubPackage}`,
           installPath: params.installPath ?? `/tmp/${pluginId}`,
-          clawhubUrl: params.clawhubUrl ?? "https://clawhub.ai",
+          clawhubUrl: params.clawhubUrl ?? "https://registry.example.test",
           clawhubPackage,
           clawhubFamily: params.clawhubFamily ?? "code-plugin",
           clawhubChannel: params.clawhubChannel ?? "official",
@@ -3443,7 +3443,7 @@ describe("updateNpmInstalledPlugins", () => {
         source: "clawhub",
         spec: "clawhub:demo",
         installPath: "/tmp/demo",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "demo",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
@@ -3938,7 +3938,7 @@ describe("updateNpmInstalledPlugins", () => {
     expect(clawHubInstallCall()?.spec).toBe(spec);
     expect(fetchClawHubPackageDetailMock).toHaveBeenCalledWith({
       name: "@openclaw/diagnostics-otel",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       timeoutMs: undefined,
     });
     expectRecordFields(result.outcomes[0], {
@@ -3964,14 +3964,14 @@ describe("updateNpmInstalledPlugins", () => {
         name: "official",
         pluginId: "diagnostics-otel",
         packageName: "@openclaw/diagnostics-otel",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubChannel: "official" as const,
       },
       {
         name: "community",
         pluginId: "demo",
         packageName: "demo",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubChannel: "community" as const,
       },
       {
@@ -4715,7 +4715,7 @@ describe("updateNpmInstalledPlugins", () => {
       version: "1.2.4",
       clawhub: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "demo",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
@@ -4740,7 +4740,7 @@ describe("updateNpmInstalledPlugins", () => {
     const result = await updatePlugin(config, "demo", { timeoutMs: 1_800_000 });
 
     expect(clawHubInstallCall()?.spec).toBe("clawhub:demo@1.2.3");
-    expect(clawHubInstallCall()?.baseUrl).toBe("https://clawhub.ai");
+    expect(clawHubInstallCall()?.baseUrl).toBe("https://registry.example.test");
     expect(clawHubInstallCall()?.expectedPluginId).toBe("demo");
     expect(clawHubInstallCall()?.mode).toBe("update");
     expect(clawHubInstallCall()?.timeoutMs).toBe(1_800_000);
@@ -4806,7 +4806,7 @@ describe("updateNpmInstalledPlugins", () => {
       });
 
       expect(clawHubInstallCall()?.spec).toBe("clawhub:demo@beta");
-      expect(clawHubInstallCall()?.baseUrl).toBe("https://clawhub.ai");
+      expect(clawHubInstallCall()?.baseUrl).toBe("https://registry.example.test");
       expect(clawHubInstallCall()?.expectedPluginId).toBe("demo");
       expectRecordFields(result.config.plugins?.installs?.demo, {
         source: "clawhub",
@@ -6090,7 +6090,7 @@ describe("updateNpmInstalledPlugins", () => {
       extensions: ["index.ts"],
       clawhub: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "demo",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
@@ -6393,12 +6393,12 @@ describe("syncPluginsForUpdateChannel", () => {
       bridge: {
         npmSpec: undefined,
         clawhubSpec: "clawhub:legacy-chat@2026.5.1-beta.2",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
       },
     });
 
     expect(clawHubInstallCall()?.spec).toBe("clawhub:legacy-chat@2026.5.1-beta.2");
-    expect(clawHubInstallCall()?.baseUrl).toBe("https://clawhub.ai");
+    expect(clawHubInstallCall()?.baseUrl).toBe("https://registry.example.test");
     expect(clawHubInstallCall()?.mode).toBe("update");
     expect(clawHubInstallCall()?.expectedPluginId).toBe("legacy-chat");
     expect(installPluginFromNpmSpecMock).not.toHaveBeenCalled();
@@ -6413,7 +6413,7 @@ describe("syncPluginsForUpdateChannel", () => {
       installPath: "/tmp/openclaw-plugins/legacy-chat",
       version: "2026.5.1-beta.2",
       integrity: "sha256-clawpack",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubPackage: "legacy-chat",
       clawhubFamily: "code-plugin",
       clawhubChannel: "official",

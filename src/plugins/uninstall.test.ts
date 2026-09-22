@@ -2383,7 +2383,7 @@ describe("uninstallPlugin", () => {
             source: "clawhub",
             spec: "clawhub:clawpack-demo@2026.5.1-beta.2",
             installPath,
-            clawhubUrl: "https://clawhub.ai",
+            clawhubUrl: "https://registry.example.test",
             clawhubPackage: "clawpack-demo",
             clawhubFamily: "code-plugin",
             clawhubChannel: "official",

@@ -483,7 +483,7 @@ case "\${1:-} \${2:-}" in
     skill_dir="$HOME/.openclaw/workspace/skills/safe"
     mkdir -p "$skill_dir/.clawhub" "$HOME/.openclaw/workspace/.clawhub"
     printf '%s\n' 'name: Safe' >"$skill_dir/SKILL.md"
-    printf '%s\n' '{"slug":"safe","registry":"https://clawhub.ai","installedVersion":"1.0.0"}' >"$skill_dir/.clawhub/origin.json"
+    printf '%s\n' '{"slug":"safe","registry":"https://registry.example.test","installedVersion":"1.0.0"}' >"$skill_dir/.clawhub/origin.json"
     printf '%s\n' '{"skills":{"safe":{"version":"1.0.0"}}}' >"$HOME/.openclaw/workspace/.clawhub/lock.json"
     ;;
   "skills info")
@@ -584,7 +584,7 @@ esac
         originPath,
         `${JSON.stringify({
           installedVersion: "1.0.0",
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           slug,
         })}\n`,
       );

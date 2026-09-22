@@ -94,7 +94,7 @@ describe("clawhub skills", () => {
   });
 
   it("keeps each search result on its own source and marks which ones are install-only", async () => {
-    // Shape copied from a live https://clawhub.ai/api/v1/search response: the origin of a result
+    // Shape copied from a live https://registry.example.test/api/v1/search response: the origin of a result
     // arrives under `install`, never as a flat `installRef`.
     const fetchImpl: typeof fetch = async () =>
       new Response(
@@ -353,7 +353,7 @@ describe("clawhub skills", () => {
     ).resolves.toMatchObject({
       skill: {
         slug: "weather",
-        icon: `https://clawhub.ai/api/v1/skill-icons/${"a".repeat(64)}`,
+        icon: `https://registry.example.test/api/v1/skill-icons/${"a".repeat(64)}`,
       },
     });
 
@@ -378,7 +378,8 @@ describe("clawhub skills", () => {
               installKind: "archive",
               archive: {
                 version: "1.0.0",
-                downloadUrl: "https://clawhub.ai/api/v1/download?slug=weather&version=1.0.0",
+                downloadUrl:
+                  "https://registry.example.test/api/v1/download?slug=weather&version=1.0.0",
               },
             }),
             { headers: { "content-type": "application/json" } },
@@ -437,7 +438,7 @@ describe("clawhub skills", () => {
       version: { version: "1.2.3", tag: "stable" },
       card: {
         available: true,
-        url: "https://clawhub.ai/api/v1/skills/agentreceipt/card?version=1.2.3",
+        url: "https://registry.example.test/api/v1/skills/agentreceipt/card?version=1.2.3",
       },
       artifact: {
         sourceFingerprint: "source-fp",
@@ -667,7 +668,7 @@ describe("clawhub skills", () => {
     await expect(
       fetchClawHubSkillCard({
         url: "https://cards.example.test/generated/agentreceipt.md",
-        baseUrl: "https://clawhub.ai",
+        baseUrl: "https://registry.example.test",
         fetchImpl: async (input) => {
           requestedUrl = input instanceof Request ? input.url : String(input);
           return new Response("# Agent Receipt\n", {

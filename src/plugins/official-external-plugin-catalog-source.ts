@@ -22,32 +22,24 @@ export class HostedCatalogSignedFeedMonotonicityError extends Error {
 
 const SUPPORTED_OFFICIAL_EXTERNAL_CATALOG_FEED_SCHEMA_VERSIONS = new Set([1, 2]);
 
-const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_URL = "https://clawhub.ai/v1/feeds/plugins";
-
 const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE = "clawhub-public";
 
 const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_ID = "clawhub-official";
-
-const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_CLAWHUB_SOURCE_REF = "public-clawhub";
 
 const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_NPM_SOURCE_REF = "public-npm";
 
 const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_CLAWHUB_TRUSTED_KEYS: readonly OfficialExternalPluginCatalogFeedSigningKey[] =
   [];
 
+/**
+ * This build ships no hosted catalog feed and no default registry source: the
+ * bundled catalog is the only source until an operator configures a feed
+ * profile pointing at a server they run.
+ */
 export const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_PROFILE_CONFIG: OfficialExternalPluginCatalogProfileConfig =
   {
-    feeds: {
-      [DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE]: {
-        url: DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_URL,
-        feedId: DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_ID,
-      },
-    },
+    feeds: {},
     sources: {
-      [DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_CLAWHUB_SOURCE_REF]: {
-        type: "clawhub",
-        baseUrl: "https://clawhub.ai",
-      },
       [DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_NPM_SOURCE_REF]: {
         type: "npm",
         registry: "https://registry.npmjs.org/",
@@ -146,20 +138,18 @@ export function resolveOfficialExternalPluginCatalogProfileConfig(
           keys: DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_CLAWHUB_TRUSTED_KEYS,
         }
       : undefined;
-  const defaultFeed = DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_PROFILE_CONFIG.feeds?.[
-    DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE
-  ] ?? {
-    url: DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_URL,
-    feedId: DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_ID,
-  };
   return {
     feeds: {
       ...config?.feeds,
-      [DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE]: {
-        ...defaultFeed,
-        ...(bundledVerification ? { verification: bundledVerification } : {}),
-        ...configuredDefaultFeed,
-      },
+      ...(configuredDefaultFeed
+        ? {
+            [DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE]: {
+              feedId: DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_ID,
+              ...(bundledVerification ? { verification: bundledVerification } : {}),
+              ...configuredDefaultFeed,
+            },
+          }
+        : {}),
     },
     sources: {
       ...DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_PROFILE_CONFIG.sources,
@@ -295,7 +285,7 @@ export function resolveOfficialExternalPluginId(
   );
 }
 
-const OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_HOSTNAME_ALLOWLIST = ["clawhub.ai"];
+const OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_HOSTNAME_ALLOWLIST: string[] = [];
 
 function resolveHostedCatalogFeedUrl(raw: string): URL {
   let parsed: URL;
@@ -330,31 +320,38 @@ export function resolveHostedCatalogFeedSource(params: {
   const explicitProfileName = normalizeOptionalString(params.feedProfile);
   if (explicitFeedUrl) {
     const url = resolveHostedCatalogFeedUrl(explicitFeedUrl);
-    if (!OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_HOSTNAME_ALLOWLIST.includes(url.hostname)) {
+    const profileConfig = resolveOfficialExternalPluginCatalogProfileConfig(params.catalogConfig);
+    // A direct URL may only target a host an operator already configured as a feed.
+    const configuredHosts = Object.values(profileConfig.feeds).flatMap((feed) => {
+      try {
+        return [resolveHostedCatalogFeedUrl(feed.url).hostname];
+      } catch {
+        return [];
+      }
+    });
+    const hostnameAllowlist = uniqueStrings([
+      ...OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_HOSTNAME_ALLOWLIST,
+      ...configuredHosts,
+    ]);
+    if (!hostnameAllowlist.includes(url.hostname)) {
       throw new Error("hosted catalog feed URL hostname is not allowed");
     }
-    const defaultProfile =
-      explicitProfileName === undefined
-        ? resolveOfficialExternalPluginCatalogProfileConfig(params.catalogConfig).feeds[
-            DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE
-          ]
-        : undefined;
     const profileName =
       explicitProfileName ??
-      (defaultProfile && resolveHostedCatalogFeedUrl(defaultProfile.url).href === url.href
-        ? DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE
-        : undefined);
-    const profileConfig =
-      profileName === undefined
-        ? undefined
-        : resolveOfficialExternalPluginCatalogProfileConfig(params.catalogConfig);
-    const profile = profileName === undefined ? undefined : profileConfig?.feeds[profileName];
+      Object.entries(profileConfig.feeds).find(([, feed]) => {
+        try {
+          return resolveHostedCatalogFeedUrl(feed.url).href === url.href;
+        } catch {
+          return false;
+        }
+      })?.[0];
+    const profile = profileName === undefined ? undefined : profileConfig.feeds[profileName];
     if (profileName !== undefined && !profile) {
       throw new Error(`hosted catalog feed profile "${profileName}" is not configured`);
     }
     return {
       url,
-      hostnameAllowlist: OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_HOSTNAME_ALLOWLIST,
+      hostnameAllowlist,
       ...(profile?.feedId ? { expectedFeedId: profile.feedId } : {}),
       ...(profile?.verification ? { verification: profile.verification } : {}),
     };
@@ -377,37 +374,14 @@ export function resolveHostedCatalogFeedSource(params: {
   };
 }
 
-export function shouldRequireManifestInstallSourceRef(params: {
+/**
+ * Only the vendor's own default feed was exempt from install source refs; with
+ * no default feed, every configured feed must name its install sources.
+ */
+export function shouldRequireManifestInstallSourceRef(_params: {
   feedUrl?: string;
   feedProfile?: string;
   catalogConfig?: OfficialExternalPluginCatalogProfileConfig;
 }): boolean {
-  const feedUrl = normalizeOptionalString(params.feedUrl);
-  if (feedUrl) {
-    try {
-      return (
-        resolveHostedCatalogFeedUrl(feedUrl).href !==
-        resolveHostedCatalogFeedUrl(DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_URL).href
-      );
-    } catch {
-      return true;
-    }
-  }
-  const profileName =
-    normalizeOptionalString(params.feedProfile) ??
-    DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE;
-  if (profileName !== DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_PROFILE) {
-    return true;
-  }
-  const profileConfig = resolveOfficialExternalPluginCatalogProfileConfig(params.catalogConfig);
-  const profileUrl = normalizeOptionalString(profileConfig.feeds[profileName]?.url);
-  try {
-    return (
-      resolveHostedCatalogFeedUrl(profileUrl ?? DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_URL)
-        .href !==
-      resolveHostedCatalogFeedUrl(DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_FEED_URL).href
-    );
-  } catch {
-    return true;
-  }
+  return true;
 }

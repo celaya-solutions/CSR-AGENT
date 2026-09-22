@@ -3168,7 +3168,6 @@ export const en: TranslationMap & {
     ctaSetupGuide: "Setup guide",
     ctaChromeWebStore: "Chrome Web Store",
     ctaOpenPlugins: "Open Plugins",
-    ctaBrowseClawHub: "Browse ClawHub",
     linkDiscord: "Discord community",
     linkDocs: "Docs",
     cards: {

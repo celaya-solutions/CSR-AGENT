@@ -122,7 +122,7 @@ describe("detectPluginVersionDrift", () => {
           spec: "clawhub:@openclaw/discord",
           clawhubPackage: "@openclaw/discord",
           clawhubChannel: "official",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
         }),
       },
     });

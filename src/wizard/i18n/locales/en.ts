@@ -1234,8 +1234,6 @@ export const en = {
       webSearchUnavailableAction:
         "web_search will not work until the provider is re-enabled or a different provider is selected.",
       webUiUrl: "Web UI: {url}",
-      whatNow: 'What now: https://openclaw.ai/showcase ("What People Are Building").',
-      whatNowTitle: "What now",
       workspaceBackupTitle: "Workspace backup",
       workspaceDocs: "Docs: https://docs.openclaw.ai/concepts/agent-workspace",
       workspaceReady: "Your workspace is ready.",

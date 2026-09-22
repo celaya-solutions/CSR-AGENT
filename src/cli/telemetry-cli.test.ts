@@ -76,7 +76,7 @@ describe("telemetry cli", () => {
     mocks.resolveTelemetryStatus.mockReturnValue({
       enabled: true,
       reason: "enabled",
-      endpoint: "https://telemetry.openclaw.ai/api/latest-version",
+      endpoint: "https://telemetry.example.test/api/latest-version",
       lastPingAt: Date.parse("2026-08-22T12:00:00.000Z"),
     });
   });
@@ -89,7 +89,7 @@ describe("telemetry cli", () => {
     expect(mocks.runtimeLogs).toContain("Feature stats: enabled");
     expect(mocks.runtimeLogs).toContain("Last ping: 2026-08-22T12:00:00.000Z");
     expect(mocks.runtimeLogs).toContain(
-      "Request: POST https://telemetry.openclaw.ai/api/latest-version",
+      "Request: POST https://telemetry.example.test/api/latest-version",
     );
   });
 
@@ -100,7 +100,7 @@ describe("telemetry cli", () => {
       {
         featureStatsEnabled: true,
         reason: "enabled",
-        endpoint: "https://telemetry.openclaw.ai/api/latest-version",
+        endpoint: "https://telemetry.example.test/api/latest-version",
         lastPingAt: "2026-08-22T12:00:00.000Z",
         request: {
           method: "POST",
@@ -118,13 +118,8 @@ describe("telemetry cli", () => {
     { reason: "config-disabled", label: "disabled in configuration", method: "GET" },
     { reason: "do-not-track", label: "disabled by DO_NOT_TRACK", method: "GET" },
     { reason: "update-disabled", label: "update checks are disabled", method: null },
-    {
-      reason: "automated-environment",
-      label: "disabled in an automated environment (CI is set)",
-      method: null,
-    },
   ])("reports the same request in JSON and text for $reason", async ({ reason, label, method }) => {
-    const endpoint = "https://telemetry.openclaw.ai/api/latest-version";
+    const endpoint = "https://telemetry.example.test/api/latest-version";
     const userAgent = "openclaw/2026.8.2 (darwin; node/26.0.1; arm64; gateway)";
     mocks.resolveTelemetryStatus.mockReturnValue({
       enabled: false,
@@ -156,6 +151,25 @@ describe("telemetry cli", () => {
       ...(method
         ? [`Request: ${method} ${endpoint}`, `User-Agent: ${userAgent}`]
         : [`Request: none (${label})`]),
+    ]);
+  });
+
+  it("shows no request when no endpoint is configured", async () => {
+    const label = "no endpoint is configured (set OPENCLAW_TELEMETRY_ENDPOINT to your own server)";
+    mocks.resolveTelemetryStatus.mockReturnValue({
+      enabled: false,
+      reason: "no-endpoint",
+      endpoint: null,
+    });
+
+    await runTelemetryCli(["show"]);
+
+    expect(mocks.runtimeLogs).toEqual([
+      "Feature stats: disabled",
+      `Reason: ${label}`,
+      "Endpoint: none",
+      "Last ping: never",
+      `Request: none (${label})`,
     ]);
   });
 

@@ -535,7 +535,7 @@ describe("ClawHub prepared publication", () => {
       const registryRequests: string[] = [];
       const fetchImpl: typeof fetch = async (input, init) => {
         const url = requestUrl(input);
-        if (url.startsWith("https://clawhub.ai/")) {
+        if (url.startsWith("https://registry.example.test/")) {
           registryRequests.push(url);
         }
         if (url.endsWith("/trusted-publisher")) {
@@ -556,7 +556,7 @@ describe("ClawHub prepared publication", () => {
         resolvePreparedClawHubMatrix({ ...f.resolveOptions, fetchImpl }),
       ).rejects.toThrow(/Plugin ClawHub New owner before preparing again/u);
       expect(registryRequests).toEqual([
-        `https://clawhub.ai/api/v1/packages/${encodeURIComponent(f.entry.name)}/trusted-publisher`,
+        `https://registry.example.test/api/v1/packages/${encodeURIComponent(f.entry.name)}/trusted-publisher`,
       ]);
     },
   );

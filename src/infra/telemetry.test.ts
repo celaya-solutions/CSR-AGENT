@@ -25,7 +25,7 @@ import {
 
 const NOW = Date.parse("2026-08-23T12:00:00.000Z");
 const DAY_MS = 24 * 60 * 60 * 1000;
-const TELEMETRY_URL = "https://telemetry.openclaw.ai/api/latest-version";
+const TELEMETRY_URL = "https://telemetry.example.test/api/latest-version";
 const TELEMETRY_STATE_KEY = "telemetry.updateCheck";
 const mockHttp = useMockHttp();
 
@@ -99,7 +99,7 @@ describe("anonymous telemetry", () => {
         DO_NOT_TRACK: undefined,
         OPENCLAW_NIX_MODE: undefined,
         OPENCLAW_NO_AUTO_UPDATE: undefined,
-        OPENCLAW_TELEMETRY_ENDPOINT: undefined,
+        OPENCLAW_TELEMETRY_ENDPOINT: TELEMETRY_URL,
       },
     });
     installPluginRegistry(
@@ -617,8 +617,8 @@ describe("anonymous telemetry", () => {
     expect(readConfigMachineState(TELEMETRY_STATE_KEY)).toBeUndefined();
   });
 
-  it("never sends a request from an automated environment", async () => {
-    setTestEnvValue("CI", "true");
+  it("never sends a request when no endpoint is configured", async () => {
+    deleteTestEnvValue("OPENCLAW_TELEMETRY_ENDPOINT");
 
     await expect(
       checkTelemetryUpdate(createFeatureConfig(), {
@@ -630,7 +630,11 @@ describe("anonymous telemetry", () => {
 
     expect(mockHttp.requests()).toHaveLength(0);
     expect(readConfigMachineState(TELEMETRY_STATE_KEY)).toBeUndefined();
-    expect(resolveTelemetryStatus(createFeatureConfig()).reason).toBe("automated-environment");
+    expect(resolveTelemetryStatus(createFeatureConfig())).toMatchObject({
+      enabled: false,
+      reason: "no-endpoint",
+      endpoint: null,
+    });
   });
 
   it("still reports from an automated environment when an endpoint is configured for it", async () => {
@@ -667,7 +671,7 @@ describe("anonymous telemetry", () => {
     expect(mockHttp.requests()).toHaveLength(0);
   });
 
-  it("uses the configured telemetry endpoint instead of the public endpoint", async () => {
+  it("uses whichever telemetry endpoint the operator configures", async () => {
     const customEndpoint = "https://telemetry.example.invalid/api/latest-version";
     setTestEnvValue("OPENCLAW_TELEMETRY_ENDPOINT", customEndpoint);
     mockHttp.intercept({

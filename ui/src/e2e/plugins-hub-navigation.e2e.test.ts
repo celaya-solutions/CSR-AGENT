@@ -82,7 +82,12 @@ const methodResponses = {
   },
   "skills.search": {
     results: [
-      { slug: "calendar", displayName: "Calendar", score: 1, registry: "https://clawhub.ai" },
+      {
+        slug: "calendar",
+        displayName: "Calendar",
+        score: 1,
+        registry: "https://registry.example.test",
+      },
     ],
   },
   "skills.library.list": {

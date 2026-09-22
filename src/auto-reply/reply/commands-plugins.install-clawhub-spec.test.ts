@@ -115,7 +115,7 @@ describe("chat plugin install explicit ClawHub selectors", () => {
           version: "1.2.3",
           clawhub: {
             source: "clawhub",
-            clawhubUrl: "https://clawhub.ai",
+            clawhubUrl: "https://registry.example.test",
             clawhubPackage: "community/demo",
             clawhubFamily: "code-plugin",
             version: "1.2.3",
@@ -189,7 +189,7 @@ describe("chat plugin install explicit ClawHub selectors", () => {
       packageName: "@openclaw/clawhub-demo",
       clawhub: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@openclaw/clawhub-demo",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",

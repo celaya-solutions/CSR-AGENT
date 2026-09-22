@@ -20,8 +20,8 @@ import { resolveOpenClawStateSqlitePath } from "../state/openclaw-state-db.paths
 import { VERSION } from "../version.js";
 import { isTruthyEnvValue } from "./env.js";
 import { executeSqliteQueryTakeFirstSync, getNodeSqliteKysely } from "./kysely-sync.js";
+import { resolveTelemetryEndpoint } from "./telemetry-endpoint.js";
 
-const DEFAULT_TELEMETRY_ENDPOINT = "https://telemetry.openclaw.ai/api/latest-version";
 const TELEMETRY_STATE_KEY = "telemetry.updateCheck";
 const TELEMETRY_CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000;
 const TELEMETRY_FAILURE_BACKOFF_MS = 60 * 1000;
@@ -65,11 +65,11 @@ type TelemetryPayload = {
 
 type TelemetryStatusReason =
   | "enabled"
-  | "automated-environment"
   | "do-not-track"
   | "config-disabled"
   | "never-asked"
-  | "update-disabled";
+  | "update-disabled"
+  | "no-endpoint";
 
 type TelemetryUpdateOptions = {
   surface: TelemetrySurface;
@@ -86,24 +86,10 @@ let lastFailedAttempt: { at: number; endpoint: string; stateDirectory?: string }
 let inFlightUpdate: Promise<TelemetryUpdate | null> | undefined;
 const pendingSuccesses = new Map<string, SuccessfulTelemetryState>();
 
-/**
- * CI jobs are not installs. Left unchecked they outnumber operators by orders of
- * magnitude and make version and platform counts meaningless, and someone else's
- * pipeline should not report to us on every job either. A configured endpoint
- * means the caller is deliberately exercising this path, so it still reports.
- */
-function isAutomatedEnvironment(): boolean {
-  if (process.env.OPENCLAW_TELEMETRY_ENDPOINT?.trim()) {
-    return false;
-  }
-  return isTruthyEnvValue(process.env.CI);
-}
-
 function isUpdateCheckDisabled(config: OpenClawConfig): boolean {
   return (
     config.update?.checkOnStart === false ||
     isTruthyEnvValue(process.env.OPENCLAW_NO_AUTO_UPDATE) ||
-    isAutomatedEnvironment() ||
     resolveIsNixMode()
   );
 }
@@ -133,10 +119,6 @@ function countRecentSessions(nowMs: number): number {
   } catch {
     return 0;
   }
-}
-
-function resolveTelemetryEndpoint(): string {
-  return process.env.OPENCLAW_TELEMETRY_ENDPOINT?.trim() || DEFAULT_TELEMETRY_ENDPOINT;
 }
 
 export function buildTelemetryUserAgent(surface: TelemetrySurface): string {
@@ -187,12 +169,15 @@ function persistTelemetrySuccess(
 export function resolveTelemetryStatus(config: OpenClawConfig): {
   enabled: boolean;
   reason: TelemetryStatusReason;
-  endpoint: string;
+  endpoint: string | null;
   lastPingAt?: number;
 } {
   let reason: TelemetryStatusReason;
-  if (isAutomatedEnvironment()) {
-    reason = "automated-environment";
+  const endpoint = resolveTelemetryEndpoint();
+  // Only an operator-configured endpoint is ever contacted, so CI is not
+  // special-cased: a pipeline that sets the endpoint is deliberately reporting.
+  if (!endpoint) {
+    reason = "no-endpoint";
   } else if (isUpdateCheckDisabled(config)) {
     reason = "update-disabled";
   } else if (isDoNotTrackEnabled()) {
@@ -209,7 +194,7 @@ export function resolveTelemetryStatus(config: OpenClawConfig): {
   return {
     enabled: reason === "enabled",
     reason,
-    endpoint: resolveTelemetryEndpoint(),
+    endpoint: endpoint ?? null,
     ...(lastPingAt === undefined ? {} : { lastPingAt }),
   };
 }
@@ -275,11 +260,11 @@ export async function checkTelemetryUpdate(
   config: OpenClawConfig,
   options: TelemetryUpdateOptions,
 ): Promise<TelemetryUpdate | null> {
-  if (isUpdateCheckDisabled(config)) {
+  const endpoint = resolveTelemetryEndpoint();
+  if (!endpoint || isUpdateCheckDisabled(config)) {
     return null;
   }
 
-  const endpoint = resolveTelemetryEndpoint();
   const databasePath = path.resolve(resolveOpenClawStateSqlitePath());
   const pendingKey = JSON.stringify([endpoint, databasePath]);
   let state = readTelemetryState(databasePath);

@@ -722,7 +722,7 @@ describe("handleCommands /plugins install", () => {
       packageName: "@openclaw/clawhub-demo",
       clawhub: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@openclaw/clawhub-demo",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
@@ -813,7 +813,7 @@ describe("handleCommands /plugins install", () => {
         packageName: "@openclaw/clawhub-demo",
         clawhub: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "@openclaw/clawhub-demo",
           clawhubFamily: "code-plugin",
           clawhubChannel: "official",
@@ -1023,7 +1023,7 @@ describe("handleCommands /plugins install", () => {
       packageName: "@openclaw/alias-demo",
       clawhub: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@openclaw/alias-demo",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",

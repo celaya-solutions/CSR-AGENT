@@ -186,7 +186,7 @@ const archiveDownloadCases: Array<{
     name: "resolver URL archive",
     download: (response) =>
       downloadClawHubSkillArchiveUrl({
-        baseUrl: "https://clawhub.ai",
+        baseUrl: "https://registry.example.test",
         url: "https://downloads.example.com/skill.zip",
         fetchImpl: async () => response,
       }),
@@ -582,7 +582,7 @@ describe("clawhub artifacts", () => {
     let requestedInit: RequestInit | undefined;
 
     const archive = await downloadClawHubSkillArchiveUrl({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       url: "https://codeload.github.com/NVIDIA/skills/zip/abcdef",
       fetchImpl: async (input, init) => {
         requestedUrl = input instanceof Request ? input.url : String(input);

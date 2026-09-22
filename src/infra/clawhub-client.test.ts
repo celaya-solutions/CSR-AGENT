@@ -76,7 +76,7 @@ describe("clawhub client", () => {
   }
 
   afterEach(() => {
-    delete process.env.OPENCLAW_CLAWHUB_URL;
+    process.env.OPENCLAW_CLAWHUB_URL = "https://registry.example.test";
     delete process.env.CLAWHUB_TOKEN;
     delete process.env.CLAWHUB_AUTH_TOKEN;
     delete process.env.CLAWHUB_CONFIG_PATH;
@@ -84,6 +84,16 @@ describe("clawhub client", () => {
     delete process.env.CLAWHUB_DISABLE_TELEMETRY;
     delete process.env.CLAWDHUB_DISABLE_TELEMETRY;
     originalEnv.restore();
+  });
+
+  it("refuses without network I/O when no registry is configured", async () => {
+    delete process.env.OPENCLAW_CLAWHUB_URL;
+    delete process.env.CLAWHUB_URL;
+    const fetchImpl = vi.fn<typeof fetch>();
+    await expect(searchClawHubSkills({ query: "calendar", fetchImpl })).rejects.toThrow(
+      "No skill or plugin registry is configured",
+    );
+    expect(fetchImpl).not.toHaveBeenCalled();
   });
 
   it("loads ClawHub request auth from config.json", async () => {

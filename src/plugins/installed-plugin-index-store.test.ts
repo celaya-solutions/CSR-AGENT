@@ -1031,7 +1031,7 @@ describe("installed plugin index persistence", () => {
       version: "2026.5.1-beta.2",
       integrity: "sha256-archive",
       resolvedAt: "2026-05-01T00:00:00.000Z",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubPackage: "clawpack-demo",
       clawhubFamily: "code-plugin",
       clawhubChannel: "official",

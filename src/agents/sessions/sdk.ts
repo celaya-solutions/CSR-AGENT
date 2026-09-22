@@ -199,7 +199,7 @@ function getAttributionHeaders(
 
   if (model.provider === "openrouter" || baseUrl.includes("openrouter.ai")) {
     return {
-      "HTTP-Referer": "https://openclaw.ai",
+      "HTTP-Referer": "https://celayasolutions.com",
       "X-OpenRouter-Title": "OpenAgent",
       "X-OpenRouter-Categories": "cli-agent",
     };

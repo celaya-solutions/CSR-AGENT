@@ -274,7 +274,7 @@ describe("managed plugin capability consent", () => {
       source: "clawhub",
       spec: "clawhub:@openclaw/diffs@1.0.0",
       clawhubPackage: "@openclaw/diffs",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubChannel: "official",
       integrity: "sha256-official-artifact",
     },

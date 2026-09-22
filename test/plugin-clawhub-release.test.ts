@@ -528,7 +528,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selectionMode: "all-publishable",
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
     });
 
     expect(maxActiveRequests).toBe(8);
@@ -574,7 +574,7 @@ describe("collectPluginClawHubReleasePlan", () => {
           return scenario === "matching" ? "1.2.3" : "1.2.4";
         },
         fetchImpl,
-        registryBaseUrl: "https://clawhub.ai",
+        registryBaseUrl: "https://registry.example.test",
       });
 
       expect(plan.warnings).toHaveLength(scenario === "matching" ? 0 : 1);
@@ -620,7 +620,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
     });
 
     expect(plan.candidates.map((plugin) => plugin.packageName)).toEqual(["@openclaw/demo-plugin"]);
@@ -680,7 +680,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
     });
 
     expect(canceled).toEqual(["package", "version"]);
@@ -730,7 +730,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
       sleep: async (ms) => {
         retryDelays.push(ms);
       },
@@ -789,7 +789,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
       sleep: async (ms) => {
         retryDelays.push(ms);
       },
@@ -837,7 +837,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
       sleep: async (ms) => {
         retryDelays.push(ms);
       },
@@ -855,7 +855,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       collectPluginClawHubReleasePlan({
         rootDir: repoDir,
         selection: ["@openclaw/demo-plugin"],
-        registryBaseUrl: "https://clawhub.ai",
+        registryBaseUrl: "https://registry.example.test",
         fetchImpl: async () => {
           packageRequests += 1;
           return new Response("Rate limit temporarily unavailable", {
@@ -893,7 +893,7 @@ describe("collectPluginClawHubReleasePlan", () => {
         collectPluginClawHubReleasePlan({
           rootDir: repoDir,
           selection: ["@openclaw/demo-plugin"],
-          registryBaseUrl: "https://clawhub.ai",
+          registryBaseUrl: "https://registry.example.test",
           fetchImpl: async () => new Response(responseBody, { status: 503 }),
           sleep: async () => {},
         }),
@@ -942,7 +942,7 @@ describe("collectPluginClawHubReleasePlan", () => {
         rootDir: repoDir,
         selection: ["@openclaw/demo-plugin"],
         fetchImpl,
-        registryBaseUrl: "https://clawhub.ai",
+        registryBaseUrl: "https://registry.example.test",
         sleep: async (ms) => {
           retryDelays.push(ms);
         },
@@ -991,7 +991,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
       sleep: async (ms) => {
         retryDelays.push(ms);
       },
@@ -1015,7 +1015,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
     });
 
     expect(plan.candidates).toStrictEqual([]);
@@ -1060,7 +1060,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
     });
 
     expect(plan.candidates).toStrictEqual([]);
@@ -1096,7 +1096,7 @@ describe("collectPluginClawHubReleasePlan", () => {
         rootDir: repoDir,
         selection: ["@openclaw/demo-plugin"],
         fetchImpl,
-        registryBaseUrl: "https://clawhub.ai",
+        registryBaseUrl: "https://registry.example.test",
         requestTimeoutMs: 5,
       }),
     ).rejects.toThrow("ClawHub request timed out after 5ms");
@@ -1135,7 +1135,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
     });
 
     expect(plan.candidates).toStrictEqual([]);
@@ -1174,7 +1174,7 @@ describe("collectPluginClawHubReleasePlan", () => {
       rootDir: repoDir,
       selection: ["@openclaw/demo-plugin"],
       fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
     });
 
     expect(plan.candidates).toStrictEqual([]);
@@ -1251,7 +1251,7 @@ describe("collectPluginClawHubReleasePlan", () => {
           "@openclaw/demo-plugin@2026.4.1": 404,
         },
       }).fetchImpl,
-      registryBaseUrl: "https://clawhub.ai",
+      registryBaseUrl: "https://registry.example.test",
     });
 
     expect(plan.candidates.map((plugin) => plugin.packageName)).toEqual(["@openclaw/demo-plugin"]);
@@ -1331,7 +1331,7 @@ describe("buildOpenClawReleaseClawHubPlan", () => {
       {
         rootDir: repoDir,
         fetchImpl,
-        registryBaseUrl: "https://clawhub.ai",
+        registryBaseUrl: "https://registry.example.test",
       },
     ).finally(() => {
       if (previousPath === undefined) {
@@ -1437,7 +1437,7 @@ describe("buildOpenClawReleaseClawHubPlan", () => {
       {
         rootDir: repoDir,
         fetchImpl,
-        registryBaseUrl: "https://clawhub.ai",
+        registryBaseUrl: "https://registry.example.test",
       },
     );
 

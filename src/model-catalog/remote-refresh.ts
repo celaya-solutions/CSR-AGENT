@@ -81,13 +81,13 @@ export async function refreshRemoteModelCatalog(params: {
   now?: () => number;
   bundledGeneratedAt?: () => number | undefined;
 }): Promise<RemoteModelCatalogRefreshResult> {
-  if (!isRemoteModelCatalogRefreshEnabled(params.config)) {
+  const url = resolveRemoteCatalogUrl(params.config);
+  if (!url || !isRemoteModelCatalogRefreshEnabled(params.config)) {
     return { status: "disabled", providers: 0, models: 0 };
   }
   const databaseOptions = params.databaseOptions ?? {};
   const now = (params.now ?? Date.now)();
   try {
-    const url = resolveRemoteCatalogUrl(params.config);
     const stored = readRemoteModelCatalog(databaseOptions);
     const activeStored = stored?.source_url === url ? stored : undefined;
     if (

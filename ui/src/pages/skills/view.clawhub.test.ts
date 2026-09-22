@@ -74,15 +74,16 @@ describe("renderSkills ClawHub", () => {
             {
               score: 0.95,
               slug: "github",
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               displayName: "GitHub",
               summary: "GitHub integration for OpenAgent",
-              icon: `https://clawhub.ai/api/v1/skill-icons/${"a".repeat(64)}`,
+              icon: `https://registry.example.test/api/v1/skill-icons/${"a".repeat(64)}`,
               version: "1.2.3",
             },
           ],
           clawhubIconUrls: {
-            [`https://clawhub.ai/api/v1/skill-icons/${"a".repeat(64)}`]: "blob:clawhub-search-icon",
+            [`https://registry.example.test/api/v1/skill-icons/${"a".repeat(64)}`]:
+              "blob:clawhub-search-icon",
           },
           onClawHubDetailOpen,
           onClawHubInstall,
@@ -134,7 +135,7 @@ describe("renderSkills ClawHub", () => {
               slug: "github",
               displayName: "GitHub",
               summary: "GitHub integration for OpenAgent",
-              icon: `https://clawhub.ai/api/v1/skill-icons/${"b".repeat(64)}`,
+              icon: `https://registry.example.test/api/v1/skill-icons/${"b".repeat(64)}`,
               createdAt: 1_700_000_000,
               updatedAt: 1_700_000_100,
             },
@@ -152,7 +153,8 @@ describe("renderSkills ClawHub", () => {
             },
           },
           clawhubIconUrls: {
-            [`https://clawhub.ai/api/v1/skill-icons/${"b".repeat(64)}`]: "blob:clawhub-detail-icon",
+            [`https://registry.example.test/api/v1/skill-icons/${"b".repeat(64)}`]:
+              "blob:clawhub-detail-icon",
           },
           onClawHubInstall,
         }),
@@ -198,7 +200,7 @@ describe("renderSkills ClawHub", () => {
           clawhubResults: ["gzlicanyi", "wangchenyu8"].map((ownerHandle) => ({
             score: 1,
             slug: "imap-smtp-email",
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             installRef: `@${ownerHandle}/imap-smtp-email`,
             displayName: "imap-smtp-email",
           })),
@@ -252,7 +254,7 @@ describe("renderSkills ClawHub", () => {
               score: 1,
               slug: "pdf",
               // The Gateway marks external sources install-only; it serves no card for them.
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               installRef: "skills-sh:openai/skills/pdf",
               installOnly: true,
               trustState: "not-scanned-by-clawhub",
@@ -262,7 +264,7 @@ describe("renderSkills ClawHub", () => {
               score: 1,
               slug: "pdf",
               installRef: "@awspace/pdf",
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               displayName: "Pdf",
             },
           ],
@@ -315,7 +317,7 @@ describe("renderSkills ClawHub", () => {
                 score: 1,
                 slug: "pdf",
                 installRef: "skills-sh:openai/skills/pdf",
-                registry: "https://clawhub.ai",
+                registry: "https://registry.example.test",
                 installOnly: true,
                 displayName: "Pdf",
               },
@@ -328,7 +330,7 @@ describe("renderSkills ClawHub", () => {
                   clawhub: {
                     status: "linked",
                     valid: true,
-                    registry: "https://clawhub.ai",
+                    registry: "https://registry.example.test",
                     slug: "pdf",
                     requestedReference: "skills-sh:openai/skills/pdf",
                     installedVersion: "0.0.0",
@@ -369,7 +371,7 @@ describe("renderSkills ClawHub", () => {
             {
               score: 1,
               slug: "email",
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               installRef: "@alice/email",
               displayName: "Email",
             },
@@ -402,7 +404,7 @@ describe("renderSkills ClawHub", () => {
       clawhub: {
         status: "linked",
         valid: true,
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "agentreceipt",
         ownerHandle: "openclaw",
         installedVersion: "1.2.3",
@@ -422,7 +424,7 @@ describe("renderSkills ClawHub", () => {
       skills: [linkedSkill],
     };
     const verdictKey = clawhubVerdictKey({
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       slug: "agentreceipt",
       ownerHandle: "openclaw",
       version: "1.2.3",
@@ -437,7 +439,7 @@ describe("renderSkills ClawHub", () => {
           onDetailTabChange,
           clawhubVerdicts: {
             [verdictKey]: {
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               ok: false,
               decision: "fail",
               reasons: ["security.suspicious"],
@@ -447,7 +449,7 @@ describe("renderSkills ClawHub", () => {
               slug: "agentreceipt",
               version: "1.2.3",
               securityAuditUrl:
-                "https://clawhub.ai/openclaw/skills/agentreceipt/security-audit?version=1.2.3",
+                "https://registry.example.test/openclaw/skills/agentreceipt/security-audit?version=1.2.3",
               securityStatus: "suspicious",
               securityPassed: false,
             },
@@ -483,7 +485,7 @@ describe("renderSkills ClawHub", () => {
           },
           clawhubVerdicts: {
             [verdictKey]: {
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               ok: false,
               decision: "fail",
               reasons: ["security.suspicious"],
@@ -491,7 +493,7 @@ describe("renderSkills ClawHub", () => {
               requestedOwnerHandle: "openclaw",
               requestedVersion: "1.2.3",
               securityAuditUrl:
-                "https://clawhub.ai/openclaw/skills/agentreceipt/security-audit?version=1.2.3",
+                "https://registry.example.test/openclaw/skills/agentreceipt/security-audit?version=1.2.3",
               securityStatus: "suspicious",
               securityPassed: false,
             },
@@ -526,7 +528,7 @@ describe("renderSkills ClawHub", () => {
         clawhub: {
           status: "linked",
           valid: true,
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           slug: "agentreceipt",
           installedVersion: "1.2.3",
           installedAt: 123,
@@ -578,7 +580,7 @@ describe("renderSkills ClawHub", () => {
       clawhub: {
         status: "linked",
         valid: true,
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "agentreceipt",
         installedVersion: "1.2.3",
         installedAt: 123,
@@ -592,7 +594,7 @@ describe("renderSkills ClawHub", () => {
       skills: [linkedSkill],
     };
     const verdictKey = clawhubVerdictKey({
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       slug: "agentreceipt",
       version: "1.2.3",
     });
@@ -604,7 +606,7 @@ describe("renderSkills ClawHub", () => {
           detailKey: "agentreceipt",
           clawhubVerdicts: {
             [verdictKey]: {
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               ok: false,
               decision: "pass",
               reasons: [],

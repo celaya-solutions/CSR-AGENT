@@ -352,7 +352,7 @@ describe("ensureOnboardingPluginInstalled", () => {
                 source: "clawhub",
                 spec: clawhubSpec,
                 clawhubPackage: packageName,
-                clawhubUrl: "https://clawhub.ai",
+                clawhubUrl: "https://registry.example.test",
                 clawhubChannel: "official",
               };
         createColdPluginFixture({
@@ -941,7 +941,7 @@ describe("ensureOnboardingPluginInstalled", () => {
           packageName: "demo-plugin",
           clawhub: {
             source: "clawhub",
-            clawhubUrl: "https://clawhub.ai",
+            clawhubUrl: "https://registry.example.test",
             clawhubPackage: "demo-plugin",
             clawhubFamily: "code-plugin",
             clawhubChannel: "official",
@@ -1005,7 +1005,7 @@ describe("ensureOnboardingPluginInstalled", () => {
         packageName: "demo-plugin",
         clawhub: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "demo-plugin",
           clawhubFamily: "code-plugin",
           clawhubChannel: "official",

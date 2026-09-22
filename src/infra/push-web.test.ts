@@ -142,7 +142,7 @@ describe("resolveVapidKeys", () => {
       createWebPushVapidKeyPair(
         "test-public-key-base64url",
         "test-private-key-base64url",
-        "https://openclaw.ai",
+        "https://celayasolutions.com",
       ),
     );
     expect(readPersistedVapidKeyPair(tmpDir)).toEqual(keys);
@@ -225,7 +225,7 @@ describe("resolveVapidKeys", () => {
         createWebPushVapidKeyPair(
           "test-public-key-base64url",
           "test-private-key-base64url",
-          "https://openclaw.ai",
+          "https://celayasolutions.com",
         ),
       );
       expect(readPersistedVapidKeyPair(tmpDir)).toEqual(keys);
@@ -243,7 +243,7 @@ describe("resolveVapidKeys", () => {
         ...initial,
         subject: "mailto:changed@test.com",
       });
-      expect(readPersistedVapidKeyPair(tmpDir)?.subject).toBe("https://openclaw.ai");
+      expect(readPersistedVapidKeyPair(tmpDir)?.subject).toBe("https://celayasolutions.com");
     } finally {
       delete process.env.OPENCLAW_VAPID_SUBJECT;
     }

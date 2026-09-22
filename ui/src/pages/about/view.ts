@@ -38,7 +38,11 @@ const SHORT_COMMIT_LENGTH = 12;
 // Docs-first where a docs page exists; GitHub/Discord match the native
 // macOS/iOS About screens (AboutSettings.swift, SettingsProTabSections.swift).
 const ABOUT_LINKS: ReadonlyArray<{ href: string; icon: TemplateResult; label: () => string }> = [
-  { href: "https://openclaw.ai", icon: icons.globe, label: () => t("aboutPage.linkWebsite") },
+  {
+    href: "https://celayasolutions.com",
+    icon: icons.globe,
+    label: () => t("aboutPage.linkWebsite"),
+  },
   { href: "https://docs.openclaw.ai", icon: icons.book, label: () => t("aboutPage.linkDocs") },
   {
     href: "https://github.com/openclaw/openclaw",

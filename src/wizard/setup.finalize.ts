@@ -1001,8 +1001,6 @@ export async function finalizeSetupWizard(
       );
     }
 
-    await prompter.note(t("wizard.finalize.whatNow"), t("wizard.finalize.whatNowTitle"));
-
     await prompter.outro(
       !gatewayProbe.ok || gateway.status === "failed"
         ? buildGatewayRecoveryProjection({

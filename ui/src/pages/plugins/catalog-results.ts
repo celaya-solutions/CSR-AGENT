@@ -193,7 +193,6 @@ function renderCatalogCard(
             ...(plugin.catalog.author ? { author: plugin.catalog.author } : {}),
             official: plugin.catalog.official,
           },
-          linkedAuthor: true,
         })}
       </div>
       <div class="plugin-catalog-card__action">

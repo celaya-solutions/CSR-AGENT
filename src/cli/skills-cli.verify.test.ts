@@ -35,7 +35,7 @@ const mocks = vi.hoisted(() => {
     resolveDefaultAgentIdMock: vi.fn((_config: unknown) => "main"),
     resolveAgentWorkspaceDirMock: vi.fn((_config: unknown, _agentId: string) => ""),
     resolveClawHubBaseUrlMock: vi.fn((baseUrl?: string) =>
-      (baseUrl ?? "https://clawhub.ai").replace(/\/+$/, ""),
+      (baseUrl ?? "https://registry.example.test").replace(/\/+$/, ""),
     ),
     fetchClawHubSkillVerificationMock: vi.fn(),
     fetchClawHubSkillCardMock: vi.fn(),
@@ -458,7 +458,7 @@ describe("skills verify CLI", () => {
       ownerHandle: "demo-owner",
       version: "2.0.0",
       tag: undefined,
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
     const payload = JSON.parse(mocks.runtimeStdout.at(-1) ?? "{}") as {
       openclaw?: { resolution?: { source?: string; selector?: string } };
@@ -498,11 +498,11 @@ describe("skills verify CLI", () => {
       ownerHandle: "demo-owner",
       version: undefined,
       tag: "latest",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
     expect(mocks.fetchClawHubSkillCardMock).toHaveBeenCalledWith({
       url: "https://cards.example.test/generated/weather.md",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
     expect(mocks.runtimeStdout.at(-1)).toBe("# Weather");
     expect(mocks.defaultRuntime.exit).not.toHaveBeenCalled();

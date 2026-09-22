@@ -230,12 +230,12 @@ describeControlUiE2e("Control UI Plugins mocked Gateway E2E", () => {
       );
       expect(
         await page.getByRole("link", { name: "@openclaw", exact: true }).getAttribute("href"),
-      ).toBe("https://clawhub.ai/openclaw");
+      ).toBe("https://registry.example.test/openclaw");
       expect(await page.getByRole("link", { name: "Security audit" }).getAttribute("href")).toBe(
-        "https://clawhub.ai/openclaw/plugins/matrix/security-audit",
+        "https://registry.example.test/openclaw/plugins/matrix/security-audit",
       );
       expect(await page.getByRole("link", { name: "View on ClawHub" }).getAttribute("href")).toBe(
-        "https://clawhub.ai/openclaw/plugins/matrix",
+        "https://registry.example.test/openclaw/plugins/matrix",
       );
       expect(await page.getByRole("tab", { name: "Plugins", exact: true }).count()).toBe(0);
       expect(

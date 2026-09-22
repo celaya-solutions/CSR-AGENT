@@ -54,30 +54,17 @@ export function renderPluginOfficialBadge(): TemplateResult {
   >`;
 }
 
-export function renderPluginAuthor(
-  author: string | undefined,
-  options: { linked?: boolean } = {},
-): TemplateResult | typeof nothing {
+export function renderPluginAuthor(author: string | undefined): TemplateResult | typeof nothing {
   if (!author) {
     return nothing;
   }
-  const handle = author.replace(/^@+/, "");
-  const label = `@${handle}`;
-  return options.linked
-    ? html`<a
-        class="plugin-card-author plugin-card-author--linked"
-        href=${`https://clawhub.ai/${encodeURIComponent(handle)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        >${label}</a
-      >`
-    : html`<span class="plugin-card-author">${label}</span>`;
+  // No public registry ships with this build, so author handles are never links.
+  return html`<span class="plugin-card-author">@${author.replace(/^@+/, "")}</span>`;
 }
 
 export function renderPluginCardIdentity(params: {
   name: string;
   attribution: PluginCardAttribution;
-  linkedAuthor?: boolean;
   showAuthor?: boolean;
   state?: InstalledPluginState;
   subtitle?: string;
@@ -89,11 +76,7 @@ export function renderPluginCardIdentity(params: {
       ${params.state ? renderPluginStateStatus(params.state) : nothing}
     </div>
     ${params.subtitle ? renderPluginCardSummary(params.subtitle) : nothing}
-    ${
-      params.showAuthor === false
-        ? nothing
-        : renderPluginAuthor(params.attribution.author, { linked: params.linkedAuthor })
-    }
+    ${params.showAuthor === false ? nothing : renderPluginAuthor(params.attribution.author)}
   </div>`;
 }
 

@@ -75,7 +75,7 @@ test.each([".clawhub", ".clawdhub"])(
     const originPath = path.join(skillDirectory, metadataDirectory, "origin.json");
     const origin = {
       version: 1,
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       slug: "release-validation",
       ownerHandle: "openclaw",
       installedVersion: "0.1.6",
@@ -152,7 +152,7 @@ test.each([".clawhub", ".clawdhub"])(
       originPath,
       JSON.stringify({
         ...origin,
-        registry: " https://clawhub.ai/ ",
+        registry: " https://registry.example.test/ ",
         ownerHandle: " OpenAgent ",
       }),
     );

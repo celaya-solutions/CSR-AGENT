@@ -20,7 +20,7 @@ const downloadClawHubSkillArchiveMock = vi.fn();
 const downloadClawHubSkillArchiveUrlMock = vi.fn();
 const downloadClawHubGitHubSkillArchiveMock = vi.fn();
 const reportClawHubSkillInstallTelemetryMock = vi.fn();
-const resolveClawHubBaseUrlMock = vi.fn(() => "https://clawhub.ai");
+const resolveClawHubBaseUrlMock = vi.fn(() => "https://registry.example.test");
 const isDefaultClawHubBaseUrlMock = vi.fn((baseUrl?: string) => !baseUrl);
 const searchClawHubSkillsMock = vi.fn();
 const archiveCleanupMock = vi.fn();
@@ -204,7 +204,7 @@ function mockSkillSecurityVerdict(item: ClawHubSkillSecurityVerdictItem) {
         overview: item.overview ?? "No security analysis has been recorded yet.",
         securityAuditUrl:
           item.securityAuditUrl ??
-          `${item.skillUrl ?? `https://clawhub.ai/${item.publisherHandle ?? "openclaw"}/skills/${item.requestedSlug}`}/security-audit?version=${item.requestedVersion}`,
+          `${item.skillUrl ?? `https://registry.example.test/${item.publisherHandle ?? "openclaw"}/skills/${item.requestedSlug}`}/security-audit?version=${item.requestedVersion}`,
       },
     ],
   });
@@ -349,10 +349,11 @@ describe("skills-clawhub", () => {
     markClawPackageIndependentlyOwnedMock.mockReset();
 
     resolveClawHubBaseUrlMock.mockImplementation((baseUrl?: string) =>
-      (baseUrl ?? "https://clawhub.ai").replace(/\/+$/, ""),
+      (baseUrl ?? "https://registry.example.test").replace(/\/+$/, ""),
     );
     isDefaultClawHubBaseUrlMock.mockImplementation(
-      (baseUrl?: string) => !baseUrl || baseUrl.replace(/\/+$/, "") === "https://clawhub.ai",
+      (baseUrl?: string) =>
+        !baseUrl || baseUrl.replace(/\/+$/, "") === "https://registry.example.test",
     );
     pathExistsMock.mockImplementation(async (input: string) => input.endsWith("SKILL.md"));
     fetchClawHubSkillDetailMock.mockResolvedValue({
@@ -373,7 +374,8 @@ describe("skills-clawhub", () => {
       installKind: "archive",
       archive: {
         version: "1.0.0",
-        downloadUrl: "https://clawhub.ai/api/v1/download?slug=agentreceipt&version=1.0.0",
+        downloadUrl:
+          "https://registry.example.test/api/v1/download?slug=agentreceipt&version=1.0.0",
       },
     });
     fetchClawHubSkillVerificationMock.mockResolvedValue({
@@ -403,7 +405,7 @@ describe("skills-clawhub", () => {
           displayName: "Agent Receipt",
           ...(item.ownerHandle ? { publisherHandle: item.ownerHandle } : {}),
           overview: "No security analysis has been recorded yet.",
-          securityAuditUrl: `https://clawhub.ai/${item.ownerHandle ?? "openclaw"}/skills/${item.slug}/security-audit?version=${item.version}`,
+          securityAuditUrl: `https://registry.example.test/${item.ownerHandle ?? "openclaw"}/skills/${item.slug}/security-audit?version=${item.version}`,
           security: {
             status: "clean",
             passed: true,
@@ -464,12 +466,12 @@ describe("skills-clawhub", () => {
       baseUrl: undefined,
     });
     expect(downloadClawHubSkillArchiveUrlMock).toHaveBeenCalledWith({
-      url: "https://clawhub.ai/api/v1/download?slug=agentreceipt&version=1.0.0",
+      url: "https://registry.example.test/api/v1/download?slug=agentreceipt&version=1.0.0",
       baseUrl: undefined,
     });
     expectInstallPackageSourceDir("/tmp/extracted-skill");
     expect(installPolicyInput()).toMatchObject({
-      origin: { registry: "https://clawhub.ai" },
+      origin: { registry: "https://registry.example.test" },
       source: { kind: "clawhub", authority: "openclaw", mutable: false, network: true },
     });
     expectInstalledSkill(result, {
@@ -664,7 +666,7 @@ describe("skills-clawhub", () => {
       trust: { state: "not-scanned-by-clawhub" },
       archive: {
         version: "1.0.0",
-        downloadUrl: "https://clawhub.ai/api/v1/download?slug=weather&version=1.0.0",
+        downloadUrl: "https://registry.example.test/api/v1/download?slug=weather&version=1.0.0",
       },
     });
 
@@ -760,7 +762,8 @@ describe("skills-clawhub", () => {
       installKind: "archive",
       archive: {
         version: "1.0.0",
-        downloadUrl: "https://clawhub.ai/api/v1/download?slug=agentreceipt&version=1.0.0",
+        downloadUrl:
+          "https://registry.example.test/api/v1/download?slug=agentreceipt&version=1.0.0",
       },
     });
     fetchClawHubSkillSecurityVerdictsMock.mockRejectedValueOnce(new Error("should not be called"));
@@ -774,7 +777,7 @@ describe("skills-clawhub", () => {
     });
     expect(fetchClawHubSkillSecurityVerdictsMock).not.toHaveBeenCalled();
     expect(installPolicyInput()).toMatchObject({
-      origin: { registry: "https://clawhub.ai" },
+      origin: { registry: "https://registry.example.test" },
       source: { kind: "clawhub", authority: "official", mutable: false, network: true },
     });
   });
@@ -812,7 +815,7 @@ describe("skills-clawhub", () => {
     });
     expect(fetchClawHubSkillSecurityVerdictsMock).not.toHaveBeenCalled();
     expect(installPolicyInput()).toMatchObject({
-      origin: { registry: "https://clawhub.ai" },
+      origin: { registry: "https://registry.example.test" },
       source: { kind: "clawhub", authority: "official", mutable: false, network: true },
     });
   });
@@ -829,7 +832,8 @@ describe("skills-clawhub", () => {
       version: "1.0.0",
       publisherHandle: "acme",
       overview: "ClawHub found malicious behavior in this release.",
-      securityAuditUrl: "https://clawhub.ai/acme/skills/agentreceipt/security-audit?version=1.0.0",
+      securityAuditUrl:
+        "https://registry.example.test/acme/skills/agentreceipt/security-audit?version=1.0.0",
       security: {
         status: "malicious",
         passed: false,
@@ -851,7 +855,7 @@ describe("skills-clawhub", () => {
     expect(result.warning).toContain("Blocked");
     expect(result.warning).toContain("ClawHub found malicious behavior in this release.");
     expect(result.warning).toContain(
-      "https://clawhub.ai/acme/skills/agentreceipt/security-audit?version=1.0.0",
+      "https://registry.example.test/acme/skills/agentreceipt/security-audit?version=1.0.0",
     );
     expect(result.warning).not.toContain('replying "Install"');
     expect(warnings.join("\n")).toContain("Blocked");
@@ -869,8 +873,9 @@ describe("skills-clawhub", () => {
       requestedVersion: "1.0.0",
       slug: "agentreceipt",
       version: "1.0.0",
-      skillUrl: "https://clawhub.ai/acme/skills/agentreceipt",
-      securityAuditUrl: "https://clawhub.ai/acme/skills/agentreceipt/security-audit?version=1.0.0",
+      skillUrl: "https://registry.example.test/acme/skills/agentreceipt",
+      securityAuditUrl:
+        "https://registry.example.test/acme/skills/agentreceipt/security-audit?version=1.0.0",
       overview:
         "The skill combines gateway and GitHub mutation authority with mutable remote issue content.\n\nReview the requested capabilities before installing.",
       security: {
@@ -902,11 +907,11 @@ describe("skills-clawhub", () => {
     );
     expect(warning).toContain("Review the requested capabilities before installing.");
     expect(warning).toContain(
-      "https://clawhub.ai/acme/skills/agentreceipt/security-audit?version=1.0.0",
+      "https://registry.example.test/acme/skills/agentreceipt/security-audit?version=1.0.0",
     );
     expect(warnings.join("\n")).toContain("Outcome: Review");
     expect(warnings.join("\n")).toContain(
-      "https://clawhub.ai/acme/skills/agentreceipt/security-audit?version=1.0.0",
+      "https://registry.example.test/acme/skills/agentreceipt/security-audit?version=1.0.0",
     );
     expect(warnings.join("\n")).not.toContain("suspicious");
     expect(warnings.join("\n")).not.toContain("unsigned");
@@ -1090,9 +1095,9 @@ describe("skills-clawhub", () => {
       throw new Error("expected owner-qualified Review install success");
     }
     expect(result.warning).toContain("@acme/agentreceipt@1.0.0");
-    expect(result.warning).toContain("https://clawhub.ai/acme/skills/agentreceipt");
+    expect(result.warning).toContain("https://registry.example.test/acme/skills/agentreceipt");
     expect(result.warning).toContain(
-      "https://clawhub.ai/acme/skills/agentreceipt/security-audit?version=1.0.0",
+      "https://registry.example.test/acme/skills/agentreceipt/security-audit?version=1.0.0",
     );
     expect(downloadClawHubSkillArchiveUrlMock).toHaveBeenCalled();
   });
@@ -1123,7 +1128,7 @@ describe("skills-clawhub", () => {
     }
     expect(result.warning).toContain("Outcome: Review");
     expect(downloadClawHubSkillArchiveUrlMock).toHaveBeenCalledWith({
-      url: "https://clawhub.ai/api/v1/download?slug=agentreceipt&version=1.0.0",
+      url: "https://registry.example.test/api/v1/download?slug=agentreceipt&version=1.0.0",
       baseUrl: undefined,
     });
   });
@@ -1137,7 +1142,7 @@ describe("skills-clawhub", () => {
       reasons: [],
       slug: "weather",
       displayName: "Weather",
-      pageUrl: "https://clawhub.ai/demo-owner/skills/weather",
+      pageUrl: "https://registry.example.test/demo-owner/skills/weather",
       publisherHandle: "demo-owner",
       publisherDisplayName: "Demo Owner",
       version: "1.0.0",
@@ -1186,7 +1191,7 @@ describe("skills-clawhub", () => {
     expectInstallPackageSourceDir("/tmp/extracted-skill");
     expect(installPolicyInput()).toMatchObject({
       origin: {
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "weather",
         ownerHandle: "demo-owner",
       },
@@ -1204,7 +1209,7 @@ describe("skills-clawhub", () => {
     );
     expect(lock.skills.weather).toMatchObject({
       version: "1.0.0",
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       ownerHandle: "demo-owner",
     });
     const origin = await readJson<Record<string, unknown>>(
@@ -1212,7 +1217,7 @@ describe("skills-clawhub", () => {
     );
     expect(origin).toMatchObject({
       version: 1,
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       slug: "weather",
       ownerHandle: "demo-owner",
       installedVersion: "1.0.0",
@@ -1241,7 +1246,7 @@ describe("skills-clawhub", () => {
       reasons: ["card.missing"],
       slug: "weather",
       displayName: "Weather",
-      pageUrl: "https://clawhub.ai/demo-owner/skills/weather",
+      pageUrl: "https://registry.example.test/demo-owner/skills/weather",
       publisherHandle: "demo-owner",
       publisherDisplayName: "Demo Owner",
       version: "1.0.0",
@@ -1291,7 +1296,7 @@ describe("skills-clawhub", () => {
       reasons: ["version.not_found"],
       slug: "weather",
       displayName: "Weather",
-      pageUrl: "https://clawhub.ai/demo-owner/skills/weather",
+      pageUrl: "https://registry.example.test/demo-owner/skills/weather",
       publisherHandle: "demo-owner",
       publisherDisplayName: "Demo Owner",
       version: null,
@@ -1522,7 +1527,7 @@ describe("skills-clawhub", () => {
       );
       expect(lock.skills.agentreceipt).toMatchObject({
         version: "1.0.0",
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         artifact: {
           kind: "archive",
           sha256: "a".repeat(64),
@@ -1823,7 +1828,7 @@ describe("skills-clawhub", () => {
     expectInstallPackageSourceDir("/tmp/extracted-github-repo/skills/aiq-deploy");
     expect(installPolicyInput()).toMatchObject({
       origin: {
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         repo: "NVIDIA/skills",
         path: "skills/aiq-deploy",
         commit,
@@ -2022,7 +2027,7 @@ describe("skills-clawhub", () => {
     const workspaceDir = await tempDirs.make("openclaw-official-owner-update-");
     await writeTrackedSkill(workspaceDir, "tao-setup-nvidia-gpu-host", {
       ownerHandle: "nvidia",
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       installedVersion: "0.9.0",
       skillMd: "# Fixture\n",
     });
@@ -2046,7 +2051,7 @@ describe("skills-clawhub", () => {
     mockArchiveInstallResolution(
       "tao-setup-nvidia-gpu-host",
       "1.0.0",
-      "https://clawhub.ai/api/v1/download?slug=tao-setup-nvidia-gpu-host&ownerHandle=nvidia&version=1.0.0",
+      "https://registry.example.test/api/v1/download?slug=tao-setup-nvidia-gpu-host&ownerHandle=nvidia&version=1.0.0",
     );
     fetchClawHubSkillSecurityVerdictsMock.mockRejectedValueOnce(new Error("should not be called"));
     mockInstalledSkillFile("# NVIDIA\n");
@@ -2056,7 +2061,7 @@ describe("skills-clawhub", () => {
     expect(fetchClawHubSkillDetailMock).toHaveBeenCalledWith({
       slug: "tao-setup-nvidia-gpu-host",
       ownerHandle: "nvidia",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
     expect(fetchClawHubSkillSecurityVerdictsMock).not.toHaveBeenCalled();
     expect(results).toEqual([
@@ -2070,7 +2075,7 @@ describe("skills-clawhub", () => {
       },
     ]);
     expect(installPolicyInput()).toMatchObject({
-      origin: { registry: "https://clawhub.ai", ownerHandle: "nvidia" },
+      origin: { registry: "https://registry.example.test", ownerHandle: "nvidia" },
       source: { kind: "clawhub", authority: "official", mutable: false, network: true },
     });
   });
@@ -2175,7 +2180,7 @@ describe("skills-clawhub", () => {
     mockArchiveInstallResolution(
       "weather",
       "1.0.0",
-      "https://clawhub.ai/api/v1/download?slug=weather&ownerHandle=demo-owner&version=1.0.0",
+      "https://registry.example.test/api/v1/download?slug=weather&ownerHandle=demo-owner&version=1.0.0",
     );
     mockInstalledSkillFile("# Weather\n");
 
@@ -2271,7 +2276,7 @@ describe("skills-clawhub", () => {
     mockArchiveInstallResolution(
       "weather",
       "1.0.0",
-      "https://clawhub.ai/api/v1/download?slug=weather&version=1.0.0",
+      "https://registry.example.test/api/v1/download?slug=weather&version=1.0.0",
     );
     downloadClawHubSkillArchiveUrlMock.mockImplementationOnce(async () => {
       await fs.writeFile(
@@ -2322,7 +2327,7 @@ describe("skills-clawhub", () => {
     mockArchiveInstallResolution(
       "weather",
       "1.0.0",
-      "https://clawhub.ai/api/v1/download?slug=weather&version=1.0.0",
+      "https://registry.example.test/api/v1/download?slug=weather&version=1.0.0",
     );
     mockInstalledSkillFile("# Weather\n");
 
@@ -2356,7 +2361,7 @@ describe("skills-clawhub", () => {
       installKind: "archive",
       archive: {
         version: "1.0.0",
-        downloadUrl: "https://clawhub.ai/api/v1/download?slug=weather&version=1.0.0",
+        downloadUrl: "https://registry.example.test/api/v1/download?slug=weather&version=1.0.0",
       },
     });
     installPackageDirMock.mockImplementation(async (params: { targetDir: string }) => {
@@ -2409,7 +2414,7 @@ describe("skills-clawhub", () => {
     mockArchiveInstallResolution(
       "weather",
       "1.0.0",
-      "https://clawhub.ai/api/v1/download?slug=weather&version=1.0.0",
+      "https://registry.example.test/api/v1/download?slug=weather&version=1.0.0",
     );
     mockInstalledSkillFile("# Weather\n");
 
@@ -2455,7 +2460,7 @@ describe("skills-clawhub", () => {
         `${JSON.stringify(
           {
             version: 1,
-            registry: "https://legacy.clawhub.ai",
+            registry: "https://legacy.registry.example.test",
             slug,
             installedVersion: "0.9.0",
             installedAt: 123,
@@ -2504,7 +2509,7 @@ describe("skills-clawhub", () => {
         installKind: "archive",
         archive: {
           version: "1.0.0",
-          downloadUrl: `https://legacy.clawhub.ai/api/v1/download?slug=${encodeURIComponent(slug)}&version=1.0.0`,
+          downloadUrl: `https://legacy.registry.example.test/api/v1/download?slug=${encodeURIComponent(slug)}&version=1.0.0`,
         },
       });
       installPackageDirMock.mockResolvedValueOnce({
@@ -2519,11 +2524,11 @@ describe("skills-clawhub", () => {
 
         expect(fetchClawHubSkillInstallResolutionMock).toHaveBeenCalledWith({
           slug,
-          baseUrl: "https://legacy.clawhub.ai",
+          baseUrl: "https://legacy.registry.example.test",
         });
         expect(downloadClawHubSkillArchiveUrlMock).toHaveBeenCalledWith({
-          url: `https://legacy.clawhub.ai/api/v1/download?slug=${encodeURIComponent(slug)}&version=1.0.0`,
-          baseUrl: "https://legacy.clawhub.ai",
+          url: `https://legacy.registry.example.test/api/v1/download?slug=${encodeURIComponent(slug)}&version=1.0.0`,
+          baseUrl: "https://legacy.registry.example.test",
         });
         expectLegacyUpdateSuccess(results, workspaceDir, slug);
       } finally {
@@ -2540,7 +2545,7 @@ describe("skills-clawhub", () => {
         installKind: "archive",
         archive: {
           version: "1.0.0",
-          downloadUrl: `https://legacy.clawhub.ai/api/v1/download?slug=${encodeURIComponent(slug)}&version=1.0.0`,
+          downloadUrl: `https://legacy.registry.example.test/api/v1/download?slug=${encodeURIComponent(slug)}&version=1.0.0`,
         },
       });
       installPackageDirMock.mockResolvedValueOnce({
@@ -2556,7 +2561,7 @@ describe("skills-clawhub", () => {
 
         expect(fetchClawHubSkillInstallResolutionMock).toHaveBeenCalledWith({
           slug,
-          baseUrl: "https://legacy.clawhub.ai",
+          baseUrl: "https://legacy.registry.example.test",
           forceInstall: true,
         });
         expectLegacyUpdateSuccess(results, workspaceDir, slug);
@@ -2891,7 +2896,7 @@ describe("skills-clawhub", () => {
             workspaceDir,
             slug: "agentreceipt",
             version: "2.1.0",
-            baseUrl: "https://clawhub.ai",
+            baseUrl: "https://registry.example.test",
           }),
         ).resolves.toMatchObject({
           ok: true,
@@ -2924,7 +2929,7 @@ describe("skills-clawhub", () => {
             workspaceDir,
             slug: "agentreceipt",
             tag: "beta",
-            baseUrl: "https://clawhub.ai",
+            baseUrl: "https://registry.example.test",
           }),
         ).resolves.toMatchObject({
           ok: true,
@@ -3370,7 +3375,7 @@ describe("ClawHub origin provenance readback", () => {
       const sourceUrl = "https://github.com/acme/skills/tree/abc/agentreceipt";
       const origin = {
         version: 1,
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "agentreceipt",
         installedVersion: "1.0.0",
         installedAt: 123,
@@ -3386,7 +3391,7 @@ describe("ClawHub origin provenance readback", () => {
         lockSkill: {
           version: "1.0.0",
           installedAt: 123,
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           ownerHandle: "acme",
           sourceUrl,
           artifact,
@@ -3452,7 +3457,7 @@ describe("ClawHub origin provenance readback", () => {
         slug: "agentreceipt",
         origin: {
           version: 1,
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           slug: "agentreceipt",
           installedVersion: "1.0.0",
           installedAt: 123,

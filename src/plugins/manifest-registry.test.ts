@@ -110,7 +110,7 @@ function createMsteamsClawHubInstallRecord(
     source: "clawhub",
     spec: "clawhub:@openclaw/msteams",
     installPath,
-    clawhubUrl: "https://clawhub.ai",
+    clawhubUrl: "https://registry.example.test",
     clawhubPackage: "@openclaw/msteams",
     clawhubChannel: "official",
   };

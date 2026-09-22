@@ -97,7 +97,7 @@ function mockHostedOfficialCatalog(entries: unknown[]) {
     source: "hosted",
     entries,
     feed: { schemaVersion: 1, id: "test", generatedAt: "now", sequence: 1, entries: [] },
-    metadata: { url: "https://clawhub.ai/feed", status: 200, checksum: "hash" },
+    metadata: { url: "https://registry.example.test/feed", status: 200, checksum: "hash" },
   });
 }
 
@@ -116,7 +116,7 @@ function mockClawHubInstall(pluginId: string, packageName: string) {
     packageName,
     clawhub: {
       source: "clawhub",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubPackage: packageName,
       clawhubFamily: "code-plugin",
     },
@@ -513,7 +513,7 @@ describe("managed plugin installation", () => {
         packageName: "@openclaw/diffs",
         clawhub: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "@openclaw/diffs",
           clawhubFamily: "code-plugin",
         },

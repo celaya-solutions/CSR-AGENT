@@ -912,7 +912,7 @@ describe("plugin index install records store", () => {
           source: "clawhub",
           spec: "clawhub:clawpack-demo",
           installPath: path.join(stateDir, "plugins", "clawpack-demo"),
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "clawpack-demo",
           clawhubFamily: "code-plugin",
           clawhubChannel: "official",

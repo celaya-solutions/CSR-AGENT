@@ -74,7 +74,7 @@ describe("doctor official plugin provenance", () => {
       const record = persisted.installRecords[pluginId]!;
       expect(record).toEqual({
         ...legacyRecord,
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubChannel: "official",
       });
       expect(isTrustedOfficialPluginInstallRecord({ pluginId, packageName, record })).toBe(true);
@@ -96,7 +96,10 @@ describe("doctor official plugin provenance", () => {
     { name: "path source", record: { ...legacyRecord, source: "path" } },
     { name: "local source path", record: { ...legacyRecord, sourcePath: "/tmp/local-plugin" } },
     { name: "missing URL only", record: { ...legacyRecord, clawhubChannel: "official" } },
-    { name: "missing channel only", record: { ...legacyRecord, clawhubUrl: "https://clawhub.ai" } },
+    {
+      name: "missing channel only",
+      record: { ...legacyRecord, clawhubUrl: "https://registry.example.test" },
+    },
     { name: "custom host", record: { ...legacyRecord, clawhubUrl: "https://example.invalid" } },
     { name: "community channel", record: { ...legacyRecord, clawhubChannel: "community" } },
     { name: "conflicting identity", record: { ...legacyRecord, resolvedName: "@vendor/acpx" } },

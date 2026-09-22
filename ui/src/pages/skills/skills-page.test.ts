@@ -26,7 +26,7 @@ const personalLibrary = {
 const remoteSkill = {
   score: 1,
   slug: "calendar",
-  registry: "https://clawhub.ai",
+  registry: "https://registry.example.test",
   installRef: "@alice/calendar",
   displayName: "Calendar",
 };
