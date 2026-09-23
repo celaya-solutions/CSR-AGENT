@@ -192,11 +192,11 @@ export async function handoffUpdateFromGateway(params: {
     installRoot: started.installRoot,
   };
   const target = resolveInstallationTarget(env);
-  const statusCommand = formatInstallationTargetCommand(["openclaw", "status", "--all"], target, {
+  const statusCommand = formatInstallationTargetCommand(["openagent", "status", "--all"], target, {
     env,
   });
   const healthCommand = formatInstallationTargetCommand(
-    ["openclaw", "gateway", "status", "--deep"],
+    ["openagent", "gateway", "status", "--deep"],
     target,
     { env },
   );

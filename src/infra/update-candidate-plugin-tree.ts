@@ -56,7 +56,14 @@ export type UpdateCandidatePluginTreePlan = z.infer<typeof UpdateCandidatePlugin
 
 const isHostLauncher = (file: string) =>
   path.basename(path.dirname(file)) === ".bin" &&
-  ["openclaw", "openclaw.cmd", "openclaw.ps1"].includes(path.basename(file));
+  [
+    "openagent",
+    "openagent.cmd",
+    "openagent.ps1",
+    "openclaw",
+    "openclaw.cmd",
+    "openclaw.ps1",
+  ].includes(path.basename(file));
 
 async function dependencyOwner(target: string): Promise<string> {
   // A pnpm package resolves dependencies beside its package directory. Preserve
@@ -120,7 +127,7 @@ export async function prepareUpdateCandidatePluginTrees(params: {
   const moduleAliases = new Map<string, string>();
   const moduleOwners = new Set<string>();
   const isOwnedHostEdge = (file: string) =>
-    path.basename(file) === "openclaw" && moduleOwners.has(path.dirname(file));
+    ["openagent", "openclaw"].includes(path.basename(file)) && moduleOwners.has(path.dirname(file));
   const covered = (file: string) => [...roots.keys()].some((root) => isPathInside(root, file));
   const insideHost = (file: string) => [...hosts].some((root) => isPathInside(root, file));
   const excludesInferredRoot = (root: string) =>

@@ -20,7 +20,7 @@ const OPENCLAW_UPDATE_LAUNCHD_LABEL_PREFIX = "ai.openclaw.update.";
 const MANUAL_UPDATE_LAUNCHD_LABEL_PATTERN = /^ai\.openclaw\.manual-update\.\d+$/;
 const OPENCLAW_PROFILE_UPDATE_LAUNCHD_LABEL_PATTERN =
   /^ai\.openclaw\.[A-Za-z0-9._-]+\.update\.[A-Za-z0-9._-]+$/;
-const OPENCLAW_DIRECT_CLI_NAMES = new Set(["openclaw", "openclaw.mjs"]);
+const OPENCLAW_DIRECT_CLI_NAMES = new Set(["openagent", "openclaw", "openclaw.mjs"]);
 const OPENCLAW_NODE_RUNTIME_NAMES = new Set(["bun", "bun.exe", "node", "node.exe"]);
 const OPENCLAW_SCRIPT_NAMES = new Set(["openclaw.mjs"]);
 export type StaleOpenClawUpdateLaunchdJob = {

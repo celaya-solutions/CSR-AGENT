@@ -226,8 +226,8 @@ function resolvePendingPairingIssue(
     displayName: pending.displayName,
     clientId: pending.clientId,
   });
-  const approveCommand = formatCliArgs(["openclaw", "devices", "approve", pending.requestId]);
-  const inspectCommand = formatCliArgs(["openclaw", "devices", "list"]);
+  const approveCommand = formatCliArgs(["openagent", "devices", "approve", pending.requestId]);
+  const inspectCommand = formatCliArgs(["openagent", "devices", "list"]);
   if (!paired) {
     return {
       kind: "first-time",
@@ -244,7 +244,7 @@ function resolvePendingPairingIssue(
       deviceLabel,
       approveCommand,
       inspectCommand,
-      removeCommand: formatCliArgs(["openclaw", "devices", "remove", pending.deviceId]),
+      removeCommand: formatCliArgs(["openagent", "devices", "remove", pending.deviceId]),
     };
   }
   const requestedRoles = normalizeUniqueSingleOrTrimmedStringList(

@@ -183,7 +183,7 @@ function buildTrajectoryExportExecRequest(
   const args = ["sessions", "export-trajectory", "--request-json-base64", encodedRequest, "--json"];
   return {
     ...buildCurrentOpenClawCliExecRequest(args),
-    displayCommand: ["openclaw", ...args].join(" "),
+    displayCommand: ["openagent", ...args].join(" "),
     encodedRequest,
     request,
   };

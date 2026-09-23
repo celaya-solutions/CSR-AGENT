@@ -86,7 +86,7 @@ function lifecycleInvocation(
   }
   if (
     !path.isAbsolute(words[0] ?? "") ||
-    !["openclaw", "openclaw.mjs"].includes(path.basename(words[0] ?? ""))
+    !["openagent", "openclaw", "openclaw.mjs"].includes(path.basename(words[0] ?? ""))
   ) {
     return undefined;
   }
@@ -279,7 +279,7 @@ async function inspectJob(
   const programScript =
     !isShell &&
     (shellEnvironmentDiagnostic ||
-      !["openclaw", "openclaw.mjs", "node", "bun", "env"].includes(programName))
+      !["openagent", "openclaw", "openclaw.mjs", "node", "bun", "env"].includes(programName))
       ? await readOwnedText(program)
       : undefined;
   let isShellScript = programScript !== undefined && hasShellShebang(programScript);

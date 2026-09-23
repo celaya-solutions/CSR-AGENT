@@ -8,7 +8,7 @@ import { resolveRuntimeWorkerArgv } from "./runtime-worker-url.js";
 import { tryProcessCwd } from "./safe-cwd.js";
 
 const requireFromHere = createRequire(import.meta.url);
-const OPENCLAW_CLI_ENTRY_BASENAMES = new Set(["openclaw", "openclaw.mjs"]);
+const OPENCLAW_CLI_ENTRY_BASENAMES = new Set(["openagent", "openclaw", "openclaw.mjs"]);
 const OPENCLAW_PACKAGE_ENTRY_PATHS = new Set([
   path.join("dist", "entry.js"),
   path.join("dist", "entry.mjs"),

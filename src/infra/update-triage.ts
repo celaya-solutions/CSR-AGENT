@@ -245,7 +245,7 @@ async function runPreparedUpdateFailureTriage(
     const reason = scrubDoctorErrorMessage(redactSupportString(detail, redaction));
     const message = `Triage could not complete: ${reason}`;
     const command = formatInstallationTargetCommand(
-      ["openclaw", "triage", ...(contextPath ? ["--update-result", contextPath] : [])],
+      ["openagent", "triage", ...(contextPath ? ["--update-result", contextPath] : [])],
       installationTarget,
       { env: targetEnv },
     );

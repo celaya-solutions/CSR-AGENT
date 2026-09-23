@@ -1960,8 +1960,10 @@ export function formatManagedServiceUpdateCommand(
   env: NodeJS.ProcessEnv = process.env,
 ): string {
   return formatCliCommand(
+    // Without execPath the argv starts with the `openclaw` alias; show the current name.
     resolveUpdateCliArgv(params ?? {})
       .toSpliced(3, 1)
+      .toSpliced(0, 1, "openagent")
       .join(" "),
     env,
   );
@@ -2286,12 +2288,12 @@ async function spawnManagedServiceUpdateHandoff(
     triageContextPath,
     triageInputPath,
     triageContextCommand: formatInstallationTargetCommand(
-      ["openclaw", "triage", "--update-result", triageContextPath],
+      ["openagent", "triage", "--update-result", triageContextPath],
       installationTarget,
       { env: serviceEnv },
     ),
     triageRecoveryCommand: formatInstallationTargetCommand(
-      ["openclaw", "triage"],
+      ["openagent", "triage"],
       installationTarget,
       { env: serviceEnv },
     ),

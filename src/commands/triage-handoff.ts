@@ -41,14 +41,14 @@ export function formatTriageHandoffCommands(params: {
   return {
     external,
     embedded: formatInstallationTargetCommand(
-      ["openclaw", "triage", "--run", ...failureArgs],
+      ["openagent", "triage", "--run", ...failureArgs],
       target,
       {
         env,
       },
     ),
     retry: formatInstallationTargetCommand(
-      ["openclaw", "triage", ...(params.agent ? ["--agent", params.agent] : []), ...failureArgs],
+      ["openagent", "triage", ...(params.agent ? ["--agent", params.agent] : []), ...failureArgs],
       target,
       { env },
     ),
