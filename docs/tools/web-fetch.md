@@ -145,7 +145,7 @@ adding a result to the fetch cache.
 ## Firecrawl fallback
 
 If Readability extraction fails, `web_fetch` can fall back to
-[Firecrawl](/tools/firecrawl) for bot-circumvention and better extraction:
+Firecrawl for bot-circumvention and better extraction:
 
 ```json5
 {
@@ -236,7 +236,7 @@ Behavior worth knowing:
 - Values are plain strings and support `${VAR}` environment substitution like any
   other config string. Structured SecretRef values are not accepted.
 - Headers apply only to the direct `web_fetch` request. Provider fallbacks such as
-  [Firecrawl](/tools/firecrawl) call their own API and never receive these headers.
+  Firecrawl call their own API and never receive these headers.
 - Entries are validated when the request is built, not at config load, so one bad
   entry is dropped while the rest still apply. Config load stays permissive on
   purpose: a fail-closed validation error over a single header-name typo would
@@ -317,4 +317,3 @@ If you use tool profiles or allowlists, add `web_fetch` or `group:web`:
 
 - [Web Search](/tools/web) -- search the web with multiple providers
 - [Web Browser](/tools/browser) -- full browser automation for JS-heavy sites
-- [Firecrawl](/tools/firecrawl) -- Firecrawl search and scrape tools

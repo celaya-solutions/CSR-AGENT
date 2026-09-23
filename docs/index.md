@@ -53,9 +53,6 @@ these hub links to reach the same top-level docs areas from the page body.
   <Card title="Capabilities" href="/tools" icon="wand-sparkles">
     Tools, skills, cron, webhooks, and automation capabilities.
   </Card>
-  <Card title="ClawHub" href="/clawhub" icon="store">
-    Plugin marketplace, publishing, curation, and trust guidance.
-  </Card>
   <Card title="Models" href="/providers" icon="brain">
     Providers, model configuration, failover, and local model services.
   </Card>
@@ -67,9 +64,6 @@ these hub links to reach the same top-level docs areas from the page body.
   </Card>
   <Card title="Reference" href="/cli" icon="terminal">
     CLI reference, schemas, RPC, and templates.
-  </Card>
-  <Card title="Releases" href="/releases" icon="tag">
-    Release notes for each version, with highlights and source links.
   </Card>
   <Card title="Help" href="/help" icon="life-buoy">
     Troubleshooting, FAQs, testing, diagnostics, and environment checks.

@@ -110,17 +110,6 @@ Claude CLI reuse (`claude -p`) is a sanctioned OpenAgent integration path. Anthr
 
 ### Other subscription-style hosted options
 
-<CardGroup cols={3}>
-  <Card title="MiniMax" href="/providers/minimax">
-    MiniMax Coding Plan OAuth or API key access.
-  </Card>
-  <Card title="Qwen Cloud" href="/providers/qwen">
-    Qwen Cloud provider surface plus Alibaba DashScope and Coding Plan endpoint mapping.
-  </Card>
-  <Card title="Z.AI (GLM)" href="/providers/zai">
-    Z.AI Coding Plan or general API endpoints.
-  </Card>
-</CardGroup>
 
 ### OpenCode
 
@@ -185,7 +174,6 @@ messages and normalizes `stats.cached` into `cacheRead`; legacy
 
 | Provider                                | Id                               | Auth env                                       | Example model                                          |
 | --------------------------------------- | -------------------------------- | ---------------------------------------------- | ------------------------------------------------------ |
-| [Arcee](/providers/arcee)               | `arcee`                          | `ARCEEAI_API_KEY` or `OPENROUTER_API_KEY`      | `arcee/trinity-large-thinking`                         |
 | BytePlus                                | `byteplus` / `byteplus-plan`     | `BYTEPLUS_API_KEY`                             | `byteplus-plan/ark-code-latest`                        |
 | Cerebras                                | `cerebras`                       | `CEREBRAS_API_KEY`                             | `cerebras/zai-glm-4.7`                                 |
 | Chutes                                  | `chutes`                         | `CHUTES_API_KEY` or `CHUTES_OAUTH_TOKEN`       | `chutes/zai-org/GLM-5-TEE`                             |

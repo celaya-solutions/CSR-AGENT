@@ -409,7 +409,6 @@ See:
 
 - [Discord](/channels/discord)
 - [Telegram](/channels/telegram)
-- [QQ bot](/channels/qqbot)
 
 ### Official mobile operator apps
 

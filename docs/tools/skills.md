@@ -24,9 +24,6 @@ binary presence.
   <Card title="Skills config" href="/tools/skills-config" icon="gear">
     Full `skills.*` config schema and agent allowlists.
   </Card>
-  <Card title="ClawHub" href="/clawhub" icon="cloud">
-    Browse and install community skills.
-  </Card>
 </CardGroup>
 
 ## Loading order
@@ -805,9 +802,6 @@ read every admitted skill. Native harnesses retain their own prompt policy.
   </Card>
   <Card title="Slash commands" href="/tools/slash-commands" icon="terminal">
     How skill slash commands are registered and routed.
-  </Card>
-  <Card title="ClawHub" href="/clawhub" icon="cloud">
-    Browse and publish skills on the public registry.
   </Card>
   <Card title="Plugins" href="/tools/plugin" icon="plug">
     Plugins can ship skills alongside the tools they document.

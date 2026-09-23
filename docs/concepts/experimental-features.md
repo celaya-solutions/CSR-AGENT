@@ -74,4 +74,3 @@ An experimental feature should say so plainly in docs and in the config path its
 ## Related
 
 - [Features](/concepts/features)
-- [Release channels](/install/development-channels)

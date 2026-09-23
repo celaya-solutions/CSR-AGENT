@@ -31,7 +31,7 @@ bundled, official external, and source-only plugins, see
 
 <Steps>
   <Step title="Find the plugin">
-    Search [ClawHub](/clawhub) for public plugin packages:
+    Search ClawHub for public plugin packages:
 
     ```bash
     openclaw plugins search "calendar"
@@ -455,11 +455,9 @@ reload behavior, and legacy cleanup, see
 - [`openclaw plugins`](/cli/plugins) - full CLI reference
 - [Plugin inventory](/plugins/plugin-inventory) - generated bundled and external plugin list
 - [Plugin reference](/plugins/reference) - generated per-plugin reference pages
-- [Community plugins](/plugins/community) - ClawHub discovery and docs PR policy
 - [Plugin dependency resolution](/plugins/dependency-resolution) - install roots, registry records, and runtime boundaries
 - [Building plugins](/plugins/building-plugins) - native plugin authoring guide
 - [Plugin SDK overview](/plugins/sdk-overview) - runtime registration, hooks, and API fields
 - [Plugin manifest](/plugins/manifest) - manifest and package metadata
 - [Context engines](/concepts/context-engine) - pluggable context assembly plugins
-- [Diffs](/tools/diffs) - read-only diff viewer and file renderer (optional plugin tool)
 - [ACP agents — setup](/tools/acp-agents-setup) - configuring a plugin-provided ACP agent

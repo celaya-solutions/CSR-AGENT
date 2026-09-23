@@ -307,7 +307,7 @@ When enabled, the Gateway **Dreams** tab shows:
 - a distinct grounded Scene lane for staged historical replay entries
 - an expandable Dream Diary reader backed by `doctor.memory.dreamDiary`
 
-When the bundled [`memory-wiki`](/plugins/memory-wiki) plugin is enabled, the
+When the bundled `memory-wiki` plugin is enabled, the
 Diary view gains two more sub-tabs next to Dreams:
 
 - **Imported Insights**: clustered insights surfaced by external-history

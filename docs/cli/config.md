@@ -41,7 +41,7 @@ as needed. Runtime state still needs a writable `OPENCLAW_STATE_DIR`.
 `OPENCLAW_CONFIG_READONLY=1` uses generic externally managed config messages and
 does not enable Nix-specific installation or service behavior. `OPENCLAW_NIX_MODE=1`
 continues to imply immutable config, even if `OPENCLAW_CONFIG_READONLY` is unset or
-`0`. For Nix installs, edit the Nix source instead; see [Nix](/install/nix).
+`0`. For Nix installs, edit the Nix source instead; see Nix.
 
 ## Root options
 

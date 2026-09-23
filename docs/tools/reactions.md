@@ -47,7 +47,7 @@ action. Behavior varies by channel.
   <Accordion title="Nextcloud Talk">
     - Adding reactions only: `emoji` is required and must be non-empty.
     - Reaction removal is not wired to a delete call yet. `remove: true` is rejected with an explicit error instead of silently no-oping.
-    - Requires the Talk bot registered with the `reaction` feature (see [Nextcloud Talk channel docs](/channels/nextcloud-talk)).
+    - Requires the Talk bot registered with the `reaction` feature (see Nextcloud Talk channel docs).
 
   </Accordion>
 
@@ -97,8 +97,6 @@ Per-channel `reactionLevel` throttles how often the agent sends its own
 reactions. Values: `off`, `ack`, `minimal`, or `extensive`.
 
 - [Telegram reaction level](/channels/telegram#feature-reference) - `channels.telegram.reactionLevel` (default `minimal`)
-- [WhatsApp reaction level](/channels/whatsapp#reaction-level) - `channels.whatsapp.reactionLevel` (default `minimal`)
-- [Signal reactions](/channels/signal#reactions-message-tool) - `channels.signal.reactionLevel` (default `minimal`)
 
 ## Related
 

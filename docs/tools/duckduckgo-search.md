@@ -99,11 +99,9 @@ SafeSearch level.
 - **SafeSearch defaults to `moderate`** when not configured.
 
 <Tip>
-  For production use, consider [Brave Search](/tools/brave-search) (free tier available) or another API-backed provider.
+  For production use, consider Brave Search (free tier available) or another API-backed provider.
 </Tip>
 
 ## Related
 
 - [Web Search overview](/tools/web) -- all providers and auto-detection
-- [Brave Search](/tools/brave-search) -- structured results with free tier
-- [Exa Search](/tools/exa-search) -- neural search with content extraction

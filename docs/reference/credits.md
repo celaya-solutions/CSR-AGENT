@@ -30,4 +30,3 @@ OpenAgent is a derivative of [OpenAgent](https://github.com/openclaw/openclaw) a
 ## Related
 
 - [OpenAgent lore](/start/lore) - the backstory behind the name, the shell, and the space lobster
-- [Pull request review flow](/reference/pull-request-review-flow) - how a contribution moves through Barnacle and ClawSweeper review

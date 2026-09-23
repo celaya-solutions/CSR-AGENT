@@ -51,7 +51,7 @@ The CLI runs in a separate process and contacts the Gateway over WebSocket, even
 for a local loopback target. `--timeout` bounds probes, not the entire status
 command. Compare `openclaw gateway call status --json` with `openclaw status --json`
 to separate the Gateway response from local report collection. Gateway
-[Prometheus RPC timings](/gateway/prometheus) exclude CLI startup and connection
+Prometheus RPC timings exclude CLI startup and connection
 setup; a slow CLI can finish without a slow Gateway handler.
 
 For Git installs, plain status compares cached remote-tracking refs without a
@@ -67,7 +67,7 @@ rest of that update is skipped, fails, or rolls back. A manual `git fetch` does
 not clear the recorded warning. Use `openclaw update status` for a fresh check
 and the last update run, or run `openclaw update` again. `openclaw status --deep`
 also fetches for that check; it does not change the ledger. See
-[Release channels](/install/development-channels#checking-current-status).
+Release channels.
 
 ## Status timing
 

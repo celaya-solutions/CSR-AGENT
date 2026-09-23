@@ -12,8 +12,8 @@ title: "Transcripts CLI"
 # `openclaw transcripts`
 
 Inspector and export command for durable meeting transcripts.
-[Google Meet](/plugins/google-meet), [Microsoft Teams](/plugins/teams-meetings),
-and [Zoom](/plugins/zoom-meetings) browser participants capture notes automatically;
+Google Meet, Microsoft Teams,
+and Zoom browser participants capture notes automatically;
 the `transcripts` agent tool also supports provider capture and manual import.
 
 Canonical transcript state lives in the shared SQLite database at
@@ -493,4 +493,3 @@ meeting bot session; normal meeting joins do not need an `autoStart` entry.
 ## Related
 
 - [CLI reference](/cli)
-- [Meeting plugins](/plugins/meeting-plugins) — the plugins that capture these transcripts

@@ -25,8 +25,6 @@ pages. Open the page that matches what you are configuring.
 | [Docker backend](/gateway/sandboxing/docker-backend)                                 | You are running the default local backend or enabling the sandboxed browser.       |
 | [Podman backend](/gateway/sandboxing/podman-backend)                                 | You are using Podman instead of Docker for sandboxed tool execution.               |
 | [SSH backend](/gateway/sandboxing/ssh-backend)                                       | You are offloading sandboxed tool execution to a remote machine over SSH.          |
-| [OpenShell backend](/gateway/sandboxing/openshell-backend)                           | You are sandboxing tools in an OpenShell-managed remote environment.               |
-| [Crabbox backend](/gateway/sandboxing/crabbox-backend)                               | You want tool execution on a Crabbox-leased cloud box while the agent stays local. |
 | [Workspace access](/gateway/sandboxing/workspace-access)                             | You are deciding what the sandbox can see of the agent workspace.                  |
 | [Multiple folders for one agent](/gateway/sandboxing/multiple-folders-for-one-agent) | One sandboxed agent needs more than its primary workspace.                         |
 | [Images and setup](/gateway/sandboxing/images-and-setup)                             | You need to build or customize a sandbox image.                                    |
@@ -45,8 +43,8 @@ points at the page that now holds the content.
 - <a id="sandboxed-browser" />[Sandboxed browser](/gateway/sandboxing/docker-backend#sandboxed-browser)
 - <a id="podman-backend" />[Podman backend](/gateway/sandboxing/podman-backend#podman-backend)
 - <a id="ssh-backend" />[SSH backend](/gateway/sandboxing/ssh-backend#ssh-backend)
-- <a id="openshell-backend" />[OpenShell backend](/gateway/sandboxing/openshell-backend#openshell-backend)
-- <a id="crabbox-backend" />[Crabbox backend](/gateway/sandboxing/crabbox-backend#crabbox-backend)
+- <a id="openshell-backend" />OpenShell backend
+- <a id="crabbox-backend" />Crabbox backend
 - <a id="workspace-access" />[Workspace access](/gateway/sandboxing/workspace-access#workspace-access)
 - <a id="multiple-folders-for-one-agent" />[Multiple folders for one agent](/gateway/sandboxing/multiple-folders-for-one-agent#multiple-folders-for-one-agent)
 - <a id="other-bind-behavior" />[Other bind behavior](/gateway/sandboxing/multiple-folders-for-one-agent#other-bind-behavior)
@@ -95,7 +93,6 @@ Each agent can override sandbox + tools: `agents.entries.*.sandbox` and `agents.
 ## Related
 
 - [Multi-Agent Sandbox & Tools](/tools/multi-agent-sandbox-tools) -- per-agent overrides and precedence
-- [OpenShell](/gateway/openshell) -- managed sandbox backend setup, workspace modes, and config reference
 - [Sandbox configuration](/gateway/config-agents/sandbox#agentsdefaultssandbox)
 - [Sandbox vs Tool Policy vs Elevated](/gateway/sandbox-vs-tool-policy-vs-elevated) -- debugging "why is this blocked?"
 - [Security](/gateway/security)

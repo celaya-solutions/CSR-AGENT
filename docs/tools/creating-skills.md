@@ -255,8 +255,8 @@ personal owner or an organization where you have publisher access.
 
     Add `--version <version>` or `--owner <owner>` to override the inferred
     version or publish under a specific owner. See
-    [ClawHub — Publishing](/clawhub/publishing) and
-    [ClawHub CLI](/clawhub/cli) for the full flow, owner scoping, and other
+    ClawHub — Publishing and
+    ClawHub CLI for the full flow, owner scoping, and other
     maintenance commands (`clawhub sync`, `clawhub skill rename`, ...).
 
   </Step>
@@ -284,9 +284,6 @@ personal owner or an organization where you have publisher access.
   </Card>
   <Card title="Skills config" href="/tools/skills-config" icon="gear">
     Full `skills.*` config schema.
-  </Card>
-  <Card title="ClawHub" href="/clawhub" icon="cloud">
-    Browse and publish skills on the public registry.
   </Card>
   <Card title="Building plugins" href="/plugins/building-plugins" icon="plug">
     Plugins can ship skills alongside the tools they document.

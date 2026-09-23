@@ -36,7 +36,7 @@ first-run failures see
     markers present (`AWS_ACCESS_KEY_ID`, `AWS_PROFILE`, `AWS_BEARER_TOKEN_BEDROCK`),
     OpenAgent auto-enables the implicit Bedrock provider for model discovery; otherwise
     set `plugins.entries.amazon-bedrock.config.discovery.enabled: true` or add a manual
-    provider entry. See [Amazon Bedrock](/providers/bedrock) and [Model providers](/providers/models).
+    provider entry. See Amazon Bedrock and [Model providers](/providers/models).
     An OpenAI-compatible proxy in front of Bedrock is still a valid option if you prefer a managed key flow.
   </Accordion>
 
@@ -100,7 +100,7 @@ first-run failures see
     Gemini CLI OAuth profiles remain executable for compatibility, but OpenAgent
     cannot create or repair them.
 
-    Details: [Google](/providers/google), [Model providers](/concepts/model-providers).
+    Details: Google, [Model providers](/concepts/model-providers).
 
   </Accordion>
 
@@ -122,18 +122,18 @@ first-run failures see
     No. OpenAgent runs on macOS or Linux (Windows via WSL2). A Mac mini is a popular
     always-on host choice, but a small VPS, home server, or Raspberry Pi-class box works too.
 
-    You only need a Mac **for macOS-only tools**. For iMessage, use [iMessage](/channels/imessage)
+    You only need a Mac **for macOS-only tools**. For iMessage, use iMessage
     with `imsg` on any Mac signed into Messages - if the Gateway runs on Linux or elsewhere,
     set `channels.imessage.cliPath` to an SSH wrapper that runs `imsg` on that Mac. For other
     macOS-only tools, run the Gateway on a Mac or pair a macOS node.
 
-    Docs: [iMessage](/channels/imessage), [Nodes](/nodes), [Mac remote mode](/platforms/mac/remote).
+    Docs: iMessage, [Nodes](/nodes), Mac remote mode.
 
   </Accordion>
 
   <Accordion title="Do I need a Mac mini for iMessage support?">
     You need **some macOS device** signed into Messages - not necessarily a Mac mini, any
-    Mac works. Use [iMessage](/channels/imessage) with `imsg`; the Gateway can run on that
+    Mac works. Use iMessage with `imsg`; the Gateway can run on that
     Mac, or elsewhere with an SSH wrapper `cliPath`.
 
     Common setups:
@@ -141,7 +141,7 @@ first-run failures see
     - Gateway on Linux/VPS, `channels.imessage.cliPath` set to an SSH wrapper that runs `imsg` on a Mac signed into Messages.
     - Everything on one Mac for the simplest single-machine setup.
 
-    Docs: [iMessage](/channels/imessage), [Nodes](/nodes), [Mac remote mode](/platforms/mac/remote).
+    Docs: iMessage, [Nodes](/nodes), Mac remote mode.
 
   </Accordion>
 
@@ -181,7 +181,7 @@ first-run failures see
   </Accordion>
 
   <Accordion title="Can multiple people use one WhatsApp number with different OpenAgent instances?">
-    Yes, via **multi-agent routing**. Bind each sender's WhatsApp DM (`peer: { kind: "direct", id: "+15551234567" }`) to a different `agentId`, giving each person their own workspace and session store. Replies still come from the **same WhatsApp account**; DM access control (`channels.whatsapp.dmPolicy` / `channels.whatsapp.allowFrom`) is global per account. See [Multi-Agent Routing](/concepts/multi-agent) and [WhatsApp](/channels/whatsapp).
+    Yes, via **multi-agent routing**. Bind each sender's WhatsApp DM (`peer: { kind: "direct", id: "+15551234567" }`) to a different `agentId`, giving each person their own workspace and session store. Replies still come from the **same WhatsApp account**; DM access control (`channels.whatsapp.dmPolicy` / `channels.whatsapp.allowFrom`) is global per account. See [Multi-Agent Routing](/concepts/multi-agent) and WhatsApp.
   </Accordion>
 
   <Accordion title='Can I run a "fast chat" agent and an "Opus for coding" agent?'>
@@ -304,7 +304,7 @@ first-run failures see
 
     On Windows, use **Windows Hub** for desktop setup, or WSL2 for a Linux-style Gateway VM
     with broad tooling compatibility. See [Windows](/platforms/windows), [VPS hosting](/vps).
-    Running macOS in a VM: see [macOS VM](/install/macos-vm).
+    Running macOS in a VM: see macOS VM.
 
   </Accordion>
 </AccordionGroup>

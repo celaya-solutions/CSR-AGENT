@@ -213,7 +213,7 @@ The Control UI **Worktrees** page under Settings provides the same actions plus 
 
 ## Workboard workspaces
 
-The bundled [Workboard plugin](/plugins/workboard) can materialize a card workspace as a managed worktree:
+The bundled Workboard plugin can materialize a card workspace as a managed worktree:
 
 ```json
 {
@@ -229,5 +229,4 @@ For a workspace-bound caller, `path` and the repository root must exactly match 
 
 ## Related
 
-- [Workboard plugin](/plugins/workboard) — cards that materialize a managed worktree
 - [Configuration reference](/gateway/config-runtime#worktreeroot) — where `worktreeRoot` is set

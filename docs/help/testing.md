@@ -15,9 +15,6 @@ regressions for real-world provider/model bugs.
 <Note>
 **QA stack (qa-lab, qa-channel, live transport lanes)** is documented separately:
 
-- [QA overview](/concepts/qa-e2e-automation) - architecture, command surface, scenario authoring, and the Matrix live lane.
-- [Maturity scorecard](/maturity/scorecard) - how release QA evidence supports stability and LTS decisions.
-- [QA channel](/channels/qa-channel) - the synthetic transport plugin used by repo-backed scenarios.
 
 This page covers the regular test suites and Docker/Parallels runners. [QA-specific runners](#qa-specific-runners) below lists the concrete `qa` invocations and points back at the references above.
 </Note>
@@ -28,9 +25,7 @@ reader job. Open the page that matches your task.
 | Page                                                                | Read it when                                                                        |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [Test suites and commands](/help/testing/suites)                    | You need to pick a suite, a command, or the offline regression checks.              |
-| [Live and Docker/Parallels workflows](/help/testing/live-workflows) | You are debugging a real provider or model through a live Docker or Parallels lane. |
 | [Docker test runners](/help/testing/docker)                         | You want the Docker "works in Linux" lanes, their scheduler, and their env vars.    |
-| [QA-specific runners](/help/testing/qa-runners)                     | You are running a QA Lab lane or need the shared Convex credential contract.        |
 | [Contract tests](/help/testing/contracts)                           | You changed a channel, provider, or plugin-sdk surface.                             |
 | [Writing and adding tests](/help/testing/writing-tests)             | You are writing a test, a regression, or a reliability eval.                        |
 
@@ -42,10 +37,10 @@ resolves. Each entry points at the page that now holds the content.
 
 - <a id="quick-start" />[Quick start](/help/testing/suites#quick-start)
 - <a id="test-temp-directories" />[Test Temp Directories](/help/testing/writing-tests#test-temp-directories)
-- <a id="live-and-docker%2Fparallels-workflows" /><a id="live-and-docker/parallels-workflows" />[Live and Docker/Parallels workflows](/help/testing/live-workflows#live-and-docker/parallels-workflows)
-- <a id="qa-specific-runners" />[QA-specific runners](/help/testing/qa-runners#qa-specific-runners)
-- <a id="shared-telegram-credentials-via-convex-(v1)" /><a id="shared-telegram-credentials-via-convex-v1" />[Shared Telegram credentials via Convex (v1)](/help/testing/qa-runners#shared-telegram-credentials-via-convex-v1)
-- <a id="adding-a-channel-to-qa" />[Adding a channel to QA](/help/testing/qa-runners#adding-a-channel-to-qa)
+- <a id="live-and-docker%2Fparallels-workflows" /><a id="live-and-docker/parallels-workflows" />Live and Docker/Parallels workflows
+- <a id="qa-specific-runners" />QA-specific runners
+- <a id="shared-telegram-credentials-via-convex-(v1)" /><a id="shared-telegram-credentials-via-convex-v1" />Shared Telegram credentials via Convex (v1)
+- <a id="adding-a-channel-to-qa" />Adding a channel to QA
 - <a id="test-suites-(what-runs-where)" /><a id="test-suites-what-runs-where" />[Test suites (what runs where)](/help/testing/suites#test-suites-what-runs-where)
 - <a id="unit-%2F-integration-(default)" /><a id="unit-/-integration-default" />[Unit / integration (default)](/help/testing/suites#unit-/-integration-default)
 - <a id="projects-shards-and-scoped-lanes" />[Projects, shards, and scoped lanes](/help/testing/suites#projects-shards-and-scoped-lanes)
@@ -75,6 +70,4 @@ resolves. Each entry points at the page that now holds the content.
 ## Related
 
 - [Testing live](/help/testing-live)
-- [Testing updates and plugins](/help/testing-updates-plugins)
-- [CI](/ci)
 - [OpenAgent agent runtime workflow](/openclaw-agent-runtime) - the build, test, and live-validation loop for agent runtime code in `src/agents/`

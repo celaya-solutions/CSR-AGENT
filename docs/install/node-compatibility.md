@@ -6,7 +6,7 @@ read_when:
   - You want to understand a Node.js minimum version or platform support change
 ---
 
-This reference covers supported Node.js lines, why the minimum versions exist, and how they changed across OpenAgent releases. For installation steps, see [Node.js](/install/node); for macOS companion app requirements, see [macOS](/platforms/macos).
+This reference covers supported Node.js lines, why the minimum versions exist, and how they changed across OpenAgent releases. For installation steps, see [Node.js](/install/node); for macOS companion app requirements, see macOS.
 
 ## Supported versions
 
@@ -36,7 +36,7 @@ Separately, the **`node:sqlite` TEXT decoder** in Node 22.23.x, 24.15.0, 25.9.0,
 
 ## Platform consequences
 
-Official Node 24+ binaries require **macOS 13.5+**, so macOS 11 through 13.4 no longer support the Node-based CLI or Gateway. The companion app has separate [macOS requirements](/platforms/macos).
+Official Node 24+ binaries require **macOS 13.5+**, so macOS 11 through 13.4 no longer support the Node-based CLI or Gateway. The companion app has separate macOS requirements.
 
 Supported Node lines have no official **Linux ARMv7** builds. Use a 64-bit operating system on compatible ARM hardware, or another supported host.
 
@@ -54,7 +54,7 @@ Recommended, supported, and provisioned are three different things.
 | Windows         | `install.ps1`: Chocolatey, Scoop, or winget | LTS package; no exact patch pinned, validated after installation.                          |
 | Windows         | `install.ps1`: portable fallback            | Latest 26.x Windows zip.                                                                   |
 
-See [Installer internals](/install/installer) for provisioning details.
+See Installer internals for provisioning details.
 
 ## Check your runtime
 
@@ -91,7 +91,5 @@ Rows identify the first effective release, including a beta when applicable. Rec
 ## Related
 
 - [Bun compatibility](/install/bun-compatibility)
-- [Installer internals](/install/installer)
 - [Linux](/platforms/linux)
-- [macOS](/platforms/macos)
 - [Node.js](/install/node)

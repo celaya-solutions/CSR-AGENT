@@ -13,7 +13,7 @@ Scanning for Gateway beacons over mDNS and wide-area DNS-SD. Part of the [`openc
 `gateway discover` scans for Gateway beacons (`_openclaw-gw._tcp`).
 
 - Multicast DNS-SD: `local.`
-- Unicast DNS-SD (wide-area Bonjour): choose a domain (example: `openclaw.internal.`) and set up split DNS + a DNS server; see [Bonjour](/gateway/bonjour).
+- Unicast DNS-SD (wide-area Bonjour): choose a domain (example: `openclaw.internal.`) and set up split DNS + a DNS server; see Bonjour.
 
 Only gateways with Bonjour discovery enabled (default) advertise the beacon.
 

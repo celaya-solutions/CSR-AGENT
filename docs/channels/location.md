@@ -78,6 +78,4 @@ Telegram currently exposes this through `message(action="send")`. Its first impl
 
 ## Related
 
-- [Location command (nodes)](/nodes/location-command)
-- [Camera capture](/nodes/camera)
 - [Media understanding](/nodes/media-understanding)

@@ -134,7 +134,7 @@ llmman is a custom OpenAI-compatible `/v1` backend, so the same `localService` A
 }
 ```
 
-Replace `command` with the result of `which llmman` on the machine running OpenAgent. Full llmman setup: [llmman](/providers/llmman).
+Replace `command` with the result of `which llmman` on the machine running OpenAgent. Full llmman setup: llmman.
 
 ## ds4 example
 
@@ -173,15 +173,12 @@ Replace `command` with the result of `which llmman` on the machine running OpenA
 }
 ```
 
-Full setup, context sizing, and verification commands: [ds4](/providers/ds4).
+Full setup, context sizing, and verification commands: ds4.
 
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Local models" href="/gateway/local-models" icon="server">
     Local model setup, provider choices, and safety guidance.
-  </Card>
-  <Card title="llmman" href="/providers/llmman" icon="cpu">
-    Run OpenAgent through the llmman OpenAI-compatible local server.
   </Card>
 </CardGroup>

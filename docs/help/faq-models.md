@@ -40,7 +40,7 @@ troubleshooting, see the main [FAQ](/help/faq).
 
     Route models per agent and use sub-agents to parallelize long tasks (each
     sub-agent consumes its own tokens). See [Models](/concepts/models),
-    [Sub-agents](/tools/subagents), [MiniMax](/providers/minimax), and
+    [Sub-agents](/tools/subagents), MiniMax, and
     [Local models](/gateway/local-models).
 
   </Accordion>
@@ -211,7 +211,7 @@ troubleshooting, see the main [FAQ](/help/faq).
     installed release's catalog yet. Otherwise the MiniMax provider is not
     configured (no provider entry or auth profile found), so the model can't
     resolve. See the Troubleshooting section on the
-    [MiniMax](/providers/minimax) provider page for the full fix checklist,
+    MiniMax provider page for the full fix checklist,
     provider/model id table, and config-block example.
 
   </Accordion>
@@ -243,7 +243,7 @@ troubleshooting, see the main [FAQ](/help/faq).
     defaults to OpenAI; route by agent or use `/agent` to switch.
 
     Docs: [Models](/concepts/models), [Multi-Agent Routing](/concepts/multi-agent),
-    [MiniMax](/providers/minimax), [OpenAI](/providers/openai).
+    MiniMax, [OpenAI](/providers/openai).
 
   </Accordion>
 

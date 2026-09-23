@@ -120,17 +120,11 @@ for contract details.
 
 Common plugin-provided tools include:
 
-- [Diffs](/tools/diffs) for rendering file and markdown diffs
 - [Show widget](/tools/show-widget) for self-contained inline SVG and HTML in supported chat clients
 - [Screen](/tools/screen) for arranging a connected Control UI
 - [LLM Task](/tools/llm-task) for JSON-only workflow steps
-- [Lobster](/tools/lobster) for typed workflows with resumable approvals
-- [Tokenjuice](/tools/tokenjuice) for compacting noisy `exec` and `bash` tool
-  output
 - [Tool Search](/tools/tool-search) for discovering and calling large tool
   catalogs without putting every schema in the prompt
-- [Canvas](/plugins/reference/canvas) for the macOS widget-panel presenter and
-  A2UI dashboard content
 
 ## Configure access and approvals
 

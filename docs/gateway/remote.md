@@ -21,8 +21,8 @@ The Gateway WebSocket binds to **loopback** by default, on port `18789` (`gatewa
 
 | Setup                             | Where the Gateway runs                                                                                         | Best for                                                                                                                                          |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Always-on Gateway in your tailnet | Persistent host (VPS or home server), reached via Tailscale or SSH                                             | Laptops that sleep often but need the agent always-on. See [exe.dev](/install/exe-dev) (easy VM) or [Hetzner](/install/hetzner) (production VPS). |
-| Home desktop                      | Desktop; laptop connects remotely via the macOS app's remote mode (Settings → Connection → OpenAgent runs) | Keeping the agent on hardware that stays powered on. Runbook: [macOS remote access](/platforms/mac/remote).                                       |
+| Always-on Gateway in your tailnet | Persistent host (VPS or home server), reached via Tailscale or SSH                                             | Laptops that sleep often but need the agent always-on. See exe.dev (easy VM) or Hetzner (production VPS). |
+| Home desktop                      | Desktop; laptop connects remotely via the macOS app's remote mode (Settings → Connection → OpenAgent runs) | Keeping the agent on hardware that stays powered on. Runbook: macOS remote access.                                       |
 | Laptop                            | Laptop, exposed safely via SSH tunnel or Tailscale Serve (keep `gateway.bind: "loopback"`)                     | Single-machine setups. See [Tailscale](/gateway/tailscale) and [Web](/web).                                                                       |
 
 For the always-on and laptop setups, prefer keeping `gateway.bind: "loopback"` and using **Tailscale Serve** for the Control UI, or a trusted LAN/Tailnet bind with `gateway.remote.transport: "direct"`. SSH tunnel is the fallback that works from any machine.
@@ -230,7 +230,7 @@ WebChat has no separate HTTP port; the SwiftUI chat UI connects directly to the 
 
 ## macOS app remote mode
 
-The macOS menu bar app drives the same setup end-to-end: remote status checks, WebChat, and Voice Wake forwarding. Runbook: [macOS remote access](/platforms/mac/remote).
+The macOS menu bar app drives the same setup end-to-end: remote status checks, WebChat, and Voice Wake forwarding. Runbook: macOS remote access.
 
 ## Security rules (remote/VPN)
 
@@ -315,7 +315,7 @@ launchctl bootstrap gui/$UID ~/Library/LaunchAgents/ai.openclaw.ssh-tunnel.plist
 The tunnel starts automatically at login, restarts on crash, and keeps the forwarded port live.
 
 Open or reopen OpenAgent.app after setup, then verify the connection using the
-[macOS remote access](/platforms/mac/remote) checks.
+macOS remote access checks.
 
 <Note>
 If you have a leftover `com.openclaw.ssh-tunnel` LaunchAgent from an older setup, unload and delete it.

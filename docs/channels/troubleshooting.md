@@ -58,7 +58,7 @@ clean state.
 | `status=408 Request Time-out` loop  | Probe, logs, doctor, then gateway status            | Fix host connectivity/timing first; back up auth and re-link the account if the loop persists.                                   |
 | Replies arrive seconds/minutes late | `openclaw doctor --fix`                             | Doctor stops verified stale local TUI clients when they are degrading the Gateway event loop.                                    |
 
-Full troubleshooting: [WhatsApp troubleshooting](/channels/whatsapp#troubleshooting)
+Full troubleshooting: WhatsApp troubleshooting
 
 ## Telegram
 
@@ -102,7 +102,7 @@ Full troubleshooting: [Discord troubleshooting](/channels/discord/troubleshootin
 | DMs blocked                            | `openclaw pairing list slack`             | Approve pairing or relax DM policy.                                                                                                                  |
 | Channel message ignored                | Check `groupPolicy` and channel allowlist | Allow the channel or switch policy to `open`.                                                                                                        |
 
-Full troubleshooting: [Slack troubleshooting](/channels/slack/troubleshooting#troubleshooting)
+Full troubleshooting: Slack troubleshooting
 
 ## iMessage
 
@@ -114,7 +114,7 @@ Full troubleshooting: [Slack troubleshooting](/channels/slack/troubleshooting#tr
 | Can send but no receive on macOS     | Check macOS privacy permissions for Messages automation | Re-grant TCC permissions and restart channel process.                      |
 | DM sender blocked                    | `openclaw pairing list imessage`                        | Approve pairing or update allowlist.                                       |
 
-Full troubleshooting: [iMessage troubleshooting](/channels/imessage#troubleshooting)
+Full troubleshooting: iMessage troubleshooting
 
 ## Signal
 
@@ -126,7 +126,7 @@ Full troubleshooting: [iMessage troubleshooting](/channels/imessage#troubleshoot
 | DM blocked                      | `openclaw pairing list signal`             | Approve sender or adjust DM policy.                      |
 | Group replies do not trigger    | Check group allowlist and mention patterns | Add sender/group or loosen gating.                       |
 
-Full troubleshooting: [Signal troubleshooting](/channels/signal#troubleshooting)
+Full troubleshooting: Signal troubleshooting
 
 ## QQ Bot
 
@@ -139,7 +139,7 @@ Full troubleshooting: [Signal troubleshooting](/channels/signal#troubleshooting)
 | Voice not transcribed           | Check STT provider config                   | Configure `channels.qqbot.stt` or `tools.media.audio`.                                                                    |
 | Proactive messages not arriving | Check QQ platform interaction requirements  | QQ may block bot-initiated messages without recent interaction.                                                           |
 
-Full troubleshooting: [QQ Bot troubleshooting](/channels/qqbot#troubleshooting)
+Full troubleshooting: QQ Bot troubleshooting
 
 ## Matrix
 
@@ -153,7 +153,7 @@ Full troubleshooting: [QQ Bot troubleshooting](/channels/qqbot#troubleshooting)
 | Backup restore is pending/broken    | `openclaw matrix verify backup status` | Run `openclaw matrix verify backup restore` or rerun with a recovery key. |
 | Cross-signing/bootstrap looks wrong | `openclaw matrix verify bootstrap`     | Repair secret storage, cross-signing, and backup state in one pass.       |
 
-Full setup and config: [Matrix](/channels/matrix)
+Full setup and config: Matrix
 
 ## Gateway up but channel never connects
 

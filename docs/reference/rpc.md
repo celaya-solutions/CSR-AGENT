@@ -15,11 +15,11 @@ OpenAgent integrates external CLIs via JSON-RPC. Two patterns are used today.
 - Health probe: `/api/v1/check`.
 - OpenAgent owns lifecycle when `channels.signal.transport.kind="managed-native"` (the default).
 
-See [Signal](/channels/signal) for setup and endpoints.
+See Signal for setup and endpoints.
 
 ## Pattern B: stdio child process (imsg)
 
-- OpenAgent spawns `imsg rpc` as a child process for [iMessage](/channels/imessage).
+- OpenAgent spawns `imsg rpc` as a child process for iMessage.
 - JSON-RPC is line-delimited over stdin/stdout (one JSON object per line).
 - No TCP port, no daemon required.
 
@@ -30,7 +30,7 @@ Core methods used:
 - `send`
 - `chats.list` (probe/diagnostics)
 
-See [iMessage](/channels/imessage) for setup and addressing (`chat_id` preferred over display strings).
+See iMessage for setup and addressing (`chat_id` preferred over display strings).
 
 ## Adapter guidelines
 

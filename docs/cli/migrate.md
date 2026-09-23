@@ -8,10 +8,10 @@ title: "Migrate"
 
 # `openclaw migrate`
 
-Import state from another agent system through a plugin-owned migration provider. Bundled providers cover Claude, Codex CLI, and [Hermes](/install/migrating-hermes). Plugins can register additional providers.
+Import state from another agent system through a plugin-owned migration provider. Bundled providers cover Claude, Codex CLI, and Hermes. Plugins can register additional providers.
 
 <Tip>
-For user-facing walkthroughs, see [Migrating from Claude](/install/migrating-claude) and [Migrating from Hermes](/install/migrating-hermes). The [migration hub](/install/migrating) lists all paths.
+For user-facing walkthroughs, see Migrating from Claude and Migrating from Hermes. The [migration hub](/install/migrating) lists all paths.
 </Tip>
 
 ## Commands
@@ -114,7 +114,7 @@ Running `openclaw migrate <provider>` with no other flags plans, previews, and (
 The bundled Claude provider detects Claude Code state at `~/.claude` by default. Use `--from <path>` to import a specific Claude Code home or project root.
 
 <Tip>
-For a user-facing walkthrough, see [Migrating from Claude](/install/migrating-claude).
+For a user-facing walkthrough, see Migrating from Claude.
 </Tip>
 
 ### What Claude imports
@@ -258,8 +258,6 @@ Onboarding imports require a fresh OpenAgent setup. Reset config, credentials, s
 
 ## Related
 
-- [Migrating from Hermes](/install/migrating-hermes): user-facing walkthrough.
-- [Migrating from Claude](/install/migrating-claude): user-facing walkthrough.
 - [Migrating](/install/migrating): move OpenAgent to a new machine.
 - [Doctor](/gateway/doctor): health check after applying a migration.
 - [Plugins](/tools/plugin): plugin install and registration.

@@ -136,7 +136,7 @@ If you used a profile, delete the matching task name and the `gateway.cmd` /
 
 ## Remove the CLI
 
-Remove the Gateway service **before** deleting a checkout, launcher, or prefix. Inspect the resolved command and its target first; if ownership is unclear, leave it in place. Check [Installer internals](/install/installer) for custom checkout and prefix options.
+Remove the Gateway service **before** deleting a checkout, launcher, or prefix. Inspect the resolved command and its target first; if ownership is unclear, leave it in place. Check Installer internals for custom checkout and prefix options.
 
 | Installation method                               | CLI owner and removal                                                                                                                                                                                                        |
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

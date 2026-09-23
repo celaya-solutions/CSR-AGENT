@@ -16,7 +16,7 @@ Inspect local skills, search ClawHub, install skills from ClawHub/Git/local
 directories, verify ClawHub skills, and update ClawHub-tracked installs.
 
 Use [`openclaw plugins`](/cli/plugins) for plugin packages. The standalone
-[ClawHub CLI](/clawhub/cli) handles [publishing](/clawhub/publishing), registry
+ClawHub CLI handles publishing, registry
 maintenance, and [removing ClawHub skills](/cli/skills#remove-a-clawhub-skill).
 
 Related:

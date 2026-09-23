@@ -61,7 +61,7 @@ the service metadata and restarts it unless you pass `--no-restart`.
 
 Automatic package-to-Git conversion currently requires an npm-owned package
 symlink. A pnpm- or Bun-owned install rejects `--channel dev` before stopping
-the Gateway; use the [Git installer](/install/installer) when changing that
+the Gateway; use the Git installer when changing that
 installation's owner. Normal package-to-package updates keep using pnpm or Bun.
 
 Git updates build the complete runtime, including plugins and the Control UI,
@@ -109,7 +109,7 @@ checkout's pin, which may differ from the probed target pin. Operators must veri
 those overrides and maintain a recovery path. The same shim directory leads
 nested commands' `PATH`, and child workspace and lockfile roots follow each
 operation's directory. Bootstrap, install, or build failure prevents restart.
-The hosted [installers](/install/installer) also support npm-owned temporary provisioning
+The hosted installers also support npm-owned temporary provisioning
 when Corepack is unavailable; this server script deliberately requires Corepack.
 
 <Warning>
@@ -229,7 +229,7 @@ the install command fails, OpenAgent retries once with `--omit=optional`, which
 helps hosts where native optional dependencies cannot compile.
 
 For local tarball targets on npm 12, the archive filename and every parent
-directory must be comma-free. See [Installer path requirements](/install/installer).
+directory must be comma-free. See Installer path requirements.
 
 OpenAgent-managed npm update and plugin-update commands also clear npm's
 `min-release-age` supply-chain quarantine (or the older `before` config key)

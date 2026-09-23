@@ -10,7 +10,7 @@ This page collects working integration examples: exec provider recipes for exter
 
 ## Exec integration examples
 
-For a dedicated 1Password guide covering service accounts, the bundled agent skill, and troubleshooting, see [1Password](/gateway/1password).
+For a dedicated 1Password guide covering service accounts, the bundled agent skill, and troubleshooting, see 1Password.
 
 <AccordionGroup>
   <Accordion title="1Password">
@@ -50,7 +50,7 @@ For a dedicated 1Password guide covering service accounts, the bundled agent ski
     }
     ```
 
-    The bundled [1Password plugin](/plugins/onepassword) uses the official
+    The bundled 1Password plugin uses the official
     `op` CLI and the plugin's service-account token file.
 
   </Accordion>

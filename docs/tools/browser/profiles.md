@@ -11,7 +11,7 @@ read_when:
 - `user`: built-in Chrome DevTools MCP attach profile for your **real
   signed-in Chrome** session. Chrome shows a blocking "Allow remote debugging?"
   prompt the first time OpenAgent attaches, so someone must be at the computer.
-- `chrome`: built-in [Chrome extension](/tools/chrome-extension) profile for
+- `chrome`: built-in Chrome extension profile for
   your **real signed-in Chrome** session. Works from a phone with nobody at the
   desk because it drives tabs through the OpenAgent browser extension instead of
   the remote-debugging port, so there is no "Allow remote debugging?" prompt.

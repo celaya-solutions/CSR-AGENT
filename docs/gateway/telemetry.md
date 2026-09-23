@@ -183,7 +183,7 @@ logs are disabled; Cloudflare's separate infrastructure processing is outside
 those settings.
 
 Anonymous feature statistics are separate from optional, operator-configured
-[OpenTelemetry export](/gateway/opentelemetry).
+OpenTelemetry export.
 
 <a id="turn-feature-statistics-on-or-off" />
 

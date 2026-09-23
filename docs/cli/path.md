@@ -15,7 +15,7 @@ jsonl, yaml/yml/lobster). Self-hosters, plugin authors, and editor extensions
 use it to read, find, or update a narrow location without hand-rolling a
 per-file parser.
 
-`path` is provided by the bundled optional [`oc-path` plugin](/plugins/oc-path).
+`path` is provided by the bundled optional `oc-path` plugin.
 Enable it before first use:
 
 ```bash
@@ -531,4 +531,3 @@ auto-detection.
 ## Related
 
 - [CLI reference](/cli)
-- [OC Path plugin](/plugins/oc-path)

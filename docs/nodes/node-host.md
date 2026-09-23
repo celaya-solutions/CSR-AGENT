@@ -105,7 +105,7 @@ Notes:
 
 Pass `--commands <ids>` to `openclaw node run`, `openclaw node install`, or
 `openclaw connect` to advertise only an explicit comma-separated list of exact
-command IDs. For example, a [Session Share](/plugins/session-share) node can
+command IDs. For example, a Session Share node can
 publish sessions without exposing execution or other machine capabilities:
 
 ```bash

@@ -561,6 +561,5 @@ or password explicitly, and use `wss://` behind TLS.
 ## Related
 
 - [Control UI](/web/control-ui)
-- [Beam plugin](/plugins/beam)
 - [Dashboard](/web/dashboard)
 - [Session dashboards](/web/dashboards)

@@ -318,7 +318,7 @@ sidebarTitle: "Voice and speech"
     lifetime. Explicit `realtime.consultPolicy: "always"` is rejected for
     GPT-Live. `openclaw_end_call` and custom `realtime.tools` require native
     function-tool support and remain unavailable on GPT-Live; delegation does
-    not expose them. See [GPT-Live in Voice Call](/plugins/voice-call/realtime-and-streaming#gpt-live).
+    not expose them. See GPT-Live in Voice Call.
 
     Both credential types stay in the Gateway. The single-use offer broker
     exchanges the browser's SDP and returns only the answer SDP; it does not
@@ -403,7 +403,7 @@ sidebarTitle: "Voice and speech"
 
     These rows describe implemented transports, not account entitlement or
     complete model capability parity. See the [Discord voice policy limits](/channels/discord/voice-channels#voice-channels)
-    and [Voice Call tool limits](/plugins/voice-call#realtime-voice-conversations) before
+    and Voice Call tool limits before
     selecting an unlisted or private route for those consumers.
 
     <Warning>

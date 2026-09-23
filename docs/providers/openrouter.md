@@ -505,9 +505,6 @@ does **not** inject those OpenRouter-specific headers or Anthropic cache markers
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config reference for agents, models, and providers.
   </Card>
-  <Card title="Arcee" href="/providers/arcee" icon="server">
-    Arcee models reachable with an OpenRouter key.
-  </Card>
   <Card title="Image generation" href="/tools/image-generation" icon="image">
     Shared image tool parameters and provider selection.
   </Card>

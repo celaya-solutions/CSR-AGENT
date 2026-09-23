@@ -153,11 +153,11 @@ WhatsApp runs through the gateway's web channel (Baileys Web). It starts automat
 
 OpenAgent spawns `imsg rpc` (JSON-RPC over stdio). No daemon or port required. This is the preferred path for new OpenAgent iMessage setups when the host can grant Messages database and Automation permissions.
 
-BlueBubbles support was removed. `channels.bluebubbles` is not a supported runtime config surface on current OpenAgent. Migrate old configs to `channels.imessage`; use [BlueBubbles removal and the imsg iMessage path](/announcements/bluebubbles-imessage) for the short version and [Coming from BlueBubbles](/channels/imessage-from-bluebubbles) for the full translation table.
+BlueBubbles support was removed. `channels.bluebubbles` is not a supported runtime config surface on current OpenAgent. Migrate old configs to `channels.imessage`; use BlueBubbles removal and the imsg iMessage path for the short version and Coming from BlueBubbles for the full translation table.
 
 If the Gateway is not running on the signed-in Messages Mac, keep `channels.imessage.enabled=true` and set `channels.imessage.cliPath` to the absolute path of a Gateway-local SSH wrapper that runs `imsg "$@"` on that Mac. Set `remoteHost` to the Messages Mac, not the Gateway host. OpenAgent auto-detects simple transparent SSH wrappers for compatibility, but complex wrappers require explicit `remoteHost`. The default local `imsg` path is macOS-only.
 
-Before relying on an SSH wrapper for production sends, verify an outbound `imsg send` through that exact wrapper. Some macOS TCC states assign Messages Automation to `/usr/libexec/sshd-keygen-wrapper`, which can make reads and probes work while sends fail with AppleEvents `-1743`; see the SSH wrapper troubleshooting section on [iMessage](/channels/imessage).
+Before relying on an SSH wrapper for production sends, verify an outbound `imsg send` through that exact wrapper. Some macOS TCC states assign Messages Automation to `/usr/libexec/sshd-keygen-wrapper`, which can make reads and probes work while sends fail with AppleEvents `-1743`; see the SSH wrapper troubleshooting section on iMessage.
 
 ```json5
 {
@@ -221,4 +221,4 @@ With remote `imsg` v0.13.4, poll votes must use `pollOptionId`; its `poll.vote` 
 LINE is plugin-backed and configured under `channels.line`.
 
 - `channels.line.joinIntro` defaults to `true`. When the bot joins an allowed group or multi-person room, it posts one introduction using the group name when available. LINE exposes no multi-person room name or topic, and its Messaging API cannot read prior messages. Set this option to `false` to disable introductions, or use `channels.line.accounts.<accountId>.joinIntro` for an account-specific override. Introductions happen once per room and never run in one-to-one user chats; see [group join introductions](/channels#group-join-introductions).
-- Full LINE configuration, webhook setup, and access policy are documented in [LINE](/channels/line).
+- Full LINE configuration, webhook setup, and access policy are documented in LINE.

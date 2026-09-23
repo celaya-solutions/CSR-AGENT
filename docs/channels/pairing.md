@@ -314,9 +314,9 @@ imported into SQLite at gateway startup and archived with a `.migrated` suffix.
 - Updating safely (run doctor): [Updating](/install/updating)
 - Channel configs:
   - Telegram: [Telegram](/channels/telegram)
-  - WhatsApp: [WhatsApp](/channels/whatsapp)
-  - Signal: [Signal](/channels/signal)
-  - iMessage: [iMessage](/channels/imessage)
+  - WhatsApp: WhatsApp
+  - Signal: Signal
+  - iMessage: iMessage
   - Discord: [Discord](/channels/discord)
-  - Slack: [Slack](/channels/slack)
+  - Slack: Slack
 - [`openclaw pairing`](/cli/pairing) — drive pairing from the CLI

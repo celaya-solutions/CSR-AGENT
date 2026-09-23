@@ -48,15 +48,12 @@ Local trust:
 ## Discovery + transports
 
 - [Discovery and transports](/gateway/discovery)
-- [Bonjour / mDNS](/gateway/bonjour)
 - [Remote access (SSH)](/gateway/remote)
 - [Tailscale](/gateway/tailscale)
 
 ## Nodes + transports
 
 - [Nodes overview](/nodes)
-- [Node runbook: iOS](/platforms/ios)
-- [Node runbook: Android](/platforms/android)
 
 ## Security
 

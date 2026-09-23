@@ -28,7 +28,7 @@ app's local Accessibility and Screen Recording grants for Peekaboo's own
 automation tools. That bridge does not install or proxy Codex Computer Use, and
 Codex Computer Use does not call through the PeekabooBridge socket.
 
-Use [Peekaboo bridge](/platforms/mac/peekaboo) when you want OpenAgent.app to be
+Use Peekaboo bridge when you want OpenAgent.app to be
 a permission-aware host for Peekaboo CLI automation. Use this page when a
 Codex-mode OpenAgent agent should have Codex's native `computer-use` MCP plugin
 available before the turn starts.
@@ -41,7 +41,7 @@ Instead, the iOS app connects as an OpenAgent node and exposes mobile
 capabilities through node commands such as `camera.*`, `screen.*`,
 `location.*`, and `talk.*`.
 
-Use [iOS](/platforms/ios) when you want an agent to drive an iPhone node
+Use iOS when you want an agent to drive an iPhone node
 through the gateway. Use this page when a Codex-mode agent should control the
 local macOS desktop through Codex's native Computer Use plugin.
 
@@ -420,5 +420,3 @@ discovered local or remote marketplace.
 ## Related
 
 - [Codex harness](/plugins/codex-harness)
-- [Peekaboo bridge](/platforms/mac/peekaboo)
-- [iOS app](/platforms/ios)

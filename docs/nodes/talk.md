@@ -20,7 +20,7 @@ Native Talk is a continuous loop. It listens for speech. It sends the transcript
 
 For replies dominated by fenced code, `talk.speak` uses a short spoken message directing the listener to the screen. Inline code and ordinary prose remain part of the spoken reply.
 
-Apple Watch also retains **Talk to Claw**, the separate [one-turn companion flow](/platforms/ios#talk-to-claw-with-the-iphone). That flow uses native dictation, text relayed through the iPhone, and system-voice readback. **Talk on Watch** is the realtime path included in normal Watch setup. See [standalone voice setup](/platforms/ios#standalone-voice).
+Apple Watch also retains **Talk to Claw**, the separate one-turn companion flow. That flow uses native dictation, text relayed through the iPhone, and system-voice readback. **Talk on Watch** is the realtime path included in normal Watch setup. See standalone voice setup.
 
 ## Talk documentation pages
 
@@ -32,7 +32,6 @@ Open the child page that matches your task.
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | [Talk realtime sessions and delegation](/nodes/talk/realtime-sessions) | You are wiring realtime Talk: voice selection, delegation, steering, and transcripts. |
 | [Talk session ownership](/nodes/talk/session-ownership)                | You need agent and session resolution, control authority, or close semantics.         |
-| [Talk on macOS and the Gateway relay](/nodes/talk/macos-relay)         | You run Talk on macOS or enable the streamed realtime Gateway relay.                  |
 | [Talk client UI](/nodes/talk/client-ui)                                | You need the macOS, Apple Watch, or Android client controls and behavior.             |
 
 ## Where each section moved
@@ -43,11 +42,7 @@ resolves. Each entry points at the page that now holds the content.
 
 - <a id="choose-a-talk-voice-from-chat" />[Choose a Talk voice from chat](/nodes/talk/realtime-sessions#choose-a-talk-voice-from-chat)
 - <a id="session-ownership" />[Session ownership](/nodes/talk/session-ownership#session-ownership)
-- <a id="behavior-(macos)" />[Behavior (macOS)](</nodes/talk/macos-relay#behavior-(macos)>)
-- <a id="behavior-macos" />[Behavior (macOS)](/nodes/talk/macos-relay#behavior-macos)
-- <a id="realtime-talk-over-the-gateway-relay-(macos)" />[Realtime Talk over the Gateway relay (macOS)](</nodes/talk/macos-relay#realtime-talk-over-the-gateway-relay-(macos)>)
-- <a id="realtime-talk-over-the-gateway-relay-macos" />[Realtime Talk over the Gateway relay (macOS)](/nodes/talk/macos-relay#realtime-talk-over-the-gateway-relay-macos)
-- <a id="when-realtime-cannot-start" />[When realtime cannot start](/nodes/talk/macos-relay#when-realtime-cannot-start)
+- <a id="when-realtime-cannot-start" />When realtime cannot start
 - <a id="macos-ui" />[macOS UI](/nodes/talk/client-ui#macos-ui)
 - <a id="apple-watch-ui" />[Apple Watch UI](/nodes/talk/client-ui#apple-watch-ui)
 - <a id="android-ui" />[Android UI](/nodes/talk/client-ui#android-ui)
@@ -161,7 +156,7 @@ These rows describe implemented transport paths, not account entitlement or a
 successful live call on every device. iOS implements frameless transcripts and
 the Gateway offer exchange. Android retains an explicit GPT-Live model gate.
 For model capability limits, see [Discord voice policies](/channels/discord/voice-channels#voice-channels)
-and [Voice Call tools](/plugins/voice-call#realtime-voice-conversations).
+and Voice Call tools.
 
 The Gateway-owned WebRTC route keeps OAuth and Platform credentials away from
 relay clients. Backend WebSocket paths keep the Platform key on the Gateway.
@@ -225,5 +220,4 @@ Platform-key-only.
 - [Voice wake](/nodes/voicewake)
 - [Audio and voice notes](/nodes/audio)
 - [Media understanding](/nodes/media-understanding)
-- [Google Meet plugin](/plugins/google-meet)
 - [Media overview](/tools/media-overview) — how the media tools fit together

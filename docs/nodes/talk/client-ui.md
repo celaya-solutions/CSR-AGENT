@@ -29,7 +29,7 @@ Keep the app in the foreground until connected. Established calls use
 background audio; an unfinished startup stops if backgrounded. Physical
 wrist-down, speaker routing, cellular handoff, and long-call endurance remain
 unverified. Simulator results and macOS provider-audio probes are not proof of
-Watch background behavior. See [Watch setup and limits](/platforms/ios#standalone-voice).
+Watch background behavior. See Watch setup and limits.
 
 ## Android UI
 

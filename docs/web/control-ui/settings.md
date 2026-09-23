@@ -116,7 +116,7 @@ The **Typography** block lets you choose an **Interface** face and a separate **
 
 Appearance also has a Text size setting. It applies to chat text, composer text, tool cards, and chat sidebars, and keeps text inputs at least 16px so mobile Safari does not auto-zoom on focus.
 
-Appearance also carries the **Lobster visits** and **Lobster sounds** toggles and the Lobsterdex. Both toggles are browser-local. See [The Lobster](/web/lobster) for what the sidebar visitor does and how to turn it off for good.
+Appearance also carries the **Lobster visits** and **Lobster sounds** toggles and the Lobsterdex. Both toggles are browser-local. See The Lobster for what the sidebar visitor does and how to turn it off for good.
 
 When your connection is bound to an authenticated Gateway profile, theme, theme mode, and accent color are saved to that profile instead of the gateway config. They follow you across devices without changing anyone else's appearance, override gateway-wide `ui.prefs` values, and update your connected clients live. Connections without an authenticated profile continue syncing these preferences through the gateway config exactly as before. Language and chat display preferences remain gateway-config preferences for every connection. Each browser keeps a local mirror for instant boot, and text size remains browser-local. An explicitly read-only connection applies preference changes only in that browser. Changes made while offline remain queued until a later connection can write their applicable preferences; on a read-only reconnect, they continue to behave as browser-local preferences. See [Configuration reference](/gateway/configuration-reference#ui).
 
@@ -231,11 +231,11 @@ local Gateway still uses **Update Mac app + Gateway** and the native update flow
 Open **Apps** from the sidebar **More** menu, the command palette, or the
 sidebar agent menu (**Get the apps**), or use `/apps` relative to the
 configured Control UI base path. The page collects install links for every
-OpenAgent companion surface: the [iOS](/platforms/ios) and
-[Android](/platforms/android) apps, the Apple Watch and Wear OS companions
-bundled with them, the [macOS](/platforms/macos), [Windows](/platforms/windows),
+OpenAgent companion surface: the iOS and
+Android apps, the Apple Watch and Wear OS companions
+bundled with them, the macOS, [Windows](/platforms/windows),
 and [Linux](/platforms/linux) desktop apps, the
-[Chrome extension](/tools/chrome-extension), the in-app Plugins hub with
+Chrome extension, the in-app Plugins hub with
 [ClawHub](https://clawhub.ai), and the Discord community and docs.
 
 ## Settings
@@ -296,7 +296,7 @@ The existing Terminal, Files, and Side chat bindings are unchanged.
 
 ### This device (macOS and iOS apps)
 
-Inside the [macOS app](/platforms/macos), Settings includes a **This Mac** group
+Inside the macOS app, Settings includes a **This Mac** group
 for settings on that Mac. **This Mac** (`/settings/device`) contains app behavior,
 device capabilities, browser login import and cookie sync, and developer tools.
 **Permissions** (`/settings/device/permissions`) shows macOS permission status

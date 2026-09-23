@@ -40,7 +40,7 @@ Two runtime families:
   be passed to AgentHarness selection.
 
 The `copilot` harness is a separate, opt-in external plugin harness for the
-GitHub Copilot CLI; see [GitHub Copilot agent runtime](/plugins/copilot) for
+GitHub Copilot CLI; see GitHub Copilot agent runtime for
 the user-facing decision between PI, Codex, and GitHub Copilot agent runtime.
 
 ## Codex surfaces
@@ -267,7 +267,7 @@ The plugin manifest declares the harness provider, runtime, CLI session key,
 and auth profile prefix without requiring `openclaw doctor` to load plugin
 code. For configuration, auth, transcript mirroring, compaction, the
 declarative doctor contract, and the broader PI vs Codex vs Copilot SDK
-decision, see [GitHub Copilot agent runtime](/plugins/copilot).
+decision, see GitHub Copilot agent runtime.
 
 ## Compatibility contract
 
@@ -307,7 +307,6 @@ reject the turn. The completed result records the runtime that actually ran.
 
 - [Codex harness](/plugins/codex-harness)
 - [Codex harness runtime](/plugins/codex-harness-runtime)
-- [GitHub Copilot agent runtime](/plugins/copilot)
 - [OpenAI](/providers/openai)
 - [Agent harness plugins](/plugins/sdk-agent-harness)
 - [Agent loop](/concepts/agent-loop)

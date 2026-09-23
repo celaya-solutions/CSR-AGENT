@@ -14,22 +14,6 @@ tuning that applies everywhere.
 
 ## Pick a provider
 
-<CardGroup cols={2}>
-  <Card title="Azure" href="/install/azure">Linux VM</Card>
-  <Card title="Daytona" href="/install/daytona">Cloud sandbox with preview URLs</Card>
-  <Card title="DigitalOcean" href="/install/digitalocean">Simple paid VPS</Card>
-  <Card title="exe.dev" href="/install/exe-dev">VM with HTTPS proxy</Card>
-  <Card title="Fly.io" href="/install/fly">Fly Machines</Card>
-  <Card title="GCP" href="/install/gcp">Compute Engine</Card>
-  <Card title="Hetzner" href="/install/hetzner">Docker on Hetzner VPS</Card>
-  <Card title="Hostinger" href="/install/hostinger">VPS with one-click setup</Card>
-  <Card title="Northflank" href="/install/northflank">One-click, browser setup</Card>
-  <Card title="Oracle Cloud" href="/install/oracle">Always Free ARM tier</Card>
-  <Card title="Railway" href="/install/railway">One-click, browser setup</Card>
-  <Card title="Render" href="/install/render">Managed web service</Card>
-  <Card title="Raspberry Pi" href="/install/raspberry-pi">ARM self-hosted</Card>
-  <Card title="Upstash Box" href="/install/upstash">SSH-managed sandbox box</Card>
-</CardGroup>
 
 **AWS (EC2 / Lightsail / free tier)** also works well.
 A community video walkthrough is available at
@@ -98,7 +82,7 @@ source ~/.bashrc
 
 - `NODE_COMPILE_CACHE` improves repeated command startup times; the first run warms the cache.
 - `OPENCLAW_NO_RESPAWN=1` keeps routine Gateway restarts in-process, which avoids extra process handoffs and keeps PID tracking simple on small hosts.
-- For Raspberry Pi specifics, see [Raspberry Pi](/install/raspberry-pi).
+- For Raspberry Pi specifics, see Raspberry Pi.
 
 ### systemd tuning checklist (optional)
 
@@ -135,9 +119,3 @@ diagnostics, see [Linux memory pressure and OOM kills](/platforms/linux#memory-p
 ## Related
 
 - [Install overview](/install)
-- [DigitalOcean](/install/digitalocean)
-- [Fly.io](/install/fly)
-- [Hetzner](/install/hetzner)
-- [Ansible](/install/ansible) — automated deployment to remote Debian/Ubuntu servers with Tailscale VPN and firewall isolation
-- [Kubernetes](/install/kubernetes) — a minimal Kustomize starting point when you run the Gateway on a cluster instead of a single VPS
-- [macOS VMs](/install/macos-vm) — a sandboxed macOS VM when you need macOS itself (iMessage) rather than a Linux host

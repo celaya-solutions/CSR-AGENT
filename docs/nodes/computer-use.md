@@ -212,7 +212,7 @@ For CUA, use the same `executionId` for the preceding `screen.snapshot` call. Co
 
 A CUA snapshot without an `executionId` is a standalone capture: its temporary execution closes after capture and cannot authorize later input.
 
-Reads reuse `screen.snapshot`; there is no second capture path. See [Camera and screen nodes](/nodes/camera) for the shared capture command.
+Reads reuse `screen.snapshot`; there is no second capture path. See Camera and screen nodes for the shared capture command.
 
 ## Authorization
 
@@ -240,7 +240,7 @@ On macOS, default-on means a paired gateway can drive pointer and keyboard input
 
 - Every layer (tool policy, gateway command policy, pairing, node-app setting, and platform permissions) must agree. On macOS that includes **Allow Computer Control**, Accessibility, and Screen Recording; the native Peekaboo path also requires Event Posting. Actions execute while those durable controls remain enabled; there is no per-action confirmation.
 - The macOS fulfiller posts text one grapheme at a time, so cancellation, disconnect, pause, disable, or endpoint replacement stops it before the next grapheme. The experimental CUA Driver fulfiller passes node cancellation to the SDK for each call.
-- On macOS, capture and input require a verified unlocked desktop. Temporary keep-awake covers an active Computer execution, including background actions, for at most one hour. Manual lock, logout, or unknown state releases assertions and retires the execution; a later unlock requires a new execution. Optional [unattended desktop hosting](/platforms/mac/permissions#desktop-availability-and-keeping-awake) keeps a connected host awake between jobs without changing persistent macOS power or lock settings.
+- On macOS, capture and input require a verified unlocked desktop. Temporary keep-awake covers an active Computer execution, including background actions, for at most one hour. Manual lock, logout, or unknown state releases assertions and retires the execution; a later unlock requires a new execution. Optional unattended desktop hosting keeps a connected host awake between jobs without changing persistent macOS power or lock settings.
 - CUA recording, replay, browser upload, and browser download paths are node-owned. The model receives only opaque execution-scoped resource handles; traversal, absolute paths, symlink escapes, and helper selection are rejected before driver dispatch.
 - Screenshots are model-only and never auto-sent to chat (issue [#44759](https://github.com/openclaw/openclaw/issues/44759)).
 - Treat screen content as untrusted; it can carry prompt injection.
@@ -293,7 +293,7 @@ subject to the current connection, hosting, and unlocked-session requirements.
 Screen Sharing may request an immediate lock when its last viewer disconnects;
 OpenAgent honors that lock even when unattended desktop hosting is enabled. The
 web Desktop viewer does not create an OpenAgent keep-awake execution.
-See [Desktop availability and keeping awake](/platforms/mac/permissions#desktop-availability-and-keeping-awake).
+See Desktop availability and keeping awake.
 
 <a id="macos-permission-troubleshooting" />
 
@@ -305,4 +305,4 @@ If the status says **Accessibility grant may be stale**, OpenAgent may already a
 
 ## Relationship to other desktop-control paths
 
-This is the agent-driven path. See [Peekaboo bridge](/platforms/mac/peekaboo) for how it relates to the PeekabooBridge host, [Codex Computer Use](/plugins/codex-computer-use), and the direct `cua-driver` MCP.
+This is the agent-driven path. See Peekaboo bridge for how it relates to the PeekabooBridge host, [Codex Computer Use](/plugins/codex-computer-use), and the direct `cua-driver` MCP.

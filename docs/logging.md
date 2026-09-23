@@ -693,14 +693,14 @@ Two adjacent surfaces:
   any OpenTelemetry-compatible collector or backend (Datadog, Grafana,
   Honeycomb, New Relic, Tempo, etc.). Full configuration, signal catalog,
   metric/span names, env vars, and privacy model live on a dedicated page:
-  [OpenTelemetry export](/gateway/opentelemetry).
+  OpenTelemetry export.
 - **Diagnostics flags** — targeted debug-log flags that route extra logs to
   `logging.file` without raising `logging.level`. Flags are case-insensitive
   and support wildcards (`telegram.*`, `*`). Configure under `diagnostics.flags`
   or via the `OPENCLAW_DIAGNOSTICS=...` env override. Full guide:
   [Diagnostics flags](/diagnostics/flags).
 
-For OTLP export to a collector, see [OpenTelemetry export](/gateway/opentelemetry).
+For OTLP export to a collector, see OpenTelemetry export.
 
 ## Troubleshooting tips
 
@@ -711,7 +711,6 @@ For OTLP export to a collector, see [OpenTelemetry export](/gateway/opentelemetr
 
 ## Related
 
-- [OpenTelemetry export](/gateway/opentelemetry) — OTLP/HTTP export, metric/span catalog, privacy model
 - [Diagnostics flags](/diagnostics/flags) — targeted debug-log flags
 - [Gateway logging internals](/gateway/logging) — WS log styles, subsystem prefixes, and console capture
 - [Configuration reference](/gateway/config-observability#diagnostics) — full `diagnostics.*` field reference

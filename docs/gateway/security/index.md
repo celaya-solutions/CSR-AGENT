@@ -56,7 +56,6 @@ Expose and operate:
 Run it from the CLI:
 
 - [`openclaw security`](/cli/security) - Run the audit, read findings, and apply the supported auto-fixes.
-- [`openclaw policy`](/cli/policy) - Inspect and test the tool policy the guidance above configures.
 
 ## Where each section moved
 

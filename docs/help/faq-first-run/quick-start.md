@@ -86,7 +86,7 @@ where to run the Gateway see
     [Pull requests](https://github.com/openclaw/openclaw/pulls).
 
     Quick debug loop: [First 60 seconds if something is broken](/help/faq#first-60-seconds-if-something-is-broken).
-    Install docs: [Install](/install), [Installer flags](/install/installer), [Updating](/install/updating).
+    Install docs: [Install](/install), Installer flags, [Updating](/install/updating).
 
   </Accordion>
 
@@ -177,7 +177,7 @@ where to run the Gateway see
     laptop/phone for local screen/camera or command execution. A paired Mac can
     also present hosted widgets in its native panel. See [Nodes](/nodes).
 
-    Full setup walkthrough: [Raspberry Pi](/install/raspberry-pi).
+    Full setup walkthrough: Raspberry Pi.
 
   </Accordion>
 
@@ -189,7 +189,7 @@ where to run the Gateway see
     - Start without channels/skills, add them one by one.
     - Weird binary failures ("exec format error") are usually a missing ARM64 build for an optional skill tool.
 
-    Full guide: [Raspberry Pi](/install/raspberry-pi). Also see [Linux](/platforms/linux).
+    Full guide: Raspberry Pi. Also see [Linux](/platforms/linux).
 
   </Accordion>
 
@@ -301,7 +301,7 @@ where to run the Gateway see
 
     Windows installer (PowerShell): `iwr -useb https://openclaw.ai/install.ps1 | iex`
 
-    More detail: [Development channels](/install/development-channels) and [Installer flags](/install/installer).
+    More detail: Development channels and Installer flags.
 
   </Accordion>
 
@@ -332,7 +332,7 @@ where to run the Gateway see
     pnpm build
     ```
 
-    Docs: [Update](/cli/update), [Development channels](/install/development-channels), [Install](/install).
+    Docs: [Update](/cli/update), Development channels, [Install](/install).
 
   </Accordion>
 
@@ -360,7 +360,7 @@ where to run the Gateway see
     ```
 
     `install.ps1` has no dedicated verbose switch; wrap it in `Set-PSDebug -Trace 1` /
-    `-Trace 0` instead. Full flag reference: [Installer flags](/install/installer).
+    `-Trace 0` instead. Full flag reference: Installer flags.
 
   </Accordion>
 
@@ -417,7 +417,7 @@ where to run the Gateway see
     curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git
     ```
 
-    More detail: [Install](/install) and [Installer flags](/install/installer).
+    More detail: [Install](/install) and Installer flags.
 
   </Accordion>
 
@@ -431,7 +431,7 @@ where to run the Gateway see
   <Accordion title="How do I install OpenAgent on a VPS?">
     Any Linux VPS works. Install on the server, then reach the Gateway over SSH/Tailscale.
 
-    Guides: [exe.dev](/install/exe-dev), [Hetzner](/install/hetzner), [Fly.io](/install/fly).
+    Guides: exe.dev, Hetzner, Fly.io.
     Remote access: [Gateway remote](/gateway/remote).
 
   </Accordion>
@@ -440,9 +440,6 @@ where to run the Gateway see
     Hosting hub with common providers:
 
     - [VPS hosting](/vps) (all providers in one place)
-    - [Fly.io](/install/fly)
-    - [Hetzner](/install/hetzner)
-    - [exe.dev](/install/exe-dev)
 
     In the cloud, the **Gateway runs on the server** and you access it from your laptop/phone
     via the Control UI (or Tailscale/SSH). Your state + workspace live on the server, so
@@ -529,7 +526,7 @@ where to run the Gateway see
     Coding Plan**, **MiniMax Coding Plan**, and **Z.AI / GLM Coding Plan**.
 
     Docs: [Anthropic](/providers/anthropic), [OpenAI](/providers/openai),
-    [Qwen Cloud](/providers/qwen), [MiniMax](/providers/minimax), [Z.AI (GLM)](/providers/zai),
+    Qwen Cloud, MiniMax, Z.AI (GLM),
     [Local models](/gateway/local-models), [Models](/concepts/models).
 
   </Accordion>
@@ -552,8 +549,8 @@ where to run the Gateway see
     Anthropic setup-token auth is also still a supported token path, but OpenAgent prefers
     Claude CLI reuse and `claude -p` when available. For production or multi-user
     workloads, an Anthropic API key remains the safer, more predictable choice. Other
-    subscription-style hosted options: [OpenAI](/providers/openai), [Qwen Cloud](/providers/qwen),
-    [MiniMax](/providers/minimax), [Z.AI (GLM)](/providers/zai).
+    subscription-style hosted options: [OpenAI](/providers/openai), Qwen Cloud,
+    MiniMax, Z.AI (GLM).
 
   </Accordion>
 

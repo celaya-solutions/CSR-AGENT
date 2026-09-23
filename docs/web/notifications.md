@@ -10,7 +10,7 @@ read_when:
 
 OpenAgent can ping you when something needs your attention, including an exec or plugin approval request. The ping arrives in the browser that runs the Control UI. It can also arrive through native macOS notifications when you use the OpenAgent macOS app. Your first chat send may request permission automatically. **Settings → Notifications** remains the place to enable or repair the current device. Use the same page to check its status and send yourself a test.
 
-This page covers those two surfaces. It does not control channel reaction notifications, Android notification forwarding, or iOS background push. The mobile apps register for push through their own node paths. See [iOS](/platforms/ios) and [Nodes](/nodes).
+This page covers those two surfaces. It does not control channel reaction notifications, Android notification forwarding, or iOS background push. The mobile apps register for push through their own node paths. See iOS and [Nodes](/nodes).
 
 ## Which surface you get
 
@@ -139,5 +139,4 @@ If the entry is in **Inbox → Mentions**, check this browser's subscription and
 ## Related
 
 - [Control UI PWA and Web Push](/web/control-ui/connect-and-pair#pwa-install-and-web-push)
-- [iOS push delivery](/platforms/ios)
 - [Node notification commands](/nodes)

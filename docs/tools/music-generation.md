@@ -119,7 +119,7 @@ Direct generation example:
 MiniMax registers two provider ids sharing the same models: `minimax` for
 API-key auth and `minimax-portal` for OAuth. Model refs follow the auth path
 (`minimax/music-2.6` vs `minimax-portal/music-2.6`); see
-[MiniMax](/providers/minimax#music-generation).
+MiniMax.
 
 fal also exposes `fal-ai/ace-step/prompt-to-audio` (wav, no lyrics, no
 instrumental toggle) and `fal-ai/stable-audio-25/text-to-audio` (wav,
@@ -314,9 +314,9 @@ OpenAgent does not append auto-detected providers.
   provider that is not part of the shared bundled music capability.
 
 If you are debugging ComfyUI-specific behavior, see
-[ComfyUI](/providers/comfy). If you are debugging shared provider
-behavior, start with [fal](/providers/fal), [Google (Gemini)](/providers/google),
-[MiniMax](/providers/minimax), or [OpenRouter](/providers/openrouter).
+ComfyUI. If you are debugging shared provider
+behavior, start with fal, Google (Gemini),
+MiniMax, or [OpenRouter](/providers/openrouter).
 
 ## Provider capability modes
 
@@ -386,10 +386,7 @@ sections are configured.
 ## Related
 
 - [Background tasks](/automation/tasks) — task tracking for detached `music_generate` runs
-- [ComfyUI](/providers/comfy)
 - [Configuration reference](/gateway/config-agents#agent-defaults) — `agents.defaults.mediaModels.music` config
-- [Google (Gemini)](/providers/google)
-- [MiniMax](/providers/minimax)
 - [Models](/concepts/models) — model configuration and failover
 - [Tools overview](/tools)
 - [Media overview](/tools/media-overview) — how the media tools fit together

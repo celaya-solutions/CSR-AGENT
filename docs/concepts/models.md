@@ -37,7 +37,7 @@ selected by `auto`). Runtime overrides belong on provider/model policy, not on
 the whole agent or session. Runtime selection does not determine billing:
 OpenAI API-key and ChatGPT/Codex subscription credentials remain distinct. See
 [Agent runtimes](/concepts/agent-runtimes) and
-[GitHub Copilot agent runtime](/plugins/copilot).
+GitHub Copilot agent runtime.
 
 ## Selection order
 
@@ -375,7 +375,7 @@ infer retirement or substitute another source's rate. Explicit user costs still
 win. DeepInfra uses its agent projection for model metadata and its native
 `/models/list` feed for prices, including numeric discounts. Qualified schedules
 that cannot be represented as unconditional token costs stay unknown. Models
-remain available. See [DeepInfra price estimates](/providers/deepinfra#price-estimates).
+remain available. See DeepInfra price estimates.
 
 Run `openclaw models refresh` for an immediate metadata and pricing check, or
 disable every hosted catalog request with `models.catalogRefresh.enabled:

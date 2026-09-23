@@ -195,7 +195,6 @@ reproduction.
 
 ## Related
 
-- [Diffs](/tools/diffs)
 - [Session management](/concepts/session)
 - [Exec tool](/tools/exec)
 - [Codex harness runtime](/plugins/codex-harness-runtime)

@@ -178,4 +178,4 @@ Each refresh also publishes a dated tag such as `2026.8.1-r20260820` (plus `-sli
 
 ## Running on a VPS?
 
-See [Hetzner (Docker VPS)](/install/hetzner) and [Docker VM Runtime](/install/docker-vm-runtime) for shared VM deployment steps including binary baking, persistence, and updates.
+See Hetzner (Docker VPS) and [Docker VM Runtime](/install/docker-vm-runtime) for shared VM deployment steps including binary baking, persistence, and updates.

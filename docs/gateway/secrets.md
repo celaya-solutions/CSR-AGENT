@@ -91,7 +91,6 @@ page that now holds the content.
 
 - [Authentication](/gateway/authentication) - auth setup
 - [CLI: secrets](/cli/secrets) - CLI commands
-- [Vault SecretRefs](/plugins/vault) - HashiCorp Vault provider setup
 - [Environment Variables](/help/environment) - environment precedence
 - [SecretRef Credential Surface](/reference/secretref-credential-surface) - credential surface
 - [Secrets Apply Plan Contract](/gateway/secrets-plan-contract) - plan contract details

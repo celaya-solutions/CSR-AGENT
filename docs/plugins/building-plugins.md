@@ -14,7 +14,7 @@ channel, model provider, local CLI backend, agent tool, hook, media provider,
 or another plugin-owned capability.
 
 You do not need to add an external plugin to the OpenAgent repository. Publish
-the package to [ClawHub](/clawhub) and users install it with:
+the package to ClawHub and users install it with:
 
 ```bash
 openclaw plugins install clawhub:<package-name>

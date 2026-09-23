@@ -143,7 +143,7 @@ The app now connects directly through Tailscale Serve, so the per-client SSH tun
 
 The iOS and Android apps connect directly to the Gateway WebSocket and do not manage an SSH-tunnel transport. Use the same `wss://<host>.<tailnet>.ts.net` endpoint when pairing or generating a setup code. This gives mobile clients a secure route they can use from anywhere on the tailnet.
 
-See [iOS app setup](/platforms/ios) and [Android connection setup](/platforms/android#connection-runbook) for their pairing steps.
+See iOS app setup and Android connection setup for their pairing steps.
 
 ## Troubleshooting
 

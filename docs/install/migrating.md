@@ -13,14 +13,6 @@ OpenAgent supports three migration paths: importing from another agent system, m
 
 Bundled migration providers bring instructions, MCP servers, skills, model config, and (opt-in) API keys into OpenAgent. Plans are previewed before any change and secrets are redacted in reports. Standalone `openclaw migrate` is backed by a verified backup; fresh onboarding imports instead stage and verify local artifacts before publishing them with configuration committed before any irreversible external activation.
 
-<CardGroup cols={2}>
-  <Card title="Migrating from Claude" href="/install/migrating-claude" icon="brain">
-    Import Claude Code and Claude Desktop state, including `CLAUDE.md`, MCP servers, skills, and project commands.
-  </Card>
-  <Card title="Migrating from Hermes" href="/install/migrating-hermes" icon="feather">
-    Import Hermes config, providers, MCP servers, memory, skills, and supported `.env` keys.
-  </Card>
-</CardGroup>
 
 The CLI entry point is [`openclaw migrate`](/cli/migrate). Onboarding can also offer migration when it detects a known source (`openclaw onboard --flow import`).
 
@@ -147,7 +139,6 @@ On the new machine, confirm:
 
 In-place plugin upgrades preserve the same plugin id and config keys but may move on-disk state into the current layout. Plugin-specific upgrade guides live alongside their channels:
 
-- [Matrix migration](/channels/matrix-migration): encrypted-state recovery limits, automatic snapshot behavior, and manual recovery commands.
 
 ## Related
 

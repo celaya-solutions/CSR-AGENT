@@ -212,8 +212,8 @@ OpenAgent release:
     <Tip>
     For shared production automation, use an Anthropic API key instead of
     Claude CLI. OpenAgent also supports subscription-style options from
-    [OpenAI Codex](/providers/openai), [Qwen Cloud](/providers/qwen),
-    [MiniMax](/providers/minimax), and [Z.AI / GLM](/providers/zai).
+    [OpenAI Codex](/providers/openai), Qwen Cloud,
+    MiniMax, and Z.AI / GLM.
     </Tip>
 
   </Tab>
@@ -863,9 +863,6 @@ More help: [Troubleshooting](/help/troubleshooting) and [FAQ](/help/faq).
   </Card>
   <Card title="OAuth and auth" href="/gateway/authentication" icon="key">
     Auth details and credential reuse rules.
-  </Card>
-  <Card title="Claude Max API proxy" href="/providers/claude-max-api-proxy" icon="shuffle">
-    Community proxy exposing Claude subscription credentials as an OpenAI-compatible endpoint.
   </Card>
   <Card title="Anthropic plugin reference" href="/plugins/reference/anthropic" icon="plug">
     Anthropic models, Claude CLI, and the native Claude session catalog.

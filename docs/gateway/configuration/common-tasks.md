@@ -15,15 +15,7 @@ read_when:
     Each channel has its own config section under `channels.<provider>`. See the dedicated channel page for setup steps:
 
     - [Discord](/channels/discord) - `channels.discord`
-    - [Feishu](/channels/feishu) - `channels.feishu`
-    - [Google Chat](/channels/googlechat) - `channels.googlechat`
-    - [iMessage](/channels/imessage) - `channels.imessage`
-    - [Mattermost](/channels/mattermost) - `channels.mattermost`
-    - [Microsoft Teams](/channels/msteams) - `channels.msteams`
-    - [Signal](/channels/signal) - `channels.signal`
-    - [Slack](/channels/slack) - `channels.slack`
     - [Telegram](/channels/telegram) - `channels.telegram`
-    - [WhatsApp](/channels/whatsapp) - `channels.whatsapp`
 
     All channels share the same DM policy pattern:
 
@@ -276,7 +268,7 @@ read_when:
     - Custom gateway relay URLs must match the relay base URL baked into the iOS build; the public App Store release lane rejects custom iOS relay URL overrides.
     - `OPENCLAW_APNS_RELAY_ALLOW_HTTP=true` remains a loopback-only development escape hatch; do not persist HTTP relay URLs in config.
 
-    See [iOS App](/platforms/ios#relay-backed-push-for-official-builds) for the end-to-end flow and [Authentication and trust flow](/platforms/ios#authentication-and-trust-flow) for the relay security model.
+    See iOS App for the end-to-end flow and Authentication and trust flow for the relay security model.
 
   </Accordion>
 

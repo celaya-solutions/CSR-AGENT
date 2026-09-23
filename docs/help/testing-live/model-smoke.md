@@ -14,7 +14,7 @@ Live model tests are split into two layers so failures are isolated:
 - "Gateway smoke" tells you whether the full gateway+agent pipeline works for that model (sessions, history, tools, sandbox policy, etc.).
 
 The curated model lists on
-[Live: model matrix](/help/testing-live/long-context-and-matrix#live-model-matrix-what-we-cover)
+Live: model matrix
 live in `src/agents/test-helpers/live-model-dynamic-candidates.ts` and
 change over time; treat the arrays there as the source of truth, not this
 page.
@@ -32,7 +32,7 @@ MiniMax M3 uses `minimax/MiniMax-M3` as its default provider/model reference.
   - `pnpm test:live` (or `OPENCLAW_LIVE_TEST=1` if invoking Vitest directly)
   - Set `OPENCLAW_LIVE_MODELS=modern`, `small`, or `all` (alias for `modern`) to actually run this suite; otherwise it skips, so `pnpm test:live` on its own stays focused on gateway smoke.
 - How to select models:
-  - `OPENCLAW_LIVE_MODELS=modern` runs the curated high-signal priority list (see [Live: model matrix](/help/testing-live/long-context-and-matrix#live-model-matrix-what-we-cover))
+  - `OPENCLAW_LIVE_MODELS=modern` runs the curated high-signal priority list (see Live: model matrix)
   - `OPENCLAW_LIVE_MODELS=small` runs the curated small-model priority list
   - `OPENCLAW_LIVE_MODELS=all` is an alias for `modern`
   - or `OPENCLAW_LIVE_MODELS="openai/gpt-5.6-luna,anthropic/claude-opus-4-6,..."` (comma allowlist)

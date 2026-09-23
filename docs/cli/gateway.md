@@ -14,9 +14,6 @@ The Gateway is OpenAgent's WebSocket server (channels, nodes, sessions, hooks). 
 `openclaw daemon ...` is a legacy alias for the service-control subcommands; see [`openclaw daemon`](/cli/daemon).
 
 <CardGroup cols={3}>
-  <Card title="Bonjour discovery" href="/gateway/bonjour">
-    Local mDNS + wide-area DNS-SD setup.
-  </Card>
   <Card title="Discovery overview" href="/gateway/discovery">
     How OpenAgent advertises and finds gateways.
   </Card>

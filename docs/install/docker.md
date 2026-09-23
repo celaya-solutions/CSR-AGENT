@@ -100,7 +100,7 @@ Hosting multiple users? See [Multi-tenant hosting](/gateway/multi-tenant-hosting
     docker compose run --rm openclaw-cli channels add --channel discord --token "<token>"
     ```
 
-    Docs: [WhatsApp](/channels/whatsapp), [Telegram](/channels/telegram), [Discord](/channels/discord)
+    Docs: WhatsApp, [Telegram](/channels/telegram), [Discord](/channels/discord)
 
   </Step>
 </Steps>
@@ -335,7 +335,7 @@ export OTEL_SERVICE_NAME="openclaw-gateway"
 ./scripts/docker/setup.sh
 ```
 
-Official prebuilt images already bundle `diagnostics-otel`; install `clawhub:@openclaw/diagnostics-otel` yourself only if you removed it. To enable export, allow and enable the `diagnostics-otel` plugin in config, then set `diagnostics.otel.enabled=true` (see the full example in [OpenTelemetry export](/gateway/opentelemetry)). Collector auth headers go through `diagnostics.otel.headers`, not Docker environment variables.
+Official prebuilt images already bundle `diagnostics-otel`; install `clawhub:@openclaw/diagnostics-otel` yourself only if you removed it. To enable export, allow and enable the `diagnostics-otel` plugin in config, then set `diagnostics.otel.enabled=true` (see the full example in OpenTelemetry export). Collector auth headers go through `diagnostics.otel.headers`, not Docker environment variables.
 
 Prometheus metrics reuse the already-published Gateway port. Install `clawhub:@openclaw/diagnostics-prometheus`, enable the `diagnostics-prometheus` plugin, then scrape:
 
@@ -343,7 +343,7 @@ Prometheus metrics reuse the already-published Gateway port. Install `clawhub:@o
 http://<gateway-host>:18789/api/diagnostics/prometheus
 ```
 
-The route is protected by Gateway authentication; don't expose a separate public `/metrics` port or unauthenticated reverse-proxy path. See [Prometheus metrics](/gateway/prometheus).
+The route is protected by Gateway authentication; don't expose a separate public `/metrics` port or unauthenticated reverse-proxy path. See Prometheus metrics.
 
 ### Health checks
 
@@ -414,8 +414,5 @@ docker compose exec openclaw-gateway sh -lc 'node dist/index.js gateway health -
 
 - [Install Overview](/install) — all installation methods
 - [Podman](/install/podman) — Podman alternative to Docker
-- [Kubernetes](/install/kubernetes) — a minimal Kustomize starting point for running the Gateway on a cluster
-- [Ansible](/install/ansible) — automated server deployment with Tailscale VPN and firewall isolation
-- [Cloudflare Containers](/install/cloudflare) — experimental Worker plus container deployment with Litestream backups to R2
 - [Updating](/install/updating) — keeping OpenAgent up to date
 - [Configuration](/gateway/configuration) — Gateway configuration after install

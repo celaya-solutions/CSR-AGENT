@@ -234,7 +234,7 @@ SSH tunnel when connecting without the Linux desktop companion:
    secret (token by default; password if `gateway.auth.mode` is `"password"`).
 
 Full server guide: [Linux Server](/vps). Step-by-step VPS example:
-[exe.dev](/install/exe-dev).
+exe.dev.
 
 ## Node capabilities
 
@@ -277,13 +277,13 @@ A node can be connected and device-paired while its effective `caps` and `comman
 
 Camera devices must be readable by the service user, commonly through the `video` group. Camera clips use the default PulseAudio or PipeWire source when `includeAudio` is true; microphone audio exists only as that clip track, not as a standalone command. Location requires the node-service user to be permitted by the host's GeoClue policy.
 
-`camera.snap` and `camera.clip` also require explicit Gateway arming through `gateway.nodes.commands.allow`. See [Camera capture](/nodes/camera) and [Location command](/nodes/location-command) for payloads, limits, and errors.
+`camera.snap` and `camera.clip` also require explicit Gateway arming through `gateway.nodes.commands.allow`. See Camera capture and Location command for payloads, limits, and errors.
 
 ## Retired Linux Canvas
 
 The bundled Linux Canvas bridge and its desktop Canvas window have been removed.
 For inline widgets in the Control UI, use [`show_widget`](/tools/show-widget).
-The separate [macOS widget panel](/platforms/mac/canvas) requires a connected
+The separate macOS widget panel requires a connected
 Mac and is render-only. These widget surfaces do not restore the former Linux
 Canvas bridge or its A2UI push commands.
 
@@ -291,7 +291,7 @@ Canvas bridge or its A2UI push commands.
 
 - [Getting Started](/start/getting-started)
 - [Install & updates](/install/updating)
-- Optional: [Bun package workflow](/install/bun), [Nix](/install/nix), [Docker](/install/docker)
+- Optional: [Bun package workflow](/install/bun), Nix, [Docker](/install/docker)
 
 ## Gateway service (systemd)
 
@@ -406,7 +406,5 @@ resource controls (systemd `MemoryMax=`, container memory limits).
 
 - [Install overview](/install)
 - [Linux server](/vps)
-- [ChromeOS (Crostini)](/platforms/chromeos)
-- [Raspberry Pi](/install/raspberry-pi)
 - [Gateway runbook](/gateway)
 - [Gateway configuration](/gateway/configuration)

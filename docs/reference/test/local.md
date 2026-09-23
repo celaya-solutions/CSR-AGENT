@@ -105,7 +105,7 @@ need separate cache roots.
 Control UI builds report size budgets without enforcing them. Run
 `pnpm ui:check-performance` after a build to enforce absolute budgets, or
 `pnpm ui:check-performance:base <base-commit-sha>` to build and compare both
-revisions with the same toolchain. See [Control UI size budgets](/ci/pipeline#control-ui-size-budgets).
+revisions with the same toolchain. See Control UI size budgets.
 
 ### Source tests and subprocess builds
 

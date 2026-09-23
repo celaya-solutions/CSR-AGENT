@@ -66,7 +66,7 @@ visible to Bob.
 Slack Agent View and Assistant View DMs are the exception: each visible root gets
 its own `:thread:<rootTs>` session on top of the base that `dmScope` selects, so
 those conversations stay isolated even under `main`. See
-[Agent View DMs](/channels/slack/threads-and-sessions#agent-view-dms).
+Agent View DMs.
 
 <Tip>
 If the same person contacts you from multiple channels, use
@@ -148,7 +148,7 @@ This setting does not change session keys, DM scope, routing, delivery, or
 `memory/*.md` also keeps its existing behavior. The current memory provider
 must support protected private transcript recall; context engines such as
 Lossless Claw remain independent and can run alongside it. See
-[Active Memory](/concepts/active-memory#remember-across-conversations) for setup
+Active Memory for setup
 and runtime details.
 
 ## Session lifecycle

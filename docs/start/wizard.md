@@ -308,7 +308,7 @@ run `openclaw doctor` first.
 
 `--flow import` runs a detected migration flow (for example Hermes) in the
 classic wizard instead of fresh setup; see [Migrate](/cli/migrate) and the migration guides under
-[Install](/install/migrating-hermes). `openclaw onboard --modern` is a
+Install. `openclaw onboard --modern` is a
 compatibility alias for [OpenAgent](/cli/openclaw). It uses the same
 inference gate as `openclaw setup`: verified inference starts the
 assistant, while an interactive failure returns to guided inference setup.

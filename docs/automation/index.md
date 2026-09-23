@@ -139,7 +139,6 @@ schedule and instructions you choose; they do not restore inferred follow-ups.
 ## Related
 
 - [Automations](/automation/cron-jobs) — precise scheduling and one-shot reminders
-- [IMAP email trigger](/automation/imap) — sender-gated inbound email and isolated reader sessions
 - [Background Tasks](/automation/tasks) — task ledger for all detached work
 - [Task Flow](/automation/taskflow) — durable multi-step flow orchestration
 - [Hooks](/automation/hooks) — event-driven lifecycle scripts

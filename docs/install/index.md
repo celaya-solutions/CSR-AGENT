@@ -22,7 +22,7 @@ Prefer a normal app download over the CLI? OpenAgent ships desktop companions:
   - [OpenClawCompanion-Setup-x64.exe](https://github.com/openclaw/openclaw-windows-node/releases/latest/download/OpenClawCompanion-Setup-x64.exe)
   - [OpenClawCompanion-Setup-arm64.exe](https://github.com/openclaw/openclaw-windows-node/releases/latest/download/OpenClawCompanion-Setup-arm64.exe)
   - All Hub releases: [Windows Hub releases page](https://github.com/openclaw/openclaw-windows-node/releases/latest)
-- **macOS**: the [macOS menu bar app](/platforms/macos) — download the `OpenAgent-<version>.dmg` (preferred) or `.zip` asset from [OpenAgent GitHub releases](https://github.com/openclaw/openclaw/releases), then install and launch **OpenAgent.app**. See the [macOS app page](/platforms/macos) for details, including what to do when the newest release ships no macOS asset.
+- **macOS**: the macOS menu bar app — download the `OpenAgent-<version>.dmg` (preferred) or `.zip` asset from [OpenAgent GitHub releases](https://github.com/openclaw/openclaw/releases), then install and launch **OpenAgent.app**. See the macOS app page for details, including what to do when the newest release ships no macOS asset.
 
 Both desktop apps can provision a local Gateway during first-run setup, or connect to an existing remote Gateway.
 
@@ -62,7 +62,7 @@ To install without running onboarding:
   </Tab>
 </Tabs>
 
-For all flags and CI/automation options, see [Installer internals](/install/installer).
+For all flags and CI/automation options, see Installer internals.
 
 ## Alternative install methods
 
@@ -76,7 +76,7 @@ curl -fsSL https://openclaw.ai/install-cli.sh | bash
 ```
 
 It supports npm installs by default, plus git-checkout installs under the same
-prefix flow. Full reference: [Installer internals](/install/installer#install-clish).
+prefix flow. Full reference: Installer internals.
 
 Already installed? Switch between package and git installs with
 `openclaw update --channel dev` and `openclaw update --channel stable`. See
@@ -178,17 +178,11 @@ curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -
 ### Containers and package managers
 
 <CardGroup cols={2}>
-  <Card title="Ansible" href="/install/ansible" icon="server">
-    Automated fleet provisioning.
-  </Card>
   <Card title="Bun" href="/install/bun" icon="zap">
     Optional dependency installer and package-script runner.
   </Card>
   <Card title="Docker" href="/install/docker" icon="container">
     Containerized or headless deployments.
-  </Card>
-  <Card title="Nix" href="/install/nix" icon="snowflake">
-    Declarative install via Nix flake.
   </Card>
   <Card title="Podman" href="/install/podman" icon="container">
     Rootless container alternative to Docker.
@@ -225,24 +219,12 @@ If you want managed startup after install:
 Deploy OpenAgent on a cloud server or VPS. See [Linux server](/vps) for the full
 provider picker (DigitalOcean, Hetzner, Hostinger, Fly.io, GCP, Azure, Railway,
 Northflank, Oracle Cloud, Raspberry Pi, and more), deploy declaratively on
-[Render](/install/render), or try the experimental [Cloudflare Containers](/install/cloudflare)
+Render, or try the experimental Cloudflare Containers
 template.
 
 <CardGroup cols={3}>
-  <Card title="Cloudflare" href="/install/cloudflare">
-    Experimental Worker + Container deployment.
-  </Card>
   <Card title="Docker VM" href="/install/docker-vm-runtime">
     Shared Docker steps.
-  </Card>
-  <Card title="Kubernetes" href="/install/kubernetes">
-    K8s deployment.
-  </Card>
-  <Card title="macOS VM" href="/install/macos-vm">
-    Isolated local or hosted macOS deployment.
-  </Card>
-  <Card title="Upstash Box" href="/install/upstash">
-    Managed Linux host with SSH-tunneled access.
   </Card>
   <Card title="VPS" href="/vps">
     Pick a provider.

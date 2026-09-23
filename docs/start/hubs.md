@@ -30,9 +30,7 @@ Use these hubs to discover more of the documentation, including deep dives and r
 ## Installation + updates
 
 - [Install overview](/install)
-- [Installer internals](/install/installer)
 - [Docker](/install/docker)
-- [Nix](/install/nix)
 - [Updating / rollback](/install/updating)
 - [Bun workflow](/install/bun)
 
@@ -58,7 +56,6 @@ Use these hubs to discover more of the documentation, including deep dives and r
 - [Timezone handling](/concepts/timezone)
 - [Presence](/concepts/presence)
 - [Discovery + transports](/gateway/discovery)
-- [Bonjour](/gateway/bonjour)
 - [Channel routing](/channels/channel-routing)
 - [Groups](/channels/groups)
 - [Group messages](/channels/group-messages)
@@ -70,14 +67,8 @@ Use these hubs to discover more of the documentation, including deep dives and r
 - [Chat channels hub](/channels)
 - [Model providers hub](/providers)
 - [Discord](/channels/discord)
-- [iMessage](/channels/imessage)
-- [Mattermost](/channels/mattermost)
-- [QQ Bot](/channels/qqbot)
-- [Signal](/channels/signal)
-- [Slack](/channels/slack)
 - [Telegram](/channels/telegram)
 - [WebChat](/web/webchat)
-- [WhatsApp](/channels/whatsapp)
 - [Location parsing](/channels/location)
 - [Webhooks](/automation/cron-jobs#webhooks)
 - [Gmail Pub/Sub](/automation/cron-jobs#gmail-pubsub-integration)
@@ -123,41 +114,20 @@ Use these hubs to discover more of the documentation, including deep dives and r
 ## Nodes, media, voice
 
 - [Nodes overview](/nodes)
-- [Camera](/nodes/camera)
 - [Images](/nodes/images)
 - [Audio](/nodes/audio)
-- [Location command](/nodes/location-command)
 - [Voice wake](/nodes/voicewake)
 - [Talk mode](/nodes/talk)
 
 ## Platforms
 
 - [Platforms overview](/platforms)
-- [macOS](/platforms/macos)
-- [iOS](/platforms/ios)
-- [Android](/platforms/android)
 - [Windows Hub](/platforms/windows)
 - [Linux](/platforms/linux)
 - [Web surfaces](/web)
 
 ## macOS companion app (advanced)
 
-- [macOS dev setup](/platforms/mac/dev-setup)
-- [macOS menu bar](/platforms/mac/menu-bar)
-- [macOS voice wake](/platforms/mac/voicewake)
-- [macOS voice overlay](/platforms/mac/voice-overlay)
-- [macOS WebChat](/platforms/mac/webchat)
-- [macOS widget panel](/platforms/mac/canvas)
-- [macOS gateway (launchd)](/platforms/mac/bundled-gateway)
-- [macOS health](/platforms/mac/health)
-- [macOS icon](/platforms/mac/icon)
-- [macOS logging](/platforms/mac/logging)
-- [macOS permissions](/platforms/mac/permissions)
-- [macOS remote](/platforms/mac/remote)
-- [macOS signing](/platforms/mac/signing)
-- [macOS XPC](/platforms/mac/xpc)
-- [macOS skills](/platforms/mac/skills)
-- [macOS Peekaboo](/platforms/mac/peekaboo)
 
 ## Plugins
 
@@ -167,15 +137,11 @@ Use these hubs to discover more of the documentation, including deep dives and r
 - [Plugin manifest](/plugins/manifest)
 - [Agent tools](/plugins/building-plugins#registering-agent-tools)
 - [Plugin bundles](/plugins/bundles)
-- [ClawHub](/clawhub)
 - [Adding capabilities](/plugins/adding-capabilities)
-- [Voice call plugin](/plugins/voice-call)
-- [Zalo user plugin](/plugins/zalouser)
 
 ## Workspace + templates
 
 - [Skills](/tools/skills)
-- [ClawHub](/clawhub)
 - [Skills config](/tools/skills-config)
 - [Default AGENTS](/reference/AGENTS.default)
 - [Templates: AGENTS](/reference/templates/AGENTS)
@@ -193,8 +159,6 @@ Use these hubs to discover more of the documentation, including deep dives and r
 ## Testing + release
 
 - [Testing](/reference/test)
-- [Release policy](/reference/RELEASING)
-- [Device models](/reference/device-models)
 
 ## Related
 

@@ -248,10 +248,10 @@ provider-wide rather than scoped to the audio model entry.
 ## Notes and limits
 
 - Provider auth follows the standard model auth order (auth profiles, env vars, `models.providers.*.apiKey`).
-- Groq setup details: [Groq](/providers/groq).
-- Deepgram picks up `DEEPGRAM_API_KEY` when `provider: "deepgram"` is used. Setup details: [Deepgram](/providers/deepgram).
-- Mistral setup details: [Mistral](/providers/mistral).
-- SenseAudio picks up `SENSEAUDIO_API_KEY` when `provider: "senseaudio"` is used. Setup details: [SenseAudio](/providers/senseaudio).
+- Groq setup details: Groq.
+- Deepgram picks up `DEEPGRAM_API_KEY` when `provider: "deepgram"` is used. Setup details: Deepgram.
+- Mistral setup details: Mistral.
+- SenseAudio picks up `SENSEAUDIO_API_KEY` when `provider: "senseaudio"` is used. Setup details: SenseAudio.
 - Audio providers can use defaults under `tools.media.audio` or override `baseUrl`, `headers`, `providerOptions`, and limits on their `tools.media.models[]` entry.
 - Leave `tools.media.audio.language` unset for language autodetection. OpenAI-compatible transcription requests then omit the implicit English prompt; explicit custom prompts and language hints are preserved. Use transcription prompts for context or spelling in the audio's language, not instructions to the downstream agent.
 - The built-in audio size cap is 20MB. An entry-level `maxBytes` override can change it; oversize audio is skipped for that model and the next entry is tried.

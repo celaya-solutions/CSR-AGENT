@@ -202,7 +202,7 @@ Matrix is plugin-backed and configured under `channels.matrix`.
   - Per-account overrides: `channels.matrix.accounts.<id>.execApprovals`.
 - `channels.matrix.dm.sessionScope` controls how Matrix DMs group into sessions: `per-user` (default) shares by routed peer, while `per-room` isolates each DM room.
 - Matrix status probes and live directory lookups use the same proxy policy as runtime traffic.
-- Full Matrix configuration, targeting rules, and setup examples are documented in [Matrix](/channels/matrix).
+- Full Matrix configuration, targeting rules, and setup examples are documented in Matrix.
 
 ## IRC
 
@@ -229,4 +229,4 @@ IRC is plugin-backed and configured under `channels.irc`.
 
 - Core key paths covered here: `channels.irc`, `channels.irc.dmPolicy`, `channels.irc.configWrites`, `channels.irc.nickserv.*`.
 - Optional `channels.irc.defaultAccount` overrides default account selection when it matches a configured account id.
-- Full IRC channel configuration (host/port/TLS/channels/allowlists/mention gating) is documented in [IRC](/channels/irc).
+- Full IRC channel configuration (host/port/TLS/channels/allowlists/mention gating) is documented in IRC.

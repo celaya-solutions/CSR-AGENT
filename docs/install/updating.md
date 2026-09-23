@@ -148,7 +148,7 @@ tag cannot hold a plugin behind the current stable release. Startup repair
 leaves already-current packages in place so a no-op refresh does not require
 another restart.
 
-See [Release channels](/install/development-channels) for channel semantics.
+See Release channels for channel semantics.
 
 ### Updating from 2026.9.2 across a schema bump
 

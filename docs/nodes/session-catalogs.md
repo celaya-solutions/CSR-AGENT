@@ -154,7 +154,7 @@ node command execution.
 
 ## OpenAgent sessions and transcripts
 
-The bundled [Session Share plugin](/plugins/session-share) publishes selected
+The bundled Session Share plugin publishes selected
 native OpenAgent sessions from a source Gateway to a paired receiver Gateway.
 The source node host runs as the same user with the source Gateway's state
 directory. Enable the plugin on both sides, choose source session groups, and

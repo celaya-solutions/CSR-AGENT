@@ -206,7 +206,7 @@ prints the old Bearer header with a warning only while
 without printing a credential. Use `--json` for machine output. Warnings remain
 on stderr so stdout stays valid JSON.
 
-Setup, security model, and recovery steps: [Chrome extension](/tools/chrome-extension).
+Setup, security model, and recovery steps: Chrome extension.
 
 Run installation on the machine hosting Chrome. In the macOS app,
 **Dashboard → Settings → This Mac → Browser → Set up Chrome on this Mac** invokes

@@ -610,4 +610,3 @@ The agent system prompt includes a group intro on the first turn of a new group 
 - [Channel routing](/channels/channel-routing)
 - [Group messages](/channels/group-messages) — WhatsApp-only behavior (history injection, mention handling details)
 - [Pairing](/channels/pairing)
-- [WhatsApp](/channels/whatsapp#system-prompts) — canonical WhatsApp system prompt rules, including group and direct prompt resolution, wildcard behavior, and account override semantics

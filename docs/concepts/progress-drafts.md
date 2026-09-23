@@ -497,8 +497,4 @@ Telegram.
 - [Messages](/concepts/messages)
 - [Channel configuration](/gateway/config-channels)
 - [Discord](/channels/discord)
-- [Matrix](/channels/matrix)
-- [Microsoft Teams](/channels/msteams)
-- [Slack](/channels/slack)
 - [Telegram](/channels/telegram)
-- [Mattermost](/channels/mattermost)

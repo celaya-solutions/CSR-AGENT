@@ -210,17 +210,11 @@ keeps the old id and points at the new one.
 
 ## Service links
 
-- [Azure Speech provider](/providers/azure-speech)
 - [Azure Speech REST text-to-speech](https://learn.microsoft.com/azure/ai-services/speech-service/rest-text-to-speech)
-- [ElevenLabs provider](/providers/elevenlabs)
 - [ElevenLabs Authentication](https://elevenlabs.io/docs/api-reference/authentication)
 - [ElevenLabs Text to Speech](https://elevenlabs.io/docs/api-reference/text-to-speech)
-- [Fish Audio provider](/providers/fish-audio)
-- [Gradium](/providers/gradium)
-- [Inworld provider](/providers/inworld)
 - [Inworld TTS API](https://docs.inworld.ai/tts/tts)
 - [Microsoft Speech output formats](https://learn.microsoft.com/azure/ai-services/speech-service/rest-text-to-speech#audio-outputs)
-- [MiniMax provider](/providers/minimax)
 - [MiniMax T2A v2 API](https://platform.minimaxi.com/document/T2A%20V2)
 - [node-edge-tts](https://github.com/SchneeHertz/node-edge-tts)
 - [OpenAI provider](/providers/openai)
@@ -228,10 +222,7 @@ keeps the old id and points at the new one.
 - [OpenAI text-to-speech guide](https://platform.openai.com/docs/guides/text-to-speech)
 - [speech-core](https://github.com/soniqo/speech-core)
 - [Speech Swift](https://github.com/soniqo/speech-swift)
-- [Volcengine TTS HTTP API](/providers/volcengine#text-to-speech)
-- [xAI provider](/providers/xai)
 - [xAI text to speech](https://docs.x.ai/developers/rest-api-reference/inference/voice#text-to-speech-rest)
-- [Xiaomi MiMo speech synthesis](/providers/xiaomi#text-to-speech)
 
 ## Related
 
@@ -240,4 +231,3 @@ keeps the old id and points at the new one.
 - [Music generation](/tools/music-generation)
 - [Video generation](/tools/video-generation)
 - [Slash commands](/tools/slash-commands)
-- [Voice call plugin](/plugins/voice-call)

@@ -56,9 +56,9 @@ The `commands.*` block: which chat command surfaces are registered, and who may 
 - Command docs map:
   - built-in + bundled catalog: [Slash Commands](/tools/slash-commands)
   - channel-specific command surfaces: [Channels](/channels)
-  - QQ Bot commands: [QQ Bot](/channels/qqbot)
+  - QQ Bot commands: QQ Bot
   - pairing commands: [Pairing](/channels/pairing)
-  - LINE card command: [LINE](/channels/line)
+  - LINE card command: LINE
   - memory dreaming: [Dreaming](/concepts/dreaming)
 
 </Accordion>

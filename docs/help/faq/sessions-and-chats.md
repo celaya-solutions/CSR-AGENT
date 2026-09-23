@@ -147,7 +147,7 @@ read_when:
     openclaw directory groups list --channel whatsapp
     ```
 
-    Docs: [WhatsApp](/channels/whatsapp), [Directory](/cli/directory), [Logs](/cli/logs).
+    Docs: WhatsApp, [Directory](/cli/directory), [Logs](/cli/logs).
 
   </Accordion>
 
@@ -180,7 +180,7 @@ read_when:
 
     Best-practice setup: always-on Gateway host (VPS/Mac mini), one agent per role (bindings), Slack channel(s) bound to those agents, and local browser via Chrome MCP or a node when needed.
 
-    Docs: [Multi-Agent Routing](/concepts/multi-agent), [Slack](/channels/slack), [Browser](/tools/browser), [Nodes](/nodes).
+    Docs: [Multi-Agent Routing](/concepts/multi-agent), Slack, [Browser](/tools/browser), [Nodes](/nodes).
 
   </Accordion>
 </AccordionGroup>

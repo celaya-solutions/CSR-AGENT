@@ -39,7 +39,7 @@ Use the returned identities and current owner-visible task facts, not invented s
 
 #### Run a managed Lobster workflow
 
-For operator/agent use, the optional [Lobster tool](/tools/lobster) can execute a workflow with `flowControllerId` and `flowGoal`. It creates a managed flow, records a real approval pause as waiting, and finishes or fails from the workflow outcome. The workflow steps are not detached child task records.
+For operator/agent use, the optional Lobster tool can execute a workflow with `flowControllerId` and `flowGoal`. It creates a managed flow, records a real approval pause as waiting, and finishes or fails from the workflow outcome. The workflow steps are not detached child task records.
 
 The tool returns envelope fields plus `flow` and `mutation` at the top level of its details. Check `mutation.applied` and use `mutation.flow`, the post-mutation record, for the next `flowExpectedRevision`. After the user's decision, resume with the returned token or approval ID and the actual flow id/revision; check cancellation through `mutation.cancelled`. Report errors and rejected updates instead of treating workflow output as proof that flow state persisted.
 
@@ -108,7 +108,7 @@ For recurring workflows such as market intelligence briefings, treat the schedul
 
 1. Use [Automations](/automation/cron-jobs) for timing.
 2. Use a persistent automation session when the workflow should build on prior context.
-3. Use [Lobster](/tools/lobster) for deterministic steps, approval gates, and resume tokens.
+3. Use Lobster for deterministic steps, approval gates, and resume tokens.
 4. Use Task Flow to track the multi-step run across child tasks, waits, retries, and gateway restarts.
 
 Example automation job (`openclaw automations`; `openclaw cron` remains an alias):
@@ -172,7 +172,7 @@ Recommended data provenance fields for every collected item:
 
 Have the workflow reject or mark stale items before summarization. The LLM step should receive only structured JSON and should be asked to preserve `sourceUrl`, `retrievedAt`, and `asOf` in its output. Use [LLM Task](/tools/llm-task) when you need a schema-validated model step inside the workflow.
 
-For reusable team or community workflows, package the CLI, `.lobster` files, and any setup notes as a skill or plugin and publish it through [ClawHub](/clawhub). Keep workflow-specific guardrails in that package unless the plugin API is missing a needed generic capability.
+For reusable team or community workflows, package the CLI, `.lobster` files, and any setup notes as a skill or plugin and publish it through ClawHub. Keep workflow-specific guardrails in that package unless the plugin API is missing a needed generic capability.
 
 ## How flows relate to tasks
 

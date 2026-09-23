@@ -194,14 +194,6 @@ options, and provider setup.
 SQLite-based. Works out of the box with keyword search, vector similarity, and
 hybrid search. No extra dependencies.
 </Card>
-<Card title="Honcho" icon="brain" href="/concepts/memory-honcho">
-AI-native cross-session memory with user modeling, semantic search, and
-multi-agent awareness. Plugin install.
-</Card>
-<Card title="LanceDB" icon="layers" href="/plugins/memory-lancedb">
-LanceDB-backed memory with OpenAI-compatible embeddings, auto-recall,
-auto-capture, and local Ollama embedding support. Plugin install.
-</Card>
 </CardGroup>
 
 ## Knowledge wiki layer
@@ -217,14 +209,8 @@ dashboards, compiled digests, and wiki-native tools (`wiki_status`,
 plugin still owns recall, promotion, and dreaming. `memory-wiki` adds a
 provenance-rich knowledge layer beside it. You can browse the compiled wiki
 in the Control UI under Memory → Dreams → Diary → **Memory Wiki**
-([details](/plugins/memory-wiki#browsing-the-wiki-in-the-control-ui)).
+(details).
 
-<CardGroup cols={1}>
-<Card title="Memory Wiki" icon="book" href="/plugins/memory-wiki">
-Compiles durable memory into a provenance-rich wiki vault with claims,
-dashboards, bridge mode, and Obsidian-friendly workflows.
-</Card>
-</CardGroup>
 
 ## Automatic memory flush
 
@@ -339,14 +325,10 @@ openclaw memory index --force   # Rebuild the index
 - [Memory architecture](/concepts/memory-architecture): the storage, indexing, and retrieval layers behind every memory feature.
 - [Memory search](/concepts/memory-search): search pipeline, providers, and tuning.
 - [Builtin memory engine](/concepts/memory-builtin): default SQLite backend.
-- [Honcho memory](/concepts/memory-honcho): AI-native cross-session memory.
-- [Memory LanceDB](/plugins/memory-lancedb): LanceDB-backed plugin with OpenAI-compatible embeddings.
-- [Memory Wiki](/plugins/memory-wiki): compiled knowledge vault and wiki-native tools.
 - [Dreaming](/concepts/dreaming): background promotion from short-term recall to long-term memory.
 - [Memory provenance and deletion](/concepts/memory-provenance): session lineage, admission policy, and `memory forget`.
 - [Memory configuration reference](/reference/memory-config): all config knobs.
 - [Compaction](/concepts/compaction): how compaction interacts with memory.
-- [Active memory](/concepts/active-memory): sub-agent memory for interactive chat sessions.
 - [User model](/concepts/user-model): directive-based durable preferences and profile facts.
 - [Standing intents](/concepts/standing-intents): event-conditioned prospective memory.
 

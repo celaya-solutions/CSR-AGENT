@@ -13,7 +13,7 @@ DNS helpers for wide-area discovery (Tailscale + CoreDNS). `openclaw dns setup` 
 Related:
 
 - Gateway discovery: [Discovery](/gateway/discovery)
-- Wide-area publishing behavior: [Bonjour discovery](/gateway/bonjour)
+- Wide-area publishing behavior: Bonjour discovery
 - Wide-area discovery config: [`discovery.wideArea`](/gateway/config-runtime#wide-area-dns-sd)
 
 ## `dns setup`

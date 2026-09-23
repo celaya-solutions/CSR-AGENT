@@ -226,7 +226,7 @@ read_when:
 
     Native installs land in the active workspace `skills/` directory; use `--global` for all local agents, or configure `agents.defaults.skills` / `agents.entries.*.skills` to limit visibility. Some skills expect Homebrew-installed binaries; on Linux that means Linuxbrew.
 
-    See [Skills](/tools/skills), [Skills config](/tools/skills-config), [ClawHub](/clawhub).
+    See [Skills](/tools/skills), [Skills config](/tools/skills-config), ClawHub.
 
   </Accordion>
 

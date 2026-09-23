@@ -35,7 +35,7 @@ read_when:
 
     Security reminder: pairing a macOS node allows `system.run` on that machine. Only pair devices you trust; review [Security](/gateway/security).
 
-    Docs: [Nodes](/nodes), [Gateway protocol](/gateway/protocol), [macOS remote mode](/platforms/mac/remote), [Security](/gateway/security).
+    Docs: [Nodes](/nodes), [Gateway protocol](/gateway/protocol), macOS remote mode, [Security](/gateway/security).
 
   </Accordion>
 
@@ -152,7 +152,7 @@ read_when:
        openclaw devices approve <requestId>
        ```
 
-    Docs: [Gateway protocol](/gateway/protocol), [Discovery](/gateway/discovery), [macOS remote mode](/platforms/mac/remote).
+    Docs: [Gateway protocol](/gateway/protocol), [Discovery](/gateway/discovery), macOS remote mode.
 
   </Accordion>
 

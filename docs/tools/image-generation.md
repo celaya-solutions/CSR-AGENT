@@ -423,7 +423,7 @@ and ComfyUI support 1.
 
     Current MAI image models are `MAI-Image-2.5-Flash`, `MAI-Image-2.5`,
     `MAI-Image-2e`, and `MAI-Image-2`. See
-    [Microsoft Foundry plugin](/plugins/reference/microsoft-foundry) for setup
+    Microsoft Foundry plugin for setup
     and chat-model behavior.
 
   </Accordion>
@@ -600,15 +600,8 @@ Other bundled providers report `background: "transparent"` as ignored.
 ## Related
 
 - [Tools overview](/tools) - all available agent tools
-- [ComfyUI](/providers/comfy) - local ComfyUI and Comfy Cloud workflow setup
-- [fal](/providers/fal) - fal image and video provider setup
-- [Google (Gemini)](/providers/google) - Gemini image provider setup
-- [Microsoft Foundry plugin](/plugins/reference/microsoft-foundry) - Microsoft Foundry chat and MAI image setup
-- [MiniMax](/providers/minimax) - MiniMax image provider setup
 - [OpenAI](/providers/openai) - OpenAI Images provider setup
 - [OpenRouter](/providers/openrouter) - OpenRouter image provider setup
-- [Vydra](/providers/vydra) - Vydra image, video, and speech setup
-- [xAI](/providers/xai) - Grok image, video, search, code execution, and TTS setup
 - [Configuration reference](/gateway/config-agents#agent-defaults) - `agents.defaults.mediaModels.image` config
 - [Models](/concepts/models) - model configuration and failover
 - [Media overview](/tools/media-overview) - how the media tools fit together

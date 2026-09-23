@@ -8,7 +8,7 @@ read_when:
 title: "Local models"
 ---
 
-OpenAgent can install and manage a local model or connect to a server you already run. For a hardware-aware recommendation, install the [llama.cpp plugin](/plugins/llama-cpp), run `openclaw onboard`, and choose **Managed local server**. Setup shows the Gateway host, model, download size, and execution backend before downloading, then verifies a real tool call before changing the default model. [LM Studio](/providers/lmstudio) and [Ollama](/providers/ollama) remain options when you want to manage the model separately.
+OpenAgent can install and manage a local model or connect to a server you already run. For a hardware-aware recommendation, install the [llama.cpp plugin](/plugins/llama-cpp), run `openclaw onboard`, and choose **Managed local server**. Setup shows the Gateway host, model, download size, and execution backend before downloading, then verifies a real tool call before changing the default model. LM Studio and [Ollama](/providers/ollama) remain options when you want to manage the model separately.
 
 This page also covers larger local stacks and custom OpenAI-compatible servers. Local models do not provide hosted providers' safety filters. Keep tool permissions and prompt-injection defenses appropriate for the model and task.
 
@@ -24,10 +24,8 @@ For custom servers, leave room for the full OpenAgent prompt, tools, history, an
 
 | Backend                                              | Use when                                                                               |
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [ds4](/providers/ds4)                                | Local DeepSeek V4 Flash on macOS Metal with OpenAI-compatible tool calls               |
 | LiteLLM / OAI-proxy / custom OpenAI-compatible proxy | You front another model API and need OpenAgent to treat it as OpenAI               |
 | [llama.cpp](/plugins/llama-cpp)                      | Hardware-aware model selection, verified downloads, and an OpenAgent-managed server |
-| [LM Studio](/providers/lmstudio)                     | First-time local setup, GUI loader, native Responses API                               |
 | MLX / vLLM / SGLang                                  | High-throughput self-hosted serving with an OpenAI-compatible HTTP endpoint            |
 | [Ollama](/providers/ollama)                          | CLI workflow, model library, hands-off systemd service                                 |
 

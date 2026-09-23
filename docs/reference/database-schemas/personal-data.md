@@ -39,7 +39,7 @@ See [Per-person model accounts](/concepts/multi-user#per-person-model-accounts) 
 Companion Watch chat has separate app-local storage. It does not change the
 Gateway control-plane or per-agent database schema, and `openclaw doctor`
 does not migrate it. Open the updated iPhone and Watch apps to use the new
-delivery protocol. See [Watch voice and chat](/platforms/ios#apple-watch-voice-and-chat)
+delivery protocol. See Watch voice and chat
 for delivery statuses and recovery.
 
 The iPhone's existing `client-state.sqlite` owns `watch_message_journal`.

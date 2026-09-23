@@ -23,9 +23,6 @@ This page lists every configuration knob for OpenAgent memory search. For concep
   <Card title="Memory search" href="/concepts/memory-search">
     Search pipeline and tuning.
   </Card>
-  <Card title="Active memory" href="/concepts/active-memory">
-    Memory sub-agent for interactive sessions.
-  </Card>
 </CardGroup>
 
 All shared memory settings live under top-level `memory` in `openclaw.json`. Search defaults use `memory.search`; per-agent search overrides use `agents.entries.*.memory.search`.
@@ -35,7 +32,7 @@ For the recommended personal-agent workflow, use
 `memory.search.rememberAcrossConversations`. Advanced Active Memory targeting,
 model, prompt, and latency controls live under `plugins.entries.active-memory`.
 
-See [Active Memory](/concepts/active-memory) for both activation paths,
+See Active Memory for both activation paths,
 transcript persistence, and safe rollout guidance.
 </Note>
 

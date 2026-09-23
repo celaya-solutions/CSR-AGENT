@@ -32,7 +32,7 @@ When `hooks.enabled=true`, the Gateway also exposes a webhook endpoint on the sa
 
 ## Admin HTTP RPC
 
-`POST /api/v1/admin/rpc` exposes selected Gateway control-plane methods over HTTP. Off by default; registered only when the `admin-http-rpc` plugin is enabled. See [Admin HTTP RPC](/plugins/admin-http-rpc) for the auth model, allowed methods, and comparison with the WebSocket API.
+`POST /api/v1/admin/rpc` exposes selected Gateway control-plane methods over HTTP. Off by default; registered only when the `admin-http-rpc` plugin is enabled. See Admin HTTP RPC for the auth model, allowed methods, and comparison with the WebSocket API.
 
 ## Tailscale access
 

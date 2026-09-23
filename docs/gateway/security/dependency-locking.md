@@ -73,4 +73,3 @@ The `node_modules` entries prove that the plugin carries its bundled runtime pay
 
 ## Related
 
-- [Release performance sweep](/reference/release-performance-sweep) - the May 2026 package-size, dependency, and shrinkwrap audit this policy came out of

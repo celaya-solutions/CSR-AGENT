@@ -19,7 +19,7 @@ A connected agent is a capable one: depending on your tool policy it can run com
 ## Prerequisites
 
 - OpenAgent installed and onboarded - see [Getting Started](/start/getting-started) if you haven't done this yet
-- The WhatsApp plugin installed, or WhatsApp chosen during onboarding. WhatsApp is an official plugin that installs on demand. See [WhatsApp](/channels/whatsapp)
+- The WhatsApp plugin installed, or WhatsApp chosen during onboarding. WhatsApp is an official plugin that installs on demand. See WhatsApp
 - A second phone number (SIM/eSIM/prepaid) for the assistant
 
 ## The two-phone setup (recommended)
@@ -243,9 +243,9 @@ profile and `openclaw-<profile>-YYYY-MM-DD.log` for named profiles.
 - WebChat: [WebChat](/web/webchat)
 - Gateway ops: [Gateway runbook](/gateway)
 - Cron + wakeups: [Cron jobs](/automation/cron-jobs)
-- macOS menu bar companion: [OpenAgent macOS app](/platforms/macos)
-- iOS node app: [iOS app](/platforms/ios)
-- Android node app: [Android app](/platforms/android)
+- macOS menu bar companion: OpenAgent macOS app
+- iOS node app: iOS app
+- Android node app: Android app
 - Windows Hub: [Windows](/platforms/windows)
 - Linux status: [Linux app](/platforms/linux)
 - Security: [Security](/gateway/security)

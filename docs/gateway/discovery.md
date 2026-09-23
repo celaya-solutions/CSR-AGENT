@@ -50,9 +50,9 @@ The **Gateway** advertises its WS endpoint via Bonjour when the bundled
 `bonjour` plugin is enabled; clients browse and show a "pick a Gateway" list,
 then apply their connection trust policy. On macOS, a selection opens the
 connection editor; it does not save the advertised endpoint. See
-[Configure in the app](/platforms/mac/remote#configure-in-the-app).
+Configure in the app.
 
-Troubleshooting and beacon details: [Bonjour](/gateway/bonjour).
+Troubleshooting and beacon details: Bonjour.
 
 #### Service beacon details
 
@@ -172,4 +172,3 @@ The Gateway is the source of truth for node/client admission:
 
 - [Remote access](/gateway/remote)
 - [Tailscale](/gateway/tailscale)
-- [Bonjour discovery](/gateway/bonjour)

@@ -15,7 +15,7 @@ agent.
 For CLI onboarding and a comparison of both paths, see [Onboarding Overview](/start/onboarding-overview).
 
 <Tip>
-Need the app first? [Download OpenAgent for macOS](/platforms/macos#download),
+Need the app first? Download OpenAgent for macOS,
 then return here for first-run setup.
 </Tip>
 
@@ -83,7 +83,7 @@ Where does the **Gateway** run?
 
 Attaching to an independently managed local Gateway skips CLI installation
 and proceeds to AI checks without taking over its CLI or service installation.
-See [Gateway on macOS](/platforms/mac/bundled-gateway#automatic-setup).
+See Gateway on macOS.
 </Step>
 <Step title="Connect your AI">
 If the connected Gateway already has a configured agent model, it appears as
@@ -194,7 +194,7 @@ There is no separate native permissions walkthrough before this handoff. Grant
 macOS access for the features you want to use from **Settings → Permissions**.
 Available permissions include Automation (AppleScript), Notifications,
 Accessibility, Screen Recording, Microphone, Speech Recognition, Camera, and
-Location. See [macOS permissions](/platforms/mac/permissions) for grant and
+Location. See macOS permissions for grant and
 recovery guidance.
 
 See [Bootstrapping](/start/bootstrapping) for what happens on the Gateway host

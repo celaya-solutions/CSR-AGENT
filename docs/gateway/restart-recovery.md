@@ -530,7 +530,7 @@ channels.start --params '{"channel":"<id>"}'`
   per interrupted cycle. Exhaustion tombstones that session until it is
   inspected and replaced.
 - **Metrics:** recovery activity is exported via
-  [Prometheus](/gateway/prometheus) as `openclaw_session_recovery_total` and
+  Prometheus as `openclaw_session_recovery_total` and
   `openclaw_session_recovery_age_seconds`.
 - **Logs:** recovery decisions are logged under the
   `main-session-restart-recovery` and `subagent-interrupted-resume`

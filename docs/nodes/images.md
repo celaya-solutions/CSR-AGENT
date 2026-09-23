@@ -108,7 +108,6 @@ image destinations retain their URL punctuation.
 
 ## Related
 
-- [Camera capture](/nodes/camera)
 - [Media understanding](/nodes/media-understanding)
 - [Media playback](/nodes/media-playback)
 - [Audio and voice notes](/nodes/audio)

@@ -36,7 +36,7 @@ See [Plugins](/tools/plugin) for the full plugin system guide, and [Capability m
 - dashboard widget data bindings and action verbs
 - static MCP servers that should exist while the plugin is enabled
 - durable and regenerable state- or agent-relative backup resources
-- QA runner metadata the shared [`openclaw qa`](/concepts/qa-e2e-automation) host can inspect
+- QA runner metadata the shared `openclaw qa` host can inspect
 - channel-specific config metadata merged into catalog and validation surfaces
 
 **Do not use it for:** registering native runtime hooks, declaring the full plugin runtime entrypoint, or npm install metadata. Those belong in your plugin code and `package.json`.

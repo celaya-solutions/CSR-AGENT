@@ -471,8 +471,6 @@ openclaw plugins install npm:@acme/openclaw-plugin@1.0.0
 Use these pages for the full publishing contract instead of treating this
 page as the publishing reference:
 
-- [ClawHub publishing](/clawhub/publishing) explains owners, scopes,
-  releases, review, package validation, and package transfer.
 - [Building plugins](/plugins/building-plugins) shows the full plugin
   package shape (including `openclaw.plugin.json`) and first publish
   workflow.
@@ -486,7 +484,5 @@ If the same package is available on both ClawHub and npm, use the explicit
 
 - [Plugins](/tools/plugin) - install, configure, reload, and troubleshoot
 - [`openclaw plugins`](/cli/plugins) - full CLI reference
-- [Community plugins](/plugins/community) - public discovery and ClawHub publishing
-- [ClawHub](/clawhub/cli) - registry CLI operations
 - [Building plugins](/plugins/building-plugins) - create a plugin package
 - [Plugin manifest](/plugins/manifest) - manifest and package metadata

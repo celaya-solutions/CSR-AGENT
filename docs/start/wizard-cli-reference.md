@@ -131,13 +131,8 @@ described [above](/start/wizard-cli-reference#what-the-wizard-does).
 
   </Step>
   <Step title="Channels">
-    - [WhatsApp](/channels/whatsapp): optional QR login
     - [Telegram](/channels/telegram): bot token
     - [Discord](/channels/discord): bot token
-    - [Google Chat](/channels/googlechat): service account JSON + webhook audience
-    - [Mattermost](/channels/mattermost): bot token + base URL
-    - [Signal](/channels/signal): optional `signal-cli` install + account config
-    - [iMessage](/channels/imessage): `imsg` CLI path + Messages DB access; use an SSH wrapper when the Gateway runs off-Mac
     - Other bundled or separately installed channel plugins can add their own
       onboarding steps. See the complete [channel catalog](/channels).
     - DM security: default is pairing. First DM sends a code; approve via
@@ -210,7 +205,7 @@ What you set:
     If `dns-sd` (macOS) or `avahi-browse` (Linux) is available, onboarding
     offers to search for Bonjour/mDNS gateway beacons before falling back to
     manual URL entry. Wide-area DNS-SD discovery is also attempted when
-    configured. Docs: [Gateway discovery](/gateway/discovery), [Bonjour](/gateway/bonjour).
+    configured. Docs: [Gateway discovery](/gateway/discovery), Bonjour.
   </Step>
   <Step title="Connection method">
     When a beacon is selected, choose direct WebSocket or an SSH tunnel:
@@ -304,25 +299,25 @@ on a different release.
   </Accordion>
   <Accordion title="Vercel AI Gateway">
     Prompts for `AI_GATEWAY_API_KEY`.
-    More detail: [Vercel AI Gateway](/providers/vercel-ai-gateway).
+    More detail: Vercel AI Gateway.
   </Accordion>
   <Accordion title="Cloudflare AI Gateway">
     Prompts for account ID, gateway ID, and `CLOUDFLARE_AI_GATEWAY_API_KEY`.
-    More detail: [Cloudflare AI Gateway](/providers/cloudflare-ai-gateway).
+    More detail: Cloudflare AI Gateway.
   </Accordion>
   <Accordion title="MiniMax">
     Config is auto-written. Hosted default is `MiniMax-M3`; API-key setup uses
     `minimax/...`, and OAuth setup uses `minimax-portal/...`.
-    More detail: [MiniMax](/providers/minimax).
+    More detail: MiniMax.
   </Accordion>
   <Accordion title="StepFun">
     Config is auto-written for StepFun standard or Step Plan on China or global endpoints.
     Standard currently includes `step-3.5-flash`, and Step Plan also includes `step-3.5-flash-2603`.
-    More detail: [StepFun](/providers/stepfun).
+    More detail: StepFun.
   </Accordion>
   <Accordion title="Synthetic (Anthropic-compatible)">
     Prompts for `SYNTHETIC_API_KEY`.
-    More detail: [Synthetic](/providers/synthetic).
+    More detail: Synthetic.
   </Accordion>
   <Accordion title="Ollama (Cloud and local open models)">
     Prompts for `Cloud + Local`, `Cloud only`, or `Local only` first.
@@ -333,7 +328,7 @@ on a different release.
   </Accordion>
   <Accordion title="Moonshot and Kimi Coding">
     Moonshot (Kimi K2) and Kimi Coding configs are auto-written.
-    More detail: [Moonshot AI (Kimi + Kimi Coding)](/providers/moonshot).
+    More detail: Moonshot AI (Kimi + Kimi Coding).
   </Accordion>
   <Accordion title="Custom provider">
     Works with OpenAI-compatible, OpenAI Responses-compatible, and Anthropic-compatible endpoints.

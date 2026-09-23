@@ -63,50 +63,14 @@ xAI Responses.
 ## Choosing a provider
 
 <CardGroup cols={2}>
-  <Card title="Brave Search" icon="shield" href="/tools/brave-search">
-    Structured results with snippets. Supports `llm-context` mode, country/language filters. Free tier available.
-  </Card>
   <Card title="Codex Hosted Search" icon="search" href="/plugins/codex-harness">
     AI-synthesized grounded answers through your Codex app-server account.
   </Card>
   <Card title="DuckDuckGo" icon="bird" href="/tools/duckduckgo-search">
     Key-free provider. No API key needed. Unofficial HTML-based integration.
   </Card>
-  <Card title="Exa" icon="brain" href="/tools/exa-search">
-    Neural + keyword search with content extraction (highlights, text, summaries).
-  </Card>
-  <Card title="Firecrawl" icon="flame" href="/tools/firecrawl">
-    Structured results. Best paired with `firecrawl_search` and `firecrawl_scrape` for deep extraction.
-  </Card>
-  <Card title="Gemini" icon="sparkles" href="/tools/gemini-search">
-    AI-synthesized answers with citations via Google Search grounding.
-  </Card>
-  <Card title="Grok" icon="zap" href="/tools/grok-search">
-    AI-synthesized answers with citations via xAI web grounding.
-  </Card>
-  <Card title="Kimi" icon="moon" href="/tools/kimi-search">
-    AI-synthesized answers with citations via Moonshot web search; ungrounded chat fallbacks fail explicitly.
-  </Card>
-  <Card title="MiniMax Search" icon="globe" href="/tools/minimax-search">
-    Structured results via the MiniMax Token Plan search API.
-  </Card>
   <Card title="Ollama Web Search" icon="globe" href="/tools/ollama-search">
     Search via a signed-in local Ollama host or the hosted Ollama API.
-  </Card>
-  <Card title="Parallel" icon="layer-group" href="/tools/parallel-search">
-    Paid Parallel Search API (`PARALLEL_API_KEY`); higher rate limits and objective tuning.
-  </Card>
-  <Card title="Parallel Search (Free)" icon="layer-group" href="/tools/parallel-search">
-    Key-free opt-in. Parallel's free Search MCP, with LLM-optimized dense excerpts and no API key.
-  </Card>
-  <Card title="Perplexity" icon="search" href="/tools/perplexity-search">
-    Structured results with content extraction controls and domain filtering.
-  </Card>
-  <Card title="SearXNG" icon="server" href="/tools/searxng-search">
-    Self-hosted meta-search. No API key needed. Aggregates Google, Bing, DuckDuckGo, and more.
-  </Card>
-  <Card title="Tavily" icon="globe" href="/tools/tavily">
-    Structured results with search depth, topic filtering, and `tavily_extract` for URL extraction.
   </Card>
 </CardGroup>
 
@@ -114,21 +78,9 @@ xAI Responses.
 
 | Provider                                         | Result style                                                   | Filters                                          | API key                                                                                 |
 | ------------------------------------------------ | -------------------------------------------------------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| [Brave](/tools/brave-search)                     | Structured snippets                                            | Country, language, time, `llm-context` mode      | `BRAVE_API_KEY`                                                                         |
 | [Codex Hosted Search](/plugins/codex-harness)    | AI-synthesized + source URLs                                   | Domains, context size, user location             | None; uses Codex/OpenAI sign-in                                                         |
 | [DuckDuckGo](/tools/duckduckgo-search)           | Structured snippets                                            | --                                               | None (key-free)                                                                         |
-| [Exa](/tools/exa-search)                         | Structured + extracted                                         | Neural/keyword mode, date, content extraction    | `EXA_API_KEY`                                                                           |
-| [Firecrawl](/tools/firecrawl)                    | Structured snippets                                            | Via `firecrawl_search` tool                      | `FIRECRAWL_API_KEY`                                                                     |
-| [Gemini](/tools/gemini-search)                   | AI-synthesized + citations                                     | --                                               | `GEMINI_API_KEY`                                                                        |
-| [Grok](/tools/grok-search)                       | AI-synthesized + citations                                     | --                                               | xAI OAuth, `XAI_API_KEY`, or `plugins.entries.xai.config.webSearch.apiKey`              |
-| [Kimi](/tools/kimi-search)                       | AI-synthesized + citations; fails on ungrounded chat fallbacks | --                                               | `KIMI_API_KEY` / `MOONSHOT_API_KEY`                                                     |
-| [MiniMax Search](/tools/minimax-search)          | Structured snippets                                            | Region (`global` / `cn`)                         | `MINIMAX_CODE_PLAN_KEY` / `MINIMAX_CODING_API_KEY` / `MINIMAX_OAUTH_TOKEN`              |
 | [Ollama Web Search](/tools/ollama-search)        | Structured snippets                                            | --                                               | None for signed-in local hosts; `OLLAMA_API_KEY` for direct `https://ollama.com` search |
-| [Parallel](/tools/parallel-search)               | Dense excerpts ranked for LLM context                          | --                                               | `PARALLEL_API_KEY` (paid)                                                               |
-| [Parallel Search (Free)](/tools/parallel-search) | Dense excerpts ranked for LLM context                          | --                                               | None (free Search MCP)                                                                  |
-| [Perplexity](/tools/perplexity-search)           | Structured snippets                                            | Country, language, time, domains, content limits | `PERPLEXITY_API_KEY` / `OPENROUTER_API_KEY`                                             |
-| [SearXNG](/tools/searxng-search)                 | Structured snippets                                            | Categories, language                             | None (self-hosted)                                                                      |
-| [Tavily](/tools/tavily)                          | Structured snippets                                            | Via `tavily_search` tool                         | `TAVILY_API_KEY`                                                                        |
 
 ## Result shape
 
@@ -650,6 +602,4 @@ If you use tool profiles or allowlists, add `web_search`, `x_search`, or `group:
 
 - [Web Fetch](/tools/web-fetch) -- fetch a URL and extract readable content
 - [Web Browser](/tools/browser) -- full browser automation for JS-heavy sites
-- [Grok Search](/tools/grok-search) -- Grok as the `web_search` provider
 - [Ollama Web Search](/tools/ollama-search) -- key-free web search through your Ollama host
-- [Moonshot AI](/providers/moonshot) -- Kimi as the `web_search` provider

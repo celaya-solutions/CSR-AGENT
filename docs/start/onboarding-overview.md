@@ -23,7 +23,7 @@ The terminal flow also offers the full classic wizard for detailed setup.
 | **Gateway**    | Local or remote                        | Local, direct remote, or SSH                        | Local, direct remote, or SSH              |
 | **Best for**   | Servers, headless, full control        | Desktop Mac, visual setup                           | Linux desktop, visual setup               |
 | **Automation** | `--non-interactive` for scripts        | Manual only                                         | Manual only                               |
-| **Start**      | `openclaw onboard`                     | [Download the macOS app](/platforms/macos#download) | [Install the Linux app](/platforms/linux) |
+| **Start**      | `openclaw onboard`                     | Download the macOS app | [Install the Linux app](/platforms/linux) |
 
 Most users should start with **CLI onboarding** — it works everywhere and gives
 you the most control.
@@ -77,7 +77,7 @@ CLI command docs: [`openclaw onboard`](/cli/onboard)
 
 ## macOS app onboarding
 
-[Download the macOS app](/platforms/macos#download), then open it. If its
+Download the macOS app, then open it. If its
 configured local or remote Gateway is reachable and the default agent already
 has a configured model, onboarding offers **Current model**. Select it to run a
 real model check and open the normal dashboard. Loading the page only detects

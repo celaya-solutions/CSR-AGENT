@@ -291,6 +291,5 @@ freshness or dependencies. Those checks run when you apply the update; use
 ## Related
 
 - `openclaw doctor` (offers to run update first on git checkouts)
-- [Development channels](/install/development-channels)
 - [Updating](/install/updating)
 - [CLI reference](/cli)

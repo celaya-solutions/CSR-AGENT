@@ -59,7 +59,7 @@ Kimi model IDs:
 }
 ```
 
-See [Moonshot AI (Kimi + Kimi Coding)](/providers/moonshot) for the full setup guide.
+See Moonshot AI (Kimi + Kimi Coding) for the full setup guide.
 
 ### Kimi Coding
 
@@ -207,7 +207,7 @@ MiniMax is configured via `models.providers` because it uses custom endpoints:
 - MiniMax API key (CN): `--auth-choice minimax-cn-api`
 - Auth: `MINIMAX_API_KEY` for `minimax`; `MINIMAX_OAUTH_TOKEN` or `MINIMAX_API_KEY` for `minimax-portal`
 
-See [/providers/minimax](/providers/minimax) for setup details, model options, and config snippets.
+See /providers/minimax for setup details, model options, and config snippets.
 
 <Note>
 On MiniMax's Anthropic-compatible streaming path, OpenAgent disables thinking by default for the M2.x family unless you explicitly set it; MiniMax-M3 (and M3.x) stays on the provider's omitted/adaptive thinking path by default. `/fast on` rewrites `MiniMax-M2.7` to `MiniMax-M2.7-highspeed`.
@@ -254,7 +254,7 @@ Then set a model (replace with one of the IDs returned by `http://localhost:1234
 }
 ```
 
-OpenAgent uses LM Studio's native `/api/v1/models` and `/api/v1/models/load` for discovery + auto-load, with `/v1/chat/completions` for inference by default. If you want LM Studio JIT loading, TTL, and auto-evict to own model lifecycle, set `models.providers.lmstudio.params.preload: false`. See [/providers/lmstudio](/providers/lmstudio) for setup and troubleshooting.
+OpenAgent uses LM Studio's native `/api/v1/models` and `/api/v1/models/load` for discovery + auto-load, with `/v1/chat/completions` for inference by default. If you want LM Studio JIT loading, TTL, and auto-evict to own model lifecycle, set `models.providers.lmstudio.params.preload: false`. See /providers/lmstudio for setup and troubleshooting.
 
 ### Ollama
 
@@ -304,7 +304,7 @@ Then set a model (replace with one of the IDs returned by `/v1/models`):
 }
 ```
 
-See [/providers/vllm](/providers/vllm) for details.
+See /providers/vllm for details.
 
 ### SGLang
 
@@ -330,7 +330,7 @@ Then set a model (replace with one of the IDs returned by `/v1/models`):
 }
 ```
 
-See [/providers/sglang](/providers/sglang) for details.
+See /providers/sglang for details.
 
 ### Local proxies (LM Studio, vLLM, LiteLLM, etc.)
 

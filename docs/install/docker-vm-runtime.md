@@ -8,7 +8,7 @@ title: "Docker VM runtime"
 ---
 
 Use this runtime flow after provisioning a VM and installing Docker. Provider
-guides such as [GCP](/install/gcp) and [Hetzner](/install/hetzner) own VM
+guides such as GCP and Hetzner own VM
 creation, firewall rules, SSH access, and the tunnel back to your laptop. This
 page owns the Docker setup shared by those hosts.
 

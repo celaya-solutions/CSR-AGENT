@@ -47,7 +47,7 @@ The builtin engine can index directories outside the workspace with
 conversational recall, but it does not provide a learned or model-based relevance
 reranking stage. Its MMR pass is deterministic and local.
 
-Consider [Honcho](/concepts/memory-honcho) if you want cross-session memory
+Consider Honcho if you want cross-session memory
 with automatic user modeling.
 
 ## Getting started
@@ -333,4 +333,3 @@ knobs, see the
 
 - [Memory overview](/concepts/memory)
 - [Memory search](/concepts/memory-search)
-- [Active memory](/concepts/active-memory)

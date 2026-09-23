@@ -6,7 +6,7 @@ title: "Tests"
 ---
 
 - Full testing kit (suites, live, Docker): [Testing](/help/testing)
-- Update and plugin package validation: [Testing updates and plugins](/help/testing-updates-plugins)
+- Update and plugin package validation: Testing updates and plugins
 
 This page is an index. The testing reference is documented on six pages, one
 per reader job. Open the page that matches your task.
@@ -18,7 +18,6 @@ per reader job. Open the page that matches your task.
 | [Docker test suites](/reference/test/docker)                   | The weighted Docker scheduler, its knobs, and the notable Docker lanes.            |
 | [Test performance and benchmarks](/reference/test/performance) | Import profiling, CPU and heap profiles, shard timings, and the benchmark scripts. |
 | [Test runner internals](/reference/test/runner-internals)      | Shared build locks, isolated test state and homes, and JSON report merging.        |
-| [Remote test proof](/reference/test/remote-proof)              | When agents use Crabbox or Testbox, and the wrapper, lease, and trust rules.       |
 
 ## Where each section moved
 
@@ -26,8 +25,8 @@ Every section heading from the previous single-page version keeps its anchor
 here, so an existing link such as `/reference/test#core-commands` still
 resolves. Each entry points at the page that now holds the content.
 
-- <a id="agent-default" />[Agent default](/reference/test/remote-proof#agent-default)
-- <a id="crabbox-repository-setup" />[Crabbox repository setup](/reference/test/remote-proof#crabbox-repository-setup)
+- <a id="agent-default" />Agent default
+- <a id="crabbox-repository-setup" />Crabbox repository setup
 - <a id="routine-local-order" />[Routine local order](/reference/test/local#routine-local-order)
 - <a id="core-commands" />[Core commands](/reference/test/local#core-commands)
 - <a id="source-tests-and-subprocess-builds" />[Source tests and subprocess builds](/reference/test/local#source-tests-and-subprocess-builds)
@@ -55,4 +54,3 @@ resolves. Each entry points at the page that now holds the content.
 
 - [Testing](/help/testing)
 - [Testing live](/help/testing-live)
-- [Testing updates and plugins](/help/testing-updates-plugins)

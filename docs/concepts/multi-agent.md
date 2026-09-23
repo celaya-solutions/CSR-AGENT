@@ -200,7 +200,7 @@ or use the team choice during [onboarding](/start/wizard#choose-one-agent-or-a-t
     openclaw channels login --channel whatsapp --account work
     ```
 
-    See channel guides: [Discord](/channels/discord), [Telegram](/channels/telegram), [WhatsApp](/channels/whatsapp).
+    See channel guides: [Discord](/channels/discord), [Telegram](/channels/telegram), WhatsApp.
 
   </Step>
   <Step title="Add agents, accounts, and bindings">
@@ -253,7 +253,7 @@ The configured path is the parent directory. OpenAgent appends the normalized
 agent id, producing paths such as `~/.openclaw/wiki/support` and
 `~/.openclaw/wiki/marketing`. Agent-scoped CLI and Gateway operations require
 an explicit agent when multiple agents are configured. See
-[Memory Wiki per-agent vaults](/plugins/memory-wiki#per-agent-vaults) for bridge
+Memory Wiki per-agent vaults for bridge
 filtering, migration, and trust-boundary details.
 
 ## Cross-agent memory search

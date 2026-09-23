@@ -229,7 +229,6 @@ If Slack ambient rooms do not trigger, verify the channel key is the Slack chann
 
 - [Groups](/channels/groups)
 - [Discord](/channels/discord)
-- [Slack](/channels/slack)
 - [Telegram](/channels/telegram)
 - [Channel troubleshooting](/channels/troubleshooting)
 - [Channel configuration reference](/gateway/config-channels)
