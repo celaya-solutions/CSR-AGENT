@@ -98,10 +98,10 @@ describe("docs config examples", () => {
     },
     {
       name: "reports a retired bundled channel key",
-      markdown: '```json5\n{ channels: { slack: { identity: "bot" } } }\n```',
+      markdown: '```json5\n{ channels: { telegram: { dm: { threadReplies: "always" } } } }\n```',
       findings: 1,
       skipped: undefined,
-      issuePath: "channels.slack",
+      issuePath: "channels.telegram",
     },
     {
       name: "reports an unsupported OpenAI plugin config key",

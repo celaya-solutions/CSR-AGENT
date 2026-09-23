@@ -32,14 +32,6 @@ const createDemoAliasPlugin = () => ({
   },
 });
 
-const createIMessageAliasPlugin = () => ({
-  ...createChannelTestPluginBase({
-    id: "imessage",
-    label: "iMessage",
-    docsPath: "/channels/imessage",
-  }),
-});
-
 describe("gateway hooks helpers", () => {
   const resolveHooksConfigOrThrow = (cfg: OpenClawConfig) => {
     const resolved = resolveHooksConfig(cfg);
@@ -180,26 +172,6 @@ describe("gateway hooks helpers", () => {
     if (explicitNoDeliver.ok) {
       expect(explicitNoDeliver.value.deliver).toBe(false);
       expect(explicitNoDeliver.value.delivery).toEqual({ mode: "none" });
-    }
-
-    setActivePluginRegistry(
-      createTestRegistry([
-        {
-          pluginId: "imessage",
-          source: "test",
-          plugin: createIMessageAliasPlugin(),
-        },
-      ]),
-    );
-    const imsg = normalizeAgentPayload({ message: "yo", channel: "imsg", to: "chat-1" });
-    expect(imsg.ok).toBe(true);
-    if (imsg.ok) {
-      expect(imsg.value.channel).toBe("imessage");
-      expect(imsg.value.delivery).toEqual({
-        mode: "announce",
-        channel: "imessage",
-        to: "chat-1",
-      });
     }
 
     setActivePluginRegistry(

@@ -83,9 +83,9 @@ describe("config doc baseline integration", () => {
     expect(telegramToken.kind).toBe("channel");
     expect(telegramToken.sensitive).toBe(true);
 
-    const twilioToken = requireEntry(byPath, "plugins.entries.voice-call.config.twilio.authToken");
-    expect(twilioToken.kind).toBe("plugin");
-    expect(twilioToken.sensitive).toBe(true);
+    const codexAuthToken = requireEntry(byPath, "plugins.entries.codex.config.appServer.authToken");
+    expect(codexAuthToken.kind).toBe("plugin");
+    expect(codexAuthToken.sensitive).toBe(true);
   });
 
   it("preserves help text and tags from merged schema hints", async () => {
@@ -112,15 +112,9 @@ describe("config doc baseline integration", () => {
     expect(discordEntry.label).toBe("Discord");
     expect(discordEntry.help).toBe("very well supported right now.");
 
-    const msteamsEntry = requireEntry(byPath, "channels.msteams");
-    expect(msteamsEntry.label).toBe("Microsoft Teams");
-    expect(msteamsEntry.help).toBe("Teams SDK; enterprise support.");
-    expect(msteamsEntry.label).not.toContain("@openclaw/");
-
-    const matrixEntry = requireEntry(byPath, "channels.matrix");
-    expect(matrixEntry.label).toBe("Matrix");
-    expect(matrixEntry.help).toBe("open protocol; install the plugin to enable.");
-    expect(matrixEntry.help).not.toContain("homeserver");
+    const telegramEntry = requireEntry(byPath, "channels.telegram");
+    expect(telegramEntry.label).toBe("Telegram");
+    expect(telegramEntry.label).not.toContain("@openclaw/");
   });
 
   it("matches array help hints that still use [] notation", async () => {

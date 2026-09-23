@@ -395,8 +395,8 @@ describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)
   });
 
   it.each([
-    ["feishu", "allowlist", "allowlist_quote"],
-    ["mattermost", "allowlist_quote", "all"],
+    ["discord", "allowlist", "allowlist_quote"],
+    ["telegram", "allowlist_quote", "all"],
   ] as const)(
     "accepts %s contextVisibility at channel and account scope",
     (channelId, channelMode, accountMode) => {
@@ -423,13 +423,12 @@ describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)
     },
   );
 
-  it('warns on Mattermost dmPolicy="open" without wildcard allowFrom', () => {
+  it('warns on Discord dmPolicy="open" without wildcard allowFrom', () => {
     const result = validateConfigObjectWithPlugins({
       channels: {
-        mattermost: {
+        discord: {
           enabled: true,
-          baseUrl: "https://chat.example.com",
-          botToken: "test-token",
+          token: "test-token",
           dmPolicy: "open",
         },
       },
@@ -438,21 +437,20 @@ describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)
     expect(result.ok).toBe(true);
     expect(result.warnings).toContainEqual(
       expect.objectContaining({
-        path: "channels.mattermost.allowFrom",
-        message: expect.stringContaining('channels.mattermost.dmPolicy="open"'),
+        path: "channels.discord.allowFrom",
+        message: expect.stringContaining('channels.discord.dmPolicy="open"'),
       }),
     );
   });
 
-  it('warns on account-scoped Mattermost dmPolicy="open" without wildcard allowFrom', () => {
+  it('warns on account-scoped Discord dmPolicy="open" without wildcard allowFrom', () => {
     const result = validateConfigObjectWithPlugins({
       channels: {
-        mattermost: {
+        discord: {
           accounts: {
             work: {
               enabled: true,
-              baseUrl: "https://chat.example.com",
-              botToken: "test-token",
+              token: "test-token",
               dmPolicy: "open",
             },
           },
@@ -463,13 +461,13 @@ describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)
     expect(result.ok).toBe(true);
     expect(result.warnings).toContainEqual(
       expect.objectContaining({
-        path: "channels.mattermost.accounts.work.allowFrom",
-        message: expect.stringContaining('channels.mattermost.accounts.work.dmPolicy="open"'),
+        path: "channels.discord.accounts.work.allowFrom",
+        message: expect.stringContaining('channels.discord.accounts.work.dmPolicy="open"'),
       }),
     );
   });
 
-  it("applies the dmPolicy/allowFrom dependency check generically (telegram), not just Mattermost", () => {
+  it("applies the dmPolicy/allowFrom dependency check generically (telegram), not just Discord", () => {
     // Use generated bundled metadata (no plugin-owned schema override) so this proves
     // the check is channel-agnostic rather than wired to a specific channel id.
     mockLoadPluginManifestRegistry.mockReturnValue({ diagnostics: [], plugins: [] });
@@ -494,10 +492,9 @@ describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)
   it('does not warn when dmPolicy="open" includes a wildcard allowFrom', () => {
     const result = validateConfigObjectWithPlugins({
       channels: {
-        mattermost: {
+        discord: {
           enabled: true,
-          baseUrl: "https://chat.example.com",
-          botToken: "test-token",
+          token: "test-token",
           dmPolicy: "open",
           allowFrom: ["*"],
         },
@@ -505,17 +502,16 @@ describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)
     });
 
     expect(result.ok).toBe(true);
-    expect(
-      result.warnings.some((warning) => warning.path === "channels.mattermost.allowFrom"),
-    ).toBe(false);
+    expect(result.warnings.some((warning) => warning.path === "channels.discord.allowFrom")).toBe(
+      false,
+    );
   });
 
   it("does not warn when an account inherits a wildcard allowFrom from the channel default", () => {
     const result = validateConfigObjectWithPlugins({
       channels: {
-        mattermost: {
-          baseUrl: "https://chat.example.com",
-          botToken: "test-token",
+        discord: {
+          token: "test-token",
           allowFrom: ["*"],
           accounts: {
             work: {
@@ -527,7 +523,7 @@ describe("validateConfigObjectWithPlugins channel metadata (applyDefaults: true)
     });
 
     expect(result.ok).toBe(true);
-    expect(result.warnings.some((warning) => warning.path.startsWith("channels.mattermost"))).toBe(
+    expect(result.warnings.some((warning) => warning.path.startsWith("channels.discord"))).toBe(
       false,
     );
   });

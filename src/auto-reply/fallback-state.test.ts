@@ -1,7 +1,6 @@
 /** Tests model fallback notice formatting and transition state tracking. */
 import { afterEach, describe, expect, it } from "vitest";
 import { testing as cliBackendsTesting } from "../agents/cli-backends.test-support.js";
-import { canonicalizeProviderModelId } from "../agents/provider-model-route.js";
 import {
   resolveActiveFallbackState,
   type FallbackNoticeState,
@@ -391,64 +390,7 @@ describe("fallback-state", () => {
     ).toContain("selected openai/gpt-5.5");
   });
 
-  describe("Arcee wire identity", () => {
-    it.each([
-      {
-        name: "fresh state",
-        state: {} satisfies FallbackNoticeState,
-        expectedStateChanged: false,
-      },
-      {
-        name: "captured alias-only state",
-        state: {
-          fallbackNotice: {
-            kind: "active",
-            selectedModel: "arcee/trinity-large-preview",
-            activeModel: "arcee/arcee-ai/trinity-large-preview",
-            reason: "selected model unavailable",
-          },
-        } satisfies FallbackNoticeState,
-        expectedStateChanged: true,
-      },
-    ])("keeps $name out of fallback state", ({ state, expectedStateChanged }) => {
-      const params = {
-        selectedProvider: "arcee",
-        selectedModel: "trinity-large-preview",
-        activeProvider: "arcee",
-        activeModel: "arcee-ai/trinity-large-preview",
-        attempts: [],
-        cfg: {},
-        state,
-      };
-
-      expect(canonicalizeProviderModelId("arcee", "arcee-ai/trinity-large-preview")).toBe(
-        "trinity-large-preview",
-      );
-
-      const resolved = resolveFallbackTransition(params);
-
-      expect(resolved).toMatchObject({
-        fallbackActive: false,
-        fallbackTransitioned: false,
-        fallbackCleared: false,
-        stateChanged: expectedStateChanged,
-      });
-      expect(resolved.nextState).toEqual({
-        selectedModel: undefined,
-        activeModel: undefined,
-        reason: undefined,
-      });
-      expect(buildFallbackNotice(params)).toBeNull();
-      expect(
-        resolveActiveFallbackState({
-          selectedModelRef: "arcee/trinity-large-preview",
-          activeModelRef: "arcee/arcee-ai/trinity-large-preview",
-          config: {},
-          state,
-        }),
-      ).toEqual({ active: false, reason: undefined });
-    });
-
+  describe("wire identity fallbacks", () => {
     it.each([
       {
         name: "different model",

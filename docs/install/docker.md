@@ -238,12 +238,16 @@ For example, this command builds a multi-architecture image that includes only
 the Discord plugin and no Chromium:
 
 ```bash
+SOURCE_SHA="$(git rev-parse HEAD)"
+BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  --build-arg "GIT_COMMIT=$(git rev-parse HEAD)" \
+  --build-arg "GIT_COMMIT=${SOURCE_SHA}" \
+  --build-arg "OPENCLAW_BUILD_TIMESTAMP=${BUILD_TIMESTAMP}" \
   --build-arg OPENCLAW_EXTENSIONS=discord \
   --build-arg OPENCLAW_INSTALL_BROWSER= \
-  --tag "registry.example.com/you/openclaw-discord:$(git rev-parse HEAD)" \
+  --tag "registry.example.com/you/openclaw-discord:${SOURCE_SHA}" \
   --push \
   .
 ```

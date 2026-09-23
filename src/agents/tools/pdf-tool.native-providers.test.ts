@@ -30,7 +30,7 @@ vi.mock("../provider-stream.js", () => ({
 const { createPdfModelRegistry, stubPdfToolInfra } = createPdfToolInfraStub(completeMock);
 
 const ANTHROPIC_PDF_MODEL = "anthropic/claude-opus-4-6";
-const GOOGLE_PDF_MODEL = "google/gemini-2.5-pro";
+const REQUESTED_PDF_MODEL = "anthropic/claude-sonnet-4-6";
 
 type PdfToolModule = typeof import("./pdf-tool.js");
 let createPdfTool: PdfToolModule["createPdfTool"];
@@ -172,14 +172,13 @@ describe("PDF tool native provider paths", () => {
       const requestedWorkspace = path.join(agentDir, "requested-workspace");
       const committedWorkspace = path.join(agentDir, "committed-workspace");
       await stubPdfToolInfra(agentDir, {
-        provider: "google",
-        api: "google-generative-ai",
+        provider: "anthropic",
         input: ["text", "document"],
       });
       const authStorage = { setRuntimeApiKey: vi.fn() };
       const find = () => ({
-        provider: "google",
-        api: "google-generative-ai",
+        provider: "anthropic",
+        api: "anthropic-messages",
         maxTokens: 8192,
         input: ["text", "document"],
       });
@@ -189,17 +188,17 @@ describe("PDF tool native provider paths", () => {
         snapshot: withPreparedRuntimeFacts({
           agentDir: "/tmp/committed-pdf-agent",
           workspaceDir: committedWorkspace,
-          config: withPdfModel(GOOGLE_PDF_MODEL),
+          config: withPdfModel(ANTHROPIC_PDF_MODEL),
           createStores: () => ({ authStorage, modelRegistry }),
         }),
         [Symbol.asyncDispose]: release,
       } as never);
-      const geminiSpy = vi
-        .spyOn(pdfNativeProviders, "geminiAnalyzePdf")
+      const anthropicSpy = vi
+        .spyOn(pdfNativeProviders, "anthropicAnalyzePdf")
         .mockResolvedValue("committed native summary");
       const tool = requirePdfTool(
         (await loadCreatePdfTool())({
-          config: withPdfModel(ANTHROPIC_PDF_MODEL),
+          config: withPdfModel(REQUESTED_PDF_MODEL),
           agentDir,
           workspaceDir: requestedWorkspace,
         }),
@@ -218,10 +217,10 @@ describe("PDF tool native provider paths", () => {
         await work.drain();
       }
 
-      expect(geminiSpy).toHaveBeenCalledWith(
-        expect.objectContaining({ modelId: "gemini-2.5-pro" }),
+      expect(anthropicSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ modelId: "claude-opus-4-6" }),
       );
-      expectFields(result.details, { model: GOOGLE_PDF_MODEL, native: true });
+      expectFields(result.details, { model: ANTHROPIC_PDF_MODEL, native: true });
       expect(release).toHaveBeenCalledOnce();
     });
   });

@@ -10,6 +10,9 @@ import { getFreePort } from "../test-utils/ports.js";
 import { startGatewayServerCore } from "./server-start.js";
 import * as bootstrap from "./server-startup-bootstrap.js";
 
+const CATALOG_URL = "https://catalog.example.test/models/v1/catalog.json";
+const CATALOG_CONFIG = { models: { catalogRefresh: { url: CATALOG_URL } } };
+
 describe("Gateway startup catalog", () => {
   it.each([false, true])("captures metadata before bootstrap awaits, absent=%s", async (absent) => {
     const bundle = {
@@ -24,7 +27,7 @@ describe("Gateway startup catalog", () => {
       bundle_json: JSON.stringify(bundle),
       generated_at: 200,
       min_version: null,
-      source_url: "https://catalog.openclaw.ai/models/v1/catalog.json",
+      source_url: CATALOG_URL,
       etag: null,
       last_modified: null,
       checked_at: 200,
@@ -51,10 +54,12 @@ describe("Gateway startup catalog", () => {
           pricing: { "anthropic/startup-model": { input: 3, output: 4 } },
         }),
       });
-      expect(getRemoteModelCatalogProviderOverlay({}, "anthropic")).toEqual(
+      expect(getRemoteModelCatalogProviderOverlay(CATALOG_CONFIG, "anthropic")).toEqual(
         absent ? undefined : bundle.providers.anthropic,
       );
-      expect(getRemoteModelCatalogPricing({})).toEqual(absent ? undefined : bundle.pricing);
+      expect(getRemoteModelCatalogPricing(CATALOG_CONFIG)).toEqual(
+        absent ? undefined : bundle.pricing,
+      );
     } finally {
       pending.reject(stopped);
       const outcome = await startup;

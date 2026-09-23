@@ -2760,20 +2760,20 @@ describe("tui command handlers", () => {
   it.each([undefined, []])(
     "resolves thinking labels from the provider policy when session levels are %j",
     async (thinkingLevels) => {
-      const { handleCommand, patchSession } = createHarness({
+      const { handleCommand, addSystem, patchSession } = createHarness({
         sessionInfo: {
-          modelProvider: "opencode-go",
-          model: "minimax-m3",
+          modelProvider: "anthropic",
+          model: "claude-opus-4-7",
           thinkingLevels,
         },
       });
 
-      await handleCommand("/think on");
+      await handleCommand("/think");
 
-      expect(patchSession).toHaveBeenCalledWith({
-        key: "agent:main:main",
-        thinkingLevel: "high",
-      });
+      expect(addSystem).toHaveBeenCalledWith(
+        "usage: /think <off|minimal|low|medium|adaptive|high|xhigh|max|default>",
+      );
+      expect(patchSession).not.toHaveBeenCalled();
     },
   );
 

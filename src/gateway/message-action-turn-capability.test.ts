@@ -8,8 +8,8 @@ import {
 
 describe("message action turn capability", () => {
   it("admits channel ingress but rejects Gateway and internal run sources", () => {
-    expect(isTrustedMessageActionTurnIngress("whatsapp")).toBe(true);
-    expect(isTrustedMessageActionTurnIngress("matrix")).toBe(true);
+    expect(isTrustedMessageActionTurnIngress("telegram")).toBe(true);
+    expect(isTrustedMessageActionTurnIngress("discord")).toBe(true);
     expect(isTrustedMessageActionTurnIngress("webchat")).toBe(false);
     expect(isTrustedMessageActionTurnIngress("cron")).toBe(false);
     expect(isTrustedMessageActionTurnIngress(undefined)).toBe(false);

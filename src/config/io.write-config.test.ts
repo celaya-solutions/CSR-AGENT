@@ -653,10 +653,7 @@ describe("config io write", () => {
   });
 
   for (const [mode, message] of [
-    [
-      "OPENCLAW_NIX_MODE",
-      "Agent-first Nix setup: https://github.com/openclaw/nix-openclaw#quick-start",
-    ],
+    ["OPENCLAW_NIX_MODE", "Config is managed by Nix (`OPENCLAW_NIX_MODE=1`)"],
     ["OPENCLAW_CONFIG_READONLY", "Config is externally managed (`OPENCLAW_CONFIG_READONLY=1`)"],
   ] as const) {
     itWithHome(

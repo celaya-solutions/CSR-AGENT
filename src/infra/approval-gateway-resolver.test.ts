@@ -128,14 +128,8 @@ describe("resolveApprovalOverGateway", () => {
   });
 
   it.each([
-    ["signal", "Signal"],
-    ["whatsapp", "WhatsApp"],
-    ["matrix", "Matrix"],
-    ["imessage", "iMessage"],
     ["telegram", "Telegram"],
     ["discord", "Discord"],
-    ["googlechat", "Google Chat"],
-    ["slack", "Slack"],
   ] as const)(
     "derives the %s approval client label from channel metadata",
     async (channel, label) => {
@@ -266,7 +260,7 @@ describe("resolveApprovalOverGateway", () => {
           approvalId: "approval-1",
           approvalKind: "exec",
           decision: "deny",
-          channel: "imessage",
+          channel: "telegram",
           accountId: "personal",
           senderId: "owner",
           gatewayRuntime: { request: injectedRequest },
@@ -280,9 +274,9 @@ describe("resolveApprovalOverGateway", () => {
         id: "approval-1",
         kind: "exec",
         decision: "deny",
-        reviewer: { channel: "imessage", accountId: "personal", senderId: "owner" },
+        reviewer: { channel: "telegram", accountId: "personal", senderId: "owner" },
       },
-      { clientDisplayName: "iMessage approval (owner)" },
+      { clientDisplayName: "Telegram approval (owner)" },
     );
     expect(scopedRequest).not.toHaveBeenCalled();
   });

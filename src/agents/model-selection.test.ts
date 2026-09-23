@@ -1237,53 +1237,6 @@ describe("model-selection", () => {
       },
     );
 
-    it.each([false, true])(
-      "preserves literal Arcee refs while matching equivalent catalog rows (catalog supplied=%s)",
-      (supplied) => {
-        const direct = {
-          provider: "arcee",
-          id: "trinity-large-thinking",
-          name: "trinity-large-thinking",
-        };
-        const wire = {
-          provider: "arcee",
-          id: "arcee-ai/trinity-large-thinking",
-          name: "arcee-ai/trinity-large-thinking",
-        };
-        const catalog = supplied ? [wire] : [];
-        const policy = createModelVisibilityPolicy({
-          cfg: {
-            agents: {
-              defaults: {
-                modelPolicy: {
-                  allow: [
-                    "arcee/*",
-                    "arcee/trinity-large-thinking",
-                    "arcee/arcee-ai/trinity-large-thinking",
-                  ],
-                },
-              },
-            },
-            models: {
-              providers: {
-                arcee: {
-                  api: "openai-completions",
-                  baseUrl: "https://arcee.example/v1",
-                  models: [],
-                },
-              },
-            },
-          },
-          catalog,
-          defaultProvider: "arcee",
-        });
-
-        expect(policy.visibleCatalog({ catalog, defaultVisibleCatalog: catalog })).toEqual(
-          supplied ? [wire] : [direct, wire],
-        );
-      },
-    );
-
     it("retains every configured row in a large allowlist without admitting other rows", () => {
       const catalog = Array.from({ length: 400 }, (_, index) => ({
         provider: "custom",

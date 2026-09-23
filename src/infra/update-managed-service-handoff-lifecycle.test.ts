@@ -460,7 +460,7 @@ describe("managed service update handoff", () => {
         "systemd",
         {
           controlDisconnect: "transferred",
-          requester: { channel: "slack", accountId: "primary", senderId: "owner" },
+          requester: { channel: "telegram", accountId: "primary", senderId: "owner" },
           revokeWhileValidating: true,
           helperExitCode: 1,
         },

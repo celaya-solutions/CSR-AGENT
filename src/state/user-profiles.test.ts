@@ -72,10 +72,16 @@ function stateOptions() {
 
 // Smallest valid lossless 1x1 WebP; the repo no longer ships a WebP asset to borrow.
 const WEBP_1X1_BASE64 = "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==";
+// Minimal valid baseline 1x1 JPEG; the repo no longer ships a JPEG asset to borrow.
+const JPEG_1X1_BASE64 =
+  "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=";
 
 function fixtureImage(path: string): Buffer {
   if (path === "inline:webp-1x1") {
     return Buffer.from(WEBP_1X1_BASE64, "base64");
+  }
+  if (path === "inline:jpeg-1x1") {
+    return Buffer.from(JPEG_1X1_BASE64, "base64");
   }
   return readFileSync(join(process.cwd(), path));
 }
@@ -839,7 +845,7 @@ describe("user profiles", () => {
 
   it.each([
     ["image/png", "ui/public/favicon-32.png"],
-    ["image/jpeg", "docs/whatsapp-openclaw.jpg"],
+    ["image/jpeg", "inline:jpeg-1x1"],
     ["image/webp", "inline:webp-1x1"],
   ])("adopts a bounded %s Tailscale avatar", async (mime, path) => {
     const options = stateOptions();

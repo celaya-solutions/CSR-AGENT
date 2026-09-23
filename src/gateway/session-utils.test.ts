@@ -2914,59 +2914,6 @@ describe("gateway session utils", () => {
     }
   });
 
-  test("refreshes a legacy Buzz UUID title from inbound room metadata", async () => {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-buzz-session-title-"));
-    const storePath = path.join(dir, "sessions.json");
-    const roomId = "b25b8e40-eb1a-43a4-b56b-30a4e16df586";
-    const key = `agent:main:buzz:group:${roomId}`;
-    try {
-      await replaceSessionEntry(
-        { sessionKey: key, storePath },
-        {
-          sessionId: "legacy-buzz-room",
-          updatedAt: 1,
-          chatType: "group",
-          groupId: roomId,
-          groupChannel: roomId,
-          displayName: "buzz:g-b25b8e40-eb1a-43a4-b56b-30a4e16df586",
-        },
-      );
-
-      const entry = await recordInboundSessionMeta({
-        storePath,
-        sessionKey: key,
-        ctx: {
-          Provider: "buzz",
-          Surface: "buzz",
-          ChatType: "group",
-          From: `buzz:group:${roomId}`,
-          To: `buzz:${roomId}`,
-          OriginatingTo: `buzz:${roomId}`,
-          NativeChannelId: roomId,
-          GroupSubject: "Engineering",
-        },
-      });
-
-      expect(entry).toMatchObject({
-        groupId: roomId,
-        subject: "Engineering",
-      });
-      expect(entry?.groupChannel).toBeUndefined();
-      const row = buildGatewaySessionRow({
-        cfg: { agents: { list: [{ id: "main", default: true }] } } as OpenClawConfig,
-        storePath,
-        store: { [key]: entry as SessionEntry },
-        key,
-        entry: entry as SessionEntry,
-      });
-      expect(row.displayName).toBe("Engineering");
-      expect(row.origin?.nativeChannelId).toBe(roomId);
-    } finally {
-      closeSessionSqliteDatabasesForTest();
-      fs.rmSync(dir, { recursive: true, force: true });
-    }
-  });
-
   test.each([
     {
       name: "resolved human names",

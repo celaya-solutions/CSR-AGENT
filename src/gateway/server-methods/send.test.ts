@@ -720,6 +720,24 @@ function mockMutableMessageRouteAccounts(resolveDefaultAccountId: (channel: stri
   }));
 }
 
+const EXTERNAL_TEST_CHANNEL_IDS = ["slack", "whatsapp", "matrix", "signal"] as const;
+
+function createExternalTestChannelPlugin(id: ChannelPlugin["id"]): ChannelPlugin {
+  const base: ChannelPlugin = {
+    ...createChannelTestPluginBase({ id }),
+    outbound: { deliveryMode: "gateway" },
+  };
+  // Read the per-test mocked plugin without consuming queued once-values.
+  return new Proxy(base, {
+    get(target, key, receiver) {
+      const mocked = mocks.getChannelPlugin.getMockImplementation()?.(id) as
+        | Record<PropertyKey, unknown>
+        | undefined;
+      return mocked && key in mocked ? mocked[key] : Reflect.get(target, key, receiver);
+    },
+  });
+}
+
 describe("gateway send mirroring", () => {
   let registrySeq = 0;
 
@@ -735,7 +753,18 @@ describe("gateway send mirroring", () => {
   beforeEach(async () => {
     vi.clearAllMocks();
     registrySeq += 1;
-    setActivePluginRegistry(createTestRegistry([]), `send-test-${registrySeq}`);
+    // Slack, WhatsApp, Matrix, and Signal no longer ship bundled, so they resolve
+    // as externally registered channel plugins whose surface is the mocked plugin.
+    setActivePluginRegistry(
+      createTestRegistry(
+        EXTERNAL_TEST_CHANNEL_IDS.map((id) => ({
+          pluginId: id,
+          source: "test",
+          plugin: createExternalTestChannelPlugin(id),
+        })),
+      ),
+      `send-test-${registrySeq}`,
+    );
     mocks.getRuntimeConfigSnapshot.mockReturnValue(null);
     mocks.getRuntimeConfigSourceSnapshot.mockReturnValue(null);
     mocks.loadSessionEntry.mockImplementation((sessionKey: string) => ({
@@ -779,7 +808,7 @@ describe("gateway send mirroring", () => {
       accountId: "missing",
       invoke: () =>
         runMessageActionRequest({
-          channel: "slack",
+          channel: "discord",
           action: "send",
           params: { target: "channel:current", message: "hi" },
           accountId: "missing",
@@ -793,7 +822,7 @@ describe("gateway send mirroring", () => {
       accountId: "missing",
       invoke: () =>
         runMessageActionRequest({
-          channel: "slack",
+          channel: "discord",
           action: "send",
           params: {
             target: "channel:current",
@@ -810,7 +839,7 @@ describe("gateway send mirroring", () => {
       accountId: "sut",
       invoke: () =>
         runMessageActionRequest({
-          channel: "slack",
+          channel: "discord",
           action: "send",
           params: {
             target: "channel:current",
@@ -828,7 +857,7 @@ describe("gateway send mirroring", () => {
       accountId: "!!!",
       invoke: () =>
         runSend({
-          channel: "slack",
+          channel: "discord",
           to: "channel:current",
           message: "hi",
           accountId: "!!!",
@@ -842,7 +871,7 @@ describe("gateway send mirroring", () => {
       accountId: "disabled",
       invoke: () =>
         runPoll({
-          channel: "slack",
+          channel: "discord",
           to: "channel:current",
           question: "Choose",
           options: ["A", "B"],
@@ -854,7 +883,7 @@ describe("gateway send mirroring", () => {
     },
   ])("rejects $name before provider code", async (testCase) => {
     mocks.getChannelPlugin.mockReturnValue({
-      id: "slack",
+      id: "discord",
       actions: { handleAction: true },
       outbound: { sendPoll: mocks.sendPoll },
       config: {

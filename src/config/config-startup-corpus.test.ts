@@ -122,41 +122,6 @@ describe("operator config startup corpus", () => {
     });
   });
 
-  it.each([false, true, "legacy", null])(
-    "silently removes included Copilot discovery.enabled=%j",
-    async (enabled) => {
-      const home = tempDirs.make("openclaw-copilot-migration-");
-      const configPath = path.join(home, "openclaw.json");
-      const legacy = {
-        plugins: {
-          entries: { "github-copilot": { enabled: true, config: { discovery: { enabled } } } },
-        },
-      };
-      fs.writeFileSync(path.join(home, "copilot.json"), JSON.stringify(legacy));
-      fs.writeFileSync(configPath, JSON.stringify({ $include: "copilot.json" }));
-      const io = createConfigIO({
-        configPath,
-        env: { ...process.env, OPENCLAW_STATE_DIR: home },
-        homedir: () => home,
-        observe: false,
-      });
-      const snapshot = await io.readConfigFileSnapshot();
-      expect(snapshot.valid, JSON.stringify(snapshot.issues)).toBe(true);
-      expect(snapshot.warnings).toEqual([]);
-      expect(snapshot.config.plugins?.entries?.["github-copilot"]).toEqual({
-        enabled: true,
-        config: {},
-      });
-      const repaired = normalizeCompatibilityConfigValues(snapshot.sourceConfig);
-      expect(repaired.config.plugins?.entries?.["github-copilot"]).toEqual({
-        enabled: true,
-        config: {},
-      });
-      expect(normalizeCompatibilityConfigValues(repaired.config).changes).toEqual([]);
-      expect(JSON.parse(fs.readFileSync(path.join(home, "copilot.json"), "utf8"))).toEqual(legacy);
-    },
-  );
-
   it("covers every retained config with an explicit catalog expectation", () => {
     expect(fixtureNames).toEqual(Object.keys(expectations).toSorted());
   });

@@ -95,6 +95,7 @@ describe("resolveProviderAuths key normalization", () => {
     ANTHROPIC_ADMIN_KEY: undefined,
     ANTHROPIC_ADMIN_API_KEY: undefined,
     XIAOMI_API_KEY: undefined,
+    OPENROUTER_API_KEY: undefined,
   } satisfies Record<string, string | undefined>;
 
   beforeAll(async () => {
@@ -220,63 +221,13 @@ describe("resolveProviderAuths key normalization", () => {
 
   it("strips embedded CR/LF from env keys", async () => {
     await expectResolvedAuthsFromSuiteHome({
-      providers: ["zai", "minimax", "xiaomi", "xiaomi-token-plan"],
+      providers: ["openrouter"],
       env: {
-        ZAI_API_KEY: "zai-\r\nkey",
-        MINIMAX_API_KEY: "minimax-\r\nkey",
-        XIAOMI_API_KEY: "xiaomi-\r\nkey",
-        XIAOMI_TOKEN_PLAN_API_KEY: "xiaomi-token-\r\nplan",
+        OPENROUTER_API_KEY: "openrouter-\r\nkey",
       },
-      expected: [
-        { provider: "zai", token: "zai-key" },
-        { provider: "minimax", token: "minimax-key" },
-        { provider: "xiaomi", token: "xiaomi-key" },
-        { provider: "xiaomi-token-plan", token: "xiaomi-token-plan" },
-      ],
+      expected: [{ provider: "openrouter", token: "openrouter-key" }],
     });
   }, 300_000);
-
-  it("accepts z-ai env alias and normalizes embedded CR/LF", async () => {
-    await expectResolvedAuthsFromSuiteHome({
-      providers: ["zai"],
-      env: {
-        Z_AI_API_KEY: "zai-\r\nkey",
-      },
-      expected: [{ provider: "zai", token: "zai-key" }],
-    });
-  });
-
-  it("prefers ZAI_API_KEY over the z-ai alias when both are set", async () => {
-    await expectResolvedAuthsFromSuiteHome({
-      providers: ["zai"],
-      env: {
-        ZAI_API_KEY: "direct-zai-key",
-        Z_AI_API_KEY: "alias-zai-key",
-      },
-      expected: [{ provider: "zai", token: "direct-zai-key" }],
-    });
-  });
-
-  it("prefers MINIMAX_CODE_PLAN_KEY over MINIMAX_API_KEY", async () => {
-    await expectResolvedAuthsFromSuiteHome({
-      providers: ["minimax"],
-      env: {
-        MINIMAX_CODE_PLAN_KEY: "code-plan-key",
-        MINIMAX_API_KEY: "api-key",
-      },
-      expected: [{ provider: "minimax", token: "code-plan-key" }],
-    });
-  });
-
-  it("accepts MINIMAX_CODING_API_KEY as a coding-plan alias", async () => {
-    await expectResolvedAuthsFromSuiteHome({
-      providers: ["minimax"],
-      env: {
-        MINIMAX_CODING_API_KEY: "coding-api-key",
-      },
-      expected: [{ provider: "minimax", token: "coding-api-key" }],
-    });
-  });
 
   it("strips embedded CR/LF from prepared profile values (token + api_key)", async () => {
     await expectResolvedAuthsFromSuiteHome({

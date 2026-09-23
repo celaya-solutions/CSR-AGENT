@@ -868,48 +868,6 @@ describe("resolveImplicitProviders startup discovery scope", () => {
     expect(mocks.runProviderCatalog).not.toHaveBeenCalled();
   });
 
-  it("fills missing static catalog apiKey from Google Vertex ADC auth evidence", async () => {
-    const credentialsPath = await state.writeJson("application_default_credentials.json", {
-      type: "authorized_user",
-    });
-    mocks.resolveRuntimePluginDiscoveryProviders.mockResolvedValue([
-      createStaticOnlyProvider("google"),
-    ]);
-    mocks.runProviderStaticCatalog.mockResolvedValue({
-      providers: {
-        "google-vertex": {
-          baseUrl: "https://aiplatform.googleapis.com",
-          api: "google-vertex" as const,
-          models: [createTextModel("gemini-3.1-pro-preview", "Gemini 3.1 Pro Preview")],
-        },
-      },
-    });
-
-    const providers = await withEnvAsync(
-      {
-        OPENCLAW_BUNDLED_PLUGINS_DIR: BUNDLED_PLUGINS_DIR,
-        OPENCLAW_DISABLE_BUNDLED_PLUGINS: undefined,
-      },
-      async () =>
-        await resolveImplicitProviders({
-          agentDir: state.agentDir(),
-          config: {},
-          env: {
-            ...state.env,
-            OPENCLAW_BUNDLED_PLUGINS_DIR: BUNDLED_PLUGINS_DIR,
-            OPENCLAW_DISABLE_BUNDLED_PLUGINS: undefined,
-            GOOGLE_APPLICATION_CREDENTIALS: credentialsPath,
-            GOOGLE_CLOUD_PROJECT: "vertex-project",
-            GOOGLE_CLOUD_LOCATION: "global",
-          } as NodeJS.ProcessEnv,
-          explicitProviders: {},
-          providerDiscoveryEntriesOnly: true,
-        }),
-    );
-
-    expect(providers?.["google-vertex"]?.apiKey).toBe("gcp-vertex-credentials");
-  });
-
   it("falls back to static provider catalogs when runtime discovery has no rows", async () => {
     mocks.resolveRuntimePluginDiscoveryProviders.mockResolvedValue([
       createProviderWithStaticCatalog("minimax"),

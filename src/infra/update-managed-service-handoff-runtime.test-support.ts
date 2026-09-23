@@ -63,8 +63,8 @@ export async function prepareManagedServiceRuntimeFixture(params: {
         options.repair
           ? managedRepairConfig(options.repair.baseUrl)
           : {
-              commands: { ownerAllowFrom: ["slack:owner"] },
-              channels: { slack: { enabled: true } },
+              commands: { ownerAllowFrom: ["telegram:owner"] },
+              channels: { telegram: { enabled: true } },
             },
       ),
     );

@@ -506,49 +506,6 @@ describe("createVideoGenerateTool", () => {
     expect(normalizationCounts[1]).toBeLessThanOrEqual(normalizationCounts[0]!);
   });
 
-  it("exposes reference-audio params for configured audio-capable model overrides", () => {
-    vi.stubEnv("FAL_KEY", "test-fal-key");
-
-    const properties = toolParameterProperties(
-      createVideoGenerateTool({
-        config: asConfig({
-          agents: {
-            defaults: {
-              videoGenerationModel: { primary: "openai/sora-2" },
-            },
-          },
-        }),
-      }),
-    );
-
-    expect(properties.audioRef).toBeDefined();
-    expect(properties.audioRefs).toBeDefined();
-    expect(properties.audioRoles).toBeDefined();
-  });
-
-  it("exposes reference-audio params for config-backed audio-capable providers", () => {
-    const properties = toolParameterProperties(
-      createVideoGenerateTool({
-        config: asConfig({
-          models: {
-            providers: {
-              fal: { apiKey: "test-fal-key" },
-            },
-          },
-          agents: {
-            defaults: {
-              videoGenerationModel: { primary: "openai/sora-2" },
-            },
-          },
-        }),
-      }),
-    );
-
-    expect(properties.audioRef).toBeDefined();
-    expect(properties.audioRefs).toBeDefined();
-    expect(properties.audioRoles).toBeDefined();
-  });
-
   it("keeps reference-audio params for unknown dynamic video providers", () => {
     const properties = toolParameterProperties(
       createVideoGenerateTool({

@@ -250,7 +250,7 @@ function makeTargetsCfg(targets: Array<{ channel: string; to: string }>): OpenCl
   } as OpenClawConfig;
 }
 
-const TARGETS_CFG = makeTargetsCfg([{ channel: "slack", to: "U123" }]);
+const TARGETS_CFG = makeTargetsCfg([{ channel: "discord", to: "U123" }]);
 
 function createForwarder(params: {
   cfg: OpenClawConfig;
@@ -330,7 +330,7 @@ async function expectSessionFilterRequestResult(params: {
 
   const { deliver, forwarder } = createForwarder({
     cfg,
-    resolveSessionTarget: () => ({ channel: "slack", to: "U1" }),
+    resolveSessionTarget: () => ({ channel: "discord", to: "U1" }),
   });
 
   const request = {
@@ -383,7 +383,7 @@ describe("exec approval forwarder", () => {
 
     const { deliver, forwarder } = createForwarder({
       cfg,
-      resolveSessionTarget: () => ({ channel: "slack", to: "U1" }),
+      resolveSessionTarget: () => ({ channel: "discord", to: "U1" }),
     });
 
     await expect(forwarder.handleRequested(baseRequest)).resolves.toBe(true);
@@ -392,7 +392,7 @@ describe("exec approval forwarder", () => {
     await forwarder.handleResolved({
       id: baseRequest.id,
       decision: "allow-once",
-      resolvedBy: "slack:U1",
+      resolvedBy: "discord:U1",
       ts: 2000,
     });
     expect(deliver).toHaveBeenCalledTimes(2);
@@ -458,7 +458,7 @@ describe("exec approval forwarder", () => {
   });
 
   it("keeps pending delivery ahead of a resolution received during route lookup", async () => {
-    const target = createDeferred<{ channel: "slack"; to: string }>();
+    const target = createDeferred<{ channel: "discord"; to: string }>();
     const pendingDelivery = createDeferred();
     const deliveryOrder: string[] = [];
     const deliver = vi.fn(async (deliveryParams: { payloads?: Array<{ text?: string }> }) => {
@@ -483,11 +483,11 @@ describe("exec approval forwarder", () => {
       await forwarder.handleResolved({
         id: baseRequest.id,
         decision: "allow-once",
-        resolvedBy: "slack:U1",
+        resolvedBy: "discord:U1",
         ts: 2000,
       });
 
-      target.resolve({ channel: "slack", to: "U1" });
+      target.resolve({ channel: "discord", to: "U1" });
       await expect(requested).resolves.toBe(true);
       await vi.waitFor(() => expect(deliver).toHaveBeenCalledTimes(1));
       expect(deliveryOrder).toEqual(["pending"]);
@@ -497,7 +497,7 @@ describe("exec approval forwarder", () => {
       expect(deliveryOrder).toEqual(["pending", "resolved"]);
       expect(resolveSessionTarget).toHaveBeenCalledOnce();
     } finally {
-      target.resolve({ channel: "slack", to: "U1" });
+      target.resolve({ channel: "discord", to: "U1" });
       pendingDelivery.resolve();
       await requested.catch(() => {});
       await forwarder.stop();
@@ -507,7 +507,7 @@ describe("exec approval forwarder", () => {
   it("does not arm new expiry while an admitted route lookup finishes during stop", async () => {
     vi.useFakeTimers();
     const lookupEntered = createDeferred();
-    const target = createDeferred<{ channel: "slack"; to: string }>();
+    const target = createDeferred<{ channel: "discord"; to: string }>();
     const delivery = createDeferred();
     const sent: string[] = [];
     const { forwarder } = createForwarder({
@@ -527,7 +527,7 @@ describe("exec approval forwarder", () => {
     try {
       await lookupEntered.promise;
       stopping = forwarder.stop();
-      target.resolve({ channel: "slack", to: "U1" });
+      target.resolve({ channel: "discord", to: "U1" });
       await expect(requested).resolves.toBe(true);
       await vi.advanceTimersByTimeAsync(10_000);
       delivery.resolve();
@@ -535,7 +535,7 @@ describe("exec approval forwarder", () => {
       expect(sent).toHaveLength(1);
       expect(sent[0]).toContain("required");
     } finally {
-      target.resolve({ channel: "slack", to: "U1" });
+      target.resolve({ channel: "discord", to: "U1" });
       delivery.resolve();
       await requested.catch(() => {});
       await (stopping ?? forwarder.stop());
@@ -621,18 +621,16 @@ describe("exec approval forwarder", () => {
         },
         {
           pluginId: "discord",
-          plugin: discordApprovalPlugin,
-          source: "test",
-        },
-        {
-          pluginId: "slack",
           plugin: {
-            ...createChannelTestPluginBase({ id: "slack" as ChannelPlugin["id"] }),
+            ...discordApprovalPlugin,
             outbound: {
               deliveryMode: "direct",
               beforeDeliverPayload,
             },
-          } satisfies Pick<ChannelPlugin, "id" | "meta" | "capabilities" | "config" | "outbound">,
+          } satisfies Pick<
+            ChannelPlugin,
+            "id" | "meta" | "capabilities" | "config" | "approvalCapability" | "outbound"
+          >,
           source: "test",
         },
       ]),
@@ -645,7 +643,7 @@ describe("exec approval forwarder", () => {
     const hookParams = requireFirstCallArg(beforeDeliverPayload, "beforeDeliverPayload params");
     expect(hookParams.hint).toEqual({ kind: "approval-pending", approvalKind: "exec" });
     const target = requireRecord(hookParams.target, "delivery target");
-    expect(target.channel).toBe("slack");
+    expect(target.channel).toBe("discord");
     expect(target.to).toBe("U123");
   });
 
@@ -950,7 +948,7 @@ describe("exec approval forwarder", () => {
       await forwarder.handleResolved({
         id: baseRequest.id,
         decision: "allow-once",
-        resolvedBy: "slack:U123",
+        resolvedBy: "discord:U123",
         ts: 7000,
       });
       // No delivery because pending entry was already deleted before delivery
@@ -972,7 +970,7 @@ describe("exec approval forwarder", () => {
             await forwarder.handleResolved({
               id: baseRequest.id,
               decision: "allow-once",
-              resolvedBy: "slack:U123",
+              resolvedBy: "discord:U123",
               ts: 7000,
             });
             // handleResolved returns void, but if it tried to deliver,

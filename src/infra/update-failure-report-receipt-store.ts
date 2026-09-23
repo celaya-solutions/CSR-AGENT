@@ -11,6 +11,10 @@ import {
   type RestartSentinel,
   type RestartSentinelPayload,
 } from "./restart-sentinel-store.js";
+import {
+  SOURCE_REPOSITORY_ISSUE_PATHNAME,
+  SOURCE_REPOSITORY_NEW_ISSUE_PATHNAME,
+} from "./source-repository.js";
 
 export type UpdateFailureReportReceipt = {
   artifactSweep?: "pending";
@@ -74,7 +78,7 @@ function isValidTerminalReceipt(receipt: UpdateFailureReportReceipt): boolean {
     return (
       receipt.cleanup === "pending" &&
       receipt.fallbackUrl === undefined &&
-      isCanonicalGithubUrl(receipt.url, /^\/openclaw\/openclaw\/issues\/\d+$/u, {
+      isCanonicalGithubUrl(receipt.url, SOURCE_REPOSITORY_ISSUE_PATHNAME, {
         allowSearch: false,
       })
     );
@@ -83,7 +87,7 @@ function isValidTerminalReceipt(receipt: UpdateFailureReportReceipt): boolean {
     return (
       receipt.cleanup === undefined &&
       receipt.url === undefined &&
-      isCanonicalGithubUrl(receipt.fallbackUrl, /^\/openclaw\/openclaw\/issues\/new$/u, {
+      isCanonicalGithubUrl(receipt.fallbackUrl, SOURCE_REPOSITORY_NEW_ISSUE_PATHNAME, {
         allowSearch: true,
       })
     );
@@ -137,11 +141,11 @@ function parseReceipt(sentinel: RestartSentinel | null): UpdateFailureReportRece
       (typeof value.sweepSinceMs !== "number" || !Number.isFinite(value.sweepSinceMs))) ||
     (value.sweepOwnerId !== undefined && value.artifactSweep !== "pending") ||
     (value.status === "created" &&
-      !isCanonicalGithubUrl(value.url, /^\/openclaw\/openclaw\/issues\/\d+$/u, {
+      !isCanonicalGithubUrl(value.url, SOURCE_REPOSITORY_ISSUE_PATHNAME, {
         allowSearch: false,
       })) ||
     (value.status === "fallback" &&
-      !isCanonicalGithubUrl(value.fallbackUrl, /^\/openclaw\/openclaw\/issues\/new$/u, {
+      !isCanonicalGithubUrl(value.fallbackUrl, SOURCE_REPOSITORY_NEW_ISSUE_PATHNAME, {
         allowSearch: true,
       })) ||
     (value.cleanup !== undefined && value.status !== "created" && value.status !== "retryable") ||
