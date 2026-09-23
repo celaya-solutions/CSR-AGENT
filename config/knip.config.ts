@@ -370,7 +370,6 @@ const rootBundledPluginRuntimeDependencies = [
 // owning workspace, or invoke their package binaries/loaders without a static module import.
 const rootToolingAndWorkspaceDependencies = [
   "@a2ui/lit",
-  "@copilotkit/aimock",
   "@lit-labs/signals",
   "@lit/context",
   "@lit/task",
