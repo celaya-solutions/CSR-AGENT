@@ -295,7 +295,7 @@ expectation check and the final file replacement.
 </Tabs>
 
 <Warning>
-SecretRef assignments are rejected on unsupported runtime-mutable surfaces (for example `hooks.token`, Discord thread-binding webhook tokens, and WhatsApp creds JSON). See [SecretRef Credential Surface](/reference/secretref-credential-surface).
+SecretRef assignments are rejected on unsupported runtime-mutable surfaces (for example `hooks.token`, and Discord thread-binding webhook tokens). See [SecretRef Credential Surface](/reference/secretref-credential-surface).
 </Warning>
 
 Batch parsing always uses the batch payload (`--batch-json`/`--batch-file`) as the source of truth; `--strict-json` / `--json` do not change batch parsing behavior.

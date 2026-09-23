@@ -12,8 +12,7 @@ title: "Transcripts CLI"
 # `openclaw transcripts`
 
 Inspector and export command for durable meeting transcripts.
-Google Meet, Microsoft Teams,
-and Zoom browser participants capture notes automatically;
+Discord voice channels can capture notes automatically;
 the `transcripts` agent tool also supports provider capture and manual import.
 
 Canonical transcript state lives in the shared SQLite database at
@@ -484,11 +483,6 @@ Configure at most one `whenOccupied: true` entry per Discord account and guild,
 even when the channel IDs differ: a Discord bot can occupy only one voice channel
 per guild. Later conflicting entries are skipped with a warning. For the complete
 listen-only setup, see [Discord meeting notes](/channels/discord/voice-transcripts#meeting-notes).
-
-The meeting provider ids are `google-meet`, `teams`, and `zoom`. Their aliases
-are `googlemeet`/`meet`, `teams-meetings`/`microsoft-teams`/`msteams`, and
-`zoom-meetings`, respectively. Meeting providers attach to an already-active
-meeting bot session; normal meeting joins do not need an `autoStart` entry.
 
 ## Related
 

@@ -32,7 +32,7 @@ context, and notification-routing behavior.
 
 ### Node host stats
 
-Connected CLI node hosts and the macOS app's shared node-host worker send a
+Connected CLI node hosts send a
 resource snapshot immediately after connecting, then every 60 seconds. They call
 `node.event` with `event: "node.host.stats"` and an object `payload` (or its JSON
 encoding in `payloadJSON`):

@@ -15,7 +15,6 @@ Use these hubs to discover more of the documentation, including deep dives and r
 
 - [Index](/)
 - [Getting Started](/start/getting-started)
-- [Onboarding](/start/onboarding)
 - [Onboarding (CLI)](/start/wizard)
 - [Setup](/start/setup)
 - [Dashboard](/web/dashboard) - on the Gateway host it opens at `http://127.0.0.1:18789/`
@@ -24,7 +23,6 @@ Use these hubs to discover more of the documentation, including deep dives and r
 - [Configuration](/gateway/configuration)
 - [Configuration examples](/gateway/configuration-examples)
 - [OpenAgent assistant](/start/openclaw)
-- [Showcase](/start/showcase)
 - [Lore](/start/lore)
 
 ## Installation + updates
@@ -58,7 +56,6 @@ Use these hubs to discover more of the documentation, including deep dives and r
 - [Discovery + transports](/gateway/discovery)
 - [Channel routing](/channels/channel-routing)
 - [Groups](/channels/groups)
-- [Group messages](/channels/group-messages)
 - [Model failover](/concepts/model-failover)
 - [OAuth](/concepts/oauth)
 
@@ -122,12 +119,9 @@ Use these hubs to discover more of the documentation, including deep dives and r
 ## Platforms
 
 - [Platforms overview](/platforms)
-- [Windows Hub](/platforms/windows)
+- [Windows](/platforms/windows)
 - [Linux](/platforms/linux)
 - [Web surfaces](/web)
-
-## macOS companion app (advanced)
-
 
 ## Plugins
 

@@ -75,17 +75,10 @@ plugin's catalog; core only reads the generic compat field.
 
 Bundled provider catalogs currently flag these models as `"preferred"`:
 
-| Provider  | Models                                                                                                                                                           |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| anthropic | `claude-fable-5`, `claude-opus-5`, `claude-sonnet-5`, `claude-mythos-5`, `claude-opus-4-8`, `claude-haiku-4-5`                                                   |
-| deepseek  | `deepseek-v4-pro`, `deepseek-v4-flash`                                                                                                                           |
-| google    | `gemini-3-flash-preview`, `gemini-3.1-pro-preview`, `gemini-3.1-flash-lite`, `gemini-3.5-flash`, `gemini-3.5-flash-lite`, `gemini-3.6-flash`, `gemini-3.7-flash` |
-| kimi      | `k3`, `k3-256k`                                                                                                                                                  |
-| minimax   | `MiniMax-M3`                                                                                                                                                     |
-| moonshot  | `kimi-k3`                                                                                                                                                        |
-| openai    | `gpt-5.6`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, `gpt-5.5-pro`                                                                              |
-| xiaomi    | `mimo-v2.5`                                                                                                                                                      |
-| zai       | `glm-5.3`, `glm-5.2`, `glm-5.1`                                                                                                                                  |
+| Provider  | Models                                                                                                         |
+| --------- | -------------------------------------------------------------------------------------------------------------- |
+| anthropic | `claude-fable-5`, `claude-opus-5`, `claude-sonnet-5`, `claude-mythos-5`, `claude-opus-4-8`, `claude-haiku-4-5` |
+| openai    | `gpt-5.6`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, `gpt-5.5-pro`                            |
 
 Everything else, including all Ollama-served local models, stays unflagged and
 keeps normal tool exposure under `"auto"`.
@@ -100,11 +93,9 @@ two catalogs describing the same upstream model must not disagree by accident.
 Every catalog row for a shared model therefore states its tier explicitly once
 any sibling row states one. Rows are matched on the vendor's own name for the
 weights, so a catalog that republishes a model under a namespaced id or
-different casing is matched automatically: `novita/moonshotai/kimi-k3`,
-`nvidia/z-ai/glm-5.2`, and `together/deepseek-ai/DeepSeek-V4-Pro` all group with
-the first-party rows without anyone declaring anything. Only genuinely different
-names need the manifest's `upstreamModel` marker, as the `kimi` catalog uses for
-`moonshot/kimi-k3`.
+different casing (for example `openrouter/anthropic/claude-opus-5`) is matched
+automatically. Only genuinely different names need the manifest's
+`upstreamModel` marker.
 
 Reseller and aggregator catalogs such as `baseten`, `deepinfra`,
 `github-copilot`, `gmi`, `novita`, `nvidia`, `ollama-cloud`, `opencode`,

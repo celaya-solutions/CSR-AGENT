@@ -26,8 +26,8 @@ OpenAgent:
   agent reads about itself) and via `openclaw agents set-identity` (what channels
   and the UI display).
 - Reads app recommendations already stored during onboarding without rescanning.
-  Official plugins use `openclaw plugins install <id>`; third-party ClawHub
-  skills remain explicit opt-ins. After the choice is handled, the agent
+  Plugins use `openclaw plugins install <id>`; third-party skills remain
+  explicit opt-ins. After the choice is handled, the agent
   acknowledges the stored offer so it never asks again.
 - Deletes `BOOTSTRAP.md` once the workspace looks configured, so the ritual only runs once.
 
@@ -58,9 +58,9 @@ openclaw onboard --skip-bootstrap
 
 ## Where it runs
 
-Bootstrapping always runs on the gateway host. If the macOS app connects to a
-remote Gateway, the workspace and its bootstrap files live on that remote
-machine, not on the Mac.
+Bootstrapping always runs on the gateway host. If you connect to a remote
+Gateway, the workspace and its bootstrap files live on that remote machine, not
+on your local computer.
 
 <Note>
 When the Gateway runs on another machine, edit workspace files on the gateway
@@ -69,6 +69,5 @@ host (for example, `user@gateway-host:~/.openclaw/workspace`).
 
 ## Related docs
 
-- macOS app onboarding: [Onboarding](/start/onboarding)
 - Workspace layout: [Agent workspace](/concepts/agent-workspace)
 - Template contents: [BOOTSTRAP.md template](/reference/templates/BOOTSTRAP)

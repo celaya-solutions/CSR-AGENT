@@ -13,7 +13,7 @@ This reference covers supported Node.js lines, why the minimum versions exist, a
 | Line    | Status      | Minimum         | Notes                                                     |
 | ------- | ----------- | --------------- | --------------------------------------------------------- |
 | Node 26 | Recommended | `>=26.1.0`      | Faster Gateway startup and lower memory use than Node 24. |
-| Node 24 | Supported   | `>=24.16.0 <25` | LTS line used by CI and the Linux installer.              |
+| Node 24 | Supported   | `>=24.16.0 <25` | LTS line.                                                 |
 | Node 25 | Unsupported | —               | Excluded by the current TEXT decoder floor.               |
 | Node 23 | Unsupported | —               | Excluded earlier for incompatible `node:sqlite` behavior. |
 | Node 22 | Unsupported | —               | Unsupported since the 24.16.0/26.1.0 floor.               |
@@ -22,11 +22,11 @@ The exact engines expression is `>=24.16.0 <25 || >=26.1.0`. It remains the docu
 
 ## How the gate decides
 
-Startup, doctor, Gateway runtime selection, update preflight, and installer runtime validation check the actual `node:sqlite` binding: it must be present, load a WAL-safe SQLite library, and preserve embedded and trailing NULs through TEXT, BLOB, and JSON round trips. The probe uses an in-memory database and caches the current process result; checks of another executable run the same probe in that executable with a bounded timeout. A build within the supported version table is refused if the probe fails.
+Startup, doctor, Gateway runtime selection, and update preflight check the actual `node:sqlite` binding: it must be present, load a WAL-safe SQLite library, and preserve embedded and trailing NULs through TEXT, BLOB, and JSON round trips. The probe uses an in-memory database and caches the current process result; checks of another executable run the same probe in that executable with a bounded timeout. A build within the supported version table is refused if the probe fails.
 
 The running package's startup guard and Gateway runtime selection admit a Node 24 or newer release outside the table when the probe passes, with the note `unsupported version, capability probe passed`. Its capabilities meet this package's correctness gate, but it remains outside the tested support policy. This permits vendor backports without claiming support for their version. Node 22 and 23 remain excluded, and package manager engine checks still apply.
 
-Installers retain the numeric Node requirement and add the probe as a second gate. Package and Git update preflight also require the selected target's `engines.node` range numerically, including any fallback runtime. A passing probe cannot relax another package's requirements: an older release may still enforce its version table at startup.
+Git update preflight also requires the selected target's `engines.node` range numerically, including any fallback runtime. A passing probe cannot relax another package's requirements: an older release may still enforce its version table at startup.
 
 ## Why the floors exist
 
@@ -40,21 +40,7 @@ Official Node 24+ binaries require **macOS 13.5+**, so macOS 11 through 13.4 no 
 
 Supported Node lines have no official **Linux ARMv7** builds. Use a 64-bit operating system on compatible ARM hardware, or another supported host.
 
-On RPM-based distributions, the installer preserves a supported distro-owned Node package that links unsafe system SQLite and provisions a separate user-space runtime for OpenAgent.
-
-## What the installer provisions
-
-Recommended, supported, and provisioned are three different things.
-
-| Platform        | Installer path                              | Node provisioned                                                                           |
-| --------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Linux           | `install.sh`: apt/dnf/yum via NodeSource    | Node 24.x LTS.                                                                             |
-| Linux and macOS | Rootless `install-cli.sh`                   | Node 24.19.0 by default; existing runtime reuse and explicit version selection can differ. |
-| macOS           | `install.sh`: Homebrew `node`               | Node 26; no exact patch pinned, and an existing supported Node can be retained.            |
-| Windows         | `install.ps1`: Chocolatey, Scoop, or winget | LTS package; no exact patch pinned, validated after installation.                          |
-| Windows         | `install.ps1`: portable fallback            | Latest 26.x Windows zip.                                                                   |
-
-See Installer internals for provisioning details.
+On RPM-based distributions, a distro-owned Node package that links unsafe system SQLite fails the probe; install a Node build from nodejs.org or a version manager.
 
 ## Check your runtime
 

@@ -12,7 +12,7 @@ OpenAgent standardizes timestamps so the model sees a **single reference time** 
 
 | Surface           | What it shows                                                                                              | Default                               | Configured via                                         |
 | ----------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------ |
-| Message envelopes | Wraps inbound channel messages: `[Signal +1555 Sun 2026-01-18 00:19:42 PST] hello`                         | Host timezone if `userTimezone` unset | `agents.defaults.userTimezone`                         |
+| Message envelopes | Wraps inbound channel messages: `[Telegram Alice Sun 2026-01-18 00:19:42 PST] hello`                       | Host timezone if `userTimezone` unset | `agents.defaults.userTimezone`                         |
 | Tool payloads     | Channel `readMessages`-style tools return raw provider time plus normalized `timestampMs` / `timestampUtc` | UTC fields always present             | Not configurable; preserves provider-native timestamps |
 | System prompt     | A volatile `Temporal Context` block with the local date and time zone; exact time remains tool-backed      | Host timezone if `userTimezone` unset | `agents.defaults.userTimezone`                         |
 

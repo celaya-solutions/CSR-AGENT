@@ -230,37 +230,12 @@ openclaw skills workshop apply <proposal-id>
 
 See [Skill Workshop](/tools/skill-workshop) for the full proposal lifecycle.
 
-## Publishing to ClawHub
+## Sharing a skill
 
-An owner is a ClawHub publisher handle, such as `@alice` or `@your-org`.
-Your account has a personal owner. Organization owners can have members with
-`owner`, `admin`, or `publisher` roles; all three roles can publish. Choose your
-personal owner or an organization where you have publisher access.
-
-<Steps>
-  <Step title="Ensure your SKILL.md is complete">
-    Make sure `name`, `description`, and any `metadata.openclaw` gating fields
-    are set. Add a `homepage` URL if you have a project page.
-  </Step>
-  <Step title="Install the standalone ClawHub CLI and log in">
-    ```bash
-    npm i -g clawhub
-    clawhub login
-    ```
-  </Step>
-  <Step title="Publish">
-    ```bash
-    clawhub skill publish ./path/to/hello-world
-    ```
-
-    Add `--version <version>` or `--owner <owner>` to override the inferred
-    version or publish under a specific owner. See
-    ClawHub — Publishing and
-    ClawHub CLI for the full flow, owner scoping, and other
-    maintenance commands (`clawhub sync`, `clawhub skill rename`, ...).
-
-  </Step>
-</Steps>
+Share a skill as a Git repository or a directory. Others install it with
+`openclaw skills install git:owner/repo@ref` or
+`openclaw skills install ./path/to/skill`. See
+[Installing skills](/tools/skills#installing-skills).
 
 ## Best practices
 
@@ -269,8 +244,7 @@ personal owner or an organization where you have publisher access.
   - **Safety first** — if your skill uses `exec`, ensure prompts do not allow
     arbitrary command injection from untrusted input.
   - **Test locally** — use `openclaw agent --message "..."` before sharing.
-  - **Use ClawHub** — browse community skills at [clawhub.ai](https://clawhub.ai)
-    before building from scratch.
+
 </Tip>
 
 ## Related

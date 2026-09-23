@@ -30,7 +30,7 @@ The variables below are the supported environment contract for operators. Undocu
 
 | Variable                  | Purpose                                                                                              |
 | ------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `OPENCLAW_HOME`           | Override the home directory used for OpenAgent path defaults.                                    |
+| `OPENCLAW_HOME`           | Override the home directory used for OpenAgent path defaults.                                        |
 | `OPENCLAW_STATE_DIR`      | Override the mutable state directory.                                                                |
 | `OPENCLAW_CONFIG_PATH`    | Override the active config file path.                                                                |
 | `OPENCLAW_WORKSPACE_DIR`  | Override the default agent workspace.                                                                |
@@ -101,7 +101,6 @@ Installed third-party plugins may declare additional credential variables in the
 | `OPENCLAW_EXEC_SHELL_SNAPSHOT`       | Disable exec shell snapshots with `0`.                                                       |
 | `OPENCLAW_OFFLINE`                   | Prevent downloads of pinned agent helper binaries.                                           |
 | `OPENCLAW_BROWSER_HEADLESS`          | Force managed browser launches headed (`0`) or headless (`1`).                               |
-| `OPENCLAW_DISABLE_BONJOUR`           | Force Bonjour advertising on (`0`) or off (`1`).                                             |
 | `OPENCLAW_NO_AUTO_UPDATE`            | Disable automatic update applies.                                                            |
 | `OPENCLAW_ALLOW_INSECURE_PRIVATE_WS` | Allow trusted private-DNS `ws://` connections as a break-glass override.                     |
 | `OPENCLAW_ALLOW_MULTI_GATEWAY`       | Allow multiple Gateway processes while preserving per-state ownership locks.                 |
@@ -273,12 +272,12 @@ shorthand values.
 
 ## Path-related env vars
 
-| Variable                 | Purpose                                                                                                                                                                                                                                           |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Variable                 | Purpose                                                                                                                                                                                                                                   |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `OPENCLAW_HOME`          | Override the home directory used for internal OpenAgent path defaults (`~/.openclaw/`, agent dirs, sessions, credentials, installer onboarding, and the default dev checkout). Useful when running OpenAgent as a dedicated service user. |
-| `OPENCLAW_STATE_DIR`     | Override the state directory (default `~/.openclaw`).                                                                                                                                                                                             |
-| `OPENCLAW_CONFIG_PATH`   | Override the config file path (default `~/.openclaw/openclaw.json`).                                                                                                                                                                              |
-| `OPENCLAW_INCLUDE_ROOTS` | Path-list of directories where `$include` directives may resolve files outside the config directory (default: none - `$include` is confined to the config dir). Tilde-expanded.                                                                   |
+| `OPENCLAW_STATE_DIR`     | Override the state directory (default `~/.openclaw`).                                                                                                                                                                                     |
+| `OPENCLAW_CONFIG_PATH`   | Override the config file path (default `~/.openclaw/openclaw.json`).                                                                                                                                                                      |
+| `OPENCLAW_INCLUDE_ROOTS` | Path-list of directories where `$include` directives may resolve files outside the config directory (default: none - `$include` is confined to the config dir). Tilde-expanded.                                                           |
 
 ## Agent helper tool downloads
 

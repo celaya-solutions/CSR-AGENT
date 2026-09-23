@@ -23,12 +23,12 @@ Initial triage:
 
 ## 2. Severity
 
-| Severity | Definition                                                                                                                                                                                 |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Critical | Package/release/repository compromise, active exploitation, or unauthenticated trust-boundary bypass with high-impact control or data exposure.                                            |
+| Severity | Definition                                                                                                                                                                             |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Critical | Package/release/repository compromise, active exploitation, or unauthenticated trust-boundary bypass with high-impact control or data exposure.                                        |
 | High     | Verified trust-boundary bypass requiring limited preconditions (for example, authenticated but unauthorized high-impact action), or exposure of OpenAgent-owned sensitive credentials. |
-| Medium   | Significant security weakness with practical impact but constrained exploitability or substantial prerequisites.                                                                           |
-| Low      | Defense-in-depth findings, narrowly scoped denial-of-service, or hardening/parity gaps without a demonstrated trust-boundary bypass.                                                       |
+| Medium   | Significant security weakness with practical impact but constrained exploitability or substantial prerequisites.                                                                       |
+| Low      | Defense-in-depth findings, narrowly scoped denial-of-service, or hardening/parity gaps without a demonstrated trust-boundary bypass.                                                   |
 
 ## 3. Response
 
@@ -53,7 +53,7 @@ After shipping the fix:
 
 ## Related
 
-- [Security policy](https://github.com/openclaw/openclaw/blob/main/SECURITY.md) — report scope and trust model.
+- Security policy (`SECURITY.md` at the repository root) — report scope and trust model.
 - [Threat model](/security/THREAT-MODEL-ATLAS)
 - [Contributing to the threat model](/security/CONTRIBUTING-THREAT-MODEL) — how to add a threat to the living threat model; not the path for reporting a live vulnerability.
 - [Formal verification](/security/formal-verification) — machine-checked models of authorization, session isolation, and tool gating.

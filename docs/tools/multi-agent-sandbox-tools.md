@@ -119,7 +119,7 @@ Auth is scoped by agent: each agent has its own `<agentDir>/openclaw-agent.sqlit
             "default": true
           },
           "support": {
-            "tools": { "profile": "messaging", "allow": ["slack"] }
+            "tools": { "profile": "messaging", "allow": ["discord"] }
           }
         }
       }
@@ -129,7 +129,7 @@ Auth is scoped by agent: each agent has its own `<agentDir>/openclaw-agent.sqlit
     **Result:**
 
     - default agents get coding tools.
-    - `support` agent is messaging-only (+ Slack tool).
+    - `support` agent is messaging-only (+ Discord tool).
 
   </Accordion>
   <Accordion title="Example 3: Different sandbox modes per agent">

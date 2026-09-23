@@ -6,12 +6,7 @@ read_when:
 title: "Voice wake"
 ---
 
-Wake words are **one global list owned by the Gateway** — there are no per-node custom lists. Any node or app UI can edit the list; the Gateway persists the change and broadcasts it to every connected client.
-
-- **Control UI**: wake-word editor under **Settings → Talk**.
-- **macOS**: local Voice Wake enable/disable toggle. Requires macOS 26+; see Voice wake (macOS) for runtime/PTT details.
-- **iOS**: local Voice Wake enable/disable toggle in Settings.
-- **Android**: local Voice Wake enable/disable toggle and wake-word editor in Settings → Voice. Requires Android on-device speech recognition.
+Wake words are **one global list owned by the Gateway** — there are no per-node custom lists. Any client can edit the list; the Gateway persists the change and broadcasts it to every connected client. The Control UI has a wake-word editor under **Settings → Talk**.
 
 ## Storage
 
@@ -58,13 +53,11 @@ Limits: at most 32 routes, trigger text at most 64 characters. Route triggers ar
 | `voicewake.changed`         | `{ triggers: string[] }`             |
 | `voicewake.routing.changed` | `{ config: VoiceWakeRoutingConfig }` |
 
-Both broadcast to every WebSocket client with read scope (macOS app, WebChat, and similar) and to every connected node. A node also gets both as an initial snapshot push right after it connects.
+Both broadcast to every WebSocket client with read scope (Control UI, WebChat, and similar) and to every connected node. A node also gets both as an initial snapshot push right after it connects.
 
 ## Client behavior
 
-- **macOS**: calls `voicewake.set`/`voicewake.get` and listens for `voicewake.changed` to stay in sync with other clients.
-- **iOS**: calls `voicewake.set`/`voicewake.get` and listens for `voicewake.changed` to keep local wake-word detection responsive.
-- **Android**: calls `voicewake.set`/`voicewake.get`, listens for `voicewake.changed`, and advertises `voiceWake` while enabled. Recognition stays on-device and foreground-only; it pauses while Talk, manual dictation, voice-note capture, or message speech owns audio.
+A client that does local wake-word detection calls `voicewake.set`/`voicewake.get` and listens for `voicewake.changed` to stay in sync with other clients.
 
 ## Related
 

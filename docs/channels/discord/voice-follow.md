@@ -214,7 +214,7 @@ Expected voice logs:
 - On skipped stale speech: `discord voice: realtime forced agent consult skipped reason=incomplete-transcript ...` or `reason=non-actionable-closing ...`
 - On realtime response completion: `discord voice: realtime audio playback finishing reason=completed ... audioMs=... chunks=...`; buffered audio can still be playing after this line.
 - On ordinary playback backpressure: `discord voice: realtime audio playback buffering ... bufferedBytes=...`; playback continues when Discord drains the buffered audio.
-- Discord acknowledges scoped provider playback marks after their PCM is consumed. xAI waits for these acknowledgments before starting a following response; clearing discarded audio does not report it as played.
+- Discord acknowledges scoped provider playback marks after their PCM is consumed; clearing discarded audio does not report it as played.
 - On playback stop/reset: `discord voice: realtime audio playback stopped reason=... audioMs=... elapsedMs=... chunks=...`
 - On realtime consult: `discord voice: realtime consult requested ... voiceSession=... supervisorSession=... question=...`
 - On agent answer: `discord voice: agent turn answer ...`

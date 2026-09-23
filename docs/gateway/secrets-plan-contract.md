@@ -89,11 +89,10 @@ Plan targets are accepted for supported credential paths in [SecretRef Credentia
 
 Some target types accept a compatibility alias as `target.type` for existing plans, in addition to their canonical type name:
 
-| Canonical type                       | Accepted alias                                  |
-| ------------------------------------ | ----------------------------------------------- |
-| `models.providers.apiKey`            | `models.providers.*.apiKey`                     |
-| `skills.entries.apiKey`              | `skills.entries.*.apiKey`                       |
-| `channels.googlechat.serviceAccount` | `channels.googlechat.accounts.*.serviceAccount` |
+| Canonical type            | Accepted alias              |
+| ------------------------- | --------------------------- |
+| `models.providers.apiKey` | `models.providers.*.apiKey` |
+| `skills.entries.apiKey`   | `skills.entries.*.apiKey`   |
 
 ## Path validation rules
 

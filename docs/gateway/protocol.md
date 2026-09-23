@@ -9,7 +9,7 @@ doc-schema-version: 1
 ---
 
 The Gateway WS protocol is the single control plane and node transport for
-OpenAgent. Operator and node clients (CLI, web UI, macOS app, iOS/Android nodes,
+OpenAgent. Operator and node clients (CLI, web UI, and
 headless nodes) connect over WebSocket and declare a **role** and **scope** at
 handshake time.
 

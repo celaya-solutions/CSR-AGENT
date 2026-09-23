@@ -13,9 +13,8 @@ License:     MIT (see LICENSE)
 ```
 
 OpenAgent is the course edition of an open-source AI assistant. It runs on
-your own machine and meets you in the chat apps you already use — Discord,
-Slack, Telegram, WhatsApp, iMessage, and more — with companion apps for macOS,
-iOS, Android, Windows, and Linux.
+your own machine and meets you in Discord and Telegram, or in the browser
+Control UI and the terminal.
 
 One local process, the **Gateway**, holds everything together: your sessions,
 your tools, and your channel connections. The CLI, the Control UI, and the TUI
@@ -100,6 +99,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md).
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for incorporated or adapted
 code.
 
-OpenAgent is a derivative of
-[OpenClaw](https://github.com/openclaw/openclaw) and is not endorsed by the
-OpenClaw Foundation. See [NOTICE.md](NOTICE.md).
+OpenAgent is a derivative of OpenClaw and is not endorsed by the OpenClaw
+Foundation. See [NOTICE.md](NOTICE.md).

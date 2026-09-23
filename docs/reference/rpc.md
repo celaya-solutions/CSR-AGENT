@@ -1,42 +1,32 @@
 ---
-summary: "RPC adapters for external CLIs (signal-cli, imsg) and gateway patterns"
+summary: "Patterns for channel plugins that drive external CLIs over JSON-RPC"
 read_when:
   - Adding or changing external CLI integrations
-  - Debugging RPC adapters (signal-cli, imsg)
+  - Debugging an RPC adapter in a channel plugin
 title: "RPC adapters"
 ---
 
-OpenAgent integrates external CLIs via JSON-RPC. Two patterns are used today.
+Channel plugins can integrate an external CLI over JSON-RPC instead of a
+network API. None of the bundled channels (Discord, Telegram) use this; the
+patterns below apply to third-party channel plugins.
 
-## Pattern A: HTTP daemon (signal-cli)
+## Pattern A: HTTP daemon
 
-- `signal-cli` runs as a daemon with JSON-RPC over HTTP.
-- Event stream is SSE (`/api/v1/events`).
-- Health probe: `/api/v1/check`.
-- OpenAgent owns lifecycle when `channels.signal.transport.kind="managed-native"` (the default).
+- The CLI runs as a daemon with JSON-RPC over HTTP.
+- Events arrive on a stream such as SSE; a health endpoint supports probes.
+- The plugin owns the daemon lifecycle when it manages the process.
 
-See Signal for setup and endpoints.
+## Pattern B: stdio child process
 
-## Pattern B: stdio child process (imsg)
-
-- OpenAgent spawns `imsg rpc` as a child process for iMessage.
+- The plugin spawns the CLI as a child process.
 - JSON-RPC is line-delimited over stdin/stdout (one JSON object per line).
 - No TCP port, no daemon required.
-
-Core methods used:
-
-- `watch.subscribe` → notifications (`method: "message"`)
-- `watch.unsubscribe`
-- `send`
-- `chats.list` (probe/diagnostics)
-
-See iMessage for setup and addressing (`chat_id` preferred over display strings).
 
 ## Adapter guidelines
 
 - Gateway owns the process (start/stop tied to provider lifecycle).
 - Keep RPC clients resilient: timeouts, restart on exit.
-- Prefer stable IDs (e.g., `chat_id`) over display strings.
+- Prefer stable IDs (for example a chat id) over display strings.
 
 ## Related
 

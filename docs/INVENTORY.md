@@ -18,15 +18,15 @@ cuts can be made against evidence rather than assumption.
 
 ## 0. Pin
 
-| Field         | Value                                         |
-| ------------- | --------------------------------------------- |
-| Upstream repo | https://github.com/openclaw/openclaw.git      |
-| Pinned commit | `2a3b63857db35193c378e9a1481a4eb2b23e39ac`    |
-| Commit date   | 2026-09-12 19:21:29 -0700                     |
-| Version       | 2026.9.4                                      |
-| Tag at HEAD   | none (HEAD is not a release tag)              |
-| Nearest tag   | `release-publish/088d0f5b8755-1789111799`     |
-| Work branch   | `csr-course`                                  |
+| Field         | Value                                      |
+| ------------- | ------------------------------------------ |
+| Upstream repo | openclaw/openclaw on GitHub                |
+| Pinned commit | `2a3b63857db35193c378e9a1481a4eb2b23e39ac` |
+| Commit date   | 2026-09-12 19:21:29 -0700                  |
+| Version       | 2026.9.4                                   |
+| Tag at HEAD   | none (HEAD is not a release tag)           |
+| Nearest tag   | `release-publish/088d0f5b8755-1789111799`  |
+| Work branch   | `csr-course`                               |
 | License       | MIT, "Copyright (c) 2026 Celaya Solutions" |
 
 ## 1. Build and boot (verbatim, as run)
@@ -170,7 +170,7 @@ Loader: `src/plugins/` (~450 files). Discovery `discovery.ts` /
 **External install path exists and is separable:** `install.ts`, `install-npm*.ts`,
 `git-install.ts`, `install-source-*.ts`, `uninstall*.ts`, `update-installed.ts`,
 and the registry client `official-external-plugin-catalog*.ts` (feed
-`https://clawhub.ai/v1/feeds/plugins`, fallback `https://registry.npmjs.org/`).
+the upstream ClawHub plugin feed, fallback `https://registry.npmjs.org/`).
 
 **The loader cannot be removed**, because core features ship as bundled plugins:
 all channels, all model providers, plus `memory-core`, `active-memory`,
@@ -273,12 +273,12 @@ against it.
 
 ### Fires automatically (startup and/or timer)
 
-| #   | What                         | Destination                                                                                   | When                                                                                                                      | Existing off switch                                                                                                             |
-| --- | ---------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Telemetry / version ping** | `https://telemetry.openclaw.ai/api/latest-version` (`src/infra/telemetry.ts:24`)              | Gateway startup, then every 24 h. Called from `src/infra/update-startup.ts:1128`, `src/gateway/server-maintenance.ts:192` | `update.checkOnStart=false`, `OPENCLAW_NO_AUTO_UPDATE=1`, `DO_NOT_TRACK=1`, Nix mode, or `CI` (`src/infra/telemetry.ts:99-114`) |
-| 2   | **Update-drift check**       | `https://registry.npmjs.org/` for package `openclaw`; git installs also `git fetch`           | Gateway startup, then on a computed interval (`src/infra/update-startup.ts:934-1000`)                                     | same as above (`:975-976`)                                                                                                      |
-| 3   | **Remote model catalog**     | `https://catalog.openclaw.ai/models/v1/catalog.json` (`src/model-catalog/remote-config.ts:3`) | Gateway startup, then every 6 h (`src/model-catalog/remote-refresh.ts:23,90`)                                             | `models.catalogRefresh.enabled=false`                                                                                           |
-| 4   | **macOS Sparkle appcast**    | `https://raw.githubusercontent.com/openclaw/openclaw/main/appcast.xml` (`appcast.xml:8`)      | macOS app launch + Sparkle's periodic check                                                                               | Sparkle prefs only; no env flag                                                                                                 |
+| #   | What                         | Destination                                                                         | When                                                                                                                      | Existing off switch                                                                                                             |
+| --- | ---------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Telemetry / version ping** | upstream telemetry service (`src/infra/telemetry.ts:24`)                            | Gateway startup, then every 24 h. Called from `src/infra/update-startup.ts:1128`, `src/gateway/server-maintenance.ts:192` | `update.checkOnStart=false`, `OPENCLAW_NO_AUTO_UPDATE=1`, `DO_NOT_TRACK=1`, Nix mode, or `CI` (`src/infra/telemetry.ts:99-114`) |
+| 2   | **Update-drift check**       | `https://registry.npmjs.org/` for package `openclaw`; git installs also `git fetch` | Gateway startup, then on a computed interval (`src/infra/update-startup.ts:934-1000`)                                     | same as above (`:975-976`)                                                                                                      |
+| 3   | **Remote model catalog**     | upstream hosted model catalog (`src/model-catalog/remote-config.ts:3`)              | Gateway startup, then every 6 h (`src/model-catalog/remote-refresh.ts:23,90`)                                             | `models.catalogRefresh.enabled=false`                                                                                           |
+| 4   | **macOS Sparkle appcast**    | upstream `appcast.xml` on GitHub (`appcast.xml:8`)                                  | macOS app launch + Sparkle's periodic check                                                                               | Sparkle prefs only; no env flag                                                                                                 |
 
 **The telemetry payload is not just a version string.** `buildTelemetryPayload`
 (`src/infra/telemetry.ts:260-269`) sends version, `platform-arch`, Node version,
@@ -290,8 +290,8 @@ database. A `User-Agent` of `openclaw/<version> (<platform>; node/<v>; <arch>;
 
 | What                             | Destination                                                                                                     | Trigger                                                                                        |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| ClawHub skill-install ping       | `clawhub.ai/api/cli/telemetry/install` (`src/infra/clawhub-skills.ts:452-475`)                                  | installing a skill                                                                             |
-| ClawHub plugin catalog / promos  | `clawhub.ai` (`src/gateway/server-methods/plugins.ts:199`, `src/commands/promos/list.ts:20`)                    | `plugins browse`, `promos list`                                                                |
+| ClawHub skill-install ping       | ClawHub install-telemetry endpoint (`src/infra/clawhub-skills.ts:452-475`)                                      | installing a skill                                                                             |
+| ClawHub plugin catalog / promos  | ClawHub (`src/gateway/server-methods/plugins.ts:199`, `src/commands/promos/list.ts:20`)                         | `plugins browse`, `promos list`                                                                |
 | GeoIP database download          | `https://download.db-ip.com/free/dbip-city-lite-*.mmdb.gz` (`extensions/geolocation/src/config.ts:15`)          | first geolocation lookup, refreshed every 30 days, only if the `geolocation` plugin is enabled |
 | `fd` / `ripgrep` binary download | `github.com/<repo>/releases/download/…`, `api.github.com` (`src/agents/utils/tools-manager.ts:155,289,310,378`) | first use of those tools if the pinned binary is missing. `OPENCLAW_OFFLINE=1` blocks it       |
 
@@ -340,7 +340,7 @@ recorded here and left for your decision.
 
 | String      | Occurrences | Tracked files |
 | ----------- | ----------- | ------------- |
-| `OpenAgent`  | 110,378     | 14,387        |
+| `OpenAgent` | 110,378     | 14,387        |
 | `OPENCLAW_` | 41,129      | —             |
 | `.openclaw` | 14,052      | —             |
 
@@ -350,15 +350,15 @@ By top directory (files containing `OpenAgent`): `src` 7,270 · `extensions` 3,0
 
 Canonical definitions, as opposed to references:
 
-| Thing                 | Location                                                                                                |
-| --------------------- | ------------------------------------------------------------------------------------------------------- |
-| Package name          | `package.json:2`                                                                                        |
-| CLI binary            | `package.json:22-23` → `openclaw.mjs`                                                                   |
-| Config dir            | `src/config/state-dir.ts:9` (`NEW_STATE_DIRNAME`), `src/utils.ts:76`                                    |
-| Config filename       | `src/config/paths.ts:31` (`CONFIG_FILENAME`)                                                            |
-| UI title              | `ui/index.html:9`, plus copy at `:367,371,374,455`                                                      |
+| Thing                 | Location                                                                                                 |
+| --------------------- | -------------------------------------------------------------------------------------------------------- |
+| Package name          | `package.json:2`                                                                                         |
+| CLI binary            | `package.json:22-23` → `openclaw.mjs`                                                                    |
+| Config dir            | `src/config/state-dir.ts:9` (`NEW_STATE_DIRNAME`), `src/utils.ts:76`                                     |
+| Config filename       | `src/config/paths.ts:31` (`CONFIG_FILENAME`)                                                             |
+| UI title              | `ui/index.html:9`, plus copy at `:367,371,374,455`                                                       |
 | Default system prompt | `src/agents/system-prompt.ts:840` and `:1185` — "You are a personal assistant running inside OpenAgent." |
-| Version output        | `package.json` version, surfaced through `openclaw.mjs` / `node-version.mjs`                            |
+| Version output        | `package.json` version, surfaced through `openclaw.mjs` / `node-version.mjs`                             |
 
 **Risk flagged for Phase 4.2.** A blind `grep`-and-replace across 110,378
 occurrences is not safe. The count mixes user-visible strings with internal

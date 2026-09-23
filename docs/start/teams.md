@@ -13,7 +13,7 @@ This guide sets up one OpenAgent gateway that a whole team uses: a bot in the wo
 
 - A host for the Gateway that stays on: a small VPS, an office Mac, or any [supported install target](/install).
 - OpenAgent installed and onboarded on that host - see [Getting started](/start/getting-started).
-- A chat workspace the team already uses (Discord, Google Chat, Mattermost, Microsoft Teams, Slack, Telegram, ...) - see [Channels](/channels).
+- A chat workspace the team already uses (Discord or Telegram) - see [Channels](/channels).
 - A strong latest-generation model. Shared gateways see more varied input than a solo setup, and modern models are substantially more resistant to prompt injection - see [Security](/gateway/security/prompt-injection).
 - Optional: teammates' GitHub accounts, if you want verified identity and commit credit.
 
@@ -35,26 +35,29 @@ The identity-backed options are worth the setup: they are what turns "someone di
 
 ## Step 2: Connect the team chat
 
-Connect the channel your team lives in. Example: a Slack bot, allowed in one team channel, that replies when mentioned:
+Connect the channel your team lives in. Example: a Discord bot, allowed in one team channel, that replies when mentioned:
 
 ```json5
 {
   channels: {
-    slack: {
+    discord: {
       enabled: true,
-      mode: "socket",
-      appToken: { source: "env", provider: "default", id: "SLACK_APP_TOKEN" },
-      botToken: { source: "env", provider: "default", id: "SLACK_BOT_TOKEN" },
+      token: { source: "env", provider: "default", id: "DISCORD_BOT_TOKEN" },
       groupPolicy: "allowlist",
-      channels: {
-        "<SLACK_CHANNEL_ID>": { requireMention: true },
+      guilds: {
+        "<DISCORD_SERVER_ID>": {
+          requireMention: true,
+          channels: {
+            "<DISCORD_CHANNEL_ID>": { enabled: true },
+          },
+        },
       },
     },
   },
 }
 ```
 
-Group chats are a first-class deployment. The defaults are already team-shaped. Group access is allowlisted per room, and replies require a mention. DMs stay on the pairing default: the first time a teammate DMs the bot they get a pairing code. Approve it with `openclaw pairing approve slack <code>`. So the bot participates when addressed and stays quiet otherwise. In a private room whose members you trust, that is all the gating you need. For broad or public rooms, add sender allowlists and `contextVisibility` - see [Groups](/channels/groups).
+Group chats are a first-class deployment. The defaults are already team-shaped. Group access is allowlisted per room, and replies require a mention. DMs stay on the pairing default: the first time a teammate DMs the bot they get a pairing code. Approve it with `openclaw pairing approve discord <code>`. So the bot participates when addressed and stays quiet otherwise. In a private room whose members you trust, that is all the gating you need. For broad or public rooms, add sender allowlists and `contextVisibility` - see [Groups](/channels/groups).
 
 If the same people should be allowed across several channels, define the list once as an [access group](/channels/access-groups) and reference it from each channel's allowlist.
 

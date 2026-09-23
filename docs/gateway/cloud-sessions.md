@@ -11,11 +11,11 @@ A cloud session is an ordinary session whose coding work runs on another machine
 
 Sessions can run in three places, and every one of them uses the same session, the same chat, and the same Place picker:
 
-| Destination       | The machine                                                                       | Best for                                                    | Scope to dispatch |
-| ----------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------- |
-| Gateway (default) | The host running `openclaw gateway`                                               | Everyday sessions                                           | —                 |
-| Paired device     | Your own hardware, connected once with `openclaw connect`                         | Spare Macs, build boxes, servers you already own            | `operator.write`  |
-| Cloud worker      | A throwaway machine leased through [Crabbox](https://github.com/openclaw/crabbox) | Burst capacity, long jobs, isolation from your own machines | `operator.admin`  |
+| Destination       | The machine                                               | Best for                                                    | Scope to dispatch |
+| ----------------- | --------------------------------------------------------- | ----------------------------------------------------------- | ----------------- |
+| Gateway (default) | The host running `openclaw gateway`                       | Everyday sessions                                           | —                 |
+| Paired device     | Your own hardware, connected once with `openclaw connect` | Spare Macs, build boxes, servers you already own            | `operator.write`  |
+| Cloud worker      | A throwaway machine leased through Crabbox                | Burst capacity, long jobs, isolation from your own machines | `operator.admin`  |
 
 In all remote placements, model inference stays proxied through the Gateway — provider credentials never reach the remote machine — and completed work is retained with the Gateway as accepted repository checkpoints or changes in a Gateway-source managed worktree. Both the OpenAgent runtime (`worker-turn`) and Codex (`remote-exec`) can use the same destinations.
 

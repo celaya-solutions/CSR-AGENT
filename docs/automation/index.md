@@ -37,7 +37,6 @@ flowchart TD
 | Remind me in 20 minutes                   | Automations                                | One-shot with precise timing (`--at`)                  |
 | Run weekly deep analysis                  | Automations                                | Standalone task, can use different model               |
 | Check inbox every 30 min                  | Automations                                | Independent recurring schedule and job history         |
-| Trigger safely on new IMAP email          | IMAP plugin                                | Sender-gated isolated reader sessions                  |
 | Monitor calendar for upcoming events      | Automations                                | Explicit recurring schedule and delivery policy        |
 | Surface ambient main-session updates      | Heartbeat                                  | System-owned monitor automation and quiet alerts       |
 | Inspect status of a subagent or ACP run   | Background Tasks                           | Tasks ledger tracks all detached work                  |

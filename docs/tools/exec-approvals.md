@@ -3,13 +3,12 @@ summary: "Host exec approvals: policy knobs, allowlists, and the YOLO/strict wor
 read_when:
   - Configuring exec approvals or allowlists
   - Inspecting or revoking durable MCP tool grants
-  - Implementing exec approval UX in the macOS app
   - Reviewing host-execution approval prompts from a sandboxed agent and their implications
 title: "Exec approvals"
 sidebarTitle: "Exec approvals"
 ---
 
-Exec approvals are the **companion app / node host guardrail** for letting a
+Exec approvals are the **Gateway / node host guardrail** for letting a
 sandboxed agent run commands on a real host (`gateway` or `node`). Commands
 run only when policy + allowlist + (optional) user approval all agree.
 Approvals stack **on top of** tool policy and elevated gating. Gateway
@@ -39,7 +38,7 @@ requires approval even when the caller requests `full` / `off`.
 Exec approvals are enforced locally on the execution host:
 
 - **Gateway host** -> `openclaw` process on the gateway machine.
-- **Node host** -> node runner (macOS companion app or headless node host).
+- **Node host** -> node runner (headless node host).
 
 The `claude-cli` backend also checks native Bash commands against the agent's
 exec allowlist when `ask: "on-miss"`. This authorizes command arguments while
@@ -57,11 +56,6 @@ for matching, prompting, and binding restrictions.
 - Gateway approval-backed commands bind every resolved command-segment executable before review and re-check it before launch. Node hosts capture these identities during local policy evaluation and re-check before dispatch. This does not cover inner shell executables across a remote human approval wait. Protected executables use resolved real-path identity only. Writable executables also use a content hash. A changed resolution during the bound window, including a new executable earlier on `PATH`, denies the run. Identity-only binding preserves otherwise eligible `allow-always` decisions. See [Interpreter/runtime commands](/tools/exec-approvals-advanced#interpreter%2Fruntime-commands).
 - For shell scripts and direct interpreter/runtime file invocations, OpenAgent also tries to bind one concrete local file operand. If that file changes after approval but before execution, the run is denied instead of executing drifted content.
 - File binding is best-effort, not a complete model of every interpreter/runtime loader path. If exactly one concrete local file cannot be identified, OpenAgent refuses to mint an approval-backed run rather than pretend full coverage.
-
-### macOS split
-
-- The **node host service** forwards `system.run` to the **macOS app** over local IPC.
-- The **macOS app** enforces approvals and executes the command in UI context.
 
 ## Inspecting the effective policy
 
@@ -81,15 +75,8 @@ When a local scope requests `host=node`, `exec-policy show` reports that
 scope as node-managed at runtime instead of treating the local approvals
 file as the source of truth.
 
-If the companion app UI is **not available**, any request that would
+If no approval UI is **available**, any request that would
 normally prompt is resolved by the **ask fallback** (default: `deny`).
-
-<Tip>
-Native chat approval clients can seed channel-specific affordances on the
-pending approval message. Matrix seeds reaction shortcuts (`✅` allow once,
-`♾️` allow always, `❌` deny) while still leaving `/approve ...` in the
-message as a fallback.
-</Tip>
 
 For native chat approval surfaces, a node exec waits for the decision within
 the originating tool call and returns the command output there. Closing or
@@ -421,8 +408,8 @@ document stays stricter than config, the stricter host policy still wins.
 
 ## Allowlist (per agent)
 
-Allowlists are **per agent**. If multiple agents exist, switch which agent
-you are editing in the macOS app. Patterns are glob matches.
+Allowlists are **per agent**. If multiple agents exist, pick which agent you
+are editing in the Control UI. Patterns are glob matches.
 
 Patterns can be resolved binary path globs or bare command-name globs.
 Bare names match only commands invoked through `PATH`, so `rg` can match
@@ -543,8 +530,7 @@ there as well.
 ## Standing grants for automations
 
 Approvals raised by gateway-host automation (cron) runs are delivered only to
-connected exec approval clients: the Control UI, the macOS/iOS/Android apps,
-and API clients that declare the `approvals` or `exec-approvals` capability.
+connected exec approval clients: the Control UI and API clients that declare the `approvals` or `exec-approvals` capability.
 The TUI does not render exec approval cards, and chat channels never receive
 automation approvals, which would repeat a card on every occurrence. While a reviewer
 surface is connected, the scheduled run waits for the decision like an
@@ -612,8 +598,8 @@ automation row, and revocation state on every use.
 ## Auto-allow skill CLIs
 
 When **Auto-allow skill CLIs** (`autoAllowSkills`) is enabled, executables
-referenced by known skills are treated as allowlisted on nodes (macOS node
-or headless node host). This uses `skills.bins` over the Gateway RPC to
+referenced by known skills are treated as allowlisted on nodes (such as the headless node
+host). This uses `skills.bins` over the Gateway RPC to
 fetch the skill bin list. Disable this if you want strict manual
 allowlists.
 
@@ -636,7 +622,7 @@ unfinished allowlist edits stay on the Mac.
 ## Safe bins and approval forwarding
 
 For safe bins (the stdin-only fast-path), interpreter binding details, and
-how to forward approval prompts to Slack/Discord/Telegram (or run them as
+how to forward approval prompts to Discord or Telegram (or run them as
 native approval clients), see
 [Exec approvals - advanced](/tools/exec-approvals-advanced).
 
@@ -648,14 +634,13 @@ tweak the policy, add/remove allowlist patterns, then **Save**. The UI
 shows last-used metadata per pattern so you can keep the list tidy.
 
 The target selector chooses **Gateway** (local approvals) or a **Node**.
-Nodes must advertise `system.execApprovals.get/set` (macOS app or headless
+Nodes must advertise `system.execApprovals.get/set` (for example the headless
 node host). If a node does not advertise exec approvals yet, edit its
 local approvals document directly.
 
-Some node hosts, including the Windows companion, own a different approval
-policy format. Control UI shows these host-native policies read-only. Use the
-companion app or `openclaw approvals set --node <id|name|ip>` with the native
-policy shape to edit them. See [Approvals CLI](/cli/approvals).
+Some node hosts own a different approval policy format. Control UI shows these
+host-native policies read-only. Use `openclaw approvals set --node <id|name|ip>`
+with the native policy shape to edit them. See [Approvals CLI](/cli/approvals).
 
 CLI: `openclaw approvals` supports gateway or node editing - see
 [Approvals CLI](/cli/approvals).
@@ -663,23 +648,9 @@ CLI: `openclaw approvals` supports gateway or node editing - see
 ## Approval flow
 
 When a prompt is required, the gateway broadcasts
-`exec.approval.requested` to operator clients. The Control UI and macOS
-app resolve it via `exec.approval.resolve`, then the gateway forwards the
+`exec.approval.requested` to operator clients. The Control UI resolves it
+via `exec.approval.resolve`, then the gateway forwards the
 approved request to the node host.
-
-The macOS approval panel keeps ordinary commands compact, with the supplied agent
-and host in one summary. It shows the working directory beneath the full,
-wrapping command. Longer commands scroll. Expand **Details** to inspect the
-executable path. Directory and executable paths remain fully selectable.
-**Copy** copies the displayed command, including visible escapes for control and
-invisible characters. The host comes from the request. A gateway or node can be
-remote from the Mac displaying the panel.
-
-Choose **Allow Once** or press **Command-Return** to approve one execution.
-Return alone does not approve. **Escape** dismisses the panel, denying the request
-when **Don't Allow** is available. Otherwise it closes without a decision.
-**Always Allow Here** appears only when the request's policy permits durable
-approval.
 
 For `host=node`, approval requests include a canonical `systemRunPlan`
 payload. The gateway uses that plan as the authoritative command/cwd/session

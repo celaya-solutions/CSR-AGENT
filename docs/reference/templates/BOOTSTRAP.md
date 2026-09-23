@@ -105,7 +105,8 @@ with `--retry`; do not overwrite the existing skill.
 After the ritual or after delivering the user's work, give one or two sentences,
 not a lecture: you run with real access to this machine. Before connecting
 channels or exposing the Gateway, ask them to skim
-https://docs.openclaw.ai/gateway/security; `openclaw security audit` checks the
+the Gateway security guide (`docs/gateway/security` in the OpenAgent docs);
+`openclaw security audit` checks the
 setup anytime.
 
 When the four beats are complete, delete this file. Then say one line:

@@ -19,6 +19,13 @@ Use [`openclaw plugins`](/cli/plugins) for plugin packages. The standalone
 ClawHub CLI handles publishing, registry
 maintenance, and [removing ClawHub skills](/cli/skills#remove-a-clawhub-skill).
 
+<Note>
+OpenAgent has no default ClawHub registry. `search`, `verify`, `update`, and
+ClawHub installs refuse before any network request until `OPENCLAW_CLAWHUB_URL`
+points at a registry you operate. Git and local-directory installs work without
+it.
+</Note>
+
 Related:
 
 - Skills system: [Skills](/tools/skills)
@@ -163,7 +170,7 @@ Notes:
 | `verify` provenance              | When ClawHub returns server-resolved source provenance, verify JSON also includes a commit-pinned `openclaw.verifiedSourceUrl`. Unavailable or self-declared source URLs stay only in the raw provenance envelope and are not promoted.                                                                                           |
 | `verify` version selector        | `verify` uses `.clawhub/origin.json` for installed ClawHub skills, so it verifies the installed version against the registry it came from. `--version` and `--tag` override the version selector but keep that installed registry when origin metadata exists.                                                                    |
 | `verify --card`                  | Prints the generated Skill Card Markdown instead of JSON. Exits non-zero when ClawHub returns `ok: false` or `decision: "fail"`.                                                                                                                                                                                                  |
-| Skill Card fingerprint           | Installed ClawHub bundles can include a generated `skill-card.md`. OpenAgent treats verification as a ClawHub server decision and does not reject an installed skill just because that generated card changes the bundle fingerprint.                                                                                         |
+| Skill Card fingerprint           | Installed ClawHub bundles can include a generated `skill-card.md`. OpenAgent treats verification as a ClawHub server decision and does not reject an installed skill just because that generated card changes the bundle fingerprint.                                                                                             |
 | `check --agent <id>`             | Checks the selected agent's workspace and reports which ready skills are actually visible to that agent's prompt or command surface.                                                                                                                                                                                              |
 | `workshop --agent <id>`          | Accepted before or after a Workshop leaf command, for example `workshop --agent <id> list` or `workshop list --agent <id>`. If both are provided, the leaf value wins.                                                                                                                                                            |
 | `curator --json`                 | Accepted before or after a Curator leaf command, for example `curator --json status` or `curator status --json`.                                                                                                                                                                                                                  |

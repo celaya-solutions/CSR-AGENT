@@ -136,7 +136,7 @@ See [Tools and custom providers](/gateway/config-tools) for profiles, env vars, 
 
 - Media exceeding `maxBytes` skips that model and tries the next one.
 - Audio files under 1024 bytes are treated as empty/corrupt and skipped before transcription; the agent gets a deterministic placeholder transcript instead.
-- If the active primary image model already supports vision natively, OpenAgent skips the `[Image]` summary block and passes the original image into the model directly. MiniMax is an exception: `minimax`, `minimax-cn`, `minimax-portal`, and `minimax-portal-cn` always route image understanding through the plugin-owned `MiniMax-VL-01` media provider, even if legacy MiniMax M2.x chat metadata claims image input (only `MiniMax-M3` and later are treated as natively vision-capable).
+- If the active primary image model already supports vision natively, OpenAgent skips the `[Image]` summary block and passes the original image into the model directly.
 - If a Gateway/WebChat primary model is text-only, image attachments are preserved as offloaded `media://inbound/*` refs so image/PDF tools or a configured image model can still inspect them instead of losing the attachment.
 - Explicit `openclaw infer image describe --file <path> --model <provider/model>` (alias: `openclaw capability image describe`) runs that image-capable provider/model directly, including Ollama refs such as `ollama/qwen2.5vl:7b` when a matching image-capable model is configured under `models.providers.ollama.models[]`.
 - If `<capability>.enabled` is not `false` but no models are configured, OpenAgent tries the active reply model when its provider supports the capability.
@@ -153,7 +153,7 @@ When `tools.media.<capability>.enabled` is not `false` and no models are configu
     The active reply model, when its provider supports the capability.
   </Step>
   <Step title="Provider auth (audio only, before local CLIs)">
-    Configured `models.providers.*` entries that support audio are tried before local CLIs. Bundled provider priority order (ties break alphabetically by provider id): Groq/OpenAI &rarr; xAI &rarr; Deepgram &rarr; OpenRouter &rarr; Google/SenseAudio &rarr; Deepinfra/ElevenLabs &rarr; Mistral.
+    Configured `models.providers.*` entries that support audio are tried before local CLIs. Bundled provider priority order: OpenAI &rarr; OpenRouter.
   </Step>
   <Step title="Local CLIs (audio only)">
     Ready local binaries become an ordered fallback list:
@@ -170,8 +170,9 @@ When `tools.media.<capability>.enabled` is not `false` and no models are configu
     Configured `models.providers.*` entries that support the capability are tried before the bundled fallback order. Image-only config providers with an image-capable model auto-register for media understanding even when they are not a bundled vendor plugin.
 
     Bundled provider priority order (ties break alphabetically by provider id):
-    - Image: Anthropic/OpenAI &rarr; Google &rarr; MiniMax &rarr; Deepinfra &rarr; MiniMax Portal &rarr; Z.AI
-    - Video: Google &rarr; Qwen &rarr; Moonshot
+    - Image: Anthropic/OpenAI
+
+    No bundled provider supports video understanding; configure a provider under `models.providers.*` for it.
 
   </Step>
 </Steps>
@@ -202,33 +203,20 @@ Provider-based **audio** and **video** understanding honors standard outbound pr
 
 Set `capabilities` on a `models[]` entry to restrict it to specific media types. For shared lists, OpenAgent infers defaults per bundled provider:
 
-| Provider                                                                 | Capabilities          |
-| ------------------------------------------------------------------------ | --------------------- |
-| `openai`, `anthropic`, `minimax`                                         | image                 |
-| `minimax-portal`                                                         | image                 |
-| `moonshot`                                                               | image + video         |
-| `openrouter`                                                             | image + audio         |
-| `google` (Gemini API)                                                    | image + audio + video |
-| `qwen`                                                                   | image + video         |
-| `deepinfra`                                                              | image + audio         |
-| `mistral`                                                                | audio                 |
-| `zai`                                                                    | image                 |
-| `groq`, `xai`, `deepgram`, `senseaudio`                                  | audio                 |
-| Any `models.providers.<id>.models[]` catalog with an image-capable model | image                 |
+| Provider                                                                 | Capabilities  |
+| ------------------------------------------------------------------------ | ------------- |
+| `openai`, `anthropic`                                                    | image         |
+| `openrouter`                                                             | image + audio |
+| Any `models.providers.<id>.models[]` catalog with an image-capable model | image         |
 
 CLI entries require explicit `capabilities`; entries without valid capability tags are skipped. Provider entries without valid explicit tags use their registered capability metadata.
 
 ## Provider support matrix
 
-| Capability | Providers                                                                                                                                               | Notes                                                                                                                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Image      | Anthropic, Codex app-server, Deepinfra, Google, MiniMax, MiniMax Portal, Moonshot, OpenAI, OpenAI Codex OAuth, OpenRouter, Qwen, Z.AI, config providers | Vendor plugins register image support; `openai/*` can use API-key or Codex OAuth routing; `codex/*` uses a bounded Codex app-server turn; image-capable config providers auto-register. |
-| Audio      | Deepgram, Deepinfra, ElevenLabs, Google, Groq, Mistral, OpenAI, OpenRouter, SenseAudio, xAI                                                             | Provider transcription (Whisper/Groq/xAI/Deepgram/OpenRouter STT/Gemini/SenseAudio/Scribe/Voxtral).                                                                                     |
-| Video      | Google, Moonshot, Qwen                                                                                                                                  | Provider video understanding via vendor plugins; Qwen video understanding uses the standard DashScope endpoints.                                                                        |
-
-<Note>
-**MiniMax note**: `minimax`, `minimax-cn`, `minimax-portal`, and `minimax-portal-cn` image understanding always comes from the plugin-owned `MiniMax-VL-01` media provider, even if legacy MiniMax M2.x chat metadata claims image input.
-</Note>
+| Capability | Providers                                                                             | Notes                                                                                                                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Image      | Anthropic, Codex app-server, OpenAI, OpenAI Codex OAuth, OpenRouter, config providers | Vendor plugins register image support; `openai/*` can use API-key or Codex OAuth routing; `codex/*` uses a bounded Codex app-server turn; image-capable config providers auto-register. |
+| Audio      | OpenAI, OpenRouter                                                                    | Provider transcription (Whisper/OpenRouter STT).                                                                                                                                        |
 
 ## Model selection guidance
 

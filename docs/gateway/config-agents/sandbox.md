@@ -21,7 +21,7 @@ Optional sandboxing for the embedded agent. See [Sandboxing](/gateway/sandboxing
     defaults: {
       sandbox: {
         mode: "non-main", // off (default) | non-main | all
-        backend: "docker", // docker (default) | openshell | podman | ssh
+        backend: "docker", // docker (default) | podman | ssh
         scope: "agent", // session | agent (default) | shared
         workspaceAccess: "none", // none (default) | ro | rw
         workspaceRoot: "~/.openclaw/sandboxes",
@@ -116,13 +116,11 @@ Defaults shown above (`off`/`docker`/`agent`/`none`/`bookworm-slim` image/`none`
 **Backend:**
 
 - `docker`: local Docker runtime (default)
-- `openshell`: OpenShell-managed local or remote runtime
 - `podman`: local Podman runtime using Docker-compatible settings
 - `ssh`: generic SSH-backed remote runtime
 
-Plugin-managed backends keep runtime-specific settings under their plugin entries:
-
-- OpenShell: `plugins.entries.openshell.config`; see OpenShell
+Plugin-managed backends keep runtime-specific settings under their plugin entries
+(`plugins.entries.<id>.config`).
 
 **SSH backend config:**
 
@@ -159,44 +157,6 @@ Plugin-managed backends keep runtime-specific settings under their plugin entrie
 - `session`: per-session container + workspace
 - `agent`: one container + workspace per agent (default)
 - `shared`: shared container and workspace (no cross-session isolation)
-
-**OpenShell plugin config:**
-
-```json5
-{
-  plugins: {
-    entries: {
-      openshell: {
-        enabled: true,
-        config: {
-          mode: "mirror", // mirror (default) | remote
-          command: "openshell",
-          from: "openclaw",
-          remoteWorkspaceDir: "/sandbox",
-          remoteAgentWorkspaceDir: "/agent",
-          gateway: "lab", // optional
-          gatewayEndpoint: "https://lab.example", // optional
-          workspace: "research", // optional existing OpenShell workspace
-          policy: "/etc/openclaw/openshell-policy.yaml", // optional host-side YAML file
-          providers: ["openai"], // optional
-          gpu: false,
-          autoProviders: true,
-          timeoutSeconds: 120,
-        },
-      },
-    },
-  },
-}
-```
-
-**OpenShell mode:**
-
-- `mirror`: seed remote from local before exec, sync back after exec; local workspace stays canonical
-- `remote`: seed remote once when the sandbox is created, then keep the remote workspace canonical
-
-In `remote` mode, host-local edits made outside OpenAgent are not synced into the sandbox automatically after the seed step.
-Transport is SSH into the OpenShell sandbox, but the plugin owns sandbox lifecycle and optional mirror sync.
-`workspace` selects an existing OpenShell control-plane workspace for the whole plugin; it is separate from the agent's filesystem workspace. `policy` must point to a YAML file readable by the OpenAgent Gateway, not a named policy ID. See OpenShell for setup, prerequisites, and troubleshooting.
 
 **`setupCommand`** runs once after container creation (via `sh -lc`). Needs network egress, writable root, root user.
 

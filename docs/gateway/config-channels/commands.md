@@ -36,10 +36,10 @@ The `commands.*` block: which chat command surfaces are registered, and who may 
 <Accordion title="Command details">
 
 - This block configures command surfaces. For the current built-in + bundled command catalog, see [Slash Commands](/tools/slash-commands).
-- This page is a **config-key reference**, not the full command catalog. Channel/plugin-owned commands such as QQ Bot `/bot-ping` `/bot-help` `/bot-logs`, LINE `/card`, device-pair `/pair`, memory `/dreaming`, and Talk `/voice` are documented in their channel/plugin pages plus [Slash Commands](/tools/slash-commands).
+- This page is a **config-key reference**, not the full command catalog. Channel/plugin-owned commands such as device-pair `/pair`, memory `/dreaming`, and Talk `/voice` are documented in their channel/plugin pages plus [Slash Commands](/tools/slash-commands).
 - Text commands must be **standalone** messages with leading `/`.
-- `native: "auto"` turns on native commands for Discord/Telegram, leaves Slack off.
-- `nativeSkills: "auto"` turns on native skill commands for Discord/Telegram, leaves Slack off.
+- `native: "auto"` turns on native commands for Discord and Telegram.
+- `nativeSkills: "auto"` turns on native skill commands for Discord and Telegram.
 - Override per channel: `channels.discord.commands.native` (bool or `"auto"`). For Discord, `false` skips native command registration and cleanup during startup.
 - Override native skill registration per channel with `channels.<provider>.commands.nativeSkills`.
 - `channels.telegram.customCommands` adds extra Telegram bot menu entries.
@@ -56,9 +56,7 @@ The `commands.*` block: which chat command surfaces are registered, and who may 
 - Command docs map:
   - built-in + bundled catalog: [Slash Commands](/tools/slash-commands)
   - channel-specific command surfaces: [Channels](/channels)
-  - QQ Bot commands: QQ Bot
   - pairing commands: [Pairing](/channels/pairing)
-  - LINE card command: LINE
   - memory dreaming: [Dreaming](/concepts/dreaming)
 
 </Accordion>

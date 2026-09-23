@@ -20,7 +20,7 @@ For agent browser tool calls:
 
 - Default: use the isolated `openclaw` browser.
 - Prefer `profile="chrome"` (extension) when existing logged-in sessions matter
-  and the user is **away from the computer** (Telegram, WhatsApp, etc.).
+  and the user is **away from the computer** (Telegram, Discord, etc.).
 - Prefer `profile="user"` (Chrome MCP) when existing logged-in sessions matter
   and the user is **at the computer** to approve the attach prompt.
 - `profile` is the explicit override when you want a specific browser mode.

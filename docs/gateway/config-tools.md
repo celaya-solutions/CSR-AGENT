@@ -17,7 +17,7 @@ sidebarTitle: "Tools and custom providers"
 - [Configuration — built-in tool settings](/gateway/config-tools/built-in-tools) — `tools.exec`, `tools.loopDetection`, `tools.web`, `tools.media`, and `tools.updatePlan`.
 - [Configuration — cross-agent, session, and subagent tools](/gateway/config-tools/sessions-and-subagents) — `tools.agentToAgent`, `tools.sessions` visibility, `tools.sessions_spawn` attachments, and `agents.defaults.subagents`.
 - [Configuration — custom providers and base URLs](/gateway/config-tools/custom-providers) — `models.providers` registration, base-URL trust, and the provider field reference.
-- [Configuration — provider examples](/gateway/config-tools/provider-examples) — worked configurations for Cerebras, Kimi, llama.cpp, LM Studio, MiniMax, Moonshot, OpenCode, Synthetic, and Z.AI.
+- [Configuration — provider examples](/gateway/config-tools/provider-examples) — worked configurations for Cerebras, llama.cpp, and Synthetic.
 
 ## Where each section moved
 
@@ -55,17 +55,10 @@ entry points at the page that now holds the content.
 - <a id="request-transport-overrides" />[Request transport overrides](/gateway/config-tools/custom-providers#request-transport-overrides)
 - <a id="model-catalog-entries" />[Model catalog entries](/gateway/config-tools/custom-providers#model-catalog-entries)
 - <a id="custom-provider-capability-declarations" />[Custom provider capability declarations](/gateway/config-tools/custom-providers#custom-provider-capability-declarations)
-- <a id="amazon-bedrock-discovery" />[Amazon Bedrock discovery](/gateway/config-tools/custom-providers#amazon-bedrock-discovery)
 - <a id="provider-examples" />[Provider examples](/gateway/config-tools/provider-examples#provider-examples)
 - <a id="cerebras-glm-4-7-gpt-oss" />[Cerebras (GLM 4.7 / GPT OSS)](/gateway/config-tools/provider-examples#cerebras-glm-4-7-gpt-oss)
-- <a id="kimi-coding" />[Kimi Coding](/gateway/config-tools/provider-examples#kimi-coding)
 - <a id="local-models-llama-cpp-llama-server" />[Local models (llama.cpp / llama-server)](/gateway/config-tools/provider-examples#local-models-llama-cpp-llama-server)
-- <a id="local-models-lm-studio" />[Local models (LM Studio)](/gateway/config-tools/provider-examples#local-models-lm-studio)
-- <a id="minimax-m3-direct" />[MiniMax M3 (direct)](/gateway/config-tools/provider-examples#minimax-m3-direct)
-- <a id="moonshot-ai-kimi" />[Moonshot AI (Kimi)](/gateway/config-tools/provider-examples#moonshot-ai-kimi)
-- <a id="opencode" />[OpenCode](/gateway/config-tools/provider-examples#opencode)
 - <a id="synthetic-anthropic-compatible" />[Synthetic (Anthropic-compatible)](/gateway/config-tools/provider-examples#synthetic-anthropic-compatible)
-- <a id="z-ai-glm-4-7" />[Z.AI (GLM-4.7)](/gateway/config-tools/provider-examples#z-ai-glm-4-7)
 
 ## Related
 

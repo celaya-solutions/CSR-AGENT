@@ -13,7 +13,6 @@ OpenAgent supports three migration paths: importing from another agent system, m
 
 Bundled migration providers bring instructions, MCP servers, skills, model config, and (opt-in) API keys into OpenAgent. Plans are previewed before any change and secrets are redacted in reports. Standalone `openclaw migrate` is backed by a verified backup; fresh onboarding imports instead stage and verify local artifacts before publishing them with configuration committed before any irreversible external activation.
 
-
 The CLI entry point is [`openclaw migrate`](/cli/migrate). Onboarding can also offer migration when it detects a known source (`openclaw onboard --flow import`).
 
 ## Move OpenAgent to a new machine
@@ -23,7 +22,7 @@ Copy the **state directory** (`~/.openclaw/` by default) and your **workspace** 
 - **Config** — `openclaw.json` and all gateway settings.
 - **Auth** — shared and per-agent SQLite auth stores (API keys plus OAuth), plus any channel or provider state under `credentials/`.
 - **Sessions** — conversation history and agent state.
-- **Channel state** — WhatsApp login, Telegram session, and similar.
+- **Channel state** — Telegram and Discord session state.
 - **Workspace files** — `MEMORY.md`, `USER.md`, skills, and prompts.
 
 <Tip>
@@ -75,8 +74,8 @@ Run `openclaw status` on the old machine to confirm your state directory path. C
     [backup symbolic-link caveat](/cli/backup#what-gets-backed-up).
 
     <Warning>
-    Restoring older channel state can desynchronize ratcheting credentials such
-    as WhatsApp. Approvals and delivery/dedupe state also roll back, and plugin
+    Restoring older channel state can desynchronize channel credentials that
+    ratchet. Approvals and delivery/dedupe state also roll back, and plugin
     `node_modules` trees must be reinstalled. See [Restore a full archive](/install/backups#restore-a-full-archive).
     </Warning>
 
@@ -138,7 +137,6 @@ On the new machine, confirm:
 ## Upgrade a plugin in place
 
 In-place plugin upgrades preserve the same plugin id and config keys but may move on-disk state into the current layout. Plugin-specific upgrade guides live alongside their channels:
-
 
 ## Related
 

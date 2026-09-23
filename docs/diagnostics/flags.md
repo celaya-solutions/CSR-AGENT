@@ -24,7 +24,6 @@ Diagnostics flags turn on extra logging for one subsystem without raising
 | Flag                  | Enables                                                   |
 | --------------------- | --------------------------------------------------------- |
 | `telegram.http`       | Telegram Bot API HTTP error logging                       |
-| `brave.http`          | Brave Search request/response/cache logging               |
 | `profiler`            | Reply-stage profiler and Codex app-server profiler (both) |
 | `reply.profiler`      | Reply-stage profiler only                                 |
 | `codex.profiler`      | Codex app-server profiler only                            |
@@ -195,12 +194,6 @@ Filter for Telegram HTTP diagnostics:
 openclaw logs --plain --limit 5000 | rg "telegram http error"
 ```
 
-Filter for Brave Search HTTP diagnostics:
-
-```bash
-openclaw logs --plain --limit 5000 | rg "brave http"
-```
-
 Or tail while reproducing:
 
 ```bash
@@ -214,10 +207,6 @@ For remote gateways, use `openclaw logs --follow` instead (see
 
 - If `logging.level` is set to `error`, `fatal`, or `silent`, flag-gated logs
   may be suppressed. Default `info` is fine.
-- `brave.http` logs Brave Search request URLs/query params, response
-  status/timing, and cache hit/miss/write events. It does not log the API key
-  (sent as a request header) or response bodies, but search queries can be
-  sensitive.
 - Flags are safe to leave enabled; they only affect log volume for the
   specific subsystem.
 - Use [/logging](/logging) to change log destinations, levels, and redaction.

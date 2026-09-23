@@ -99,7 +99,7 @@ SafeSearch level.
 - **SafeSearch defaults to `moderate`** when not configured.
 
 <Tip>
-  For production use, consider Brave Search (free tier available) or another API-backed provider.
+  For production use, consider an API-backed provider from an installed plugin.
 </Tip>
 
 ## Related

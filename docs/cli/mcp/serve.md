@@ -298,7 +298,7 @@ pnpm test:docker:mcp-channels
 
 That smoke runs a single container: it seeds conversation state, starts the Gateway, then spawns `openclaw mcp serve` as a stdio child process and drives it as an MCP client. It verifies conversation discovery, transcript reads, attachment metadata reads, live event queue behavior, and Claude-style channel and permission notifications over the real stdio MCP bridge. Outbound send routing (`messages_send` reusing the stored conversation route) is covered separately by unit tests in `src/mcp/channel-server.test.ts`.
 
-This is the fastest way to prove the bridge works without wiring a real Telegram, Discord, or iMessage account into the test run.
+This is the fastest way to prove the bridge works without wiring a real Telegram or Discord account into the test run.
 
 For broader testing context, see [Testing](/help/testing).
 

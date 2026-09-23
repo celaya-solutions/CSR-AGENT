@@ -430,10 +430,6 @@
       "destination": "/channels/telegram"
     },
     {
-      "source": "/group-messages",
-      "destination": "/channels/group-messages"
-    },
-    {
       "source": "/groups",
       "destination": "/channels/groups"
     },
@@ -484,10 +480,6 @@
     {
       "source": "/multi-agent",
       "destination": "/concepts/multi-agent"
-    },
-    {
-      "source": "/onboarding",
-      "destination": "/start/onboarding"
     },
     {
       "source": "/pairing",
@@ -552,10 +544,6 @@
     {
       "source": "/setup",
       "destination": "/start/setup"
-    },
-    {
-      "source": "/showcase",
-      "destination": "/start/showcase"
     },
     {
       "source": "/skills",
@@ -824,6 +812,18 @@
     {
       "source": "/web/control-ui/updates",
       "destination": "/web/control-ui/settings#updates"
+    },
+    {
+      "source": "/channels/group-messages",
+      "destination": "/channels/groups"
+    },
+    {
+      "source": "/gateway/config-channels/workplace-chat",
+      "destination": "/gateway/config-channels"
+    },
+    {
+      "source": "/tools/code-execution",
+      "destination": "/tools/exec"
     }
   ],
   "navigation": {
@@ -838,7 +838,6 @@
                 "group": "Overview",
                 "pages": [
                   "index",
-                  "start/showcase",
                   "start/why-openclaw",
                   "start/why-openclaw/the-trust-boundary",
                   "start/why-openclaw/policy-as-code",
@@ -846,7 +845,6 @@
                   "start/why-openclaw/secrets",
                   "start/why-openclaw/versioned-state-guarded-upgrades",
                   "start/why-openclaw/provenance",
-                  "start/why-openclaw/openclaw-and-hermes-agent",
                   "concepts/features",
                   "start/hubs",
                   "start/docs-directory"
@@ -857,8 +855,7 @@
                 "pages": [
                   "start/getting-started",
                   "start/onboarding-overview",
-                  "start/wizard",
-                  "start/onboarding"
+                  "start/wizard"
                 ]
               },
               {
@@ -1004,7 +1001,6 @@
                   "channels/access-groups",
                   "channels/bot-loop-protection",
                   "channels/groups",
-                  "channels/group-messages",
                   "channels/ambient-room-events",
                   "channels/broadcast-groups",
                   "channels/channel-routing",
@@ -1262,7 +1258,6 @@
                     "group": "Running code and approvals",
                     "pages": [
                       "tools/apply-patch",
-                      "tools/code-execution",
                       "tools/elevated",
                       "tools/exec",
                       "tools/exec-approvals",
@@ -1546,7 +1541,6 @@
                         "pages": [
                           "gateway/config-channels/shared-policies",
                           "gateway/config-channels/personal-messaging",
-                          "gateway/config-channels/workplace-chat",
                           "gateway/config-channels/community-chat",
                           "gateway/config-channels/mention-gating-and-history",
                           "gateway/config-channels/commands"
@@ -1802,8 +1796,7 @@
                         "group": "Talk mode",
                         "pages": [
                           "nodes/talk/realtime-sessions",
-                          "nodes/talk/session-ownership",
-                          "nodes/talk/client-ui"
+                          "nodes/talk/session-ownership"
                         ]
                       },
                       "nodes/voicewake"
@@ -1982,7 +1975,6 @@
                           "cli/plugins/marketplace"
                         ]
                       },
-                      "cli/path",
                       "cli/skills"
                     ]
                   },

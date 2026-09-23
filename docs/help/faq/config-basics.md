@@ -54,57 +54,32 @@ read_when:
 
     | Provider | Key-free | Env var(s) |
     | --- | --- | --- |
-    | Brave | No | `BRAVE_API_KEY` |
     | DuckDuckGo | Yes (unofficial HTML-based) | - |
-    | Exa | No | `EXA_API_KEY` |
-    | Firecrawl | No | `FIRECRAWL_API_KEY` |
-    | Gemini | No | `GEMINI_API_KEY` |
-    | Grok | No (xAI OAuth or key) | `XAI_API_KEY` |
-    | Kimi | No | `KIMI_API_KEY` or `MOONSHOT_API_KEY` |
-    | MiniMax Search | No | `MINIMAX_CODE_PLAN_KEY`, `MINIMAX_CODING_API_KEY`, or `MINIMAX_API_KEY` |
     | Ollama Web Search | Local: yes (needs `ollama signin`); hosted: no | Hosted: `OLLAMA_API_KEY` |
-    | Perplexity | No | `PERPLEXITY_API_KEY` or `OPENROUTER_API_KEY` |
-    | SearXNG | Yes (self-hosted) | `SEARXNG_BASE_URL` |
-    | Tavily | No | `TAVILY_API_KEY` |
-
-    Grok can also reuse xAI OAuth from model auth (`openclaw onboard --auth-choice xai-oauth`).
 
     **Recommended**: `openclaw configure --section web` and pick a provider.
 
     ```json5
     {
-      plugins: {
-        entries: {
-          brave: {
-            config: {
-              webSearch: {
-                apiKey: "BRAVE_API_KEY_HERE",
-              },
-            },
-          },
-        },
-      },
       tools: {
         web: {
           search: {
             enabled: true,
-            provider: "brave",
+            provider: "duckduckgo",
             maxResults: 5,
           },
           fetch: {
             enabled: true,
-            provider: "firecrawl", // optional; omit for auto-detect
           },
         },
       },
     }
     ```
 
-    Provider-specific web-search config lives under `plugins.entries.<plugin>.config.webSearch.*`. Legacy `tools.web.search.*` provider paths still load for compatibility but should not be used in new configs. Firecrawl web-fetch fallback config lives under `plugins.entries.firecrawl.config.webFetch.*`.
+    Provider-specific web-search config lives under `plugins.entries.<plugin>.config.webSearch.*`. Legacy `tools.web.search.*` provider paths still load for compatibility but should not be used in new configs.
 
-    - Allowlists: add `web_search`/`web_fetch`/`x_search`, or `group:web` for all three.
+    - Allowlists: add `web_search`/`web_fetch`, or `group:web`.
     - `web_fetch` is enabled by default.
-    - If `tools.web.fetch.provider` is omitted, OpenAgent auto-detects the first ready fetch fallback provider from available credentials; the official Firecrawl plugin provides that fallback.
     - Daemons read env vars from `~/.openclaw/.env` (or the service environment).
 
     Docs: [Web tools](/tools/web).
@@ -139,7 +114,7 @@ read_when:
   <Accordion title="How do I run a central Gateway with specialized workers across devices?">
     Common pattern: **one Gateway** (for example a Raspberry Pi) plus **nodes** and **agents**.
 
-    - **Gateway (central)**: owns channels (Signal/WhatsApp), routing, sessions.
+    - **Gateway (central)**: owns channels (Discord/Telegram), routing, sessions.
     - **Nodes (devices)**: Macs/iOS/Android connect as peripherals and expose local tools such as `system.run` and `camera`; Macs can also present hosted widgets in the native panel.
     - **Agents (workers)**: separate brains/workspaces for special roles (for example ops vs personal data).
     - **Sub-agents**: spawn background work from a main agent for parallelism.

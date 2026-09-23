@@ -31,13 +31,10 @@ Responses or ChatGPT Responses route with no authored request override. The
 endpoints, and authored request behavior stay on OpenAgent. Plaintext official
 HTTP endpoints are rejected. See [OpenAI implicit agent runtime](/providers/openai/runtimes#implicit-agent-runtime).
 
-Subscription Copilot refs (`github-copilot/*`) can be opted into the external
-GitHub Copilot agent runtime plugin, but that path is always explicit (never
-selected by `auto`). Runtime overrides belong on provider/model policy, not on
+Runtime overrides belong on provider/model policy, not on
 the whole agent or session. Runtime selection does not determine billing:
 OpenAI API-key and ChatGPT/Codex subscription credentials remain distinct. See
-[Agent runtimes](/concepts/agent-runtimes) and
-GitHub Copilot agent runtime.
+[Agent runtimes](/concepts/agent-runtimes).
 
 ## Selection order
 
@@ -77,7 +74,7 @@ The same `provider/model` behaves differently depending on where it came from:
 | Source                                                                  | Behavior                                                                                                                                                                                                                                                       |
 | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Configured default (`agents.defaults.model.primary`, per-agent primary) | Normal starting point; uses `agents.defaults.model.fallbacks`.                                                                                                                                                                                                 |
-| Auto fallback                                                           | Temporary recovery state, stored as `modelOverrideSource: "auto"`. OpenAgent periodically reprobes the original primary, clears the auto selection on recovery, and announces fallback/recovery transitions once per state change.                         |
+| Auto fallback                                                           | Temporary recovery state, stored as `modelOverrideSource: "auto"`. OpenAgent periodically reprobes the original primary, clears the auto selection on recovery, and announces fallback/recovery transitions once per state change.                             |
 | User session selection                                                  | Exact and strict. `/model`, the model picker, `session_status(model=...)`, and `sessions.patch` store `modelOverrideSource: "user"`. If that provider/model becomes unreachable, the run fails visibly instead of falling through to another configured model. |
 | Cron `--model` / payload `model`                                        | Per-job primary. Still uses configured fallbacks unless the job supplies its own payload `fallbacks` (`fallbacks: []` forces a strict run).                                                                                                                    |
 
@@ -333,10 +330,12 @@ openclaw models auth list|add|login|paste-api-key|paste-token|setup-token|order
 ### Hosted catalog updates
 
 OpenAgent can refresh the model metadata shipped by installed provider plugins
-without waiting for a new OpenAgent release. The Gateway makes one background
-JSON `GET` at startup and then checks at most every six hours. The request sends
-no prompts, credentials, model usage, or configuration payload beyond the
-normal HTTP user agent and conditional cache headers.
+from a catalog mirror you host. There is no default catalog URL: nothing is
+fetched until you set an HTTPS `models.catalogRefresh.url` (or localhost HTTP
+for testing). With a URL set, the Gateway makes one background JSON `GET` at
+startup and then checks at most every six hours. The request sends no prompts,
+credentials, model usage, or configuration payload beyond the normal HTTP user
+agent and conditional cache headers.
 
 The downloaded bundle is stored in the shared SQLite state database and becomes
 visible after the next Gateway restart. Remote data can update or add models
@@ -349,39 +348,10 @@ including a bundle downloaded by another process. Repeated checks of the same
 source and generation do not repeat the notice. Checking for an update does not
 activate the downloaded rows or prices.
 
-The hosted file is published from the public
-[`openclaw/catalog`](https://github.com/openclaw/catalog) GitHub repository.
-At publish time, it also hydrates model ids and metadata from models.dev for
-providers whose owning plugin explicitly opts in with
-[`modelCatalog.modelsDev`](/plugins/manifest/models#modelcatalog-reference). Each mapping
-names the upstream provider once, rather than mapping individual models. There
-is no central provider fallback. Manifest values remain authoritative, so
-hydration only fills undefined metadata and never supplies transport settings
-or prices. Costs still come from each provider's pricing policy. Only rows with
-tool calling and text output are imported, and rows models.dev marks deprecated
-or retired are skipped. Hydration errors fail publication and preserve the last
-published artifact instead of publishing an incomplete replacement. This is a
-publication-time contract: it adds no Gateway fetches or hot reload, and updated
-metadata still becomes visible after a Gateway restart.
-Its scheduled workflow checks OpenAgent's default-branch plugin manifests and
-public pricing sources every four hours. Every catalog content change is
-preserved as a public commit. Provider-owned policies select complete price
-schedules, including context tiers, without mixing rates from different sources.
-Declared native sources read the public Cerebras, Chutes, DeepInfra, OpenCode, and Venice
-catalogs, so connected installations can receive advertised price changes without
-a new OpenAgent release. When a valid native feed no longer supplies a model's
-price, publication preserves the model metadata without an estimate. It does not
-infer retirement or substitute another source's rate. Explicit user costs still
-win. DeepInfra uses its agent projection for model metadata and its native
-`/models/list` feed for prices, including numeric discounts. Qualified schedules
-that cannot be represented as unconditional token costs stay unknown. Models
-remain available. See DeepInfra price estimates.
-
 Run `openclaw models refresh` for an immediate metadata and pricing check, or
-disable every hosted catalog request with `models.catalogRefresh.enabled:
-false`. When disabled, pricing stays at bundled and explicitly configured
-values. A self-hosted mirror can be selected with an HTTPS
-`models.catalogRefresh.url` (or localhost HTTP for testing). See
+disable catalog requests with `models.catalogRefresh.enabled: false`. When no
+catalog is configured or refresh is disabled, pricing stays at bundled and
+explicitly configured values. See
 [configuration reference](/gateway/config-runtime#models).
 
 Custom providers configured under `models.providers` are written into `models.json` under the agent directory (default `~/.openclaw/agents/<agentId>/agent/models.json`). Provider-plugin catalogs are stored separately as generated plugin-owned catalog shards and load automatically. This file is merged with config by default. Set `models.mode: "replace"` to use only your configured providers.
@@ -403,7 +373,7 @@ Provider aliases in `models.providers.*.models` resolve once before discovery.
 If an alias and its exact destination are both configured, the destination row
 owns the model fields; omitted fields are not copied from the alias row.
 Catalog IDs from `models.json` and plugin discovery stay literal during refresh,
-apart from built-in corrections for retired Google and Together model names.
+apart from built-in corrections for retired model names.
 
 <AccordionGroup>
   <Accordion title="models.json publication merge precedence">

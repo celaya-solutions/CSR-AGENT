@@ -11,7 +11,7 @@ read_when:
 
 ### Mental model
 
-- **Chat surface** - where people keep talking (Discord channel, Telegram topic, iMessage chat).
+- **Chat surface** - where people keep talking (Discord channel, Telegram topic).
 - **ACP session** - the durable Codex/Claude/Gemini runtime state OpenAgent routes to.
 - **Child thread/topic** - an optional extra messaging surface created only by `--thread ...`.
 - **Runtime workspace** - the filesystem location (`cwd`, repo checkout, backend workspace) where the harness runs. Independent of the chat surface.
@@ -87,10 +87,7 @@ For non-ephemeral workflows, configure persistent ACP bindings in top-level
   Identifies the target conversation. Per-channel shapes:
 
 - **Discord channel/thread:** `match.channel="discord"` + `match.peer.id="<channelOrThreadId>"`
-- **Slack channel/DM:** `match.channel="slack"` + `match.peer.id="<channelId|channel:<channelId>|#<channelId>|userId|user:<userId>|slack:<userId>|<@userId>>"`. Prefer stable Slack ids; channel bindings also match replies inside that channel's threads.
 - **Telegram forum topic:** `match.channel="telegram"` + `match.peer.id="<chatId>:topic:<topicId>"`
-- **WhatsApp DM/group:** `match.channel="whatsapp"` + `match.peer.id="<E.164|group JID>"`. Use E.164 numbers such as `+15555550123` for direct chats and WhatsApp group JIDs such as `120363424282127706@g.us` for groups.
-- **iMessage DM/group:** `match.channel="imessage"` + `match.peer.id="<handle|chat_id:*|chat_guid:*|chat_identifier:*>"`. Prefer `chat_id:*` for stable group bindings.
 
 </ParamField>
 <ParamField path="bindings[].agentId" type="string">

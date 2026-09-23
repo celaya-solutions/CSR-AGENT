@@ -10,11 +10,11 @@ The mode, scope, and backend settings, how a creator-role requirement overrides 
 
 Three independent settings control sandbox behavior:
 
-| Setting | Key                               | Values                                            | Default  |
-| ------- | --------------------------------- | ------------------------------------------------- | -------- |
-| Mode    | `agents.defaults.sandbox.mode`    | `off`, `non-main`, `all`                          | `off`    |
-| Scope   | `agents.defaults.sandbox.scope`   | `agent`, `session`, `shared`                      | `agent`  |
-| Backend | `agents.defaults.sandbox.backend` | `docker`, `podman`, `ssh`, `openshell`, `crabbox` | `docker` |
+| Setting | Key                               | Values                                         | Default  |
+| ------- | --------------------------------- | ---------------------------------------------- | -------- |
+| Mode    | `agents.defaults.sandbox.mode`    | `off`, `non-main`, `all`                       | `off`    |
+| Scope   | `agents.defaults.sandbox.scope`   | `agent`, `session`, `shared`                   | `agent`  |
+| Backend | `agents.defaults.sandbox.backend` | `docker`, `podman`, `ssh`, or a plugin backend | `docker` |
 
 **Mode** controls when sandboxing applies:
 
@@ -53,18 +53,18 @@ before normal sandbox retention or manual cleanup, then recover selected files
 explicitly as an operator; do not copy an entire ambiguous environment into a
 trusted profile workspace automatically.
 
-Non-shared runtime identity also includes the resolved agent workspace path. This prevents co-hosted workspaces that reuse the same agent or session keys from sharing Docker, browser, SSH, OpenShell, or plugin-provided sandbox state. `shared` scope intentionally remains workspace-independent.
+Non-shared runtime identity also includes the resolved agent workspace path. This prevents co-hosted workspaces that reuse the same agent or session keys from sharing Docker, browser, SSH, or plugin-provided sandbox state. `shared` scope intentionally remains workspace-independent.
 
 The first use after upgrading from an older release creates non-shared runtimes and sandbox workspaces under the workspace-qualified identity. Existing non-shared runtimes are not adopted; this is an intentional one-time reset. They can age out through configured prune settings or be removed with `openclaw sandbox recreate`; the next use provisions the current identity.
 
-**Backend** controls which runtime executes sandboxed tools. Docker and Podman share `agents.defaults.sandbox.docker`; SSH-specific config lives under `agents.defaults.sandbox.ssh`; OpenShell-specific config lives under `plugins.entries.openshell.config`; Crabbox lease settings live under `plugins.entries.crabbox.config.sandbox` (see Crabbox backend).
+**Backend** controls which runtime executes sandboxed tools. Docker and Podman share `agents.defaults.sandbox.docker`; SSH-specific config lives under `agents.defaults.sandbox.ssh`; plugin backends keep their settings under `plugins.entries.<id>.config`.
 
-|                     | Docker or Podman backend                  | SSH                            | OpenShell                                           |
-| ------------------- | ----------------------------------------- | ------------------------------ | --------------------------------------------------- |
-| **Where it runs**   | Local Docker or Podman container          | Any SSH-accessible host        | OpenShell managed sandbox                           |
-| **Setup**           | Docker and/or Podman                      | SSH key + target host          | OpenShell plugin enabled                            |
-| **Workspace model** | Bind-mount or copy                        | Remote-canonical (seed once)   | `mirror` or `remote`                                |
-| **Network control** | `docker.network` (default: none)          | Depends on remote host         | Depends on OpenShell                                |
-| **Browser sandbox** | Docker engine only                        | Not supported                  | Not supported yet                                   |
-| **Bind mounts**     | `docker.binds`                            | N/A                            | N/A                                                 |
-| **Best for**        | Local development and container isolation | Offloading to a remote machine | Managed remote sandboxes with optional two-way sync |
+|                     | Docker or Podman backend                  | SSH                            |
+| ------------------- | ----------------------------------------- | ------------------------------ |
+| **Where it runs**   | Local Docker or Podman container          | Any SSH-accessible host        |
+| **Setup**           | Docker and/or Podman                      | SSH key + target host          |
+| **Workspace model** | Bind-mount or copy                        | Remote-canonical (seed once)   |
+| **Network control** | `docker.network` (default: none)          | Depends on remote host         |
+| **Browser sandbox** | Docker engine only                        | Not supported                  |
+| **Bind mounts**     | `docker.binds`                            | N/A                            |
+| **Best for**        | Local development and container isolation | Offloading to a remote machine |

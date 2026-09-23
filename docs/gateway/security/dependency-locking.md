@@ -72,4 +72,3 @@ tar -tf /tmp/openclaw-plugin-pack/openclaw-discord-<version>.tgz | grep -E '^pac
 The `node_modules` entries prove that the plugin carries its bundled runtime payload. The final check proves that neither npm lockfile format ships in the tarball.
 
 ## Related
-

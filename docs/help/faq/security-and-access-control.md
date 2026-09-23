@@ -54,8 +54,8 @@ read_when:
 
   </Accordion>
 
-  <Accordion title="Are ClawHub skills and third-party plugins safe to install?">
-    Treat third-party skills and plugins as code you are choosing to trust. ClawHub skill pages expose scan state before install, but scans are not a complete security boundary. OpenAgent does not run built-in local dangerous-code blocking during plugin/skill install or update; use operator-owned `security.installPolicy` for local allow/warn/block decisions.
+  <Accordion title="Are third-party skills and plugins safe to install?">
+    Treat third-party skills and plugins as code you are choosing to trust. Registry scan results, when a configured registry provides them, are not a complete security boundary. OpenAgent does not run built-in local dangerous-code blocking during plugin/skill install or update; use operator-owned `security.installPolicy` for local allow/warn/block decisions.
 
     Safer pattern: prefer trusted authors and pinned versions, read the skill/plugin before enabling it, keep plugin/skill allowlists narrow, run untrusted-input workflows in a sandbox with minimal tools, and avoid giving third-party code broad filesystem, exec, browser, or secret access.
 
@@ -96,15 +96,4 @@ read_when:
 
   </Accordion>
 
-  <Accordion title="WhatsApp: will it message my contacts? How does pairing work?">
-    No. Default WhatsApp DM policy is **pairing**. Unknown senders only get a pairing code; their message is **not processed**. OpenAgent only replies to chats it receives or to explicit sends you trigger.
-
-    ```bash
-    openclaw pairing approve whatsapp <code>
-    openclaw pairing list whatsapp
-    ```
-
-    The wizard's phone number prompt sets your **allowlist/owner** so your own DMs are permitted - it is not used for auto-sending. On your personal WhatsApp number, use that number and enable `channels.whatsapp.selfChatMode`.
-
-  </Accordion>
 </AccordionGroup>

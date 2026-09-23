@@ -32,7 +32,7 @@ For a complete map of the docs, see [Docs hubs](/start/hubs).
 - [Workspace templates](/reference/templates/AGENTS)
 - [RPC adapters](/reference/rpc)
 - [Gateway runbook](/gateway)
-- [Nodes (iOS and Android)](/nodes)
+- [Nodes](/nodes)
 - [Web surfaces (Control UI)](/web)
 - [Discovery and transports](/gateway/discovery)
 - [Remote access](/gateway/remote)
@@ -46,12 +46,11 @@ For a complete map of the docs, see [Docs hubs](/start/hubs).
 - [Media images](/nodes/images)
 - [Telegram](/channels/telegram)
 - [WebChat](/web/webchat)
-- [WhatsApp group messages](/channels/group-messages)
 
-## Companion apps
+## Platforms
 
-- [Linux app](/platforms/linux)
-- [Windows Hub](/platforms/windows)
+- [Linux](/platforms/linux)
+- [Windows](/platforms/windows)
 
 ## Operations and safety
 

@@ -27,7 +27,7 @@ openclaw status --usage --agent work
 | `--timeout <ms>`        | Probe timeout in milliseconds (default: `10000`).                                                               |
 | `--verbose` / `--debug` | Also print the raw Gateway target resolution before the report.                                                 |
 
-Channels without a probe, such as WhatsApp, report lifecycle health instead.
+Channels without a probe report lifecycle health instead.
 In the Health table, `healthy` is `OK`; degraded lifecycle states and failed
 probes remain `WARN`. A lifecycle `OK` does not mean a live probe ran.
 
@@ -131,11 +131,6 @@ Use `openclaw skills check --agent <id>` to inspect the missing requirements.
   `agents.defaults.systemAgent.agentId` by default. Pass `--agent <id>` to
   inspect another agent; without either owner, OpenAgent does not guess one
   agent's credentials from an ambiguous roster.
-- MiniMax's raw `usage_percent` / `usagePercent` fields are remaining quota,
-  so OpenAgent inverts them before display; count-based fields win when
-  present. `model_remains` responses prefer the chat-model entry, derive the
-  window label from timestamps when needed, and include the model name in
-  the plan label.
 - Model pricing refresh failures are shown as optional pricing warnings.
   They do not mean the Gateway or channels are unhealthy.
 

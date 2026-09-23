@@ -10,6 +10,13 @@ This page covers `openclaw plugins install`: every supported source locator,
 the trust and install-policy rules that gate an install, and the marketplace
 surfaces it accepts.
 
+<Note>
+OpenAgent has no default ClawHub registry. ClawHub search, `clawhub:` installs,
+and ClawHub updates refuse before any network request until
+`OPENCLAW_CLAWHUB_URL` points at a registry you operate. npm, git, local path,
+archive, and marketplace sources work without it.
+</Note>
+
 ## Install
 
 When a local Gateway is running, `plugins install` applies every supported plugin
@@ -27,7 +34,7 @@ Plugin dependencies installed by `claws add` retain the Claw batch lease;
 live activation of that batch is separate from this single-plugin command.
 
 ```bash
-openclaw plugins search "calendar"                      # search ClawHub plugins
+openclaw plugins search "calendar"                      # search the configured ClawHub registry
 openclaw plugins install @openclaw/<package>            # trusted official catalog
 openclaw plugins install <package>                       # arbitrary npm package
 openclaw plugins install clawhub:<package>                # ClawHub only
@@ -79,9 +86,7 @@ summary, and an install hint such as `openclaw plugins install clawhub:<package>
 
 <Note>
 Default official installs follow the catalog's declared source order.
-ClawHub also provides plugin discovery. OpenAgent-owned
-`@openclaw/*` plugin packages are published on npm again; see the current list
-on [npmjs.com/org/openclaw](https://www.npmjs.com/org/openclaw) or the
+The plugins this build ships are listed in the
 [plugin inventory](/plugins/plugin-inventory). Stable installs use `latest`.
 Fresh beta-channel installs with bare/default or `@latest` intent target the
 installed core's exact beta version for eligible official npm and trusted
@@ -160,7 +165,7 @@ pins; an explicit version supplied to the current update command still wins. See
 
 When `security.installPolicy` returns `warn` in an interactive terminal, OpenAgent prints the reason and findings, then uses the same acknowledgement copy as a suspicious ClawHub release: `type: '<plugin>' to install anyway`. If the fully rendered review exceeds 4,000 characters, OpenAgent fails closed before prompting; reduce or coalesce the policy output first. A matching answer re-evaluates the staged source before continuing. A declined or non-interactive direct CLI install stops before commit; after review, `--acknowledge-install-policy-warning` explicitly approves every warning for that command invocation. Control UI installs offer **Install anyway** after showing the warning; Gateway API clients can acknowledge the reviewed request with `acknowledgeInstallPolicyWarning: true`. Automatic installs do not approve policy warnings themselves. For a managed surface without an explicit acknowledgment step, rerun the equivalent direct CLI command when one exists, or change `security.installPolicy` to return `allow` for the reviewed request before retrying the managed flow. Every approved warning is re-evaluated before continuing. Neither acknowledgement nor `--force` overrides `block` or a policy failure.
 
-If a plugin you published on ClawHub is hidden or blocked by a registry scan, use the publisher steps in ClawHub publishing. This flag does not ask ClawHub to rescan the plugin or make a blocked release public. The deprecated `--dangerously-force-unsafe-install` flag remains a no-op.
+If a plugin you published on ClawHub is hidden or blocked by a registry scan, use your registry's publisher steps. This flag does not ask ClawHub to rescan the plugin or make a blocked release public. The deprecated `--dangerously-force-unsafe-install` flag remains a no-op.
 
 ### ClawHub security audit
 

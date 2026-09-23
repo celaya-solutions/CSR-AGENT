@@ -143,9 +143,7 @@ when a busy gateway defers only the channel restart. This keeps stale sockets fr
 waiting for their normal expiry without interrupting an active reply or agent
 startup when a busy event loop caused the timer gap.
 
-The macOS app and Linux companion cooperate with a local gateway by preparing a
-short suspension lease before the host sleeps and resuming it after wake. Remote
-gateways are not suspended when the app host sleeps. A deliberate suspension
+A deliberate suspension
 through `gateway.suspend.*` keeps recovery deferred until the controller resumes
 the gateway.
 

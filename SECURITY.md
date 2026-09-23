@@ -6,29 +6,18 @@ This policy does two things: it gives researchers a clear disclosure path, and i
 
 The fastest useful reports show a current, reproducible boundary bypass with demonstrated impact. Scanner output, prompt-injection-only chains, or reports that rely on hostile users sharing one trusted gateway are usually not security vulnerabilities under this model.
 
-Security work is shared across a number of OpenAgent maintainers, including engineers and security researchers from organizations such as NVIDIA and Tencent. See the [maintainer list](CONTRIBUTING.md#maintainers).
-
 ## Shared Agents
 
 Anyone who can operate an agent can make it do anything that agent can do. Session ownership, visibility, and presence are usability features, not security boundaries. Turn attribution is best-effort because steering can merge input into an active turn. Use separate agents or separate gateway/host trust boundaries when operators need real isolation.
 
 ## Report a Security Issue
 
-Report vulnerabilities directly to the repository where the issue lives:
+Report vulnerabilities through GitHub's private vulnerability reporting on this repository (the **Security** tab, then **Report a vulnerability**). Do not open a public issue or PR that discloses an unpatched vulnerability, exploit path, secret, or security-sensitive proof of concept.
 
-- **Core CLI and gateway** — [openclaw/openclaw](https://github.com/openclaw/openclaw)
-- **macOS desktop app** — [openclaw/openclaw](https://github.com/openclaw/openclaw) (apps/macos)
-- **iOS app** — [openclaw/openclaw](https://github.com/openclaw/openclaw) (apps/ios)
-- **Android app** — [openclaw/openclaw](https://github.com/openclaw/openclaw) (apps/android)
-- **ClawHub** — [openclaw/clawhub](https://github.com/openclaw/clawhub)
-
-For issues that don't fit a specific repo, or if you're unsure, email **[security@openclaw.ai](mailto:security@openclaw.ai)** and we'll route it.
-
-For OpenAgent core issues, submit through a private [GitHub Security Advisory](https://github.com/openclaw/openclaw/security/advisories/new). Do not open a public issue or PR that discloses an unpatched vulnerability, exploit path, secret, or security-sensitive proof of concept.
+OpenAgent is derived from OpenClaw. If the issue also affects upstream OpenClaw, report it to the OpenClaw project through its own security policy as well.
 
 Maintainers may close, hide, delete, or otherwise take down public issues and PRs that disclose vulnerabilities or active security issues. We will redirect those reports through the private disclosure process so the issue can be triaged and fixed without giving attackers a public playbook.
 
-For full reporting instructions see our [Trust page](https://trust.openclaw.ai).
 For maintainer response workflow, see the [incident response plan](docs/security/incident-response.md).
 
 OpenAgent does not currently run a paid bug bounty program. Please still disclose responsibly so we can fix real issues quickly. The best way to help the project right now is to send high-signal reports and, when practical, focused PRs.
@@ -79,7 +68,7 @@ For fastest triage, include all of the following:
 - If the claim targets a released version, evidence from the shipped tag and published artifact/package for that exact version (not only `main`).
 - For dependency CVE reports, evidence that the shipped dependency version is actually affected, plus a PoC that reproduces impact through OpenAgent. Showing that OpenAgent can reach a native parser is not enough by itself.
 - Demonstrated impact tied to OpenAgent's documented trust boundaries.
-- For exposed-secret reports: proof the credential is OpenClaw-owned (or grants access to OpenClaw-operated infrastructure/services).
+- For exposed-secret reports: proof the credential is project-owned (or grants access to project-operated infrastructure/services).
 - Explicit statement that the report does not rely on adversarial operators sharing one gateway host/config.
 - Scope check explaining why the report is **not** covered by the Out of Scope section below.
 - For command-risk/parity reports (for example obfuscation detection differences), a concrete boundary-bypass path is required (auth/approval/allowlist/sandbox). Parity-only findings are treated as hardening, not vulnerabilities.
@@ -112,12 +101,11 @@ These are frequently reported but are typically closed with no code change:
 - Reports that depend on pre-existing symlinked skill/workspace filesystem state (for example symlink chains involving `skills/*/SKILL.md`) without showing an untrusted path that can create/control that state.
 - Missing HSTS findings on default local/loopback deployments.
 - Reports against test-only harnesses, QA Lab, QE Lab, E2E fixtures, benchmark rigs, or maintainer-only debugging tools when the vulnerable code is not shipped as a supported production surface.
-- Slack webhook signature findings when HTTP mode already uses signing-secret verification.
 - Discord inbound webhook signature findings for paths not used by this repo's Discord integration.
 - Claims that Microsoft Teams `fileConsent/invoke` `uploadInfo.uploadUrl` is attacker-controlled without demonstrating one of: auth boundary bypass, a real authenticated Teams/Bot Framework event carrying attacker-chosen URL, or compromise of the Microsoft/Bot trust path.
 - Scanner-only claims against stale/nonexistent paths, or claims without a working repro.
 - Reports that restate an already-fixed issue against later released versions without showing the vulnerable path still exists in the shipped tag or published artifact for that later version.
-- SSRF reports against the operator-managed HTTP/WebSocket proxy-routing feature whose only claim is that ordinary process-local HTTP clients (`fetch`, `node:http`, `node:https`, WebSocket clients, axios/got/node-fetch-style clients) can reach an internal, metadata, private, or otherwise sensitive destination when proxy routing is disabled, missing, or the operator-managed proxy policy allows it. For this feature, OpenAgent provides fail-closed proxy routing when enabled; the external proxy's destination policy is operator infrastructure, not an OpenClaw-controlled security boundary. See [Network proxy](https://docs.openclaw.ai/security/network-proxy).
+- SSRF reports against the operator-managed HTTP/WebSocket proxy-routing feature whose only claim is that ordinary process-local HTTP clients (`fetch`, `node:http`, `node:https`, WebSocket clients, axios/got/node-fetch-style clients) can reach an internal, metadata, private, or otherwise sensitive destination when proxy routing is disabled, missing, or the operator-managed proxy policy allows it. For this feature, OpenAgent provides fail-closed proxy routing when enabled; the external proxy's destination policy is operator infrastructure, not an OpenAgent-controlled security boundary. See the network proxy guide in [`docs/security/network-proxy.md`](docs/security/network-proxy.md).
 
 ### Maintainer GHSA Updates via CLI
 
@@ -178,10 +166,10 @@ Plugins/extensions are part of OpenAgent's trusted computing base for a gateway.
 - Reports whose only claim is that exec approvals do not semantically model every interpreter/runtime loader form, subcommand, flag combination, package script, or transitive module/config import. Exec approvals bind exact request context and best-effort direct local file operands; they are not a complete semantic model of everything a runtime may load.
 - Reports whose only claim is parser reachability in an up-to-date maintained dependency without showing that the exact shipped dependency build is vulnerable. We keep native media dependencies current; dependency exposure alone is not a vulnerability.
 - Reports whose only claim is resource overhead from decode/encode, base64 expansion, media transcoding, serialization, or format-conversion order after input has already passed the applicable configured acceptance limits, including base64 decode-before-size-estimate findings. These are performance-only and should be ignored for GHSA triage unless the report demonstrates unauthenticated amplification, limit bypass, crash/process termination, persistent exhaustion, data exposure, or another documented boundary bypass.
-- Exposed secrets that are third-party/user-controlled credentials (not OpenClaw-owned and not granting access to OpenClaw-operated infrastructure/services) without demonstrated OpenAgent impact
+- Exposed secrets that are third-party/user-controlled credentials (not project-owned and not granting access to project-operated infrastructure/services) without demonstrated OpenAgent impact
 - Reports whose only claim is host-side exec when sandbox runtime is disabled/unavailable (documented default behavior in the trusted-operator model), without a boundary bypass.
 - Reports whose only claim is that a platform-provided upload destination URL is untrusted (for example Microsoft Teams `fileConsent/invoke` `uploadInfo.uploadUrl`) without proving attacker control in an authenticated production flow.
-- SSRF reports limited to the operator-managed HTTP/WebSocket proxy-routing feature where the demonstrated mitigation is to enable/configure `proxy.enabled` with a filtering `proxy.proxyUrl`/`OPENCLAW_PROXY_URL`, or where impact depends on a permissive/misconfigured operator proxy. This only covers normal process-local HTTP(S)/WebSocket egress (`fetch`, Node HTTP(S), and similar JavaScript clients); non-HTTP egress and other features are assessed separately. See [Network proxy](https://docs.openclaw.ai/security/network-proxy).
+- SSRF reports limited to the operator-managed HTTP/WebSocket proxy-routing feature where the demonstrated mitigation is to enable/configure `proxy.enabled` with a filtering `proxy.proxyUrl`/`OPENCLAW_PROXY_URL`, or where impact depends on a permissive/misconfigured operator proxy. This only covers normal process-local HTTP(S)/WebSocket egress (`fetch`, Node HTTP(S), and similar JavaScript clients); non-HTTP egress and other features are assessed separately. See the network proxy guide in [`docs/security/network-proxy.md`](docs/security/network-proxy.md).
 
 ### Deployment Assumptions
 
@@ -198,7 +186,7 @@ OpenAgent security guidance assumes:
 
 OpenAgent's security model is "personal assistant" (one trusted operator, potentially many agents), not "shared multi-tenant bus."
 
-- If multiple people can message the same tool-enabled agent (for example a shared Slack workspace), they can all steer that agent within its granted permissions.
+- If multiple people can message the same tool-enabled agent (for example a shared Discord server), they can all steer that agent within its granted permissions.
 - Non-owner sender status only affects owner-only tools/commands. If a non-owner can still access a non-owner-only tool on that same agent (for example `canvas`), that is within the granted tool boundary unless the report demonstrates an auth, policy, allowlist, approval, or sandbox bypass.
 - Session or memory scoping reduces context bleed, but does **not** create per-user host authorization boundaries.
 - For mixed-trust or adversarial users, isolate by OS user/host/gateway and use separate credentials per boundary.
@@ -269,7 +257,7 @@ OpenAgent uses a dedicated temp root for local media handoff and sandbox-adjacen
 
 Security boundary notes:
 
-- Sandbox media validation allows absolute temp paths only under the OpenClaw-managed temp root.
+- Sandbox media validation allows absolute temp paths only under the OpenAgent-managed temp root.
 - Arbitrary host tmp paths are not treated as trusted media roots.
 - Plugin/extension code should use OpenAgent temp helpers (`resolvePreferredOpenClawTmpDir`, `buildRandomTempFilePath`, `withTempDownloadPath`) rather than raw `os.tmpdir()` defaults when handling media files.
 - Enforcement reference points:
@@ -281,7 +269,7 @@ Security boundary notes:
 
 For threat model + hardening guidance (including `openclaw security audit --deep` and `--fix`), see:
 
-- `https://docs.openclaw.ai/gateway/security`
+- [`docs/gateway/security`](docs/gateway/security)
 
 #### Tool Filesystem Hardening
 
@@ -362,7 +350,7 @@ node scripts/detect-private-keys.mts
 
 ### Static Analysis
 
-CI runs CodeQL across core TypeScript, GitHub Actions, Android, macOS, and high-risk runtime boundaries using `.github/workflows/codeql*.yml` and `.github/codeql/*.yml`.
+CI runs CodeQL across core TypeScript, GitHub Actions, and high-risk runtime boundaries using `.github/workflows/codeql*.yml` and `.github/codeql/*.yml`.
 
 OpenGrep provides a high-precision Semgrep-compatible layer. PRs run a changed-path scan; maintainers can run a full repository scan when needed. The rulepack lives under `security/opengrep/`, with `.semgrepignore` as the shared exclusion file.
 

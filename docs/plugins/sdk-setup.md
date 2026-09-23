@@ -246,7 +246,7 @@ Example:
 | `npmSpec`                    | `string`                            | Canonical npm spec for install/update fallback flows.                             |
 | `localPath`                  | `string`                            | Local development or bundled install path.                                        |
 | `defaultChoice`              | `"clawhub"` \| `"npm"` \| `"local"` | Preferred install source when multiple sources are available.                     |
-| `minHostVersion`             | `string`                            | Minimum supported OpenAgent version, `>=x.y.z` or `>=x.y.z-prerelease`.       |
+| `minHostVersion`             | `string`                            | Minimum supported OpenAgent version, `>=x.y.z` or `>=x.y.z-prerelease`.           |
 | `expectedIntegrity`          | `string`                            | Expected npm dist integrity string, usually `sha512-...`, for pinned installs.    |
 | `allowInvalidConfigRecovery` | `boolean`                           | Lets bundled-plugin reinstall flows recover from specific stale-config failures.  |
 | `requiredPlatformPackages`   | `string[]`                          | Required platform-specific npm aliases verified during npm install.               |

@@ -131,11 +131,7 @@ Use full `<provider/model>` refs with `--local` to smoke-test one provider witho
 
 ```bash
 openclaw infer model run --local --model anthropic/claude-sonnet-4-6 --prompt "Reply with exactly: pong" --json
-openclaw infer model run --local --model cerebras/zai-glm-4.7 --prompt "Reply with exactly: pong" --json
-openclaw infer model run --local --model google/gemini-2.5-flash --prompt "Reply with exactly: pong" --json
-openclaw infer model run --local --model groq/llama-3.1-8b-instant --prompt "Reply with exactly: pong" --json
-openclaw infer model run --local --model mistral/mistral-medium-3-5 --prompt "Reply with exactly: pong" --json
-openclaw infer model run --local --model mistral/mistral-small-latest --prompt "Reply with exactly: pong" --json
+openclaw infer model run --local --model openrouter/auto --prompt "Reply with exactly: pong" --json
 openclaw infer model run --local --model openai/gpt-5.6-luna --prompt "Reply with exactly: pong" --json
 openclaw infer model run --local --model ollama/qwen2.5vl:7b --prompt "Describe this image." --file ./photo.jpg --json
 ```
@@ -144,7 +140,6 @@ Notes:
 
 - Local `model run` is the narrowest CLI smoke for provider/model/auth health: for non-ChatGPT-Codex providers it sends only the supplied prompt.
 - Local `model run --model <provider/model>` can resolve exact bundled static-catalog rows (the same rows [`openclaw models list --all`](/cli/models) shows) before that provider is written to config. Provider auth is still required; missing credentials fail as auth errors, not `Unknown model`.
-- For Mistral Medium 3.5 reasoning probes, leave temperature unset/default. Mistral rejects `reasoning_effort="high"` with `temperature: 0`; use default temperature or a non-zero value such as `0.7`.
 - OpenAI ChatGPT/Codex OAuth (`openai-chatgpt-responses` API) local probes add a minimal system instruction so the transport can populate its required `instructions` field — no full agent context, tools, memory, or session transcript.
 - `model run --file` attaches image content directly to the single user message. Common formats (PNG, JPEG, WebP) work when MIME type is detected as `image/*`; unsupported or unrecognized files fail before the provider is called. Use `infer image describe` instead when you want OpenAgent's image-model routing and fallbacks rather than a direct multimodal-model probe.
 - The selected model must support image input; text-only models may reject the request at the provider layer.
@@ -258,7 +253,7 @@ Search and fetch.
 ```bash
 openclaw infer web search --query "OpenAgent docs" --json
 openclaw infer web search --query "OpenAgent infer web providers" --json
-openclaw infer web fetch --url https://docs.openclaw.ai/cli/infer --json
+openclaw infer web fetch --url https://example.com --json
 openclaw infer web providers --agent <id> --json
 ```
 
@@ -328,7 +323,7 @@ openclaw infer audio transcribe --file ./memo.m4a --model openai/whisper-1 --jso
 Copy and paste this to an agent:
 
 ```text
-Read https://docs.openclaw.ai/cli/infer, then create a skill that routes my common workflows to `openclaw infer`.
+Read docs/cli/infer.md in the OpenAgent source checkout, then create a skill that routes my common workflows to `openclaw infer`.
 Focus on model runs, image generation, video generation, audio transcription, TTS, web search, and embeddings.
 ```
 

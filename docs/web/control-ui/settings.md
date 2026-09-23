@@ -14,7 +14,7 @@ Use **Search settings** to find pages and configuration fields. Add `tag:storage
 
 Model menus with more than eight choices include search. Filter by model name or provider/model reference, then choose a result to apply it. Typing or dismissing the menu leaves the current selection unchanged. Short menus stay compact, and custom model entry remains available where the setting supports it.
 
-In **Models**, **Connect** offers the credential-only sign-in methods declared by installed provider plugins. Connecting saves the credential without selecting its starter model. If model restrictions hide the provider, choose **Show all provider models** or **Keep current restrictions**; saving a credential alone does not widen access. **Model setup** opens the separate [setup and activation flow](/start/onboarding). If saving has already started, cancellation keeps the dialog open until the saved result arrives. Leaving the page closes pending sign-in input and lets an active save finish, so a later sign-in can start without losing saved credentials.
+In **Models**, **Connect** offers the credential-only sign-in methods declared by installed provider plugins. Connecting saves the credential without selecting its starter model. If model restrictions hide the provider, choose **Show all provider models** or **Keep current restrictions**; saving a credential alone does not widen access. **Model setup** opens the separate [setup and activation flow](/start/onboarding-overview). If saving has already started, cancellation keeps the dialog open until the saved result arrives. Leaving the page closes pending sign-in input and lets an active save finish, so a later sign-in can start without losing saved credentials.
 
 Model pickers show the authentication methods available to the selected agent. A single subscription or an explicitly selected account includes its email when available; multiple accounts and mixed API/subscription credentials are shown without guessing which account will run. **Utility Model → Auto** also shows the recommended small model derived from the global primary model, including an explicit account selection inherited from that model. Providers without a recommended small model say so. Agent-specific overrides still take precedence when the agent runs.
 
@@ -116,8 +116,6 @@ The **Typography** block lets you choose an **Interface** face and a separate **
 
 Appearance also has a Text size setting. It applies to chat text, composer text, tool cards, and chat sidebars, and keeps text inputs at least 16px so mobile Safari does not auto-zoom on focus.
 
-Appearance also carries the **Lobster visits** and **Lobster sounds** toggles and the Lobsterdex. Both toggles are browser-local. See The Lobster for what the sidebar visitor does and how to turn it off for good.
-
 When your connection is bound to an authenticated Gateway profile, theme, theme mode, and accent color are saved to that profile instead of the gateway config. They follow you across devices without changing anyone else's appearance, override gateway-wide `ui.prefs` values, and update your connected clients live. Connections without an authenticated profile continue syncing these preferences through the gateway config exactly as before. Language and chat display preferences remain gateway-config preferences for every connection. Each browser keeps a local mirror for instant boot, and text size remains browser-local. An explicitly read-only connection applies preference changes only in that browser. Changes made while offline remain queued until a later connection can write their applicable preferences; on a read-only reconnect, they continue to behave as browser-local preferences. See [Configuration reference](/gateway/configuration-reference#ui).
 
 ## Session sources
@@ -166,13 +164,13 @@ and removing them inline. The same server controls live on **Settings → MCP**.
 Your selected detail tab stays open as additional plugin information loads.
 The **Discover** tab is the store: featured plugins included with OpenAgent,
 official external plugins, and one-click MCP connectors for popular services.
-Typing in the search box queries
-[ClawHub](https://clawhub.ai/plugins) inline and appends a **From ClawHub**
-section with download counts and source-verification badges. Deep links can
+When an operator configures a plugin registry (`OPENCLAW_CLAWHUB_URL`),
+typing in the search box also queries that registry inline; there is no
+default registry. Deep links can
 target the store directly with `/settings/plugins/discover`.
 
 The **Skills** tab keeps the skill status report, enable/disable toggles, API
-key entry, and inline ClawHub skill search, scoped to the selected agent. The
+key entry, and inline registry skill search when a registry is configured, scoped to the selected agent. The
 **Workshop** tab shows installed skills and pending
 [skill proposals](/tools/skill-workshop). **Learn from past conversations** opens
 a normal session with the selected agent's configured model and permitted tools.
@@ -180,15 +178,14 @@ The agent chooses which history and skills to inspect, following the current
 Workshop mode. Chat shows progress, results, and normal stop and follow-up controls.
 
 Included plugins are already present on the Gateway and show **Enable** or
-**Disable** instead of **Install**. For example, Workboard is included with
-OpenAgent but disabled by default, so its action is **Enable**. Bundled plugins
-cannot be removed, only disabled.
+**Disable** instead of **Install**. A bundled plugin that is disabled by
+default shows **Enable**. Bundled plugins cannot be removed, only disabled.
 
-Reading the catalog and searching ClawHub require `operator.read`. Installing,
+Reading the catalog and searching a registry require `operator.read`. Installing,
 enabling, disabling, or removing a plugin and changing MCP servers require
 `operator.admin`; those actions stay disabled for read-only operators.
 
-ClawHub installs run through the Gateway and keep the same trust, integrity,
+Registry installs run through the Gateway and keep the same trust, integrity,
 and plugin-install policy checks as other Gateway-mediated installs. Install,
 enable, disable, remove, and Reload actions wait for runtime application without
 restarting the Gateway. Ordinary plugin config edits also apply automatically
@@ -223,26 +220,11 @@ there for up to 24 hours until you acknowledge it in that browser.
 
 The report is shared with chat and the CLI. See [Updating](/install/updating)
 for installation-specific behavior and [Run history and reports](/cli/update#run-history-and-reports)
-for inspecting a run from the Gateway host. In the signed macOS app, an app-owned
-local Gateway still uses **Update Mac app + Gateway** and the native update flow.
-
-## Apps and extensions
-
-Open **Apps** from the sidebar **More** menu, the command palette, or the
-sidebar agent menu (**Get the apps**), or use `/apps` relative to the
-configured Control UI base path. The page collects install links for every
-OpenAgent companion surface: the iOS and
-Android apps, the Apple Watch and Wear OS companions
-bundled with them, the macOS, [Windows](/platforms/windows),
-and [Linux](/platforms/linux) desktop apps, the
-Chrome extension, the in-app Plugins hub with
-[ClawHub](https://clawhub.ai), and the Discord community and docs.
+for inspecting a run from the Gateway host.
 
 ## Settings
 
 Inside **Settings**, the dedicated sidebar includes **Ask OpenAgent** and starts with a **Search settings** field for quickly finding settings sections.
-
-**Native embed mode.** Native hosts can inject `window.__OPENCLAW_NATIVE_EMBED__ = { platform: "ios", formFactor: "phone" }` at document start to show settings without Dashboard navigation chrome. Supported platforms are `ios`, `macos`, and `android`; form factors are `phone`, `pad`, and `desktop`. In this mode, `/settings` lists the same visible groups and destinations as the settings sidebar. Every embedded route outside the settings root provides a Back button and title, including pages reached through links or tabs such as Memory import, Plugins, and Skill Workshop. Back follows app navigation history; direct links fall back to the nearest settings parent (Memory for Memory import) or `/settings`. Layouts respect device safe areas and use touch controls at phone widths. The flag changes presentation only: Gateway scopes and the existing native device-settings capability still determine which settings are available. Ordinary browser loads keep their existing navigation.
 
 Choice fields that accept an explicit `null` value show it as a dropdown option. For optional fields, `null` remains distinct from clearing the setting or selecting its default. Rejected choices, such as a duplicate in a unique-value list, leave the previous selection in place.
 
@@ -292,31 +274,6 @@ The new panel chords include Option/Alt to avoid browser actions such as develop
 tools, Read Aloud, and find previous, and OpenAgent's existing debug-overlay shortcut.
 The existing Terminal, Files, and Side chat bindings are unchanged.
 
-<a id="this-mac-macos-app" />
-
-### This device (macOS and iOS apps)
-
-Inside the macOS app, Settings includes a **This Mac** group
-for settings on that Mac. **This Mac** (`/settings/device`) contains app behavior,
-device capabilities, browser login import and cookie sync, and developer tools.
-**Permissions** (`/settings/device/permissions`) shows macOS permission status
-and actions, location preferences, and active computer presence.
-
-**Talk** adds a **This Mac** section for Voice Wake, push-to-talk, sounds,
-microphone, and languages. **Updates** adds the app version, automatic update
-preference, and **Check for Updates**. These device settings appear only inside
-the OpenAgent app; ordinary browsers keep the Gateway settings. Talk trigger words
-are Gateway settings and remain available in every browser.
-
-On iOS, the group is **This iPhone** or **This iPad**. The device page shows
-appearance, notifications, camera, keep awake, and health summaries when
-available, plus actions to open Diagnostics, Licenses, About, and Apple Watch.
-Only settings published by the app appear; iOS does not show Mac browser or
-app-update controls. Permissions include the access published by the device,
-including limited access to contacts or photos. Precise location is read-only
-on iOS; **Open Settings** opens the system setting. Talk shows the device's
-Voice Wake, Talk mode, Talk button, background Talk, and speakerphone controls.
-
 ## Custom plugin UI
 
 Find **Labs** in the **System** section of the Settings sidebar, after **Infrastructure**.
@@ -328,7 +285,7 @@ reload connected browser tabs after changing it.
 
 Only enable it for plugin authors you trust: native UI runs in the Control UI
 origin with the signed-in operator's Gateway authority. Native UI from enabled
-bundled plugins, including Workboard, remains available with the lab off.
+bundled plugins remains available with the lab off.
 Backend plugin APIs, ordinary plugin loading, sandboxed dashboard widgets, and
 MCP Apps are unaffected. All plugin APIs are experimental; see
 [Feature plugins](/plugins/feature-plugins) for authoring and the trust model.
@@ -339,8 +296,8 @@ dashboard pairing and backend plugin operations remain available.
 
 ## Import assistant memory
 
-Open **Settings** → **Import Memory** to bring local Codex, Claude Code, or Hermes memory
-into an OpenAgent agent. The Gateway discovers supported local memory on its own
+Open **Settings** → **Import Memory** to bring local Codex memory into an
+OpenAgent agent through the bundled `codex` plugin. The Gateway discovers supported local memory on its own
 host, so a remote Control UI imports from the Gateway computer rather than the
 browser computer.
 
@@ -355,10 +312,9 @@ If the agent list fails to load, the page shows the Gateway error. Select
 4. If files already exist, enable **Replace existing imports**, refresh the
    preview, and confirm the replacement.
 
-Codex imports only its consolidated `MEMORY.md` and `memory_summary.md`. Claude
-Code imports Markdown from project auto-memory directories and a configured
-`autoMemoryDirectory`; it does not import sessions, settings, instructions, or
-credentials through this page. Files are copied below `memory/imports/` in the
+Codex imports only its consolidated `MEMORY.md` and `memory_summary.md`; it
+does not import sessions, settings, instructions, or credentials through this
+page. Files are copied below `memory/imports/` in the
 selected workspace, where the active memory plugin can index them. Sources are
 never changed.
 
@@ -521,6 +477,5 @@ Speech-to-text may use your configured provider and incur provider usage. The UI
 does not play raw audio, generate summaries on demand, or delete transcripts.
 
 Meetings reads the same shared SQLite records as `openclaw transcripts`.
-Discord voice and the Google Meet, Microsoft Teams, and Zoom meeting plugins
-populate this store. See the [Transcripts CLI](/cli/transcripts) for capture setup,
+Discord voice transcripts populate this store. See the [Transcripts CLI](/cli/transcripts) for capture setup,
 agent reads, and exports.

@@ -89,12 +89,11 @@ command handling is enabled for the surface.
 
 <ParamField path="commands.text" type="boolean" default="true">
   Enables parsing `/...` in chat messages. On surfaces without native commands
-  (WhatsApp, WebChat, Signal, iMessage, Google Chat, Microsoft Teams), text
-  commands work even when set to `false`.
+  (such as WebChat), text commands work even when set to `false`.
 </ParamField>
 
 <ParamField path="commands.native" type='boolean | "auto"' default='"auto"'>
-  Registers native commands. Auto: on for Discord/Telegram. Off for Slack.
+  Registers native commands. Auto: on for Discord/Telegram.
   Ignored for providers without native support. Override per-channel with
   `channels.<provider>.commands.native`. On Discord, `false` skips slash-command
   registration. Previously registered commands may stay visible until removed.
@@ -102,7 +101,7 @@ command handling is enabled for the surface.
 
 <ParamField path="commands.nativeSkills" type='boolean | "auto"' default='"auto"'>
   Registers skill commands natively when supported. Auto: on for
-  Discord/Telegram. Off for Slack. Override with
+  Discord/Telegram. Override with
   `channels.<provider>.commands.nativeSkills`.
 </ParamField>
 
@@ -373,10 +372,6 @@ user skill directly.
 | [`/voice`](/nodes/talk#choose-a-talk-voice-from-chat) `status\|list\|set <voiceId>` | Manage Talk voice config. Discord native name: `/talkvoice`                                                                                                                                    |
 | `/codex <action> ...`                                                               | Bind, steer, and inspect the Codex app-server harness (status, threads, resume, model, fast, permissions, compact, review, mcp, skills, and more). See [Codex harness](/plugins/codex-harness) |
 
-LINE-only: `/card ...` (rich card presets, see LINE)
-
-QQBot-only: `/bot-ping`, `/bot-version`, `/bot-help`, `/bot-upgrade`, `/bot-logs`
-
 ### Skill commands
 
 User-invocable skills are exposed as slash commands:
@@ -397,7 +392,7 @@ User-invocable skills are exposed as slash commands:
   </Accordion>
   <Accordion title="Native command arguments">
     Discord uses autocomplete for dynamic options and button menus when required
-    args are omitted. Telegram and Slack show a button menu for commands with
+    args are omitted. Telegram shows a button menu for commands with
     choices. Dynamic choices resolve against the target session model, so model-
     specific options like `/think` levels follow the session's `/model` override.
   </Accordion>
@@ -538,12 +533,14 @@ the command asks the owner to retry from a direct chat.
 plugin lifecycle and report the runtime application result without restarting it.
 New agent turns use the updated plugin runtime. See
 [Apply changes and inspect](/plugins/manage-plugins#apply-changes-and-inspect).
+`clawhub:` specs need an operator-configured registry (`OPENCLAW_CLAWHUB_URL`);
+there is no default registry.
 
-Trusted ClawHub and official-catalog installs do not need a provenance acknowledgement. Arbitrary npm,
+Trusted official-catalog installs do not need a provenance acknowledgement. Arbitrary npm,
 git, archive, `npm-pack:`, and local path sources show a provenance warning and
 require a trailing `--force` after you review the source. This flag acknowledges
 the source and permits replacement of an existing install. It does not bypass
-`security.installPolicy` or installer security checks. ClawHub Review outcomes
+`security.installPolicy` or installer security checks. Registry review outcomes
 are printed informationally. Blocked releases remain non-installable.
 Marketplace, linked, and pinned installs remain shell-only.
 
@@ -602,7 +599,6 @@ See [BTW side questions](/tools/btw) for the full behavior.
   <Accordion title="Session scoping per surface">
     - **Text commands:** run in the normal chat session (DMs share `main`, groups have their own session).
     - **Native Discord commands:** `agent:<agentId>:discord:slash:<userId>`
-    - **Native Slack commands:** `agent:<agentId>:slack:slash:<userId>` (prefix configurable via `channels.slack.slashCommand.sessionPrefix`)
     - **Native Telegram commands:** `telegram:slash:<userId>` (targets the chat session via `CommandTargetSessionKey`)
     - **`/login`** requires a private chat or Control UI session. It shows provider buttons without starting sign-in. API keys and local setup use the Control UI handoff. `/login codex` still selects OpenAI device pairing. Retry messages name the exact connection command.
     - **`/login openrouter`** sends a browser sign-in action through the Gateway's managed HTTPS address. Approve access in your browser, then return to chat for the saved result. See [OpenRouter](/providers/openrouter#getting-started) for address requirements. Use `/login cancel` to cancel a pending sign-in.
@@ -610,12 +606,6 @@ See [BTW side questions](/tools/btw) for the full behavior.
     - Chat login applies saved credentials directly to the running Gateway. If sign-in status cannot be confirmed, use `/login refresh`, then `/models`; you do not need to repeat authentication.
     - **`/stop`** targets the active chat session to abort the current run.
 
-  </Accordion>
-  <Accordion title="Slack specifics">
-    `channels.slack.slashCommand` supports a single `/openclaw`-style command.
-    With `commands.native: true`, create one Slack slash command per built-in
-    command. Register `/agentstatus` (not `/status`) because Slack reserves
-    `/status`. Text `/status` still works in Slack messages.
   </Accordion>
   <Accordion title="Fast path and inline shortcuts">
     - Command-only messages from allowlisted senders are handled immediately (bypass queue + model).

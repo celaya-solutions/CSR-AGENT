@@ -8,8 +8,8 @@ title: "LLM task"
 
 `llm-task` is a bundled **optional plugin tool** that runs a single JSON-only
 LLM call and returns structured output, optionally validated against a JSON
-Schema. It gives workflow engines like Lobster an LLM step without custom
-OpenAgent code per workflow.
+Schema. It gives workflow engines an LLM step without custom OpenAgent code per
+workflow.
 
 ## Enable
 
@@ -107,55 +107,8 @@ This fail-closed behavior prevents a JSON task from silently becoming a normal
 tool-capable agent turn.
 
 CLI runtimes must provide the equivalent isolated preparation guarantee. The
-bundled Claude and Gemini CLI runtimes do; a different CLI runtime that has not
-adopted this internal contract fails before its process starts.
-
-Gemini CLI isolated completion supports Gemini API-key and Vertex auth. Google
-OAuth and compute/Code Assist auth are rejected because managed-account policy
-can add administrator-required tools after local CLI settings are loaded.
-Gemini prompts containing native `@path` includes or a leading `/command` also
-fail before inference because Gemini CLI has no literal raw-input mode.
-
-## Example: Lobster workflow step
-
-### Important limitation
-
-The example below assumes the **standalone Lobster CLI** is running where
-`openclaw.invoke` already has the correct gateway URL/auth context.
-
-For the bundled **embedded** Lobster runner inside OpenAgent, this nested CLI
-pattern is **not currently reliable**:
-
-```lobster
-openclaw.invoke --tool llm-task --action json --args-json '{ ... }'
-```
-
-Until embedded Lobster has a supported bridge for this flow, prefer either:
-
-- direct `llm-task` tool calls outside Lobster, or
-- Lobster steps that do not rely on nested `openclaw.invoke` calls.
-
-Standalone Lobster CLI example:
-
-```lobster
-openclaw.invoke --tool llm-task --action json --args-json '{
-  "prompt": "Given the input email, return intent and draft.",
-  "thinking": "low",
-  "input": {
-    "subject": "Hello",
-    "body": "Can you help?"
-  },
-  "schema": {
-    "type": "object",
-    "properties": {
-      "intent": { "type": "string" },
-      "draft": { "type": "string" }
-    },
-    "required": ["intent", "draft"],
-    "additionalProperties": false
-  }
-}'
-```
+bundled Claude CLI runtime does; a different CLI runtime that has not adopted
+this internal contract fails before its process starts.
 
 ## Safety notes
 

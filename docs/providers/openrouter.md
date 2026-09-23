@@ -353,8 +353,8 @@ OpenRouter's documented app-attribution headers:
 
 | Header                    | Value                                                                                                  |
 | ------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `HTTP-Referer`            | `https://openclaw.ai`                                                                                  |
-| `X-OpenRouter-Title`      | `OpenAgent`                                                                                        |
+| `HTTP-Referer`            | `https://celayasolutions.com`                                                                          |
+| `X-OpenRouter-Title`      | `OpenAgent`                                                                                            |
 | `X-OpenRouter-Categories` | `cli-agent,cloud-agent,programming-app,creative-writing,writing-assistant,general-chat,personal-agent` |
 
 <Warning>

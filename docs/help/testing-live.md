@@ -8,18 +8,18 @@ title: "Testing: live suites"
 sidebarTitle: "Live tests"
 ---
 
-For quick start, QA runners, unit/integration suites, and Docker flows, see
+For quick start, unit/integration suites, and Docker flows, see
 [Testing](/help/testing). This page covers **live** (network-touching) tests:
 model matrix, CLI backends, ACP, media providers, and credential handling.
 
 This page is an index. The live testing kit is documented on six pages, one
 per reader job. Open the page that matches your task.
 
-| Page                                                                                        | Read it when                                                                   |
-| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [Live model smoke (profile keys)](/help/testing-live/model-smoke)                           | You are smoking a provider or model through the direct and gateway layers.     |
-| [CLI backend and APNs lanes](/help/testing-live/cli-backends)                               | You are driving a local CLI backend, or checking APNs proxy reachability.      |
-| [ACP bind and Codex app-server lanes](/help/testing-live/acp-and-codex)                     | You are debugging an ACP bind or the Codex app-server harness.                 |
+| Page                                                                    | Read it when                                                               |
+| ----------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [Live model smoke (profile keys)](/help/testing-live/model-smoke)       | You are smoking a provider or model through the direct and gateway layers. |
+| [CLI backend and APNs lanes](/help/testing-live/cli-backends)           | You are driving a local CLI backend, or checking APNs proxy reachability.  |
+| [ACP bind and Codex app-server lanes](/help/testing-live/acp-and-codex) | You are debugging an ACP bind or the Codex app-server harness.             |
 
 ## Live tests vs your real gateway
 
@@ -63,7 +63,6 @@ here, so an existing link such as
 entry points at the page that now holds the content.
 
 - <a id="live%3A-local-smoke-commands" /><a id="live-local-smoke-commands" />Live: local smoke commands
-- <a id="live%3A-android-node-capability-sweep" /><a id="live-android-node-capability-sweep" />Live: Android node capability sweep
 - <a id="live%3A-model-smoke-(profile-keys)" /><a id="live-model-smoke-profile-keys" />[Live: model smoke (profile keys)](/help/testing-live/model-smoke#live-model-smoke-profile-keys)
 - <a id="layer-1%3A-direct-model-completion-(no-gateway)" /><a id="layer-1-direct-model-completion-no-gateway" />[Layer 1: Direct model completion (no gateway)](/help/testing-live/model-smoke#layer-1-direct-model-completion-no-gateway)
 - <a id="layer-2%3A-gateway-%2B-dev-agent-smoke-(what-%22%40openclaw%22-actually-does)" /><a id="layer-2-gateway-+-dev-agent-smoke-what-@openclaw-actually-does" />[Layer 2: Gateway + dev agent smoke](/help/testing-live/model-smoke#layer-2-gateway-+-dev-agent-smoke-what-@openclaw-actually-does)
@@ -75,10 +74,7 @@ entry points at the page that now holds the content.
 - <a id="long-context-hard-oracles" />Long-context hard oracles
 - <a id="recommended-live-recipes" />Recommended live recipes
 - <a id="live%3A-model-matrix-(what-we-cover)" /><a id="live-model-matrix-what-we-cover" />Live: model matrix (what we cover)
-- <a id="aggregators-%2F-alternate-gateways" /><a id="aggregators-/-alternate-gateways" />Aggregators / alternate gateways
-- <a id="deepgram-live-(audio-transcription)" /><a id="deepgram-live-audio-transcription" />Deepgram live (audio transcription)
-- <a id="byteplus-coding-plan-live" />BytePlus coding plan live
-- <a id="comfyui-workflow-media-live" />ComfyUI workflow media live
+- <a id="aggregators-%2F-alternate-gateways" /><a id="aggregators-/-alternate-gateways" />Aggregators / alternate gateways (audio transcription)
 - <a id="image-generation-live" />Image generation live
 - <a id="music-generation-live" />Music generation live
 - <a id="video-generation-live" />Video generation live
@@ -86,5 +82,5 @@ entry points at the page that now holds the content.
 
 ## Related
 
-- [Testing](/help/testing) - unit, integration, QA, and Docker suites
+- [Testing](/help/testing) - unit, integration, and Docker suites
 - [Tests](/reference/test) - index of the testing reference, one page per reader job

@@ -63,8 +63,8 @@ see raw vs. injected sizes and truncation status.
 
 ## Import from coding assistants
 
-The Control UI can import existing local memory from Codex, Claude Code, and
-Hermes.
+The Control UI can import existing local memory from Codex through the bundled
+`codex` plugin.
 Open **Settings** → **Import Memory**, choose the destination agent, review the
 detected files, and confirm the import. For the existing default agent, you can
 instead open **Settings → Ask OpenAgent** and say `import memory`; this narrower
@@ -75,16 +75,9 @@ Markdown memory:
 - Codex: the consolidated `MEMORY.md` and `memory_summary.md` files under
   `~/.codex/memories` (or `CODEX_HOME/memories`). Raw rollout and transcript
   files are not imported.
-- Claude Code: Markdown files from each project auto-memory directory under
-  `~/.claude/projects/*/memory`, plus a user-configured
-  `autoMemoryDirectory` when present. Project instructions, sessions, settings,
-  and credentials are not part of this memory-only action.
-- Hermes: `MEMORY.md` and `USER.md` from the detected Hermes home. Config,
-  credentials, and skills are not part of this memory-only action.
 
-Imported files stay separate under `memory/imports/codex/` and
-`memory/imports/claude-code/`, or `memory/imports/hermes/` in the selected agent
-workspace. They are indexed for `memory_search` and available through
+Imported files stay separate under `memory/imports/codex/` in the selected
+agent workspace. They are indexed for `memory_search` and available through
 `memory_get`; they are not merged into the agent's bootstrap `MEMORY.md`. The
 source files are left unchanged.
 
@@ -179,9 +172,8 @@ for any supported provider.
 
 <Info>
 OpenAgent uses OpenAI embeddings by default. Set
-`memory.search.provider` explicitly to use Gemini, Voyage,
-Mistral, Bedrock, DeepInfra, local GGUF, Ollama, LM Studio, GitHub Copilot, or
-a generic OpenAI-compatible endpoint.
+`memory.search.provider` explicitly to use local GGUF, Ollama, or a generic
+OpenAI-compatible endpoint.
 </Info>
 
 See [Memory search](/concepts/memory-search) for how search works, tuning
@@ -195,22 +187,6 @@ SQLite-based. Works out of the box with keyword search, vector similarity, and
 hybrid search. No extra dependencies.
 </Card>
 </CardGroup>
-
-## Knowledge wiki layer
-
-If you want durable memory to behave more like a maintained knowledge base
-than raw notes, use the bundled `memory-wiki` plugin. It compiles durable
-knowledge into a wiki vault with deterministic page structure, structured
-claims and evidence, contradiction and freshness tracking, generated
-dashboards, compiled digests, and wiki-native tools (`wiki_status`,
-`wiki_search`, `wiki_get`, `wiki_apply`, `wiki_lint`).
-
-`memory-wiki` does not replace the active memory plugin; the active memory
-plugin still owns recall, promotion, and dreaming. `memory-wiki` adds a
-provenance-rich knowledge layer beside it. You can browse the compiled wiki
-in the Control UI under Memory → Dreams → Diary → **Memory Wiki**
-(details).
-
 
 ## Automatic memory flush
 

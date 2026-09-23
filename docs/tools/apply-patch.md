@@ -70,7 +70,4 @@ runs to the end of the file.
   <Card title="Exec tool" href="/tools/exec" icon="terminal">
     Shell command execution from the agent.
   </Card>
-  <Card title="Code execution" href="/tools/code-execution" icon="square-code">
-    Sandboxed remote Python analysis with xAI.
-  </Card>
 </CardGroup>

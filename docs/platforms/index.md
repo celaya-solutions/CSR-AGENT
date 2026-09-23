@@ -1,5 +1,5 @@
 ---
-summary: "Platform support overview (Gateway + companion apps)"
+summary: "Platform support overview for the Gateway"
 read_when:
   - Looking for OS support or install paths
   - Deciding where to run the Gateway
@@ -11,36 +11,25 @@ recommended runtime**. Bun 1.4+ builds with WAL-reset-safe `node:sqlite` can run
 the CLI, Gateway, and managed node host as an explicit opt-in; see
 [Bun](/install/bun).
 
-Companion apps exist for Linux, Windows Hub, macOS (menu bar app), and mobile
-nodes (iOS/Android). On Windows, choose Windows Hub for the desktop app, native
-PowerShell install for terminal-first use, or WSL2 for the most
-Linux-compatible Gateway runtime.
+OpenAgent has no companion desktop or mobile apps. The Gateway, CLI, TUI, and
+browser Control UI run on macOS, Linux, and Windows. On Windows, run the
+Gateway natively from PowerShell or inside WSL2 for the most Linux-compatible
+runtime.
 
 ## Choose your OS
 
-- Android: Android
-- ChromeOS: ChromeOS (Crostini)
-- iOS: iOS
 - Linux: [Linux](/platforms/linux)
-- macOS: macOS
-- Omarchy: Omarchy
+- macOS: [Install](/install) (from source)
 - Windows: [Windows](/platforms/windows)
 
 ## VPS and hosting
 
-- VPS hub: [VPS hosting](/vps)
-- Azure (Linux VM): Azure
-- Daytona (cloud sandbox): Daytona
-- EasyRunner (Podman + Caddy): EasyRunner
-- exe.dev (VM + HTTPS proxy): exe.dev
-- Fly.io: Fly.io
-- GCP (Compute Engine): GCP
-- Hetzner (Docker): Hetzner
+- [Linux server](/vps)
+- [Docker VM runtime](/install/docker-vm-runtime)
 
 ## Common links
 
 - Install guide: [Getting Started](/start/getting-started)
-- Windows Hub: [Windows](/platforms/windows)
 - Gateway runbook: [Gateway](/gateway)
 - Gateway configuration: [Configuration](/gateway/configuration)
 - Service status: `openclaw gateway status`
@@ -63,4 +52,4 @@ The service target depends on OS:
 ## Related
 
 - [Install overview](/install)
-- [Windows Hub](/platforms/windows)
+- [Windows](/platforms/windows)

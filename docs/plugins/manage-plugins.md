@@ -135,9 +135,10 @@ Bundled plugins and verified first-party plugins from OpenAgent's official
 catalog do not require this capability review during setup, install, enable,
 update, or Doctor repair. For separately installed first-party plugins, OpenAgent checks
 the actual package identity against its catalog and verified npm source record
-or official-channel record from `https://clawhub.ai`. A matching plugin id or
-package name alone is insufficient: local copies, archives, git installs,
-custom ClawHub registries, and conflicting source records still require review.
+or the official-channel record from the operator-configured registry
+(`OPENCLAW_CLAWHUB_URL`). A matching plugin id or package name alone is
+insufficient: local copies, archives, git installs, and conflicting source
+records still require review.
 This exemption does not grant OAuth access, operating-system permissions, or
 runtime tool approvals, and does not create an operator acceptance record.
 
@@ -420,32 +421,24 @@ for the install instead.
 
 ## Choose a source
 
-| Source      | Use when                                                                     | Example                                                        |
-| ----------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| ClawHub     | You want OpenAgent-native discovery, scan summaries, versions, and hints | `openclaw plugins install clawhub:<package>`                   |
-| git         | You want a branch, tag, or commit from a repository                          | `openclaw plugins install git:github.com/<owner>/<repo>@<ref>` |
-| local path  | You are developing or testing a plugin on the same machine                   | `openclaw plugins install --link ./my-plugin`                  |
-| marketplace | You are installing a Claude-compatible marketplace plugin                    | `openclaw plugins install <plugin> --marketplace <source>`     |
-| npm pack    | You are proving a local package artifact through npm install semantics       | `openclaw plugins install npm-pack:<path.tgz>`                 |
-| npmjs.com   | You already ship JavaScript packages or need npm dist-tags/private registry  | `openclaw plugins install npm:@acme/openclaw-plugin`           |
+| Source      | Use when                                                                    | Example                                                        |
+| ----------- | --------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| ClawHub     | You run a ClawHub registry and set `OPENCLAW_CLAWHUB_URL` to it             | `openclaw plugins install clawhub:<package>`                   |
+| git         | You want a branch, tag, or commit from a repository                         | `openclaw plugins install git:github.com/<owner>/<repo>@<ref>` |
+| local path  | You are developing or testing a plugin on the same machine                  | `openclaw plugins install --link ./my-plugin`                  |
+| marketplace | You are installing a Claude-compatible marketplace plugin                   | `openclaw plugins install <plugin> --marketplace <source>`     |
+| npm pack    | You are proving a local package artifact through npm install semantics      | `openclaw plugins install npm-pack:<path.tgz>`                 |
+| npmjs.com   | You already ship JavaScript packages or need npm dist-tags/private registry | `openclaw plugins install npm:@acme/openclaw-plugin`           |
+
+OpenAgent has no default ClawHub registry. `clawhub:` installs, `plugins search`,
+and ClawHub updates refuse before any network request until
+`OPENCLAW_CLAWHUB_URL` points at a registry you operate.
 
 Managed local path installs must be plugin directories or archives. Put
 standalone plugin files in `plugins.load.paths` instead of installing them
 with `plugins install`.
 
 ## Publish plugins
-
-ClawHub is the primary public discovery surface for OpenAgent plugins. Publish
-there when you want users to find plugin metadata, version history, registry
-scan results, and install hints before they install.
-
-```bash
-npm i -g clawhub
-clawhub login
-clawhub package publish your-org/your-plugin --dry-run
-clawhub package publish your-org/your-plugin
-clawhub package publish your-org/your-plugin@v1.0.0
-```
 
 Native npm plugins must ship a plugin manifest (`openclaw.plugin.json`) plus
 `package.json` metadata before publishing:

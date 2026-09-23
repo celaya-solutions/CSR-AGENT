@@ -150,10 +150,9 @@ model discovery, and the full config field list, see
 
 ## Quickstart
 
-Install the official plugin, then sign in with Codex OAuth:
+The `codex` plugin is bundled. Sign in with Codex OAuth:
 
 ```bash
-openclaw plugins install @openclaw/codex
 openclaw models auth login --provider openai
 ```
 

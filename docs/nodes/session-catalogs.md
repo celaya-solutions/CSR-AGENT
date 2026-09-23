@@ -61,7 +61,7 @@ Desktop sessions on the Gateway and paired nodes by default. Set
 `plugins.entries.anthropic.config.sessionCatalog.enabled: false` to disable the
 operator catalog and paired-node catalog commands without disabling Anthropic
 models or the Claude CLI backend.
-A remote macOS app node advertises
+A remote node host advertises
 `anthropic.claude.sessions.list.v1` and `anthropic.claude.sessions.read.v1`
 when the Anthropic plugin is enabled and `~/.claude/projects/` exists. Approve
 the node pairing upgrade when those commands first appear.
@@ -127,8 +127,7 @@ runs each one-shot `claude -p` turn there. The first turn still uses
 Node-placed turns use the node's Claude defaults. In v1 they do not receive the
 Gateway loopback MCP config or Gateway skills plugin, cannot reseed from a
 Gateway transcript, and reject attachments and images. Claude Desktop rows and
-nodes that do not advertise the run command remain view-only. The macOS app
-node does not advertise this command yet, so its rows remain view-only.
+nodes that do not advertise the run command remain view-only.
 
 ## OpenCode and Pi sessions
 

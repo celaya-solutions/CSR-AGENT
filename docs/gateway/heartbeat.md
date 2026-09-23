@@ -171,8 +171,8 @@ Example: two agents, only the second agent runs heartbeats.
       ops: {
         heartbeat: {
           every: "1h",
-          target: "whatsapp",
-          to: "+15551234567",
+          target: "telegram",
+          to: "123456789",
           timeoutSeconds: 45,
           prompt: "Follow the heartbeat monitor scratch context when provided. Recurring tasks are automations; create or change their schedules with the automations tool, not heartbeat scratch. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply NO_REPLY.",
         },
@@ -271,7 +271,7 @@ Use `accountId` to target a specific account on multi-account channels like Tele
 <ParamField path="target" type="string">
 - `owner` (default): deliver to the first resolvable operator DM from `commands.ownerAllowFrom`, then channel `allowFrom`. This route never resolves to a group or channel.
 - `last`: explicitly follow the last used external conversation, including groups and channels.
-- explicit channel: any configured channel or plugin id, for example `discord`, `matrix`, `telegram`, or `whatsapp`.
+- explicit channel: any configured channel or plugin id, for example `discord` or `telegram`.
 - `none`: run the heartbeat for internal state only. **Do not deliver** it externally.
 
 </ParamField>
@@ -280,7 +280,7 @@ Use `accountId` to target a specific account on multi-account channels like Tele
 
 </ParamField>
 <ParamField path="to" type="string">
-  Recipient for an explicit channel target (for example, E.164 for WhatsApp or a Telegram chat id). `owner` and an unset target ignore `to`. For Telegram topics/threads, use `<chatId>:topic:<messageThreadId>`.
+  Recipient for an explicit channel target (for example, a Telegram chat id or Discord channel id). `owner` and an unset target ignore `to`. For Telegram topics/threads, use `<chatId>:topic:<messageThreadId>`.
 
 </ParamField>
 <ParamField path="accountId" type="string">
@@ -314,7 +314,7 @@ Heartbeat configuration is strict: only the fields listed above are accepted. Ac
 
 <AccordionGroup>
   <Accordion title="Session and target routing">
-    - Heartbeats run in the agent's main session by default (`agent:<id>:main`), or `global` when `session.scope = "global"`. Set `session` to override to a specific channel session (Discord/WhatsApp/etc.).
+    - Heartbeats run in the agent's main session by default (`agent:<id>:main`), or `global` when `session.scope = "global"`. Set `session` to override to a specific channel session (Discord/Telegram/etc.).
     - `session` only affects the run context. Delivery is controlled by `target` and `to`.
     - The default `owner` target chooses an explicitly configured owner identity. It reuses the exact account/thread only when the session's last route is a direct chat to that owner.
     - A wake that carries a channel and recipient uses that named origin before owner discovery. This event destination can be a group because it is explicit, not inferred.
@@ -360,7 +360,7 @@ By default, quiet heartbeat acknowledgments are suppressed while alert content i
         showOk: true, // Show OK acknowledgments on Telegram
       },
     },
-    whatsapp: {
+    discord: {
       accounts: {
         work: {
           heartbeatVisibility: {
@@ -395,9 +395,9 @@ If **all three** are false, OpenAgent skips the heartbeat run entirely (no model
         useIndicator: true,
       },
     },
-    slack: {
+    discord: {
       heartbeatVisibility: {
-        showOk: true, // all Slack accounts
+        showOk: true, // all Discord accounts
       },
       accounts: {
         ops: {

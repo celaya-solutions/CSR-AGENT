@@ -72,7 +72,6 @@ still resolves. Each entry points at the page that now holds the content.
 - <a id="7-sandbox-image-repair" />[7. Sandbox image repair](/gateway/doctor/state-and-sessions#7-sandbox-image-repair)
 - <a id="7b-plugin-install-cleanup" />[7b. Plugin install cleanup](/gateway/doctor/state-and-sessions#7b-plugin-install-cleanup)
 - <a id="8-gateway-service-migrations-and-cleanup-hints" />[8. Gateway service migrations and cleanup hints](/gateway/doctor/gateway-and-services#8-gateway-service-migrations-and-cleanup-hints)
-- <a id="8b-startup-matrix-migration" />[8b. Startup Matrix migration](/gateway/doctor/gateway-and-services#8b-startup-matrix-migration)
 - <a id="8c-device-pairing-and-auth-drift" />[8c. Device pairing and auth drift](/gateway/doctor/gateway-and-services#8c-device-pairing-and-auth-drift)
 - <a id="9-security-warnings" />[9. Security warnings](/gateway/doctor/gateway-and-services#9-security-warnings)
 - <a id="10-systemd-linger-linux" />[10. systemd linger (Linux)](/gateway/doctor/gateway-and-services#10-systemd-linger-linux)

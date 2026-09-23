@@ -3,7 +3,7 @@ summary: "OpenAgent Gateway CLI (`openclaw gateway`) — run, query, and discove
 read_when:
   - Running the Gateway from the CLI (dev or servers)
   - Debugging Gateway auth, bind modes, and connectivity
-  - Discovering gateways via Bonjour (local + wide-area DNS-SD)
+  - Discovering gateways via wide-area DNS-SD
   - Integrating an external Gateway process supervisor
 title: "Gateway"
 sidebarTitle: "Gateway"
@@ -33,7 +33,7 @@ job. Open the page that matches your task.
 | [Restart and supervision](/cli/gateway/restart-and-supervision) | You are restarting the Gateway, or an external supervisor owns its lifecycle.      |
 | [Query a running Gateway](/cli/gateway/query)                   | You want health, status, stability, diagnostics, or a direct RPC call.             |
 | [Manage the Gateway service](/cli/gateway/service)              | You are installing, starting, stopping, or repairing the native service.           |
-| [Discover gateways (Bonjour)](/cli/gateway/discovery)           | You are looking for gateways over mDNS or wide-area DNS-SD.                        |
+| [Discover gateways](/cli/gateway/discovery)                     | You are looking for gateways over wide-area DNS-SD.                                |
 
 `openclaw gateway install` installs and starts the service. `--force` reinstalls an existing install and may restart a running Gateway. Finish offline configuration and runtime repairs before installation.
 

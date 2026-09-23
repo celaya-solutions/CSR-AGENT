@@ -19,8 +19,6 @@ live in `src/agents/test-helpers/live-model-dynamic-candidates.ts` and
 change over time; treat the arrays there as the source of truth, not this
 page.
 
-MiniMax M3 uses `minimax/MiniMax-M3` as its default provider/model reference.
-
 ### Layer 1: Direct model completion (no gateway)
 
 - Test: `src/agents/models.profiles.live.test.ts`

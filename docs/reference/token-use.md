@@ -130,9 +130,8 @@ Other surfaces:
 - **TUI/Web TUI:** `/status` and `/usage` are supported.
 - **CLI:** `openclaw status --usage` and `openclaw channels list` show
   normalized provider quota windows (`X% left`, not per-response costs).
-  Usage-window providers, checked against 2026.9.3: Claude (Anthropic),
-  ClawRouter, Copilot (GitHub), DeepSeek, MiniMax, OpenAI, OpenRouter, Venice,
-  xAI, Xiaomi, Xiaomi Token Plan, and z.ai. Provider plugins supply these
+  Usage-window providers among the bundled plugins: Claude (Anthropic),
+  OpenAI, and OpenRouter. Provider plugins supply these
   snapshots, so an installed plugin can add one.
 
 Usage surfaces normalize common provider-native field aliases before

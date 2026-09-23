@@ -271,7 +271,7 @@ turn runs inside a Git repository, memory written by that work carries a
 trailing project annotation:
 
 ```markdown
-- Use the release helper for package validation. <!-- project: github.com/openclaw/openclaw -->
+- Use the release helper for package validation. <!-- project: example/repo -->
 ```
 
 The identity comes from the normalized `origin` remote, so ordinary clones and
@@ -428,8 +428,8 @@ knobs that exist:
 | Dreaming enable, cadence, model | `plugins.entries.memory-core.config.dreaming`                   | [Dreaming](/concepts/dreaming)                                |
 | Session admission exclusions    | `plugins.entries.memory-core.config.memoryPolicy`               | [Provenance & deletion](/concepts/memory-provenance)          |
 | Search providers, hybrid tuning | `memory.search`                                                 | [Memory config](/reference/memory-config)                     |
-| Escalation lane mode, scope     | `plugins.entries.active-memory`                                 | Active memory                      |
-| Cross-conversation recall       | `agents.entries.<id>.memory.search.rememberAcrossConversations` | Active memory                      |
+| Escalation lane mode, scope     | `plugins.entries.active-memory`                                 | Active memory                                                 |
+| Cross-conversation recall       | `agents.entries.<id>.memory.search.rememberAcrossConversations` | Active memory                                                 |
 | Flush behavior                  | `agents.defaults.compaction.memoryFlush`                        | [Memory overview](/concepts/memory)                           |
 | Memory plugin selection         | `plugins.slots.memory`                                          | [Builtin](/concepts/memory-builtin), [Plugins](/tools/plugin) |
 

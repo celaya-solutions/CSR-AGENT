@@ -1,24 +1,21 @@
 ---
-summary: "Run OpenAgent on a Linux server or cloud VPS — provider picker, architecture, and tuning"
+summary: "Run OpenAgent on a Linux server or cloud VPS — architecture and tuning"
 read_when:
   - You want to run the Gateway on a Linux server or cloud VPS
-  - You need a quick map of hosting guides
   - You want generic Linux server tuning for OpenAgent
 title: "Linux server"
 sidebarTitle: "Linux Server"
 ---
 
-Run the OpenAgent Gateway on any Linux server or cloud VPS. This page helps you
-pick a provider, explains how cloud deployments work, and covers generic Linux
-tuning that applies everywhere.
+Run the OpenAgent Gateway on any Linux server or cloud VPS. This page explains
+how cloud deployments work and covers generic Linux tuning that applies
+everywhere.
 
-## Pick a provider
+## Install on the server
 
-
-**AWS (EC2 / Lightsail / free tier)** also works well.
-A community video walkthrough is available at
-[x.com/techfrenAJ/status/2014934471095812547](https://x.com/techfrenAJ/status/2014934471095812547)
-(community resource -- may become unavailable).
+Any provider that gives you a Debian or Ubuntu VM works. Install from source on
+the server as described in [Install](/install), or build the Docker image from
+the checkout and follow [Docker VM runtime](/install/docker-vm-runtime).
 
 ## How cloud setups work
 
@@ -60,10 +57,9 @@ Security model details: [Security](/gateway/security).
 
 ## Using nodes with a VPS
 
-You can keep the Gateway in the cloud and pair **nodes** on your local devices
-(Mac/iOS/Android/headless). Nodes provide local screen/camera and `system.run`
-capabilities while the Gateway stays in the cloud. A paired Mac can also present
-hosted widgets in its native panel.
+You can keep the Gateway in the cloud and pair headless **nodes** on your local
+machines. Nodes provide local `system.run` capabilities while the Gateway stays
+in the cloud.
 
 Docs: [Nodes](/nodes), [Nodes CLI](/cli/nodes).
 
@@ -82,7 +78,6 @@ source ~/.bashrc
 
 - `NODE_COMPILE_CACHE` improves repeated command startup times; the first run warms the cache.
 - `OPENCLAW_NO_RESPAWN=1` keeps routine Gateway restarts in-process, which avoids extra process handoffs and keeps PID tracking simple on small hosts.
-- For Raspberry Pi specifics, see Raspberry Pi.
 
 ### systemd tuning checklist (optional)
 

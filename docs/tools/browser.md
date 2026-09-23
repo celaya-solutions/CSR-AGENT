@@ -3,7 +3,6 @@ summary: "Index of the OpenAgent browser documentation, one page per reader job"
 read_when:
   - Adding agent-controlled browser automation
   - Debugging why openclaw is interfering with your own Chrome
-  - Implementing browser settings + lifecycle in the macOS app
   - You are looking for the Browser page that matches your task
 title: "Browser (OpenAgent-managed)"
 ---

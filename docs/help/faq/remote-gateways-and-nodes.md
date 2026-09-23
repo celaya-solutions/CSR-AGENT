@@ -19,12 +19,12 @@ read_when:
   </Accordion>
 
   <Accordion title="How can my agent access my computer if the Gateway is hosted remotely?">
-    Pair your computer as a **node**. The Gateway runs elsewhere but can call `node.*` tools (screen, camera, system) on your local machine over the Gateway WebSocket.
+    Pair your computer as a **node**. The Gateway runs elsewhere but can call `node.*` tools (such as `system.run`) on your local machine over the Gateway WebSocket.
 
     1. Run the Gateway on the always-on host (VPS/home server).
     2. Put the Gateway host and your computer on the same tailnet.
     3. Ensure the Gateway WS is reachable (tailnet bind or SSH tunnel).
-    4. Open the macOS app locally and connect in **Remote over SSH** mode (or direct tailnet) so it registers as a node.
+    4. Run a node host locally (`openclaw node run --host <gateway-host>`) so it registers as a node.
     5. Approve the node:
        ```bash
        openclaw devices list
@@ -57,7 +57,7 @@ read_when:
   <Accordion title="Can two OpenAgent instances talk to each other (local + VPS)?">
     Yes, though there is no built-in bot-to-bot bridge.
 
-    **Simplest**: use a normal chat channel both bots can access (Slack/Telegram/WhatsApp). Have Bot A message Bot B, then let Bot B reply as usual.
+    **Simplest**: use a normal chat channel both bots can access (Discord/Telegram). Have Bot A message Bot B, then let Bot B reply as usual.
 
     **CLI bridge (generic)**: run a script that calls the other Gateway with `openclaw agent --message ... --deliver`, targeting a chat where the other bot listens. If one bot is on a remote VPS, point your CLI at that remote Gateway via SSH/Tailscale (see [Remote access](/gateway/remote)):
 
@@ -141,18 +141,18 @@ read_when:
 
   </Accordion>
 
-  <Accordion title="How do I connect a Mac node to a remote Gateway (Tailscale Serve)?">
+  <Accordion title="How do I connect a node to a remote Gateway (Tailscale Serve)?">
     Serve exposes the **Gateway Control UI + WS**; nodes connect over the same Gateway WS endpoint.
 
-    1. Make sure the VPS and Mac are on the same tailnet.
-    2. Use the macOS app in Remote mode (SSH target can be the tailnet hostname) - it tunnels the Gateway port and connects as a node.
+    1. Make sure the VPS and your machine are on the same tailnet.
+    2. Run `openclaw node run --host <tailnet-hostname> --port 443 --tls` on your machine so it connects as a node.
     3. Approve the node:
        ```bash
        openclaw devices list
        openclaw devices approve <requestId>
        ```
 
-    Docs: [Gateway protocol](/gateway/protocol), [Discovery](/gateway/discovery), macOS remote mode.
+    Docs: [Gateway protocol](/gateway/protocol), [Discovery](/gateway/discovery), [Run a node host](/nodes/node-host).
 
   </Accordion>
 

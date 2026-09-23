@@ -18,7 +18,7 @@ Live speech uses the Talk session contract instead of the one-shot media tool
 path. Talk has three modes: provider-native `realtime`, local or streaming
 `stt-tts`, and `transcription` for observe-only speech capture. Those modes
 share provider catalogs, event envelopes, and cancellation semantics with
-telephony, meetings, browser realtime, and native push-to-talk clients.
+browser realtime clients.
 
 ## Capabilities
 
@@ -45,12 +45,11 @@ telephony, meetings, browser realtime, and native push-to-talk clients.
     providers and dedicated media-understanding plugins.
   </Card>
   <Card title="Speech-to-text" href="/nodes/audio" icon="ear-listen">
-    Transcribe inbound voice messages through batch STT or Voice Call
-    streaming STT providers.
+    Transcribe inbound voice messages through batch STT providers.
   </Card>
   <Card title="Media playback" href="/nodes/media-playback" icon="play">
-    Play assistant audio and video inline across the Control UI and native
-    apps, with managed access and portable playback renditions.
+    Play assistant audio and video inline in the Control UI, with managed
+    access and portable playback renditions.
   </Card>
 </CardGroup>
 
@@ -58,50 +57,20 @@ telephony, meetings, browser realtime, and native push-to-talk clients.
 
 <Note>
 This table covers the dedicated media-generation, TTS, and STT plugins. Many
-chat-model providers (Anthropic, Google, OpenAI, and others) also understand
+chat-model providers (Anthropic, OpenAI, and others) also understand
 inbound media through their reply model; see the full provider list in
 [Media understanding](/nodes/media-understanding#provider-support-matrix).
 </Note>
 
-| Provider          | Image | Video | Music | TTS | STT | Realtime voice | Media understanding |
-| ----------------- | :---: | :---: | :---: | :-: | :-: | :------------: | :-----------------: |
-| Alibaba           |       |   ✓   |       |     |     |                |                     |
-| Azure Speech      |       |       |       |  ✓  |     |                |                     |
-| BytePlus          |       |   ✓   |       |     |     |                |                     |
-| ComfyUI           |   ✓   |   ✓   |   ✓   |     |     |                |                     |
-| Deepgram          |       |       |       |     |  ✓  |                |                     |
-| DeepInfra         |   ✓   |   ✓   |       |  ✓  |  ✓  |                |          ✓          |
-| ElevenLabs        |       |       |       |  ✓  |  ✓  |                |                     |
-| fal               |   ✓   |   ✓   |   ✓   |     |     |                |                     |
-| Google            |   ✓   |   ✓   |   ✓   |  ✓  |  ✓  |       ✓        |          ✓          |
-| Gradium           |       |       |       |  ✓  |     |                |                     |
-| Inworld           |       |       |       |  ✓  |     |                |                     |
-| LiteLLM           |   ✓   |       |       |     |     |                |                     |
-| Local CLI         |       |       |       |  ✓  |     |                |                     |
-| Microsoft         |       |       |       |  ✓  |     |                |                     |
-| Microsoft Foundry |   ✓   |       |       |     |     |                |                     |
-| MiniMax           |   ✓   |   ✓   |   ✓   |  ✓  |     |                |                     |
-| Mistral           |       |       |       |     |  ✓  |                |                     |
-| OpenAI            |   ✓   |   ✓   |       |  ✓  |  ✓  |       ✓        |          ✓          |
-| OpenRouter        |   ✓   |   ✓   |   ✓   |  ✓  |  ✓  |                |          ✓          |
-| PixVerse          |       |   ✓   |       |     |     |                |                     |
-| Qwen              |       |   ✓   |       |     |     |                |          ✓          |
-| Runway            |       |   ✓   |       |     |     |                |                     |
-| SenseAudio        |       |       |       |     |  ✓  |                |                     |
-| Together          |       |   ✓   |       |     |     |                |                     |
-| Volcengine        |       |       |       |  ✓  |     |                |                     |
-| Vydra             |   ✓   |   ✓   |       |  ✓  |     |                |                     |
-| xAI               |   ✓   |   ✓   |       |  ✓  |  ✓  |                |          ✓          |
-| Xiaomi MiMo       |       |       |       |  ✓  |     |                |                     |
+| Provider   | Image | Video | Music | TTS | STT | Realtime voice | Media understanding |
+| ---------- | :---: | :---: | :---: | :-: | :-: | :------------: | :-----------------: |
+| OpenAI     |   ✓   |   ✓   |       |  ✓  |  ✓  |       ✓        |          ✓          |
+| OpenRouter |   ✓   |   ✓   |   ✓   |  ✓  |  ✓  |                |          ✓          |
 
 <Note>
 **Realtime voice** here means provider-native bidirectional realtime (Talk
-`realtime` mode, e.g. Gemini Live or the OpenAI Realtime API) — only Google
-and OpenAI register it today. Deepgram, ElevenLabs, Mistral, OpenAI, and xAI
-separately register Voice Call streaming STT (one-way audio-to-text); see
-[Speech-to-text and Voice Call](#speech-to-text-and-voice-call) below.
-xAI Realtime voice is an upstream capability but is not registered in
-OpenAgent until the shared realtime-voice contract can represent it.
+`realtime` mode, such as the OpenAI Realtime API). Only OpenAI registers it
+among the bundled providers.
 </Note>
 
 ## Async vs synchronous
@@ -124,48 +93,29 @@ fails, and some generated media is still missing from the completion reply,
 OpenAgent sends an idempotent direct fallback with only the missing media. Media
 already delivered by the completion reply is not posted again.
 
-## Speech-to-text and Voice Call
+## Speech-to-text
 
-Deepgram, DeepInfra, ElevenLabs, Google, Groq, Mistral, OpenAI, OpenRouter,
-SenseAudio, and xAI can all transcribe inbound audio through the batch
+OpenAI and OpenRouter can transcribe inbound audio through the batch
 `tools.media.audio` path when configured. Channel plugins that preflight a
 voice note for mention gating or command parsing mark the transcribed
 attachment on the inbound context, so the shared media-understanding pass
 reuses that transcript instead of making a second STT call for the same
 audio.
 
-Deepgram, ElevenLabs, Mistral, OpenAI, and xAI also register Voice Call
-streaming STT providers, so live phone audio can be forwarded to the selected
-vendor without waiting for a completed recording.
-
 For live user conversations, prefer [Talk mode](/nodes/talk). Batch audio
-attachments stay on the media path; browser realtime, native push-to-talk,
-telephony, and meeting audio should use Talk events and the session-scoped
-catalogs returned by the Gateway.
+attachments stay on the media path; browser realtime should use Talk events
+and the session-scoped catalogs returned by the Gateway.
 
 ## Provider mappings (how vendors split across surfaces)
 
 <AccordionGroup>
-  <Accordion title="Google">
-    Image, video, music, batch TTS, batch STT, backend realtime voice, and
-    media-understanding surfaces.
-  </Accordion>
   <Accordion title="OpenAI">
-    Image, video, batch TTS, batch STT, Voice Call streaming STT, backend
-    realtime voice, and memory-embedding surfaces.
+    Image, video, batch TTS, batch STT, backend realtime voice, and
+    memory-embedding surfaces.
   </Accordion>
-  <Accordion title="DeepInfra">
-    Chat/model routing, image generation/editing, text-to-video, batch TTS,
-    batch STT, image media understanding, and memory-embedding surfaces.
-    DeepInfra also exposes reranking, classification, object-detection, and
-    other native model types; OpenAgent has no provider contract for those
-    categories yet, so this plugin does not register them.
-  </Accordion>
-  <Accordion title="xAI">
-    Image, video, search, code-execution, batch TTS, batch STT, and Voice
-    Call streaming STT. xAI Realtime voice is an upstream capability but is
-    not registered in OpenAgent until the shared realtime-voice contract can
-    represent it.
+  <Accordion title="OpenRouter">
+    Image, video, music, batch TTS, batch STT, and media-understanding
+    surfaces.
   </Accordion>
 </AccordionGroup>
 

@@ -6,10 +6,12 @@ read_when:
 title: "Provider directory"
 ---
 
-OpenAgent can use many LLM providers. Pick a provider, authenticate, then set the
-default model as `provider/model`.
+OpenAgent ships with a small set of model provider plugins. Pick a provider,
+authenticate, then set the default model as `provider/model`. Any other
+OpenAI- or Anthropic-compatible endpoint can be added as a
+[custom provider](/gateway/config-tools/custom-providers).
 
-Looking for chat channel docs (WhatsApp/Telegram/Discord/Slack/Mattermost (plugin)/etc.)? See [Channels](/channels).
+Looking for chat channel docs (Discord, Telegram)? See [Channels](/channels).
 
 ## Quick start
 
@@ -25,7 +27,6 @@ Looking for chat channel docs (WhatsApp/Telegram/Discord/Slack/Mattermost (plugi
 ## Provider docs
 
 - [Anthropic (API + Claude CLI)](/providers/anthropic)
-- [BytePlus (International)](/concepts/model-providers#byteplus-international)
 - [llama.cpp (managed or existing server)](/plugins/llama-cpp)
 - [Ollama (cloud + local models)](/providers/ollama)
 - [Ollama Cloud](/providers/ollama-cloud)
@@ -34,7 +35,6 @@ Looking for chat channel docs (WhatsApp/Telegram/Discord/Slack/Mattermost (plugi
 
 ## Shared overview pages
 
-- [Additional provider variants](/providers/models#additional-provider-variants) - Anthropic Vertex, Copilot Proxy, and the optional Gemini CLI runtime
 - [Image Generation](/tools/image-generation) - Shared `image_generate` tool, provider selection, and failover
 - [Music Generation](/tools/music-generation) - Shared `music_generate` tool, provider selection, and failover
 - [Video Generation](/tools/video-generation) - Shared `video_generate` tool, provider selection, and failover
@@ -43,8 +43,4 @@ Looking for chat channel docs (WhatsApp/Telegram/Discord/Slack/Mattermost (plugi
 
 - [OpenAI](/providers/openai)
 
-## Community tools
-
-
-For the full provider catalog (xAI, Groq, Mistral, etc.) and advanced configuration,
-see [Model providers](/concepts/model-providers).
+For advanced configuration, see [Model providers](/concepts/model-providers).

@@ -127,23 +127,23 @@ For the default port, replace `<port>` with `18789`. The Gateway listener should
 
 ## 4. Use the URL from clients
 
-### macOS app
+Point remote clients at `wss://<host>.<tailnet>.ts.net`. For the CLI on another
+machine, set the remote Gateway URL and direct transport:
 
-In the OpenAgent macOS app:
+```json5
+{
+  gateway: {
+    remote: {
+      url: "wss://<host>.<tailnet>.ts.net",
+      transport: "direct",
+    },
+  },
+}
+```
 
-1. Open **Settings > Connection**.
-2. Set **OpenAgent runs** to **Remote (another host)**.
-3. Set **Transport** to **Direct (ws/wss)**.
-4. Enter `wss://<host>.<tailnet>.ts.net` in **Gateway URL**.
-5. Select **Test remote**.
-
-The app now connects directly through Tailscale Serve, so the per-client SSH tunnel is no longer needed.
-
-### iOS and Android companion apps
-
-The iOS and Android apps connect directly to the Gateway WebSocket and do not manage an SSH-tunnel transport. Use the same `wss://<host>.<tailnet>.ts.net` endpoint when pairing or generating a setup code. This gives mobile clients a secure route they can use from anywhere on the tailnet.
-
-See iOS app setup and Android connection setup for their pairing steps.
+Clients then connect directly through Tailscale Serve, so a per-client SSH
+tunnel is no longer needed. Use the same endpoint when pairing a node or
+generating a setup code.
 
 ## Troubleshooting
 

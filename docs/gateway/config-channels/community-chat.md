@@ -1,13 +1,12 @@
 ---
-summary: "Per-channel config keys for Discord, Matrix, and IRC"
+summary: "Per-channel config keys for Discord"
 read_when:
-  - Configuring Discord, Matrix, or IRC
+  - Configuring Discord
   - Setting Discord guild, voice, presence, or exec approval keys
-  - Choosing Matrix auth, proxy, or auto-join behavior
-title: "Configuration — community chat channels"
+title: "Configuration — Discord"
 ---
 
-`channels.*` keys for the community chat channels: Discord, Matrix, and IRC.
+`channels.discord` keys.
 
 ## Discord
 
@@ -154,79 +153,3 @@ title: "Configuration — community chat channels"
   - `cleanupAfterResolve`: when `true`, deletes approval DMs after approval, denial, or timeout.
 
 **Reaction notification modes:** `off` (none), `own` (bot's messages, default), `all` (all messages), `allowlist` (from `guilds.<id>.users` on all messages).
-
-## Matrix
-
-Matrix is plugin-backed and configured under `channels.matrix`.
-
-```json5
-{
-  channels: {
-    matrix: {
-      enabled: true,
-      homeserver: "https://matrix.example.org",
-      accessToken: "syt_bot_xxx",
-      proxy: "http://127.0.0.1:7890",
-      encryption: true,
-      initialSyncLimit: 20,
-      defaultAccount: "ops",
-      accounts: {
-        ops: {
-          name: "Ops",
-          userId: "@ops:example.org",
-          accessToken: "syt_ops_xxx",
-        },
-        alerts: {
-          userId: "@alerts:example.org",
-          password: "secret",
-          proxy: "http://127.0.0.1:7891",
-        },
-      },
-    },
-  },
-}
-```
-
-- Token auth uses `accessToken`; password auth uses `userId` + `password`.
-- `channels.matrix.proxy` routes Matrix HTTP traffic through an explicit HTTP(S) proxy. Named accounts can override it with `channels.matrix.accounts.<id>.proxy`.
-- `channels.matrix.network.dangerouslyAllowPrivateNetwork` allows private/internal homeservers. `proxy` and this network opt-in are independent controls.
-- `channels.matrix.defaultAccount` selects the preferred account in multi-account setups.
-- `channels.matrix.autoJoin` defaults to `"off"`, so invited rooms and fresh DM-style invites are ignored until you set `autoJoin: "allowlist"` with `autoJoinAllowlist` or `autoJoin: "always"`.
-- `channels.matrix.joinIntro` defaults to `true`. When the bot actually joins an allowed group room, it posts one introduction using the room name, topic, and up to 100 readable recent messages. A failed history read leaves a metadata-only introduction. Set this option to `false` to disable introductions, or use `channels.matrix.accounts.<accountId>.joinIntro` for an account-specific override. Introductions happen once per room; unaccepted invites, startup room snapshots, membership updates that leave the bot joined, and direct rooms do not trigger them. See [group join introductions](/channels#group-join-introductions).
-- `channels.matrix.execApprovals`: Matrix-native exec approval delivery and approver authorization.
-  - `enabled`: `true`, `false`, or `"auto"` (default). In auto mode, exec approvals activate when approvers can be resolved from `approvers` or `commands.ownerAllowFrom`.
-  - `approvers`: Matrix user IDs (e.g. `@owner:example.org`) allowed to approve exec requests.
-  - `agentFilter`: optional agent ID allowlist. Omit to forward approvals for all agents.
-  - `sessionFilter`: optional session key patterns (substring or regex).
-  - `target`: where to send approval prompts. `"dm"` (default), `"channel"` (originating room), or `"both"`.
-  - Per-account overrides: `channels.matrix.accounts.<id>.execApprovals`.
-- `channels.matrix.dm.sessionScope` controls how Matrix DMs group into sessions: `per-user` (default) shares by routed peer, while `per-room` isolates each DM room.
-- Matrix status probes and live directory lookups use the same proxy policy as runtime traffic.
-- Full Matrix configuration, targeting rules, and setup examples are documented in Matrix.
-
-## IRC
-
-IRC is plugin-backed and configured under `channels.irc`.
-
-```json5
-{
-  channels: {
-    irc: {
-      enabled: true,
-      dmPolicy: "pairing",
-      configWrites: true,
-      nickserv: {
-        enabled: true,
-        service: "NickServ",
-        password: "${IRC_NICKSERV_PASSWORD}",
-        register: false,
-        registerEmail: "bot@example.com",
-      },
-    },
-  },
-}
-```
-
-- Core key paths covered here: `channels.irc`, `channels.irc.dmPolicy`, `channels.irc.configWrites`, `channels.irc.nickserv.*`.
-- Optional `channels.irc.defaultAccount` overrides default account selection when it matches a configured account id.
-- Full IRC channel configuration (host/port/TLS/channels/allowlists/mention gating) is documented in IRC.

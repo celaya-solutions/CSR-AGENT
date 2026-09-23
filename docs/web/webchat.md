@@ -1,16 +1,16 @@
 ---
-summary: "Native and Control UI WebChat usage over the Gateway WebSocket"
+summary: "Control UI WebChat usage over the Gateway WebSocket"
 read_when:
   - Debugging or configuring WebChat access
   - Understanding human mention delivery and retry behavior
 title: "WebChat"
 ---
 
-Status: the macOS/iOS SwiftUI chat UI talks directly to the Gateway WebSocket. No embedded browser, no local static server.
+Status: the Control UI chat tab talks directly to the Gateway WebSocket.
 
 ## What it is
 
-- A native chat UI for the gateway.
+- A chat UI for the gateway, served by the Control UI.
 - Uses the same sessions and routing rules as other channels.
 - Deterministic routing: replies always go back to WebChat.
 - History is always fetched from the gateway (no local file watching). If the gateway is unreachable, WebChat is read-only.
@@ -18,7 +18,7 @@ Status: the macOS/iOS SwiftUI chat UI talks directly to the Gateway WebSocket. N
 ## Quick start
 
 1. Start the gateway.
-2. Open the WebChat UI (macOS/iOS app) or the Control UI chat tab.
+2. Open the Control UI chat tab (`openclaw dashboard`).
 3. Ensure a valid gateway auth path is configured (shared-secret by default, even on loopback). See [Auth basics (local vs remote)](/web/dashboard#auth-basics-local-vs-remote).
 
 ## How it works

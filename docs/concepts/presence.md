@@ -10,14 +10,10 @@ title: "Presence"
 OpenAgent "presence" is a lightweight, best-effort view of:
 
 - the **Gateway** itself, and
-- **user-visible clients connected to the Gateway** (mac app, WebChat, nodes, etc.)
+- **user-visible clients connected to the Gateway** (Control UI, WebChat, nodes, etc.)
 
 Presence renders live connection metadata in the Control UI **Devices** page
-(under **Settings → Devices**) and the macOS app's **Instances** tab.
-
-This page covers the Gateway client roster. To detect the Mac you most recently
-used and route node alerts there, see
-Active computer presence.
+(under **Settings → Devices**).
 
 ## Presence fields (what shows up)
 
@@ -154,11 +150,6 @@ into the entry.
 The **Devices** page joins `system-presence` with durable pairing and node
 records. It pins the Gateway self beacon first and uses matching device or
 instance ids for live platform, version, model, and input-recency metadata.
-
-### macOS Instances tab
-
-The macOS app renders the output of `system-presence` and applies a small status
-indicator (Active/Idle/Stale) based on the age of the last update.
 
 ## Debugging tips
 

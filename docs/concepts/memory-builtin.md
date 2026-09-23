@@ -47,9 +47,6 @@ The builtin engine can index directories outside the workspace with
 conversational recall, but it does not provide a learned or model-based relevance
 reranking stage. Its MMR pass is deterministic and local.
 
-Consider Honcho if you want cross-session memory
-with automatic user modeling.
-
 ## Getting started
 
 By default, the builtin engine uses OpenAI embeddings. If `OPENAI_API_KEY` or
@@ -94,19 +91,12 @@ openclaw plugins install @openclaw/llama-cpp-provider
 
 ## Supported embedding providers
 
-| Provider          | ID                  | Notes                                  |
-| ----------------- | ------------------- | -------------------------------------- |
-| Bedrock           | `bedrock`           | Uses the AWS credential chain          |
-| DeepInfra         | `deepinfra`         | Default: `BAAI/bge-m3`                 |
-| Gemini            | `gemini`            | Supports multimodal (image + audio)    |
-| GitHub Copilot    | `github-copilot`    | Uses your Copilot subscription         |
-| LM Studio         | `lmstudio`          | Local/self-hosted                      |
+| Provider          | ID                  | Notes                              |
+| ----------------- | ------------------- | ---------------------------------- |
 | Local             | `local`             | OpenAgent-managed llama.cpp server |
-| Mistral           | `mistral`           |                                        |
-| Ollama            | `ollama`            | Local/self-hosted                      |
-| OpenAI            | `openai`            | Default: `text-embedding-3-small`      |
-| OpenAI-compatible | `openai-compatible` | Generic `/v1/embeddings` endpoint      |
-| Voyage            | `voyage`            |                                        |
+| Ollama            | `ollama`            | Local/self-hosted                  |
+| OpenAI            | `openai`            | Default: `text-embedding-3-small`  |
+| OpenAI-compatible | `openai-compatible` | Generic `/v1/embeddings` endpoint  |
 
 Set `memory.search.provider` to switch away from OpenAI.
 

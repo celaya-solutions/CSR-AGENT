@@ -16,7 +16,7 @@ Azure's request shape automatically.
 
 <Note>
 Realtime voice uses a separate configuration path
-(`plugins.entries.voice-call.config.realtime.providers.openai.azureEndpoint`)
+(`talk.realtime.providers.openai.azureEndpoint`)
 and is not affected by `models.providers.openai.baseUrl`. See the **Realtime
 voice** accordion under [Voice and speech](/providers/openai/voice-and-speech) for its Azure
 settings.

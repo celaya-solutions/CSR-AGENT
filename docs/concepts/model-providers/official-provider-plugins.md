@@ -1,7 +1,7 @@
 ---
 summary: "Per-provider setup for the bundled provider plugins, the bundled provider table, and provider quirks."
 read_when:
-  - You are setting up a bundled provider such as OpenAI, Anthropic, or Google
+  - You are setting up a bundled provider such as OpenAI, Anthropic, or OpenRouter
   - You need the bundled provider id, auth env, and example model
   - You hit a provider-specific quirk
 title: "Official provider plugins"
@@ -108,116 +108,17 @@ Claude CLI reuse (`claude -p`) is a sanctioned OpenAgent integration path. Anthr
 }
 ```
 
-### Other subscription-style hosted options
-
-
-### OpenCode
-
-- Auth: `OPENCODE_API_KEY` (or `OPENCODE_ZEN_API_KEY`)
-- Zen runtime provider: `opencode`
-- Go runtime provider: `opencode-go`
-- Example models: `opencode/claude-opus-4-6`, `opencode-go/kimi-k2.6`
-- CLI: `openclaw onboard --auth-choice opencode-zen` or `openclaw onboard --auth-choice opencode-go`
-
-```json5
-{
-  agents: { defaults: { model: { primary: "opencode/claude-opus-4-6" } } },
-}
-```
-
-### Google Gemini (API key)
-
-- Provider: `google`
-- Auth: `GEMINI_API_KEY`
-- Optional rotation: `GEMINI_API_KEYS`, `GEMINI_API_KEY_1`, `GEMINI_API_KEY_2`, `GOOGLE_API_KEY` fallback, and `OPENCLAW_LIVE_GEMINI_KEY` (single override)
-- Example models: `google/gemini-3.1-pro-preview`, `google/gemini-3.5-flash`
-- Compatibility: legacy OpenAgent config using `google/gemini-3.1-flash-preview` is normalized to `google/gemini-3-flash-preview`
-- Alias: `google/gemini-3.1-pro` is accepted and normalized to Google's live Gemini API id, `google/gemini-3.1-pro-preview`
-- CLI: `openclaw onboard --auth-choice gemini-api-key`
-- Thinking: `/think adaptive` uses Google dynamic thinking. Gemini 3/3.1 omit a fixed `thinkingLevel`; Gemini 2.5 sends `thinkingBudget: -1`.
-- Direct Gemini runs also accept `agents.defaults.models["google/<model>"].params.cachedContent` (or legacy `cached_content`) to forward a provider-native `cachedContents/...` handle; Gemini cache hits surface as OpenAgent `cacheRead`
-
-### Google Vertex and Gemini CLI runtime
-
-- `google-vertex`: managed Google Cloud access through gcloud Application
-  Default Credentials.
-- `google-gemini-cli`: optional local runtime for an explicitly configured
-  canonical `google/*` model.
-
-OpenAgent does not create Gemini CLI OAuth or Antigravity OAuth profiles. Connect
-Google through an AI Studio API key or Vertex AI. If you explicitly choose the
-Gemini CLI runtime, it can use the selected Google API-key profile. Existing
-valid Gemini CLI OAuth profiles remain runtime-compatible, but they are not a
-setup or recovery route.
-
-Gemini CLI uses `stream-json` by default. OpenAgent reads assistant stream
-messages and normalizes `stats.cached` into `cacheRead`; legacy
-`--output-format json` overrides still read reply text from `response`.
-
-### Z.AI (GLM)
-
-- Provider: `zai`
-- Auth: `ZAI_API_KEY`
-- Example model: `zai/glm-5.2`
-- CLI: `openclaw onboard --auth-choice zai-api-key`
-  - Model refs use the canonical `zai/*` provider ID.
-  - `zai-api-key` auto-detects the matching Z.AI endpoint; `zai-coding-global`, `zai-coding-cn`, `zai-global`, and `zai-cn` force a specific surface
-
-### Vercel AI Gateway
-
-- Provider: `vercel-ai-gateway`
-- Auth: `AI_GATEWAY_API_KEY`
-- Example models: `vercel-ai-gateway/anthropic/claude-opus-4.6`, `vercel-ai-gateway/moonshotai/kimi-k2.6`
-- CLI: `openclaw onboard --auth-choice ai-gateway-api-key`
-
 ### Other bundled provider plugins
 
-| Provider                                | Id                               | Auth env                                       | Example model                                          |
-| --------------------------------------- | -------------------------------- | ---------------------------------------------- | ------------------------------------------------------ |
-| BytePlus                                | `byteplus` / `byteplus-plan`     | `BYTEPLUS_API_KEY`                             | `byteplus-plan/ark-code-latest`                        |
-| Cerebras                                | `cerebras`                       | `CEREBRAS_API_KEY`                             | `cerebras/zai-glm-4.7`                                 |
-| Chutes                                  | `chutes`                         | `CHUTES_API_KEY` or `CHUTES_OAUTH_TOKEN`       | `chutes/zai-org/GLM-5-TEE`                             |
-| ClawRouter                              | `clawrouter`                     | `CLAWROUTER_API_KEY`                           | `clawrouter/anthropic/claude-sonnet-4-6`               |
-| Cohere                                  | `cohere`                         | `COHERE_API_KEY`                               | `cohere/command-a-plus-05-2026`                        |
-| DeepInfra                               | `deepinfra`                      | `DEEPINFRA_API_KEY`                            | `deepinfra/deepseek-ai/DeepSeek-V4-Flash`              |
-| DeepSeek                                | `deepseek`                       | `DEEPSEEK_API_KEY`                             | `deepseek/deepseek-v4-flash`                           |
-| Featherless AI                          | `featherless`                    | `FEATHERLESS_API_KEY`                          | `featherless/Qwen/Qwen3-32B`                           |
-| GitHub Copilot                          | `github-copilot`                 | `COPILOT_GITHUB_TOKEN`                         | -                                                      |
-| GMI Cloud                               | `gmi`                            | `GMI_API_KEY`                                  | `gmi/google/gemini-3.1-flash-lite`                     |
-| Groq                                    | `groq`                           | `GROQ_API_KEY`                                 | `groq/llama-3.3-70b-versatile`                         |
-| Hugging Face Inference                  | `huggingface`                    | `HUGGINGFACE_HUB_TOKEN` or `HF_TOKEN`          | `huggingface/deepseek-ai/DeepSeek-R1`                  |
-| MiniMax                                 | `minimax` / `minimax-portal`     | `MINIMAX_API_KEY` / `MINIMAX_OAUTH_TOKEN`      | `minimax/MiniMax-M3`                                   |
-| Mistral                                 | `mistral`                        | `MISTRAL_API_KEY`                              | `mistral/mistral-large-latest`                         |
-| Moonshot                                | `moonshot`                       | `MOONSHOT_API_KEY`                             | `moonshot/kimi-k2.6`                                   |
-| NVIDIA                                  | `nvidia`                         | `NVIDIA_API_KEY`                               | `nvidia/nvidia/nemotron-3-ultra-550b-a55b`             |
-| NovitaAI                                | `novita`                         | `NOVITA_API_KEY`                               | `novita/deepseek/deepseek-v3-0324`                     |
-| [Ollama Cloud](/providers/ollama-cloud) | `ollama-cloud`                   | `OLLAMA_API_KEY`                               | `ollama-cloud/kimi-k2.6`                               |
-| OpenRouter                              | `openrouter`                     | OpenRouter OAuth or `OPENROUTER_API_KEY`       | `openrouter/auto`                                      |
-| Qianfan                                 | `qianfan`                        | `QIANFAN_API_KEY`                              | `qianfan/deepseek-v3.2`                                |
-| Tencent TokenHub                        | `tencent-tokenhub`               | `TOKENHUB_API_KEY`                             | `tencent-tokenhub/hy3-preview`                         |
-| Together                                | `together`                       | `TOGETHER_API_KEY`                             | `together/meta-llama/Llama-3.3-70B-Instruct-Turbo`     |
-| Venice                                  | `venice`                         | `VENICE_API_KEY`                               | -                                                      |
-| Vercel AI Gateway                       | `vercel-ai-gateway`              | `AI_GATEWAY_API_KEY`                           | `vercel-ai-gateway/anthropic/claude-opus-4.6`          |
-| Volcano Engine (Doubao)                 | `volcengine` / `volcengine-plan` | `VOLCANO_ENGINE_API_KEY`                       | `volcengine-plan/ark-code-latest`                      |
-| xAI                                     | `xai`                            | SuperGrok/X Premium OAuth or `XAI_API_KEY`     | `xai/grok-4.6`                                         |
-| Xiaomi                                  | `xiaomi` / `xiaomi-token-plan`   | `XIAOMI_API_KEY` / `XIAOMI_TOKEN_PLAN_API_KEY` | `xiaomi/mimo-v2.5` / `xiaomi-token-plan/mimo-v2.5-pro` |
+| Provider                                | Id             | Auth env                                 | Example model            |
+| --------------------------------------- | -------------- | ---------------------------------------- | ------------------------ |
+| [Ollama Cloud](/providers/ollama-cloud) | `ollama-cloud` | `OLLAMA_API_KEY`                         | `ollama-cloud/kimi-k2.6` |
+| OpenRouter                              | `openrouter`   | OpenRouter OAuth or `OPENROUTER_API_KEY` | `openrouter/auto`        |
 
 #### Quirks worth knowing
 
 <AccordionGroup>
   <Accordion title="OpenRouter">
-    Applies its app-attribution headers and Anthropic `cache_control` markers only on verified `openrouter.ai` routes. DeepSeek, Moonshot, and ZAI refs are cache-TTL eligible for OpenRouter-managed prompt caching but do not receive Anthropic cache markers. As a proxy-style OpenAI-compatible path, it skips native-OpenAI-only shaping (`serviceTier`, Responses `store`, prompt-cache hints, OpenAI reasoning-compat). Gemini-backed refs keep proxy-Gemini thought-signature sanitation only.
-  </Accordion>
-  <Accordion title="Kilo Gateway">
-    Gemini-backed refs follow the same proxy-Gemini sanitation path; `kilocode/kilo-auto/balanced` and other proxy-reasoning-unsupported refs skip proxy reasoning injection.
-  </Accordion>
-  <Accordion title="MiniMax">
-    API-key onboarding writes explicit M3 and M2.7 chat model definitions; image understanding stays on the plugin-owned `MiniMax-VL-01` media provider.
-  </Accordion>
-  <Accordion title="NVIDIA">
-    Model ids use a `nvidia/<vendor>/<model>` namespace (for example `nvidia/nvidia/nemotron-...`); pickers preserve the literal `<provider>/<model-id>` composition while the canonical key sent to the API stays single-prefixed.
-  </Accordion>
-  <Accordion title="xAI">
-    Uses the xAI Responses path. The recommended path is SuperGrok/X Premium OAuth; OAuth and API-key setup use the curated `xai/grok-4.6` default. Existing primary models stay pinned. Run `openclaw doctor --fix` to repair retired `xai/auto` selections on the subscription route. API keys still work via `XAI_API_KEY` or plugin config. Grok `web_search` reuses the same auth profile before API-key fallback. Older `/fast` and `params.fastMode: true` configurations still resolve through xAI's Grok 4.3 compatibility redirects, but new configurations should select a current model directly. `tool_stream` defaults on; disable via `agents.defaults.models["xai/<model>"].params.tool_stream=false`.
+    Applies its app-attribution headers and Anthropic `cache_control` markers only on verified `openrouter.ai` routes. As a proxy-style OpenAI-compatible path, it skips native-OpenAI-only shaping (`serviceTier`, Responses `store`, prompt-cache hints, OpenAI reasoning-compat). Gemini-backed refs keep proxy-Gemini thought-signature sanitation only.
   </Accordion>
 </AccordionGroup>

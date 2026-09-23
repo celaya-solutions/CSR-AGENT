@@ -40,7 +40,7 @@ troubleshooting, see the main [FAQ](/help/faq).
 
     Route models per agent and use sub-agents to parallelize long tasks (each
     sub-agent consumes its own tokens). See [Models](/concepts/models),
-    [Sub-agents](/tools/subagents), MiniMax, and
+    [Sub-agents](/tools/subagents), and
     [Local models](/gateway/local-models).
 
   </Accordion>
@@ -68,7 +68,7 @@ troubleshooting, see the main [FAQ](/help/faq).
 
   </Accordion>
 
-  <Accordion title="Can I use self-hosted models (llama.cpp, vLLM, Ollama)?">
+  <Accordion title="Can I use self-hosted models (llama.cpp, Ollama)?">
     Yes — Ollama is the easiest path. Quick setup:
 
     1. Install Ollama from `https://ollama.com/download`
@@ -77,7 +77,7 @@ troubleshooting, see the main [FAQ](/help/faq).
     4. Run `openclaw onboard`, choose `Ollama`, then `Local` or `Cloud + Local`
 
     `Cloud + Local` gives you cloud models plus your local Ollama models;
-    cloud models such as `kimi-k2.5:cloud` need no local pull. To switch
+    cloud models need no local pull. To switch
     manually: `openclaw models list`, then `openclaw models set ollama/<model>`.
 
     Smaller/heavily quantized models are more vulnerable to prompt injection.
@@ -205,48 +205,6 @@ troubleshooting, see the main [FAQ](/help/faq).
 
   </Accordion>
 
-  <Accordion title='Why do I see "Unknown model: minimax/MiniMax-M3"?'>
-    If you're on an older OpenAgent release, upgrade first (or run from source
-    `main`) and restart the gateway — `MiniMax-M3` may not be in your
-    installed release's catalog yet. Otherwise the MiniMax provider is not
-    configured (no provider entry or auth profile found), so the model can't
-    resolve. See the Troubleshooting section on the
-    MiniMax provider page for the full fix checklist,
-    provider/model id table, and config-block example.
-
-  </Accordion>
-
-  <Accordion title="Can I use MiniMax as my default and OpenAI for complex tasks?">
-    Yes. Use MiniMax as the default and switch models per session — fallbacks
-    are for errors, not "hard tasks", so use `/model` or a separate agent.
-
-    **Option A: switch per session**
-
-    ```json5
-    {
-      env: { vars: { MINIMAX_API_KEY: "sk-...", OPENAI_API_KEY: "sk-..." } },
-      agents: {
-        defaults: {
-          model: { primary: "minimax/MiniMax-M3" },
-          models: {
-            "minimax/MiniMax-M3": { alias: "minimax" },
-            "openai/gpt-5.5": { alias: "gpt" },
-          },
-        },
-      },
-    }
-    ```
-
-    Then `/model gpt -s`.
-
-    **Option B: separate agents** — Agent A defaults to MiniMax, Agent B
-    defaults to OpenAI; route by agent or use `/agent` to switch.
-
-    Docs: [Models](/concepts/models), [Multi-Agent Routing](/concepts/multi-agent),
-    MiniMax, [OpenAI](/providers/openai).
-
-  </Accordion>
-
   <Accordion title="Are opus / sonnet / gpt built-in shortcuts?">
     Yes — built-in shorthands, applied only when the target model exists in
     `agents.defaults.models`:
@@ -289,7 +247,7 @@ troubleshooting, see the main [FAQ](/help/faq).
 
   </Accordion>
 
-  <Accordion title="How do I add models from other providers like OpenRouter or Z.AI?">
+  <Accordion title="How do I add models from other providers like OpenRouter?">
     OpenRouter (pay-per-token; many models):
 
     ```json5
@@ -304,22 +262,8 @@ troubleshooting, see the main [FAQ](/help/faq).
     }
     ```
 
-    Z.AI (GLM models):
-
-    ```json5
-    {
-      agents: {
-        defaults: {
-          model: { primary: "zai/glm-5.1" },
-          models: { "zai/glm-5.1": {} },
-        },
-      },
-      env: { vars: { ZAI_API_KEY: "..." } },
-    }
-    ```
-
     Missing provider key for a referenced provider/model raises a runtime
-    auth error (e.g. `No API key found for provider "zai"`).
+    auth error (e.g. `No API key found for provider "openrouter"`).
 
     **No API key found for provider after adding a new agent**
 
@@ -422,22 +366,6 @@ troubleshooting, see the main [FAQ](/help/faq).
 
   </Accordion>
 
-  <Accordion title="Why did it also try Google Gemini and fail?">
-    If your model config includes Google Gemini as a fallback (or you
-    switched to a Gemini shorthand), OpenAgent tries it during fallback. No
-    Google credentials configured gives `No API key found for provider
-    "google"`. Fix: add Google auth, or remove Google models from
-    `agents.defaults.model.fallbacks`/aliases.
-
-    **LLM request rejected: thinking signature required (Google Antigravity)**
-
-    Cause: session history has thinking blocks without signatures (often
-    from an aborted/partial stream); Google Antigravity requires signatures
-    on thinking blocks. OpenAgent strips unsigned thinking blocks for Google
-    Antigravity Claude; if it still appears, start a new session or set
-    `/thinking off` for that agent.
-
-  </Accordion>
 </AccordionGroup>
 
 ## Auth profiles: what they are and how to manage them

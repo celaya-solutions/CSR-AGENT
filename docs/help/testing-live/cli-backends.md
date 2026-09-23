@@ -61,7 +61,6 @@ Single-provider Docker recipes:
 pnpm test:docker:live-cli-backend:claude
 pnpm test:docker:live-cli-backend:claude:cache
 pnpm test:docker:live-cli-backend:claude-subscription
-pnpm test:docker:live-cli-backend:gemini
 ```
 
 Notes:

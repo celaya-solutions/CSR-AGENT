@@ -1,32 +1,24 @@
 ---
-summary: "Project origin, contributors, and license."
+summary: "Project origin, upstream credits, and license."
 read_when:
-  - You want the project backstory or contributor credits
+  - You want the project backstory or upstream credits
 title: "Credits"
 ---
 
-OpenAgent = CLAW + TARDIS: every space lobster needs a time and space machine.
+OpenAgent is the Celaya Solutions course edition of an open-source AI assistant.
 
-## Credits
+## Upstream
 
-- **Peter Steinberger** ([@steipete](https://x.com/steipete)) - Creator, lobster whisperer
-- **Mario Zechner** ([@badlogicc](https://x.com/badlogicgames)) - Pi creator, security pen tester
-- **Clawd** - The space lobster who demanded a better name
+OpenAgent is a derivative of OpenClaw and is not endorsed by the OpenClaw
+Foundation. Attribution details are in `NOTICE.md`.
 
-## Core contributors
-
-- **Maxim Vovshin** (@Hyaxia, [36747317+Hyaxia@users.noreply.github.com](mailto:36747317+Hyaxia@users.noreply.github.com)) - Blogwatcher skill
-- **Nacho Iacovino** (@nachoiacovino, [nacho.iacovino@gmail.com](mailto:nacho.iacovino@gmail.com)) - Location parsing (Telegram and WhatsApp)
-- **Vincent Koc** ([@vincentkoc](https://github.com/vincentkoc), [@vincent_koc](https://x.com/vincent_koc)) - Agents, telemetry, hooks, security
+OpenClaw was created by Peter Steinberger, with Mario Zechner (creator of Pi)
+and many other contributors.
 
 ## License
 
 MIT, copyright Celaya Solutions. Third-party notices for incorporated or adapted code are in `THIRD_PARTY_NOTICES.md`.
 
-OpenAgent is a derivative of [OpenAgent](https://github.com/openclaw/openclaw) and is not endorsed by the Celaya Solutions. Attribution details are in `NOTICE.md`.
-
-> "We are all just playing with our own prompts." (An AI, probably high on tokens)
-
 ## Related
 
-- [OpenAgent lore](/start/lore) - the backstory behind the name, the shell, and the space lobster
+- [OpenAgent lore](/start/lore) - the backstory behind the name

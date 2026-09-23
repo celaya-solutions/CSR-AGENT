@@ -21,7 +21,6 @@ title: "Usage tracking"
 - CLI: `openclaw models status` lists OAuth/token auth profiles and shows a usage-window summary next to each provider that has one.
 - Control UI: **Usage** shows provider plan and billing cards above OpenAgent's session-derived token and estimated-cost analysis. Anthropic and OpenAI Admin API credentials add provider-reported today, 7-day, and 30-day spend, daily trends, token totals, top models, and cost categories.
 - Control UI: the chat composer's context ring popover shows **plan usage** for subscription providers — per-window bars (5-hour, weekly, model-scoped) with reset times, the provider plan when known (for example `Max (20x)`), and extra-usage credits. Sessions billed through a plan hide per-token dollar estimates; API-billed sessions keep `Est. cost` and the cost-by-type breakdown. Claude Code CLI (`claude-cli`) setups reuse the same Anthropic subscription usage.
-- macOS menu bar: a root "Usage" section appears below Context when provider usage snapshots are available. See Menu bar.
 
 Since v2026.5.7, `openclaw channels list` no longer prints provider usage; it points users to `openclaw status` or `openclaw models list` instead.
 
@@ -332,28 +331,6 @@ provider-neutral for CLI, app, and Control UI consumers.
   when Anthropic reports them. An explicit Anthropic Admin API key, or an
   auto-detected `sk-ant-admin...` provider profile, instead shows 30-day
   organization cost and Messages API history.
-- **ClawRouter**: API key (`CLAWROUTER_API_KEY`). Shows a monthly budget window
-  and typed USD budget when configured; otherwise shows aggregate spend and a
-  request/token/cost summary.
-- **DeepSeek**: API key via env/config/auth store (`DEEPSEEK_API_KEY`).
-  Shows each provider-reported currency balance.
-- **GitHub Copilot**: OAuth tokens in auth profiles.
-- **MiniMax**: API key or MiniMax OAuth auth profile. OpenAgent treats
-  `minimax`, `minimax-cn`, and `minimax-portal` as the same MiniMax quota
-  surface, prefers stored MiniMax OAuth when present, and otherwise falls back
-  to `MINIMAX_CODE_PLAN_KEY`, `MINIMAX_CODING_API_KEY`, or `MINIMAX_API_KEY`.
-  Usage polling derives the Coding Plan host from `models.providers.minimax-portal.baseUrl`
-  or `models.providers.minimax.baseUrl` when configured, and otherwise uses the
-  MiniMax CN host.
-  MiniMax's raw `usage_percent` / `usagePercent` fields mean **remaining**
-  quota, so OpenAgent inverts them before display; count-based fields win when
-  present.
-  - Window labels come from provider hours/minutes fields when present, then
-    fall back to the `start_time` / `end_time` span.
-  - If the coding-plan endpoint returns `model_remains`, OpenAgent prefers the
-    chat-model entry, derives the window label from timestamps when explicit
-    `window_hours` / `window_minutes` fields are absent, and includes the model
-    name in the plan label.
 - **OpenAI (Codex/ChatGPT plan)**: OAuth tokens in auth profiles (`ChatGPT-Account-Id`
   header sent when an account id is present). Shows the ChatGPT plan, resettable
   Codex windows, and a credit balance when reported. Credits remain provider
@@ -365,11 +342,6 @@ provider-neutral for CLI, app, and Control UI consumers.
   so account balance/spend, key budget, and daily/weekly/monthly usage appear
   when the credential can access them. Either endpoint can enrich the snapshot
   independently.
-- **Venice**: API key via env/config/auth store (`VENICE_API_KEY`). Shows USD and
-  DIEM balances plus DIEM epoch allocation usage when reported.
-- **Xiaomi MiMo**: two separate usage surfaces. Pay-as-you-go uses an API key
-  (`XIAOMI_API_KEY`); the Token Plan uses a separate key (`XIAOMI_TOKEN_PLAN_API_KEY`).
-  Neither currently reports quota windows.
 - **z.ai**: API key via env/config/auth store (`ZAI_API_KEY` or `Z_AI_API_KEY`).
 
 ## Related

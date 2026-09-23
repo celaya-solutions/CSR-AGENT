@@ -244,21 +244,6 @@ board with fresh sessions. By default they render without server tools or
 same-server resource access. Granting the widget its declared server tools
 enables both bridges while that revision-bound grant remains active.
 
-## A2UI widgets
-
-When the Canvas plugin is enabled, agents can render A2UI JSONL as a dashboard
-widget. A2UI widgets use the same stable name, tab, size, pinning, sandbox, and
-update-in-place behavior as HTML widgets. The renderer is loaded from the
-Gateway's `/__openclaw__/a2ui/` asset route, so the renderer bundle is not
-copied into each widget. The Canvas plugin and its hosted routes must be
-enabled; both are enabled by default.
-
-A2UI actions use the normal widget bridge. By default, clicks become quiet
-session notices that the agent sees on its next turn. If the widget declares
-and receives the `prompt` grant, its actions can instead send a visible prompt
-into the thread. Disabling the Canvas plugin removes the A2UI kind and leaves
-stored widgets visibly unavailable until the plugin is enabled again.
-
 ## Retired Workspaces
 
 The experimental Workspaces plugin, its Control UI tab, `openclaw workspaces`

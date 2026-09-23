@@ -60,7 +60,7 @@ command with `OPENCLAW_PLUGIN_LIFECYCLE_TRACE=1`. The trace writes phase timings
 to stderr and keeps JSON output parseable. See [Debugging](/help/debugging#plugin-lifecycle-trace).
 
 <Note>
-In Nix mode (`OPENCLAW_NIX_MODE=1`), `openclaw.json` is immutable. `install`, `update`, `uninstall`, `enable`, and `disable` all refuse to run. Manage those choices in the Nix source for this install (`programs.openclaw.config` or `instances.<name>.config` for nix-openclaw), then rebuild. Reload remains available when no new capability consent needs to be recorded; it preserves config and installation state. See the agent-first [Quick Start](https://github.com/openclaw/nix-openclaw#quick-start).
+In Nix mode (`OPENCLAW_NIX_MODE=1`), `openclaw.json` is immutable. `install`, `update`, `uninstall`, `enable`, and `disable` all refuse to run. Manage those choices in the Nix source for this install (`programs.openclaw.config` or `instances.<name>.config` for nix-openclaw), then rebuild. Reload remains available when no new capability consent needs to be recorded; it preserves config and installation state.
 </Note>
 
 <Note>

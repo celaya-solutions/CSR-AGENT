@@ -40,7 +40,7 @@ Exit codes for CI/gates:
 - Store validation and disclosure-policy failures return `2`.
 - `store get` returns `3` when the name is missing.
 
-Related: [Secrets Management](/gateway/secrets) · 1Password plugin · [SecretRef Credential Surface](/reference/secretref-credential-surface) · [Security](/gateway/security)
+Related: [Secrets Management](/gateway/secrets) · [SecretRef Credential Surface](/reference/secretref-credential-surface) · [Security](/gateway/security)
 
 ## Shared secret store
 

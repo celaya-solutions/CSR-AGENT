@@ -1,16 +1,16 @@
 ---
-summary: "Enable and test browser or macOS notifications from the Control UI"
+summary: "Enable and test browser notifications from the Control UI"
 title: "Notifications"
 read_when:
   - Enabling notifications from Settings
-  - Troubleshooting browser or macOS notification permission
+  - Troubleshooting browser notification permission
   - Comparing Control UI notifications with mobile push
   - Enabling browser alerts when another person mentions you
 ---
 
-OpenAgent can ping you when something needs your attention, including an exec or plugin approval request. The ping arrives in the browser that runs the Control UI. It can also arrive through native macOS notifications when you use the OpenAgent macOS app. Your first chat send may request permission automatically. **Settings → Notifications** remains the place to enable or repair the current device. Use the same page to check its status and send yourself a test.
+OpenAgent can ping you when something needs your attention, including an exec or plugin approval request. The ping arrives in the browser that runs the Control UI. Your first chat send may request permission automatically. **Settings → Notifications** remains the place to enable or repair the current device. Use the same page to check its status and send yourself a test.
 
-This page covers those two surfaces. It does not control channel reaction notifications, Android notification forwarding, or iOS background push. The mobile apps register for push through their own node paths. See iOS and [Nodes](/nodes).
+This page covers browser notifications. It does not control channel reaction notifications or mobile push. See [Nodes](/nodes).
 
 ## Which surface you get
 
@@ -19,10 +19,7 @@ What the Notifications page controls depends on where you opened it:
 | Where Settings is open                            | Transport                                          | What you can do                                                                                         |
 | ------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | Supported web browser or installed Control UI PWA | Browser Push API via the Control UI service worker | Receive approvals and enabled attention categories, manage this browser's subscription, and send a test |
-| OpenAgent macOS app                           | Native macOS notifications                         | Grant app permission, jump to System Settings when blocked, send a local test                           |
 | Browser without Push API support                  | None                                               | Status only. Enable and test stay unavailable                                                           |
-
-The macOS app deliberately uses the native permission flow instead of browser push. That is the notification system your Mac already respects.
 
 ## Enable browser notifications
 
@@ -61,15 +58,15 @@ On iPhone and iPad, Web Push is available only after two steps. First, install t
 
 **Send test** asks the Gateway to push a test message to every registered browser subscription. Tests intentionally check transport only. Approval requests are targeted to authorized device bindings. **Unsubscribe** removes the current browser's endpoint from the Gateway only when its paired device and user profile still own the subscription. It then unsubscribes locally. Reconnecting under another profile can transfer the browser subscription only with its existing subscription keys. Knowing an endpoint alone cannot change its owner or remove it.
 
-The Gateway sends Web Push directly to the browser vendor's push service. This works with a self-hosted Gateway and does not use the OpenAgent-hosted iOS relay.
+The Gateway sends Web Push directly to the browser vendor's push service. This works with a self-hosted Gateway and does not use a push relay.
 
 ### Receive human mention alerts
 
-After subscribing in a supported browser or installed Control UI PWA, turn on **Someone mentions me** under **Settings → Notifications**. The category is **off by default** and requires a signed-in Gateway profile. Account defaults can enable it across your devices. The current browser can override or mute it. These category controls appear for subscribed web clients, not the native macOS notification settings.
+After subscribing in a supported browser or installed Control UI PWA, turn on **Someone mentions me** under **Settings → Notifications**. The category is **off by default** and requires a signed-in Gateway profile. Account defaults can enable it across your devices. The current browser can override or mute it. These category controls appear for subscribed web clients.
 
 Only browsers bound to the mentioned profile receive the alert. Each delivery rechecks the device, current profile and role, read scope, and session visibility. It then applies the category setting, quiet hours, and agent filter. Being online is not required. With **Private** detail, the alert says only that someone mentioned you in a conversation. **Names only** and **Detailed** may include the sanitized sender and session labels, never the message excerpt. Selecting it opens the session through the normal authenticated Control UI route.
 
-Your [mentions Inbox](/concepts/multi-user#temporary-mentions-inbox) does not depend on Web Push permission or this setting. Its entries and dismissals survive Gateway restarts within the seven-day retention window. Opening the Inbox, reconnecting, or restarting the Gateway does not resend old entries as browser notifications. The service worker shows browser alerts. The live Inbox update does not create a second OS notification. Human mention alerts are not implemented through the native macOS or iOS/Android push paths.
+Your [mentions Inbox](/concepts/multi-user#temporary-mentions-inbox) does not depend on Web Push permission or this setting. Its entries and dismissals survive Gateway restarts within the seven-day retention window. Opening the Inbox, reconnecting, or restarting the Gateway does not resend old entries as browser notifications. The service worker shows browser alerts. The live Inbox update does not create a second OS notification.
 
 To check targeting, have another eligible signed-in person select you from the chat `@` picker and send a normal message. Check **Inbox → Mentions**, then check the enabled browser alert. **Send test** only checks browser push transport and can reach every registered subscription. It does not prove that a human mention was selected, committed, or addressed to your profile. Delivery is best-effort, not an exactly-once guarantee.
 
@@ -82,25 +79,6 @@ A single installed PWA can also switch among remote Gateways. Every Gateway behi
 The browser Push API permits only one application-server key per service-worker registration. If a PWA subscription belongs to a different VAPID key, OpenAgent removes the unusable row from the current Gateway. OpenAgent also shows **Unavailable** and **Not subscribed**, with an error explaining the mismatch. To switch that PWA scope to the current Gateway, select **Unsubscribe**, then **Enable notifications** and **Send test**. Unsubscribing deactivates the shared browser subscription for every Gateway registered through that scope. After re-enabling, reconnect to each Gateway once.
 
 Sharing a private VAPID key and browser endpoint makes those Gateways one push-signing trust domain. Use that layout only for Gateways you trust equally. Configure VAPID values through each Gateway process's secure environment or secret manager. Do not place private keys in URLs or command arguments.
-
-## Enable notifications in the macOS app
-
-The macOS app also asks automatically on your first chat send, but only while permission is **Not requested**. It never opens System Settings automatically after a denial. Use **Settings → Notifications** to manage permission manually.
-
-1. Open **Settings → Notifications** in the OpenAgent macOS app.
-2. Select **Enable notifications** while the permission shows **Not requested**.
-3. Approve the macOS permission prompt.
-4. Select **Send test** to post a local OpenAgent notification.
-
-If the permission shows **Denied**, macOS will not re-prompt. Select **Open System Settings**. Allow notifications for OpenAgent there. Then switch back. The page rechecks permission when the app regains focus. This permission belongs to macOS, not to Gateway config.
-
-### Background session completion
-
-You can start a session in the background from **New Session**. The macOS app then posts a native notification after that run finishes. This requires notification permission to be already granted. Keep the originating dashboard loaded while it runs. You can minimize its window or work in another app. An in-app completion message also appears. Selecting the session before it finishes suppresses its completion notice.
-
-The native notification uses generic text, without the session title, prompt, or response. Select it to open the session on its originating Gateway, including when that window has since closed. If that Gateway connection changed, open the session from the correct Gateway's session list instead. Do the same if the notification expired after an app restart.
-
-This is the **New Session** background-start flow, not a native notification for every chat response. Browser **Agent finished** preferences remain separate. Completing a background run never opens a new permission prompt. Enable notifications in Settings first.
 
 ## Troubleshooting
 

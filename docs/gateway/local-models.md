@@ -22,12 +22,12 @@ For custom servers, leave room for the full OpenAgent prompt, tools, history, an
 
 ## Pick a backend
 
-| Backend                                              | Use when                                                                               |
-| ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| LiteLLM / OAI-proxy / custom OpenAI-compatible proxy | You front another model API and need OpenAgent to treat it as OpenAI               |
+| Backend                                              | Use when                                                                            |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| LiteLLM / OAI-proxy / custom OpenAI-compatible proxy | You front another model API and need OpenAgent to treat it as OpenAI                |
 | [llama.cpp](/plugins/llama-cpp)                      | Hardware-aware model selection, verified downloads, and an OpenAgent-managed server |
-| MLX / vLLM / SGLang                                  | High-throughput self-hosted serving with an OpenAI-compatible HTTP endpoint            |
-| [Ollama](/providers/ollama)                          | CLI workflow, model library, hands-off systemd service                                 |
+| MLX / vLLM / SGLang                                  | High-throughput self-hosted serving with an OpenAI-compatible HTTP endpoint         |
+| [Ollama](/providers/ollama)                          | CLI workflow, model library, hands-off systemd service                              |
 
 Use `api: "openai-responses"` when the backend supports it (LM Studio does). Otherwise use `api: "openai-completions"`. If `api` is omitted on a custom provider with a `baseUrl`, OpenAgent defaults to `openai-completions`.
 

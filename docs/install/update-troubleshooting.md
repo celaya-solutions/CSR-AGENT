@@ -83,14 +83,11 @@ the CLI fallback on the Gateway host.
 ## Reason codes
 
 - `dirty`, `no-upstream`: repair the source checkout before retrying.
-- `plugin-target-unavailable`: an enabled configured npm plugin has no resolvable
-  target for the selected core, or its registry metadata could not be read. The
-  refusal identifies the plugin, package target, and registry error before the
-  serving Gateway stops or the core package changes. Retry after publication or
-  registry recovery, use `openclaw update --tag <older-version>`, or disable the
-  affected plugin and retry. If the core version is unknown, select an exact
-  registry version. Extended-stable rejects `--tag`; retry later or explicitly
-  switch channels. `--dry-run` performs the same availability check.
+- `plugin-target-unavailable`: an enabled configured registry plugin has no
+  resolvable target for the selected core, or its registry metadata could not be
+  read. The refusal identifies the plugin and registry error before the serving
+  Gateway stops. Disable the affected plugin and retry. `--dry-run` performs the
+  same availability check.
 - `preflight-insufficient-space`: free space on the filesystems containing
   preflight staging (the checkout's `.artifacts` area on POSIX) and the
   package-manager store, then retry. The updater stops on
@@ -100,8 +97,7 @@ the CLI fallback on the Gateway host.
 - `deps-install-failed`, `build-failed`, `ui-build-failed`: inspect the failing
   step, fix the dependency or build error, then retry.
 - `global-install-failed`: retry after checking package-manager ownership and
-  permissions. Re-run the installer if the package
-  install is incomplete.
+  permissions for the linked global `openclaw` command.
 - `doctor-failed`: run `openclaw doctor` on the Gateway host, resolve its
   findings, then retry. See [Doctor](/cli/doctor) for the check list and
   `--fix` behavior.
@@ -125,9 +121,9 @@ openclaw update status --json
 openclaw triage
 ```
 
-Use `openclaw update --dry-run` to preview a new attempt. If a package update
-failed after installation began, follow the installer recovery steps in
-[Updating](/install/updating#alternative-re-run-the-installer).
+Use `openclaw update --dry-run` to preview a new attempt. If an update failed
+after installation began, follow the manual source update steps in
+[Updating](/install/updating#manual-source-update).
 
 If the installed CLI is damaged or the filesystem cannot write diagnostics,
 automatic triage reports that failure and preserves the original update error.

@@ -26,7 +26,6 @@ here, so an existing link such as `/reference/test#core-commands` still
 resolves. Each entry points at the page that now holds the content.
 
 - <a id="agent-default" />Agent default
-- <a id="crabbox-repository-setup" />Crabbox repository setup
 - <a id="routine-local-order" />[Routine local order](/reference/test/local#routine-local-order)
 - <a id="core-commands" />[Core commands](/reference/test/local#core-commands)
 - <a id="source-tests-and-subprocess-builds" />[Source tests and subprocess builds](/reference/test/local#source-tests-and-subprocess-builds)

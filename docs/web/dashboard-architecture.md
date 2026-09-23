@@ -153,8 +153,7 @@ content kind:
 - `mcp-app` — a third-party MCP app view (`ui://` resource from a configured
   server) hosted inside the widget cell.
 - Registered plugin kinds — plugin-validated source rendered through the same
-  sandboxed document frame. The Canvas plugin registers `a2ui`. Core discovers
-  the active registry and never hardcodes plugin kind names.
+  sandboxed document frame. Core discovers the active registry and never hardcodes plugin kind names.
 
 MCP apps do not define the widget model. Widgets gained the ability to host
 them. Identity, placement, pinning, grants, and the author-facing API stay
@@ -170,19 +169,11 @@ This keeps stored source out of board snapshots and avoids a database CHECK or
 schema-version change. Disabled plugins are absent from the registry, so new
 puts fail with an enable-and-retry error and existing cells render as disabled.
 
-The A2UI implementation composes a small document that references its renderer
-bundle. Ticketed board documents use the capability-scoped Gateway asset route.
-Inline documents load the same public static renderer from the sandbox origin.
-Core adds the same CSP, theme bridge, size reporter, and private-port host bridge
-used by HTML widgets. v0.8 and v0.9 use separate renderer bundles because their
-Lit custom elements share tag names but their processors and action contracts
-differ.
-
 A registered kind can expose public static renderer bytes through
 `resources.readPublicResource(path)`. The isolated listener serves only exact
 registered `resources.paths`, only for `GET` or `HEAD`, and rechecks the active
 plugin registry after reading. It does not proxy Gateway routes, credentials,
-or data. Canvas opts in its two A2UI bundles. This grants no widget network or
+or data. This grants no widget network or
 host-tool capability.
 
 Shared hosting infrastructure:
@@ -317,8 +308,8 @@ interactive or inline content. See the [report schema and example](/tools/show-w
 
 Enabled plugins can extend the widget host through `dashboard.dataBindings`
 and `dashboard.actionVerbs` in `openclaw.plugin.json`. Plugin-local ids become
-grant names prefixed by the plugin id, such as `workboard.cards.list` and
-`workboard.dispatch`. `%` and `.` in the plugin-id segment are escaped so a
+grant names prefixed by the plugin id, such as `myplugin.cards.list` and
+`myplugin.dispatch`. `%` and `.` in the plugin-id segment are escaped so a
 different plugin/local-id split cannot inherit the same persisted grant. During
 plugin registration, OpenAgent verifies that every binding targets an RPC
 registered by the same plugin with `operator.read` and every action targets one
@@ -418,10 +409,6 @@ app-visible tools (explicit allowlist shown to the operator on pin), decoupled
 from the minting run. Ungranted pins can render their fetched App HTML but
 cannot call tools or access the same-server resource bridge. Pins belong to the
 originating session's board. Cross-session pinning is not supported.
-
-### WorkBoard integration
-
-The WorkBoard integration program keeps cards and boards plugin-owned. It stitches dispatched cards back to their session boards through the existing `sessionKey` and `runId`. It exposes WorkBoard feeds and dispatch through plugin-declared bindings and actions. It composes those results with the existing `html` and `mcp-app` widget kinds instead of introducing a WorkBoard-specific widget type.
 
 ## Layout: fluid grid
 
@@ -524,9 +511,7 @@ false`, never in a stable release (first appeared in 2026.7.2 betas). No
   Harvested ideas: pure grid math, bridge security model (port bootstrap,
   binding gating, rate limits), byte-frozen approval.
 - **Core owns widget hosting.** The canvas doc store, document wrapper, HTTP
-  serving, and the `show_widget` tool live in core (`src/canvas/`). The Canvas
-  plugin owns the macOS node-panel presenter and the A2UI
-  dashboard content kind. The `pluginSurfaceUrls["canvas"]` advertisement and
+  serving, and the `show_widget` tool live in core (`src/canvas/`). The `pluginSurfaceUrls["canvas"]` advertisement and
   `/__openclaw__/canvas` paths are shipped native-client contracts and stay
   stable. Discord Activities register a contextual presenter behind core's
   canonical `show_widget` tool.
@@ -536,7 +521,5 @@ false`, never in a stable release (first appeared in 2026.7.2 betas). No
 - Boards do not introduce a separate sharing or ACL model. Session visibility
   and membership use the existing session-sharing surface. Widget capability
   grants remain separate from membership.
-- Native macOS/iOS board rendering is through the embedded Control UI. The
-  inline-widget path is unchanged.
 - Enabled plugins extend content kinds, data bindings, and action verbs through
   the existing registries.

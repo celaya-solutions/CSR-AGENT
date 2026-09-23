@@ -29,7 +29,7 @@ Healthy baseline:
 
 ## After an update
 
-Use this when Telegram, iMessage, BlueBubbles-era configs, or another plugin channel disappears
+Use this when Telegram, Discord, or another plugin channel disappears
 after updating.
 
 ```bash
@@ -44,21 +44,6 @@ status --all`. That means the channel is configured, but plugin setup/load hit a
 dependency tree instead of registering the channel. `openclaw doctor --fix` clears stale
 plugin-runtime dependency symlinks and stale auth shadows, then `openclaw gateway restart` reloads
 clean state.
-
-## WhatsApp
-
-### WhatsApp failure signatures
-
-| Symptom                             | Fastest check                                       | Fix                                                                                                                              |
-| ----------------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Connected but no DM replies         | `openclaw pairing list whatsapp`                    | Approve sender or switch DM policy/allowlist.                                                                                    |
-| Group messages ignored              | Check `requireMention` + mention patterns in config | Mention the bot or relax mention policy for that group.                                                                          |
-| QR login times out with 408         | Check gateway `HTTPS_PROXY` / `HTTP_PROXY` env      | Set a reachable proxy; use `NO_PROXY` only for bypasses.                                                                         |
-| Random disconnect/relogin loops     | `openclaw channels status --probe` + logs           | Recent reconnects are flagged even when currently connected; watch logs, restart the gateway, then relink if flapping continues. |
-| `status=408 Request Time-out` loop  | Probe, logs, doctor, then gateway status            | Fix host connectivity/timing first; back up auth and re-link the account if the loop persists.                                   |
-| Replies arrive seconds/minutes late | `openclaw doctor --fix`                             | Doctor stops verified stale local TUI clients when they are degrading the Gateway event loop.                                    |
-
-Full troubleshooting: WhatsApp troubleshooting
 
 ## Telegram
 
@@ -91,69 +76,6 @@ Full troubleshooting: [Telegram troubleshooting](/channels/telegram#troubleshoot
 | Agent watches an ambient room but never posts                | Check the agent's tool profile for the `message` tool                                                                        | Room events require `message(action=send)`, which the `minimal` and `coding` profiles omit. Grant `tools.alsoAllow: ["message"]` for that agent.                                                                                                                      |
 
 Full troubleshooting: [Discord troubleshooting](/channels/discord/troubleshooting#troubleshooting)
-
-## Slack
-
-### Slack failure signatures
-
-| Symptom                                | Fastest check                             | Fix                                                                                                                                                  |
-| -------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Socket mode connected but no responses | `openclaw channels status --probe`        | Verify app token + bot token and required scopes; watch for `botTokenStatus` / `appTokenStatus = configured_unavailable` on SecretRef-backed setups. |
-| DMs blocked                            | `openclaw pairing list slack`             | Approve pairing or relax DM policy.                                                                                                                  |
-| Channel message ignored                | Check `groupPolicy` and channel allowlist | Allow the channel or switch policy to `open`.                                                                                                        |
-
-Full troubleshooting: Slack troubleshooting
-
-## iMessage
-
-### iMessage failure signatures
-
-| Symptom                              | Fastest check                                           | Fix                                                                        |
-| ------------------------------------ | ------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `imsg` missing or fails on non-macOS | `openclaw channels status --probe --channel imessage`   | Run OpenAgent on the Messages Mac or use an SSH wrapper for `cliPath`. |
-| Can send but no receive on macOS     | Check macOS privacy permissions for Messages automation | Re-grant TCC permissions and restart channel process.                      |
-| DM sender blocked                    | `openclaw pairing list imessage`                        | Approve pairing or update allowlist.                                       |
-
-Full troubleshooting: iMessage troubleshooting
-
-## Signal
-
-### Signal failure signatures
-
-| Symptom                         | Fastest check                              | Fix                                                      |
-| ------------------------------- | ------------------------------------------ | -------------------------------------------------------- |
-| Daemon reachable but bot silent | `openclaw channels status --probe`         | Verify `signal-cli` daemon URL/account and receive mode. |
-| DM blocked                      | `openclaw pairing list signal`             | Approve sender or adjust DM policy.                      |
-| Group replies do not trigger    | Check group allowlist and mention patterns | Add sender/group or loosen gating.                       |
-
-Full troubleshooting: Signal troubleshooting
-
-## QQ Bot
-
-### QQ Bot failure signatures
-
-| Symptom                         | Fastest check                               | Fix                                                                                                                       |
-| ------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Bot replies "gone to Mars"      | Verify `appId` and `clientSecret` in config | Correct credentials, then check `openclaw channels status --probe` after [hot reload](/gateway/configuration/hot-reload). |
-| No inbound messages             | `openclaw channels status --probe`          | Verify credentials on the QQ Open Platform.                                                                               |
-| Voice not transcribed           | Check STT provider config                   | Configure `channels.qqbot.stt` or `tools.media.audio`.                                                                    |
-| Proactive messages not arriving | Check QQ platform interaction requirements  | QQ may block bot-initiated messages without recent interaction.                                                           |
-
-Full troubleshooting: QQ Bot troubleshooting
-
-## Matrix
-
-### Matrix failure signatures
-
-| Symptom                             | Fastest check                          | Fix                                                                       |
-| ----------------------------------- | -------------------------------------- | ------------------------------------------------------------------------- |
-| Logged in but ignores room messages | `openclaw channels status --probe`     | Check `groupPolicy`, room allowlist, and mention gating.                  |
-| DMs do not process                  | `openclaw pairing list matrix`         | Approve sender or adjust DM policy.                                       |
-| Encrypted rooms fail                | `openclaw matrix verify status`        | Re-verify the device, then check `openclaw matrix verify backup status`.  |
-| Backup restore is pending/broken    | `openclaw matrix verify backup status` | Run `openclaw matrix verify backup restore` or rerun with a recovery key. |
-| Cross-signing/bootstrap looks wrong | `openclaw matrix verify bootstrap`     | Repair secret storage, cross-signing, and backup state in one pass.       |
-
-Full setup and config: Matrix
 
 ## Gateway up but channel never connects
 

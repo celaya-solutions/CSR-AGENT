@@ -10,24 +10,21 @@ sidebarTitle: "Broadcast groups"
 ---
 
 <Note>
-**Status:** Experimental. Legacy WhatsApp broadcast arrays remain supported.
+**Status:** Experimental.
 </Note>
 
 ## Overview
 
 Agent group threads run **multiple agents** on the same inbound message, using the top-level `broadcast` config. Each agent runs in its own session. Channel-qualified entries can select participants by mention and allow a bounded number of follow-up rounds so agents can build on sibling replies.
 
-Channel allowlists and group activation rules still apply. For qualified entries on Discord, Slack, and Telegram, an explicit mention of any configured participant can satisfy the room’s mention gate, even when that participant is not the ordinary routed agent. Legacy WhatsApp entries keep their existing admission behavior.
-
-The live WhatsApp QA lane includes `whatsapp-broadcast-group-fanout`, which verifies that one mentioned group message can produce distinct visible replies from two configured agents.
+Channel allowlists and group activation rules still apply. For qualified entries on Discord and Telegram, an explicit mention of any configured participant can satisfy the room’s mention gate, even when that participant is not the ordinary routed agent.
 
 ## Configuration
 
 ### Agent group threads
 
 Use a key in the form `"<channel>:<peerId>"`, such as
-`"discord:123456789"`, `"slack:C0123"`, `"telegram:-100123"`, or
-`"whatsapp:1203@g.us"`. The value can be an agent ID array or a strict object:
+`"discord:123456789"` or `"telegram:-100123"`. The value can be an agent ID array or a strict object:
 
 ```json5
 {
@@ -71,9 +68,10 @@ Writer for the initial round.
 | `maxTurns`      | `agents.length` | Integer from 1 to 32; total participant turns started for one inbound message. |
 
 Unknown object fields are rejected. Qualified arrays use the same defaults:
-`"slack:C0123": ["reviewer", "writer"]` runs one initial round with mention
-selection. A qualified WhatsApp key takes precedence over an unqualified key
-for the same peer. Unqualified object entries are not supported.
+`"discord:123456789": ["reviewer", "writer"]` runs one initial round with mention
+selection. Unqualified entries are not supported.
+
+Every listed agent ID must exist in the configured roster: config validation rejects unknown IDs in both arrays and objects. Deleting an agent prunes it from both forms. Runtime membership uses the canonical `agents.entries` roster when present, including an empty roster. Legacy `agents.list` is used only when `agents.entries` is absent.
 
 `maxTurns` counts **agent runs started by the coordinator**, including runs
 that pass or fail. Slots are reserved synchronously before parallel launch, so
@@ -83,7 +81,7 @@ start. A turn can produce multiple platform messages through chunks, previews,
 or message-tool sends. Those deliveries are governed by the agent run and
 channel transport; `maxTurns` does not count, buffer, or cap physical messages.
 
-Telegram, Discord, and Slack disable their shared preview and progress drafts
+Telegram and Discord disable their shared preview and progress drafts
 for qualified group threads so concurrent participants do not overwrite each
 other's drafts. Final replies, block replies, and message-tool sends remain
 available.
@@ -129,31 +127,10 @@ separate protection.
 
 ### Participant labels
 
-When a qualified entry configures more than one participant, Discord, Slack,
-and Telegram replies begin with the participant name in bold. The configured
+When a qualified entry configures more than one participant, Discord and
+Telegram replies begin with the participant name in bold. The configured
 count controls labeling, even if mention selection, the turn budget, or silence
-leaves only one responder. WhatsApp presentation remains unchanged.
-
-### Basic setup
-
-Legacy single-pass setup uses unqualified WhatsApp peer IDs as keys and arrays of agent IDs as values:
-
-- group chats: group JID (e.g. `120363403215116621@g.us`)
-- DMs: sender E.164 phone number (e.g. `+15551234567`)
-
-```json
-{
-  "broadcast": {
-    "120363403215116621@g.us": ["alfred", "baerbel", "assistant3"]
-  }
-}
-```
-
-**Result:** when OpenAgent would reply in this chat, it runs all three agents.
-
-Every listed agent ID must exist in the configured roster: config validation rejects unknown IDs in both arrays and objects. Deleting an agent prunes it from both forms.
-
-Runtime membership uses the canonical `agents.entries` roster when present, including an empty roster. Legacy `agents.list` is used only when `agents.entries` is absent.
+leaves only one responder.
 
 ### Processing strategy
 
@@ -168,7 +145,7 @@ Runtime membership uses the canonical `agents.entries` roster when present, incl
 {
   "broadcast": {
     "strategy": "sequential",
-    "120363403215116621@g.us": ["alfred", "baerbel"]
+    "telegram:-1001234567890": ["alfred", "baerbel"]
   }
 }
 ```
@@ -199,7 +176,7 @@ Runtime membership uses the canonical `agents.entries` roster when present, incl
   },
   "broadcast": {
     "strategy": "parallel",
-    "120363403215116621@g.us": ["code-reviewer", "security-auditor", "docs-generator"]
+    "telegram:-1001234567890": ["code-reviewer", "security-auditor", "docs-generator"]
   }
 }
 ```
@@ -216,13 +193,12 @@ Runtime membership uses the canonical `agents.entries` roster when present, incl
     OpenAgent applies channel allowlists, group activation rules, and configured ACP binding ownership.
   </Step>
   <Step title="Broadcast check">
-    If no configured ACP binding owns the route, OpenAgent checks the qualified channel/peer key, then the legacy peer key for WhatsApp.
+    If no configured ACP binding owns the route, OpenAgent checks the qualified channel/peer key.
   </Step>
   <Step title="If broadcast applies">
     - Selected participants process the message within the round and turn limits.
     - Each agent has its own session key and isolated context.
     - Agents process in parallel (default) or sequentially.
-    - WhatsApp audio attachments are transcribed once before fan-out, so agents share one transcript instead of making separate STT calls.
 
   </Step>
   <Step title="If broadcast does not apply">
@@ -238,29 +214,27 @@ Group threads do not bypass channel allowlists, command authorization, or exclus
 
 Each agent in a broadcast group maintains completely separate:
 
-- **Session keys** (`agent:alfred:whatsapp:group:120363...` vs `agent:baerbel:whatsapp:group:120363...`)
+- **Session keys** (`agent:alfred:telegram:group:-100123...` vs `agent:baerbel:telegram:group:-100123...`)
 - **Conversation history** (sibling replies are shared only through bounded follow-up digests)
 - **Workspace** (separate sandboxes if configured)
 - **Tool access** (different allow/deny lists)
 - **Memory/context** (separate `IDENTITY.md`, `SOUL.md`, etc.)
 
-On Discord, Slack, and Telegram, reply delivery and completion hooks use the
+On Discord and Telegram, reply delivery and completion hooks use the
 responding participant's session, and local media resolves with that participant's
 media roots. This also applies to qualified entries with one participant, whose
 replies do not have a participant name label.
-
-On WhatsApp, one input is shared on purpose: the **group context buffer** (recent group messages used for context) is shared per peer, so all broadcast agents see the same context when triggered. It is cleared once after the fan-out completes.
 
 This allows each agent to have different personalities, models, skills, and tool access (for example read-only vs. read-write).
 
 ### Example: isolated sessions
 
-In group `120363403215116621@g.us` with agents `["alfred", "baerbel"]`:
+In Telegram group `-1001234567890` with agents `["alfred", "baerbel"]`:
 
 <Tabs>
   <Tab title="Alfred's context">
     ```text
-    Session: agent:alfred:whatsapp:group:120363403215116621@g.us
+    Session: agent:alfred:telegram:group:-1001234567890
     History: [user message, alfred's previous responses]
     Workspace: ~/openclaw-alfred/
     Tools: read, write, exec
@@ -268,7 +242,7 @@ In group `120363403215116621@g.us` with agents `["alfred", "baerbel"]`:
   </Tab>
   <Tab title="Baerbel's context">
     ```text
-    Session: agent:baerbel:whatsapp:group:120363403215116621@g.us
+    Session: agent:baerbel:telegram:group:-1001234567890
     History: [user message, baerbel's previous responses]
     Workspace: ~/openclaw-baerbel/
     Tools: read only
@@ -332,7 +306,7 @@ In group `120363403215116621@g.us` with agents `["alfred", "baerbel"]`:
 
 ### Providers
 
-Channel-qualified entries use the shared core dispatch path across channel plugins. Discord, Slack, and Telegram additionally support participant mention admission and name labels. Legacy unqualified entries apply only to WhatsApp (web channel).
+Channel-qualified entries use the shared core dispatch path across channel plugins. Discord and Telegram additionally support participant mention admission and name labels.
 
 ### Routing
 
@@ -342,18 +316,18 @@ Broadcast groups work alongside existing routing:
 {
   "bindings": [
     {
-      "match": { "channel": "whatsapp", "peer": { "kind": "group", "id": "GROUP_A" } },
+      "match": { "channel": "telegram", "peer": { "kind": "group", "id": "-100111" } },
       "agentId": "alfred"
     }
   ],
   "broadcast": {
-    "GROUP_B": ["agent1", "agent2"]
+    "telegram:-100222": ["agent1", "agent2"]
   }
 }
 ```
 
-- `GROUP_A`: only alfred responds (normal routing).
-- `GROUP_B`: agent1 AND agent2 respond (broadcast).
+- `-100111`: only alfred responds (normal routing).
+- `-100222`: agent1 AND agent2 respond (broadcast).
 
 <Note>
 **Precedence:** `broadcast` takes priority over ordinary route bindings. Configured ACP bindings (`bindings[].type="acp"`) are exclusive: when one matches, OpenAgent dispatches to the configured ACP session instead of fan-out broadcast.
@@ -366,7 +340,7 @@ Broadcast groups work alongside existing routing:
     **Check:**
 
     1. Agent IDs exist in `agents.entries` (config validation rejects unknown ids).
-    2. The qualified channel/peer key matches the room. Legacy WhatsApp keys use a group JID like `120363403215116621@g.us`, or E.164 like `+15551234567` for DMs.
+    2. The qualified channel/peer key matches the room.
     3. The message passed normal gating (mention/activation rules still apply).
 
     **Debug:**
@@ -397,7 +371,7 @@ Broadcast groups work alongside existing routing:
     {
       "broadcast": {
         "strategy": "parallel",
-        "120363403215116621@g.us": [
+        "telegram:-1001234567890": [
           "code-formatter",
           "security-scanner",
           "test-coverage",
@@ -433,7 +407,7 @@ Broadcast groups work alongside existing routing:
     {
       "broadcast": {
         "strategy": "sequential",
-        "+15555550123": ["detect-language", "translator-en", "translator-de"]
+        "telegram:-1001234567890": ["detect-language", "translator-en", "translator-de"]
       },
       "agents": {
         "entries": {
@@ -472,9 +446,6 @@ type BroadcastConfig = {
 </ParamField>
 <ParamField path="[channel:peerId]" type="string[] | BroadcastGroupConfig">
   Channel-qualified peer ID. Arrays use the group-thread defaults; objects configure mention selection, rounds, and participant-turn budgets. At most 16 agents.
-</ParamField>
-<ParamField path="[peerId]" type="string[]">
-  Legacy WhatsApp group JID or E.164 phone number. Every listed agent processes one turn, with no internal follow-up rounds or participant selection.
 </ParamField>
 
 ## Limitations

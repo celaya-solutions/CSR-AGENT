@@ -34,11 +34,10 @@ classic wizard requires explicit confirmation; noninteractive setup keeps the
 current fleet workspace and prints a warning.
 
 Guided inference detection runs on the Gateway host on macOS or Linux. The CLI
-and macOS app call the same Gateway-owned detector, which checks configured
-models, supported CLI logins, API-key environment variables, and already
-installed Ollama or LM Studio models. Local models are never downloaded by this
-discovery pass. Both CLI onboarding and the macOS app wait for you to choose a
-connection before testing it. A failed or cancelled attempt never selects another
+calls the Gateway-owned detector, which checks configured models, supported CLI
+logins, API-key environment variables, and already installed Ollama models.
+Local models are never downloaded by this discovery pass. CLI onboarding waits
+for you to choose a connection before testing it. A failed or cancelled attempt never selects another
 provider automatically. Setup saves the credential, then sends one tool-free
 confirmation turn using the candidate settings in memory. It saves the provider
 and model configuration only after that turn succeeds. A failed connection keeps
@@ -77,14 +76,14 @@ Use `setup --team` for the same small-team onboarding as `onboard --team`.
 `--agent-name <name>` names the first agent or, with `--team`, the coordinator.
 
 <Note>
-`openclaw setup` is for mutable config installs. In Nix mode (`OPENCLAW_NIX_MODE=1`) OpenAgent refuses setup writes because the config file is managed by Nix. Use the first-party [nix-openclaw Quick Start](https://github.com/openclaw/nix-openclaw#quick-start) or the equivalent source config for another Nix package.
+`openclaw setup` is for mutable config installs. In Nix mode (`OPENCLAW_NIX_MODE=1`) OpenAgent refuses setup writes because the config file is managed by Nix. Change the Nix source config for this install instead.
 </Note>
 
 ## Options
 
 | Flag                           | Description                                                                                          |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| `-m, --message <text>`         | Run one OpenAgent request.                                                                       |
+| `-m, --message <text>`         | Run one OpenAgent request.                                                                           |
 | `--yes`                        | Approve persistent config writes for one `--message` request.                                        |
 | `--workspace <dir>`            | Workspace proposal; existing fleets require classic confirmation and are preserved noninteractively. |
 | `--baseline`                   | Create baseline config/workspace/session folders without onboarding.                                 |
@@ -104,7 +103,7 @@ Use `setup --team` for the same small-team onboarding as `onboard --team`.
 | `--remote-url <url>`           | Remote Gateway WebSocket URL.                                                                        |
 | `--remote-token <token>`       | Remote Gateway token (optional).                                                                     |
 | `--remote-password <password>` | Remote Gateway password (optional).                                                                  |
-| `--json`                       | Configured system: OpenAgent overview. Onboarding route: onboarding summary.                     |
+| `--json`                       | Configured system: OpenAgent overview. Onboarding route: onboarding summary.                         |
 
 `--classic` and `--non-interactive` are mutually exclusive: classic opens the
 prompted wizard, while noninteractive setup uses the automation path.

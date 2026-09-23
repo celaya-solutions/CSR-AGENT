@@ -89,7 +89,7 @@ Most skills configuration lives under `skills` in
 
 <ParamField path="skills.install.allowUploadedArchives" type="boolean" default="false">
   Allow trusted `operator.admin` Gateway clients to install private zip
-  archives staged through `skills.upload.*`. Normal ClawHub installs do not
+  archives staged through `skills.upload.*`. Normal registry installs do not
   need this setting.
 </ParamField>
 
@@ -98,7 +98,7 @@ Most skills configuration lives under `skills` in
 Use `security.installPolicy` when operators need a trusted local command to
 approve or block skill and plugin installs with host-specific policy. The
 policy runs after OpenAgent has staged source material and before the install
-or update continues. It applies to ClawHub skills, uploaded skills, Git/local
+or update continues. It applies to registry skills, uploaded skills, Git/local
 skills, skill dependency installers, and plugin install/update sources.
 
 ```json5
@@ -195,7 +195,7 @@ partial review. An over-budget `block` remains terminal with a
 bounded denial, while over-budget findings on `allow` are summarized in bounded
 diagnostic output. Interactive CLI
 plugin and skill commands ask the operator to type the target name using the
-same `install anyway` or `update anyway` copy as suspicious ClawHub releases,
+same `install anyway` or `update anyway` copy as suspicious registry releases,
 then run policy again before continuing. Declined and non-interactive commands
 on the direct CLI may use `--acknowledge-install-policy-warning` as explicit
 approval after review for every warning in that command invocation;
@@ -238,7 +238,7 @@ Example stdin:
   },
   "origin": {
     "type": "clawhub",
-    "registry": "https://clawhub.openclaw.ai",
+    "registry": "https://registry.example.com",
     "slug": "weather",
     "version": "1.0.0"
   },

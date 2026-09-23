@@ -312,7 +312,7 @@ Set breakpoints in `src/` TypeScript files. The debugger maps them to compiled J
 
 ## Session trace output
 
-`/trace` shows plugin-owned trace/debug lines for one session without enabling full verbose mode. Use it for plugin diagnostics such as Active Memory debug summaries. Use `/verbose` for normal status/tool output.
+`/trace` shows plugin-owned trace/debug lines for one session without enabling full verbose mode. Use it for plugin diagnostics. Use `/verbose` for normal status/tool output.
 
 ```text
 /trace

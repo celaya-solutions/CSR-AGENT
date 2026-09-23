@@ -14,8 +14,9 @@ The `llama-cpp` plugin provides one `llama-cpp` model provider. OpenAgent can
 manage a local `llama-server` or connect to one that you operate. Both choices
 use `llama-cpp/<model>` references and the OpenAI-compatible transport.
 
+The plugin is bundled; run onboarding to set it up:
+
 ```bash
-openclaw plugins install @openclaw/llama-cpp-provider
 openclaw onboard
 ```
 
@@ -23,7 +24,7 @@ openclaw onboard
 
 | Setup choice          | Process owner                 | Local embeddings |
 | --------------------- | ----------------------------- | ---------------- |
-| Managed local server  | OpenAgent                 | Yes              |
+| Managed local server  | OpenAgent                     | Yes              |
 | Existing llama-server | You or an external supervisor | No               |
 
 `models.providers.llama-cpp.localService` is the ownership discriminator. If

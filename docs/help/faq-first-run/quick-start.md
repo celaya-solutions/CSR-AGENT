@@ -2,7 +2,6 @@
 summary: "FAQ: install, onboarding, first-run failures, builds, and subscription basics"
 read_when:
   - New install, onboarding stuck, or first-run errors
-  - Choosing between stable, beta, and dev builds
   - Install or onboarding fails on macOS, Linux, Windows, or a Pi
 title: "FAQ: quick start and first-run setup"
 sidebarTitle: "Quick start and setup"
@@ -16,36 +15,32 @@ where to run the Gateway see
 
 <AccordionGroup>
   <Accordion title="Recommended way to install and set up OpenAgent">
-    ```bash
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash
-    ```
-
-    The installer starts guided onboarding for you, so there is no separate
-    onboarding command to run. When onboarding finishes, press **Ctrl+C** to
-    stop the foreground Gateway and install the background service:
+    OpenAgent installs from source only:
 
     ```bash
-    openclaw gateway install
-    ```
-
-    Prefer the classic step-by-step wizard and a service install in one
-    command? Run `openclaw onboard --install-daemon` instead of the two
-    commands above. That flag selects the classic flow, so you do not see the
-    guided **Quick start** and **Custom setup** choice.
-
-    From source (contributors/dev):
-
-    ```bash
-    git clone https://github.com/openclaw/openclaw.git
-    cd openclaw
+    git clone https://github.com/celaya-solutions/CSR-AGENT.git
+    cd CSR-AGENT
     pnpm install
     pnpm build
     pnpm ui:build
-    openclaw onboard
+    pnpm openclaw onboard
     ```
 
-    No global install yet? Run `pnpm openclaw onboard` instead. If Control UI assets are
-    missing, onboarding tries to build them itself, falling back to `pnpm ui:build`.
+    When onboarding finishes, press **Ctrl+C** to stop the foreground Gateway
+    and install the background service:
+
+    ```bash
+    pnpm openclaw gateway install
+    ```
+
+    Prefer the classic step-by-step wizard and a service install in one
+    command? Run `pnpm openclaw onboard --install-daemon` instead. That flag
+    selects the classic flow, so you do not see the guided **Quick start** and
+    **Custom setup** choice.
+
+    If Control UI assets are missing, onboarding tries to build them itself,
+    falling back to `pnpm ui:build`. See [Install](/install) for an optional
+    global `openclaw` command.
 
   </Accordion>
 
@@ -53,23 +48,18 @@ where to run the Gateway see
 
   <Accordion title="I am stuck, fastest way to get unstuck">
     Use a local AI agent that can **see your machine**. Most "I'm stuck" cases are
-    **local config or environment issues** a remote helper cannot inspect, so this beats
-    asking in Discord.
+    **local config or environment issues** a remote helper cannot inspect.
 
     - **Claude Code**: [https://www.anthropic.com/claude-code/](https://www.anthropic.com/claude-code/)
     - **OpenAI Codex**: [https://openai.com/codex/](https://openai.com/codex/)
 
-    Give the agent the full source checkout via the hackable (git) install so it can read
-    code + docs and reason about the exact version you run:
-
-    ```bash
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git
-    ```
+    Run the agent inside your source checkout so it can read code + docs and
+    reason about the exact version you run.
 
     Ask the agent to plan and supervise the fix step-by-step, then execute only the
     necessary commands - smaller diffs are easier to audit.
 
-    Share these outputs when asking for help (in Discord or a GitHub issue):
+    Share these outputs when asking for help:
 
     | Command | Shows |
     | --- | --- |
@@ -81,12 +71,8 @@ where to run the Gateway see
     | `openclaw gateway status --deep` | Deep gateway/config/plugin health check |
     | `openclaw health --verbose` | Detailed health report |
 
-    Found a real bug or fix? File an issue or send a PR:
-    [Issues](https://github.com/openclaw/openclaw/issues) /
-    [Pull requests](https://github.com/openclaw/openclaw/pulls).
-
     Quick debug loop: [First 60 seconds if something is broken](/help/faq#first-60-seconds-if-something-is-broken).
-    Install docs: [Install](/install), Installer flags, [Updating](/install/updating).
+    Install docs: [Install](/install), [Updating](/install/updating).
 
   </Accordion>
 
@@ -173,11 +159,8 @@ where to run the Gateway see
     Absolute minimum: 1 GB RAM, 1 core, 500 MB free disk, 64-bit OS. Since the Pi only runs
     the Gateway (models call out to cloud APIs), even a modest Pi handles the load.
 
-    A small Pi/VPS can also host just the Gateway while you pair **nodes** on your
-    laptop/phone for local screen/camera or command execution. A paired Mac can
-    also present hosted widgets in its native panel. See [Nodes](/nodes).
-
-    Full setup walkthrough: Raspberry Pi.
+    A small Pi/VPS can also host just the Gateway while you pair headless
+    **nodes** on other machines for command execution. See [Nodes](/nodes).
 
   </Accordion>
 
@@ -185,11 +168,10 @@ where to run the Gateway see
     - Use a **64-bit** OS; do not use 32-bit Raspberry Pi OS.
     - Add swap on 2 GB or smaller boards.
     - Prefer a **USB SSD** over an SD card for performance and longevity.
-    - Prefer the hackable (git) install so you can see logs and update fast.
     - Start without channels/skills, add them one by one.
     - Weird binary failures ("exec format error") are usually a missing ARM64 build for an optional skill tool.
 
-    Full guide: Raspberry Pi. Also see [Linux](/platforms/linux).
+    Also see [Linux](/platforms/linux).
 
   </Accordion>
 
@@ -234,7 +216,7 @@ where to run the Gateway see
     3. Copy your workspace (default: `~/.openclaw/workspace`).
     4. Run `openclaw doctor` and restart the Gateway service.
 
-    This preserves config, auth profiles, WhatsApp creds, sessions, and memory - it keeps
+    This preserves config, auth profiles, channel credentials, sessions, and memory - it keeps
     your bot exactly the same, as long as you copy **both** locations. In remote mode, the
     gateway host owns the session store and workspace.
 
@@ -249,97 +231,25 @@ where to run the Gateway see
   </Accordion>
 
   <Accordion title="Where do I see what is new in the latest version?">
-    Check the GitHub changelog:
-    [https://github.com/openclaw/openclaw/blob/main/CHANGELOG.md](https://github.com/openclaw/openclaw/blob/main/CHANGELOG.md)
-
-    Newest entries are at the top. If the top section is **Unreleased**, the next dated
-    section is the latest shipped version. Entries group under **Highlights**, **Changes**,
-    and **Fixes** (plus docs/other sections when needed).
-
-  </Accordion>
-
-  <Accordion title="Cannot access docs.openclaw.ai (SSL error)">
-    Some Comcast/Xfinity connections incorrectly block `docs.openclaw.ai` via Xfinity
-    Advanced Security. Disable it or allowlist `docs.openclaw.ai`, then retry. Help us
-    get it unblocked: [https://spa.xfinity.com/check_url_status](https://spa.xfinity.com/check_url_status).
-
-    Still blocked? Docs are mirrored on GitHub:
-    [https://github.com/openclaw/openclaw/tree/main/docs](https://github.com/openclaw/openclaw/tree/main/docs)
-
-  </Accordion>
-
-  <Accordion title="Difference between stable and beta">
-    **Stable** and **beta** are **npm dist-tags**, not separate code lines:
-
-    - `latest` = stable
-    - `beta` = early build for testing (falls back to `latest` when beta is missing or older than the current stable release)
-
-    A stable release usually lands on **beta** first, then an explicit promotion step
-    moves that same version to `latest` without changing the version number. Maintainers
-    can also publish straight to `latest`. That is why beta and stable can point at the
-    **same version** after promotion.
-
-    See what changed: [CHANGELOG.md](https://github.com/openclaw/openclaw/blob/main/CHANGELOG.md).
-
-    For install one-liners and the difference between beta and dev, see the next accordion.
-
-  </Accordion>
-
-  <Accordion title="How do I install the beta version and what is the difference between beta and dev?">
-    **Beta** is the npm dist-tag `beta` (may match `latest` after promotion).
-    **Dev** is the moving head of `main` (git); when published to npm it uses dist-tag `dev`.
-
-    One-liners (macOS/Linux):
-
-    ```bash
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --beta
-    ```
-
-    ```bash
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git
-    ```
-
-    Windows installer (PowerShell): `iwr -useb https://openclaw.ai/install.ps1 | iex`
-
-    More detail: Development channels and Installer flags.
-
+    Read `CHANGELOG.md` in your source checkout, or run `git log` there to see the
+    commits since your last update.
   </Accordion>
 
   <Accordion title="How do I try the latest bits?">
-    Two options:
-
-    1. **Dev channel (existing install):**
+    Pull and rebuild your checkout, or let the updater do it:
 
     ```bash
-    openclaw update --channel dev
+    openclaw update
     ```
 
-    This switches to a git checkout of `main`, rebases on upstream, builds, and installs
-    the CLI from that checkout.
-
-    2. **Hackable (git) install (fresh machine):**
-
-    ```bash
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git
-    ```
-
-    Prefer a manual clone:
-
-    ```bash
-    git clone https://github.com/openclaw/openclaw.git
-    cd openclaw
-    pnpm install
-    pnpm build
-    ```
-
-    Docs: [Update](/cli/update), Development channels, [Install](/install).
+    Docs: [Update](/cli/update), [Updating](/install/updating).
 
   </Accordion>
 
   <Accordion title="How long does install and onboarding usually take?">
     Rough guide:
 
-    - **Install:** 2-5 minutes.
+    - **Install from source:** a few minutes for `pnpm install` and the build.
     - **QuickStart onboarding:** a few minutes (loopback gateway, auto token, default workspace).
     - **Advanced/full onboarding:** longer when provider sign-in, channel pairing, daemon install, network downloads, or skills need extra setup.
 
@@ -350,37 +260,22 @@ where to run the Gateway see
 
   </Accordion>
 
-  <Accordion title="Installer stuck? How do I get more feedback?">
-    Re-run with `--verbose`:
-
-    ```bash
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --verbose
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --beta --verbose
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git --verbose
-    ```
-
-    `install.ps1` has no dedicated verbose switch; wrap it in `Set-PSDebug -Trace 1` /
-    `-Trace 0` instead. Full flag reference: Installer flags.
-
-  </Accordion>
-
   <Accordion title="Windows install says git not found or openclaw not recognized">
     Two common Windows issues:
 
-    **1) npm error spawn git / git not found**
+    **1) git not found**
 
     - Install **Git for Windows**, make sure `git` is on PATH.
-    - Close and reopen PowerShell, then re-run the installer.
+    - Close and reopen PowerShell, then retry the clone and install.
 
     **2) openclaw is not recognized after install**
 
-    - Your npm global bin folder is not on PATH.
-    - Check it: `npm config get prefix`.
-    - Add that directory to your user PATH (no `\bin` suffix needed; on most systems it is `%AppData%\npm`).
-    - Close and reopen PowerShell.
+    - Run `pnpm openclaw ...` from inside the checkout, or link a global command
+      with `pnpm add --global "openclaw@link:$PWD"`.
+    - If the linked command is still missing, run `pnpm setup` so pnpm's global
+      bin folder is on PATH, then close and reopen PowerShell.
 
-    Prefer a desktop app? Use **Windows Hub**. Terminal-only setup: the PowerShell
-    installer and WSL2 Gateway paths are both supported. Docs: [Windows](/platforms/windows).
+    Native PowerShell and WSL2 Gateway paths are both supported. Docs: [Windows](/platforms/windows).
 
   </Accordion>
 
@@ -405,49 +300,39 @@ where to run the Gateway see
     openclaw gateway restart
     ```
 
-    Still reproducing this on latest OpenAgent? Track/report it: [Issue #30640](https://github.com/openclaw/openclaw/issues/30640).
-
   </Accordion>
 
   <Accordion title="The docs did not answer my question - how do I get a better answer?">
-    Use the hackable (git) install so you have the full source and docs locally, then ask
-    your bot (or Claude/Codex) **from that folder** so it can read the repo and answer precisely.
+    Your source checkout has the full source and docs locally. Ask your bot (or
+    Claude/Codex) **from that folder** so it can read the repo and answer precisely.
 
-    ```bash
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git
-    ```
-
-    More detail: [Install](/install) and Installer flags.
+    More detail: [Install](/install).
 
   </Accordion>
 
   <Accordion title="How do I install OpenAgent on Linux?">
     - Linux quick path + service install: [Linux](/platforms/linux).
     - Full walkthrough: [Getting Started](/start/getting-started).
-    - Installer + updates: [Install & updates](/install/updating).
+    - Updates: [Updating](/install/updating).
 
   </Accordion>
 
   <Accordion title="How do I install OpenAgent on a VPS?">
-    Any Linux VPS works. Install on the server, then reach the Gateway over SSH/Tailscale.
-
-    Guides: exe.dev, Hetzner, Fly.io.
+    Any Linux VPS works. Install from source on the server, then reach the Gateway
+    over SSH/Tailscale. Guide: [Linux server](/vps).
     Remote access: [Gateway remote](/gateway/remote).
 
   </Accordion>
 
   <Accordion title="Where are the cloud/VPS install guides?">
-    Hosting hub with common providers:
-
-    - [VPS hosting](/vps) (all providers in one place)
+    See [Linux server](/vps) and [Docker VM runtime](/install/docker-vm-runtime).
 
     In the cloud, the **Gateway runs on the server** and you access it from your laptop/phone
     via the Control UI (or Tailscale/SSH). Your state + workspace live on the server, so
     treat the host as the source of truth and back it up.
 
-    Pair **nodes** (Mac/iOS/Android/headless) to that cloud Gateway for local
-    screen/camera or command execution on your laptop while the Gateway stays in
-    the cloud.
+    Pair headless **nodes** to that cloud Gateway for command execution on your
+    laptop while the Gateway stays in the cloud.
 
     Hub: [Platforms](/platforms). Remote access: [Gateway remote](/gateway/remote).
     Nodes: [Nodes](/nodes), [Nodes CLI](/cli/nodes).
@@ -462,13 +347,8 @@ where to run the Gateway see
     ```bash
     openclaw update
     openclaw update status
-    openclaw update --channel beta
-    openclaw update --tag 2026.9.3
     openclaw update --no-restart
     ```
-
-    `--channel` accepts `stable`, `extended-stable`, `beta`, or `dev`. `--tag`
-    accepts an npm dist-tag or an exact version.
 
     Automating from an agent:
 
@@ -522,11 +402,8 @@ where to run the Gateway see
     automation, an Anthropic API key is the more predictable choice.
 
     OpenAI Codex OAuth (ChatGPT/Codex subscription) is fully supported for agent models.
-    OpenAgent also supports hosted subscription-style options including **Qwen Cloud
-    Coding Plan**, **MiniMax Coding Plan**, and **Z.AI / GLM Coding Plan**.
 
     Docs: [Anthropic](/providers/anthropic), [OpenAI](/providers/openai),
-    Qwen Cloud, MiniMax, Z.AI (GLM),
     [Local models](/gateway/local-models), [Models](/concepts/models).
 
   </Accordion>
@@ -548,9 +425,8 @@ where to run the Gateway see
 
     Anthropic setup-token auth is also still a supported token path, but OpenAgent prefers
     Claude CLI reuse and `claude -p` when available. For production or multi-user
-    workloads, an Anthropic API key remains the safer, more predictable choice. Other
-    subscription-style hosted options: [OpenAI](/providers/openai), Qwen Cloud,
-    MiniMax, Z.AI (GLM).
+    workloads, an Anthropic API key remains the safer, more predictable choice. The other
+    subscription-style option is [OpenAI](/providers/openai) Codex OAuth.
 
   </Accordion>
 

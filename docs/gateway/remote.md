@@ -7,8 +7,8 @@ title: "Remote access"
 
 OpenAgent runs one Gateway (the master) on a host and connects every client to it. The Gateway owns sessions, auth profiles, channels, and state; everything else is a client.
 
-- **Operators** (you, or the macOS app): direct LAN/Tailnet WebSocket is simplest when the Gateway is reachable; SSH tunneling is the universal fallback.
-- **Nodes** (iOS/Android and other devices): connect to the Gateway **WebSocket** (LAN/tailnet or SSH tunnel).
+- **Operators** (you, through the CLI, TUI, or Control UI): direct LAN/Tailnet WebSocket is simplest when the Gateway is reachable; SSH tunneling is the universal fallback.
+- **Nodes** (node hosts and other devices): connect to the Gateway **WebSocket** (LAN/tailnet or SSH tunnel).
 
 Remote clients can continue the same Gateway-owned conversation by URL or short
 reference. See [Session synchronization and attachment](/concepts/session-attachment).
@@ -19,11 +19,11 @@ The Gateway WebSocket binds to **loopback** by default, on port `18789` (`gatewa
 
 ## Topology options
 
-| Setup                             | Where the Gateway runs                                                                                         | Best for                                                                                                                                          |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Always-on Gateway in your tailnet | Persistent host (VPS or home server), reached via Tailscale or SSH                                             | Laptops that sleep often but need the agent always-on. See exe.dev (easy VM) or Hetzner (production VPS). |
-| Home desktop                      | Desktop; laptop connects remotely via the macOS app's remote mode (Settings → Connection → OpenAgent runs) | Keeping the agent on hardware that stays powered on. Runbook: macOS remote access.                                       |
-| Laptop                            | Laptop, exposed safely via SSH tunnel or Tailscale Serve (keep `gateway.bind: "loopback"`)                     | Single-machine setups. See [Tailscale](/gateway/tailscale) and [Web](/web).                                                                       |
+| Setup                             | Where the Gateway runs                                                                     | Best for                                                                        |
+| --------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| Always-on Gateway in your tailnet | Persistent host (VPS or home server), reached via Tailscale or SSH                         | Laptops that sleep often but need the agent always-on. See [VPS hosting](/vps). |
+| Home desktop                      | Desktop; laptop connects remotely over SSH or Tailscale                                    | Keeping the agent on hardware that stays powered on.                            |
+| Laptop                            | Laptop, exposed safely via SSH tunnel or Tailscale Serve (keep `gateway.bind: "loopback"`) | Single-machine setups. See [Tailscale](/gateway/tailscale) and [Web](/web).     |
 
 For the always-on and laptop setups, prefer keeping `gateway.bind: "loopback"` and using **Tailscale Serve** for the Control UI, or a trusted LAN/Tailnet bind with `gateway.remote.transport: "direct"`. SSH tunnel is the fallback that works from any machine.
 
@@ -72,7 +72,7 @@ Persist a remote target so CLI commands use it by default:
 }
 ```
 
-When the Gateway is loopback-only, keep the URL at `ws://127.0.0.1:18789` and open the SSH tunnel first. In the macOS app's SSH-tunnel transport, the discovered Gateway hostname goes in `gateway.remote.sshTarget` (`user@host` or `user@host:port`); `gateway.remote.url` stays the local tunnel URL. If the remote port differs from the local one, set `gateway.remote.remotePort`.
+When the Gateway is loopback-only, keep the URL at `ws://127.0.0.1:18789` and open the SSH tunnel first. For an SSH-tunnel transport, the Gateway hostname goes in `gateway.remote.sshTarget` (`user@host` or `user@host:port`); `gateway.remote.url` stays the local tunnel URL. If the remote port differs from the local one, set `gateway.remote.remotePort`.
 
 Running `openclaw configure --section gateway` or interactive onboarding again
 preserves the remote TLS fingerprint and transport settings when you keep the
@@ -222,15 +222,10 @@ Gateway credential resolution follows one shared contract across call/probe/stat
 
 ## Chat UI remote access
 
-WebChat has no separate HTTP port; the SwiftUI chat UI connects directly to the Gateway WebSocket.
+WebChat has no separate HTTP port; it connects directly to the Gateway WebSocket.
 
 - Forward `18789` over SSH (see above), then connect clients to `ws://127.0.0.1:18789`.
 - For LAN/Tailnet direct mode, connect clients to the configured private `ws://` or secure `wss://` URL.
-- On macOS, the app's remote mode manages the selected transport automatically.
-
-## macOS app remote mode
-
-The macOS menu bar app drives the same setup end-to-end: remote status checks, WebChat, and Voice Wake forwarding. Runbook: macOS remote access.
 
 ## Security rules (remote/VPN)
 
@@ -242,7 +237,7 @@ Keep the Gateway **loopback-only** unless you are sure you need a bind.
 - `gateway.remote.token` / `.password` are client credential sources; they do not configure server auth by themselves.
 - Local call paths can use `gateway.remote.*` as a fallback only when `gateway.auth.*` is unset.
 - If `gateway.auth.token` / `gateway.auth.password` is explicitly configured via SecretRef and unresolved, resolution fails closed (no remote fallback masking).
-- `gateway.remote.tlsFingerprint` pins the remote TLS cert for `wss://`, including both operator/control traffic and the companion node in macOS direct mode. Without a stored pin, macOS pins on first use only after normal system trust passes; self-signed or private-CA Gateways need an explicit fingerprint or Remote over SSH.
+- `gateway.remote.tlsFingerprint` pins the remote TLS cert for `wss://`, for operator/control traffic. Self-signed or private-CA Gateways need an explicit fingerprint or Remote over SSH.
 - **Tailscale Serve** can authenticate Control UI/WebSocket traffic via identity headers when `gateway.auth.allowTailscale: true`. HTTP API endpoints do not use that header auth and instead follow the Gateway's normal HTTP auth mode. This tokenless flow assumes the Gateway host is trusted; set it to `false` for shared-secret auth everywhere.
 - **Trusted-proxy** auth expects a non-loopback identity-aware proxy by default. Same-host loopback reverse proxies require explicit `gateway.auth.trustedProxy.allowLoopback = true`.
 - Treat browser control like operator access: tailnet-only plus deliberate node pairing.

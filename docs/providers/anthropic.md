@@ -161,8 +161,7 @@ OpenAgent release:
     Run `claude setup-token` on any machine with Claude Code installed. It prints
     a long-lived token starting with `sk-ant-oat01-`.
 
-    During onboarding, paste the token in the macOS app by choosing
-    **Anthropic setup-token** under **Connect with an API key or token**, or use:
+    Paste the token during onboarding, or use:
 
     ```bash
     openclaw models auth login --provider anthropic --method setup-token
@@ -211,9 +210,8 @@ OpenAgent release:
 
     <Tip>
     For shared production automation, use an Anthropic API key instead of
-    Claude CLI. OpenAgent also supports subscription-style options from
-    [OpenAI Codex](/providers/openai), Qwen Cloud,
-    MiniMax, and Z.AI / GLM.
+    Claude CLI. OpenAgent also supports a subscription-style option from
+    [OpenAI Codex](/providers/openai).
     </Tip>
 
   </Tab>
@@ -411,8 +409,7 @@ node's exec approval policy still applies; the Gateway cannot force the opt-in.
 
 Node continuation v1 is one-shot only. It omits Gateway loopback MCP config and
 Gateway skills plugin arguments, does not reseed from a Gateway transcript, and
-rejects attachments and images. Claude Desktop rows remain view-only. Native
-macOS app nodes also remain view-only until the app advertises the run command.
+rejects attachments and images. Claude Desktop rows remain view-only.
 
 <Note>
 Paired-node Claude sessions remain read-only unless the headless node explicitly
@@ -633,12 +630,6 @@ OpenAgent supports Anthropic's prompt caching feature for API-key auth.
 
   </Accordion>
 
-  <Accordion title="Bedrock Claude notes">
-    - Anthropic Claude models on Bedrock (`amazon-bedrock/*anthropic.claude*`) accept `cacheRetention` pass-through when configured.
-    - Supported Nova models offer opt-in explicit caching: set `cacheRetention` explicitly to `short` or `long` for system/message checkpoints with a five-minute TTL. Unset retention adds no checkpoints. Nova explicit caching has not been live-verified against AWS by OpenAgent maintainers yet. Other non-Claude models remain at `cacheRetention: "none"`; see [Bedrock prompt caching](/reference/prompt-caching#amazon-bedrock) for model IDs, AWS limits, and the live acceptance proof gap.
-    - API-key smart defaults also seed `cacheRetention: "short"` for Claude-on-Bedrock refs when no explicit value is set.
-
-  </Accordion>
 </AccordionGroup>
 
 ## Advanced configuration

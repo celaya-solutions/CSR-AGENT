@@ -176,8 +176,8 @@ Notes:
 - `Ctx` shows `contextTokens/contextWindow` when a runtime cap differs from the native context window. JSON retains `contextTokens` when provided.
 - `Input` and `Ctx` use the selected physical route plus explicit configured logical overrides. Unresolved route metadata stays unknown instead of borrowing another route's capabilities.
 - Configured model IDs retain case. For example, `Reader` and `reader` remain distinct. Provider-owned aliases still apply, and configured aliases remain in the table tags and JSON output.
-- `--provider` takes a provider ID, such as `moonshot`, rather than a picker label such as `Moonshot AI`.
-- Model refs split on the first `/`. Include the provider prefix when the model ID contains `/`, for example `openrouter/moonshotai/kimi-k2`.
+- `--provider` takes a provider ID, such as `openrouter`, rather than a picker label such as `OpenRouter`.
+- Model refs split on the first `/`. Include the provider prefix when the model ID contains `/`, for example `openrouter/anthropic/claude-sonnet-4.5`.
 
 Provider discovery through `models list --refresh` is separate from the hosted
 metadata download performed by `models refresh`, described below. See the
@@ -197,8 +197,7 @@ If `models.catalogRefresh.enabled` is `false`, the command reports that refresh
 is disabled.
 
 See [Hosted catalog updates](/concepts/models#hosted-catalog-updates) for the
-update lifecycle. The public change history is in
-[`openclaw/catalog`](https://github.com/openclaw/catalog).
+update lifecycle.
 
 ### Set default / image model
 
@@ -268,7 +267,7 @@ Use `models accounts` for accounts owned by your signed-in person on the selecte
 | Scope          | Command                                            | Where the credential belongs                                        |
 | -------------- | -------------------------------------------------- | ------------------------------------------------------------------- |
 | Personal       | `models accounts login [provider]`                 | Your verified profile on the selected Gateway, which may be remote. |
-| System / agent | `models auth login --provider <id> [--agent <id>]` | The OpenAgent installation on the machine running the command.  |
+| System / agent | `models auth login --provider <id> [--agent <id>]` | The OpenAgent installation on the machine running the command.      |
 
 To configure system/agent credentials for a remote server, run `models auth` on that server with its OpenAgent state/config. Configuring a remote Gateway URL on your laptop does not make `models auth` write to the server.
 
@@ -294,7 +293,7 @@ If no person is identified, the command stops before provider sign-in and explai
 
 `login`, `use`, and `clear-default` need `operator.write`. `login` requires an interactive terminal and offers the same provider and sign-in methods as **Add account** in the Control UI. Omit the provider to choose from the Gateway's catalog; use `--method <id>` to select a method directly. The catalog includes only methods enabled for personal accounts by their provider plugin, not every system/agent setup method.
 
-Anthropic uses an API key for personal setup, not a Claude subscription token. OpenAI offers API key, browser sign-in, and device-code methods; Grok (`xai`) offers API key and device sign-in. Follow the steps shown by the selected Gateway. Credentials and authorization codes go into protected inputs, never command arguments or chat. During browser sign-in, the CLI keeps checking for completion even while a redirect prompt is open.
+Anthropic uses an API key for personal setup, not a Claude subscription token. OpenAI offers API key, browser sign-in, and device-code methods. Follow the steps shown by the selected Gateway. Credentials and authorization codes go into protected inputs, never command arguments or chat. During browser sign-in, the CLI keeps checking for completion even while a redirect prompt is open.
 
 Keep the command running until it reports a terminal result. Ctrl-C cancels that exact sign-in attempt and waits for the Gateway's acknowledgment; a closed connection must start a fresh attempt. Saving an account does not by itself prove that a model request will succeed.
 

@@ -81,8 +81,6 @@ Most failures here are not exotic exploits - they are "someone messaged the bot 
 
 ## Reporting security issues
 
-Found a vulnerability in OpenAgent? Report responsibly:
-
-1. Email: [security@openclaw.ai](mailto:security@openclaw.ai)
-2. Do not post publicly until fixed.
-3. We will credit you (unless you prefer anonymity).
+Found a vulnerability in OpenAgent? Follow the reporting instructions in
+`SECURITY.md` at the root of the source repository, and do not post publicly
+until it is fixed.

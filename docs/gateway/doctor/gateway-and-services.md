@@ -20,9 +20,6 @@ warnings, workspace status, gateway auth and health, and supervisors.
     On Linux, if the user-level gateway service is missing but a system-level OpenAgent gateway service exists, doctor does not install a second user-level service automatically. Inspect with `openclaw gateway status --deep` or `openclaw doctor --deep`, then remove the duplicate or set `OPENCLAW_SERVICE_REPAIR_POLICY=external` when a system supervisor owns the gateway lifecycle.
 
   </Accordion>
-  <Accordion title="8b. Startup Matrix migration">
-    When a Matrix channel account has a pending or actionable legacy state migration, doctor (in `--fix` / `--repair` mode) creates a pre-migration snapshot and then runs the best-effort migration steps: legacy Matrix state migration and legacy encrypted-state preparation. Both steps are non-fatal; errors are logged and startup continues. Without explicit repair (`--fix`, `--repair`, or `--yes`), this check is skipped.
-  </Accordion>
   <Accordion title="8c. Device pairing and auth drift">
     Doctor inspects device-pairing state as part of the normal health pass, reporting:
 
@@ -128,7 +125,7 @@ warnings, workspace status, gateway auth and health, and supervisors.
     ```
 
     Unset **every** reported `partialclonefilter` key before refetching, including
-    keys such as `remote.https://github.com/openclaw/openclaw.git.partialclonefilter`.
+    keys such as `remote.https://example.com/owner/repo.git.partialclonefilter`.
     Omit `--unshallow` if the repository is not shallow; Git rejects that option
     for complete history. Keep promisor settings until missing objects have been
     fetched by ID, then unset every reported `promisor` key and, if present,

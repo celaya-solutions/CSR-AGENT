@@ -13,7 +13,7 @@ Default Docker image: `openclaw-sandbox:bookworm-slim`
 <Note>
 **Source checkout vs npm install**
 
-The `scripts/sandbox-setup.sh`, `scripts/sandbox-common-setup.sh`, and `scripts/sandbox-browser-setup.sh` helper scripts are only available when running from a [source checkout](https://github.com/openclaw/openclaw). They are not included in the npm package.
+The `scripts/sandbox-setup.sh`, `scripts/sandbox-common-setup.sh`, and `scripts/sandbox-browser-setup.sh` helper scripts are only available when running from a source checkout. They are not included in the npm package.
 
 If you installed the global OpenAgent npm package, use the inline `docker build`
 commands shown below instead.
@@ -57,7 +57,7 @@ commands shown below instead.
     scripts/sandbox-common-setup.sh
     ```
 
-    From an npm install, build the default image first (see above). Download [`scripts/docker/sandbox/Dockerfile.common`](https://github.com/openclaw/openclaw/blob/main/scripts/docker/sandbox/Dockerfile.common) and the root [`package.json`](https://github.com/openclaw/openclaw/blob/main/package.json) from the same OpenAgent commit or tag into an empty directory. Keep their filenames, then run from that directory:
+    From an npm install, build the default image first (see above). Copy `scripts/docker/sandbox/Dockerfile.common` and the root `package.json` from the same OpenAgent commit of the source repository into an empty directory. Keep their filenames, then run from that directory:
 
     ```bash
     docker build -t openclaw-sandbox-common:bookworm-slim -f Dockerfile.common .

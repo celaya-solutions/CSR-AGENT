@@ -1,5 +1,5 @@
 ---
-summary: "OpenAgent is an open-source AI assistant that runs on your own hardware and meets you in every chat app you already use."
+summary: "OpenAgent is an open-source AI assistant that runs on your own hardware and meets you in Discord, Telegram, and the browser."
 read_when:
   - Introducing OpenAgent to newcomers
 title: "OpenAgent"
@@ -12,9 +12,9 @@ title: "OpenAgent"
 </p>
 
 <p align="center">
-  <strong>Your AI assistant, on your own hardware, in every chat app you already use.</strong><br />
+  <strong>Your AI assistant, on your own hardware, in the chat apps you already use.</strong><br />
   One Gateway. Any model. Any device. No hosted service in the middle.<br />
-  Developed in the open by the <a href="https://openclaw.org">Celaya Solutions</a>, an independent 501(c)(3). No paid tier, no telemetry by default beyond a <a href="/gateway/telemetry">version check</a> you can turn off, no lab owns it.
+  A course edition by Celaya Solutions, derived from OpenClaw. No paid tier, and no <a href="/gateway/telemetry">telemetry</a> unless you configure an endpoint.
 </p>
 
 <Columns>
@@ -25,7 +25,7 @@ title: "OpenAgent"
     Guided setup with `openclaw onboard` and pairing flows.
   </Card>
   <Card title="Connect a Channel" href="/channels" icon="message-circle">
-    Link Discord, Signal, Telegram, WhatsApp, and more to chat from anywhere.
+    Link Discord or Telegram to chat from anywhere.
   </Card>
   <Card title="Open the Control UI" href="/web/control-ui" icon="layout-dashboard">
     Launch the browser dashboard for chat, config, and sessions.
@@ -39,13 +39,13 @@ these hub links to reach the same top-level docs areas from the page body.
 
 <Columns>
   <Card title="Get started" href="/start/getting-started" icon="rocket">
-    Overview, showcase, first steps, and setup guides.
+    Overview, first steps, and setup guides.
   </Card>
   <Card title="Install" href="/install" icon="download">
     Install paths, updates, containers, hosting, and advanced setup.
   </Card>
   <Card title="Channels" href="/channels" icon="messages-square">
-    Messaging channels, pairing, routing, access groups, and channel QA.
+    Messaging channels, pairing, routing, and access groups.
   </Card>
   <Card title="Agents" href="/concepts/architecture" icon="bot">
     Architecture, sessions, context, memory, and multi-agent routing.
@@ -57,7 +57,7 @@ these hub links to reach the same top-level docs areas from the page body.
     Providers, model configuration, failover, and local model services.
   </Card>
   <Card title="Platforms" href="/platforms" icon="monitor-smartphone">
-    macOS, Windows, iOS, Android, nodes, and web surfaces.
+    Linux, Windows, nodes, and web surfaces.
   </Card>
   <Card title="Gateway & Ops" href="/gateway" icon="server">
     Gateway configuration, security, diagnostics, and operations.
@@ -72,7 +72,7 @@ these hub links to reach the same top-level docs areas from the page body.
 
 ## What is OpenAgent?
 
-OpenAgent is a **self-hosted gateway** that connects your favorite chat apps — Discord, Google Chat, iMessage, Matrix, Microsoft Teams, Signal, Slack, Telegram, WhatsApp, Zalo, and more via channel plugins — to AI coding agents. You run a single Gateway process on your own machine (or a server), and it becomes the bridge between your messaging apps and an always-available AI assistant.
+OpenAgent is a **self-hosted gateway** that connects chat apps — Discord and Telegram, plus the browser Control UI — to AI coding agents. You run a single Gateway process on your own machine (or a server), and it becomes the bridge between your messaging apps and an always-available AI assistant.
 
 **Who is it for?** Developers, power users, and teams who want an AI assistant they can message from anywhere — without giving up control of their data or relying on a hosted service. The same gateway runs as a personal assistant on one laptop or as a shared [team deployment](/start/teams); configuration is the only difference.
 
@@ -81,7 +81,7 @@ OpenAgent is a **self-hosted gateway** that connects your favorite chat apps —
 - **Self-hosted**: runs on your hardware, your rules
 - **Multi-channel**: one Gateway serves every configured channel plugin simultaneously
 - **Agent-native**: built for coding agents with tool use, sessions, memory, and multi-agent routing
-- **Open source**: MIT licensed, community-driven
+- **Open source**: MIT licensed, built from source
 
 The full architecture case — a trusted gateway, untrusted execution, deterministic policy, and how one product spans personal and team use — is in [Why OpenAgent](/start/why-openclaw).
 
@@ -95,8 +95,7 @@ flowchart LR
   B --> C["OpenAgent agent"]
   B --> D["CLI"]
   B --> E["Web Control UI"]
-  B --> F["macOS app"]
-  B --> G["iOS and Android nodes"]
+  B --> F["Nodes"]
 ```
 
 The Gateway is the single source of truth for sessions, routing, and channel connections.
@@ -105,10 +104,7 @@ The Gateway is the single source of truth for sessions, routing, and channel con
 
 <Columns>
   <Card title="Multi-channel gateway" icon="network" href="/channels">
-    Discord, iMessage, Signal, Slack, Telegram, WhatsApp, WebChat, and more with a single Gateway process.
-  </Card>
-  <Card title="Plugin channels" icon="plug" href="/tools/plugin">
-    Channel plugins add Matrix, Nostr, Twitch, Zalo, and more; official plugins install on demand.
+    Discord, Telegram, and WebChat with a single Gateway process.
   </Card>
   <Card title="Multi-agent routing" icon="route" href="/concepts/multi-agent">
     Isolated sessions per agent, workspace, or sender.
@@ -119,8 +115,8 @@ The Gateway is the single source of truth for sessions, routing, and channel con
   <Card title="Web Control UI" icon="monitor" href="/web/control-ui">
     Browser dashboard for chat, config, sessions, and nodes.
   </Card>
-  <Card title="Mobile nodes" icon="smartphone" href="/nodes">
-    Pair iOS and Android nodes for camera, screen, and voice-enabled workflows.
+  <Card title="Nodes" icon="server" href="/nodes">
+    Pair headless node hosts to run commands on other machines.
   </Card>
   <Card title="Skills" icon="graduation-cap" href="/tools/skills">
     Teach the agent repeatable procedures it loads on demand.
@@ -137,22 +133,15 @@ The Gateway is the single source of truth for sessions, routing, and channel con
 
 <Steps>
   <Step title="Install OpenAgent">
-    <Tabs>
-      <Tab title="macOS / Linux / WSL2">
-        ```bash
-        curl -fsSL https://openclaw.ai/install.sh | bash
-        ```
-      </Tab>
-      <Tab title="Windows (PowerShell)">
-        ```powershell
-        iwr -useb https://openclaw.ai/install.ps1 | iex
-        ```
-      </Tab>
-    </Tabs>
+    ```bash
+    git clone https://github.com/celaya-solutions/CSR-AGENT.git
+    cd CSR-AGENT
+    pnpm install && pnpm build && pnpm ui:build
+    pnpm openclaw onboard
+    ```
 
-    The installer detects your OS, installs Node if needed, installs OpenAgent,
-    and then starts onboarding. Other install methods (npm, pnpm, bun, Docker,
-    Nix, from source) are on the [Install](/install) page.
+    OpenAgent installs from source only. Docker, Podman, and the optional
+    global `openclaw` command are on the [Install](/install) page.
 
   </Step>
   <Step title="Complete onboarding">
@@ -193,24 +182,20 @@ Open the browser Control UI after the Gateway starts.
 - Local default: [http://127.0.0.1:18789/](http://127.0.0.1:18789/)
 - Remote access: [Web surfaces](/web) and [Tailscale](/gateway/tailscale)
 
-<p align="center">
-  <img src="/whatsapp-openclaw.jpg" alt="OpenAgent" width="420" />
-</p>
-
 ## Configuration (optional)
 
 Config lives at `~/.openclaw/openclaw.json`.
 
 - If you **do nothing**, OpenAgent uses the bundled OpenAgent agent runtime; DMs share the agent's main session, and each group chat gets its own session.
-- If you want to lock it down, start with `channels.whatsapp.allowFrom` and (for groups) mention rules.
+- If you want to lock it down, start with `channels.telegram.allowFrom` and (for groups) mention rules.
 
 Example:
 
 ```json5
 {
   channels: {
-    whatsapp: {
-      allowFrom: ["+15555550123"],
+    telegram: {
+      allowFrom: ["123456789"],
       groups: { "*": { requireMention: true } },
     },
   },
@@ -231,10 +216,10 @@ Example:
     SSH and tailnet access patterns.
   </Card>
   <Card title="Channels" href="/channels" icon="message-square">
-    Channel-specific setup for Discord, Feishu, Microsoft Teams, Telegram, WhatsApp, and more.
+    Channel-specific setup for Discord and Telegram.
   </Card>
-  <Card title="Nodes" href="/nodes" icon="smartphone">
-    iOS and Android nodes with pairing, camera, screen, and device actions.
+  <Card title="Nodes" href="/nodes" icon="server">
+    Headless node hosts with pairing and remote command execution.
   </Card>
   <Card title="Help" href="/help" icon="life-buoy">
     Common fixes and troubleshooting entry point.
@@ -257,6 +242,6 @@ Example:
     Gateway diagnostics and common errors.
   </Card>
   <Card title="About and credits" href="/reference/credits" icon="info">
-    Project origins, contributors, and license.
+    Project origins, attribution, and license.
   </Card>
 </Columns>

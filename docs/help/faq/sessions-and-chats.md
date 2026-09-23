@@ -114,52 +114,15 @@ read_when:
 
   </Accordion>
 
-  <Accordion title='Do I need to add a "bot account" to a WhatsApp group?'>
-    No. OpenAgent runs on **your own account** - if you are in the group, OpenAgent can see it. By default, group replies are blocked until you allow senders (`groupPolicy: "allowlist"`).
-
-    To restrict group replies to only you:
-
-    ```json5
-    {
-      channels: {
-        whatsapp: {
-          groupPolicy: "allowlist",
-          groupAllowFrom: ["+15551234567"],
-        },
-      },
-    }
-    ```
-
-  </Accordion>
-
-  <Accordion title="How do I get the JID of a WhatsApp group?">
-    Fastest: tail logs and send a test message in the group.
-
-    ```bash
-    openclaw logs --follow --json
-    ```
-
-    Look for `chatId` (or `from`) ending in `@g.us`, like `1234567890-1234567890@g.us`.
-
-    If already configured/allowlisted, list groups from config:
-
-    ```bash
-    openclaw directory groups list --channel whatsapp
-    ```
-
-    Docs: WhatsApp, [Directory](/cli/directory), [Logs](/cli/logs).
-
-  </Accordion>
-
   <Accordion title="Why does OpenAgent not reply in a group?">
-    Two common causes: mention gating is on by default (you must @mention the bot, or match `mentionPatterns`), or you configured `channels.whatsapp.groups` without `"*"` and the group is not allowlisted.
+    Two common causes: mention gating is on by default (you must @mention the bot, or match `mentionPatterns`), or you configured `channels.<channel>.groups` without `"*"` and the group is not allowlisted.
 
-    See [Groups](/channels/groups) and [Group messages](/channels/group-messages).
+    See [Groups](/channels/groups).
 
   </Accordion>
 
   <Accordion title="Do groups/threads share context with DMs?">
-    Direct chats collapse to the main session by default. Groups/channels get their own session keys unless a route binding sets `session.groupScope: "main"` to merge that room into the main session; Telegram topics / Discord threads are separate sessions. See [Groups](/channels/groups) and [Group messages](/channels/group-messages).
+    Direct chats collapse to the main session by default. Groups/channels get their own session keys unless a route binding sets `session.groupScope: "main"` to merge that room into the main session; Telegram topics / Discord threads are separate sessions. See [Groups](/channels/groups).
   </Accordion>
 
   <Accordion title="How many workspaces and agents can I create?">
@@ -173,14 +136,14 @@ read_when:
 
   </Accordion>
 
-  <Accordion title="Can I run multiple bots or chats at the same time (Slack), and how should I set that up?">
-    Yes, via **Multi-Agent Routing**: run multiple isolated agents and route inbound messages by channel/account/peer. Slack is supported as a channel and can be bound to specific agents.
+  <Accordion title="Can I run multiple bots or chats at the same time, and how should I set that up?">
+    Yes, via **Multi-Agent Routing**: run multiple isolated agents and route inbound messages by channel/account/peer. A Discord or Telegram account can be bound to specific agents.
 
     Browser access is powerful but not "do anything a human can" - anti-bot, CAPTCHAs, and MFA can still block automation. For the most reliable control, use local Chrome MCP on the host, or CDP on the machine that actually runs the browser.
 
-    Best-practice setup: always-on Gateway host (VPS/Mac mini), one agent per role (bindings), Slack channel(s) bound to those agents, and local browser via Chrome MCP or a node when needed.
+    Best-practice setup: always-on Gateway host (VPS/Mac mini), one agent per role (bindings), Discord or Telegram channels bound to those agents, and local browser via Chrome MCP or a node when needed.
 
-    Docs: [Multi-Agent Routing](/concepts/multi-agent), Slack, [Browser](/tools/browser), [Nodes](/nodes).
+    Docs: [Multi-Agent Routing](/concepts/multi-agent), [Browser](/tools/browser), [Nodes](/nodes).
 
   </Accordion>
 </AccordionGroup>

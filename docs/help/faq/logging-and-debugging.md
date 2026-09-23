@@ -39,11 +39,9 @@ read_when:
   </Accordion>
 
   <Accordion title="I closed my terminal on Windows - how do I restart OpenAgent?">
-    Three Windows install modes:
+    Two Windows install modes:
 
-    **1) Windows Hub local setup**: the native app manages a local app-owned WSL Gateway. Open **OpenAgent Companion** from the Start menu or tray, then use **Gateway Setup** or the Connections tab.
-
-    **2) Manual WSL2 Gateway**: the Gateway runs inside Linux.
+    **1) WSL2 Gateway**: the Gateway runs inside Linux.
     ```powershell
     wsl
     openclaw gateway status
@@ -51,7 +49,7 @@ read_when:
     ```
     If you never installed the service, start it in the foreground: `openclaw gateway run`.
 
-    **3) Native Windows CLI/Gateway**: runs directly in Windows.
+    **2) Native Windows CLI/Gateway**: runs directly in Windows.
     ```powershell
     openclaw gateway status
     openclaw gateway restart
