@@ -28,11 +28,10 @@ type BrowserLobsterPet = HTMLElement & {
  *  1280x900 context and the per-test contexts below (compact/edge/theme). */
 async function loadControlUiPage(currentPage: Page) {
   await currentPage.clock.install({ time: new Date("2026-07-09T12:00:00") });
-  await installMockGateway(currentPage, { communityInviteDismissed: false });
+  await installMockGateway(currentPage);
   await currentPage.goto(suite.server.baseUrl);
   await currentPage.waitForFunction(() => Boolean(customElements.get("openclaw-lobster-pet")));
   await currentPage.locator("openclaw-app-sidebar").waitFor();
-  await currentPage.locator(".community-invite-card").waitFor();
   const loadedAt = await currentPage.evaluate(() => Date.now());
   await currentPage.clock.pauseAt(loadedAt + 1_000);
 }
@@ -83,7 +82,6 @@ async function measureDismissMenu(currentPage: Page) {
     const hostStyle = host ? getComputedStyle(host) : null;
     const hostRect = host?.getBoundingClientRect() ?? null;
     const invite = document.querySelector<HTMLElement>(".sidebar-shell__invite");
-    const inviteCard = invite?.querySelector(".community-invite-card") ?? null;
     const inviteRect = invite?.getBoundingClientRect() ?? null;
     const footerRect = document
       .querySelector<HTMLElement>(".sidebar-shell__footer")
@@ -131,7 +129,6 @@ async function measureDismissMenu(currentPage: Page) {
       hostOverflow: hostStyle?.overflow ?? null,
       hostParentClass: host?.parentElement?.className ?? null,
       hostBottom: hostRect?.bottom ?? null,
-      inviteCardPresent: inviteCard !== null,
       inviteHeight: inviteRect?.height ?? null,
       inviteTop: inviteRect?.top ?? null,
       footerTop: footerRect?.top ?? null,
@@ -175,7 +172,7 @@ async function useOversizedDismissLabels(currentPage: Page) {
 }
 
 suite.define(() => {
-  it("keeps the lobster clickable and its dismissal menu within the viewport on both sidebar ledges", () =>
+  it("keeps the lobster clickable and its dismissal menu within the viewport on the sidebar ledge", () =>
     withDismissMenuPage({}, async (page) => {
       await configureRealSidebarPet(page, 42);
       const sprite = page.locator(".lobster-pet");
@@ -185,33 +182,8 @@ suite.define(() => {
       await page.locator("wa-dropdown.lobster-pet-dismiss-menu").waitFor();
       await page.getByText("Dismiss and don't show again", { exact: true }).waitFor();
 
-      const inviteMeasurement = await measureDismissMenu(page);
-
       // Asserting on the whole measurement so a regression prints the anchor
       // position and resolved max-height that explain it.
-      expect(inviteMeasurement).toMatchObject({
-        overflowPx: 0,
-        popupIsTopLayer: true,
-        hasOuterMenuSurface: false,
-        hostParentClass: "sidebar-shell__invite",
-        inviteCardPresent: true,
-      });
-      expect(inviteMeasurement.menuTop).toBeGreaterThanOrEqual(0);
-      expect(inviteMeasurement.menuBottom).toBeLessThanOrEqual(inviteMeasurement.viewportHeight);
-      expect(inviteMeasurement.inviteHeight).toBeGreaterThan(0);
-      expect(inviteMeasurement.hostBottom).not.toBeNull();
-      expect(inviteMeasurement.inviteTop).not.toBeNull();
-      expect(
-        Math.abs((inviteMeasurement.hostBottom ?? 0) - (inviteMeasurement.inviteTop ?? 0) - 3),
-      ).toBeLessThan(0.5);
-
-      await page.keyboard.press("Escape");
-      const invite = page.locator(".community-invite-card");
-      await page.getByRole("button", { name: "Dismiss and don't show again" }).click();
-      await invite.waitFor({ state: "detached" });
-
-      await sprite.click({ button: "right" });
-      await page.locator("wa-dropdown.lobster-pet-dismiss-menu").waitFor();
       const footerMeasurement = await measureDismissMenu(page);
 
       expect(footerMeasurement).toMatchObject({
@@ -219,7 +191,6 @@ suite.define(() => {
         popupIsTopLayer: true,
         hasOuterMenuSurface: false,
         hostParentClass: "sidebar-shell__invite",
-        inviteCardPresent: false,
         inviteHeight: 0,
       });
       expect(footerMeasurement.menuTop).toBeGreaterThanOrEqual(0);

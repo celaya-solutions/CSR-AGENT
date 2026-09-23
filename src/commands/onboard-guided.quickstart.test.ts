@@ -118,14 +118,14 @@ describe("runGuidedOnboarding quick start", () => {
       const securityNotes = vi
         .mocked(prompter.note)
         .mock.calls.filter(([message]) =>
-          message.includes("https://docs.openclaw.ai/gateway/security"),
+          message.includes("OpenAgent runs an AI agent with real access to this machine."),
         );
       expect(securityNotes).toEqual(
         acknowledgedAt
           ? []
           : [
               [
-                "OpenAgent runs an AI agent with real access to this machine. Security guide: https://docs.openclaw.ai/gateway/security",
+                "OpenAgent runs an AI agent with real access to this machine.",
                 "Security disclaimer",
               ],
             ],

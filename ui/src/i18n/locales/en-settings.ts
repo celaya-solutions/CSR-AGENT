@@ -198,7 +198,6 @@ const enSettings = {
     ttlFact: "Max lifetime: {value}",
     idleFact: "Idle stop: {value}",
     desktopFact: "Desktop: {value}",
-    providerList: "View supported backends",
     advanced: "Advanced",
     preparedPool: "Prepared pool",
     preparedPoolHelp:
@@ -541,7 +540,6 @@ const enSettings = {
       openIssue: "Open GitHub issue",
       openPrefilledIssue: "Open prefilled issue",
       savedReport: "Saved report",
-      troubleshoot: "Troubleshoot updates",
       cliFallback: "CLI fallback",
       showCliFallback: "Show terminal commands",
     },

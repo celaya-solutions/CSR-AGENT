@@ -77,7 +77,7 @@ describe("Doctor legacy audit skips", () => {
       expect(() => throwIfDoctorStateMigrationRefused(result.stepReceipts)).not.toThrow();
       expect(result.warnings.join("\n")).toContain(warning);
       expect(result.warnings.join("\n")).toContain(
-        "https://docs.openclaw.ai/cli/update/repair-and-recovery",
+        "Preserve the legacy source and any sanitized companion for recovery.",
       );
       expect(result.stepReceipts.find((receipt) => receipt.id === "exec-approvals")).toMatchObject({
         outcome: "completed",

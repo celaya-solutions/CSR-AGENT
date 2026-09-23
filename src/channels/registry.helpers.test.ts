@@ -26,13 +26,6 @@ describe("channel registry helpers", () => {
     return ids;
   }
 
-  function formatTestLink(path?: string, label?: string): string {
-    if (label && path) {
-      return `${label}:${path}`;
-    }
-    return label ?? path ?? "";
-  }
-
   function createRegistryWithRegisteredChannel(id: string, aliases: string[] = []) {
     return createTestRegistry([
       {
@@ -52,15 +45,15 @@ describe("channel registry helpers", () => {
     expect(channelIds()).toContain("msteams");
   });
 
-  it("formats Telegram selection lines without a docs prefix and with website extras", () => {
+  it("formats Telegram selection lines without a docs link and with website extras", () => {
     const telegram = listChatChannels().find((channel) => channel.id === "telegram");
     if (!telegram) {
       throw new Error("Missing Telegram channel metadata.");
     }
-    const line = formatChannelSelectionLine(telegram, formatTestLink);
+    const line = formatChannelSelectionLine(telegram);
     expect(line).not.toContain("Docs:");
-    expect(line).toContain("/channels/telegram");
-    expect(line).toContain("https://openclaw.ai");
+    expect(line).not.toContain("/channels/telegram");
+    expect(line).toContain("https://celayasolutions.com");
   });
 
   it("prefers an exact channel id over an earlier plugin alias", () => {

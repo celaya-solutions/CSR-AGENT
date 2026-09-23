@@ -15,7 +15,6 @@ import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { isValidEnvSecretRefId, type SecretInput } from "../config/types.secrets.js";
 import {
   maybeAddTailnetOriginToControlUiAllowedOrigins,
-  TAILSCALE_DOCS_LINES,
   TAILSCALE_EXPOSURE_OPTIONS,
   TAILSCALE_MISSING_BIN_NOTE_LINES,
 } from "../gateway/gateway-config-prompts.shared.js";
@@ -149,10 +148,6 @@ export async function promptGatewayConfig(
     }
   }
 
-  if (tailscaleMode !== "off") {
-    note(TAILSCALE_DOCS_LINES.join("\n"), "Tailscale");
-  }
-
   if (tailscaleMode !== "off" && bind !== "loopback") {
     note("Tailscale requires bind=loopback. Adjusting bind to loopback.", "Note");
     bind = "loopback";
@@ -264,7 +259,6 @@ export async function promptGatewayConfig(
         "Only requests from specified proxy IPs will be trusted.",
         "",
         "Common use cases: Pomerium, Caddy + OAuth, Traefik + forward auth",
-        "Docs: https://docs.openclaw.ai/gateway/trusted-proxy-auth",
       ].join("\n"),
       "Trusted Proxy Auth",
     );

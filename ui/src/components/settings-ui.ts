@@ -79,12 +79,6 @@ export function renderSettingsPage(
   return html`<div class=${className}>${children}</div>`;
 }
 
-export function renderDocsLink(url: string, label: unknown): TemplateResult {
-  return html`<a href=${url} target=${EXTERNAL_LINK_TARGET} rel=${buildExternalLinkRel()}
-    >${label}</a
-  >`;
-}
-
 export function renderSettingsHelpTrigger(props: SettingsHelpTriggerProps): TemplateResult {
   const helpIcon = props.icon === "info" ? icons.info : icons.circleQuestionMark;
   return html`

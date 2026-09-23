@@ -1,6 +1,5 @@
 // Friendly parse-error formatter for Commander errors and root CLI recovery hints.
 import { stripAnsi } from "../../../packages/terminal-core/src/ansi.js";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
 import { theme } from "../../../packages/terminal-core/src/theme.js";
 import { getCommandPathWithRootOptions } from "../argv.js";
 import { formatCliCommand } from "../command-format.js";
@@ -44,13 +43,8 @@ function formatHelpHint(argv: string[] | undefined, options?: { commandPath?: st
   return `${theme.muted("Try:")} ${theme.command(command)}`;
 }
 
-function formatDocsHint(): string {
-  return `${theme.muted("Docs:")} ${formatDocsLink("/cli", "docs.openclaw.ai/cli")}`;
-}
-
 function formatCliMachineOutput(humanOutput: string): string {
-  const docs = `Docs: ${formatDocsLink("/cli", "docs.openclaw.ai/cli", { force: false })}`;
-  return stripAnsi(humanOutput).replace(/^Docs:.*$/mu, docs);
+  return stripAnsi(humanOutput);
 }
 
 function formatUnknownCommandMessage(command: string, commandPath: readonly string[]): string {
@@ -72,7 +66,6 @@ function formatCliUnknownCommandOutput(
     hasParentCommand
       ? undefined
       : `${theme.muted("Plugin command?")} ${theme.command(formatCliCommand("openclaw plugins list"))}`,
-    formatDocsHint(),
   );
 }
 
@@ -142,7 +135,7 @@ function formatOrdinaryCliParseErrorMessage(message: string): string {
   return `OpenAgent could not parse this command: ${message}`;
 }
 
-/** Convert Commander parse errors into OpenAgent-specific help and docs guidance. */
+/** Convert Commander parse errors into OpenAgent-specific help guidance. */
 export function formatCliParseErrorOutput(
   raw: string,
   options: FormatCliParseErrorOptions = {},

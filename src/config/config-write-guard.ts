@@ -1,11 +1,6 @@
 // Guards config writes when an external deployment owns the config.
 import { resolveIsConfigReadOnly, resolveIsNixMode } from "./paths.js";
 
-/** Agent-first Nix install docs shown when runtime config writes are blocked. */
-const NIX_OPENCLAW_AGENT_FIRST_URL = "https://github.com/openclaw/nix-openclaw#quick-start";
-/** Public OpenAgent Nix overview shown with immutable-config errors. */
-const NIX_OVERVIEW_URL = "https://docs.openclaw.ai/install/nix";
-
 /** Error thrown when external management disables config mutation. */
 export class ConfigReadOnlyError extends Error {
   readonly code = "OPENCLAW_CONFIG_READONLY";
@@ -40,8 +35,6 @@ function formatNixModeConfigMutationMessage(params: { configPath?: string } = {}
     ...(params.configPath ? [`Config path: ${params.configPath}`] : []),
     "Do not run setup, onboarding, openclaw update, plugin install/update/uninstall/enable, doctor repair/token-generation, or config set against this file.",
     "Edit the Nix source for this install instead. For nix-openclaw, edit `programs.openclaw.config` or `instances.<name>.config`, then rebuild with Home Manager or NixOS.",
-    `Agent-first Nix setup: ${NIX_OPENCLAW_AGENT_FIRST_URL}`,
-    `OpenAgent Nix overview: ${NIX_OVERVIEW_URL}`,
   ].join("\n");
 }
 

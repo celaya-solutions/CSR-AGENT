@@ -21,10 +21,10 @@ describe("toSanitizedMarkdownHtml", () => {
 
   it("does not stamp presentation classes on links whose href contains 'tail'", () => {
     const fragment = htmlFragment(
-      toSanitizedMarkdownHtml("[tailscale docs](https://docs.openclaw.ai/tailscale)"),
+      toSanitizedMarkdownHtml("[tailscale docs](https://example.com/tailscale)"),
     );
     const link = fragment.querySelector("a");
-    expect(link?.getAttribute("href")).toBe("https://docs.openclaw.ai/tailscale");
+    expect(link?.getAttribute("href")).toBe("https://example.com/tailscale");
     expect(link?.classList.contains("chat-link-tail-blur")).toBe(false);
   });
 
@@ -427,12 +427,12 @@ describe("toSanitizedMarkdownHtml", () => {
       expect(html).toBe('<p><a href="/usage">usage</a></p>\n');
     });
 
-    it("rewrites docs-root links to the public docs host", () => {
+    it("leaves root-relative doc paths on their own origin", () => {
       const html = toSanitizedMarkdownHtml(
-        "[workspace](/concepts/agent-workspace) [hooks](/automation/hooks#session-memory) [telegram](/channels/telegram?tab=setup) [shortlink](/telegram) [openai](/openai) [images](/images) [groups](/groups) [camera](/nodes/camera) [macOS](/platforms/macos) [cliSessions](/cli/sessions) [toolSkills](/tools/skills) [pluginDocs](/plugins/reference/diffs) [prose](/prose) [access](/channels/access-groups)",
+        "[workspace](/concepts/agent-workspace) [hooks](/automation/hooks#session-memory)",
       );
       expect(html).toBe(
-        '<p><a href="https://docs.openclaw.ai/concepts/agent-workspace" rel="noreferrer noopener" target="_blank">workspace</a> <a href="https://docs.openclaw.ai/automation/hooks#session-memory" rel="noreferrer noopener" target="_blank">hooks</a> <a href="https://docs.openclaw.ai/channels/telegram?tab=setup" rel="noreferrer noopener" target="_blank">telegram</a> <a href="https://docs.openclaw.ai/telegram" rel="noreferrer noopener" target="_blank">shortlink</a> <a href="https://docs.openclaw.ai/openai" rel="noreferrer noopener" target="_blank">openai</a> <a href="https://docs.openclaw.ai/images" rel="noreferrer noopener" target="_blank">images</a> <a href="https://docs.openclaw.ai/groups" rel="noreferrer noopener" target="_blank">groups</a> <a href="https://docs.openclaw.ai/nodes/camera" rel="noreferrer noopener" target="_blank">camera</a> <a href="https://docs.openclaw.ai/platforms/macos" rel="noreferrer noopener" target="_blank">macOS</a> <a href="https://docs.openclaw.ai/cli/sessions" rel="noreferrer noopener" target="_blank">cliSessions</a> <a href="https://docs.openclaw.ai/tools/skills" rel="noreferrer noopener" target="_blank">toolSkills</a> <a href="https://docs.openclaw.ai/plugins/reference/diffs" rel="noreferrer noopener" target="_blank">pluginDocs</a> <a href="https://docs.openclaw.ai/prose" rel="noreferrer noopener" target="_blank">prose</a> <a href="https://docs.openclaw.ai/channels/access-groups" rel="noreferrer noopener" target="_blank">access</a></p>\n',
+        '<p><a href="/concepts/agent-workspace" rel="noreferrer noopener" target="_blank">workspace</a> <a href="/automation/hooks#session-memory" rel="noreferrer noopener" target="_blank">hooks</a></p>\n',
       );
     });
 

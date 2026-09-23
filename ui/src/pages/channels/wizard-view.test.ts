@@ -185,7 +185,7 @@ describe("renderChannelWizard", () => {
     expect(container.querySelector(".channels-wizard__links button")).toBeNull();
   });
 
-  it("links channel docs from the setup subtitle without static helper links", () => {
+  it("renders the setup subtitle without docs or static helper links", () => {
     const container = document.createElement("div");
     document.body.append(container);
     render(
@@ -215,11 +215,8 @@ describe("renderChannelWizard", () => {
     );
 
     const subtitle = container.querySelector(".channels-wizard__subtitle");
-    const docs = subtitle?.querySelector<HTMLAnchorElement>(".channels-wizard__link");
-    expect(subtitle?.textContent?.replace(/\s+/gu, " ").trim()).toBe(
-      "Guided channel setup View docs",
-    );
-    expect(docs?.href).toBe("https://docs.openclaw.ai/channels/slack");
+    expect(subtitle?.textContent?.replace(/\s+/gu, " ").trim()).toBe("Guided channel setup");
+    expect(subtitle?.querySelector("a")).toBeNull();
     expect(container.querySelector(".channels-wizard__links")).toBeNull();
   });
 });

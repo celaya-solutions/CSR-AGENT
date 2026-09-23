@@ -34,7 +34,6 @@ import type {
 import { runGatewayUpdate, type UpdateRunResult } from "../../infra/update-runner.js";
 import { runCommandWithTimeout } from "../../process/exec.js";
 import { defaultRuntime } from "../../runtime.js";
-import { OPENCLAW_DATABASE_SCHEMA_DOCS_URL } from "../../state/openclaw-database-preflight.js";
 import type { OpenClawSchemaVersions } from "../../state/openclaw-schema-versions.js";
 import { splitShellArgs } from "../../utils/shell-argv.js";
 import { createUpdateProgress } from "./progress.js";
@@ -412,7 +411,7 @@ export function createBeforeGitMutation(params: {
     if (target?.metadataUnreadable) {
       throw new UpdatePreMutationError(
         "target-metadata-preflight",
-        `Update refused: could not inspect the target's schema support (${target.metadataUnreadable}). Retry, or see ${OPENCLAW_DATABASE_SCHEMA_DOCS_URL}.`,
+        `Update refused: could not inspect the target's schema support (${target.metadataUnreadable}). Retry the update.`,
       );
     }
     await params.checkTargetSchemas(target.schemaVersions);

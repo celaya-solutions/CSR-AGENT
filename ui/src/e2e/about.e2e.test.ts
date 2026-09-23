@@ -278,16 +278,11 @@ suite.define(() => {
         .poll(() => hero.locator(".about-hero__version").textContent())
         .toBe("v2026.7.10");
 
-      const githubLink = hero.getByRole("link", { name: "GitHub", exact: true });
-      await expect
-        .poll(() => githubLink.getAttribute("href"))
-        .toBe("https://github.com/openclaw/openclaw");
-      await expect.poll(() => githubLink.getAttribute("target")).toBe("_blank");
-      await expect.poll(() => githubLink.getAttribute("rel")).toContain("noopener");
-      const discordLink = hero.getByRole("link", { name: "Discord", exact: true });
-      await expect.poll(() => discordLink.getAttribute("href")).toBe("https://discord.gg/clawd");
-      const xLink = hero.getByRole("link", { name: "X (Twitter)", exact: true });
-      await expect.poll(() => xLink.getAttribute("href")).toBe("https://x.com/openclaw");
+      const websiteLink = hero.getByRole("link", { name: "Website", exact: true });
+      await expect.poll(() => websiteLink.getAttribute("href")).toBe("https://celayasolutions.com");
+      await expect.poll(() => websiteLink.getAttribute("target")).toBe("_blank");
+      await expect.poll(() => websiteLink.getAttribute("rel")).toContain("noopener");
+      await expect.poll(() => hero.getByRole("link").count()).toBe(1);
 
       await expect
         .poll(() => hero.locator("img.about-hero__mark").getAttribute("src"))

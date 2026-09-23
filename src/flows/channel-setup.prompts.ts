@@ -1,5 +1,4 @@
 // Channel setup prompt helpers build interactive prompts for channel setup.
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
 import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
 import { getChannelSetupPlugin } from "../channels/plugins/setup-registry.js";
 import type {
@@ -198,9 +197,6 @@ export async function maybeConfigureDmPolicies(params: {
         t("wizard.channels.dmPolicyOpen", { allowFromKey, policyKey }),
         t("wizard.channels.dmPolicyMultiUser", {
           command: formatCliCommand('openclaw config set session.dmScope "per-channel-peer"'),
-        }),
-        t("wizard.channels.docs", {
-          link: formatDocsLink("/channels/pairing", "channels/pairing"),
         }),
       ].join("\n"),
       t("wizard.channels.dmAccessTitle", { label: policy.label }),

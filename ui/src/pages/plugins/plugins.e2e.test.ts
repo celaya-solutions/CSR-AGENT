@@ -85,7 +85,6 @@ describeControlUiE2e("Control UI Plugins mocked Gateway E2E", () => {
       });
       await catalog.getByRole("link", { name: "Matrix search result", exact: true }).waitFor();
       if (proofDir) {
-        expect(await page.locator(".community-invite-card").count()).toBe(0);
         await page.screenshot({
           animations: "disabled",
           fullPage: true,

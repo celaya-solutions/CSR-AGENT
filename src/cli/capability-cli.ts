@@ -1,7 +1,5 @@
 // Capability CLI command registration. Domain implementations live in ./capability-cli/.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
 import { FLAG_TERMINATOR, getCommandArgsWithRootOptions } from "../infra/cli-root-options.js";
 import { defaultRuntime } from "../runtime.js";
 import { getCommandPathWithRootOptions, normalizeRootLogLevelArgv } from "./argv.js";
@@ -113,12 +111,7 @@ export async function registerCapabilityCli(
   const capability = program
     .command("infer")
     .alias("capability")
-    .description("Run provider-backed inference commands through a stable CLI surface")
-    .addHelpText(
-      "after",
-      () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/infer", "docs.openclaw.ai/cli/infer")}\n`,
-    );
+    .description("Run provider-backed inference commands through a stable CLI surface");
 
   registerCapabilityListAndInspect(capability);
   await registerCapabilityDomainCommands(capability, argv);

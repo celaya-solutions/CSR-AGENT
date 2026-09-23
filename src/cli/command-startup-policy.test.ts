@@ -25,7 +25,6 @@ describe("command-startup-policy", () => {
       ["config", "file"],
       ["config", "validate"],
       ["config", "schema"],
-      ["docs"],
       ["reset"],
       ["uninstall"],
       ["agent", "exec"],

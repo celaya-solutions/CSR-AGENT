@@ -15,6 +15,5 @@ export {
 } from "openclaw/plugin-sdk/gateway-runtime";
 export { getRuntimeConfig } from "openclaw/plugin-sdk/runtime-config-snapshot";
 export { danger, defaultRuntime, info } from "openclaw/plugin-sdk/runtime-env";
-export { formatDocsLink } from "openclaw/plugin-sdk/setup-tools";
 export { parseBooleanValue } from "openclaw/plugin-sdk/string-coerce-runtime";
 export { shortenHomePath } from "openclaw/plugin-sdk/text-utility-runtime";

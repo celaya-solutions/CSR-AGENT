@@ -202,7 +202,6 @@ it.each([
     "OPENCLAW_SERVICE_REPAIR_POLICY=external",
     "skips native maintenance inspection and service mutations",
     "Gateway/state coordinators and agent-database lease checks",
-    "https://docs.openclaw.ai/gateway#existing-system-launchdaemons",
   ]) {
     await expect.soft(maintenance).rejects.toThrow(hint);
     expect.soft(output).toContain(hint);

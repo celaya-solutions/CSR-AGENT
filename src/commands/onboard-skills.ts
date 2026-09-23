@@ -340,7 +340,6 @@ export async function setupSkills(
       runtime.log(
         `Tip: run \`${formatCliCommand("openclaw doctor")}\` to review skills + requirements.`,
       );
-      runtime.log(t("wizard.skills.docsLine"));
     }
     if (deferredSkippedInstallable.length > 0) {
       selectedSkippedInstallable.push(...deferredSkippedInstallable);

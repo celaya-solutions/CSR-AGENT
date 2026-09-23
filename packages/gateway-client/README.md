@@ -6,9 +6,8 @@ challenge-based authentication, typed protocol frames, request correlation,
 timeouts, reconnect backoff, device-token handling, and event delivery.
 
 The current wire protocol is version 4. General clients must advertise exactly v4 with
-`minProtocol: 4` and `maxProtocol: 4`. See the
-[Gateway protocol specification](https://docs.openclaw.ai/gateway/protocol) for
-the complete handshake, authentication, role, scope, and method contracts.
+`minProtocol: 4` and `maxProtocol: 4`. The Gateway protocol specification
+(`docs/gateway/protocol.md` in the OpenAgent repository) covers the complete handshake, authentication, role, scope, and method contracts.
 Exact node identities (`role: "node"` plus `mode: "node"`) and probe clients
 can use v3. The built-in node host starts with an exact v4 envelope, then retries
 an exact v3 envelope after a v3 Gateway rejects v4. If that legacy probe reaches
@@ -31,8 +30,8 @@ Use the verified stable release with exact pins:
 npm install --save-exact @openclaw/gateway-client@2026.8.1 @openclaw/gateway-protocol@2026.8.1
 ```
 
-See the canonical [installation guide](https://docs.openclaw.ai/gateway/clients#install-the-packages)
-for package/wire-version rules and recovery from reserved `0.0.0` artifacts.
+The Gateway clients guide (`docs/gateway/clients.md` in the OpenAgent repository)
+covers package/wire-version rules and recovery from reserved `0.0.0` artifacts.
 Test it with the Gateway version you deploy; the root `openclaw` CLI has its own
 package versions and dist-tags.
 
@@ -95,8 +94,8 @@ Gateway accepts a compatible connection, so requests should wait for that callba
 
 This loopback example uses the default `gateway-client` / `backend` identity.
 It is not a device-pairing example. UI clients should declare their actual `mode`
-and supply the device-auth host callbacks described above; see
-[device identity and pairing](https://docs.openclaw.ai/gateway/protocol#device-identity-and-pairing).
+and supply the device-auth host callbacks described above; device identity and
+pairing are covered in the Gateway protocol specification.
 
 For remote connections, prefer `wss://`. The Node client also accepts plaintext
 `ws://` by default for loopback, private/link-local/CGNAT IP addresses, and
@@ -133,8 +132,8 @@ seconds with a multiplier of 2. Server-provided startup retry hints may override
 the next delay.
 
 The canonical defaults table and the server policy fields that can replace
-pre-handshake values are documented in the
-[Gateway protocol specification](https://docs.openclaw.ai/gateway/protocol#client-constants).
+pre-handshake values are documented in the client constants section of the
+Gateway protocol specification.
 
 Use the `./timeouts` entry point when a host must align readiness or watchdog
 budgets with these defaults. Use the `./readiness` entry point when startup must

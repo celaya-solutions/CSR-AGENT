@@ -4239,12 +4239,6 @@ wa-dropdown.sidebar-identity-menu::part(menu) {
   height: 15px;
 }
 
-.sidebar-identity-menu__help::part(submenu-icon) {
-  inset-inline-end: 4px;
-  width: 16px;
-  height: 16px;
-}
-
 /* Identity-menu strip: build identity left, theme switch right. */
 .sidebar-identity-menu__footer {
   display: flex;

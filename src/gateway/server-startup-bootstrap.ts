@@ -141,11 +141,7 @@ export async function prepareGatewayServerBootstrap(input: {
     opts.startupOperation ? opts.startupOperation(inspectStateOwnership) : inspectStateOwnership(),
   );
   const [
-    {
-      OPENCLAW_DATABASE_SCHEMA_DOCS_URL,
-      OpenClawDatabaseSchemaPreflightError,
-      preflightOpenClawDatabaseSchemas,
-    },
+    { OpenClawDatabaseSchemaPreflightError, preflightOpenClawDatabaseSchemas },
     agentDatabase,
     stateDatabase,
   ] = await startupTrace.measure("state.runtime-imports", () =>
@@ -178,7 +174,6 @@ export async function prepareGatewayServerBootstrap(input: {
         foundVersion: database.foundVersion,
         supportedVersion: database.supportedVersion,
         writerAppVersion: database.writerAppVersion ?? "unknown",
-        docsUrl: OPENCLAW_DATABASE_SCHEMA_DOCS_URL,
       });
     }
     throw new OpenClawDatabaseSchemaPreflightError(databaseSchemas.incompatible);
@@ -188,7 +183,6 @@ export async function prepareGatewayServerBootstrap(input: {
       kind: database.kind,
       path: database.path,
       reason: database.reason,
-      docsUrl: OPENCLAW_DATABASE_SCHEMA_DOCS_URL,
     });
   }
   const { bootstrapGatewayNetworkRuntime } = await startupTrace.measure(

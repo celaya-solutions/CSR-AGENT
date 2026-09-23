@@ -42,16 +42,9 @@ describe("AppSidebar agent roster", () => {
           [...(menu?.querySelectorAll(":scope > wa-dropdown-item") ?? [])].map((item) =>
             item.textContent?.trim(),
           ),
-        ).toEqual(["Show one agent", "Agent settings", expect.stringContaining("Help")]);
+        ).toEqual(["Show one agent", "Agent settings"]);
         expect(menu?.querySelector(".sidebar-agent-menu__agent-grid")).toBeNull();
-        expect(
-          [...(menu?.querySelectorAll("a") ?? [])].map((link) => link.getAttribute("href")),
-        ).toEqual([
-          "https://docs.openclaw.ai",
-          "https://docs.openclaw.ai/help",
-          "https://discord.gg/clawd",
-          "https://docs.openclaw.ai/releases",
-        ]);
+        expect(menu?.querySelectorAll("a")).toHaveLength(0);
         menu?.dispatchEvent(
           new CustomEvent("wa-select", {
             detail: { item: menu.querySelector('[value="command:sidebar-agents"]') },

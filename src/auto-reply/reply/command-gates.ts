@@ -149,12 +149,10 @@ export function buildDisabledCommandReply(params: {
   label: string;
   configKey: CommandFlagKey;
   disabledVerb?: "is" | "are";
-  docsUrl?: string;
 }): ReplyPayload {
   const disabledVerb = params.disabledVerb ?? "is";
-  const docsSuffix = params.docsUrl ? ` Docs: ${params.docsUrl}` : "";
   return {
-    text: `⚠️ ${params.label} ${disabledVerb} disabled. Set commands.${params.configKey}=true to enable.${docsSuffix}`,
+    text: `⚠️ ${params.label} ${disabledVerb} disabled. Set commands.${params.configKey}=true to enable.`,
   };
 }
 
@@ -164,7 +162,6 @@ export function requireCommandFlagEnabled(
     label: string;
     configKey: CommandFlagKey;
     disabledVerb?: "is" | "are";
-    docsUrl?: string;
   },
 ): CommandHandlerResult | null {
   if (isCommandFlagEnabled(cfg, params.configKey)) {

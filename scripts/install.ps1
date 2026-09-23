@@ -1,6 +1,6 @@
 # OpenAgent Installer for Windows
-# Usage: powershell -c "irm https://openclaw.ai/install.ps1 | iex"
-#        powershell -c "& ([scriptblock]::Create((irm https://openclaw.ai/install.ps1))) -Tag beta -NoOnboard -DryRun"
+# Usage: powershell -File scripts/install.ps1 [options]
+#        powershell -File scripts/install.ps1 -Tag beta -NoOnboard -DryRun
 
 [CmdletBinding(PositionalBinding = $false)]
 param(
@@ -22,7 +22,6 @@ if ($Help) {
     @"
 Usage:
   powershell -File install.ps1 [options]
-  & ([scriptblock]::Create((irm https://openclaw.ai/install.ps1))) [options]
 
 Options:
   -InstallMethod npm|git  Install method (default: npm)
@@ -1731,8 +1730,8 @@ function Install-OpenClaw {
                 Write-Host "Install Git for Windows, then reopen PowerShell and retry:" -ForegroundColor Yellow
                 Write-Host "  https://git-scm.com/download/win" -ForegroundColor Cyan
             } else {
-                Write-Host "Re-run with verbose output to see the full error:" -ForegroundColor Yellow
-                Write-Host '  powershell -c "irm https://openclaw.ai/install.ps1 | iex"' -ForegroundColor Cyan
+                Write-Host "Re-run this installer with verbose output to see the full error:" -ForegroundColor Yellow
+                Write-Host '  powershell -File install.ps1 -Verbose' -ForegroundColor Cyan
             }
             Write-NpmInstallFailureDetails -Output $npmOutput -CacheRoots $npmDebugLogRoots
             return $false
@@ -2012,7 +2011,7 @@ function Install-OpenClawFromGit {
     }
 
     Write-Host "[OK] OpenAgent wrapper installed to $cmdPath" -ForegroundColor Green
-    Write-Host "[i] Manual builds need the checkout-pinned pnpm launcher; installer bootstrap is temporary: https://docs.openclaw.ai/install/installer#source-build-toolchain" -ForegroundColor Gray
+    Write-Host "[i] Manual builds need the checkout-pinned pnpm launcher; the installer's pnpm bootstrap is temporary." -ForegroundColor Gray
     return $true
 }
 

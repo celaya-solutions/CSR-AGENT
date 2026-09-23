@@ -2,7 +2,6 @@ import type { Command } from "commander";
 import { formatErrorMessage } from "../../infra/errors.js";
 import { defaultRuntime, writeRuntimeJson, writeRuntimeStdout } from "../../runtime.js";
 import {
-  OPENCLAW_DATABASE_SCHEMA_DOCS_URL,
   preflightOpenClawAgentDatabasePath,
   preflightOpenClawStateDatabasePath,
 } from "../../state/openclaw-database-preflight.js";
@@ -37,7 +36,7 @@ async function runDatabasePreflight(
     const detail = result.reason ?? result.issues[0]?.message;
     writeRuntimeStdout(
       defaultRuntime,
-      `Database preflight: ${result.status} (found ${result.foundVersion ?? "unknown"}, target ${result.targetVersion}).${detail ? `\n${detail}` : ""}\nSee ${OPENCLAW_DATABASE_SCHEMA_DOCS_URL}.\n`,
+      `Database preflight: ${result.status} (found ${result.foundVersion ?? "unknown"}, target ${result.targetVersion}).${detail ? `\n${detail}` : ""}\n`,
     );
   }
   if (result.status === "incompatible" || result.status === "indeterminate") {
@@ -66,7 +65,7 @@ function runDatabaseOwnership(options: DatabaseOutputOptions & { manager?: strin
       status.status === "external"
         ? `Shared state is externally owned by ${status.ownership.managerId}.`
         : "Shared state is not externally owned.";
-    writeRuntimeStdout(defaultRuntime, `${message}\nSee ${OPENCLAW_DATABASE_SCHEMA_DOCS_URL}.\n`);
+    writeRuntimeStdout(defaultRuntime, `${message}\n`);
   } catch (error) {
     writeDatabaseError(error, options.json === true);
   }
@@ -75,8 +74,7 @@ function runDatabaseOwnership(options: DatabaseOutputOptions & { manager?: strin
 export function registerDatabaseCommand(program: Command): void {
   const database = program
     .command("database")
-    .description("Inspect database schema compatibility and shared-state write ownership")
-    .addHelpText("after", `\nDocs: ${OPENCLAW_DATABASE_SCHEMA_DOCS_URL}\n`);
+    .description("Inspect database schema compatibility and shared-state write ownership");
 
   database
     .command("preflight")

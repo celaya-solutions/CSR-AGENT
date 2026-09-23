@@ -7,7 +7,6 @@ import {
   CF_ACCESS_CLIENT_SECRET_HEADER,
   type CloudflareAccessCredentials,
 } from "../../packages/gateway-client/src/cloudflare-access.js";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
 import { theme } from "../../packages/terminal-core/src/theme.js";
 import { getRuntimeConfig, mutateConfigFileWithRetry } from "../config/config.js";
 import { isLoopbackHost } from "../gateway/net.js";
@@ -306,7 +305,7 @@ export function registerConnectCli(program: Command): void {
             "openclaw connect https://gateway.example/j/<code> --service --session-host",
             "Install a worker-session host service.",
           ],
-        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/connect", "docs.openclaw.ai/cli/connect")}\n`,
+        ])}\n`,
     )
     .action(async (target: string | undefined, opts: ConnectCommandOptions) => {
       try {

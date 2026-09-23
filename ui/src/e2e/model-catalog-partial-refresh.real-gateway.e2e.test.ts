@@ -116,12 +116,6 @@ suite.define(() => {
       await suite.withPage(
         { locale: "en-US", viewport: { width: 1280, height: 900 } },
         async ({ page }) => {
-          await page.addInitScript(() => {
-            localStorage.setItem(
-              "openclaw:control-ui:community-invite",
-              JSON.stringify({ dismissedAtMs: 1770000000000 }),
-            );
-          });
           const dashboard = await instance.cli(["dashboard", "--json"]);
           expect(dashboard.code, dashboard.stderr).toBe(0);
           const { browserUrl }: { browserUrl: string } = JSON.parse(dashboard.stdout);

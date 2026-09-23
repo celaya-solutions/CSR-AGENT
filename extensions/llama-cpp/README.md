@@ -36,8 +36,8 @@ Custom GGUF models remain supported through `params.modelPath`. Rerun llama.cpp
 setup after changing the model so OpenAgent can verify the file and regenerate
 the managed router preset.
 
-See the [llama.cpp provider guide](https://docs.openclaw.ai/plugins/llama-cpp)
-for platform requirements, custom GGUF configuration, diagnostics, and repair.
+The llama.cpp provider guide (`docs/plugins/llama-cpp.md` in this repository)
+covers platform requirements, custom GGUF configuration, diagnostics, and repair.
 
 ## Connect to an existing server
 
@@ -45,8 +45,7 @@ Choose **Existing llama-server** during setup and enter the endpoint and
 optional API key. OpenAgent passively discovers single-model and router catalogs.
 It never installs, starts, stops, or reconfigures the external process.
 
-See the [llama.cpp provider guide](https://docs.openclaw.ai/plugins/llama-cpp)
-for authentication, router behavior, manual configuration, and troubleshooting.
+The same llama.cpp provider guide covers authentication, router behavior, manual configuration, and troubleshooting.
 
 ## Configure embeddings
 

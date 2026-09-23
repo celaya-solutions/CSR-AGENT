@@ -197,7 +197,7 @@ describe("system agent setup-flow operations", () => {
     expect(knownOutput).toContain("Slack app messaging.");
     expect(knownOutput).toContain("Configured: yes");
     expect(knownOutput).toContain("Installed: yes");
-    expect(knownOutput).toContain("https://docs.openclaw.ai/channels/slack");
+    expect(knownOutput).not.toContain("Docs:");
     expect(knownOutput).toContain("open channel wizard for slack");
 
     lines.length = 0;

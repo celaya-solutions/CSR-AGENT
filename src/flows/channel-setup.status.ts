@@ -1,5 +1,4 @@
 // Channel setup status helpers format channel setup progress and docs links.
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
 import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
 import { resolveAgentWorkspaceDir, resolveAmbientOwnerAgentId } from "../agents/agent-scope.js";
 import { listChatChannels } from "../channels/chat-meta.js";
@@ -188,7 +187,6 @@ function formatChannelSelectionMeta(meta: ChannelMeta): ChannelMeta {
     ...meta,
     blurb: formatChannelPrimerBlurb(meta),
   });
-  formatted.selectionDocsPrefix ??= t("common.docs");
   return formatted;
 }
 
@@ -517,9 +515,6 @@ export async function noteChannelPrimer(
       t("wizard.channelsPrimer.multiUserDm", {
         command: formatCliCommand('openclaw config set session.dmScope "per-channel-peer"'),
       }),
-      t("wizard.channelsPrimer.docs", {
-        link: formatDocsLink("/channels/pairing", "channels/pairing"),
-      }),
       "",
       ...channelLines,
     ].join("\n"),
@@ -557,7 +552,7 @@ export function resolveChannelSelectionNoteLines(params: {
   for (const entry of entries) {
     selectionNotes.set(
       entry.id,
-      formatChannelSelectionLine(formatChannelSelectionMeta(entry.meta), formatDocsLink),
+      formatChannelSelectionLine(formatChannelSelectionMeta(entry.meta)),
     );
   }
   return params.selection

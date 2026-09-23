@@ -1,4 +1,3 @@
-import { OPENCLAW_DATABASE_SCHEMA_DOCS_URL } from "../state/openclaw-state-db-contract.js";
 import { resolveRuntimeServiceCommit, VERSION } from "../version.js";
 import { resolveOpenClawPackageRootSync } from "./openclaw-root.js";
 import { StartupMaintenanceRequiredError } from "./startup-maintenance-required.js";
@@ -50,7 +49,6 @@ export function createNewerSqliteSchemaVersionError(
     "This OpenAgent build cannot open your existing data.\n" +
       `${databaseLabel} ${pathname} uses newer schema version ${schemaVersion}; this build supports ${supportedVersion}.\n` +
       `Refused by ${describeRunningOpenClawBuild()}.\n` +
-      `Use a build that supports schema ${schemaVersion} or newer with this state directory. To use an older build, restore your pre-update backup created with openclaw backup.\n` +
-      `See ${OPENCLAW_DATABASE_SCHEMA_DOCS_URL}.`,
+      `Use a build that supports schema ${schemaVersion} or newer with this state directory. To use an older build, restore your pre-update backup created with openclaw backup.`,
   );
 }

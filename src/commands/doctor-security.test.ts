@@ -231,7 +231,6 @@ describe("noteSecurityWarnings gateway exposure", () => {
         "  Fix: openclaw config set gateway.bind loopback",
         "  Safer remote access: keep bind loopback and use Tailscale Serve/Funnel or an SSH tunnel.",
         "  Example tunnel: ssh -N -L 18789:127.0.0.1:18789 user@gateway-host",
-        "  Docs: https://docs.openclaw.ai/gateway/remote",
         "  Fix: openclaw doctor --fix to generate a token",
         "  Or set token directly: openclaw config set gateway.auth.mode token",
         "- Run: openclaw security audit --deep",

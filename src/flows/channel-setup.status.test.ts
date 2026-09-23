@@ -45,10 +45,8 @@ vi.mock("../channels/chat-meta.js", () => ({
 vi.mock("../channels/registry.js", () => ({
   formatChannelPrimerLine: (meta: Parameters<FormatChannelPrimerLine>[0]) =>
     formatChannelPrimerLine(meta),
-  formatChannelSelectionLine: (
-    meta: Parameters<FormatChannelSelectionLine>[0],
-    docsLink: Parameters<FormatChannelSelectionLine>[1],
-  ) => formatChannelSelectionLine(meta, docsLink),
+  formatChannelSelectionLine: (meta: Parameters<FormatChannelSelectionLine>[0]) =>
+    formatChannelSelectionLine(meta),
   normalizeAnyChannelId: (channelId?: string) => channelId?.trim().toLowerCase() ?? null,
 }));
 
@@ -478,7 +476,6 @@ describe("resolveChannelSetupSelectionContributions", () => {
         "Approve with: openclaw pairing approve <channel> <code>",
         'Open/public DMs require dmPolicy="open" plus allowFrom=["*"].',
         'For multi-user DMs, isolate sessions with: openclaw config set session.dmScope "per-channel-peer" (or "per-account-channel-peer" for multi-account channels).',
-        "Docs: https://docs.openclaw.ai/channels/pairing",
         "",
         "bad\\nid: Blurb\\nline",
       ].join("\n"),
@@ -542,7 +539,7 @@ describe("resolveChannelSetupSelectionContributions", () => {
     });
 
     expect(formatChannelSelectionLine).toHaveBeenCalledOnce();
-    const [selectionMeta, docsLink] = expectDefined(
+    const [selectionMeta] = expectDefined(
       formatChannelSelectionLine.mock.calls.at(0),
       "selection line call",
     );
@@ -551,17 +548,13 @@ describe("resolveChannelSetupSelectionContributions", () => {
     expect(selectionMeta?.docsLabel).toBe("Docs\\nLabel");
     expect(selectionMeta?.selectionDocsPrefix).toBe("Docs\\nPrefix");
     expect(selectionMeta?.selectionExtras).toEqual(["Extra\\nOne"]);
-    if (typeof docsLink !== "function") {
-      throw new Error("Expected docs link formatter");
-    }
-    expect(docsLink("/channels/zalo", "Docs")).toBe("https://docs.openclaw.ai/channels/zalo");
     expect(lines).toEqual(["Zalo\\nBot — Setup\\nhelp"]);
   });
 
   it.each([
     ["empty", "", ""],
-    ["whitespace", " \t ", "Docs:"],
-    ["control-only", "\u001B[2K\u0007", "Docs:"],
+    ["whitespace", " \t ", undefined],
+    ["control-only", "\u001B[2K\u0007", undefined],
   ] as const)("normalizes %s selection docs prefixes", (_label, prefix, expected) => {
     resolveChannelSetupEntries.mockReturnValue(
       makeChannelSetupEntries({
@@ -624,9 +617,7 @@ describe("resolveChannelSetupSelectionContributions", () => {
         expect.objectContaining({
           label: "Feishu",
           blurb: "飞书/Lark 企业消息。",
-          selectionDocsPrefix: "文档：",
         }),
-        expect.any(Function),
       );
       expect(lines).toEqual(["Feishu — 飞书/Lark 企业消息。"]);
     });

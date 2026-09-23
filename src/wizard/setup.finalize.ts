@@ -618,11 +618,9 @@ export async function finalizeSetupWizard(
             runtime.error(formatHealthCheckFailure(err));
           }
           await prompter.note(
-            [
-              t("common.docs"),
-              "https://docs.openclaw.ai/gateway/health",
-              "https://docs.openclaw.ai/gateway/troubleshooting",
-            ].join("\n"),
+            [formatCliCommand("openclaw doctor"), formatCliCommand("openclaw logs --follow")].join(
+              "\n",
+            ),
             t("wizard.finalize.healthCheckHelp"),
           );
         }
@@ -635,11 +633,9 @@ export async function finalizeSetupWizard(
           ),
         );
         await prompter.note(
-          [
-            t("common.docs"),
-            "https://docs.openclaw.ai/gateway/health",
-            "https://docs.openclaw.ai/gateway/troubleshooting",
-          ].join("\n"),
+          [formatCliCommand("openclaw doctor"), formatCliCommand("openclaw logs --follow")].join(
+            "\n",
+          ),
           t("wizard.finalize.healthCheckHelp"),
         );
         await prompter.note(
@@ -790,7 +786,6 @@ export async function finalizeSetupWizard(
         t("wizard.finalize.gatewayWsUrl", { url: displayLinks.wsUrl }),
         gatewayStatusLine,
         ...windowsFirewallLines,
-        t("wizard.finalize.controlUiDocs"),
       ]
         .filter(Boolean)
         .join("\n"),
@@ -844,7 +839,7 @@ export async function finalizeSetupWizard(
     }
 
     await prompter.note(
-      [t("wizard.finalize.backupWorkspace"), t("wizard.finalize.workspaceDocs")].join("\n"),
+      t("wizard.finalize.backupWorkspace"),
       t("wizard.finalize.workspaceBackupTitle"),
     );
 
@@ -898,8 +893,6 @@ export async function finalizeSetupWizard(
             t("wizard.finalize.webSearchProviderUnavailable", { provider: label }),
             t("wizard.finalize.webSearchUnavailableAction"),
             `  ${formatCliCommand("openclaw configure --section web")}`,
-            "",
-            t("wizard.finalize.webDocs"),
           ].join("\n"),
           t("wizard.finalize.webSearchTitle"),
         );
@@ -911,7 +904,6 @@ export async function finalizeSetupWizard(
             t("wizard.finalize.webSearchKeyFree"),
             "",
             t("wizard.finalize.webSearchProvider", { provider: label }),
-            t("wizard.finalize.webDocs"),
           ].join("\n"),
           t("wizard.finalize.webSearchTitle"),
         );
@@ -922,7 +914,6 @@ export async function finalizeSetupWizard(
             "",
             t("wizard.finalize.webSearchProvider", { provider: label }),
             ...(keySource ? [keySource] : []),
-            t("wizard.finalize.webDocs"),
           ].join("\n"),
           t("wizard.finalize.webSearchTitle"),
         );
@@ -932,11 +923,9 @@ export async function finalizeSetupWizard(
             t("wizard.finalize.webSearchNoKey", { provider: label }),
             t("wizard.finalize.webSearchNeedsKey"),
             `  ${formatCliCommand("openclaw configure --section web")}`,
-            "",
-            t("wizard.finalize.webSearchGetKey", {
-              url: entry?.signupUrl ?? "https://docs.openclaw.ai/tools/web",
-            }),
-            t("wizard.finalize.webDocs"),
+            ...(entry.signupUrl
+              ? ["", t("wizard.finalize.webSearchGetKey", { url: entry.signupUrl })]
+              : []),
           ].join("\n"),
           t("wizard.finalize.webSearchTitle"),
         );
@@ -947,8 +936,6 @@ export async function finalizeSetupWizard(
             t("wizard.finalize.webSearchReenable", {
               command: formatCliCommand("openclaw configure --section web"),
             }),
-            "",
-            t("wizard.finalize.webDocs"),
           ].join("\n"),
           t("wizard.finalize.webSearchTitle"),
         );
@@ -962,19 +949,14 @@ export async function finalizeSetupWizard(
       );
       if (legacyDetected) {
         await prompter.note(
-          [
-            t("wizard.finalize.webSearchAutoDetected", { provider: legacyDetected.label }),
-            t("wizard.finalize.webDocs"),
-          ].join("\n"),
+          [t("wizard.finalize.webSearchAutoDetected", { provider: legacyDetected.label })].join(
+            "\n",
+          ),
           t("wizard.finalize.webSearchTitle"),
         );
       } else if (codexNativeSummary) {
         await prompter.note(
-          [
-            t("wizard.finalize.managedWebSearchSkipped"),
-            codexNativeSummary,
-            t("wizard.finalize.webDocs"),
-          ].join("\n"),
+          [t("wizard.finalize.managedWebSearchSkipped"), codexNativeSummary].join("\n"),
           t("wizard.finalize.webSearchTitle"),
         );
       } else {
@@ -982,8 +964,6 @@ export async function finalizeSetupWizard(
           [
             t("wizard.finalize.webSearchSkipped"),
             `  ${formatCliCommand("openclaw configure --section web")}`,
-            "",
-            t("wizard.finalize.webDocs"),
           ].join("\n"),
           t("wizard.finalize.webSearchTitle"),
         );
@@ -992,11 +972,7 @@ export async function finalizeSetupWizard(
 
     if (codexNativeSummary) {
       await prompter.note(
-        [
-          codexNativeSummary,
-          t("wizard.finalize.codexNativeSearchOnly"),
-          t("wizard.finalize.webDocs"),
-        ].join("\n"),
+        [codexNativeSummary, t("wizard.finalize.codexNativeSearchOnly")].join("\n"),
         t("wizard.finalize.codexNativeSearchTitle"),
       );
     }

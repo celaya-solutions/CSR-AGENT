@@ -6,7 +6,7 @@ import {
   type OpenClawConfig,
   patchChannelConfigForAccount,
 } from "openclaw/plugin-sdk/setup";
-import { formatCliCommand, formatDocsLink } from "openclaw/plugin-sdk/setup-tools";
+import { formatCliCommand } from "openclaw/plugin-sdk/setup-tools";
 import { normalizeOptionalString } from "openclaw/plugin-sdk/string-coerce-runtime";
 import {
   mergeTelegramAccountConfig,
@@ -63,7 +63,6 @@ export function buildTelegramDmAccessWarningLines(accountId: string): string[] {
     "For private use, configure an allowlist with your Telegram user id:",
     "  " + formatCliCommand(`openclaw config set ${configBase}.dmPolicy "allowlist"`),
     "  " + formatCliCommand(`openclaw config set ${configBase}.allowFrom '["YOUR_USER_ID"]'`),
-    `Docs: ${formatDocsLink("/channels/pairing", "channels/pairing")}`,
   ];
 }
 
