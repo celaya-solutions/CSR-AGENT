@@ -12,7 +12,7 @@ sidebarTitle: "Incident response"
 
 ### Contain
 
-1. Stop it: stop the macOS app (if it supervises the Gateway) or terminate your `openclaw gateway` process.
+1. Stop it: stop the Gateway service (`openclaw gateway stop`) or terminate your `openclaw gateway` process.
 2. Close exposure: set `gateway.bind: "loopback"` (or disable Tailscale Funnel/Serve) until you understand what happened.
 3. Freeze access: switch risky DMs/groups to `dmPolicy: "disabled"` / require mentions, and remove any `"*"` allow-all entries.
 
@@ -20,7 +20,7 @@ sidebarTitle: "Incident response"
 
 1. Rotate Gateway auth (`gateway.auth.token` / `gateway.auth.password`). Rotation hot-applies only when the effective auth mode stays the same; set `gateway.auth.mode` explicitly for SecretRefs. Restart for an auth-mode change or updated process environment credentials such as `OPENCLAW_GATEWAY_PASSWORD`.
 2. Rotate remote client secrets (`gateway.remote.token` / `.password`) on any machine that can call the Gateway.
-3. Rotate provider/API credentials (WhatsApp creds, Slack/Discord tokens, model/API keys in SQLite auth stores, and encrypted secrets payload values when used).
+3. Rotate provider/API credentials (Discord/Telegram bot tokens, model/API keys in SQLite auth stores, and encrypted secrets payload values when used).
 
 ### Audit
 

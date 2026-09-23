@@ -13,10 +13,10 @@ topic. The triage ladder stays on this page; open the page that matches your que
 
 | Page                                                                                       | Read it when                                                                    |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| [What is OpenAgent?](/help/faq/what-is-openclaw)                                       | You are evaluating OpenAgent, or explaining what it is and who funds it.    |
+| [What is OpenAgent?](/help/faq/what-is-openclaw)                                           | You are evaluating OpenAgent, or explaining what it is and who funds it.        |
 | [Skills and automation](/help/faq/skills-and-automation)                                   | You are customizing skills, or a cron job, reminder, or subagent misbehaved.    |
 | [Sandboxing and memory](/help/faq/sandboxing-and-memory)                                   | You are tuning the sandbox, or memory is not persisting.                        |
-| [Where things live on disk](/help/faq/where-things-live-on-disk)                           | You need to find, back up, move, or remove OpenAgent data.                  |
+| [Where things live on disk](/help/faq/where-things-live-on-disk)                           | You need to find, back up, move, or remove OpenAgent data.                      |
 | [Config basics](/help/faq/config-basics)                                                   | You are editing config, enabling web search, or recovering from `config.apply`. |
 | [Remote gateways and nodes](/help/faq/remote-gateways-and-nodes)                           | You run the Gateway on a VPS or another machine, or you are adding a node.      |
 | [Env vars and .env loading](/help/faq/env-vars)                                            | You are setting keys through env or `.env`, or the service lost them.           |
@@ -24,7 +24,7 @@ topic. The triage ladder stays on this page; open the page that matches your que
 | [Gateway ports, already running, and remote mode](/help/faq/gateway-ports-and-remote-mode) | The Gateway will not bind, says it is already running, or you want remote mode. |
 | [Logging and debugging](/help/faq/logging-and-debugging)                                   | You need logs or a service restart, or replies never arrive.                    |
 | [Media and attachments](/help/faq/media-and-attachments)                                   | A skill produced an image or PDF but nothing was sent.                          |
-| [Security and access control](/help/faq/security-and-access-control)                       | You are exposing OpenAgent to inbound messages or judging plugin risk.      |
+| [Security and access control](/help/faq/security-and-access-control)                       | You are exposing OpenAgent to inbound messages or judging plugin risk.          |
 | [Chat commands, aborting tasks, and stopping a run](/help/faq/chat-commands-and-stopping)  | A task will not stop, or you are tuning slash commands and the queue.           |
 
 ## First 60 seconds if something is broken
@@ -99,7 +99,7 @@ Model Q&A - defaults, selection, aliases, switching, failover, auth profiles - l
 
 ---
 
-Still stuck? Ask in [Discord](https://discord.com/invite/clawd) or use the [GitHub issue chooser](https://github.com/openclaw/openclaw/issues/new/choose).
+Still stuck? See [Troubleshooting](/help/troubleshooting).
 
 ## Where each section moved
 
@@ -172,7 +172,7 @@ resolves. Each entry points at the page that now holds the answer.
 - <a id="is-there-an-api-rpc-way-to-apply-config" />[Is there an API / RPC way to apply config?](/help/faq/remote-gateways-and-nodes#is-there-an-api-rpc-way-to-apply-config)
 - <a id="minimal-sane-config-for-a-first-install" />[Minimal sane config for a first install](/help/faq/remote-gateways-and-nodes#minimal-sane-config-for-a-first-install)
 - <a id="how-do-i-set-up-tailscale-on-a-vps-and-connect-from-my-mac" />[How do I set up Tailscale on a VPS and connect from my Mac?](/help/faq/remote-gateways-and-nodes#how-do-i-set-up-tailscale-on-a-vps-and-connect-from-my-mac)
-- <a id="how-do-i-connect-a-mac-node-to-a-remote-gateway-tailscale-serve" />[How do I connect a Mac node to a remote Gateway (Tailscale Serve)?](/help/faq/remote-gateways-and-nodes#how-do-i-connect-a-mac-node-to-a-remote-gateway-tailscale-serve)
+- <a id="how-do-i-connect-a-mac-node-to-a-remote-gateway-tailscale-serve" />[How do I connect a node to a remote Gateway (Tailscale Serve)?](/help/faq/remote-gateways-and-nodes#how-do-i-connect-a-node-to-a-remote-gateway-tailscale-serve)
 - <a id="should-i-install-on-a-second-laptop-or-just-add-a-node" />[Should I install on a second laptop or just add a node?](/help/faq/remote-gateways-and-nodes#should-i-install-on-a-second-laptop-or-just-add-a-node)
 - <a id="env-vars-and-.env-loading" /><a id="env-vars-and-env-loading" />[Env vars and .env loading](/help/faq/env-vars#env-vars-and-env-loading)
 - <a id="how-does-openclaw-load-environment-variables" />[How does OpenAgent load environment variables?](/help/faq/env-vars#how-does-openclaw-load-environment-variables)
@@ -187,12 +187,10 @@ resolves. Each entry points at the page that now holds the answer.
 - <a id="i-am-getting-context-too-large-errors-how-do-i-reset-or-compact" />[I am getting "context too large" errors - how do I reset or compact?](/help/faq/sessions-and-chats#i-am-getting-context-too-large-errors-how-do-i-reset-or-compact)
 - <a id="why-am-i-seeing-llm-request-rejected-messages-content-tool-use-input-field-required" />[Why am I seeing "LLM request rejected: messages.content.tool_use.input field required"?](/help/faq/sessions-and-chats#why-am-i-seeing-llm-request-rejected-messages-content-tool-use-input-field-required)
 - <a id="why-am-i-getting-heartbeat-messages-every-30-minutes" />[Why am I getting heartbeat messages every 30 minutes?](/help/faq/sessions-and-chats#why-am-i-getting-heartbeat-messages-every-30-minutes)
-- <a id="do-i-need-to-add-a-bot-account-to-a-whatsapp-group" />[Do I need to add a "bot account" to a WhatsApp group?](/help/faq/sessions-and-chats#do-i-need-to-add-a-bot-account-to-a-whatsapp-group)
-- <a id="how-do-i-get-the-jid-of-a-whatsapp-group" />[How do I get the JID of a WhatsApp group?](/help/faq/sessions-and-chats#how-do-i-get-the-jid-of-a-whatsapp-group)
 - <a id="why-does-openclaw-not-reply-in-a-group" />[Why does OpenAgent not reply in a group?](/help/faq/sessions-and-chats#why-does-openclaw-not-reply-in-a-group)
 - <a id="do-groups-threads-share-context-with-dms" />[Do groups/threads share context with DMs?](/help/faq/sessions-and-chats#do-groups-threads-share-context-with-dms)
 - <a id="how-many-workspaces-and-agents-can-i-create" />[How many workspaces and agents can I create?](/help/faq/sessions-and-chats#how-many-workspaces-and-agents-can-i-create)
-- <a id="can-i-run-multiple-bots-or-chats-at-the-same-time-slack-and-how-should-i-set-that-up" />[Can I run multiple bots or chats at the same time (Slack), and how should I set that up?](/help/faq/sessions-and-chats#can-i-run-multiple-bots-or-chats-at-the-same-time-slack-and-how-should-i-set-that-up)
+- <a id="can-i-run-multiple-bots-or-chats-at-the-same-time-slack-and-how-should-i-set-that-up" />[Can I run multiple bots or chats at the same time, and how should I set that up?](/help/faq/sessions-and-chats#can-i-run-multiple-bots-or-chats-at-the-same-time-slack-and-how-should-i-set-that-up)
 - <a id="gateway%3A-ports%2C-%22already-running%22%2C-and-remote-mode" /><a id="gateway-ports-already-running-and-remote-mode" />[Gateway: ports, "already running", and remote mode](/help/faq/gateway-ports-and-remote-mode#gateway-ports-already-running-and-remote-mode)
 - <a id="what-port-does-the-gateway-use" />[What port does the Gateway use?](/help/faq/gateway-ports-and-remote-mode#what-port-does-the-gateway-use)
 - <a id="why-does-openclaw-gateway-status-say-runtime-running-but-connectivity-probe-failed" />[Why does openclaw gateway status say "Runtime: running" but "Connectivity probe: failed"?](/help/faq/gateway-ports-and-remote-mode#why-does-openclaw-gateway-status-say-runtime-running-but-connectivity-probe-failed)
@@ -221,12 +219,11 @@ resolves. Each entry points at the page that now holds the answer.
 - <a id="is-prompt-injection-only-a-concern-for-public-bots" />[Is prompt injection only a concern for public bots?](/help/faq/security-and-access-control#is-prompt-injection-only-a-concern-for-public-bots)
 - <a id="is-openclaw-less-safe-because-it-uses-typescript-node-instead-of-rust-wasm" />[Is OpenAgent less safe because it uses TypeScript/Node instead of Rust/WASM?](/help/faq/security-and-access-control#is-openclaw-less-safe-because-it-uses-typescript-node-instead-of-rust-wasm)
 - <a id="i-saw-reports-about-exposed-openclaw-instances-what-should-i-check" />[I saw reports about exposed OpenAgent instances. What should I check?](/help/faq/security-and-access-control#i-saw-reports-about-exposed-openclaw-instances-what-should-i-check)
-- <a id="are-clawhub-skills-and-third-party-plugins-safe-to-install" />[Are ClawHub skills and third-party plugins safe to install?](/help/faq/security-and-access-control#are-clawhub-skills-and-third-party-plugins-safe-to-install)
+- <a id="are-clawhub-skills-and-third-party-plugins-safe-to-install" />[Are third-party skills and plugins safe to install?](/help/faq/security-and-access-control#are-clawhub-skills-and-third-party-plugins-safe-to-install)
 - <a id="should-my-bot-have-its-own-email-github-account-or-phone-number" />[Should my bot have its own email, GitHub account, or phone number?](/help/faq/security-and-access-control#should-my-bot-have-its-own-email-github-account-or-phone-number)
 - <a id="can-i-give-it-autonomy-over-my-text-messages-and-is-that-safe" />[Can I give it autonomy over my text messages and is that safe?](/help/faq/security-and-access-control#can-i-give-it-autonomy-over-my-text-messages-and-is-that-safe)
 - <a id="can-i-use-cheaper-models-for-personal-assistant-tasks" />[Can I use cheaper models for personal assistant tasks?](/help/faq/security-and-access-control#can-i-use-cheaper-models-for-personal-assistant-tasks)
 - <a id="i-ran-start-in-telegram-but-did-not-get-a-pairing-code" />[I ran /start in Telegram but did not get a pairing code](/help/faq/security-and-access-control#i-ran-start-in-telegram-but-did-not-get-a-pairing-code)
-- <a id="whatsapp-will-it-message-my-contacts-how-does-pairing-work" />[WhatsApp: will it message my contacts? How does pairing work?](/help/faq/security-and-access-control#whatsapp-will-it-message-my-contacts-how-does-pairing-work)
 - <a id="chat-commands%2C-aborting-tasks%2C-and-%22it-will-not-stop%22" /><a id="chat-commands-aborting-tasks-and-it-will-not-stop" />[Chat commands, aborting tasks, and "it will not stop"](/help/faq/chat-commands-and-stopping#chat-commands-aborting-tasks-and-it-will-not-stop)
 - <a id="how-do-i-stop-internal-system-messages-from-showing-in-chat" />[How do I stop internal system messages from showing in chat?](/help/faq/chat-commands-and-stopping#how-do-i-stop-internal-system-messages-from-showing-in-chat)
 - <a id="how-do-i-stop-cancel-a-running-task" />[How do I stop/cancel a running task?](/help/faq/chat-commands-and-stopping#how-do-i-stop-cancel-a-running-task)

@@ -49,9 +49,7 @@ entries during the first repair.
 An older build can rebuild the same index back to its expected definition.
 Full-schema read-only validation rejects a mismatched definition until a
 writable owner repairs it; lightweight readers that validate only the numeric
-schema version may read either shape. See the
-[accepted index design](https://github.com/openclaw/openclaw/issues/142244) for
-upgrade, reverse-repair, and performance proof requirements.
+schema version may read either shape.
 
 ### Mentions Inbox
 
@@ -127,7 +125,7 @@ query and ten-minute window are unchanged.
 This adds no schema, index, version, or backfill. Doctor metadata restoration
 preserves an explicitly recorded origin and leaves unknown origins unknown.
 Older runtimes do not enforce this rule, so downgrading also removes the fixed-ID
-history protection. See the [accepted ID-origin decision](https://github.com/openclaw/openclaw/pull/130860).
+history protection.
 
 #### `meeting_transcript_utterances`
 
@@ -220,7 +218,7 @@ rows when the current Gateway generation is healthy and no post-core repair is
 pending. When every recorded driver is positively dead and no
 `driver:identity-unavailable` marker exists, explicit recovery does not require
 the inactivity window. It cannot override a live or inconclusive recorded driver. The
-[2026.9.2 updater](https://github.com/openclaw/openclaw/blob/v2026.9.2/src/cli/update-cli/update-command.ts#L465)
+2026.9.2 updater (`src/cli/update-cli/update-command.ts`)
 does not record adoption: package-manager and registry preflight can
 leave a live updater at its single `requested/in_progress` step. Older writers
 may drop unknown driver JSON fields; identityless rows normally require explicit recovery.
@@ -300,8 +298,7 @@ policy and does not require the optional fs-safe native binding. Failure stops
 lease admission before its operation runs. After an interrupted first creation,
 the normal owner can finish initialization through its existing empty-database
 recovery path; committed rows remain governed by SQLite's normal transactions.
-This change requires no schema migration. See the
-[accepted initialization design](https://github.com/openclaw/openclaw/pull/144155).
+This change requires no schema migration.
 
 ### Managed worktree acceleration templates
 

@@ -6,9 +6,9 @@ read_when: "You want multiple agents with separate workspaces, auth, and session
 status: active
 ---
 
-Run multiple _isolated_ agents in one Gateway process, each with its own workspace, state directory (`agentDir`), and SQLite-backed session history, plus multiple channel accounts (e.g. two WhatsApp numbers). Inbound messages route to the right agent through **bindings**.
+Run multiple _isolated_ agents in one Gateway process, each with its own workspace, state directory (`agentDir`), and SQLite-backed session history, plus multiple channel accounts (e.g. two Telegram bots). Inbound messages route to the right agent through **bindings**.
 
-An **agent** is the full per-persona scope: workspace files, auth profiles, model registry, and session store. A **binding** maps a channel account (a Slack workspace, a WhatsApp number, etc.) to one of those agents.
+An **agent** is the full per-persona scope: workspace files, auth profiles, model registry, and session store. A **binding** maps a channel account (a Discord bot, a Telegram bot, etc.) to one of those agents.
 
 For a focused setup guide with account and conversation examples, see [Agent bindings](/concepts/agent-bindings).
 
@@ -37,9 +37,7 @@ Never reuse `agentDir` across agents — it causes auth/session state collisions
 Skills load from each agent workspace plus shared roots such as `~/.openclaw/skills`, then filter by the effective agent skill allowlist. Use `agents.defaults.skills` for a shared baseline and `agents.entries.*.skills` for a per-agent replacement (explicit entries replace the default, they do not merge). See [Skills: per-agent vs shared](/tools/skills#per-agent-vs-shared-skills) and [Skills: agent allowlists](/tools/skills#agent-allowlists).
 
 Plugin-owned storage follows that plugin's configuration; adding a second agent
-does not automatically split every global plugin store. For example, configure
-[Memory Wiki per-agent vaults](/concepts/multi-agent#per-agent-memory-wiki-vaults)
-when personas must not share compiled wiki knowledge.
+does not automatically split every global plugin store.
 
 <Note>
 **Workspace note:** each agent's workspace is the **default cwd**, not a hard sandbox. Relative paths resolve inside the workspace, but absolute paths can reach other host locations unless sandboxing is enabled. See [Sandboxing](/gateway/sandboxing).
@@ -194,13 +192,7 @@ or use the team choice during [onboarding](/start/wizard#choose-one-agent-or-a-t
 
     - Discord: one bot per agent, enable Message Content Intent, copy each token.
     - Telegram: one bot per agent via BotFather, copy each token.
-    - WhatsApp: link each phone number per account.
-
-    ```bash
-    openclaw channels login --channel whatsapp --account work
-    ```
-
-    See channel guides: [Discord](/channels/discord), [Telegram](/channels/telegram), [WhatsApp](/channels/whatsapp).
+    See channel guides: [Discord](/channels/discord), [Telegram](/channels/telegram).
 
   </Step>
   <Step title="Add agents, accounts, and bindings">
@@ -225,37 +217,6 @@ Each configured `agentId` is a distinct persona boundary for core agent state:
 
 This lets multiple people share one Gateway while keeping core agent state separate.
 
-## Per-agent Memory Wiki vaults
-
-Memory Wiki uses one global vault by default. To keep a support agent's
-compiled knowledge separate from a marketing agent's, set
-`plugins.entries.memory-wiki.config.vault.scope` to `agent`:
-
-```json5
-{
-  plugins: {
-    entries: {
-      "memory-wiki": {
-        enabled: true,
-        config: {
-          vault: {
-            scope: "agent",
-            path: "~/.openclaw/wiki",
-          },
-        },
-      },
-    },
-  },
-}
-```
-
-The configured path is the parent directory. OpenAgent appends the normalized
-agent id, producing paths such as `~/.openclaw/wiki/support` and
-`~/.openclaw/wiki/marketing`. Agent-scoped CLI and Gateway operations require
-an explicit agent when multiple agents are configured. See
-[Memory Wiki per-agent vaults](/plugins/memory-wiki#per-agent-vaults) for bridge
-filtering, migration, and trust-boundary details.
-
 ## Cross-agent memory search
 
 The QMD cross-agent search path was removed in v2026.8.1 along with the rest
@@ -266,46 +227,9 @@ Markdown in an explicit shared `memory.search.extraPaths` directory when the
 same reference material should be indexed by multiple agents. For the full
 upgrade path, see [Migrating from QMD](/concepts/memory-builtin#migrating-from-qmd).
 
-## One WhatsApp number, multiple people (DM split)
-
-Route different WhatsApp DMs to different agents on **one** WhatsApp account by matching sender E.164 (`+15551234567`) with `peer.kind: "direct"`. Replies still come from the same WhatsApp number — there is no per-agent sender identity.
-
-<Note>
-Direct chats collapse to the agent's main session key by default, so true isolation requires one agent per person.
-</Note>
-
-```json5
-{
-  agents: {
-    entries: {
-      alex: { default: true, workspace: "~/.openclaw/workspace-alex" },
-      mia: { workspace: "~/.openclaw/workspace-mia" },
-    },
-  },
-  bindings: [
-    {
-      agentId: "alex",
-      match: { channel: "whatsapp", peer: { kind: "direct", id: "+15551230001" } },
-    },
-    {
-      agentId: "mia",
-      match: { channel: "whatsapp", peer: { kind: "direct", id: "+15551230002" } },
-    },
-  ],
-  channels: {
-    whatsapp: {
-      dmPolicy: "allowlist",
-      allowFrom: ["+15551230001", "+15551230002"],
-    },
-  },
-}
-```
-
-DM access control (pairing/allowlist) is global per WhatsApp account, not per agent. For shared groups, bind the group to one agent or use [Broadcast groups](/channels/broadcast-groups).
-
 ## Routing rules
 
-Bindings are deterministic and most-specific wins. See [Channel routing](/channels/channel-routing#routing-rules-how-an-agent-is-chosen) for the full tier order (exact peer, parent peer, peer wildcard, guild+roles, guild, team, account, channel, default agent). A few rules worth calling out here:
+Bindings are deterministic and most-specific wins. See [Channel routing](/channels/channel-routing#routing-rules-how-an-agent-is-chosen) for the full tier order (exact peer, parent peer, peer wildcard, guild+roles, guild, account, channel, default agent). A few rules worth calling out here:
 
 - If multiple bindings match within the same tier, the first one in config order wins.
 - If a binding sets multiple match fields (for example `peer` + `guildId`), all specified fields must match (`AND` semantics).
@@ -331,18 +255,18 @@ workspaces stay authoritative. If an earlier upgrade already left two edited
 workspaces, select the intended per-agent workspace and reconcile their contents
 from your backups; Doctor does not merge directories.
 
-## Multiple accounts / phone numbers
+## Multiple accounts
 
-Channels that support multiple accounts (e.g. WhatsApp) use `accountId` to identify each login. Each `accountId` routes to its own agent, so one server can host multiple phone numbers without mixing sessions.
+Channels that support multiple accounts (e.g. Telegram) use `accountId` to identify each login. Each `accountId` routes to its own agent, so one server can host multiple bots without mixing sessions.
 
 Set `channels.<channel>.defaultAccount` to choose the account used when `accountId` is omitted. When unset, OpenAgent falls back to `default` if present, otherwise the first configured account id (sorted).
 
-Channels supporting multiple accounts: `discord`, `feishu`, `googlechat`, `imessage`, `irc`, `line`, `mattermost`, `matrix`, `nextcloud-talk`, `nostr`, `signal`, `slack`, `telegram`, `whatsapp`, `zalo`, `zalouser`.
+Channels supporting multiple accounts: `discord`, `telegram`.
 
 ## Concepts
 
 - `agentId`: one "brain" (workspace, per-agent auth, per-agent session store).
-- `accountId`: one channel account instance (e.g. WhatsApp account `personal` vs `biz`).
+- `accountId`: one channel account instance (e.g. Telegram account `personal` vs `biz`).
 - `binding`: routes inbound messages to an `agentId` by `(channel, accountId, peer)`, and optionally guild/team ids.
 - Direct chats collapse to `agent:<agentId>:main` by default (the per-agent [main session](/concepts/main-session)).
 
@@ -438,83 +362,13 @@ Channels supporting multiple accounts: `discord`, `feishu`, `googlechat`, `imess
     - Bind by `accountId` so each bot routes to its own agent.
 
   </Accordion>
-  <Accordion title="WhatsApp numbers per agent">
-    Link each account before starting the gateway:
-
-    ```bash
-    openclaw channels login --channel whatsapp --account personal
-    openclaw channels login --channel whatsapp --account biz
-    ```
-
-    `~/.openclaw/openclaw.json` (JSON5):
-
-    ```js
-    {
-      agents: {
-        entries: {
-          home: {
-            default: true,
-            name: "Home",
-            workspace: "~/.openclaw/workspace-home",
-            agentDir: "~/.openclaw/agents/home/agent",
-          },
-          work: {
-            name: "Work",
-            workspace: "~/.openclaw/workspace-work",
-            agentDir: "~/.openclaw/agents/work/agent",
-          },
-        },
-      },
-
-      // Deterministic routing: first match wins (most-specific first).
-      bindings: [
-        { agentId: "home", match: { channel: "whatsapp", accountId: "personal" } },
-        { agentId: "work", match: { channel: "whatsapp", accountId: "biz" } },
-
-        // Optional per-peer override (example: send a specific group to work agent).
-        {
-          agentId: "work",
-          match: {
-            channel: "whatsapp",
-            accountId: "personal",
-            peer: { kind: "group", id: "1203630...@g.us" },
-          },
-        },
-      ],
-
-      // On by default. Omitted/empty `allow` permits every agent pair;
-      // list requester and target ids to restrict access, or set enabled: false to turn it off.
-      tools: {
-        agentToAgent: {
-          allow: ["home", "work"],
-        },
-      },
-
-      channels: {
-        whatsapp: {
-          accounts: {
-            personal: {
-              // Optional override. Default: ~/.openclaw/credentials/whatsapp/personal
-              // authDir: "~/.openclaw/credentials/whatsapp/personal",
-            },
-            biz: {
-              // Optional override. Default: ~/.openclaw/credentials/whatsapp/biz
-              // authDir: "~/.openclaw/credentials/whatsapp/biz",
-            },
-          },
-        },
-      },
-    }
-    ```
-
-  </Accordion>
 </AccordionGroup>
 
 ## Common patterns
 
 <Tabs>
-  <Tab title="WhatsApp daily + Telegram deep work">
-    Split by channel: route WhatsApp to a fast everyday agent and Telegram to an Opus agent.
+  <Tab title="Discord daily + Telegram deep work">
+    Split by channel: route Discord to a fast everyday agent and Telegram to an Opus agent.
 
     ```json5
     {
@@ -534,7 +388,7 @@ Channels supporting multiple accounts: `discord`, `feishu`, `googlechat`, `imess
         },
       },
       bindings: [
-        { agentId: "chat", match: { channel: "whatsapp", accountId: "*" } },
+        { agentId: "chat", match: { channel: "discord", accountId: "*" } },
         { agentId: "opus", match: { channel: "telegram", accountId: "*" } },
       ],
     }
@@ -544,7 +398,7 @@ Channels supporting multiple accounts: `discord`, `feishu`, `googlechat`, `imess
 
   </Tab>
   <Tab title="Same channel, one peer to Opus">
-    Keep WhatsApp on the fast agent, but route one DM to Opus:
+    Keep Telegram on the fast agent, but route one DM to Opus:
 
     ```json5
     {
@@ -566,9 +420,9 @@ Channels supporting multiple accounts: `discord`, `feishu`, `googlechat`, `imess
       bindings: [
         {
           agentId: "opus",
-          match: { channel: "whatsapp", accountId: "*", peer: { kind: "direct", id: "+15551234567" } },
+          match: { channel: "telegram", accountId: "*", peer: { kind: "direct", id: "123456789" } },
         },
-        { agentId: "chat", match: { channel: "whatsapp", accountId: "*" } },
+        { agentId: "chat", match: { channel: "telegram", accountId: "*" } },
       ],
     }
     ```
@@ -576,8 +430,8 @@ Channels supporting multiple accounts: `discord`, `feishu`, `googlechat`, `imess
     Peer bindings always win, so keep them above the channel-wide rule.
 
   </Tab>
-  <Tab title="Family agent bound to a WhatsApp group">
-    Bind a dedicated family agent to a single WhatsApp group, with mention gating and a tighter tool policy:
+  <Tab title="Family agent bound to a Telegram group">
+    Bind a dedicated family agent to a single Telegram group, with mention gating and a tighter tool policy:
 
     ```json5
     {
@@ -605,7 +459,7 @@ Channels supporting multiple accounts: `discord`, `feishu`, `googlechat`, `imess
                 "sessions_spawn",
                 "session_status",
               ],
-              deny: ["write", "edit", "apply_patch", "browser", "canvas", "nodes", "cron"],
+              deny: ["write", "edit", "apply_patch", "browser", "nodes", "cron"],
             },
           },
         },
@@ -614,8 +468,8 @@ Channels supporting multiple accounts: `discord`, `feishu`, `googlechat`, `imess
         {
           agentId: "family",
           match: {
-            channel: "whatsapp",
-            peer: { kind: "group", id: "120363999999999999@g.us" },
+            channel: "telegram",
+            peer: { kind: "group", id: "-1001234567890" },
           },
         },
       ],

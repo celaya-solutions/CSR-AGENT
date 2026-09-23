@@ -6,7 +6,6 @@ doc-schema-version: 1
 read_when:
   - You want to configure memory search providers or embedding models
   - You want to understand hybrid search, MMR, or temporal-decay defaults
-  - You want to enable multimodal memory indexing
   - You need to exclude specific session sources from automatic dreaming ingestion
   - You see a memory file-watching pressure warning
 ---
@@ -23,20 +22,13 @@ This page lists every configuration knob for OpenAgent memory search. For concep
   <Card title="Memory search" href="/concepts/memory-search">
     Search pipeline and tuning.
   </Card>
-  <Card title="Active memory" href="/concepts/active-memory">
-    Memory sub-agent for interactive sessions.
-  </Card>
 </CardGroup>
 
 All shared memory settings live under top-level `memory` in `openclaw.json`. Search defaults use `memory.search`; per-agent search overrides use `agents.entries.*.memory.search`.
 
 <Note>
 For the recommended personal-agent workflow, use
-`memory.search.rememberAcrossConversations`. Advanced Active Memory targeting,
-model, prompt, and latency controls live under `plugins.entries.active-memory`.
-
-See [Active Memory](/concepts/active-memory) for both activation paths,
-transcript persistence, and safe rollout guidance.
+`memory.search.rememberAcrossConversations`.
 </Note>
 
 ---
@@ -74,10 +66,9 @@ override. Any configured DM isolation defaults it off. An explicit `true` or
 `sessions` to the agent's resolved memory sources.
 
 OpenAgent's built-in memory provider supports this protected path. Alternate memory providers can keep using their own
-recall hooks and advanced Active Memory tools, but this setting is skipped
-unless the current provider supports protected private transcript recall.
-`openclaw doctor` reports an unsupported provider or an explicit Active Memory
-`toolsAllow` list that omits `memory_search`.
+recall hooks, but this setting is skipped unless the current provider supports
+protected private transcript recall. `openclaw doctor` reports an unsupported
+provider.
 
 The retrieval boundary is narrower than general session search:
 
@@ -89,24 +80,24 @@ The retrieval boundary is narrower than general session search:
 
 The setting does not change `tools.sessions.visibility`, session keys,
 transcript storage, delivery routing, or the permissions of `sessions_list`,
-`sessions_history`, and `sessions_send`. Active Memory performs a bounded
-read-only retrieval pass; unavailable or timed-out retrieval does not block the
+`sessions_history`, and `sessions_send`. Recall is a bounded read-only
+retrieval pass; unavailable or timed-out retrieval does not block the
 reply.
 
 ---
 
 ## Provider selection
 
-| Key        | Type      | Default          | Description                                                                                                                                                                                                                                                                                 |
-| ---------- | --------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `enabled`  | `boolean` | `true`           | Enable or disable memory search                                                                                                                                                                                                                                                             |
-| `provider` | `string`  | `"openai"`       | Embedding adapter ID such as `bedrock`, `deepinfra`, `gemini`, `github-copilot`, `local`, `mistral`, `ollama`, `openai`, `openai-compatible`, or `voyage`; may also be a configured `models.providers.<id>` whose `api` points at a memory embedding adapter or OpenAI-compatible model API |
-| `model`    | `string`  | provider default | Embedding model name                                                                                                                                                                                                                                                                        |
-| `fallback` | `string`  | `"none"`         | Fallback adapter ID when the primary fails                                                                                                                                                                                                                                                  |
+| Key        | Type      | Default          | Description                                                                                                                                                                                                        |
+| ---------- | --------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `enabled`  | `boolean` | `true`           | Enable or disable memory search                                                                                                                                                                                    |
+| `provider` | `string`  | `"openai"`       | Embedding adapter ID such as `local`, `ollama`, `openai`, or `openai-compatible`; may also be a configured `models.providers.<id>` whose `api` points at a memory embedding adapter or OpenAI-compatible model API |
+| `model`    | `string`  | provider default | Embedding model name                                                                                                                                                                                               |
+| `fallback` | `string`  | `"none"`         | Fallback adapter ID when the primary fails                                                                                                                                                                         |
 
 When `provider` is not set, OpenAgent uses OpenAI embeddings. Set `provider`
-explicitly to use Bedrock, DeepInfra, Gemini, GitHub Copilot, Mistral, Ollama,
-Voyage, a local GGUF model, or an OpenAI-compatible `/v1/embeddings` endpoint.
+explicitly to use Ollama, a local GGUF model, or an OpenAI-compatible
+`/v1/embeddings` endpoint.
 Legacy configs that still say `provider: "auto"` resolve to `openai`.
 
 <Warning>
@@ -123,9 +114,8 @@ When `provider` is unset, legacy `provider: "auto"` is present, or
 use lexical FTS ranking when embeddings are unavailable.
 
 Explicit non-local providers fail closed. If you set `memory.search.provider` to
-a concrete remote-backed provider such as Bedrock, DeepInfra, Gemini, GitHub
-Copilot, LM Studio, Mistral, Ollama, OpenAI, Voyage, or an OpenAI-compatible
-custom provider, and that provider is unavailable at runtime, `memory_search`
+a concrete remote-backed provider such as Ollama, OpenAI, or an
+OpenAI-compatible custom provider, and that provider is unavailable at runtime, `memory_search`
 returns an unavailable result instead of silently using FTS-only recall. Fix the
 provider/auth configuration, switch to a reachable provider, or set
 `provider: "none"` if you want deliberate FTS-only recall.
@@ -157,18 +147,12 @@ provider/auth configuration, switch to a reachable provider, or set
 
 ### API key resolution
 
-Remote embeddings require an API key. Bedrock uses the AWS SDK default credential chain instead (instance roles, SSO, access keys, or a Bedrock API key).
+Remote embeddings require an API key.
 
-| Provider       | Env var                                             | Config key                          |
-| -------------- | --------------------------------------------------- | ----------------------------------- |
-| Bedrock        | AWS credential chain, or `AWS_BEARER_TOKEN_BEDROCK` | No API key needed                   |
-| DeepInfra      | `DEEPINFRA_API_KEY`                                 | `models.providers.deepinfra.apiKey` |
-| Gemini         | `GEMINI_API_KEY`                                    | `models.providers.google.apiKey`    |
-| GitHub Copilot | `COPILOT_GITHUB_TOKEN`                              | Auth profile via device login       |
-| Mistral        | `MISTRAL_API_KEY`                                   | `models.providers.mistral.apiKey`   |
-| Ollama         | `OLLAMA_API_KEY` (placeholder)                      | --                                  |
-| OpenAI         | `OPENAI_API_KEY`                                    | `models.providers.openai.apiKey`    |
-| Voyage         | `VOYAGE_API_KEY`                                    | `models.providers.voyage.apiKey`    |
+| Provider | Env var                        | Config key                       |
+| -------- | ------------------------------ | -------------------------------- |
+| Ollama   | `OLLAMA_API_KEY` (placeholder) | --                               |
+| OpenAI   | `OPENAI_API_KEY`               | `models.providers.openai.apiKey` |
 
 For custom OpenAI-compatible providers, `models.providers.<id>.apiKey` can name
 an API-key or bearer-token profile saved with [`openclaw models auth`](/cli/models#auth-profiles),
@@ -216,34 +200,6 @@ Use `provider: "openai-compatible"` for a generic OpenAI-compatible
 ## Provider-specific config
 
 <AccordionGroup>
-  <Accordion title="Gemini">
-    | Key                    | Type     | Default                | Description                                |
-    | ---------------------- | -------- | ---------------------- | ------------------------------------------- |
-    | `model`                | `string` | `gemini-embedding-001` | Also supports `gemini-embedding-2`         |
-    | `outputDimensionality` | `number` | `3072`                 | 128-3072; recommended: 768, 1536, or 3072  |
-
-    The legacy `gemini-embedding-2-preview` identifier remains accepted during
-    migration to the stable model.
-
-    <Warning>
-    Changing model or `outputDimensionality` changes the index identity. OpenAgent
-    pauses vector search until you explicitly rebuild the memory index.
-
-    Upgrading any existing configuration that already uses
-    `gemini-embedding-2` can trigger the same pause even when you do not edit the
-    configuration. Before 2026.8.1, the stable model's dimension was
-    omitted from index identity whether `outputDimensionality` was absent or
-    explicitly set. From 2026.8.1 ([#128716](https://github.com/openclaw/openclaw/pull/128716)),
-    an absent setting resolves to 3072, while an
-    explicit setting between 128 and 3072 becomes part of the identity. The
-    default `gemini-embedding-001` keeps its existing identity when this setting
-    is absent; an explicitly configured value that 2026.8.1 no longer ignores
-    also changes the identity. For either path, check the affected agent with
-    `openclaw memory status --deep --agent <id>`, then rebuild when ready with
-    `openclaw memory index --force --agent <id>`.
-    </Warning>
-
-  </Accordion>
   <Accordion title="OpenAI-compatible input types">
     OpenAI-compatible embedding endpoints can opt into provider-specific `input_type` request fields. This is useful for asymmetric embedding models that require different labels for query and document embeddings.
 
@@ -271,72 +227,6 @@ Use `provider: "openai-compatible"` for a generic OpenAI-compatible
     ```
 
     Changing these values affects embedding cache identity for provider batch indexing and should be followed by a memory reindex when the upstream model treats the labels differently.
-
-  </Accordion>
-  <Accordion title="Bedrock">
-    ### Bedrock embedding config
-
-    Bedrock uses the AWS SDK default credential chain plus an OpenAgent-checked bearer token, so no API keys are stored in config. If OpenAgent runs on EC2 with a Bedrock-enabled instance role, just set the provider and model:
-
-    ```json5
-    {
-      memory: {
-        search: {
-          provider: "bedrock",
-          model: "amazon.titan-embed-text-v2:0",
-        },
-      },
-    }
-    ```
-
-    | Key                    | Type     | Default                        | Description                     |
-    | ---------------------- | -------- | ------------------------------- | -------------------------------- |
-    | `model`                | `string` | `amazon.titan-embed-text-v2:0` | Any Bedrock embedding model ID  |
-    | `outputDimensionality` | `number` | model default                  | For Titan V2: 256, 512, or 1024 |
-
-    **Supported models** (with family detection and dimension defaults):
-
-    | Model ID                                   | Provider   | Default Dims | Configurable Dims          |
-    | ------------------------------------------- | ---------- | ------------- | -------------------------- |
-    | `amazon.titan-embed-text-v2:0`             | Amazon     | 1024         | 256, 512, 1024             |
-    | `amazon.titan-embed-text-v1`               | Amazon     | 1536         | --                          |
-    | `amazon.titan-embed-g1-text-02`            | Amazon     | 1536         | --                          |
-    | `amazon.titan-embed-image-v1`              | Amazon     | 1024         | --                          |
-    | `amazon.nova-2-multimodal-embeddings-v1:0` | Amazon     | 1024         | 256, 384, 1024, 3072       |
-    | `cohere.embed-english-v3`                  | Cohere     | 1024         | --                          |
-    | `cohere.embed-multilingual-v3`             | Cohere     | 1024         | --                          |
-    | `cohere.embed-v4:0`                        | Cohere     | 1536         | 256, 384, 512, 768, 1024, 1536 |
-    | `twelvelabs.marengo-embed-3-0-v1:0`        | TwelveLabs | 512          | --                          |
-    | `twelvelabs.marengo-embed-2-7-v1:0`        | TwelveLabs | 1024         | --                          |
-
-    Throughput-suffixed variants (e.g., `amazon.titan-embed-text-v1:2:8k`) and region-prefixed inference profile IDs (e.g., `us.amazon.titan-embed-text-v2:0`) inherit the base model's configuration.
-
-    **Region:** resolved in this order: the `memory.search.remote.baseUrl` override, the `models.providers.amazon-bedrock.baseUrl` config, `AWS_REGION`, `AWS_DEFAULT_REGION`, then a default of `us-east-1`.
-
-    **Authentication:** OpenAgent checks for `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY` or `AWS_BEARER_TOKEN_BEDROCK` first, then falls through to the standard AWS SDK default credential provider chain:
-
-    1. Environment variables (`AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`), unless `AWS_PROFILE` is also set
-    2. SSO (only when SSO fields are configured)
-    3. Shared credentials and config files (`fromIni`, includes `AWS_PROFILE`)
-    4. Credential process (`credential_process` in the AWS config file)
-    5. Web identity token credentials
-    6. ECS or EC2 instance metadata credentials
-
-    **IAM permissions:** the IAM role or user needs:
-
-    ```json
-    {
-      "Effect": "Allow",
-      "Action": "bedrock:InvokeModel",
-      "Resource": "*"
-    }
-    ```
-
-    For least-privilege, scope `InvokeModel` to the specific model:
-
-    ```text
-    arn:aws:bedrock:*::foundation-model/amazon.titan-embed-text-v2:0
-    ```
 
   </Accordion>
   <Accordion title="Local (managed llama.cpp server)">
@@ -476,24 +366,6 @@ does not mean its edited contents were imported. Unsafe source paths and failed 
 
 ---
 
-## Multimodal memory (Gemini)
-
-Index images and audio alongside Markdown using Gemini Embedding 2:
-
-| Key                       | Type       | Default    | Description                            |
-| ------------------------- | ---------- | ---------- | -------------------------------------- |
-| `multimodal.enabled`      | `boolean`  | `false`    | Enable multimodal indexing             |
-| `multimodal.modalities`   | `string[]` | --         | `["image"]`, `["audio"]`, or `["all"]` |
-| `multimodal.maxFileBytes` | `number`   | `10485760` | Max file size for indexing (10 MiB)    |
-
-<Note>
-Only applies to files in `extraPaths`. Default memory roots stay Markdown-only. Requires `gemini-embedding-2` (the legacy preview identifier is also accepted). `fallback` must be `"none"`.
-</Note>
-
-Supported formats: `.jpg`, `.jpeg`, `.png` (images); `.mp3`, `.wav` (audio).
-
----
-
 ## Embedding cache
 
 | Key             | Type      | Default | Description                      |
@@ -510,7 +382,7 @@ Prevents re-embedding unchanged text during reindex or transcript updates.
 | ---------------------- | --------- | ------- | -------------------------- |
 | `remote.batch.enabled` | `boolean` | `false` | Enable batch embedding API |
 
-Available for `gemini`, `openai`, and `voyage`. OpenAI batch is typically fastest and cheapest for large backfills.
+Available for `openai`.
 
 Batch enablement is the only remote batching setting. Concurrency, polling, and timeout behavior are provider-owned.
 
@@ -568,7 +440,7 @@ incognito exclusions still apply.
 
 `rememberAcrossConversations` does not widen that setting. It supplies a
 separate runtime-only authorization limited to same-agent private
-transcripts during the bounded Active Memory pass.
+transcripts during bounded memory recall.
 
 An explicit `memory_search` request for the `sessions` corpus requires session
 search to be enabled for that agent. If it is unavailable, OpenAgent explains

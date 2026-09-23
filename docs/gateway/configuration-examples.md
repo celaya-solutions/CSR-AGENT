@@ -16,11 +16,11 @@ Examples below are aligned with the current config schema. For the exhaustive re
 ```json5
 {
   agents: { defaults: { workspace: "~/.openclaw/workspace" } },
-  channels: { whatsapp: { allowFrom: ["+15555550123"] } },
+  channels: { telegram: { botToken: "YOUR_TELEGRAM_BOT_TOKEN", allowFrom: ["123456789"] } },
 }
 ```
 
-Save to `~/.openclaw/openclaw.json` and you can DM the bot from that number.
+Save to `~/.openclaw/openclaw.json` and you can DM the bot from that Telegram account.
 
 ### Recommended starter
 
@@ -34,16 +34,16 @@ Save to `~/.openclaw/openclaw.json` and you can DM the bot from that number.
     entries: {
       main: {
         identity: {
-          name: "Clawd",
+          name: "Assistant",
           theme: "helpful assistant",
-          emoji: "🦞",
         },
       },
     },
   },
   channels: {
-    whatsapp: {
-      allowFrom: ["+15555550123"],
+    telegram: {
+      botToken: "YOUR_TELEGRAM_BOT_TOKEN",
+      allowFrom: ["123456789"],
       groups: { "*": { requireMention: true } },
     },
   },
@@ -115,12 +115,8 @@ Save to `~/.openclaw/openclaw.json` and you can DM the bot from that number.
       cap: 20,
       drop: "summarize",
       byChannel: {
-        whatsapp: "followup",
         telegram: "followup",
         discord: "collect",
-        slack: "collect",
-        signal: "followup",
-        imessage: "followup",
         webchat: "followup",
       },
     },
@@ -156,14 +152,6 @@ Save to `~/.openclaw/openclaw.json` and you can DM the bot from that number.
 
   // Channels
   channels: {
-    whatsapp: {
-      dmPolicy: "pairing",
-      allowFrom: ["+15555550123"],
-      groupPolicy: "allowlist",
-      groupAllowFrom: ["+15555550123"],
-      groups: { "*": { requireMention: true } },
-    },
-
     telegram: {
       enabled: true,
       botToken: "YOUR_TELEGRAM_BOT_TOKEN",
@@ -187,23 +175,6 @@ Save to `~/.openclaw/openclaw.json` and you can DM the bot from that number.
             help: { enabled: true, requireMention: true },
           },
         },
-      },
-    },
-
-    slack: {
-      enabled: true,
-      botToken: "xoxb-REPLACE_ME",
-      appToken: "xapp-REPLACE_ME",
-      channels: {
-        "#general": { enabled: true, requireMention: true },
-      },
-      dmPolicy: "allowlist",
-      allowFrom: ["U123"],
-      slashCommand: {
-        enabled: true,
-        name: "openclaw",
-        sessionPrefix: "slack:slash",
-        ephemeral: true,
       },
     },
   },
@@ -251,9 +222,9 @@ Save to `~/.openclaw/openclaw.json` and you can DM the bot from that number.
       heartbeat: {
         every: "30m",
         model: "anthropic/claude-sonnet-4-6",
-        target: "whatsapp",
+        target: "telegram",
         directPolicy: "allow", // allow (default) | block
-        to: "+15555550123",
+        to: "123456789",
         prompt: "HEARTBEAT",
       },
       sandbox: {
@@ -327,12 +298,8 @@ Save to `~/.openclaw/openclaw.json` and you can DM the bot from that number.
     elevated: {
       enabled: true,
       allowFrom: {
-        whatsapp: ["+15555550123"],
         telegram: ["123456789"],
         discord: ["123456789012345678"],
-        slack: ["U123"],
-        signal: ["+15555550123"],
-        imessage: ["user@example.com"],
         webchat: ["session:demo"],
       },
     },
@@ -505,7 +472,6 @@ example `~/.agents/skills/manager -> ~/path/to/skills`.
 {
   agents: { defaults: { workspace: "~/.openclaw/workspace" } },
   channels: {
-    whatsapp: { allowFrom: ["+15555550123"], responsePrefix: "[openclaw]" },
     telegram: {
       enabled: true,
       botToken: "YOUR_TOKEN",
@@ -552,12 +518,6 @@ If more than one person can DM your bot (multiple entries in `allowFrom`, pairin
   session: { dmScope: "per-channel-peer" },
 
   channels: {
-    // Example: WhatsApp multi-user inbox
-    whatsapp: {
-      dmPolicy: "allowlist",
-      allowFrom: ["+15555550123", "+15555550124"],
-    },
-
     // Example: Discord multi-user inbox
     discord: {
       enabled: true,
@@ -568,10 +528,10 @@ If more than one person can DM your bot (multiple entries in `allowFrom`, pairin
 }
 ```
 
-For Discord/Google Chat/IRC/Mattermost/Microsoft Teams/Slack, sender authorization is ID-first by default.
+For Discord, sender authorization is ID-first by default.
 Only enable direct mutable name/email/nick matching with each channel's `dangerouslyAllowNameMatching: true` if you explicitly accept that risk.
 
-### Anthropic API key + MiniMax fallback
+### Anthropic API key + OpenRouter fallback
 
 ```json5
 {
@@ -586,21 +546,12 @@ Only enable direct mutable name/email/nick matching with each channel's `dangero
       anthropic: ["anthropic:api"],
     },
   },
-  models: {
-    providers: {
-      minimax: {
-        baseUrl: "https://api.minimax.io/anthropic",
-        api: "anthropic-messages",
-        apiKey: "${MINIMAX_API_KEY}",
-      },
-    },
-  },
   agents: {
     defaults: {
       workspace: "~/.openclaw/workspace",
       model: {
         primary: "anthropic/claude-opus-4-6",
-        fallbacks: ["minimax/MiniMax-M2.7"],
+        fallbacks: ["openrouter/anthropic/claude-sonnet-4.5"],
       },
     },
   },
@@ -626,12 +577,17 @@ Only enable direct mutable name/email/nick matching with each channel's `dangero
     },
   },
   channels: {
-    slack: {
+    discord: {
       enabled: true,
-      botToken: "xoxb-...",
-      channels: {
-        "#engineering": { enabled: true, requireMention: true },
-        "#general": { enabled: true, requireMention: true },
+      token: "YOUR_DISCORD_BOT_TOKEN",
+      guilds: {
+        "123456789012345678": {
+          requireMention: true,
+          channels: {
+            engineering: { enabled: true },
+            general: { enabled: true },
+          },
+        },
       },
     },
   },
@@ -645,15 +601,15 @@ Only enable direct mutable name/email/nick matching with each channel's `dangero
   agents: {
     defaults: {
       workspace: "~/.openclaw/workspace",
-      model: { primary: "lmstudio/my-local-model" },
+      model: { primary: "local/my-local-model" },
     },
   },
   models: {
     mode: "merge",
     providers: {
-      lmstudio: {
-        baseUrl: "http://127.0.0.1:1234/v1",
-        apiKey: "lmstudio",
+      local: {
+        baseUrl: "http://127.0.0.1:8080/v1",
+        apiKey: "local",
         api: "openai-responses",
         models: [
           {
@@ -676,7 +632,7 @@ Only enable direct mutable name/email/nick matching with each channel's `dangero
 
 - If you set `dmPolicy: "open"`, the matching `allowFrom` list must include `"*"`.
 - Provider IDs differ (phone numbers, user IDs, channel IDs). Use the provider docs to confirm the format.
-- Optional sections to add later: `web`, `browser`, `ui`, `discovery`, `plugins`, `talk`, `signal`, `imessage`.
+- Optional sections to add later: `web`, `browser`, `ui`, `discovery`, `plugins`, `talk`.
 - See [Providers](/providers) and [Troubleshooting](/gateway/troubleshooting) for deeper setup notes.
 
 ## Related

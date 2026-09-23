@@ -1,197 +1,73 @@
 ---
-summary: "Install OpenAgent - desktop app downloads, installer script, npm/pnpm/bun, from source, Docker, and more"
+summary: "Install OpenAgent from source, run it in Docker or Podman, and keep it updated"
 read_when:
-  - You need an install method other than the Getting Started quickstart
-  - You want to download the Windows Hub or macOS desktop app instead of the CLI
-  - You want to deploy to a cloud platform
+  - You need to install OpenAgent
+  - You want to run the Gateway in a container or on a server
   - You need to update, migrate, or uninstall
 title: "Install"
 ---
 
+OpenAgent installs from source only. There is no hosted installer script,
+published npm package, desktop app download, or prebuilt container image: you
+clone the repository, build it, and run your own copy.
+
 ## System requirements
 
-- **Node 24.16+ or 26.1+** - Node 26 is recommended; the installer provisions Node 26 on macOS and Node 24 LTS on Linux when Node is missing (see [Node.js compatibility](/install/node-compatibility)).
-- **macOS, Linux, or Windows** - Windows users can start with the native Windows Hub app, the PowerShell CLI installer, or a WSL2 Gateway. See [Windows](/platforms/windows).
-- `pnpm` is only needed if you build from source.
+- **Node 24.16+ or 26.1+** - Node 26 is recommended (see [Node.js compatibility](/install/node-compatibility)).
+- **pnpm** - the repository pins its own version in `package.json`; `corepack enable` selects it.
+- **git**
+- **macOS, Linux, or Windows** - on Windows, run the Gateway natively or inside WSL2. See [Windows](/platforms/windows).
 
-## Download the desktop app
-
-Prefer a normal app download over the CLI? OpenAgent ships desktop companions:
-
-- **Windows**: the [Windows Hub](/platforms/windows#recommended-windows-hub) companion app — a signed installer you download and run like any Windows app, with setup, tray status, chat, and node mode:
-  - [OpenClawCompanion-Setup-x64.exe](https://github.com/openclaw/openclaw-windows-node/releases/latest/download/OpenClawCompanion-Setup-x64.exe)
-  - [OpenClawCompanion-Setup-arm64.exe](https://github.com/openclaw/openclaw-windows-node/releases/latest/download/OpenClawCompanion-Setup-arm64.exe)
-  - All Hub releases: [Windows Hub releases page](https://github.com/openclaw/openclaw-windows-node/releases/latest)
-- **macOS**: the [macOS menu bar app](/platforms/macos) — download the `OpenAgent-<version>.dmg` (preferred) or `.zip` asset from [OpenAgent GitHub releases](https://github.com/openclaw/openclaw/releases), then install and launch **OpenAgent.app**. See the [macOS app page](/platforms/macos) for details, including what to do when the newest release ships no macOS asset.
-
-Both desktop apps can provision a local Gateway during first-run setup, or connect to an existing remote Gateway.
-
-## Recommended: installer script
-
-The fastest way to install. It detects your OS, installs Node if needed, installs OpenAgent, and launches onboarding.
-
-<Note>
-Windows desktop users can also install the native [Windows Hub](/platforms/windows#recommended-windows-hub) companion app, which includes setup, tray status, chat, node mode, and local MCP mode.
-</Note>
-
-<Tabs>
-  <Tab title="macOS / Linux / WSL2">
-    ```bash
-    curl -fsSL https://openclaw.ai/install.sh | bash
-    ```
-  </Tab>
-  <Tab title="Windows (PowerShell)">
-    ```powershell
-    iwr -useb https://openclaw.ai/install.ps1 | iex
-    ```
-  </Tab>
-</Tabs>
-
-To install without running onboarding:
-
-<Tabs>
-  <Tab title="macOS / Linux / WSL2">
-    ```bash
-    curl -fsSL https://openclaw.ai/install.sh | bash -s -- --no-onboard
-    ```
-  </Tab>
-  <Tab title="Windows (PowerShell)">
-    ```powershell
-    & ([scriptblock]::Create((iwr -useb https://openclaw.ai/install.ps1))) -NoOnboard
-    ```
-  </Tab>
-</Tabs>
-
-For all flags and CI/automation options, see [Installer internals](/install/installer).
-
-## Alternative install methods
-
-### Local prefix installer (`install-cli.sh`)
-
-Use this when you want OpenAgent and Node kept under a local prefix such as
-`~/.openclaw`, without depending on a system-wide Node install:
+## Install from source
 
 ```bash
-curl -fsSL https://openclaw.ai/install-cli.sh | bash
-```
-
-It supports npm installs by default, plus git-checkout installs under the same
-prefix flow. Full reference: [Installer internals](/install/installer#install-clish).
-
-Already installed? Switch between package and git installs with
-`openclaw update --channel dev` and `openclaw update --channel stable`. See
-[Updating](/install/updating#switch-between-npm-and-git-installs).
-
-### npm, pnpm, or bun
-
-If you already manage Node yourself:
-
-<Tabs>
-  <Tab title="npm">
-    On npm 12 or npm 11.16+:
-
-    ```bash
-    npm install -g openclaw@latest --allow-scripts=openclaw
-    openclaw onboard --install-daemon
-    ```
-
-    On npm 11.15 and earlier, use the same command without
-    `--allow-scripts=openclaw`.
-
-    <Note>
-    npm 12 blocks unapproved package lifecycle scripts by default. The
-    `--allow-scripts=openclaw` option explicitly allows OpenAgent's `preinstall`
-    and `postinstall` steps; without it, npm reports them as `blocked because
-    they are not covered by allowScripts`.
-
-    npm 11.16 accepts the option but otherwise only warns that the scripts are
-    `not yet covered by allowScripts` and still runs them. npm 11.15 and earlier
-    have neither the policy nor the option, so their command must be unflagged.
-    The `npm approve-scripts openclaw`
-    command suggested by npm 11.16 does not work for a global install — it fails
-    with `ENOMATCH  No installed packages match: openclaw`.
-    </Note>
-
-    <Note>
-    The hosted installer clears npm freshness filters such as `min-release-age`
-    for the OpenAgent package install. If you install manually with npm, your own
-    npm policy still applies.
-    </Note>
-
-  </Tab>
-  <Tab title="pnpm">
-    ```bash
-    pnpm add -g --allow-build=openclaw openclaw@latest
-    openclaw onboard --install-daemon
-    ```
-
-    <Note>
-    pnpm requires explicit approval for packages with build scripts. `approve-builds -g` is not supported for global installs, so pass `--allow-build=openclaw` on the `pnpm add -g` command instead.
-    </Note>
-
-  </Tab>
-  <Tab title="bun">
-    ```bash
-    bun add -g --trust openclaw@latest
-    bun run --bun openclaw onboard --install-daemon --daemon-runtime bun
-    ```
-
-    <Note>
-    `--trust` allows OpenAgent's package lifecycle scripts for this install. Bun
-    1.4 or newer can also run OpenAgent's CLI, local agent, and Gateway. Node
-    remains the primary runtime, so the plain `openclaw` executable keeps its
-    Node shebang. `bun run --bun` forces the Bun runtime, while
-    `--daemon-runtime bun` installs the managed Gateway under Bun.
-    </Note>
-
-  </Tab>
-</Tabs>
-
-### From source
-
-For contributors or anyone who wants to run from a local checkout:
-
-```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
+git clone https://github.com/celaya-solutions/CSR-AGENT.git
+cd CSR-AGENT
 corepack enable
-pnpm install && pnpm build && pnpm ui:build
-pnpm add --global "openclaw@link:$PWD"
-openclaw onboard --install-daemon
+pnpm install
+pnpm build
+pnpm ui:build
 ```
 
-`pnpm add --global "openclaw@link:$PWD"` links the CLI to this checkout without changing its package files. If pnpm reports that its global bin directory is not on `PATH`, run `pnpm setup`, reopen your shell, and retry.
-
-Corepack selects the exact pnpm version from `package.json` (currently pnpm 12).
-If Corepack is unavailable, install that version explicitly with
-`npm install -g pnpm@12.3.4 --allow-scripts=pnpm@12.3.4`; keep npm install scripts and optional dependencies
+The repository is a pnpm workspace; plain `npm install` at the root is not
+supported. If Corepack is unavailable, install the pnpm version named in
+`package.json` yourself, keeping install scripts and optional dependencies
 enabled so pnpm can provision its native executable.
 
-Or skip the global install and use `pnpm openclaw ...` from inside the repo. See [Setup](/start/setup) for full development workflows.
-
-### Install from the GitHub main checkout
+Then run onboarding and install the Gateway service:
 
 ```bash
-curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git --version main
+pnpm openclaw onboard --install-daemon
 ```
 
-### Containers and package managers
+Always run the CLI through `pnpm openclaw ...` (or `pnpm dev`) from inside the
+checkout. These wrappers handle build freshness and process setup. See
+[Setup](/start/setup) for development workflows.
+
+### Optional: a global `openclaw` command
+
+To call `openclaw` from any directory, link the CLI to your checkout:
+
+```bash
+pnpm add --global "openclaw@link:$PWD"
+```
+
+This links the CLI without changing its package files. If pnpm reports that
+its global bin directory is not on `PATH`, run `pnpm setup`, reopen your shell,
+and retry. The rest of these docs write commands as `openclaw ...`; inside the
+checkout, `pnpm openclaw ...` works the same way.
+
+### Containers
 
 <CardGroup cols={2}>
-  <Card title="Ansible" href="/install/ansible" icon="server">
-    Automated fleet provisioning.
-  </Card>
-  <Card title="Bun" href="/install/bun" icon="zap">
-    Optional dependency installer and package-script runner.
-  </Card>
   <Card title="Docker" href="/install/docker" icon="container">
-    Containerized or headless deployments.
-  </Card>
-  <Card title="Nix" href="/install/nix" icon="snowflake">
-    Declarative install via Nix flake.
+    Build the image from your checkout for containerized or headless deployments.
   </Card>
   <Card title="Podman" href="/install/podman" icon="container">
     Rootless container alternative to Docker.
+  </Card>
+  <Card title="Bun" href="/install/bun" icon="zap">
+    Optional dependency installer and package-script runner.
   </Card>
 </CardGroup>
 
@@ -216,36 +92,21 @@ If you want managed startup after install:
     Run onboarding, install the Gateway service, and open the dashboard.
   </Card>
   <Card title="Connect a channel" href="/channels" icon="message-square">
-    Message your agent from Telegram, Discord, Slack, WhatsApp, and more.
+    Message your agent from Discord or Telegram.
   </Card>
 </CardGroup>
 
 ## Hosting and deployment
 
-Deploy OpenAgent on a cloud server or VPS. See [Linux server](/vps) for the full
-provider picker (DigitalOcean, Hetzner, Hostinger, Fly.io, GCP, Azure, Railway,
-Northflank, Oracle Cloud, Raspberry Pi, and more), deploy declaratively on
-[Render](/install/render), or try the experimental [Cloudflare Containers](/install/cloudflare)
-template.
+Run OpenAgent on a cloud server or VPS by building from source there, or by
+building the Docker image from your checkout.
 
-<CardGroup cols={3}>
-  <Card title="Cloudflare" href="/install/cloudflare">
-    Experimental Worker + Container deployment.
-  </Card>
+<CardGroup cols={2}>
   <Card title="Docker VM" href="/install/docker-vm-runtime">
     Shared Docker steps.
   </Card>
-  <Card title="Kubernetes" href="/install/kubernetes">
-    K8s deployment.
-  </Card>
-  <Card title="macOS VM" href="/install/macos-vm">
-    Isolated local or hosted macOS deployment.
-  </Card>
-  <Card title="Upstash Box" href="/install/upstash">
-    Managed Linux host with SSH-tunneled access.
-  </Card>
   <Card title="VPS" href="/vps">
-    Pick a provider.
+    Run the Gateway on a Linux server.
   </Card>
 </CardGroup>
 
@@ -268,10 +129,13 @@ template.
 
 ## Troubleshooting: `openclaw` not found
 
-Almost always a PATH issue: npm's global bin directory isn't on your shell's `PATH`. See [Node.js troubleshooting](/install/node#troubleshooting) for the full fix, including the Windows path.
+Use `pnpm openclaw ...` from inside the checkout, or link a global command as
+shown above. If the linked command is still missing, pnpm's global bin
+directory is not on your shell's `PATH`. See
+[Node.js troubleshooting](/install/node#troubleshooting).
 
 ```bash
 node -v           # Node installed?
-npm prefix -g     # Where are global packages?
+pnpm bin -g       # Where are global binaries?
 echo "$PATH"      # Is the global bin dir in PATH?
 ```

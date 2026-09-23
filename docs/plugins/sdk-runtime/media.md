@@ -175,14 +175,14 @@ Speech, media understanding, generation, web search, and the low-level media uti
     const isVoice = api.runtime.media.isVoiceCompatibleAudio(filePath);
     const metadata = await api.runtime.media.getImageMetadata(filePath);
     const resized = await api.runtime.media.resizeToJpeg(buffer, { maxWidth: 800 });
-    const terminalQr = await api.runtime.media.renderQrTerminal("https://openclaw.ai");
-    const pngQr = await api.runtime.media.renderQrPngBase64("https://openclaw.ai", {
+    const terminalQr = await api.runtime.media.renderQrTerminal("https://example.com");
+    const pngQr = await api.runtime.media.renderQrPngBase64("https://example.com", {
       scale: 6, // 1-12
       marginModules: 4, // 0-16
     });
-    const pngQrDataUrl = await api.runtime.media.renderQrPngDataUrl("https://openclaw.ai");
+    const pngQrDataUrl = await api.runtime.media.renderQrPngDataUrl("https://example.com");
     const tmpRoot = resolvePreferredOpenClawTmpDir();
-    const pngQrFile = await api.runtime.media.writeQrPngTempFile("https://openclaw.ai", {
+    const pngQrFile = await api.runtime.media.writeQrPngTempFile("https://example.com", {
       tmpRoot,
       dirPrefix: "my-plugin-qr-",
       fileName: "qr.png",

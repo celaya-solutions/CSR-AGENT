@@ -84,11 +84,11 @@ Rules:
     },
   },
   channels: {
-    googlechat: {
-      serviceAccount: {
+    discord: {
+      token: {
         source: "exec",
         provider: "vault",
-        id: "channels/googlechat/serviceAccount",
+        id: "channels/discord/token",
       },
     },
   },

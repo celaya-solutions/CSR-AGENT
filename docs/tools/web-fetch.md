@@ -2,7 +2,7 @@
 summary: "web_fetch tool -- HTTP fetch with readable content extraction"
 read_when:
   - You want to fetch a URL and extract readable content
-  - You need to configure web_fetch or its Firecrawl fallback
+  - You need to configure web_fetch or a fallback fetch provider
   - You want to understand web_fetch limits and caching
 title: "Web fetch"
 sidebarTitle: "Web Fetch"
@@ -75,7 +75,7 @@ truncated. The caller's requested URL is preserved.
   </Step>
   <Step title="Fallback (optional)">
     If Readability fails and a fetch provider is available, retries through
-    that provider (for example Firecrawl's bot-circumvention mode).
+    that provider.
   </Step>
   <Step title="Cache">
     Results are cached for 15 minutes (configurable) to reduce repeated
@@ -85,8 +85,8 @@ truncated. The caller's requested URL is preserved.
 
 Set `tools.web.fetch.cacheTtlMinutes: 0` to bypass OpenAgent's fetch cache for both
 reads and writes. A positive value limits reuse by the current request's TTL;
-cached entries still expire at their original deadline. Provider-side caching,
-such as Firecrawl's `maxAgeMs`, is configured separately.
+cached entries still expire at their original deadline. Provider-side caching
+is configured separately.
 
 ## Progress updates
 
@@ -142,53 +142,12 @@ adding a result to the fetch cache.
 }
 ```
 
-## Firecrawl fallback
+## Provider fallback
 
-If Readability extraction fails, `web_fetch` can fall back to
-[Firecrawl](/tools/firecrawl) for bot-circumvention and better extraction:
+<a id="firecrawl-fallback" />
 
-```json5
-{
-  tools: {
-    web: {
-      fetch: {
-        provider: "firecrawl", // optional; omit for auto-detect from available credentials
-      },
-    },
-  },
-  plugins: {
-    entries: {
-      firecrawl: {
-        enabled: true,
-        config: {
-          webFetch: {
-            // apiKey: "fc-...", // optional; omit for keyless starter access
-            baseUrl: "https://api.firecrawl.dev",
-            onlyMainContent: true,
-            maxAgeMs: 172800000, // cache duration (2 days)
-            timeoutSeconds: 60,
-          },
-        },
-      },
-    },
-  },
-}
-```
-
-`plugins.entries.firecrawl.config.webFetch.apiKey` is optional and supports SecretRef objects.
-Legacy `tools.web.fetch.firecrawl.*` config auto-migrates to
-`plugins.entries.firecrawl.config.webFetch` via `openclaw doctor --fix`.
-
-<Note>
-  If you configure a Firecrawl API-key SecretRef and it is unresolved with no
-  `FIRECRAWL_API_KEY` env fallback, gateway startup fails fast.
-</Note>
-
-<Note>
-  Firecrawl `baseUrl` overrides are locked down: hosted traffic uses
-  `https://api.firecrawl.dev`; self-hosted overrides must target private or
-  internal endpoints, and `http://` is accepted only for those private targets.
-</Note>
+No bundled plugin provides a `web_fetch` fallback provider. An installed plugin
+that declares `contracts.webFetchProviders` can add one.
 
 Current runtime behavior:
 
@@ -196,11 +155,10 @@ Current runtime behavior:
 - If `provider` is omitted, OpenAgent auto-detects the first ready web-fetch
   provider from configured credentials. Non-sandboxed `web_fetch` can use
   installed plugins that declare `contracts.webFetchProviders` and register a
-  matching provider at runtime. The official Firecrawl plugin provides this
-  fallback today.
+  matching provider at runtime.
 - Sandboxed `web_fetch` calls allow bundled providers plus installed providers
-  whose official npm or ClawHub provenance is verified. Today that permits the
-  official Firecrawl plugin; third-party external fetch plugins stay excluded.
+  whose official provenance is verified; third-party external fetch plugins stay
+  excluded.
 - If Readability is disabled, `web_fetch` skips straight to the selected
   provider fallback. If no provider is available, it fails closed.
 
@@ -235,8 +193,8 @@ Behavior worth knowing:
 
 - Values are plain strings and support `${VAR}` environment substitution like any
   other config string. Structured SecretRef values are not accepted.
-- Headers apply only to the direct `web_fetch` request. Provider fallbacks such as
-  [Firecrawl](/tools/firecrawl) call their own API and never receive these headers.
+- Headers apply only to the direct `web_fetch` request. Provider fallbacks call
+  their own API and never receive these headers.
 - Entries are validated when the request is built, not at config load, so one bad
   entry is dropped while the rest still apply. Config load stays permissive on
   purpose: a fail-closed validation error over a single header-name typo would
@@ -308,13 +266,12 @@ If you use tool profiles or allowlists, add `web_fetch` or `group:web`:
 {
   tools: {
     allow: ["web_fetch"],
-    // or: allow: ["group:web"]  (includes web_fetch, web_search, and x_search)
+    // or: allow: ["group:web"]  (includes web_fetch and web_search)
   },
 }
 ```
 
 ## Related
 
-- [Web Search](/tools/web) -- search the web with multiple providers
+- [Web Search](/tools/web) -- search the web
 - [Web Browser](/tools/browser) -- full browser automation for JS-heavy sites
-- [Firecrawl](/tools/firecrawl) -- Firecrawl search and scrape tools

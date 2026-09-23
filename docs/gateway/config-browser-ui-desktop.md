@@ -93,7 +93,7 @@ For the full key index and the other top-level config domains, see [Configuratio
   the selected host or through a connected browser node.
 - `extension` profiles use the authenticated OpenAgent Chrome extension relay.
   The relay owns its loopback endpoint, so these profiles do not accept
-  `cdpUrl`. See [Chrome extension](/tools/chrome-extension).
+  `cdpUrl`. See Chrome extension.
 - `existing-session` profiles can set `userDataDir` to target a specific
   Chromium-based browser profile such as Brave or Edge.
 - `existing-session` profiles can set `cdpUrl` when Chrome is already running

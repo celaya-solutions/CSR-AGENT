@@ -71,7 +71,7 @@ exactly as recorded in the archive.
 
 <Warning>
   Restoring an archive is time travel. Messaging-channel credentials with
-  ratchet state, especially WhatsApp, may desynchronize after rollback and need
+  ratchet state may desynchronize after rollback and need
   relinking. Approvals and delivery/dedupe state also roll back, so review
   pending approvals before resuming the Gateway. Plugin `node_modules` trees
   are not archived; after activation, run `openclaw plugins update <id>` or
@@ -131,10 +131,10 @@ Snapshot creation accepts exactly one named source. Agent sources always use
 the current configuration's resolved `<agentDir>/openclaw-agent.sqlite`, even
 when `agentDir` is outside the state directory:
 
-| Command                                                         | Database                   |
-| --------------------------------------------------------------- | -------------------------- |
+| Command                                                         | Database               |
+| --------------------------------------------------------------- | ---------------------- |
 | `openclaw backup sqlite create --global --repository <dir>`     | Shared OpenAgent state |
-| `openclaw backup sqlite create --agent <id> --repository <dir>` | One per-agent database     |
+| `openclaw backup sqlite create --agent <id> --repository <dir>` | One per-agent database |
 
 The repository contains one directory per committed snapshot. Each snapshot directory contains exactly:
 

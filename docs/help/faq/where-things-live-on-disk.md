@@ -13,7 +13,7 @@ read_when:
     No: **OpenAgent's own state is local**, but **external services still see what you send them**.
 
     - **Local by default**: sessions, memory files, config, and workspace live on the Gateway host (`~/.openclaw` plus your workspace directory).
-    - **Remote by necessity**: messages sent to model providers (Anthropic/OpenAI/etc.) go to their APIs, and chat platforms (Slack/Telegram/WhatsApp/etc.) store message data on their servers.
+    - **Remote by necessity**: messages sent to model providers (Anthropic/OpenAI/etc.) go to their APIs, and chat platforms (Discord/Telegram) store message data on their servers.
     - **You control the footprint**: local models keep prompts on your machine, but channel traffic still goes through the channel's servers.
 
     Related: [Agent workspace](/concepts/agent-workspace), [Memory](/concepts/memory).

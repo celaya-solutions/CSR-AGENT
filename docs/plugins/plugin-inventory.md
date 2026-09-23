@@ -78,7 +78,7 @@ Each entry lists the package, distribution route, and description.
 
 ## Official external packages
 
-6 plugins
+5 plugins
 
 - **[acpx](/plugins/reference/acpx)** (`@openclaw/acpx`) - npm or ClawHub: `clawhub:@openclaw/acpx`. OpenAgent ACP runtime backend with plugin-owned session and transport management.
 
@@ -89,8 +89,6 @@ Each entry lists the package, distribution route, and description.
 - **[duckduckgo](/plugins/reference/duckduckgo)** (`@openclaw/duckduckgo-plugin`) - npm or ClawHub: `clawhub:@openclaw/duckduckgo-plugin`. Adds web search provider support.
 
 - **[llama-cpp](/plugins/reference/llama-cpp)** (`@openclaw/llama-cpp-provider`) - npm or ClawHub. Managed and external llama.cpp servers for GGUF chat and embeddings.
-
-- **[qqbot](/plugins/reference/qqbot)** (`@tencent-connect/openclaw-qqbot`) - npm. OpenAgent QQ Bot channel plugin for group and direct-message workflows.
 
 ## Source checkout only
 

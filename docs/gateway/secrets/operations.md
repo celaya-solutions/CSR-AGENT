@@ -29,8 +29,6 @@ Warning and audit signals:
 - `REF_SHADOWED` (audit finding when SQLite auth-profile credentials take precedence over `openclaw.json` refs)
 - `STORE_PLAINTEXT_RESIDUE` (audit finding when a stored name still has an equivalent plaintext config value)
 
-Google Chat `serviceAccount` accepts inline JSON or a SecretRef. Doctor moves the retired sibling `serviceAccountRef` into this canonical field when it is unset.
-
 ## Activation triggers
 
 Secret activation runs on:

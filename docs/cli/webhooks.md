@@ -9,7 +9,7 @@ title: "Webhooks"
 
 # `openclaw webhooks`
 
-`openclaw webhooks` sets up and runs the Gmail Pub/Sub transport through `gog` (gogcli). It does not register [internal `HOOK.md` hooks](/automation/hooks), manage arbitrary [Gateway hook mappings](/automation/cron-jobs#webhooks), or manage the [TaskFlow Webhooks plugin](/plugins/webhooks).
+`openclaw webhooks` sets up and runs the Gmail Pub/Sub transport through `gog` (gogcli). It does not register [internal `HOOK.md` hooks](/automation/hooks), manage arbitrary [Gateway hook mappings](/automation/cron-jobs#webhooks), or manage the TaskFlow Webhooks plugin.
 
 ## Subcommands
 
@@ -18,10 +18,10 @@ openclaw webhooks gmail setup --account <email> [...]
 openclaw webhooks gmail run   [--account <email>] [...]
 ```
 
-| Subcommand    | Description                                                                                |
-| ------------- | ------------------------------------------------------------------------------------------ |
+| Subcommand    | Description                                                                            |
+| ------------- | -------------------------------------------------------------------------------------- |
 | `gmail setup` | One-time wizard: Gmail watch, Pub/Sub topic/subscription, and OpenAgent hook delivery. |
-| `gmail run`   | Run `gog gmail watch serve` plus the watch auto-renew loop in the foreground.              |
+| `gmail run`   | Run `gog gmail watch serve` plus the watch auto-renew loop in the foreground.          |
 
 <Note>
 The Gateway also auto-starts `gog gmail watch serve` on boot once `hooks.enabled=true` and `hooks.gmail.account` is set (set by `gmail setup`). `gmail run` provides a foreground watcher for debugging or when the Gateway watcher is disabled. Do not run both against the same listener. See [Gmail Pub/Sub integration](/automation/cron-jobs#gmail-pubsub-integration) for the auto-start details and `OPENCLAW_SKIP_GMAIL_WATCHER` opt-out.
@@ -61,11 +61,11 @@ This command connects Gmail transport but does not create a restricted reader ag
 
 ### OpenAgent delivery options
 
-| Flag                   | Default                                       | Description                                                                           |
-| ---------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Flag                   | Default                                       | Description                                                                       |
+| ---------------------- | --------------------------------------------- | --------------------------------------------------------------------------------- |
 | `--hook-url <url>`     | `hooks.gmail.hookUrl`, then local Gateway URL | OpenAgent webhook URL; generated fallback uses `hooks.path` and the Gateway port. |
 | `--hook-token <token>` | `hooks.token`, or a generated token           | OpenAgent webhook token.                                                          |
-| `--push-token <token>` | `hooks.gmail.pushToken`, or a generated token | Separate token authenticating Pub/Sub to `gog gmail watch serve`.                     |
+| `--push-token <token>` | `hooks.gmail.pushToken`, or a generated token | Separate token authenticating Pub/Sub to `gog gmail watch serve`.                 |
 
 <a id="gog-watch-serve-options" />
 
@@ -119,7 +119,7 @@ Starts the Gmail watch and runs `gog gmail watch serve` plus periodic watch rene
 | Category                | Flags                                                                            |
 | ----------------------- | -------------------------------------------------------------------------------- |
 | Pub/Sub                 | `--account`, `--topic`, `--subscription`, `--label`                              |
-| OpenAgent delivery  | `--hook-url`, `--hook-token`, `--push-token`                                     |
+| OpenAgent delivery      | `--hook-url`, `--hook-token`, `--push-token`                                     |
 | `gog gmail watch serve` | `--bind`, `--port`, `--path`, `--include-body`, `--max-bytes`, `--renew-minutes` |
 | Tailscale               | `--tailscale`, `--tailscale-path`, `--tailscale-target`                          |
 

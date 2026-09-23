@@ -18,8 +18,8 @@ Provided by the bundled `memory-core` plugin, available when
 plugins expose their own CLI namespaces.
 
 Related: [Memory](/concepts/memory) concept, [Dreaming](/concepts/dreaming),
-[Memory config reference](/reference/memory-config), [Memory Wiki](/plugins/memory-wiki),
-[wiki](/cli/wiki), [Plugins](/tools/plugin).
+[Memory config reference](/reference/memory-config), Memory Wiki,
+wiki, [Plugins](/tools/plugin).
 
 ## JSON availability
 

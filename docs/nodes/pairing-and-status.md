@@ -1,7 +1,7 @@
 ---
 summary: "Pair a node to the Gateway, read its status, and upgrade a fleet in the right order"
 read_when:
-  - Pairing iOS/watchOS/Android nodes to a gateway
+  - Pairing a node host to a gateway
   - Reading node status, host stats, or approval scope
   - Upgrading a Gateway and its nodes across a protocol window
 title: "Node pairing and status"
@@ -54,7 +54,7 @@ Pending command-surface requests do not expire merely with time; they follow the
   also required. The Gateway marks the freshest eligible Mac as
   `active`, gives the agent a stable node-id hint, and routes node connection
   alerts there before a delayed fallback. See
-  [Active computer presence](/nodes/presence) for setup, privacy, timing, and
+  Active computer presence for setup, privacy, timing, and
   troubleshooting.
 - The device pairing record is the durable approved-role contract. Token rotation stays inside that contract; it cannot upgrade a paired node into a role that pairing approval never granted.
 - `node.pair.*` (CLI: `openclaw nodes pending/approve/reject/remove/rename`) manages the node's approved command/capability surface on its canonical paired-device record. Device pairing owns both transport authentication and the durable node surface; there is no separate node pairing store.
@@ -66,7 +66,7 @@ Pending command-surface requests do not expire merely with time; they follow the
 
 Headless node hosts report the hardware model on macOS and Linux.
 
-Connected CLI node hosts and the macOS app report CPU count, load averages,
+Connected CLI node hosts report CPU count, load averages,
 memory, and home-volume disk capacity every 60 seconds, starting on connection.
 The Gateway exposes the latest snapshot as `hostStats` in `node.list` and
 `node.describe`. When received, it saves the snapshot on the paired node
@@ -91,6 +91,3 @@ device authentication, command allowlists, and exec approvals still apply.
 Plugin-owned capabilities and commands stay hidden until the node upgrades to
 the current protocol. Nodes older than N-1 require an out-of-band upgrade before
 reconnecting.
-
-The direct watchOS HTTPS transport requires the current protocol version; update
-the watch app with the Gateway before enabling direct mode.

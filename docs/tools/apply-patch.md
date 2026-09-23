@@ -67,13 +67,7 @@ runs to the end of the file.
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Diffs" href="/tools/diffs" icon="code-compare">
-    Read-only diff viewer for change presentation.
-  </Card>
   <Card title="Exec tool" href="/tools/exec" icon="terminal">
     Shell command execution from the agent.
-  </Card>
-  <Card title="Code execution" href="/tools/code-execution" icon="square-code">
-    Sandboxed remote Python analysis with xAI.
   </Card>
 </CardGroup>

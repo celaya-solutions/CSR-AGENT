@@ -54,5 +54,4 @@ remain yours; the removed plugin did not store state in OpenAgent's SQLite datab
 
 - [Skills](/tools/skills)
 - [Slash commands](/tools/slash-commands)
-- [Lobster workflows](/tools/lobster)
 - [OpenProse upstream](https://github.com/openprose/prose)

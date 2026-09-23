@@ -2,7 +2,7 @@
 summary: "Pairing overview: approve who can DM you + which nodes can join"
 read_when:
   - Setting up DM access control
-  - Pairing a new iOS/Android node
+  - Pairing a new node or device
   - Reviewing OpenAgent security posture
 title: "Pairing"
 ---
@@ -84,12 +84,7 @@ commands. Ownership does not grant chat access: existing channel and group acces
 rules still apply. The wizard never promotes chat allowlists automatically or
 replaces an existing owner.
 
-<Note>
-WhatsApp's login QR links a WhatsApp account to OpenAgent. DM access requests
-approve people who message that account. These are separate flows.
-</Note>
-
-Supported channels include: `discord`, `feishu`, `googlechat`, `imessage`, `irc`, `line`, `matrix`, `mattermost`, `msteams`, `nextcloud-talk`, `nostr`, `signal`, `slack`, `sms`, `synology-chat`, `telegram`, `twitch`, `whatsapp`, `zalo`, `zalouser`.
+Supported channels: `discord`, `telegram`.
 
 Installed external plugins can also support DM pairing if they implement
 OpenAgent's pairing API. Check the plugin's documentation for version-specific
@@ -111,13 +106,16 @@ Static groups use `type: "message.senders"` and are referenced with
       members: {
         discord: ["discord:123456789012345678"],
         telegram: ["987654321"],
-        whatsapp: ["+15551234567"],
       },
     },
   },
   channels: {
-    telegram: { dmPolicy: "allowlist", allowFrom: ["accessGroup:operators"] },
-    whatsapp: { groupPolicy: "allowlist", groupAllowFrom: ["accessGroup:operators"] },
+    telegram: {
+      dmPolicy: "allowlist",
+      allowFrom: ["accessGroup:operators"],
+      groupPolicy: "allowlist",
+      groupAllowFrom: ["accessGroup:operators"],
+    },
   },
 }
 ```
@@ -153,7 +151,7 @@ channel's group allowlists (for example `groupAllowFrom`, `groups`, or per-group
 or per-topic overrides depending on the channel).
 </Note>
 
-## 2) Node device pairing (iOS/Android/macOS/headless nodes)
+## 2) Node device pairing
 
 Nodes connect to the Gateway as **devices** with `role: node`. The Gateway
 creates a device pairing request that must be approved.
@@ -167,13 +165,11 @@ Use an already connected Control UI session with `operator.admin` access:
 3. Keep **Full access (recommended)**, or select **Limited access** to omit
    administrative Gateway controls.
 4. Click **Create setup code**.
-5. On your phone, open the OpenAgent app → **Settings** → **Gateway**.
-6. Scan the QR code or paste the setup code, then connect.
+5. On the device, scan the QR code or paste the setup code into its Gateway
+   settings, then connect.
 
-Official OpenAgent iOS and Android apps are approved automatically when their
-setup-code metadata matches. If **Pending approval** shows a request (for
-example, for a non-official client or mismatched metadata), review its role and
-scopes before approving it.
+If **Pending approval** shows a request, review its role and scopes before
+approving it.
 
 The button is disabled when the current Control UI session does not have
 administrator access. Use the CLI approval flow below from the Gateway host in
@@ -187,15 +183,14 @@ If you use the `device-pair` plugin, you can do first-time device pairing entire
 
 1. In Telegram, message your bot: `/pair`
 2. The bot replies with two messages: an instruction message and a separate **setup code** message (easy to copy/paste in Telegram).
-3. On your phone, open the OpenAgent iOS app → Settings → Gateway.
-4. Scan the QR code (`/pair qr`) or paste the setup code and connect.
-5. The official mobile app connects automatically. If `/pair pending` shows a
-   request, review its role and scopes before approving it.
+3. On the device, scan the QR code (`/pair qr`) or paste the setup code and connect.
+4. If `/pair pending` shows a request, review its role and scopes before
+   approving it.
 
 The setup code is a base64-encoded JSON payload that contains:
 
 - `url`: the Gateway WebSocket URL (`ws://...` or `wss://...`)
-- `urls`: when available, the ordered LAN/Tailnet routes the mobile app can try
+- `urls`: when available, the ordered LAN/Tailnet routes the client can try
 - `bootstrapToken`: a single-use bootstrap token for the initial pairing handshake; the Gateway expires it after 10 minutes
 
 Run `/pair cleanup` to invalidate unused setup codes once pairing finishes.
@@ -217,15 +212,13 @@ That bootstrap token carries the built-in pairing bootstrap profile:
 
 Treat the setup code like a password while it is valid.
 
-The iOS and Android **Settings → Gateway** pages show **Full** or **Limited**
-access. To upgrade a limited phone, first configure a secure `wss://` or
-Tailscale Serve route, then generate a new full-access setup code, scan or paste
-it in that settings page, and reconnect.
+To upgrade a device paired with limited access, first configure a secure
+`wss://` or Tailscale Serve route, then generate a new full-access setup code,
+scan or paste it on the device, and reconnect.
 
-For Tailscale, public, or other remote mobile pairing, use Tailscale Serve/Funnel
+For Tailscale, public, or other remote pairing, use Tailscale Serve/Funnel
 or another `wss://` Gateway URL. Plaintext `ws://` setup codes are accepted only
-for loopback, private LAN addresses, `.local` Bonjour hosts, and the Android
-emulator host. Non-loopback plaintext routes receive limited access. Tailnet
+for loopback, private LAN addresses, and `.local` hosts. Non-loopback plaintext routes receive limited access. Tailnet
 CGNAT addresses, `.ts.net` names, and public hosts still fail closed before
 QR/setup-code issuance.
 
@@ -314,9 +307,5 @@ imported into SQLite at gateway startup and archived with a `.migrated` suffix.
 - Updating safely (run doctor): [Updating](/install/updating)
 - Channel configs:
   - Telegram: [Telegram](/channels/telegram)
-  - WhatsApp: [WhatsApp](/channels/whatsapp)
-  - Signal: [Signal](/channels/signal)
-  - iMessage: [iMessage](/channels/imessage)
   - Discord: [Discord](/channels/discord)
-  - Slack: [Slack](/channels/slack)
 - [`openclaw pairing`](/cli/pairing) — drive pairing from the CLI

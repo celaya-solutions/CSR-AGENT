@@ -440,7 +440,7 @@ what was recorded, not as proof of what happened:
 
 This ledger supports debugging and operational review. It is not a lossless
 compliance archive; if you need one, use an external system fed by
-[OpenTelemetry](/gateway/opentelemetry) or channel-level tooling.
+OpenTelemetry or channel-level tooling.
 
 ## Storage, retention, and migration
 
@@ -585,4 +585,3 @@ boundaries alongside the operator behavior above:
 - [Audit records CLI](/cli/audit)
 - [Configuration reference](/gateway/config-observability#audit)
 - [Gateway protocol](/gateway/protocol/ledgers#audit-ledger-rpc)
-- [OpenTelemetry](/gateway/opentelemetry)

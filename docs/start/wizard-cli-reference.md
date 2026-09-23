@@ -34,9 +34,9 @@ See [Guided default](/start/wizard#guided-default).
 The classic wizard (`openclaw onboard --classic`) in local mode walks you through:
 
 - Workspace location and bootstrap files
-- Model and auth setup (Anthropic, OpenAI Code subscription OAuth, xAI, OpenCode, custom endpoints, and more provider-owned auth flows)
+- Model and auth setup (Anthropic, OpenAI Code subscription OAuth, OpenRouter, Ollama, custom endpoints, and more provider-owned auth flows)
 - Gateway settings (port, bind, auth, Tailscale)
-- Channels and providers (Discord, Feishu, Google Chat, iMessage, Mattermost, Microsoft Teams, QQ Bot, Signal, Slack, Telegram, WhatsApp, and other bundled or plugin channels)
+- Channels (Discord, Telegram, and plugin channels)
 - Web search provider (optional)
 - Skills setup
 - Daemon install (LaunchAgent, systemd user unit, or native Windows Scheduled Task with Startup-folder fallback)
@@ -131,22 +131,16 @@ described [above](/start/wizard-cli-reference#what-the-wizard-does).
 
   </Step>
   <Step title="Channels">
-    - [WhatsApp](/channels/whatsapp): optional QR login
     - [Telegram](/channels/telegram): bot token
     - [Discord](/channels/discord): bot token
-    - [Google Chat](/channels/googlechat): service account JSON + webhook audience
-    - [Mattermost](/channels/mattermost): bot token + base URL
-    - [Signal](/channels/signal): optional `signal-cli` install + account config
-    - [iMessage](/channels/imessage): `imsg` CLI path + Messages DB access; use an SSH wrapper when the Gateway runs off-Mac
-    - Other bundled or separately installed channel plugins can add their own
-      onboarding steps. See the complete [channel catalog](/channels).
+    - Other channel plugins can add their own onboarding steps. See
+      [Channels](/channels).
     - DM security: default is pairing. First DM sends a code; approve via
       `openclaw pairing approve <channel> <code>` or use allowlists.
   </Step>
   <Step title="Web search">
-    - Pick a provider (Brave, Codex Hosted Search, DuckDuckGo, Exa, Firecrawl,
-      Gemini, Grok, Kimi, MiniMax Search, Ollama Web Search, Parallel,
-      Perplexity, SearXNG, or Tavily) or skip.
+    - Pick a provider (Codex Hosted Search, DuckDuckGo, or Ollama Web Search)
+      or skip.
     - Skip this step with `--skip-search`; reconfigure later with `openclaw configure --section web`.
 
   </Step>
@@ -184,7 +178,7 @@ described [above](/start/wizard-cli-reference#what-the-wizard-does).
 
   </Step>
   <Step title="Finish">
-    - Summary and next steps, including iOS, Android, and macOS app options.
+    - Summary and next steps.
 
   </Step>
 </Steps>
@@ -210,7 +204,7 @@ What you set:
     If `dns-sd` (macOS) or `avahi-browse` (Linux) is available, onboarding
     offers to search for Bonjour/mDNS gateway beacons before falling back to
     manual URL entry. Wide-area DNS-SD discovery is also attempted when
-    configured. Docs: [Gateway discovery](/gateway/discovery), [Bonjour](/gateway/bonjour).
+    configured. Docs: [Gateway discovery](/gateway/discovery).
   </Step>
   <Step title="Connection method">
     When a beacon is selected, choose direct WebSocket or an SSH tunnel:
@@ -282,47 +276,8 @@ on a different release.
     select `openai/gpt-5.5` explicitly; OpenAgent does not silently downgrade it.
 
   </Accordion>
-  <Accordion title="xAI (Grok) OAuth">
-    Browser sign-in for eligible SuperGrok or X Premium accounts. This is the
-    recommended xAI path for most users. OpenAgent stores the resulting auth
-    profile for Grok models, Grok `web_search`, `x_search`, and `code_execution`.
-  </Accordion>
-  <Accordion title="xAI (Grok) device code">
-    Remote-friendly browser sign-in with a short code instead of a localhost
-    callback. Use this from SSH, Docker, or VPS hosts.
-  </Accordion>
-  <Accordion title="xAI (Grok) API key">
-    Prompts for `XAI_API_KEY` and configures xAI as a model provider. Use this
-    when you want an xAI Console API key instead of subscription OAuth.
-  </Accordion>
-  <Accordion title="OpenCode">
-    Prompts for `OPENCODE_API_KEY` (or `OPENCODE_ZEN_API_KEY`) and lets you choose the Zen or Go catalog (one API key covers both).
-    Setup URL: [opencode.ai/auth](https://opencode.ai/auth).
-  </Accordion>
   <Accordion title="API key (generic)">
     Stores the key for you.
-  </Accordion>
-  <Accordion title="Vercel AI Gateway">
-    Prompts for `AI_GATEWAY_API_KEY`.
-    More detail: [Vercel AI Gateway](/providers/vercel-ai-gateway).
-  </Accordion>
-  <Accordion title="Cloudflare AI Gateway">
-    Prompts for account ID, gateway ID, and `CLOUDFLARE_AI_GATEWAY_API_KEY`.
-    More detail: [Cloudflare AI Gateway](/providers/cloudflare-ai-gateway).
-  </Accordion>
-  <Accordion title="MiniMax">
-    Config is auto-written. Hosted default is `MiniMax-M3`; API-key setup uses
-    `minimax/...`, and OAuth setup uses `minimax-portal/...`.
-    More detail: [MiniMax](/providers/minimax).
-  </Accordion>
-  <Accordion title="StepFun">
-    Config is auto-written for StepFun standard or Step Plan on China or global endpoints.
-    Standard currently includes `step-3.5-flash`, and Step Plan also includes `step-3.5-flash-2603`.
-    More detail: [StepFun](/providers/stepfun).
-  </Accordion>
-  <Accordion title="Synthetic (Anthropic-compatible)">
-    Prompts for `SYNTHETIC_API_KEY`.
-    More detail: [Synthetic](/providers/synthetic).
   </Accordion>
   <Accordion title="Ollama (Cloud and local open models)">
     Prompts for `Cloud + Local`, `Cloud only`, or `Local only` first.
@@ -330,10 +285,6 @@ on a different release.
     The host-backed modes prompt for base URL (default `http://127.0.0.1:11434`), discover available models, and suggest defaults.
     `Cloud + Local` also checks whether that Ollama host is signed in for cloud access.
     More detail: [Ollama](/providers/ollama).
-  </Accordion>
-  <Accordion title="Moonshot and Kimi Coding">
-    Moonshot (Kimi K2) and Kimi Coding configs are auto-written.
-    More detail: [Moonshot AI (Kimi + Kimi Coding)](/providers/moonshot).
   </Accordion>
   <Accordion title="Custom provider">
     Works with OpenAI-compatible, OpenAI Responses-compatible, and Anthropic-compatible endpoints.
@@ -447,8 +398,8 @@ Typical fields in `~/.openclaw/openclaw.json`:
 - `gateway.*` (mode, bind, auth, tailscale)
 - `session.dmScope` (onboarding preserves explicit values and otherwise leaves it unset, so the `main` default keeps all direct messages across channels in the agent's rolling main session—the personal-agent default. For shared or multi-user inboxes, use `per-channel-peer`; `openclaw security audit` recommends isolation when it detects multi-user DM traffic)
 - `channels.telegram.botToken`, `channels.discord.token`, `channels.matrix.*`, `channels.signal.*`, `channels.imessage.*`
-- Channel allowlists when you opt in during prompts. Discord, Matrix,
-  Microsoft Teams, and Slack resolve names to IDs when possible; other channels
+- Channel allowlists when you opt in during prompts. Discord resolves
+  names to IDs when possible; other channels
   accept their native IDs directly.
 - `skills.install.nodeManager`
   - The `setup --node-manager` flag accepts `npm`, `pnpm`, or `bun`.
@@ -462,22 +413,15 @@ Typical fields in `~/.openclaw/openclaw.json`:
 
 `openclaw agents add` writes `agents.entries.*` and optional `bindings`.
 
-WhatsApp credentials go under `~/.openclaw/credentials/whatsapp/<accountId>/`.
 Active sessions and transcripts are stored in
 `~/.openclaw/agents/<agentId>/agent/openclaw-agent.sqlite`. The
 `~/.openclaw/agents/<agentId>/sessions/` directory is used for legacy migration
 inputs and archive/support artifacts.
 
 <Note>
-Some channels are delivered as plugins. When selected during setup, the wizard
-prompts to install the plugin (npm or local path) before channel configuration.
+Channels are delivered as plugins. Discord and Telegram are bundled in the
+source checkout.
 </Note>
-
-### Installed app recommendations
-
-After the model access check succeeds, classic interactive onboarding on macOS scans application names and bundle IDs without requesting macOS privacy permissions. It searches the official plugin catalogs and ClawHub, then asks the configured model to reject false name matches and recommend relevant plugins or skills. Only recommended matches from official plugin catalogs are selected by default; optional matches and all ClawHub skills require an explicit selection.
-
-The results screen lists the detected applications and shows: "App names were matched using your configured model and ClawHub search." Set `wizard.appRecommendations` to `false` to disable both this onboarding step and Gateway access to node app inventories. The scan is not used in Quick start, classic QuickStart, or non-macOS onboarding.
 
 ## Non-interactive setup
 
@@ -502,7 +446,7 @@ in [CLI automation](/start/wizard-cli-automation).
 - `wizard.cancel`
 - `wizard.status`
 
-Clients (macOS app and Control UI) can render steps without re-implementing onboarding logic.
+Clients (such as the Control UI) can render steps without re-implementing onboarding logic.
 
 When setup admission is busy, `wizard.start` and the model setup start/activation
 methods return `UNAVAILABLE` with `details.code: "SETUP_ADMISSION_BUSY"`. This
@@ -512,14 +456,6 @@ and allow an explicit retry after the competing setup finishes. A terminal wizar
 rolled back. Generic request failures, timeouts, disconnects, and a missing wizard
 do not establish whether setup ran; clients must preserve that uncertainty rather
 than automatically retrying or claiming successful activation.
-
-## Signal setup behavior
-
-- Downloads the appropriate release asset from the official `signal-cli` GitHub releases (native build, Linux x86-64 only)
-- On other platforms (macOS, non-x64 Linux), installs via Homebrew instead
-- Stores the release-asset install under `~/.openclaw/tools/signal-cli/<version>/`
-- Writes `channels.signal.transport.cliPath` with `kind: "managed-native"` in config
-- Native Windows is not supported yet; run onboarding inside WSL2 to get the Linux install path
 
 ## Related docs
 

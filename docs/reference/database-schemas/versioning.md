@@ -32,7 +32,7 @@ not authorize an active schema migration.
 Agent schema 19 records collected input consumption in the nullable
 `session_pending_inputs.consumed_event_id TEXT` column. Doctor and the feature's
 first-use ensure add it when needed; the schema version stays 19. The column
-shipped in 2026.8.2 ([#133457](https://github.com/openclaw/openclaw/pull/133457)),
+shipped in 2026.8.2,
 so the supported beta upgrade runs Doctor from 2026.8.2 or newer. Intermediate builds that
 already validate the optional pending-input table may reject the added column
 despite sharing version 19. Consumed source receipts remain until their session
@@ -238,4 +238,4 @@ Complete skill bundles are product artifacts under `<state-dir>/skill-library/<s
 
 Removing a skill excludes it from future selections; existing sessions retain their selected revisions. Published history and complete orphan revisions are retained conservatively. Expired upload records are pruned when another upload begins; clearly abandoned staging directories are cleaned during later publication. Back up both the state databases and the skill-library directory, not just the current revision pointers.
 
-Older same-schema readers ignore the new tables but cannot provide managed-library selection or authoring. Keep the tables and bundle directory intact when changing builds; do not lower schema markers or delete revisions to disable the feature. The accepted storage and ownership decision is recorded in [the profile-owned skills design issue](https://github.com/openclaw/openclaw/issues/133602).
+Older same-schema readers ignore the new tables but cannot provide managed-library selection or authoring. Keep the tables and bundle directory intact when changing builds; do not lower schema markers or delete revisions to disable the feature.

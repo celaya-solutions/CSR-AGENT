@@ -38,14 +38,10 @@ Use `channels.modelByChannel` to pin specific channel IDs or direct-message peer
 
 For group/thread conversations, keys are channel-specific group IDs, topic IDs, or channel names. For direct-message (DM) conversations, keys are peer identifiers derived from the channel's sender identity (`nativeDirectUserId`, `origin.from`, `origin.to`, `OriginatingTo`, `From`, or `SenderId`). The exact key form depends on the channel:
 
-| Channel  | DM key form         | Example                                      |
-| -------- | ------------------- | -------------------------------------------- |
-| Discord  | raw user ID         | `987654321`                                  |
-| Feishu   | `feishu:ou_...`     | `feishu:ou_a8b6cab7e945387de5f253775d9b4d85` |
-| Matrix   | Matrix user ID      | `@user:matrix.org`                           |
-| Slack    | `user:U...`         | `user:U12345`                                |
-| Telegram | raw user ID         | `123456789`                                  |
-| WhatsApp | phone number or JID | `15551234567`                                |
+| Channel  | DM key form | Example     |
+| -------- | ----------- | ----------- |
+| Discord  | raw user ID | `987654321` |
+| Telegram | raw user ID | `123456789` |
 
 ```json5
 {
@@ -97,7 +93,7 @@ Use `channels.defaults` for shared group-policy, implicit-mention, and heartbeat
 
 - `channels.defaults.groupPolicy`: fallback group policy when a provider-level `groupPolicy` is unset.
 - `channels.defaults.contextVisibility`: default supplemental context visibility mode for all channels. Values: `all` (default, include all quoted/thread/history context), `allowlist` (only include context from allowlisted senders), `allowlist_quote` (same as allowlist but keep explicit quote/reply context). Per-channel override: `channels.<channel>.contextVisibility`.
-- `channels.defaults.implicitMentions`: controls which supported inbound facts count as mentions. `replyToBot`, `quotedBot`, and `threadParticipation` each default to `true`, preserving current behavior. The names are positive: set a flag to `false` to stop that fact from bypassing mention gating. Among bundled channels, Mattermost, Slack, and Tlon read this policy; on those channels you can also override it per channel with `channels.<channel>.implicitMentions` or per account with `channels.<channel>.accounts.<id>.implicitMentions`, and each flag resolves account -> channel -> defaults independently. Other bundled channels that produce implicit mention facts do not currently read these settings, so on those channels the facts always count as mentions and the override has no effect. Native explicit mentions are always allowed, and a flag has no effect when the channel does not produce that fact. See [Mention gating](/channels/groups#mention-gating-default) for the current producer matrix. These settings do not change outbound reply/thread modes or authorized command handling.
+- `channels.defaults.implicitMentions`: controls which supported inbound facts count as mentions. `replyToBot`, `quotedBot`, and `threadParticipation` each default to `true`, preserving current behavior. The names are positive: set a flag to `false` to stop that fact from bypassing mention gating. The bundled Discord and Telegram channels do not currently read these settings, so on those channels implicit mention facts always count as mentions and the override has no effect. A channel plugin that reads the policy can also take per-channel `channels.<channel>.implicitMentions` and per-account `channels.<channel>.accounts.<id>.implicitMentions` overrides, and each flag resolves account -> channel -> defaults independently. Native explicit mentions are always allowed, and a flag has no effect when the channel does not produce that fact. See [Mention gating](/channels/groups#mention-gating-default) for the current producer matrix. These settings do not change outbound reply/thread modes or authorized command handling.
 - `channels.defaults.heartbeatVisibility.showOk`: deliver legacy `HEARTBEAT_OK` acknowledgments when the monitor has nothing to report (default `false`).
 - `channels.defaults.heartbeatVisibility.showAlerts`: deliver user-facing heartbeat monitor alerts (default `true`).
 - `channels.defaults.heartbeatVisibility.useIndicator`: emit heartbeat status indicator events (default `true`).
@@ -106,7 +102,7 @@ Use `channels.defaults` for shared group-policy, implicit-mention, and heartbeat
 
 Run multiple accounts per channel (each with its own `accountId`):
 
-This pattern applies to channels that support `accounts`. Microsoft Teams uses only the channel-level `channels.msteams` configuration.
+This pattern applies to channels that support `accounts`.
 
 ```json5
 {
@@ -130,9 +126,8 @@ This pattern applies to channels that support `accounts`. Microsoft Teams uses o
 - `default` is used when `accountId` is omitted (CLI + routing).
 - Env tokens only apply to the **default** account.
 - Base channel settings apply to all accounts unless overridden per account.
-- For Discord, Google Chat, iMessage, Signal, Slack, Telegram, and WhatsApp, an omitted account `groupPolicy` or `dmPolicy` inherits the channel policy. An explicit account value wins, including `allowlist` or `pairing`. With no applicable policy configured, group access stays `allowlist` and DMs use `pairing`.
-- WhatsApp also inherits shared settings from `accounts.default` before falling back to the channel root; Google Chat uses shared `accounts.default` settings below root settings. See the channel pages for these exceptions and collection-merging rules.
+- For Discord and Telegram, an omitted account `groupPolicy` or `dmPolicy` inherits the channel policy. An explicit account value wins, including `allowlist` or `pairing`. With no applicable policy configured, group access stays `allowlist` and DMs use `pairing`.
 - Use `bindings[].match.accountId` to route each account to a different agent.
-- If you add a non-default account via `openclaw channels add` (or channel onboarding) while still on a single-account top-level channel config, OpenAgent promotes account-scoped top-level single-account values into the channel account map first so the original account keeps working. Most channels move them into `channels.<channel>.accounts.default`; Matrix can preserve an existing matching named/default target instead.
+- If you add a non-default account via `openclaw channels add` (or channel onboarding) while still on a single-account top-level channel config, OpenAgent promotes account-scoped top-level single-account values into the channel account map first so the original account keeps working. They move into `channels.<channel>.accounts.default`.
 - Existing channel-only bindings (no `accountId`) keep matching the default account; account-scoped bindings remain optional.
-- `openclaw doctor --fix` also repairs mixed shapes by moving account-scoped top-level single-account values into the promoted account chosen for that channel. Most channels use `accounts.default`; Matrix can preserve an existing matching named/default target instead.
+- `openclaw doctor --fix` also repairs mixed shapes by moving account-scoped top-level single-account values into the promoted account chosen for that channel. Channels use `accounts.default`.

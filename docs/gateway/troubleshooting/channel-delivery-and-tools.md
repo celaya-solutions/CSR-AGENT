@@ -37,7 +37,6 @@ Related:
 - [Channel troubleshooting](/channels/troubleshooting)
 - [Discord](/channels/discord)
 - [Telegram](/channels/telegram)
-- [WhatsApp](/channels/whatsapp)
 
 ## Cron and heartbeat delivery
 

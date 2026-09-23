@@ -216,7 +216,7 @@ and sandboxing. Use a [paired node](/nodes) or the embedded runtime with
 
 ### Claude browser tools and 1Password sign-in
 
-Claude Code can drive a Chrome browser through the [Claude in Chrome extension](https://code.claude.com/docs/en/chrome), including [1Password for Claude](/gateway/1password#browser-sign-in-with-1password-for-claude) credential autofill. The bundled backend does not enable it. Register a [CLI backend plugin](/plugins/cli-backend-plugins) that appends `--chrome` to the launch args of a `claude-stream-json`-dialect backend. OpenAgent preserves a configured `--chrome` on normal runs and always forces `--no-chrome` on runs with a restricted tool policy, such as side questions. The Chrome window, the extension, and any 1Password approval prompts live on the Gateway host. Someone must be at that machine to approve credential use.
+Claude Code can drive a Chrome browser through the [Claude in Chrome extension](https://code.claude.com/docs/en/chrome), including 1Password for Claude credential autofill. The bundled backend does not enable it. Register a [CLI backend plugin](/plugins/cli-backend-plugins) that appends `--chrome` to the launch args of a `claude-stream-json`-dialect backend. OpenAgent preserves a configured `--chrome` on normal runs and always forces `--no-chrome` on runs with a restricted tool policy, such as side questions. The Chrome window, the extension, and any 1Password approval prompts live on the Gateway host. Someone must be at that machine to approve credential use.
 
 The backend maps OpenAgent `/think` levels to Claude Code's native `--effort` flag: `minimal`/`low` -> `low`, `medium` -> `medium`, and `high`/`xhigh`/`max` pass through directly. For models that allow fixed thinking budgets, it also launches Claude Code with `MAX_THINKING_TOKENS`: `off=0`, `minimal=1024`, `low=2048`, `medium=8192`, `high`/`xhigh=16384`, and `max=32768`. Positive fixed budgets disable adaptive thinking. Models that require adaptive thinking omit the fixed budget and continue to use `--effort`. `adaptive` removes configured effort flags and fixed-budget environment overrides, so Claude Code resolves effective thinking from its own environment, settings, and model defaults. Other CLI backends need their owning plugin to map the selected level before `/think` affects the spawned CLI.
 
@@ -303,7 +303,6 @@ OpenAgent writes base64 images to temp files. If `imageArg` is set, those paths 
 - `output: "text"` (default) treats stdout as the final response.
 - `output: "json"` tries to parse JSON and extract text plus a session id.
 - `output: "jsonl"` parses a JSONL stream and extracts the final agent message plus session identifiers when present.
-- For Gemini CLI JSON output, OpenAgent reads reply text from `response` and usage from `stats` when `usage` is missing or empty. The bundled Gemini CLI adapter uses `stream-json`.
 
 JSON examples inside double-quoted banner text are not treated as response or error records.
 For JSONL, banner scanning starts fresh on each line.
@@ -323,7 +322,7 @@ CLI backend defaults are part of the plugin surface:
 - Command, argv, environment, parser, session, and watchdog behavior stays in plugin code.
 - Backend-specific normalization stays plugin-owned through the optional `normalizeConfig` hook.
 
-Anthropic owns `claude-cli` and Google owns `google-gemini-cli`. OpenAI Codex agent runs use the Codex app-server harness through `openai/*`. There is no bundled `codex-cli` backend.
+Anthropic owns `claude-cli`. OpenAI Codex agent runs use the Codex app-server harness through `openai/*`. There is no bundled `codex-cli` backend.
 
 The bundled Anthropic plugin registers for `claude-cli`:
 
@@ -347,32 +346,6 @@ On Claude Code 2.1.98 or newer, the bundled backend adds
 first CLI execution. Concurrent executions share the probe. API catalog discovery
 does not start it. Older, unknown, or failed probes keep the established argv.
 
-The bundled Google plugin registers for `google-gemini-cli`:
-
-| Key                       | Value                                                                                  |
-| ------------------------- | -------------------------------------------------------------------------------------- |
-| `command`                 | `gemini`                                                                               |
-| `args`                    | `--skip-trust --approval-mode auto_edit --output-format stream-json --prompt {prompt}` |
-| `resumeArgs`              | same, with `--resume {sessionId}`                                                      |
-| `output` / `resumeOutput` | `jsonl`                                                                                |
-| `jsonlDialect`            | `gemini-stream-json`                                                                   |
-| `imageArg`                | `@`                                                                                    |
-| `imagePathScope`          | `workspace`                                                                            |
-| `modelArg`                | `--model`                                                                              |
-| `sessionMode`             | `existing`                                                                             |
-| `sessionIdFields`         | `["session_id", "sessionId"]`                                                          |
-
-Prerequisites: the local Gemini CLI must be installed and on `PATH` as `gemini`
-(`brew install gemini-cli` or `npm install -g @google/gemini-cli`), and the
-selected model must have a supported Google AI Studio API-key profile. Existing
-valid legacy Gemini CLI OAuth profiles remain runtime-compatible, but OpenAgent
-does not create or repair them.
-
-Gemini CLI output notes:
-
-- The default `stream-json` parser reads assistant `message` events, tool events, final `result` usage, and fatal Gemini error events.
-- Usage falls back to `stats` when `usage` is absent or empty. `stats.cached` normalizes into OpenAgent `cacheRead`, and if `stats.input` is missing, input tokens derive from `stats.input_tokens - stats.cached`.
-
 ## Text transform overlays
 
 Plugins that need small prompt/message compatibility shims can declare bidirectional text transforms without replacing a provider or CLI backend:
@@ -386,15 +359,13 @@ api.registerTextTransforms({
 
 `input` rewrites the system prompt and user prompt passed to the CLI. `output` rewrites streamed assistant text and parsed final text before OpenAgent handles its own control markers and channel delivery. For provider-backed model calls it also restores string values inside structured tool-call arguments after stream repair and before tool execution. Raw provider JSON fragments are left unchanged. Consumers should use the structured partial, end, or result payload.
 
-For CLIs that emit provider-specific JSONL events, set `jsonlDialect` on that backend's config: `claude-stream-json` for Claude Code-compatible streams, `gemini-stream-json` for Gemini CLI `stream-json` events. Declaring `claude-stream-json` is a contract: the backend's `result` records carry Claude Code's terminal semantics, including `terminal_reason`. A reply-less `result` can carry a `terminal_reason` saying the CLI ended the turn on purpose after work may have run. Those reasons are `hook_stopped`, `stop_hook_prevented`, `aborted_tools`, `aborted_streaming`, `budget_exhausted`, and `max_turns`. OpenAgent treats that as a recorded turn stop. It reports the reason to the user and does not replay the turn on a fallback model, because the backend's tool actions may already have run.
+For CLIs that emit provider-specific JSONL events, set `jsonlDialect` on that backend's config: `claude-stream-json` for Claude Code-compatible streams or `gemini-stream-json` for Gemini CLI-style `stream-json` events. Declaring `claude-stream-json` is a contract: the backend's `result` records carry Claude Code's terminal semantics, including `terminal_reason`. A reply-less `result` can carry a `terminal_reason` saying the CLI ended the turn on purpose after work may have run. Those reasons are `hook_stopped`, `stop_hook_prevented`, `aborted_tools`, `aborted_streaming`, `budget_exhausted`, and `max_turns`. OpenAgent treats that as a recorded turn stop. It reports the reason to the user and does not replay the turn on a fallback model, because the backend's tool actions may already have run.
 
 ## Native compaction ownership
 
 Some CLI backends run an agent that compacts its own transcript. OpenAgent must not run its safeguard summarizer against them. Doing so fights the backend's own compaction and can hard-fail the turn.
 
 `claude-cli` has no harness endpoint (Claude Code compacts internally), so it declares `ownsNativeCompaction: true`. Automatic OpenAgent compaction defers to Claude Code, while an explicit `/compact` resumes the bound Claude Code session and sends its native `/compact` command. OpenAgent passes the run's effective context budget through Claude Code's documented [`CLAUDE_CODE_AUTO_COMPACT_WINDOW`](https://code.claude.com/docs/en/env-vars), keeping native auto-compaction aligned with configured Anthropic `contextTokens` limits. Native-harness sessions such as Codex keep routing to their harness compaction endpoint instead.
-
-`google-gemini-cli` also owns automatic compaction and persists its compressed session for resume. OpenAgent defers to Gemini CLI rather than running a second summarizer. Explicit `/compact` is unsupported for this backend because it does not declare a manual compaction capability.
 
 ```typescript
 api.registerCliBackend({
@@ -421,7 +392,6 @@ Add the atomic `manualCompaction` capability only when its command compacts the 
 CLI backends do not receive OpenAgent tool calls directly, but a backend can opt into a generated MCP config overlay with `bundleMcp: true`. Current bundled behavior:
 
 - `claude-cli`: generated strict MCP config file.
-- `google-gemini-cli`: generated Gemini system settings file.
 
 When bundle MCP is enabled, OpenAgent:
 
@@ -443,8 +413,8 @@ provider-safe `<safe-server>__<safe-tool>` identities used by embedded tools,
 and applies the complete layered policy before process spawn or Codex
 `thread/start`/`thread/resume`. It then projects exact raw names into each
 backend's enforcement contract: Claude receives server omission plus bare
-`--disallowedTools` entries, Codex receives `enabled_tools` and
-`disabled_tools`, and Gemini receives `includeTools` and `excludeTools`.
+`--disallowedTools` entries, and Codex receives `enabled_tools` and
+`disabled_tools`.
 Configured server filters and session overrides remain additional
 restrictions. These backend fields are generated implementation details. Keep
 operator policy in OpenAgent configuration.
@@ -470,7 +440,7 @@ Backends without an exact translation still fail closed.
 
 If no MCP servers are enabled, OpenAgent still injects a strict config when a backend opts into bundle MCP, so background runs stay isolated.
 
-Session-scoped bundled MCP runtimes are cached for reuse within a session, then reaped after 10 minutes of idle time. One-shot embedded runs such as auth probes, slug generation, and active-memory recall request cleanup at run end. Stdio children and Streamable HTTP or SSE streams therefore do not outlive the run.
+Session-scoped bundled MCP runtimes are cached for reuse within a session, then reaped after 10 minutes of idle time. One-shot embedded runs such as auth probes and slug generation request cleanup at run end. Stdio children and Streamable HTTP or SSE streams therefore do not outlive the run.
 
 A fresh CLI session must wait for its predecessor's cleanup. If cleanup fails or
 exceeds its deadline, OpenAgent refuses replacement, including from a later run.

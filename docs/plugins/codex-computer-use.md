@@ -20,31 +20,6 @@ runtime setup itself, see [Codex harness](/plugins/codex-harness).
 
 This is distinct from OpenAgent's built-in [node-backed computer tool](/nodes/computer-use). Use the built-in tool when the same agent contract should control a paired Mac whether the agent runs on the Gateway or another node. Use Codex Computer Use when Codex app-server should own local MCP installation, permissions, and native tool calls.
 
-## OpenAgent.app and Peekaboo
-
-OpenAgent.app's Peekaboo integration is separate from Codex Computer Use. The
-macOS app can host a PeekabooBridge socket so the `peekaboo` CLI can reuse the
-app's local Accessibility and Screen Recording grants for Peekaboo's own
-automation tools. That bridge does not install or proxy Codex Computer Use, and
-Codex Computer Use does not call through the PeekabooBridge socket.
-
-Use [Peekaboo bridge](/platforms/mac/peekaboo) when you want OpenAgent.app to be
-a permission-aware host for Peekaboo CLI automation. Use this page when a
-Codex-mode OpenAgent agent should have Codex's native `computer-use` MCP plugin
-available before the turn starts.
-
-## iOS app
-
-The iOS app is separate from Codex Computer Use. It does not install or proxy
-the Codex `computer-use` MCP server and it is not a desktop-control backend.
-Instead, the iOS app connects as an OpenAgent node and exposes mobile
-capabilities through node commands such as `camera.*`, `screen.*`,
-`location.*`, and `talk.*`.
-
-Use [iOS](/platforms/ios) when you want an agent to drive an iPhone node
-through the gateway. Use this page when a Codex-mode agent should control the
-local macOS desktop through Codex's native Computer Use plugin.
-
 ## Direct cua-driver MCP
 
 Codex Computer Use is not the only way to expose desktop control. If you want
@@ -420,5 +395,3 @@ discovered local or remote marketplace.
 ## Related
 
 - [Codex harness](/plugins/codex-harness)
-- [Peekaboo bridge](/platforms/mac/peekaboo)
-- [iOS app](/platforms/ios)

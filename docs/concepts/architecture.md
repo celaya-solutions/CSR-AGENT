@@ -7,17 +7,16 @@ title: "Gateway architecture"
 
 ## Overview
 
-- A single long-lived **Gateway** owns all messaging surfaces (WhatsApp via
-  Baileys, Telegram via grammY, Slack, Discord, Signal, iMessage, WebChat).
-- Control-plane clients (macOS app, CLI, web UI, automations) connect to the
+- A single long-lived **Gateway** owns all messaging surfaces (Telegram via
+  grammY, Discord, WebChat).
+- Control-plane clients (CLI, web UI, TUI, automations) connect to the
   Gateway over **WebSocket** on the configured bind host (default
   `127.0.0.1:18789`).
-- **Nodes** (macOS/iOS/Android/headless) also connect over **WebSocket**, but
+- **Nodes** (such as the headless node host) also connect over **WebSocket**, but
   declare `role: node` with explicit caps/commands.
-- One Gateway per host. It is the only place that opens a WhatsApp session.
-- The **hosted widget surface** is served by the Gateway HTTP server under:
-  - `/__openclaw__/canvas/` (hosted widget documents)
-  - `/__openclaw__/a2ui/` (A2UI renderer assets)
+- One Gateway per host. It is the only place that opens channel sessions.
+- The **hosted widget surface** is served by the Gateway HTTP server under
+  `/__openclaw__/canvas/` (hosted widget documents).
 
   It uses the same port as the Gateway (default `18789`).
 
@@ -30,19 +29,18 @@ title: "Gateway architecture"
 - Validates inbound frames against JSON Schema.
 - Emits events like `agent`, `chat`, `presence`, `health`, `heartbeat`, `cron`.
 
-### Clients (mac app / CLI / web admin)
+### Clients (CLI / web admin / TUI)
 
 - One WS connection per client.
 - Send requests (`health`, `status`, `send`, `agent`, `system-presence`).
 - Subscribe to events (`tick`, `agent`, `presence`, `shutdown`).
 
-### Nodes (macOS / iOS / Android / headless)
+### Nodes (headless node host)
 
 - Connect to the **same WS server** with `role: node`.
 - Provide a device identity in `connect`. Pairing is **device-based** (role `node`) and
   approval lives in the device pairing store.
-- Expose commands like `camera.*`, `screen.record`, and `location.get`. The
-  macOS app also exposes widget-panel commands under `canvas.*`.
+- Expose commands such as `system.run` with explicit caps.
 
 Protocol details: [Gateway protocol](/gateway/protocol)
 

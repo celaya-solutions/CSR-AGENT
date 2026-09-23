@@ -118,10 +118,10 @@ Moltbot never quite rolled off the tongue. So at 4am GMT, the team gathered agai
 
 In just 3 hours:
 
-- GitHub renamed to `github.com/openclaw/openclaw`
+- GitHub repository renamed to OpenClaw
 - X handle `@openclaw` secured, with a gold checkmark
 - npm packages released under the new name
-- Docs migrated to `docs.openclaw.ai`
+- Docs moved to their own domain
 - 200K+ views on the announcement in 90 minutes
 
 **The Heroes:**

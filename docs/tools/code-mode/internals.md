@@ -9,14 +9,14 @@ read_when:
 
 ## Runtime status
 
-| Aspect              | Value                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------ |
-| Runtime             | [`quickjs-wasi`](https://github.com/vercel-labs/quickjs-wasi)                                    |
-| Default state       | disabled                                                                                         |
+| Aspect              | Value                                                                                        |
+| ------------------- | -------------------------------------------------------------------------------------------- |
+| Runtime             | [`quickjs-wasi`](https://github.com/vercel-labs/quickjs-wasi)                                |
+| Default state       | disabled                                                                                     |
 | Stability           | experimental OpenAgent surface (Codex Code Mode is a separate, stable Codex harness surface) |
 | Target surface      | generic OpenAgent agent runs                                                                 |
-| Security posture    | model code is hostile                                                                            |
-| User-facing promise | enabling code mode never silently falls back to broad direct tool exposure                       |
+| Security posture    | model code is hostile                                                                        |
+| User-facing promise | enabling code mode never silently falls back to broad direct tool exposure                   |
 
 ## Scope
 
@@ -34,9 +34,6 @@ Out of scope: provider-native remote code execution, shell execution
 semantics, changing existing tool authorization, persistent user-authored
 scripts, package manager/file/network/module access in guest code, and direct
 reuse of Codex Code Mode internals.
-
-Provider-owned tools such as remote Python sandboxes are separate tools. See
-[Code execution](/tools/code-execution).
 
 ## Terms
 

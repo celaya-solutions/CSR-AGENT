@@ -26,7 +26,6 @@ Static sender groups use `type: "message.senders"`. `members` is keyed by messag
         "*": ["global-owner-id"],
         discord: ["discord:123456789012345678"],
         telegram: ["987654321"],
-        whatsapp: ["+15551234567"],
       },
     },
   },
@@ -78,22 +77,14 @@ Group sender allowlist example:
     oncall: {
       type: "message.senders",
       members: {
-        whatsapp: ["+15551234567"],
-        googlechat: ["users/1234567890"],
+        telegram: ["987654321"],
       },
     },
   },
   channels: {
-    whatsapp: {
+    telegram: {
       groupPolicy: "allowlist",
       groupAllowFrom: ["accessGroup:oncall"],
-    },
-    googlechat: {
-      groups: {
-        "spaces/AAA": {
-          users: ["accessGroup:oncall"],
-        },
-      },
     },
   },
 }
@@ -118,10 +109,10 @@ Access groups work in the shared message-channel authorization paths:
 
 - DM sender allowlists such as `channels.<channel>.allowFrom`
 - group sender allowlists such as `channels.<channel>.groupAllowFrom`
-- channel-specific per-room sender allowlists that use the same sender matching rules (for example Google Chat `groups.<space>.users`)
+- channel-specific per-room sender allowlists that use the same sender matching rules
 - command authorization paths that reuse message-channel sender allowlists
 
-Channel support depends on whether that channel is wired through the shared OpenAgent sender-authorization helpers. Current supported channel integrations include ClickClack, Discord, Feishu, Google Chat, iMessage, IRC, LINE, Mattermost, Microsoft Teams, Nextcloud Talk, Nostr, QQ Bot, Signal, Slack, SMS, Telegram, WhatsApp, Zalo, and Zalo Personal. Static `message.senders` groups are channel-agnostic, so new message channels get them by using the shared plugin SDK ingress helpers instead of custom allowlist expansion.
+Channel support depends on whether that channel is wired through the shared OpenAgent sender-authorization helpers. Discord and Telegram both use them. Static `message.senders` groups are channel-agnostic, so new message channels get them by using the shared plugin SDK ingress helpers instead of custom allowlist expansion.
 
 ## Discord channel audiences
 

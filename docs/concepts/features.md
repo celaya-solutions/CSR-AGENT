@@ -9,10 +9,10 @@ title: "Features"
 
 <Columns>
   <Card title="Channels" icon="message-square" href="/channels">
-    Discord, iMessage, Signal, Slack, Telegram, WhatsApp, WebChat, and more with a single Gateway.
+    Discord, Telegram, and WebChat with a single Gateway.
   </Card>
   <Card title="Plugins" icon="plug" href="/tools/plugin">
-    Official plugins add Matrix, Nextcloud Talk, Nostr, Twitch, Zalo, and dozens more with one install command.
+    Bundled plugins add channels, model providers, web search, and agent tools.
   </Card>
   <Card title="Routing" icon="route" href="/concepts/multi-agent">
     Multi-agent routing with isolated sessions.
@@ -20,11 +20,11 @@ title: "Features"
   <Card title="Media" icon="image" href="/nodes/images">
     Images, audio, video, documents, and image/video generation.
   </Card>
-  <Card title="Apps and UI" icon="monitor" href="/platforms">
-    Windows Hub, browser Control UI, macOS menu bar app, and mobile nodes.
+  <Card title="Interfaces" icon="monitor" href="/web">
+    Browser Control UI, WebChat, and the terminal UI.
   </Card>
-  <Card title="Mobile nodes" icon="smartphone" href="/nodes">
-    iOS and Android nodes with pairing, voice/chat, and rich device commands.
+  <Card title="Nodes" icon="server" href="/nodes">
+    Headless node hosts with pairing and remote command execution.
   </Card>
 </Columns>
 
@@ -32,13 +32,8 @@ title: "Features"
 
 **Channels:**
 
-- A2A, Reef, Telegram, and WebChat ship with the core install; every other channel is an
-  official plugin installed with `openclaw plugins install @openclaw/<id>` (or on demand
-  during `openclaw onboard` / `openclaw channels add`)
-- Official plugin channels: Discord, Feishu, Google Chat, iMessage, IRC, LINE, Matrix, Mattermost,
-  Microsoft Teams, Nextcloud Talk, Nostr, QQ Bot, Raft, Signal, Slack, SMS, Synology Chat,
-  Tlon, Twitch, Voice Call, WhatsApp, Zalo, and Zalo Personal
-- External plugin channels maintained outside the OpenAgent repo: WeChat, Yuanbao, and Zalo ClawBot
+- Discord, Telegram, and WebChat, all in this repository; Discord and Telegram
+  load from `extensions/` in a source checkout
 - Group chat support with mention-based activation
 - DM safety with allowlists and pairing
 
@@ -48,36 +43,37 @@ title: "Features"
 - Multi-agent routing with isolated sessions per workspace or sender
 - Sessions: direct chats collapse into shared `main`; groups are isolated by default
 - Streaming and chunking for long responses
+- ACP agents through `acpx`, the Codex app-server harness, and a delegation team
+  through `agent-workforce`
 
 **Auth and providers:**
 
-- Many [model providers](/providers) (Anthropic, OpenAI, Google, and more) — the
-  provider directory is the maintained list
+- Bundled [model providers](/providers): Anthropic, OpenAI, OpenRouter, Ollama,
+  and llama.cpp
 - Subscription auth via OAuth (e.g. OpenAI Codex)
-- Custom and self-hosted provider support (vLLM, SGLang, Ollama, llama.cpp, LM Studio, and
-  any OpenAI-compatible or Anthropic-compatible endpoint)
+- Any OpenAI-compatible or Anthropic-compatible endpoint through
+  `models.providers`
 
 **Media:**
 
 - Images, audio, video, and documents in and out
-- [Inline audio and video playback](/nodes/media-playback) across the Control UI, iOS/macOS, Android, and the Linux companion
+- [Inline audio and video playback](/nodes/media-playback) in the Control UI
 - Shared image generation and video generation capability surfaces
 - Voice note transcription
-- Text-to-speech with multiple providers
+- Text-to-speech through OpenAI or OpenRouter
 
-**Apps and interfaces:**
+**Interfaces:**
 
 - WebChat and browser Control UI
-- macOS menu bar companion app
-- iOS node with pairing, camera, screen recording, location, and voice
-- Android node with pairing, chat, voice, camera, and device commands
+- Terminal UI (`openclaw tui`)
 
 **Tools and automation:**
 
 - Browser automation, exec, sandboxing
-- Web search (Brave, DuckDuckGo, Exa, Firecrawl, Gemini, Grok, Kimi, MiniMax Search, Ollama Web Search, Perplexity, SearXNG, Tavily)
+- Web search (Codex Hosted Search, DuckDuckGo, Ollama Web Search) and web fetch
+- Document extraction and structured LLM tasks
 - Cron jobs and heartbeat scheduling
-- Skills, plugins, and workflow pipelines (Lobster)
+- Skills and plugins
 
 ## Related
 
@@ -89,9 +85,9 @@ title: "Features"
     Agent runtime model and how runs are dispatched.
   </Card>
   <Card title="Channels" href="/channels" icon="message-square">
-    Connect Telegram, WhatsApp, Discord, Slack, and more from one Gateway.
+    Connect Discord and Telegram from one Gateway.
   </Card>
   <Card title="Plugins" href="/tools/plugin" icon="plug">
-    Official and external plugins that extend OpenAgent.
+    Bundled and external plugins that extend OpenAgent.
   </Card>
 </CardGroup>

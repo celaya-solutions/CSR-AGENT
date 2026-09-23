@@ -7,18 +7,17 @@ read_when:
 title: "Docker VM runtime"
 ---
 
-Use this runtime flow after provisioning a VM and installing Docker. Provider
-guides such as [GCP](/install/gcp) and [Hetzner](/install/hetzner) own VM
-creation, firewall rules, SSH access, and the tunnel back to your laptop. This
-page owns the Docker setup shared by those hosts.
+Use this runtime flow after provisioning a VM and installing Docker. VM
+creation, firewall rules, SSH access, and the tunnel back to your laptop are
+up to your provider. This page owns the Docker setup shared by those hosts.
 
 ## Before you begin
 
 You need:
 
 - A Debian or Ubuntu VM with Docker Engine and Docker Compose v2
-- At least 6 GB RAM for a source image build; smaller hosts should use the
-  official pre-built image below
+- At least 6 GB RAM for the source image build; on a smaller host, build the
+  image elsewhere and `docker load` it
 - The OpenAgent source checkout on the VM
 - Provider and model credentials for onboarding
 - An SSH-only or otherwise restricted provider firewall; do not expose the
@@ -27,8 +26,8 @@ You need:
 From the VM:
 
 ```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
+git clone https://github.com/celaya-solutions/CSR-AGENT.git
+cd CSR-AGENT
 docker --version
 docker compose version
 ```
@@ -68,13 +67,6 @@ Gateway through the repository's `docker-compose.yml`. The Compose file pins
 container-side state to `/home/node/.openclaw` while using the host paths above
 as bind-mount sources.
 
-To use an official prebuilt image instead of building from source:
-
-```bash
-export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
-./scripts/docker/setup.sh
-```
-
 For unattended setup, provider SecretRefs, extra mounts, sandbox setup, and all
 supported environment variables, use the full [Docker guide](/install/docker).
 
@@ -95,7 +87,6 @@ The examples below cover three binaries only, alphabetically:
 
 - `gog` (from `gogcli`) for Gmail access
 - `goplaces` for Google Places
-- `wacli` for WhatsApp
 
 These are examples, not a complete list. Docker Compose builds the repo-root
 `Dockerfile`, so extend that file rather than creating a standalone example or
@@ -211,8 +202,7 @@ OPENCLAW_SKIP_ONBOARDING=1 ./scripts/docker/setup.sh
 docker compose run --rm openclaw-cli doctor --json
 ```
 
-For a pinned or prebuilt image, update `OPENCLAW_IMAGE` to the intended tag or
-digest before rerunning the setup script. Routine image upgrades run startup-safe
+Routine image upgrades run startup-safe
 migrations against the mounted state; see [Upgrading container images](/install/docker#upgrading-container-images)
 for recovery when a migration cannot complete automatically.
 

@@ -67,20 +67,17 @@ Reconfiguring trusted-proxy mode defaults the loopback prompt to the existing op
 Re-running provider auth from configure preserves an existing `agents.defaults.model.primary`, even when the provider's auth step returns a config patch with its own recommended default model. Adding or reauthing a provider makes its models available without taking over your current primary model. Use `openclaw models auth login --provider <id> --set-default` or `openclaw models set <model>` to intentionally change the default model.
 </Note>
 
-When configure starts from a provider auth choice, the default-model and model-policy pickers prefer that provider automatically. For paired providers such as Volcengine and BytePlus, the same preference also matches their coding-plan variants (`volcengine-plan/*`, `byteplus-plan/*`). If the preferred-provider filter would produce an empty list, configure falls back to the unfiltered catalog instead of showing a blank picker.
+When configure starts from a provider auth choice, the default-model and model-policy pickers prefer that provider automatically. The same preference also matches other providers owned by the same plugin. If the preferred-provider filter would produce an empty list, configure falls back to the unfiltered catalog instead of showing a blank picker.
 
 ## Web section
 
-`openclaw configure --section web` picks a web-search provider and configures its credentials. Some providers show provider-specific follow-ups:
-
-- **Grok** can offer optional `x_search` setup with the same xAI OAuth profile or API key, and let you pick an `x_search` model.
-- **Kimi** can ask for the Moonshot API region (`api.moonshot.ai` vs `api.moonshot.cn`) and the default Kimi web-search model.
+`openclaw configure --section web` picks a web-search provider and configures its credentials.
 
 ## Other notes
 
 - Gateway reconfiguration preserves existing `gateway.auth.allowTailscale`, `gateway.auth.rateLimit`, and `gateway.auth.identityScopes` policies. The selected auth mode replaces its credentials or trusted-proxy settings and removes fields belonging to other auth modes.
 - After local config writes, configure installs selected downloadable plugins when the chosen setup path requires them. Remote gateway config does not install local plugin packages.
-- Channel-oriented services (Slack/Discord/Matrix/Microsoft Teams) prompt for channel/room allowlists during setup. You can enter names or IDs. The wizard resolves names to IDs when possible.
+- Channel-oriented services such as Discord prompt for channel/room allowlists during setup. You can enter names or IDs. The wizard resolves names to IDs when possible.
 - Choosing **Reinstall** keeps the existing Gateway service in place while you select its runtime and configure validates authentication and prepares the replacement. Cancelling or failing during preparation leaves the existing service installed.
 - After successful daemon setup, the final Gateway status uses the same platform-specific startup grace period as onboarding before reporting reachability. Service installation and Gateway reachability are separate outcomes. If the Gateway is still not detected, run `openclaw health` to check it again.
 - If you run the daemon install step, token auth requires a token. If `gateway.auth.token` is SecretRef-managed, configure validates the SecretRef. It does not persist resolved plaintext token values into supervisor service environment metadata. If the SecretRef is unresolved, configure blocks daemon install with actionable remediation guidance.

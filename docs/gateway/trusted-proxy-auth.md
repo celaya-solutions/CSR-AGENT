@@ -230,7 +230,7 @@ Custom WebSocket clients are not Control UI sessions. The retired Control UI
 upgrade input does not grant temporary access to arbitrary
 `client.mode: "backend"` or CLI-shaped clients. Custom automation should use
 device identity/pairing, the reserved direct-local `client.id: "gateway-client"`
-backend helper path, or the [admin HTTP RPC plugin](/plugins/admin-http-rpc)
+backend helper path, or the admin HTTP RPC plugin
 when an HTTP request/response surface is a better fit.
 
 ## Operator scopes header
@@ -589,7 +589,7 @@ A Gateway token cannot replace proxy authentication. Do not send identity header
     Fix:
 
     - For Control UI, reload the dashboard so the browser generates device identity and completes pairing (works over HTTP too).
-    - For custom automation, use device identity/pairing, the reserved direct-local `gateway-client` backend helper path, or [admin HTTP RPC](/plugins/admin-http-rpc).
+    - For custom automation, use device identity/pairing, the reserved direct-local `gateway-client` backend helper path, or admin HTTP RPC.
     - Do not add the retired `gateway.controlUi.dangerouslyDisableDeviceAuth` key to current config; it is ignored and `openclaw doctor --fix` removes it.
 
   </Accordion>

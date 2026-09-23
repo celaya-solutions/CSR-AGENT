@@ -36,7 +36,7 @@ field map and defaults.
 // ~/.openclaw/openclaw.json
 {
   agents: { defaults: { workspace: "~/.openclaw/workspace" } },
-  channels: { whatsapp: { allowFrom: ["+15555550123"] } },
+  channels: { telegram: { botToken: "YOUR_TELEGRAM_BOT_TOKEN", allowFrom: ["123456789"] } },
 }
 ```
 
@@ -136,7 +136,7 @@ as `/gateway/configuration#config-hot-reload` still resolves. Each entry points 
 the page that now holds the content.
 
 - <a id="common-tasks" />[Common tasks](/gateway/configuration/common-tasks#common-tasks)
-- <a id="set-up-a-channel-whatsapp-telegram-discord-etc" />[Set up a channel (WhatsApp, Telegram, Discord, etc.)](/gateway/configuration/common-tasks#set-up-a-channel-whatsapp-telegram-discord-etc)
+- <a id="set-up-a-channel-whatsapp-telegram-discord-etc" />[Set up a channel (Telegram, Discord)](/gateway/configuration/common-tasks#set-up-a-channel-telegram-discord)
 - <a id="choose-and-configure-models" />[Choose and configure models](/gateway/configuration/common-tasks#choose-and-configure-models)
 - <a id="control-who-can-message-the-bot" />[Control who can message the bot](/gateway/configuration/common-tasks#control-who-can-message-the-bot)
 - <a id="set-up-group-chat-mention-gating" />[Set up group chat mention gating](/gateway/configuration/common-tasks#set-up-group-chat-mention-gating)

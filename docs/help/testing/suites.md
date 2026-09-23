@@ -15,8 +15,6 @@ Most days:
 - Direct Vitest watch loop: `pnpm test:watch`
 - Direct file targeting routes plugin/channel paths too: `pnpm test extensions/discord/src/monitor/message-handler.preflight.test.ts`
 - Prefer targeted runs first when iterating on a single failure.
-- Docker-backed QA site: `pnpm qa:lab:up`
-- Linux VM-backed QA lane: `pnpm openclaw qa suite --runner multipass --scenario channel-chat-baseline`
 
 When you touch tests or want extra confidence:
 
@@ -53,7 +51,7 @@ Native dependency policy:
 
 - Default test installs skip optional native Discord opus builds. Discord
   voice uses bundled `libopus-wasm`, and `@discordjs/opus` stays disabled in
-  `allowBuilds` so local tests and Testbox lanes do not compile the native
+  `allowBuilds` so local tests do not compile the native
   addon.
 - Compare native opus performance in the `libopus-wasm` benchmark repo, not
   in default OpenAgent install/test loops. Do not set `@discordjs/opus` to
@@ -72,7 +70,7 @@ Native dependency policy:
     - Import-light unit tests from agents, commands, plugins, auto-reply helpers, `plugin-sdk`, and similar pure utility areas route through the `unit-fast` lane, which skips `test/setup-openclaw-runtime.ts`; stateful/runtime-heavy files stay on the existing lanes.
     - Selected `plugin-sdk` and `commands` helper source files also map changed-mode runs to explicit sibling tests in those light lanes, so helper edits avoid rerunning the full heavy suite for that directory.
     - `auto-reply` has dedicated buckets for top-level core helpers, top-level `reply.*` integration tests, and the `src/auto-reply/reply/**` subtree. CI further splits the reply subtree into agent-runner, dispatch, and commands/state-routing shards so one import-heavy bucket does not own the full Node tail.
-    - Normal PR/main CI intentionally skips the bundled plugin batch sweep and release-only `agentic-plugins` shard. Full Release Validation dispatches the separate `Plugin Prerelease` child workflow for those plugin-heavy suites on release candidates.
+    - Normal PR/main CI intentionally skips the bundled plugin batch sweep and release-only `agentic-plugins` shard.
 
   </Accordion>
 
@@ -129,7 +127,7 @@ Native dependency policy:
     - `pnpm changed:lanes` shows which architectural lanes a diff triggers.
     - The pre-commit hook formats and restages files. When private rules are
       configured, it also scans staged content before and after formatting.
-      See [Local commit hook setup](https://github.com/openclaw/openclaw/blob/main/CONTRIBUTING.md#local-commit-hook).
+      See "Local commit hook" in `CONTRIBUTING.md`.
       It does not run lint, typecheck, or tests.
     - Run `pnpm check:changed` explicitly before handoff or push when you
       need the smart local check gate.
@@ -230,7 +228,7 @@ Native dependency policy:
 
 - Command: `pnpm test:ui:e2e`
 - Config: `test/vitest/vitest.ui-e2e.config.ts`
-- Files: `ui/src/**/*.e2e.test.ts` and the QA Lab media-transcript real-Gateway suite
+- Files: `ui/src/**/*.e2e.test.ts`
 - Scope:
   - Uses four resource groups in two execution phases: `ui-e2e-bundled` and `ui-e2e-standalone` share the parallel phase (at most two workers total); `ui-e2e-serial` and `ui-e2e-serial-standalone` share the later single-worker phase
   - The two bundle-consuming projects lazily acquire one temporary UI bundle/preview per invocation; standalone projects own their fixture, source, or custom-build servers
@@ -242,30 +240,7 @@ Native dependency policy:
   - No provider keys required; `OPENCLAW_UI_E2E_SKIP_REAL_GATEWAY=1` excludes real-Gateway suites
   - Browser dependency must be present (`pnpm --dir ui exec playwright install chromium`)
 
-The dedicated real-Gateway CI job uses `test/vitest/vitest.ui-e2e-prebuilt.config.ts` after `OPENCLAW_BUILD_PRIVATE_QA=1 pnpm build:ci-artifacts` completes in a clean checkout. Keep source and built outputs unchanged until all workers and children finish. MCP conformance runs serially first, then the other 13 files share at most two workers in the same invocation, with no extra jobs or shards. Readiness failures stop execution without rebuilding or falling back. The ordinary local config keeps real-Gateway files serial; frozen targets without the prebuilt config keep their original serial command. See [CI](/ci) for the resource policy and bounded timing evidence.
-
-### E2E: OpenShell backend smoke
-
-- Command: `pnpm test:e2e:openshell`
-- File: `extensions/openshell/src/backend.e2e.test.ts`
-- Scope:
-  - Reuses an active local OpenShell gateway
-  - Creates a sandbox from a temporary local Dockerfile
-  - Exercises remote and default mirrored OpenShell backends over real SSH
-  - Creates an isolated non-default OpenShell workspace and custom workspace roots
-  - Verifies nested mirrored file writes and excludes host Git metadata and hooks
-  - Verifies remote-canonical filesystem behavior through the sandbox fs bridge
-- Expectations:
-  - Opt-in only; not part of the default `pnpm test:e2e` run
-  - Requires a local `openshell` CLI plus a working Docker daemon
-  - Requires an active local OpenShell gateway and its config source
-  - Uses isolated `HOME` / `XDG_CONFIG_HOME`, then waits for durable sandbox absence before deleting the test workspace
-  - Reports cleanup failures, including failed inventory queries; it does not retry database errors
-- Useful overrides:
-  - `OPENCLAW_E2E_OPENSHELL=1` to enable the test when running the broader e2e suite manually
-  - `OPENCLAW_E2E_OPENSHELL_COMMAND=/path/to/openshell` to point at a non-default CLI binary or wrapper script
-  - `OPENCLAW_E2E_OPENSHELL_CONFIG_HOME=/path/to/config` to expose the registered gateway config to the isolated test
-  - `OPENCLAW_E2E_OPENSHELL_HOST_IP=172.18.0.1` to replace the host policy fixture's default ranges with one explicit Docker gateway address and its existing `/32` suffix
+The dedicated real-Gateway CI job uses `test/vitest/vitest.ui-e2e-prebuilt.config.ts` after `pnpm build:ci-artifacts` completes in a clean checkout. Keep source and built outputs unchanged until all workers and children finish. MCP conformance runs serially first, then the other 13 files share at most two workers in the same invocation, with no extra jobs or shards. Readiness failures stop execution without rebuilding or falling back. The ordinary local config keeps real-Gateway files serial; frozen targets without the prebuilt config keep their original serial command.
 
 ### Live (real providers + real models)
 
@@ -302,12 +277,10 @@ Use this decision table:
 ## Live (network-touching) tests
 
 For the live model matrix, CLI backend smokes, ACP smokes, Codex app-server
-harness, and all media-provider live tests (Deepgram, BytePlus, ComfyUI,
-image, music, video, media harness) - plus credential handling for live runs
+harness, and the media-provider live tests (image, music, video, media
+harness) - plus credential handling for live runs
 
-- see [Testing live suites](/help/testing-live). For the dedicated update and
-  plugin validation checklist, see
-  [Testing updates and plugins](/help/testing-updates-plugins).
+- see [Testing live suites](/help/testing-live).
 
 ## Docs sanity
 

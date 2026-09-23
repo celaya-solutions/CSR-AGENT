@@ -92,50 +92,15 @@ agents:
 
 ## Provider behavior
 
-### Anthropic (direct API and Vertex AI)
+### Anthropic (direct API)
 
 - When caching is enabled and the route supports tool cache control, the tool prefix is checkpointed separately from the system prompt.
-- `cacheRetention` is supported for `anthropic` and `anthropic-vertex` providers, and for Claude models on `amazon-bedrock` and custom `anthropic-messages`-compatible endpoints when `cacheRetention` is set explicitly.
-- When unset, OpenAgent seeds `cacheRetention: "short"` for direct Anthropic (`anthropic` and `anthropic-vertex` providers only; other Anthropic-family routes require an explicit value).
+- `cacheRetention` is supported for the `anthropic` provider, and for Claude models on custom `anthropic-messages`-compatible endpoints when `cacheRetention` is set explicitly.
+- When unset, OpenAgent seeds `cacheRetention: "short"` for direct Anthropic (`anthropic` provider only; other Anthropic-family routes require an explicit value).
 - Native Anthropic Messages responses expose `cache_read_input_tokens` and `cache_creation_input_tokens`, mapped to `cacheRead` and `cacheWrite`.
 - `cacheRetention: "short"` maps to the default 5-minute ephemeral cache. `cacheRetention: "long"` requests the 1-hour TTL (`cache_control: { type: "ephemeral", ttl: "1h" }`) when set explicitly. An implicit/env-driven long retention (`OPENCLAW_CACHE_RETENTION=long` with no explicit `cacheRetention`) only upgrades to the 1-hour TTL on `api.anthropic.com` or Vertex AI (`aiplatform.googleapis.com` / `*-aiplatform.googleapis.com`) hosts; other hosts keep the 5-minute cache.
 
 Source: `packages/ai/src/transports/anthropic-payload-policy.ts` (`resolveAnthropicEphemeralCacheControl`, `isLongTtlEligibleEndpoint`).
-
-### DeepInfra
-
-For `anthropic/*` models, the managed and SDK Chat Completions paths use the
-[shared marker layout](#chat-completions-cache-markers). `cacheRetention: "none"`
-disables these markers. By default, both `"short"` and `"long"` use ephemeral markers without
-a TTL override; OpenAgent does not assume one-hour support for this route.
-
-### Model Studio / DashScope (Qwen)
-
-Both Chat Completions builders enable the [shared marker layout](#chat-completions-cache-markers)
-on native or default Model Studio / DashScope routes through
-`compat.cacheControlFormat: "anthropic"`. Explicit model compat settings take
-precedence over detected defaults. Custom proxy endpoints receive no automatic
-format default; set `compat.cacheControlFormat: "anthropic"` explicitly only when
-the proxy supports these markers.
-
-Model Studio includes tool definitions in the system cache and ignores markers on
-tools themselves, so OpenAgent omits that marker on detected native routes.
-Qwen3.5 and later support message-level checkpoints only: splitting the stable and
-volatile system content into blocks does not guarantee independent reuse of the
-stable block. See [Model Studio explicit cache guidance](https://docs.modelstudio.console.alibabacloud.com/en/model-studio/explicit-cache-guide).
-
-Explicit `cacheRetention` values reach this transport without enabling
-`compat.supportsPromptCacheKey`; leave that flag unset because this route does not
-need OpenAI's `prompt_cache_key` or `prompt_cache_retention` fields. With no explicit
-retention, the transport keeps its `"short"` default. Model Studio uses a five-minute
-explicit cache window, so `"long"` keeps ephemeral markers without requesting a
-one-hour TTL.
-
-To disable OpenAgent's explicit markers, set `cacheRetention: "none"`. The current
-`compat.cacheControlFormat` schema accepts only `"anthropic"`, not a disable value;
-omitting it uses the detected default. Alibaba's automatic implicit caching is
-separate and cannot be disabled. Supported models, minimum prompt lengths, and
-cache billing are described in [Model Studio context caching](https://www.alibabacloud.com/help/en/model-studio/context-cache).
 
 ### OpenAI (direct API)
 
@@ -149,27 +114,6 @@ cache billing are described in [Model Studio context caching](https://www.alibab
 - Responses API payloads can also expose `input_tokens_details.cache_write_tokens`, mapped to `cacheWrite` and priced at the model's cache-write rate; Responses payloads that omit the field keep `cacheWrite` at `0`. OpenAI's Chat Completions API does not document or emit a `cache_write_tokens` counter, but OpenAgent still reads `prompt_tokens_details.cache_write_tokens` there for OpenRouter-compatible and DeepSeek-style proxies that report a separate write count.
 - In practice, OpenAI behaves more like an initial-prefix cache than Anthropic's moving full-history reuse - see [OpenAI live expectations](#openai-live-expectations) below.
 
-### Amazon Bedrock
-
-- Anthropic Claude model refs (`amazon-bedrock/*anthropic.claude*`, plus AWS system inference profile prefixes `us.`/`eu.`/`global.anthropic.claude*`) support explicit `cacheRetention` pass-through.
-- The stable system prefix is checkpointed separately from dynamic runtime additions. Conversation checkpoints advance through retained history, including tool results; transient runtime-context carriers remain outside the cached prefix. Bedrock Mantle's Anthropic Messages transport also preserves the separate stable system boundary.
-- Nova Micro, Lite, Pro, Premier (`amazon.nova-{micro,lite,pro,premier}-v1:0`), and Nova 2 Lite (`amazon.nova-2-lite-v1:0`) support explicit checkpoints in `system` and `messages`, including their AWS geographic inference profiles and foundation-model ARNs. Both `short` and `long` use Nova's five-minute TTL; `none` disables explicit checkpoints. OpenAgent does not add tool checkpoints for Nova.
-- Other non-Claude Bedrock models remain at `cacheRetention: "none"`.
-- Nova explicit caching is opt-in: set `cacheRetention` explicitly to `short` or `long`. With retention unset, Nova requests keep their existing payload layout with no checkpoints; neither the default `short` window nor `OPENCLAW_CACHE_RETENTION` enables Nova checkpoints.
-- Opaque Bedrock application inference profile ARNs (profile IDs that do not contain `claude`) also resolve to no cache retention unless `cacheRetention` is set explicitly, since the model family cannot be inferred from the ARN alone.
-
-AWS's [prompt caching guide](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html)
-and model cards for [Micro](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-micro.html),
-[Lite](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-lite.html),
-[Pro](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-pro.html),
-[Premier](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-premier.html),
-and [Nova 2 Lite](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-2-lite.html)
-list these limits: a 1K-token minimum, four checkpoints, and at most 20K cached
-tokens for Nova. Provider token limits still determine whether a checkpoint is cached.
-
-Nova explicit caching has not been live-verified against AWS by OpenAgent maintainers yet.
-Live AWS acceptance proof remains a gap until a maintainer with Bedrock access runs it.
-
 ### OpenRouter
 
 For `openrouter/anthropic/*` model refs, both Chat Completions builders apply the [shared marker layout](#chat-completions-cache-markers), but only when the request still targets a verified OpenRouter route (`openrouter` on its default endpoint, or any provider/base URL that resolves to `openrouter.ai`). Repointing the model at an arbitrary OpenAI-compatible proxy URL stops automatic marker injection. `cacheRetention: "long"` requests `ttl: "1h"` on these verified routes; `"none"` disables markers. See [OpenRouter prompt caching](https://openrouter.ai/docs/guides/best-practices/prompt-caching).
@@ -180,18 +124,7 @@ Source: `extensions/openrouter/index.ts` (`OPENROUTER_CACHE_TTL_MODEL_PREFIXES`)
 
 DeepSeek cache construction on OpenRouter is best-effort and can take a few seconds; an immediate follow-up request may still show `cached_tokens: 0`. Verify with a repeated same-prefix request after a short delay, using `usage.prompt_tokens_details.cached_tokens` as the cache-hit signal.
 
-### Google Gemini (direct API)
-
-- Direct Gemini transport (`api: "google-generative-ai"`) reports cache hits through upstream `cachedContentTokenCount`, mapped to `cacheRead`.
-- Eligible model families: `gemini-2.5*` and `gemini-3*` (excludes Live/preview variants outside that prefix match, for example `gemini-live-2.5-flash-preview`).
-- When `cacheRetention` is set on an eligible model, OpenAgent automatically creates, reuses, and refreshes a `cachedContents` resource containing the stable system prefix above the cache boundary plus tools and tool configuration - no manual cached-content handle needed. TTL is `300s` for `cacheRetention: "short"` and `3600s` for `"long"`.
-- The volatile system suffix travels first inside the current turn's hidden runtime-context carrier, before other runtime facts. This carrier is transient, so suffix changes reuse the same resource without accumulating history. Stable-prefix or tool changes create a new resource. If creation fails or the prompt has no cache boundary, the complete system prompt stays inline.
-- You can still pass a pre-existing Gemini cached-content handle through as `params.cachedContent` (or legacy `params.cached_content`); an explicit handle skips the automatic cache-management path entirely.
-- This is separate from Anthropic/OpenAI prompt-prefix caching: OpenAgent manages a provider-native `cachedContents` resource for Gemini instead of injecting inline cache markers.
-
-Source: `src/agents/embedded-agent-runner/google-prompt-cache.ts`.
-
-### CLI-harness providers (Claude Code, Gemini CLI)
+### CLI-harness providers (Claude Code)
 
 CLI backends that emit JSONL usage events (`jsonlDialect: "claude-stream-json"` or `"gemini-stream-json"`) go through a shared usage parser that recognizes several field-name variants, including a plain `cached` counter mapped to `cacheRead`. When the CLI's JSON payload omits a direct input-token field, OpenAgent derives it as `input_tokens - cached`. This is usage normalization only - it does not create Anthropic/OpenAI-style prompt-cache markers for these CLI-driven models.
 
@@ -373,7 +306,6 @@ Prompt-cache observations record `input`, `cacheRead`, and `cacheWrite` per comp
 - **High `cacheWrite` on Anthropic**: often means the cache breakpoint is landing on content that changes every request.
 - **Low OpenAI `cacheRead`**: verify the stable prefix is at the front, the repeated prefix is at least 1024 tokens, and the same `prompt_cache_key` is reused for turns that should share a cache.
 - **No effect from `cacheRetention`**: confirm the model key matches `agents.defaults.models["provider/model"]`.
-- **Bedrock Nova requests without cache hits**: set `cacheRetention` explicitly to `short` or `long`, verify that the model is one of the supported variants above, and check that the prefix meets AWS's token limits; `long` still uses a five-minute TTL.
 
 Related docs:
 

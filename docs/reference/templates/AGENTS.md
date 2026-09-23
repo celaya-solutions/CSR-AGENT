@@ -103,9 +103,8 @@ Record camera names, SSH hosts and users, preferred voices and speakers, and dev
 
 **Platform formatting:**
 
-- On Discord and WhatsApp, use bullet lists instead of markdown tables.
+- On Discord, use bullet lists instead of markdown tables.
 - On Discord, wrap multiple links in `<>` to suppress embeds (`<https://example.com>`).
-- On WhatsApp, use **bold** or CAPS instead of headers.
 
 ## Automations - Be Proactive
 

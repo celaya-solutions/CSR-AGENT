@@ -13,9 +13,9 @@ Scanning for Gateway beacons over mDNS and wide-area DNS-SD. Part of the [`openc
 `gateway discover` scans for Gateway beacons (`_openclaw-gw._tcp`).
 
 - Multicast DNS-SD: `local.`
-- Unicast DNS-SD (wide-area Bonjour): choose a domain (example: `openclaw.internal.`) and set up split DNS + a DNS server; see [Bonjour](/gateway/bonjour).
+- Unicast DNS-SD (wide-area): choose a domain (example: `openclaw.internal.`) and set up split DNS + a DNS server; see [`openclaw dns`](/cli/dns).
 
-Only gateways with Bonjour discovery enabled (default) advertise the beacon.
+This build publishes the beacon through wide-area DNS-SD only; it does not include a LAN multicast advertiser, so `local.` results come only from other hosts that advertise one.
 
 TXT hints on every beacon: `role` (gateway role hint), `transport` (transport hint, e.g. `gateway`), `gatewayPort` (WebSocket port, usually `18789`), `tailnetDns` (MagicDNS hostname, when available), `gatewayTls` / `gatewayTlsSha256` (TLS enabled + cert fingerprint). `sshPort` and `cliPath` are published only in full discovery mode (`discovery.mdns.mode: "full"`; default is `"minimal"`, which omits them — clients then default SSH targets to port `22`).
 

@@ -35,14 +35,14 @@ its own package versions and dist-tags. Pin and test the client and Gateway
 versions together, and check the [wire-version rules](/gateway/clients#track-protocol-versions)
 before upgrading. The `2026.8.1` client pins protocol package `2026.8.1` exactly.
 
-- [`@openclaw/gateway-protocol`](https://www.npmjs.com/package/@openclaw/gateway-protocol)
+- `@openclaw/gateway-protocol`
   provides schemas, runtime validators, TypeScript types, client identity and
   capability registries, structured error readers, and protocol version constants.
   Its npm tarball also includes the generated
-  [`protocol.schema.json`](https://unpkg.com/@openclaw/gateway-protocol@2026.8.1/protocol.schema.json)
+  `protocol.schema.json`
   machine-readable contract. Download it as a file; it is not an exported package
   import subpath.
-- [`@openclaw/gateway-client`](https://www.npmjs.com/package/@openclaw/gateway-client)
+- `@openclaw/gateway-client`
   is the reference connection implementation. Import the package root for the Node
   client and `@openclaw/gateway-client/browser` for the browser-safe protocol,
   device-auth, and reconnect helpers.
@@ -301,8 +301,7 @@ Protocol changes are additive first. `protocol.schema.json` includes `since`
 release-vintage metadata and required scope metadata for core methods, but a wire
 version bump is still an explicit breaking event for third-party clients. Pin the
 package versions you test, upgrade the client and Gateway together when the wire
-version changes, and review the
-[OpenAgent changelog](https://github.com/openclaw/openclaw/blob/main/CHANGELOG.md)
+version changes, and review `CHANGELOG.md` in the source checkout
 before each upgrade.
 
 ## Related

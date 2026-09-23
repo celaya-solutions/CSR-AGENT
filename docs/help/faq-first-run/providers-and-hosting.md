@@ -31,15 +31,6 @@ first-run failures see
 
   </Accordion>
 
-  <Accordion title="Is AWS Bedrock supported?">
-    Yes. OpenAgent has a bundled **Amazon Bedrock (Converse)** provider. With AWS env
-    markers present (`AWS_ACCESS_KEY_ID`, `AWS_PROFILE`, `AWS_BEARER_TOKEN_BEDROCK`),
-    OpenAgent auto-enables the implicit Bedrock provider for model discovery; otherwise
-    set `plugins.entries.amazon-bedrock.config.discovery.enabled: true` or add a manual
-    provider entry. See [Amazon Bedrock](/providers/bedrock) and [Model providers](/providers/models).
-    An OpenAI-compatible proxy in front of Bedrock is still a valid option if you prefer a managed key flow.
-  </Accordion>
-
   <Accordion title="How does Codex auth work?">
     OpenAgent supports **OpenAI Codex** via OAuth (ChatGPT sign-in). A fresh
     setup with no primary model uses exact `openai/gpt-6-astra` for
@@ -91,29 +82,16 @@ first-run failures see
 
   </Accordion>
 
-  <Accordion title="Can I use Gemini CLI or Antigravity OAuth?">
-    OpenAgent does not offer new Gemini CLI OAuth or Antigravity OAuth setup.
-    Connect Google with an AI Studio API key or Vertex AI instead.
-
-    The optional `google-gemini-cli` runtime remains available for advanced
-    setups using a supported Google API-key profile. Existing valid legacy
-    Gemini CLI OAuth profiles remain executable for compatibility, but OpenAgent
-    cannot create or repair them.
-
-    Details: [Google](/providers/google), [Model providers](/concepts/model-providers).
-
-  </Accordion>
-
   <Accordion title="Is a local model OK for casual chats?">
     Usually no. OpenAgent needs large context + strong safety; small cards truncate context
     and skip provider-side safety filters. If you must, run the **largest** model build you
-    can locally (LM Studio) - see [Local models](/gateway/local-models). Smaller/quantized
+    can locally (Ollama or llama.cpp) - see [Local models](/gateway/local-models). Smaller/quantized
     models raise prompt-injection risk - see [Security](/gateway/security).
   </Accordion>
 
   <Accordion title="How do I keep hosted model traffic in a specific region?">
-    Pick region-pinned endpoints. OpenRouter exposes US-hosted options for MiniMax, Kimi,
-    and GLM; choose the US-hosted variant to keep data in-region. You can still list
+    Pick region-pinned endpoints. OpenRouter exposes region-hosted options for some
+    models; choose the in-region variant to keep data in-region. You can still list
     Anthropic/OpenAI alongside these with `models.mode: "merge"` so fallbacks stay
     available while respecting the regioned provider you select.
   </Accordion>
@@ -122,37 +100,20 @@ first-run failures see
     No. OpenAgent runs on macOS or Linux (Windows via WSL2). A Mac mini is a popular
     always-on host choice, but a small VPS, home server, or Raspberry Pi-class box works too.
 
-    You only need a Mac **for macOS-only tools**. For iMessage, use [iMessage](/channels/imessage)
-    with `imsg` on any Mac signed into Messages - if the Gateway runs on Linux or elsewhere,
-    set `channels.imessage.cliPath` to an SSH wrapper that runs `imsg` on that Mac. For other
-    macOS-only tools, run the Gateway on a Mac or pair a macOS node.
+    You only need a Mac **for macOS-only tools**. For those, run the Gateway on a Mac
+    or pair a node host running on a Mac.
 
-    Docs: [iMessage](/channels/imessage), [Nodes](/nodes), [Mac remote mode](/platforms/mac/remote).
-
-  </Accordion>
-
-  <Accordion title="Do I need a Mac mini for iMessage support?">
-    You need **some macOS device** signed into Messages - not necessarily a Mac mini, any
-    Mac works. Use [iMessage](/channels/imessage) with `imsg`; the Gateway can run on that
-    Mac, or elsewhere with an SSH wrapper `cliPath`.
-
-    Common setups:
-
-    - Gateway on Linux/VPS, `channels.imessage.cliPath` set to an SSH wrapper that runs `imsg` on a Mac signed into Messages.
-    - Everything on one Mac for the simplest single-machine setup.
-
-    Docs: [iMessage](/channels/imessage), [Nodes](/nodes), [Mac remote mode](/platforms/mac/remote).
+    Docs: [Nodes](/nodes).
 
   </Accordion>
 
   <Accordion title="If I buy a Mac mini to run OpenAgent, can I connect it to my MacBook Pro?">
     Yes. The **Mac mini can run the Gateway**, and your MacBook Pro connects as a **node**
-    (companion device). Nodes do not run the Gateway - they add capabilities like
-    screen/camera and `system.run` on that device. A Mac node can also present
-    hosted widgets in its native panel.
+    (headless node host). Nodes do not run the Gateway - they add capabilities like
+    `system.run` on that device.
 
-    Common pattern: Gateway on the always-on Mac mini; MacBook Pro runs the macOS app or a
-    node host and pairs to the Gateway. Check with `openclaw nodes status` / `openclaw nodes list`.
+    Common pattern: Gateway on the always-on Mac mini; MacBook Pro runs a node host and
+    pairs to the Gateway. Check with `openclaw nodes status` / `openclaw nodes list`.
 
     Docs: [Nodes](/nodes), [Nodes CLI](/cli/nodes).
 
@@ -178,10 +139,6 @@ first-run failures see
 
     See [Telegram access control](/channels/telegram#access-control-and-activation).
 
-  </Accordion>
-
-  <Accordion title="Can multiple people use one WhatsApp number with different OpenAgent instances?">
-    Yes, via **multi-agent routing**. Bind each sender's WhatsApp DM (`peer: { kind: "direct", id: "+15551234567" }`) to a different `agentId`, giving each person their own workspace and session store. Replies still come from the **same WhatsApp account**; DM access control (`channels.whatsapp.dmPolicy` / `channels.whatsapp.allowFrom`) is global per account. See [Multi-Agent Routing](/concepts/multi-agent) and [WhatsApp](/channels/whatsapp).
   </Accordion>
 
   <Accordion title='Can I run a "fast chat" agent and an "Opus for coding" agent?'>
@@ -210,46 +167,6 @@ first-run failures see
 
   </Accordion>
 
-  <Accordion title="Difference between the hackable git install and npm install">
-    - **Hackable (git) install:** full source checkout, editable, best for contributors. You build locally and can patch code/docs.
-    - **npm install:** global CLI install, no repo, best for "just run it." Updates come from npm dist-tags.
-
-    Docs: [Getting started](/start/getting-started), [Updating](/install/updating).
-
-  </Accordion>
-
-  <Accordion title="Can I switch between npm and git installs later?">
-    Yes, with `openclaw update --channel ...` on an existing install. This does **not
-    delete your data** - only the OpenAgent code install changes. State (`~/.openclaw`) and
-    workspace (`~/.openclaw/workspace`) stay untouched.
-
-    npm to git:
-
-    ```bash
-    openclaw update --channel dev
-    ```
-
-    git to npm:
-
-    ```bash
-    openclaw update --channel stable
-    ```
-
-    Add `--dry-run` to preview the planned mode switch first. The updater runs Doctor
-    follow-ups, refreshes plugin sources for the target channel, and restarts the gateway
-    unless you pass `--no-restart`.
-
-    The installer can force either mode too:
-
-    ```bash
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git
-    curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method npm
-    ```
-
-    Backup tips: [Where things live on disk](/help/faq#where-things-live-on-disk).
-
-  </Accordion>
-
   <Accordion title="Should I run the Gateway on my laptop or a VPS?">
     Want 24/7 reliability? Use a **VPS**. Want the lowest friction and you are OK with
     sleep/restarts? Run it locally.
@@ -264,7 +181,7 @@ first-run failures see
     - **Pros:** always-on, stable network, no laptop sleep issues, easier to keep running.
     - **Cons:** often headless (use screenshots), remote file access only, SSH needed for updates.
 
-    WhatsApp/Telegram/Slack/Mattermost/Discord all work fine from a VPS - the real
+    Telegram and Discord both work fine from a VPS - the real
     trade-off is headless browser vs a visible window. See [Browser](/tools/browser).
 
     Default recommendation: VPS if you have had gateway disconnects before; local is great
@@ -304,7 +221,7 @@ first-run failures see
 
     On Windows, use **Windows Hub** for desktop setup, or WSL2 for a Linux-style Gateway VM
     with broad tooling compatibility. See [Windows](/platforms/windows), [VPS hosting](/vps).
-    Running macOS in a VM: see [macOS VM](/install/macos-vm).
+    Running macOS in a VM: see macOS VM.
 
   </Accordion>
 </AccordionGroup>

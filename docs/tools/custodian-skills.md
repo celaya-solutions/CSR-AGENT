@@ -30,12 +30,12 @@ Lint exit code `1` means findings, not a failed diagnostic command: read the rep
 
 ## First wave
 
-| Skill                | Outcome                                                                                                             |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `configure-channel`  | Configure and send a confirmed test message through a channel family such as Discord, Slack, Telegram, or WhatsApp. |
-| `add-model-provider` | Configure API-key or subscription/OAuth provider access and run one live Gateway inference.                         |
-| `diagnose-gateway`   | Perform read-only Gateway, config, SecretRef, channel-auth, log, and port triage.                                   |
-| `cloud-image-bake`   | Bake a Cloud Worker image, prove it with a timed dispatch, and safely retire the superseded snapshot.               |
+| Skill                | Outcome                                                                                               |
+| -------------------- | ----------------------------------------------------------------------------------------------------- |
+| `configure-channel`  | Configure and send a confirmed test message through a channel family such as Discord or Telegram.     |
+| `add-model-provider` | Configure API-key or subscription/OAuth provider access and run one live Gateway inference.           |
+| `diagnose-gateway`   | Perform read-only Gateway, config, SecretRef, channel-auth, log, and port triage.                     |
+| `cloud-image-bake`   | Bake a Cloud Worker image, prove it with a timed dispatch, and safely retire the superseded snapshot. |
 
 ## Roadmap catalog
 

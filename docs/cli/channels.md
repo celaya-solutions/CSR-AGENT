@@ -1,7 +1,7 @@
 ---
 summary: "CLI reference for `openclaw channels` (accounts, status, dead letters, capabilities, resolve, logs, login/logout)"
 read_when:
-  - You want to add or remove channel accounts (Discord, Google Chat, iMessage, Matrix, Signal, Slack, Telegram, WhatsApp, and more)
+  - You want to add or remove channel accounts (Discord, Telegram, and installed channel plugins)
   - You want to check channel status or tail channel logs
   - You need to inspect or resubmit a failed inbound channel event
 title: "Channels"
@@ -25,7 +25,7 @@ openclaw channels status
 openclaw channels status --probe
 openclaw channels capabilities
 openclaw channels capabilities --channel discord --target channel:123
-openclaw channels resolve --channel slack "#general" "@jane"
+openclaw channels resolve --channel discord "My Server/#general" "@someone"
 openclaw channels logs --channel all
 openclaw channels dead-letters list --channel telegram --account default
 ```
@@ -55,7 +55,7 @@ default account. A blank value is rejected instead of falling back to the defaul
 the dead-letter commands, so an unset shell variable cannot silently select an account you
 did not name.
 
-With `--json`, every channel entry includes `label` alongside its accounts, install state, and origin. Entries also include `docsPath` when verified official channel metadata provides a validated root-relative docs path. Automation can join this path with `https://docs.openclaw.ai` without trusting plugin-supplied URLs. Untracked or inconsistent installed-plugin provenance omits `docsPath`; repair verified legacy provenance with `openclaw doctor --fix` or reinstall the official package.
+With `--json`, every channel entry includes `label` alongside its accounts, install state, and origin. Entries also include `docsPath` when verified official channel metadata provides a validated root-relative docs path. Automation can join this path with its own docs base URL without trusting plugin-supplied URLs. Untracked or inconsistent installed-plugin provenance omits `docsPath`; repair verified legacy provenance with `openclaw doctor --fix` or reinstall the official package.
 
 ## Status / capabilities / resolve / logs
 
@@ -115,7 +115,7 @@ row appears until the next inbound or outbound conversation event.
 
 ```bash
 openclaw channels add --channel telegram --token <bot-token>
-openclaw channels add --channel nostr --private-key "$NOSTR_PRIVATE_KEY"
+openclaw channels add --channel discord --use-env
 openclaw channels remove --channel telegram --delete
 ```
 
@@ -151,15 +151,10 @@ Common-looking flags such as `--token`, `--url`, or `--use-env` are still channe
 
 Examples of channel-owned flags include:
 
-| Channel     | Flags                                                                                                |
-| ----------- | ---------------------------------------------------------------------------------------------------- |
-| Google Chat | `--webhook-path`, `--webhook-url`, `--audience-type`, `--audience`                                   |
-| iMessage    | `--cli-path`, `--db-path`, `--service`, `--region`                                                   |
-| Matrix      | `--homeserver`, `--user-id`, `--access-token`, `--password`, `--device-name`, `--initial-sync-limit` |
-| Nostr       | `--private-key`, `--relay-urls`                                                                      |
-| Signal      | `--signal-number`, `--signal-transport`, `--cli-path`, `--http-url`, `--http-host`, `--http-port`    |
-| Tlon        | `--ship`, `--url`, `--code`, `--group-channels`, `--dm-allowlist`, `--auto-discover-channels`        |
-| WhatsApp    | `--auth-dir`                                                                                         |
+| Channel  | Flags                                  |
+| -------- | -------------------------------------- |
+| Discord  | `--token`, `--use-env`                 |
+| Telegram | `--token`, `--token-file`, `--use-env` |
 
 If a channel plugin needs to be installed during a flag-driven add command, OpenAgent uses the channel's default install source without opening the interactive plugin install prompt.
 
@@ -199,28 +194,29 @@ If your config was already in a mixed state (named accounts present and top-leve
 Before `channels add` or `channels login` writes local credentials or configuration, OpenAgent compares the selected CLI state/config paths with the local Gateway or its installed service. A proven mismatch stops before the write. A remote Gateway or an authenticated path that cannot be verified produces a warning instead.
 
 ```bash
-openclaw channels login --channel whatsapp
-openclaw channels logout --channel whatsapp
+openclaw channels login --channel <id>
+openclaw channels logout --channel <id>
 ```
 
+- Interactive login applies to channel plugins that support it. Discord and Telegram authenticate with bot tokens; Telegram also supports `channels logout`.
 - `channels login` supports `--agent <id>`, `--account <id>`, and `--verbose`; `channels logout` supports `--agent <id>` and `--account <id>`.
 - `channels login` and `logout` can infer the channel when only one configured channel supports that action; with several, pass `--channel`.
 - `channels logout` prefers the live Gateway path when reachable, so logout stops any active listener before clearing channel auth state. If a local Gateway is not reachable, it falls back to local auth cleanup; with `gateway.mode: "remote"` the gateway error fails the command instead.
 - Logout reports whether the plugin cleared saved auth. If the plugin reports that the account is not logged out, the CLI warns that other credentials may still be active; this is not a claim that provider-side tokens were revoked.
 - Login and logout base config changes on the authored source, not runtime defaults. A logout with no credentials to clear does not rewrite config merely because runtime defaults were materialized; intentional plugin enablement or installation changes can still be saved.
 - After a successful login, the CLI asks a reachable local Gateway to start the account. If that start is skipped or another lifecycle operation owns the account, it reports the reason and a status command; saved auth is retained. In remote mode it saves auth locally and notes that the remote runtime was not restarted.
-- Run `channels login` from a terminal on the gateway host. Agent `exec` blocks this interactive login flow; channel-native agent login tools, such as `whatsapp_login`, should be used from chat when available.
+- Run `channels login` from a terminal on the gateway host. Agent `exec` blocks this interactive login flow; channel-native agent login tools should be used from chat when available.
 
 ## Per-account recovery (non-destructive)
 
 When one account needs to reconnect while keeping its pairing and credentials, call the `channels.stop` and `channels.start` Gateway RPCs. Both require `operator.admin`. Invoke them through `openclaw gateway call`:
 
 ```bash
-# Stop one WhatsApp account without clearing its pairing.
-openclaw gateway call channels.stop --params '{"channel":"whatsapp","accountId":"<accountId>"}'
+# Stop one Telegram account without clearing its credentials.
+openclaw gateway call channels.stop --params '{"channel":"telegram","accountId":"<accountId>"}'
 # Start the same account again.
-openclaw gateway call channels.start --params '{"channel":"whatsapp","accountId":"<accountId>"}'
-openclaw channels status --channel whatsapp --probe
+openclaw gateway call channels.start --params '{"channel":"telegram","accountId":"<accountId>"}'
+openclaw channels status --channel telegram --probe
 ```
 
 Use the same `accountId` in both calls. Omit it from both to select the default account.
@@ -260,18 +256,16 @@ Notes:
 - `--account` is only valid with `--channel`.
 - Each account probe and diagnostics step has its own timeout. A stalled step is reported in both text and JSON output, and the command continues with the remaining accounts.
 - `--target` accepts `channel:<id>` or a raw numeric channel id and only applies to Discord. For Discord voice channels, the permission check flags missing `ViewChannel`, `Connect`, `Speak`, `SendMessages`, and `ReadMessageHistory`.
-- Probes are provider-specific: Discord bot identity + intents plus optional channel permissions; Slack bot + user scopes; Telegram bot flags + webhook; Signal daemon version; Microsoft Teams app token + Graph roles/scopes (annotated where known). Channels without probes report `Probe: unavailable`.
+- Probes are provider-specific: Discord bot identity + intents plus optional channel permissions; Telegram bot flags + webhook. Channels without probes report `Probe: unavailable`.
 
 ## Resolve names to IDs
 
 Resolve channel/user names to IDs using the provider directory:
 
 ```bash
-openclaw channels resolve --channel slack "#general" "@jane"
 openclaw channels resolve --channel discord "My Server/#support" "@someone"
-openclaw channels resolve --channel matrix "Project Room"
-openclaw channels --agent ops resolve --channel slack "#general"
-openclaw channels resolve --agent ops --channel slack "#general"
+openclaw channels --agent ops resolve --channel discord "My Server/#general"
+openclaw channels resolve --agent ops --channel discord "My Server/#general"
 ```
 
 Notes:

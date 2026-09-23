@@ -14,7 +14,7 @@ read_when:
   </Accordion>
 
   <Accordion title="Can I load skills from a custom folder?">
-    Yes: add directories via `skills.load.extraDirs` in `~/.openclaw/openclaw.json` (lowest precedence in the order above). `clawhub` installs into `./skills` by default, which OpenAgent treats as `<workspace>/skills` on the next session. To limit visibility to certain agents, pair with `agents.defaults.skills` or `agents.entries.*.skills`.
+    Yes: add directories via `skills.load.extraDirs` in `~/.openclaw/openclaw.json` (lowest precedence in the order above). To limit visibility to certain agents, pair with `agents.defaults.skills` or `agents.entries.*.skills`.
   </Accordion>
 
   <Accordion title="How can I use different models or settings for different tasks?">
@@ -149,7 +149,7 @@ read_when:
   </Accordion>
 
   <Accordion title="How do I install skills on Linux?">
-    Use native `openclaw skills` commands or drop skills into your workspace; the macOS Skills UI is not available on Linux. Browse skills at [https://clawhub.ai](https://clawhub.ai).
+    Drop skills into your workspace, or use native `openclaw skills` commands against a registry you configured with `OPENCLAW_CLAWHUB_URL` (there is no default registry).
 
     ```bash
     openclaw skills search "calendar"
@@ -164,7 +164,7 @@ read_when:
     openclaw skills check
     ```
 
-    Native `openclaw skills install` writes into the active workspace `skills/` directory by default. Add `--global` to install into the shared managed skills directory for all local agents. Install the separate `clawhub` CLI only to publish or sync your own skills. Use `agents.defaults.skills` or `agents.entries.*.skills` to narrow which agents see shared skills.
+    Native `openclaw skills install` writes into the active workspace `skills/` directory by default. Add `--global` to install into the shared managed skills directory for all local agents. Use `agents.defaults.skills` or `agents.entries.*.skills` to narrow which agents see shared skills.
 
   </Accordion>
 
@@ -226,7 +226,7 @@ read_when:
 
     Native installs land in the active workspace `skills/` directory; use `--global` for all local agents, or configure `agents.defaults.skills` / `agents.entries.*.skills` to limit visibility. Some skills expect Homebrew-installed binaries; on Linux that means Linuxbrew.
 
-    See [Skills](/tools/skills), [Skills config](/tools/skills-config), [ClawHub](/clawhub).
+    See [Skills](/tools/skills), [Skills config](/tools/skills-config).
 
   </Accordion>
 

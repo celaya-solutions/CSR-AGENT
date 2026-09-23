@@ -125,7 +125,7 @@ See [Control UI](/web/control-ui) for how to open it.
 
 ### Channel-only logs
 
-To filter channel activity (WhatsApp/Telegram/etc), use:
+To filter channel activity (Telegram/Discord/etc), use:
 
 ```bash
 openclaw channels logs --channel whatsapp
@@ -290,11 +290,6 @@ the request trace when they do not pass an explicit trace context. Agent run and
 model-call traces become children of the active request trace, so local logs,
 diagnostic snapshots, OTEL spans, and trusted provider `traceparent` headers can
 be joined by `traceId` without logging raw request or model content.
-
-Talk lifecycle log records also flow to diagnostics-otel log export when
-OpenTelemetry log export is enabled, using the same bounded attributes as file
-logs. Configure `diagnostics.otel.logsExporter` to choose OTLP, stdout JSONL, or
-both sinks.
 
 ### Lifecycle queue waits
 
@@ -674,7 +669,9 @@ OpenAgent also redacts safety-boundary payloads shown to UI clients, support
 bundles, diagnostics observers, approval prompts, or agent tools. Custom
 `logging.redactPatterns` can add project-specific patterns on those surfaces.
 
-## Diagnostics and OpenTelemetry
+<a id="diagnostics-and-opentelemetry" />
+
+## Diagnostics
 
 Diagnostics are structured, machine-readable events for model runs and
 message-flow telemetry (webhooks, queueing, session state). They do **not**
@@ -687,20 +684,13 @@ When a session directive rejects a turn before model execution, its existing
 code and the usual channel, message, and session correlation. The rejection
 does not add the user's message, model token, or error reply to that event.
 
-Two adjacent surfaces:
+An adjacent surface:
 
-- **OpenTelemetry export** — send metrics, traces, and logs over OTLP/HTTP to
-  any OpenTelemetry-compatible collector or backend (Datadog, Grafana,
-  Honeycomb, New Relic, Tempo, etc.). Full configuration, signal catalog,
-  metric/span names, env vars, and privacy model live on a dedicated page:
-  [OpenTelemetry export](/gateway/opentelemetry).
 - **Diagnostics flags** — targeted debug-log flags that route extra logs to
   `logging.file` without raising `logging.level`. Flags are case-insensitive
   and support wildcards (`telegram.*`, `*`). Configure under `diagnostics.flags`
   or via the `OPENCLAW_DIAGNOSTICS=...` env override. Full guide:
   [Diagnostics flags](/diagnostics/flags).
-
-For OTLP export to a collector, see [OpenTelemetry export](/gateway/opentelemetry).
 
 ## Troubleshooting tips
 
@@ -711,7 +701,6 @@ For OTLP export to a collector, see [OpenTelemetry export](/gateway/opentelemetr
 
 ## Related
 
-- [OpenTelemetry export](/gateway/opentelemetry) — OTLP/HTTP export, metric/span catalog, privacy model
 - [Diagnostics flags](/diagnostics/flags) — targeted debug-log flags
 - [Gateway logging internals](/gateway/logging) — WS log styles, subsystem prefixes, and console capture
 - [Configuration reference](/gateway/config-observability#diagnostics) — full `diagnostics.*` field reference

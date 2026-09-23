@@ -22,7 +22,7 @@ bundled, official external, and source-only plugins, see
 ## Requirements
 
 - an OpenAgent checkout or installation with the `openclaw` CLI available
-- network access to the selected source (ClawHub, npm, or a git host)
+- network access to the selected source (npm, a git host, or an operator-configured registry)
 - any plugin-specific credentials, config keys, or OS tools named by that
   plugin's setup docs
 - administrator access to the Gateway that serves your channels
@@ -31,14 +31,11 @@ bundled, official external, and source-only plugins, see
 
 <Steps>
   <Step title="Find the plugin">
-    Search [ClawHub](/clawhub) for public plugin packages:
-
-    ```bash
-    openclaw plugins search "calendar"
-    ```
-
-    ClawHub is the primary discovery surface for community plugins. Ordinary
-    bare package specs install from npm unless they match a bundled or official
+    Start with the plugins bundled in this repository (`extensions/`), listed
+    in the [Plugin inventory](/plugins/plugin-inventory). `openclaw plugins
+    search` queries a plugin registry only when an operator configures one with
+    `OPENCLAW_CLAWHUB_URL`; there is no default registry. Ordinary bare
+    package specs install from npm unless they match a bundled or official
     plugin id. Raw `@openclaw/*` specs that match a
     bundled plugin resolve to that bundled copy. Use an explicit source prefix
     when you need one source specifically.
@@ -47,9 +44,6 @@ bundled, official external, and source-only plugins, see
 
   <Step title="Install the plugin">
     ```bash
-    # From ClawHub.
-    openclaw plugins install clawhub:<package>
-
     # From npm.
     openclaw plugins install npm:<package>
 
@@ -62,8 +56,8 @@ bundled, official external, and source-only plugins, see
     ```
 
     Treat plugin installs like running code. Prefer pinned versions for
-    reproducible production installs. ClawHub packages and OpenAgent's
-    bundled/official catalog are trusted sources. New arbitrary npm, git,
+    reproducible production installs. OpenAgent's bundled/official catalog and
+    an operator-configured registry are trusted sources. New arbitrary npm, git,
     local path/archive, `npm-pack:`, or marketplace sources require
     `--force` in noninteractive installs after you
     review and trust the source.
@@ -117,13 +111,13 @@ bundled, official external, and source-only plugins, see
 
 ### Choose an install source
 
-| Source      | Use when                                                                            | Example                                                        |
-| ----------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| ClawHub     | You want OpenAgent-native discovery, scans, version metadata, and install hints | `openclaw plugins install clawhub:<package>`                   |
-| npm         | You need direct npm registry or dist-tag workflows                                  | `openclaw plugins install npm:<package>`                       |
-| git         | You need a branch, tag, or commit from a repository                                 | `openclaw plugins install git:github.com/<owner>/<repo>@<ref>` |
-| local path  | You are developing or testing a plugin on the same machine                          | `openclaw plugins install --link ./my-plugin`                  |
-| marketplace | You are installing a Claude-compatible marketplace plugin                           | `openclaw plugins install <plugin> --marketplace <source>`     |
+| Source      | Use when                                                             | Example                                                        |
+| ----------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
+| registry    | An operator configured a plugin registry with `OPENCLAW_CLAWHUB_URL` | `openclaw plugins install clawhub:<package>`                   |
+| npm         | You need direct npm registry or dist-tag workflows                   | `openclaw plugins install npm:<package>`                       |
+| git         | You need a branch, tag, or commit from a repository                  | `openclaw plugins install git:github.com/<owner>/<repo>@<ref>` |
+| local path  | You are developing or testing a plugin on the same machine           | `openclaw plugins install --link ./my-plugin`                  |
+| marketplace | You are installing a Claude-compatible marketplace plugin            | `openclaw plugins install <plugin> --marketplace <source>`     |
 
 Bare package specs have special compatibility behavior: a bare name that
 matches a bundled plugin id uses that bundled source; a bare name that matches
@@ -150,7 +144,7 @@ before a plugin install or update proceeds. The policy receives metadata plus
 the staged source path and can allow, warn, or block the install. It covers both CLI
 and Gateway-backed install/update paths. CLI plugin and skill commands can
 acknowledge a warning interactively by typing the target name with the same
-copy as suspicious ClawHub releases; policy is then re-evaluated. Reviewed
+copy as suspicious registry releases; policy is then re-evaluated. Reviewed
 non-interactive direct CLI commands can use `--acknowledge-install-policy-warning`.
 That flag approves every warning for the command invocation; each warning is
 still re-evaluated before the install continues.
@@ -244,10 +238,10 @@ paths.
 
 OpenAgent recognizes two plugin formats:
 
-| Format                      | How it loads                                                                                     | Use when                                                                   |
-| --------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| Native OpenAgent plugin | `openclaw.plugin.json` plus a runtime module loaded in process                                   | You are installing or building OpenAgent-specific runtime capabilities |
-| Compatible bundle           | Agent Plugins, Codex, Claude, or Cursor plugin layout mapped into OpenAgent plugin inventory | You are reusing compatible skills, commands, hooks, or bundle metadata     |
+| Format                  | How it loads                                                                                 | Use when                                                               |
+| ----------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Native OpenAgent plugin | `openclaw.plugin.json` plus a runtime module loaded in process                               | You are installing or building OpenAgent-specific runtime capabilities |
+| Compatible bundle       | Agent Plugins, Codex, Claude, or Cursor plugin layout mapped into OpenAgent plugin inventory | You are reusing compatible skills, commands, hooks, or bundle metadata |
 
 Both formats appear in `openclaw plugins list`, `openclaw plugins inspect`,
 `openclaw plugins enable`, and `openclaw plugins disable`. See
@@ -320,7 +314,7 @@ compiled bundled code and cleanup limitations.
 | Config is invalid during install                               | Read the validation message and run `openclaw doctor --fix` if it points to stale plugin state                                             | Doctor can quarantine invalid plugin config by disabling the entry and removing the invalid payload                              |
 | Plugin path is blocked for suspicious ownership or permissions | Inspect the diagnostic before the config error                                                                                             | Fix filesystem ownership/permissions, then run `openclaw plugins registry --refresh`                                             |
 | `OPENCLAW_NIX_MODE=1` blocks lifecycle commands                | Confirm the install is managed by Nix                                                                                                      | Change plugin selection in the Nix source instead of using plugin mutator commands                                               |
-| Dependency import fails at runtime                             | Check whether the plugin was installed through npm/git/ClawHub or loaded from a local path                                                 | Run `openclaw plugins update <id>`, reinstall the source, or install local plugin dependencies yourself                          |
+| Dependency import fails at runtime                             | Check whether the plugin was installed through npm/git/a registry or loaded from a local path                                              | Run `openclaw plugins update <id>`, reinstall the source, or install local plugin dependencies yourself                          |
 
 When an enabled managed plugin fails payload verification during Gateway
 startup, OpenAgent quarantines that exact installed plugin root for the boot and
@@ -364,14 +358,14 @@ registry databases. Inspection loads into the CLI process, so compare both paths
 Doctor also checks the installed service environment when a local Gateway is
 unreachable; if that environment cannot be verified, it says so.
 
-| Reason                  | Remedy                                                                                                                                                                                                               |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `record-missing`        | Align CLI and Gateway state paths if they differ; otherwise reinstall through `openclaw plugins install` so the install is recorded.                                                                                 |
-| `provenance-missing`    | Run `openclaw doctor --fix` with the Gateway's state/config paths. Doctor repairs catalog-proven legacy ClawHub records; unverifiable records require reinstalling from the official npm package or ClawHub listing. |
-| `origin-path`           | Replace the local path/archive install with the official npm package or ClawHub listing.                                                                                                                             |
-| `install-path-mismatch` | Reinstall the intended package and remove load paths that select another copy.                                                                                                                                       |
-| `owner-ambiguous`       | Refresh the registry and resolve conflicting package ownership before reinstalling.                                                                                                                                  |
-| `provenance-invalid`    | Reinstall from the official source; conflicting or partial provenance is not automatically trusted.                                                                                                                  |
+| Reason                  | Remedy                                                                                                                                                                                                                 |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `record-missing`        | Align CLI and Gateway state paths if they differ; otherwise reinstall through `openclaw plugins install` so the install is recorded.                                                                                   |
+| `provenance-missing`    | Run `openclaw doctor --fix` with the Gateway's state/config paths. Doctor repairs catalog-proven legacy registry records; unverifiable records require reinstalling from the official npm package or registry listing. |
+| `origin-path`           | Replace the local path/archive install with the official npm package or registry listing.                                                                                                                              |
+| `install-path-mismatch` | Reinstall the intended package and remove load paths that select another copy.                                                                                                                                         |
+| `owner-ambiguous`       | Refresh the registry and resolve conflicting package ownership before reinstalling.                                                                                                                                    |
+| `provenance-invalid`    | Reinstall from the official source; conflicting or partial provenance is not automatically trusted.                                                                                                                    |
 
 `bundled` and `trusted-official` identify accepted sources. Legacy npm records
 with a consistent official package spec remain valid without extra resolution
@@ -455,11 +449,9 @@ reload behavior, and legacy cleanup, see
 - [`openclaw plugins`](/cli/plugins) - full CLI reference
 - [Plugin inventory](/plugins/plugin-inventory) - generated bundled and external plugin list
 - [Plugin reference](/plugins/reference) - generated per-plugin reference pages
-- [Community plugins](/plugins/community) - ClawHub discovery and docs PR policy
 - [Plugin dependency resolution](/plugins/dependency-resolution) - install roots, registry records, and runtime boundaries
 - [Building plugins](/plugins/building-plugins) - native plugin authoring guide
 - [Plugin SDK overview](/plugins/sdk-overview) - runtime registration, hooks, and API fields
 - [Plugin manifest](/plugins/manifest) - manifest and package metadata
 - [Context engines](/concepts/context-engine) - pluggable context assembly plugins
-- [Diffs](/tools/diffs) - read-only diff viewer and file renderer (optional plugin tool)
 - [ACP agents — setup](/tools/acp-agents-setup) - configuring a plugin-provided ACP agent

@@ -150,7 +150,7 @@ does not reveal the full token.
     1. **Persist `/home/node`**: `export OPENCLAW_HOME_VOLUME="openclaw_home"`
     2. **Bake system deps**: `export OPENCLAW_IMAGE_APT_PACKAGES="git curl jq"`
     3. **Bake Python deps**: `export OPENCLAW_IMAGE_PIP_PACKAGES="requests==2.32.5 humanize==4.14.0"`
-    4. **Bake Playwright Chromium**: `export OPENCLAW_INSTALL_BROWSER=1`, or use the official `-browser` image tag
+    4. **Bake Playwright Chromium**: `export OPENCLAW_INSTALL_BROWSER=1` before building the image
     5. **Persist browser downloads and caches**: use `OPENCLAW_HOME_VOLUME` or `OPENCLAW_EXTRA_MOUNTS`. OpenAgent auto-detects the image's Playwright-managed Chromium on Linux.
 
   </Accordion>
@@ -178,4 +178,4 @@ Each refresh also publishes a dated tag such as `2026.8.1-r20260820` (plus `-sli
 
 ## Running on a VPS?
 
-See [Hetzner (Docker VPS)](/install/hetzner) and [Docker VM Runtime](/install/docker-vm-runtime) for shared VM deployment steps including binary baking, persistence, and updates.
+See Hetzner (Docker VPS) and [Docker VM Runtime](/install/docker-vm-runtime) for shared VM deployment steps including binary baking, persistence, and updates.

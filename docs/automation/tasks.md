@@ -175,7 +175,7 @@ Agent run completion is authoritative for active task records. A successful deta
 
 When a task reaches a terminal state, OpenAgent notifies you. There are two delivery paths:
 
-**Direct delivery** - if the task has a channel target (the `requesterOrigin`), the completion message goes straight to that channel (Discord, Slack, Telegram, etc.). Group and channel task completions are instead routed through the requester session so the parent agent can write the visible reply. For subagent completions, OpenAgent also preserves bound thread/topic routing when available and can fill a missing `to` / account from the requester session's stored route (`lastChannel` / `lastTo` / `lastAccountId`) before giving up on direct delivery.
+**Direct delivery** - if the task has a channel target (the `requesterOrigin`), the completion message goes straight to that channel (Discord, Telegram, etc.). Group and channel task completions are instead routed through the requester session so the parent agent can write the visible reply. For subagent completions, OpenAgent also preserves bound thread/topic routing when available and can fill a missing `to` / account from the requester session's stored route (`lastChannel` / `lastTo` / `lastAccountId`) before giving up on direct delivery.
 
 **Session-queued delivery** - if direct delivery fails or no origin is set, the update is queued as a system event in the requester's session and surfaces on the next heartbeat.
 

@@ -37,7 +37,7 @@ for provider examples and precedence.
         params: { cacheRetention: "none" }, // overrides matching defaults.models params by key
         tts: {
           providers: {
-            elevenlabs: { speakerVoiceId: "EXAVITQu4vr4xnSDxMaL" },
+            openai: { speakerVoice: "coral" },
           },
         },
         skills: ["docs-search"], // replaces agents.defaults.skills when set

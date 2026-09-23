@@ -60,8 +60,6 @@ Runtime policy decides which harness executes a model run. It lives on providers
 
 Your configured aliases always win over defaults.
 
-Z.AI GLM-4.x models automatically enable thinking mode unless you set `--thinking off` or define `agents.defaults.models["zai/<model>"].params.thinking` yourself.
-Z.AI models enable `tool_stream` by default for tool call streaming. Set `agents.defaults.models["zai/<model>"].params.tool_stream` to `false` to disable it.
 Anthropic Claude Opus 4.8 keeps thinking off by default in OpenAgent; when adaptive thinking is explicitly enabled, Anthropic's provider-owned effort default is `high`. Claude 4.6 models default to `adaptive` when no explicit thinking level is set.
 
 ## CLI backend selection

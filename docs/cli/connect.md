@@ -48,7 +48,7 @@ npx openclaw connect https://gateway.example/j/<shortcode> --display-name "Build
 The node stays in the foreground until you stop it.
 
 To expose only selected commands, pass a comma-separated list of exact command
-IDs. For a [Session Share](/plugins/session-share) node:
+IDs. For a Session Share node:
 
 ```bash
 openclaw connect <join-url> \

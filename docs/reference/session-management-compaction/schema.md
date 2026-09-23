@@ -14,7 +14,7 @@ A `sessionKey` identifies which conversation bucket you are in (routing + isolat
 | ---------------------------- | ----------------------------------------------------------- |
 | Main/direct chat (per agent) | `agent:<agentId>:main`                                      |
 | Group                        | `agent:<agentId>:<channel>:group:<id>`                      |
-| Room/channel (Discord/Slack) | `agent:<agentId>:<channel>:channel:<id>` or `...:room:<id>` |
+| Room/channel (Discord)       | `agent:<agentId>:<channel>:channel:<id>` or `...:room:<id>` |
 | Cron                         | `cron:<job.id>`                                             |
 | Webhook                      | `hook:<uuid>` (unless overridden)                           |
 

@@ -14,7 +14,7 @@ channel converge on the agent's [main session](/concepts/main-session).
 
 ## Key terms
 
-- **Channel**: a channel plugin such as `discord`, `googlechat`, `imessage`, `irc`, `line`, `signal`, `slack`, `telegram`, or `whatsapp`. `webchat` is the internal WebChat UI channel and is not a configurable outbound channel.
+- **Channel**: a channel plugin: `discord` or `telegram`. `webchat` is the internal WebChat UI channel and is not a configurable outbound channel.
 - **AccountId**: per-channel account instance (when supported).
 - Optional channel default account: `channels.<channel>.defaultAccount` chooses
   which account is used when an outbound path does not specify `accountId`.
@@ -24,7 +24,7 @@ channel converge on the agent's [main session](/concepts/main-session).
 
 ## Outbound target prefixes
 
-Explicit outbound targets may include a provider prefix, such as `telegram:123` or `tg:123`. Core treats that prefix as a channel-selection hint only when the selected channel is `last` or otherwise unresolved, and only when the loaded plugin advertises that prefix. If the caller already selected an explicit channel, the provider prefix must match that channel; cross-channel combinations such as WhatsApp delivery to `telegram:123` fail before plugin-specific target normalization.
+Explicit outbound targets may include a provider prefix, such as `telegram:123` or `tg:123`. Core treats that prefix as a channel-selection hint only when the selected channel is `last` or otherwise unresolved, and only when the loaded plugin advertises that prefix. If the caller already selected an explicit channel, the provider prefix must match that channel; cross-channel combinations such as Discord delivery to `telegram:123` fail before plugin-specific target normalization.
 
 Target-kind and service prefixes such as `channel:<id>`, `user:<id>`, `room:<id>`, `thread:<id>`, `imessage:<handle>`, and `sms:<number>` stay inside the selected channel's grammar. They do not select the provider by themselves.
 
@@ -56,7 +56,7 @@ mention gating and replies still use the originating group or channel.
 
 Threads:
 
-- Slack/Discord threads append `:thread:<threadId>` to the base key.
+- Discord threads append `:thread:<threadId>` to the base key.
 - Telegram forum topics embed `:topic:<topicId>` in the group key.
 
 Examples:
@@ -93,22 +93,20 @@ Ordinary routing picks **one agent** for each inbound message:
 3. **Peer wildcard match** (`peer.id: "*"` for a peer kind).
 4. **Guild + roles match** (Discord) via `guildId` + `roles`.
 5. **Guild match** (Discord) via `guildId`.
-6. **Team match** (Slack) via `teamId`.
-7. **Account match** (`accountId` on the channel).
-8. **Channel match** (any account on that channel, `accountId: "*"`).
-9. **Fallback owner**: an owner supplied by the caller, otherwise the sole configured agent or a retained legacy owner. Multiple agents without an owner require a matching binding; routing does not pick the first roster entry.
+6. **Account match** (`accountId` on the channel).
+7. **Channel match** (any account on that channel, `accountId: "*"`).
+8. **Fallback owner**: an owner supplied by the caller, otherwise the sole configured agent or a retained legacy owner. Multiple agents without an owner require a matching binding; routing does not pick the first roster entry.
 
 Raw legacy default markers and the `main` fallback for raw configurations without an agent roster remain supported for compatibility.
 
-When a binding includes multiple match fields (`peer`, `guildId`, `teamId`, `roles`), **all provided fields must match** for that binding to apply.
+When a binding includes multiple match fields (`peer`, `guildId`, `roles`), **all provided fields must match** for that binding to apply.
 
 The matched agent determines which workspace and session store are used.
 
 ## Broadcast groups (run multiple agents)
 
 Agent group threads use the top-level `broadcast` config to run several agents
-for an admitted inbound message. A qualified `"<channel>:<peerId>"` key takes
-precedence over an unqualified WhatsApp peer key. Ordinary routing still
+for an admitted inbound message. Keys are qualified as `"<channel>:<peerId>"`. Ordinary routing still
 provides the conversation route; the coordinator gives each participant its
 own agent session for that channel, account, peer, and thread.
 
@@ -121,18 +119,16 @@ own agent session for that channel, account, peer, and thread.
       maxRounds: 2,
       maxTurns: 4,
     },
-    "slack:C0123": ["support", "reviewer"],
-    "120363403215116621@g.us": ["alfred", "baerbel"],
+    "discord:123456789012345678": ["support", "reviewer"],
   },
 }
 ```
 
 Qualified entries default to explicit mention selection, one round, and one
 turn per configured agent. `maxTurns` bounds participant runs started across
-all rounds, not physical platform messages. Legacy WhatsApp arrays retain
-single-pass fan-out to all listed agents.
+all rounds, not physical platform messages.
 
-Channel allowlists still apply. On Discord, Slack, and Telegram, an explicit
+Channel allowlists still apply. On Discord and Telegram, an explicit
 mention of any qualified participant can satisfy the room’s mention gate.
 Configured ACP bindings remain exclusive and bypass group-thread fan-out.
 
@@ -159,9 +155,9 @@ Example:
     },
   },
   bindings: [
-    { match: { channel: "slack", teamId: "T123" }, agentId: "support" },
+    { match: { channel: "discord", guildId: "123456789012345678" }, agentId: "support" },
     {
-      match: { channel: "slack", peer: { kind: "channel", id: "C0123TEAM" } },
+      match: { channel: "discord", peer: { kind: "channel", id: "222222222222222222" } },
       agentId: "support",
       session: { groupScope: "main" },
     },

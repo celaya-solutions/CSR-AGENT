@@ -16,7 +16,7 @@ When the agent needs the exact current time and `session_status` is available, i
 Inbound messages are wrapped with a weekday plus second-precision timestamp:
 
 ```
-[WhatsApp +1555 Mon 2026-01-05 16:26:34 PST] message text
+[Telegram Alice Mon 2026-01-05 16:26:34 PST] message text
 ```
 
 Envelope timestamps use `agents.defaults.userTimezone` when configured, otherwise the
@@ -27,19 +27,19 @@ host timezone. Absolute timestamps and elapsed-time suffixes are built in.
 **Local (default):**
 
 ```
-[WhatsApp +1555 Sun 2026-01-18 00:19:42 PST] hello
+[Telegram Alice Sun 2026-01-18 00:19:42 PST] hello
 ```
 
 **User timezone:**
 
 ```
-[WhatsApp +1555 Sun 2026-01-18 00:19:42 CST] hello
+[Telegram Alice Sun 2026-01-18 00:19:42 CST] hello
 ```
 
 **Elapsed time:**
 
 ```
-[WhatsApp +1555 +30s Sun 2026-01-18 00:20:12 CST] follow-up
+[Telegram Alice +30s Sun 2026-01-18 00:20:12 CST] follow-up
 ```
 
 ## System prompt: temporal context
@@ -97,8 +97,7 @@ Channel tools return **provider-native timestamps** and add normalized fields fo
 Raw provider fields are preserved so nothing is lost.
 
 - Discord: UTC ISO timestamps
-- Slack: epoch-like strings from the API
-- Telegram/WhatsApp: provider-specific numeric/ISO timestamps
+- Telegram: provider-specific numeric timestamps
 
 If you need local time, convert it downstream using the known timezone.
 

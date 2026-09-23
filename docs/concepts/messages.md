@@ -53,11 +53,9 @@ Rapid consecutive text messages from the same sender can be batched into one age
 - Control commands (stop/abort/status, etc.) bypass debouncing so they dispatch immediately.
 - For non-forwarded Telegram text, a near-limit fragment starts a separate batch and flushes earlier ordinary text from the same sender and conversation. This preserves order without merging the two batches.
 - Disabled by default: `messages.inbound.debounceMs` has no built-in default, so debouncing only activates once you set it (globally or per channel).
-- iMessage follows the same generic debounce policy. `imsg` 0.13.1 and newer coalesces Apple URL-preview split-sends before OpenAgent receives them, so no iMessage-specific debounce setting is needed.
 
 Changes to `messages.inbound.debounceMs` and `messages.inbound.byChannel` apply without
-reconnecting Discord, Feishu, iMessage, Mattermost, Microsoft Teams, Signal, Slack,
-Telegram, or WhatsApp. Newly admitted inbound work uses the committed delay. A config change alone does not reschedule a pending batch;
+reconnecting Discord or Telegram. Newly admitted inbound work uses the committed delay. A config change alone does not reschedule a pending batch;
 later messages can update its idle delay within the original maximum deadline.
 Explicit transport timing overrides remain fixed. Telegram's forwarded-message
 collection window remains separate.
@@ -139,7 +137,7 @@ Block streaming sends partial replies as the model produces text blocks; chunkin
 - `agents.defaults.blockStreamingChunk` (`minChars|maxChars|breakPreference`)
 - `agents.defaults.blockStreamingCoalesce` (idle-based batching)
 - `agents.defaults.humanDelay` (human-like pause between block replies)
-- Channel overrides: `*.streaming.block.enabled` and `*.streaming.block.coalesce` on bundled channels; stale flat keys are migrated by `openclaw doctor --fix`. Block streaming is off unless explicitly enabled, on every channel including Telegram. QQ Bot is the exception: it has no `streaming.block` keys and streams block replies unless `channels.qqbot.streaming.mode` is `"off"`.
+- Channel overrides: `*.streaming.block.enabled` and `*.streaming.block.coalesce` on bundled channels; stale flat keys are migrated by `openclaw doctor --fix`. Block streaming is off unless explicitly enabled, on every channel including Telegram.
 
 Details: [Streaming + chunking](/concepts/streaming).
 

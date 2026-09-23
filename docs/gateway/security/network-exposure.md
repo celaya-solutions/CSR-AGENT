@@ -54,16 +54,19 @@ Expected external ports should be only what you intentionally expose (for most s
 
 ### mDNS/Bonjour discovery
 
-When the bundled `bonjour` plugin is enabled, the Gateway broadcasts presence via mDNS (`_openclaw-gw._tcp`, port 5353) for local device discovery. Full mode includes TXT records that expose operational details: `cliPath` (filesystem path revealing username and install location), `sshPort` (advertises SSH availability), `displayName`/`lanHost` (hostname info). Broadcasting infrastructure details makes LAN reconnaissance easier.
+This build ships no LAN multicast (Bonjour) advertiser. When you configure
+wide-area DNS-SD, the Gateway publishes a `_openclaw-gw._tcp` beacon. Full mode
+adds TXT records that expose operational details: `cliPath` (filesystem path
+revealing username and install location) and `sshPort` (advertises SSH
+availability). Broadcasting infrastructure details makes reconnaissance easier.
 
-- Keep Bonjour disabled unless LAN discovery is needed - it auto-starts on macOS hosts and is opt-in elsewhere; direct Gateway URLs, Tailnet, SSH, or wide-area DNS-SD avoid local multicast.
-- **Minimal mode** (default when Bonjour is enabled, recommended for exposed gateways) omits sensitive fields:
+- **Minimal mode** (default, recommended for exposed gateways) omits sensitive fields:
 
   ```json5
   { discovery: { mdns: { mode: "minimal" } } }
   ```
 
-- **Off** suppresses local discovery while keeping the plugin enabled:
+- **Off** suppresses beacon advertising:
 
   ```json5
   { discovery: { mdns: { mode: "off" } } }
@@ -75,9 +78,7 @@ When the bundled `bonjour` plugin is enabled, the Gateway broadcasts presence vi
   { discovery: { mdns: { mode: "full" } } }
   ```
 
-- Or set `OPENCLAW_DISABLE_BONJOUR=1` to disable mDNS without config changes.
-
-In minimal mode the Gateway broadcasts `role`, `gatewayPort`, `transport` but omits `cliPath`/`sshPort`; apps that need the CLI path can fetch it over the authenticated WebSocket connection instead.
+In minimal mode the Gateway broadcasts `role`, `gatewayPort`, `transport` but omits `cliPath`/`sshPort`; clients that need the CLI path can fetch it over the authenticated WebSocket connection instead.
 
 ### Gateway WebSocket auth
 
@@ -202,14 +203,6 @@ The Control UI generates device identity with pure-JS Ed25519, so pairing works 
 
     Channel name-matching (bundled and plugin channels; also per `accounts.<accountId>` where applicable):
     - `channels.discord.dangerouslyAllowNameMatching`
-    - `channels.googlechat.dangerouslyAllowNameMatching`
-    - `channels.msteams.dangerouslyAllowNameMatching`
-    - `channels.slack.dangerouslyAllowNameMatching`
-    - `channels.irc.dangerouslyAllowNameMatching` (plugin channel)
-    - `channels.mattermost.dangerouslyAllowNameMatching` (plugin channel)
-    - `channels.synology-chat.dangerouslyAllowNameMatching` (plugin channel)
-    - `channels.synology-chat.dangerouslyAllowInheritedWebhookPath` (plugin channel)
-    - `channels.zalouser.dangerouslyAllowNameMatching` (plugin channel)
 
     Network exposure:
     - `channels.telegram.network.dangerouslyAllowPrivateNetwork` (also per account)

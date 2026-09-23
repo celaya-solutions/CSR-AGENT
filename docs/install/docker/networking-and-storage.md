@@ -1,5 +1,5 @@
 ---
-summary: "Bind modes, reaching host providers, the Claude CLI backend, Bonjour, and what persists"
+summary: "Bind modes, reaching host providers, the Claude CLI backend, and what persists"
 read_when:
   - The container cannot reach a provider running on your host
   - You are deciding what to mount and back up
@@ -8,7 +8,7 @@ title: "Docker networking, providers, and storage"
 sidebarTitle: "Networking and storage"
 ---
 
-Bind modes, host-provider URLs, the Claude CLI backend, Bonjour/mDNS, and mounted state. Part of the [Docker](/install/docker) guide.
+Bind modes, host-provider URLs, the Claude CLI backend, and mounted state. Part of the [Docker](/install/docker) guide.
 
 ## LAN vs loopback
 
@@ -25,15 +25,13 @@ Use bind mode values in `gateway.bind` (`lan` / `loopback` / `custom` / `tailnet
 
 Inside the container, `127.0.0.1` is the container itself, not the host. Use `host.docker.internal` for providers running on the host:
 
-| Provider  | Host default URL         | Docker setup URL                    |
-| --------- | ------------------------ | ----------------------------------- |
-| LM Studio | `http://127.0.0.1:1234`  | `http://host.docker.internal:1234`  |
-| Ollama    | `http://127.0.0.1:11434` | `http://host.docker.internal:11434` |
+| Provider | Host default URL         | Docker setup URL                    |
+| -------- | ------------------------ | ----------------------------------- |
+| Ollama   | `http://127.0.0.1:11434` | `http://host.docker.internal:11434` |
 
-The bundled setup uses those URLs as LM Studio/Ollama onboarding defaults, and `docker-compose.yml` maps `host.docker.internal` to the host gateway on Linux Docker Engine (Docker Desktop provides the same alias on macOS/Windows). Host services must listen on an address Docker can reach:
+The bundled setup uses that URL as the Ollama onboarding default, and `docker-compose.yml` maps `host.docker.internal` to the host gateway on Linux Docker Engine (Docker Desktop provides the same alias on macOS/Windows). Host services must listen on an address Docker can reach:
 
 ```bash
-lms server start --port 1234 --bind 0.0.0.0
 OLLAMA_HOST=0.0.0.0:11434 ollama serve
 ```
 
@@ -41,12 +39,11 @@ Using your own Compose file or `docker run`? Add the same mapping yourself, e.g.
 
 ## Claude CLI backend in Docker
 
-The official image does not pre-install Claude Code. Install and log in inside the container's `node` user, then persist that container home so image upgrades don't erase the binary or auth state.
+The image does not pre-install Claude Code. Install and log in inside the container's `node` user, then persist that container home so image upgrades don't erase the binary or auth state.
 
 For a new install, enable a persistent `/home/node` volume before running setup:
 
 ```bash
-export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
 export OPENCLAW_HOME_VOLUME="openclaw_home"
 ./scripts/docker/setup.sh
 ```
@@ -102,12 +99,6 @@ docker compose -f docker-compose.yml -f docker-compose.extra.yml run --rm \
 <Note>
 For shared production automation or predictable Anthropic billing, prefer the Anthropic API-key path. Claude CLI reuse follows Claude Code's installed version, account login, billing, and update behavior.
 </Note>
-
-## Bonjour / mDNS
-
-Docker bridge networking usually doesn't forward Bonjour/mDNS multicast (`224.0.0.251:5353`) reliably. When `OPENCLAW_DISABLE_BONJOUR` is unset, the bundled Bonjour plugin auto-disables LAN advertising once it detects it's running in a container, so it won't crash-loop retrying multicast the bridge drops. Set `OPENCLAW_DISABLE_BONJOUR=1` to force it off regardless of detection, or `0` to force it on (only on host networking, macvlan, or another network where mDNS multicast is known to work).
-
-Use the published Gateway URL, Tailscale, or wide-area DNS-SD for Docker hosts otherwise. See [Bonjour discovery](/gateway/bonjour) for gotchas and troubleshooting.
 
 ## Storage and persistence
 

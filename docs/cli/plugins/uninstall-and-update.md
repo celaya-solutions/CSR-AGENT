@@ -45,7 +45,6 @@ Discovered packages with missing, ambiguous, or conflicting ownership still fail
 openclaw plugins update <id-or-npm-spec>
 openclaw plugins update --all
 openclaw plugins update <id-or-npm-spec> --dry-run
-openclaw plugins update @openclaw/voice-call
 openclaw plugins update @acme/demo
 openclaw plugins update openclaw-codex-app-server --acknowledge-install-policy-warning
 ```

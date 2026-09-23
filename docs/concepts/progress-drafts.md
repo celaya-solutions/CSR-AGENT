@@ -419,14 +419,10 @@ remain available in the session transcript.
 
 ## Channel behavior
 
-| Channel         | Progress transport                     | Notes                                                                                                                                                     |
-| --------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Discord         | Send one message, then edit it.        | `progress` is explicit opt-in; the status draft is deleted after the final answer lands.                                                                  |
-| Matrix          | Send one event, then edit it.          | Account-level streaming config controls account-level drafts.                                                                                             |
-| Microsoft Teams | Native Teams stream in personal chats. | `streaming.mode: "block"` maps to Teams block delivery instead.                                                                                           |
-| Slack           | Native stream or editable draft post.  | Card style is the default; `progress.style: "compact"` uses a temporary text draft, deleted after the final answer is delivered.                          |
-| Telegram        | Send one message, then edit it.        | If a message lands between the progress draft and the answer, the draft reposts below it (post-new-then-delete-old) instead of scroll-jumping the client. |
-| Mattermost      | Editable draft post.                   | `block` mode rotates between completed text and tool-activity posts; other modes fold tool activity into the same draft-style post.                       |
+| Channel  | Progress transport              | Notes                                                                                                                                                     |
+| -------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Discord  | Send one message, then edit it. | `progress` is explicit opt-in; the status draft is deleted after the final answer lands.                                                                  |
+| Telegram | Send one message, then edit it. | If a message lands between the progress draft and the answer, the draft reposts below it (post-new-then-delete-old) instead of scroll-jumping the client. |
 
 Channels without safe edit support fall back to typing indicators or
 final-only delivery. See [Streaming and chunking](/concepts/streaming) for the
@@ -442,9 +438,6 @@ When the final answer is ready, OpenAgent tries to keep the chat clean:
   visible record of the failed turn.
 - If the draft can safely become the final answer (`partial`/`block` modes),
   OpenAgent edits it in place.
-- Slack's compact progress style posts the final answer as a new message and
-  deletes its temporary drafts after confirmed delivery. Failed delivery keeps
-  the draft visible.
 - If the channel uses native progress streaming, OpenAgent finalizes that
   stream when the native transport accepts the final text.
 - Otherwise (media, an approval prompt, an explicit reply target, too many
@@ -474,8 +467,7 @@ full tool log.
 
 That is the safety fallback described in [Finalization](#finalization). It can
 happen for media replies, long answers, explicit reply targets, old Telegram
-drafts, missing Slack thread targets, deleted preview messages, or failed
-native stream finalization.
+drafts, deleted preview messages, or failed native stream finalization.
 
 **I still see standalone progress messages.**
 
@@ -484,21 +476,10 @@ draft is active. If standalone messages still appear, confirm the turn is
 actually using `progress` mode and not `streaming.mode: "off"` or a channel
 path that cannot create a draft for that message.
 
-**Teams behaves differently from Discord or Telegram.**
-
-Microsoft Teams uses a native stream in personal chats instead of the generic
-send-and-edit preview transport, and maps `streaming.mode: "block"` to Teams
-block delivery because it has no draft-preview block mode like Discord and
-Telegram.
-
 ## Related
 
 - [Streaming and chunking](/concepts/streaming)
 - [Messages](/concepts/messages)
 - [Channel configuration](/gateway/config-channels)
 - [Discord](/channels/discord)
-- [Matrix](/channels/matrix)
-- [Microsoft Teams](/channels/msteams)
-- [Slack](/channels/slack)
 - [Telegram](/channels/telegram)
-- [Mattermost](/channels/mattermost)

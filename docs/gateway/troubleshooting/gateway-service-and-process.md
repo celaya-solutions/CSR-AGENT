@@ -94,7 +94,6 @@ What to do:
 
 Related:
 
-- [macOS platform notes](/platforms/macos)
 - [Logging](/logging)
 - [Doctor](/gateway/doctor)
 
@@ -190,7 +189,6 @@ What to do:
 
 Related:
 
-- [Gateway on macOS](/platforms/mac/bundled-gateway)
 - [Doctor](/gateway/doctor)
 - [Gateway CLI](/cli/gateway)
 

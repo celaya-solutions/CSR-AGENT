@@ -171,12 +171,6 @@ A report contains 1â€“24 blocks and at most 8KB of encoded JSON. Titles have 1â€
 
 Reuse the same `name` and `pin: true` with a new `report` object to replace a report's data. The `dashboard` tool can also create or update it with `action: "widget_put"`, `pluginKind: "session:report"`, and `props: report`. To convert an existing HTML widget, first remove it with `dashboard` action `widget_remove`, then create the report. A same-name update cannot change the widget's content owner.
 
-## Show on a device
-
-When a widget presenter plugin is active, `presentation.target` also offers `node_panel`. OpenAgent creates the same hosted widget document, selects a connected widget-panel-capable Mac, and opens its native panel at that document. The tool result names the selected Mac.
-
-If no eligible Mac is connected or the node command fails, the widget still appears inline in chat and the result explains how to recover. Pair a Mac running OpenAgent or open the macOS app, then retry. Widgets shown in a native panel are render-only. Widget actions are disabled there.
-
 ## Interactive widgets
 
 In the Control UI, widget scripts can drive the conversation. The wrapper document defines a global `sendPrompt(text)` function. Calling it submits `text` to the chat as if the user had typed and sent the message. Wire it to buttons or other controls to build interactive flows such as pickers, quizzes, or drill-down dashboards. Native apps render interactive widget code but do not expose this chat prompt bridge.
@@ -306,5 +300,4 @@ Canvas retains at most 32 widgets per session (or per agent when no session is a
 
 - [Control UI hosted embeds](/web/control-ui/chat#hosted-embeds)
 - [Discord Activities](/channels/discord-activities)
-- [macOS widget panel](/platforms/mac/canvas)
 - [Gateway protocol client capabilities](/gateway/protocol/handshake#client-capabilities)

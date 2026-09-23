@@ -57,7 +57,6 @@ read_when:
     ```
 
     - `openclaw gateway` only starts when `gateway.mode` is `local` (or you pass an override flag).
-    - The macOS app watches the config file and switches modes live when these values change.
     - `gateway.remote.token` / `.password` are client-side remote credentials only; they do not enable local gateway auth by themselves.
 
   </Accordion>

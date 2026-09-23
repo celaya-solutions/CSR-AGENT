@@ -1,5 +1,5 @@
 ---
-summary: "Updating OpenAgent safely (global install or source), plus rollback strategy"
+summary: "Updating an OpenAgent source checkout safely, plus rollback strategy"
 read_when:
   - Updating OpenAgent
   - Something breaks after an update
@@ -8,7 +8,7 @@ title: "Updating"
 
 Keep OpenAgent up to date.
 
-For Docker, Podman, and Kubernetes image replacements, see
+For Docker and Podman image rebuilds, see
 [Upgrading container images](/install/docker#upgrading-container-images). The
 gateway runs startup-safe upgrade work before readiness and exits if mounted
 state needs manual repair.
@@ -19,177 +19,62 @@ backup.
 
 ## Recommended: `openclaw update`
 
-Detects your install type (npm, pnpm, Bun, or git), validates the candidate while
-the old Gateway serves, then activates and verifies the update.
+OpenAgent installs from source, so an update moves your git checkout to newer
+commits and rebuilds it. `openclaw update` detects the git checkout, fetches
+from the branch's upstream remote (usually `origin`), rebuilds, validates the
+candidate while the old Gateway serves, then activates and verifies the update.
 
 ```bash
 openclaw update
+openclaw update --dry-run   # preview without applying
 ```
 
-An already-installed registry package version or Git target SHA still runs plugin maintenance, repairs eligible old OpenAgent release pins, and restarts a running managed Gateway only when plugins change and `--no-restart` is not set; unchanged runs finish as `skipped` / `already-current`.
+An already-current target still runs plugin maintenance and restarts a running
+managed Gateway only when plugins change and `--no-restart` is not set;
+unchanged runs finish as `skipped` / `already-current`.
 
 Plugin maintenance does not fail an otherwise successful core update. If a plugin
 cannot be updated, OpenAgent continues with the remaining plugins, keeps the previous
-installation where possible, and prints a short next action. A running updated
-Gateway can also report a plugin that did not load without turning the core update
-into a failure. Individual plugin outcomes remain available in `--json` output.
-Failures to install core, repair required configuration or state, or start the
-updated Gateway remain update failures.
-An explicit package artifact (for example, a tarball path or URL) is validated
-and installed even when its version matches; matching versions do not prove
-that two artifacts contain the same code.
-An explicit `--channel` choice still becomes the saved update channel.
-For targets that support candidate validation, Doctor lint, config and plugin planning, and a
-canary boot on copied state finish before the service stops. The stopped interval
-contains the swap, required migrations, plugin downloads and convergence, and
-service start. Plugin work uses the installed target without requiring a serving
-Gateway. A changed plugin snapshot runs fresh Doctor migrations before restart;
-unchanged plugins do not run another full Doctor pass. The final report records
-downtime through convergence and final verification, plus verification
-results. See
-[Validation and activation](/cli/update#validation-and-activation) for the checks.
+installation where possible, and prints a short next action. Individual plugin
+outcomes remain available in `--json` output. Failures to build or install core,
+repair required configuration or state, or start the updated Gateway remain
+update failures.
+
+Doctor lint, config and plugin planning, and a canary boot on copied state
+finish before the service stops. The stopped interval contains the swap,
+required migrations, plugin convergence, and service start. The final report
+records downtime through convergence and final verification, plus verification
+results. See [Validation and activation](/cli/update#validation-and-activation)
+for the checks.
 
 The canary uses a temporary loopback Gateway port and suppresses background
 listeners, including the MCP Apps sandbox, browser control, and channel services.
 This lets validation run while the serving Gateway keeps its configured ports.
-It preserves non-secret Gateway auth settings such as `gateway.auth.rateLimit`
-for policy checks, while using a temporary token and disabling Tailscale identity
-authentication.
 The activated Gateway retains your normal listener settings.
 
-Package updates also check npm availability for enabled configured plugins before
-stopping the serving Gateway or replacing the installed core. Registry targets
-are checked early; explicit package artifacts are checked using the privately
-staged package version before rehearsal, live-state preparation, or activation.
-The check uses the same plugin version rules as post-update synchronization,
-including release-cohort tracking, beta selection, and extended-stable targets.
-A missing plugin version or registry error produces a warning naming the
-affected plugin; the core update can continue. Registry-target `--dry-run`
-includes those warnings. For explicit artifacts, `--dry-run` does not stage the
-package and reports that plugin availability checking remains pending.
-Extended-stable does not accept `--tag`. Bundled and path-installed plugins do not
-require registry requests.
+On source installs, Doctor and plugin updates keep bundled plugins built with
+the host checkout.
 
-This metadata check does not reserve downloads. Plugin-only download, install,
-or load failures remain actionable warnings after an otherwise successful core
-update. The updater preserves recorded choices and retains the previous plugin
-payload where possible. Follow the reported `openclaw plugins update <id>` command for a
-failed install or update, or `openclaw doctor --fix` for a load problem. Invalid
-configuration or state, ownership errors, and failed core startup or readiness
-checks still prevent completion.
+`openclaw update` has no `--verbose` flag. For diagnostics use `--dry-run` to
+preview planned actions, `--json` for structured results, or
+`openclaw update status --json` to inspect state.
 
-Switch channels or target a specific version:
+### Manual source update
 
-```bash
-openclaw update --channel beta
-openclaw update --channel extended-stable
-openclaw update --channel dev
-openclaw update --dry-run   # preview without applying
-```
-
-`openclaw update` has no `--verbose` flag (the installer does). For diagnostics use
-`--dry-run` to preview planned actions, `--json` for structured results, or
-`openclaw update status --json` to inspect channel and availability state.
-
-`--channel beta` selects the newest version by semantic version order from the
-beta and latest npm dist-tags. Use `--tag beta` for a one-off package update pinned to the raw npm
-beta dist-tag instead.
-
-A saved `update.channel` remains the channel for future updates, automatic
-checks, and update status. For example, a one-off beta package on a saved stable
-channel keeps checking stable afterward. Use `--channel beta` to subscribe to
-beta updates. Plugins still follow the installed core version where required
-for compatibility.
-
-`--channel extended-stable` is package-only, and installation remains
-foreground-only. OpenAgent reads the public npm `extended-stable` selector,
-verifies the selected exact package, and installs that exact version. Missing
-or inconsistent registry data fails closed; it never falls back to `latest`.
-If the selected version is older than the installed version, the normal
-downgrade confirmation still applies. The CLI persists the channel after a
-successful core update; a direct
-`npm install -g openclaw@extended-stable --allow-scripts=openclaw` does not
-update `update.channel`, but a final extended-stable package version still
-checks only the verified `extended-stable` selector for update availability.
-That direct command is for npm 12 or npm 11.16+. On npm 11.15 and earlier,
-omit `--allow-scripts=openclaw`.
-After the core swap, eligible official npm and trusted official ClawHub plugins with bare/default or
-`latest` intent converge to that exact core version. Eligible older OpenAgent release
-pins resume that default update policy. Explicit non-`latest` tags, independently
-versioned pins, third-party plugins, custom ClawHub registries, and other sources retain
-their existing behavior.
-Version-bound runtime plugins converge to the base release cohort when the
-core is a correction release (for example, `YYYY.M.P-2` uses plugin
-`YYYY.M.P`).
-Catalog installs created by current OpenAgent versions retain that default
-intent. Verified OpenAgent-owned packages recorded at an exact OpenAgent release
-no newer than core resume their catalog's default selector after a successful
-update. This includes old automatic and manual pins. Their recorded registry
-and plugin settings are preserved, and subsequent updates continue following
-the selected channel. A version explicitly supplied to a plugin update command
-still applies to that operation.
-
-`--channel dev` gives a persistent moving GitHub `main` checkout for npm-owned
-package installs and existing Git checkouts. Package
-installs reject the `--tag main` shorthand because the workspace checkout is
-not a self-contained package artifact. Use `openclaw update --channel dev` to
-switch to the supported checkout and build flow. Other explicit package specs
-keep their package-manager behavior.
-
-On source installs, Doctor and plugin updates keep plugins built with the host.
-A registry plugin with the same version string can target a different SDK, so
-it does not replace the source build without matching SDK build evidence.
-Existing registry generations remain on disk; convergence reports the bundled
-selection and skips their refresh. `OPENCLAW_DEV_SOURCE_ROOT` is not required.
-
-Managed npm plugins on the beta channel use the same newest-of-beta/latest
-selection, including official plugins such as `@openclaw/codex`. An older beta
-tag cannot hold a plugin behind the current stable release. Startup repair
-leaves already-current packages in place so a no-op refresh does not require
-another restart.
-
-See [Release channels](/install/development-channels) for channel semantics.
-
-### Updating from 2026.9.2 across a schema bump
-
-Updates driven by OpenAgent 2026.9.2 can cross a shared-state schema bump normally.
-The target applies the migration content while retaining the old published
-schema version, so the old updater can finish its ledger writes and final
-report. Doctor explains that schema content is applied and version publication
-is deferred. The new Gateway runs on the migrated content during this interval.
-
-Publication waits until every affected update run has been terminal for at least
-five minutes. A running row that has not changed for more than 30 minutes counts
-as abandoned for publication purposes only; this does not terminalize an
-identityless update-history row. The Gateway watcher publishes after the deadline;
-a later database open can also publish it. See the precise timing and residual
-old-CLI limitation in [Database schemas](/reference/database-schemas#schema-bumps-and-older-updaters).
-
-If an agent database also needs migration, required state metadata is missing,
-or the state-content migration fails, Doctor instead reports
-`update-schema-bump-unfenced` with database versions and manual update commands.
-Let the failed update finish restoring the previous package. OpenAgent 2026.9.2
-leaves the Gateway service stopped after failed post-install verification. Run
-the manual update from a shell outside the Gateway, replacing `<target>` with
-the exact target version from the refusal:
+To update the checkout by hand, stop the Gateway from a shell outside it, then
+pull, rebuild, and run Doctor:
 
 ```bash
 openclaw gateway stop
-npm install -g openclaw@<target> --allow-scripts=openclaw
+git pull
+pnpm install
+pnpm build
+pnpm ui:build
 openclaw doctor --fix
 openclaw gateway start
 ```
 
-Run each command only after the previous one succeeds. On npm 11.15 and earlier,
-omit `--allow-scripts=openclaw`. For a pnpm-owned install, replace the install
-command with `pnpm add -g --allow-build=openclaw openclaw@<target>`; for Bun, use
-`bun add -g --trust openclaw@<target>`.
-
-Same-schema updates, earlier ledger-less updaters such as 2026.9.1, and fenced
-transactional updaters from 2026.9.3 onward keep their existing behavior. The
-fallback does not undo an earlier migration; if the database is already newer
-than the restored package, install a compatible target and finish Doctor before
-starting the Gateway.
+Run each command only after the previous one succeeds.
 
 ### From chat
 
@@ -260,8 +145,8 @@ existing allowed users are not automatically promoted.
 External-chat updates through `/update` or the tool require `commands.restart`
 (enabled by default), including managed installations. The slash command also
 follows command-access restrictions; tool calls follow tool policy. Chat updates use the hosting installation's
-configured update channel and install method.
-Agents must never run `npm install -g openclaw` or stop the Gateway service
+checkout.
+Agents must never run a manual update or stop the Gateway service
 from a chat shell; use `/update` or the update action so restart and notification
 stay coordinated.
 
@@ -296,13 +181,6 @@ run, phase, driver PID, host, start and last-activity ages, and observed livenes
 Wait for that update to finish, or stop the named driver on its host and rerun
 repair after it exits. See [Update repair](/cli/update/repair-and-recovery#update-repair)
 for maintenance and recovery behavior.
-
-OpenAgent 2026.9.2 does not reject a new CLI update because an older running row
-exists: its [admission path](https://github.com/openclaw/openclaw/blob/v2026.9.2/src/cli/update-cli/update-command-run.ts#L77)
-creates a new run, and its [ledger](https://github.com/openclaw/openclaw/blob/v2026.9.2/src/infra/update-run-ledger.ts#L250)
-checks only for a duplicate run ID. Upgrade normally, then use the updated
-`openclaw update repair` if the old history remains. A package-manager escape
-is not required for this ledger defect. See [Update run history](/cli/update#run-history-and-reports).
 
 ## Retire update recovery data
 
@@ -345,11 +223,7 @@ Use these steps after a manual installation or when checking a reported problem.
 openclaw doctor
 ```
 
-Migrates config, audits DM policies, and checks gateway health. Doctor also compares active official plugins with the OpenAgent package the managed service will load after restart. Resolve any plugin restart-readiness warning before continuing. Details: [Doctor](/gateway/doctor)
-
-If you use the unpacked Chrome extension, also run `openclaw browser doctor --browser-profile chrome`.
-For a version-mismatch warning, reload the extension from `chrome://extensions`;
-fully restart Chrome if the warning remains.
+Migrates config, audits DM policies, and checks gateway health. Doctor also compares active plugins with the OpenAgent build the managed service will load after restart. Resolve any plugin restart-readiness warning before continuing. Details: [Doctor](/gateway/doctor)
 
 ### Restart the gateway
 
@@ -366,7 +240,6 @@ openclaw health
 </Steps>
 
 <a id="rollback" />
-<a id="roll-back-a-package-install" />
 <a id="roll-back-a-source-checkout" />
 <a id="downgrading-across-the-session-sqlite-migration" />
 <a id="restore-state-only-when-necessary" />
@@ -376,7 +249,7 @@ openclaw health
 
 <CardGroup cols={3}>
   <Card title="Other update methods" href="/install/updating/update-methods" icon="shuffle">
-    Switching between npm and git installs, source servers, the installer, and manual package managers.
+    Source-checkout servers and their reference update script.
   </Card>
   <Card title="Automatic updates" href="/install/updating/automatic-updates" icon="clock">
     The auto-updater, per-channel behavior, and update campaigns.
@@ -386,15 +259,7 @@ openclaw health
   </Card>
 </CardGroup>
 
-- <a id="switch-between-npm-and-git-installs" />[Switch between npm and git installs](/install/updating/update-methods#switch-between-npm-and-git-installs)
 - <a id="source-checkout-servers-(reference-script)" /><a id="source-checkout-servers-reference-script" />[Source-checkout servers (reference script)](/install/updating/update-methods#source-checkout-servers-reference-script)
-- <a id="alternative%3A-re-run-the-installer" /><a id="alternative-re-run-the-installer" />[Alternative: re-run the installer](/install/updating/update-methods#alternative-re-run-the-installer)
-- <a id="alternative%3A-manual-npm%2C-pnpm%2C-or-bun" /><a id="alternative-manual-npm-pnpm-or-bun" />[Alternative: manual npm, pnpm, or bun](/install/updating/update-methods#alternative-manual-npm-pnpm-or-bun)
-  - <a id="package-lifecycle-and-operator-state" />[Package lifecycle and operator state](/install/updating/update-methods#package-lifecycle-and-operator-state)
-  - <a id="advanced-npm-install-topics" />[Advanced npm install topics](/install/updating/update-methods#advanced-npm-install-topics)
-    - <a id="read-only-package-tree" />[Read-only package tree](/install/updating/update-methods#read-only-package-tree)
-    - <a id="hardened-systemd-units" />[Hardened systemd units](/install/updating/update-methods#hardened-systemd-units)
-    - <a id="disk-space-preflight" />[Disk-space preflight](/install/updating/update-methods#disk-space-preflight)
 - <a id="auto-updater" />[Auto-updater](/install/updating/automatic-updates#auto-updater)
   - <a id="update-campaigns" />[Update campaigns](/install/updating/automatic-updates#update-campaigns)
 - <a id="downgrade" />[Downgrade](/install/updating/rollback-and-recovery#downgrade)

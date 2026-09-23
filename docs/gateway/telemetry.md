@@ -1,5 +1,5 @@
 ---
-summary: "Daily update requests, approximate location, optional anonymous feature statistics, and privacy controls"
+summary: "Operator-configured update checks, optional anonymous feature statistics, and privacy controls"
 title: "Usage telemetry and update checks"
 read_when:
   - Checking what OpenAgent sends and what the receiver stores
@@ -8,10 +8,12 @@ read_when:
   - Disabling all automatic update-check requests
 ---
 
-**Automatic update checks send a daily request by default.** It asks whether a
-newer version exists and includes the OpenAgent version, operating system, Node.js
+**OpenAgent ships with no telemetry or update-check endpoint.** Nothing is sent
+until an operator sets `OPENCLAW_TELEMETRY_ENDPOINT` to a server they run. With
+an endpoint configured, the Gateway sends a daily request asking whether a newer
+version exists. It includes the OpenAgent version, operating system, Node.js
 version, CPU architecture, and request surface.
-Anonymous feature statistics are opt-in.
+Anonymous feature statistics are opt-in on top of that.
 This page describes update-check telemetry, not requests made by configured
 providers, channels, or other services.
 
@@ -20,10 +22,8 @@ inventory, and a retained session-creation count. They are **off by default**.
 When you enable them, they ride along with that same daily update check instead
 of adding a second request.
 
-These reports help inform maintenance priorities. They do not measure individual
-plugin invocations, messages, model requests, or active users. Anonymous usage aggregates
-are available at
-[telemetry.openclaw.ai](https://telemetry.openclaw.ai).
+These reports do not measure individual plugin invocations, messages, model
+requests, or active users.
 
 Declining is a completely normal choice and changes nothing about how OpenAgent
 works for you.
@@ -40,7 +40,7 @@ Add `--json` to get the same state and payload as one machine-readable
 document.
 
 The output shows whether anonymous feature statistics are enabled, why they are
-enabled or disabled, the request endpoint, and the last successful check. When
+enabled or disabled (`no-endpoint` when no endpoint is configured), the request endpoint, and the last successful check. When
 anonymous feature statistics are enabled, it prints a JSON payload preview built
 in the CLI process. It does not retrieve a payload from the running Gateway.
 When only anonymous feature statistics are disabled, it shows the update-only request
@@ -52,10 +52,10 @@ location information.
 
 ## Daily update check
 
-The default request is:
+With `OPENCLAW_TELEMETRY_ENDPOINT` set, the request is:
 
 ```http
-GET https://telemetry.openclaw.ai/api/latest-version
+GET <OPENCLAW_TELEMETRY_ENDPOINT>
 User-Agent: openclaw/2026.8.2 (darwin; node/26.0.1; arm64; gateway)
 ```
 
@@ -64,7 +64,7 @@ version, CPU architecture, and whether the request came from the Gateway or
 CLI. It has no request body, install identifier, machine identifier, or random
 tracking identifier.
 
-The service responds with the latest version and, optionally, a short
+The endpoint responds with the latest version and, optionally, a short
 operator-facing note. OpenAgent displays an available update and its note through
 the existing update notice. Unreachable services, timeouts, oversized or invalid responses,
 and other failed checks do not interrupt startup or normal operation.
@@ -74,34 +74,14 @@ database. Startup reuses the cached result for the next 24 hours, and a running
 Gateway checks again during normal maintenance with a small random delay. Failed
 checks do not count as successful daily checks.
 
-For testing or self-hosting, set `OPENCLAW_TELEMETRY_ENDPOINT` to your complete
-replacement endpoint URL. The public server source is available at
-[openclaw/telemetry](https://github.com/openclaw/telemetry).
-
-<a id="cloudflare-derived-request-geography" />
-
-## Approximate location
-
-Cloudflare provides approximate location: country, region code, city, and timezone.
-We store no raw IP addresses or precise coordinates in analytics.
-
-Recorded update checks include these fields even when anonymous feature statistics
-are off or `DO_NOT_TRACK` is set. Missing or invalid fields stay empty.
-No additional client payload or prompt is needed.
-
-Analytics Engine retains records for **three months**. Public aggregates exclude
-location information. Disabling requests does not erase existing records.
-
-This section describes the hosted service at
-[telemetry.openclaw.ai](https://telemetry.openclaw.ai). A replacement endpoint
-configured with `OPENCLAW_TELEMETRY_ENDPOINT` can use different infrastructure
-and processing or storage policies.
+Set `OPENCLAW_TELEMETRY_ENDPOINT` to the complete endpoint URL of a service you
+operate. Leave it unset to send nothing.
 
 <a id="optional-feature-statistics" />
 
 ## Optional anonymous feature statistics
 
-Anonymous feature statistics are **off by default**. Interactive setup can offer a one-time
+Anonymous feature statistics are **off by default**. When an endpoint is configured, interactive setup can offer a one-time
 opt-in with **No thanks** selected by default; guided Quick Start skips that
 prompt. OpenAgent records a prompt response so setup does not ask again.
 Non-interactive and scripted installations do not opt in automatically, but
@@ -122,7 +102,7 @@ When you explicitly enable anonymous feature statistics, the same daily request 
   "features": {
     "channels": ["discord", "telegram"],
     "providerFamilies": ["anthropic", "openai"],
-    "plugins": ["codex", "diagnostics-otel"],
+    "plugins": ["browser", "codex"],
     "pluginsEnabled": 9,
     "sessionsLast24h": 14
   }
@@ -132,7 +112,7 @@ When you explicitly enable anonymous feature statistics, the same daily request 
 | Field                       | Meaning                                                                                           |
 | --------------------------- | ------------------------------------------------------------------------------------------------- |
 | `schema`                    | Payload format version, currently `1`.                                                            |
-| `version`                   | Installed OpenAgent version.                                                                  |
+| `version`                   | Installed OpenAgent version.                                                                      |
 | `platform`                  | Operating system and CPU architecture.                                                            |
 | `node`                      | Running Node.js version.                                                                          |
 | `surface`                   | Request surface: `gateway` or `cli`; the CLI preview uses `gateway`.                              |
@@ -162,8 +142,7 @@ plugin registry, configuration, and collection time can differ. The CLI preview
 is not a guarantee of the exact next Gateway payload.
 
 Reports contain no user, account, install, or device identifier. Repeated reports
-are not unique installations or users. The service does not maintain a per-install
-history or retention measure.
+are not unique installations or users.
 
 <a id="what-is-never-collected" />
 
@@ -175,15 +154,8 @@ file paths, hostnames, account identifiers, user identifiers, or installation
 and machine identifiers. OpenAgent does not create a random UUID or other
 persistent client identifier for these requests.
 
-The hosted service's Analytics Engine rows exclude those direct identifiers and raw
-client IP addresses, coordinates, postal codes, and physical-device hardware
-details. Cloudflare processes connection IP addresses, and the Worker uses them
-transiently for rate limiting without storing them in Analytics Engine. Worker
-logs are disabled; Cloudflare's separate infrastructure processing is outside
-those settings.
-
-Anonymous feature statistics are separate from optional, operator-configured
-[OpenTelemetry export](/gateway/opentelemetry).
+What the receiving service stores, including connection IP addresses, depends
+on the service you configure.
 
 <a id="turn-feature-statistics-on-or-off" />
 
@@ -213,20 +185,15 @@ body containing anonymous feature statistics.
 
 ## Automated environments
 
-OpenAgent sends nothing when it detects an automated environment, meaning the
-`CI` environment variable is set to a truthy value. Continuous integration jobs
-are not installations: they would outnumber real operators by orders of
-magnitude and make version and platform counts meaningless, and your pipeline
-should not report to us on every job.
-
-This applies to both tiers, so a CI job sends no update check and no anonymous
-feature statistics. Setting `OPENCLAW_TELEMETRY_ENDPOINT` overrides the suppression,
-because a configured endpoint means the run is deliberately exercising this
-path.
+Continuous integration runs are not special-cased. Because only an
+operator-configured endpoint is ever contacted, a pipeline that sets
+`OPENCLAW_TELEMETRY_ENDPOINT` is deliberately reporting, and a pipeline that
+leaves it unset sends nothing.
 
 ## Disable every automatic update request
 
-To go fully dark, disable the existing startup update check:
+Leaving `OPENCLAW_TELEMETRY_ENDPOINT` unset already sends nothing. To stop
+requests even when an endpoint is configured, disable the startup update check:
 
 ```json5
 {

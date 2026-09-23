@@ -436,7 +436,7 @@ no route-specific URL parameters.
 | Dashboard           | `/dashboard`                                   | -                         | Key-backed session forms above; `?draft=<text>`                                   |
 | Beam transcript     | `/beam/<title>-<beam-id>`                      | `/beam/<beam-id>`         | Optional title slug and 12-32 lowercase hexadecimal id characters                 |
 | Dashboards          | `/dashboards`                                  | -                         | -                                                                                 |
-| Ask OpenAgent   | `/custodian`                                   | -                         | `?intent=new-agent`, `?onboarding=1`                                              |
+| Ask OpenAgent       | `/custodian`                                   | -                         | `?intent=new-agent`, `?onboarding=1`                                              |
 | New session         | `/new`                                         | -                         | `?agent=<agentId>`, `?catalog=<catalogId>`                                        |
 | Activity            | `/activity`                                    | -                         | `?view=run&run=<run-id>`, `?view=run&execution=<execution-id>`                    |
 | Person activity     | `/activity/<name>-<profile-id>`                | -                         | Optional name slug and 8-32 lowercase hexadecimal id characters                   |
@@ -464,7 +464,6 @@ no route-specific URL parameters.
 | Model setup         | `/settings/model-setup`                        | `/model-setup`            | `?firstRun=1`                                                                     |
 | Model providers     | `/settings/model-providers`                    | `/model-providers`        | Shared settings parameters below                                                  |
 | Import memory       | `/memory-import`                               | `/settings/memory-import` | -                                                                                 |
-| Workboard           | `/workboard`                                   | -                         | `/workboard/<boardId>`                                                            |
 | Worktrees           | `/worktrees`                                   | `/settings/worktrees`     | -                                                                                 |
 | Sessions            | `/sessions`                                    | `/settings/sessions`      | `?session=<sessionKey>`, `?status=archived\|all`                                  |
 | Usage               | `/usage`                                       | -                         | -                                                                                 |
@@ -561,6 +560,5 @@ or password explicitly, and use `wss://` behind TLS.
 ## Related
 
 - [Control UI](/web/control-ui)
-- [Beam plugin](/plugins/beam)
 - [Dashboard](/web/dashboard)
 - [Session dashboards](/web/dashboards)

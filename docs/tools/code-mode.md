@@ -187,4 +187,3 @@ resolves. Each entry points at the page that now holds the content.
 - [Tool Search](/tools/tool-search)
 - [Agent runtimes](/concepts/agent-runtimes)
 - [Exec tool](/tools/exec)
-- [Code execution](/tools/code-execution)

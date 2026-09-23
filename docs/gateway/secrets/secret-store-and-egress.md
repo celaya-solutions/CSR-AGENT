@@ -44,7 +44,7 @@ The agent can also ask you to add an entry with the [`secrets` tool](/tools/secr
 Credential prompts are bound to the exact requesting authority and cancel when it closes. A committed answer is terminal even if the subsequent runtime refresh fails. The saved value remains; resolve the provider error and retry `openclaw secrets reload`, not the answer. Use the tool's returned full SecretRef, including its provider alias.
 
 <Warning>
-Store values are not encrypted at rest. They are stored unencrypted in the shared state SQLite database (`state/openclaw.sqlite`), protected by the same `0600` file and `0700` directory permissions as other credentials in that database. Operators who need stronger storage isolation should use an external exec provider such as the [1Password plugin](/plugins/onepassword) or [Vault SecretRefs](/plugins/vault).
+Store values are not encrypted at rest. They are stored unencrypted in the shared state SQLite database (`state/openclaw.sqlite`), protected by the same `0600` file and `0700` directory permissions as other credentials in that database. Operators who need stronger storage isolation should use an external exec provider such as Vault or another secret manager through SecretRefs.
 </Warning>
 
 ## Secret egress proxy

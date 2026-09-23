@@ -29,7 +29,7 @@ Open the page that matches your task.
 | [Secrets runtime model](/gateway/secrets/runtime-model)                          | Owner isolation, sentinel injection, the agent-access boundary, and active-surface filtering.                |
 | [SecretRef contract and provider config](/gateway/secrets/secretref-contract)    | The SecretRef contract, id grammars, validation rules, and the env, file, exec, and store provider blocks.   |
 | [Shared secret store and egress proxy](/gateway/secrets/secret-store-and-egress) | The shared secret store, the secret egress proxy and its traffic allowlist, and file-backed API keys.        |
-| [Secrets integration examples](/gateway/secrets/integration-examples)            | Exec provider recipes for 1Password, Bitwarden, Vault, pass, and sops, plus MCP and sandbox SSH.             |
+| [Secrets integration examples](/gateway/secrets/integration-examples)            | Exec provider recipes for Bitwarden, Vault, pass, and sops, plus MCP and sandbox SSH.                        |
 | [Secrets operations and behavior](/gateway/secrets/operations)                   | Supported surfaces, precedence, activation triggers, degraded signals, and the audit and configure workflow. |
 
 ## Where each section moved
@@ -73,7 +73,6 @@ page that now holds the content.
 - <a id="file-provider" />[File provider](/gateway/secrets/secretref-contract#file-provider)
 - <a id="exec-provider" />[Exec provider](/gateway/secrets/secretref-contract#exec-provider)
 - <a id="store-provider" />[Store provider](/gateway/secrets/secretref-contract#store-provider)
-- <a id="1password" />[1Password](/gateway/secrets/integration-examples#1password)
 - <a id="bitwarden-secrets-manager-openclawverbatim568end" />[Bitwarden Secrets Manager (`bws`)](/gateway/secrets/integration-examples#bitwarden-secrets-manager-openclawverbatim229end)
 - <a id="hashicorp-vault-cli" />[HashiCorp Vault CLI](/gateway/secrets/integration-examples#hashicorp-vault-cli)
 - <a id="password-store-openclawverbatim579end" />[password-store (`pass`)](/gateway/secrets/integration-examples#password-store-openclawverbatim240end)
@@ -91,7 +90,6 @@ page that now holds the content.
 
 - [Authentication](/gateway/authentication) - auth setup
 - [CLI: secrets](/cli/secrets) - CLI commands
-- [Vault SecretRefs](/plugins/vault) - HashiCorp Vault provider setup
 - [Environment Variables](/help/environment) - environment precedence
 - [SecretRef Credential Surface](/reference/secretref-credential-surface) - credential surface
 - [Secrets Apply Plan Contract](/gateway/secrets-plan-contract) - plan contract details

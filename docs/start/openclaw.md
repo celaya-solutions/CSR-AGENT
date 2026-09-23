@@ -6,40 +6,28 @@ read_when:
 title: "Personal assistant setup"
 ---
 
-OpenAgent is a self-hosted gateway that connects Discord, Google Chat, iMessage, Matrix, Microsoft Teams, Signal, Slack, Telegram, WhatsApp, Zalo, and more to AI agents. This guide covers the "personal assistant" setup: a dedicated WhatsApp number that behaves like your always-on AI assistant. Setting up a shared gateway for several people instead? See [Team setup](/start/teams).
+OpenAgent is a self-hosted gateway that connects Discord and Telegram to AI agents. This guide covers the "personal assistant" setup: a dedicated Telegram bot that behaves like your always-on AI assistant. Setting up a shared gateway for several people instead? See [Team setup](/start/teams).
 
 ## Good defaults first
 
 A connected agent is a capable one: depending on your tool policy it can run commands, work with files in its workspace, and message people on your behalf. The defaults keep that power scoped to you; a few settings are worth confirming up front:
 
-- Always set `channels.whatsapp.allowFrom` (never run open-to-the-world on your personal Mac).
-- Use a dedicated WhatsApp number for the assistant.
+- Always set `channels.telegram.allowFrom` to your own Telegram user ID (never run open-to-the-world on your personal machine).
+- Use a dedicated bot for the assistant, created with @BotFather.
 - Heartbeats default to every 30 minutes. Set `agents.defaults.heartbeat.every: "0m"` to disable recurring polling while you evaluate the setup. Targeted event-driven follow-ups can still run, so keep tool policy and sandboxing conservative until you trust the setup.
 
 ## Prerequisites
 
 - OpenAgent installed and onboarded - see [Getting Started](/start/getting-started) if you haven't done this yet
-- The WhatsApp plugin installed, or WhatsApp chosen during onboarding. WhatsApp is an official plugin that installs on demand. See [WhatsApp](/channels/whatsapp)
-- A second phone number (SIM/eSIM/prepaid) for the assistant
-
-## The two-phone setup (recommended)
-
-You want this:
-
-```mermaid
-flowchart TB
-    A["<b>Your Phone (personal)<br></b><br>Your WhatsApp<br>+1-555-YOU"] -- message --> B["<b>Second Phone (assistant)<br></b><br>Assistant WA<br>+1-555-ASSIST"]
-    B -- linked via QR --> C["<b>Your Mac (openclaw)<br></b><br>AI agent"]
-```
-
-If you link your personal WhatsApp to OpenAgent, every message to you becomes "agent input". That's rarely what you want.
+- A Telegram bot token from @BotFather. See [Telegram](/channels/telegram)
+- Your numeric Telegram user ID
 
 ## 5-minute quick start
 
-1. Pair WhatsApp Web (shows QR; scan with the assistant phone):
+1. Add the bot:
 
 ```bash
-openclaw channels login
+openclaw channels add --channel telegram --token "<bot-token>"
 ```
 
 2. Start the Gateway (leave it running):
@@ -53,11 +41,11 @@ openclaw gateway --port 18789
 ```json5
 {
   gateway: { mode: "local" },
-  channels: { whatsapp: { allowFrom: ["+15555550123"] } },
+  channels: { telegram: { allowFrom: ["123456789"] } },
 }
 ```
 
-Now message the assistant number from your allowlisted phone.
+Now message the bot from your allowlisted Telegram account.
 
 When onboarding finishes, OpenAgent auto-opens the dashboard and prints a clean (non-tokenized) link. If the dashboard prompts for auth, paste the configured shared secret into Control UI settings. Onboarding uses a token by default (`gateway.auth.token`), but password auth works too if you switched `gateway.auth.mode` to `password`. To reopen later: `openclaw dashboard`.
 
@@ -137,8 +125,8 @@ Example:
     },
   },
   channels: {
-    whatsapp: {
-      allowFrom: ["+15555550123"],
+    telegram: {
+      allowFrom: ["123456789"],
       groups: {
         "*": { requireMention: true },
       },
@@ -231,7 +219,7 @@ Keep sensitive files outside the agent-readable filesystem, or keep `tools.fs.wo
 ```bash
 openclaw status          # local status (creds, sessions, queued events)
 openclaw status --all    # full diagnosis (read-only, pasteable)
-openclaw status --deep   # probe channels (WhatsApp Web + Telegram + Discord + Slack + Signal)
+openclaw status --deep   # probe channels (Telegram + Discord)
 openclaw health --json   # gateway health snapshot over the WS connection
 ```
 
@@ -243,11 +231,8 @@ profile and `openclaw-<profile>-YYYY-MM-DD.log` for named profiles.
 - WebChat: [WebChat](/web/webchat)
 - Gateway ops: [Gateway runbook](/gateway)
 - Cron + wakeups: [Cron jobs](/automation/cron-jobs)
-- macOS menu bar companion: [OpenAgent macOS app](/platforms/macos)
-- iOS node app: [iOS app](/platforms/ios)
-- Android node app: [Android app](/platforms/android)
-- Windows Hub: [Windows](/platforms/windows)
-- Linux status: [Linux app](/platforms/linux)
+- Windows: [Windows](/platforms/windows)
+- Linux: [Linux](/platforms/linux)
 - Security: [Security](/gateway/security)
 
 ## Related
