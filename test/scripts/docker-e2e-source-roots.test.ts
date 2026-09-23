@@ -40,7 +40,6 @@ describe("Docker E2E source and harness inputs", () => {
       reuse: true,
     },
     { script: "compose-setup.sh", reuse: true },
-    { script: "cli-installer-distribution-docker.sh", reuse: true },
   ])(
     "keeps candidate product inputs for $script",
     async ({ script, dockerfiles, harnessDockerfile, reuse }) => {
@@ -125,15 +124,6 @@ if (${JSON.stringify(command)} === 'git') {
           expect(calls.find((call) => call.args[0] === "compose")?.args).toContain(
             path.join(target, "docker-compose.yml"),
           );
-        } else {
-          const gitCalls = calls.filter((call) => call.command === "git");
-          expect(gitCalls.map((call) => call.args.slice(0, 2))).toEqual([
-            ["-C", target],
-            ["-C", target],
-          ]);
-          expect(
-            calls.find((call) => call.args[0] === "run" && call.args.includes("-d"))?.args,
-          ).toContain(`${target}/scripts/install.sh:/tmp/install.sh:ro`);
         }
       } finally {
         await new Promise<void>((resolve, reject) =>

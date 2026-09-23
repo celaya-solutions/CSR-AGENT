@@ -1,18 +1,10 @@
 import { execFileSync, spawn, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { once } from "node:events";
-import {
-  copyFileSync,
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  symlinkSync,
-  writeFileSync,
-} from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createServer } from "node:http";
-import { delimiter, dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { parse } from "yaml";
 import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
 
 const SOURCE_SHA = "a".repeat(40);
@@ -20,27 +12,6 @@ const VERSION = "2026.8.1-beta.1";
 const BASELINE_VERSION = "2026.7.1";
 const SCRIPT = "scripts/e2e/lib/prepublish-plugin-registry.sh";
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
-
-function resolveWorkflowBash(): string {
-  // Ubuntu uses Bash 5; Apple's Bash 3 does not honor errexit for failed [[ ]] guards.
-  for (const dir of (process.env.PATH ?? "").split(delimiter).filter(Boolean)) {
-    const candidate = resolve(dir, "bash");
-    if (!existsSync(candidate)) {
-      continue;
-    }
-    const result = spawnSync(
-      candidate,
-      ["--noprofile", "--norc", "-c", 'test "${BASH_VERSINFO[0]}" -ge 5'],
-      { stdio: "ignore", timeout: 1_000 },
-    );
-    if (result.status === 0) {
-      return candidate;
-    }
-  }
-  throw new Error(
-    "Native npm 12 workflow tests require Bash 5+. Install Bash 5+ and put it on PATH.",
-  );
-}
 
 function sha256(path: string): string {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
@@ -305,119 +276,6 @@ docker_e2e_prepare_package_context "$ROOT_TARBALL"
     expect(readFileSync(join(context, "openclaw-current.tgz"))).toEqual(
       readFileSync(join(fixture.artifactDir, "openclaw.tgz")),
     );
-  });
-
-  it.each([
-    { name: "prepared dependencies", registry: true, fault: "" },
-    { name: "public registry without a tuple", registry: false, fault: "" },
-    { name: "mismatched registry source", registry: true, fault: "source" },
-    { name: "mismatched registry digest", registry: true, fault: "manifest" },
-    { name: "mismatched root package digest", registry: true, fault: "package" },
-  ])("runs the native npm 12 workflow with $name", async ({ registry, fault }) => {
-    const bash = resolveWorkflowBash();
-    const root = tempDirs.make("openclaw-npm12-workflow-registry-");
-    const fixture = registryFixture(root, ["@openclaw/ai"]);
-    const packageDir = join(root, ".artifacts/docker-e2e-package");
-    const bin = join(root, "bin");
-    mkdirSync(packageDir, { recursive: true });
-    mkdirSync(bin);
-    symlinkSync(bash, join(bin, "bash"));
-    const packageTgz = createTarball(root, packageDir, "openclaw", "openclaw-current.tgz");
-    const installed = join(root, "installed");
-    for (const file of [
-      SCRIPT,
-      "scripts/prepublish-plugin-registry-artifact.mjs",
-      "scripts/e2e/lib/plugins/npm-registry-server.mjs",
-      "scripts/lib/bounded-response.mjs",
-      "scripts/docker/install-sh-common/version-parse.sh",
-    ]) {
-      mkdirSync(dirname(join(root, file)), { recursive: true });
-      copyFileSync(file, join(root, file));
-    }
-    // Bootstrap is outside this wiring test; the registry and child lifetime are real.
-    writeFileSync(
-      join(bin, "npm"),
-      '#!/bin/sh\nif [ "$1" = --version ]; then printf "12.0.2\\n"; fi\n',
-      { mode: 0o755 },
-    );
-    writeFileSync(
-      join(root, "scripts/install.sh"),
-      `#!/usr/bin/env bash
-set -euo pipefail
-node --input-type=module <<'NODE'
-import fs from "node:fs";
-import path from "node:path";
-const registry = process.env.NPM_CONFIG_REGISTRY;
-const response = await fetch(registry + "/@openclaw%2Fai");
-const metadata = await response.json();
-if (!metadata.versions[process.env.EXPECTED_DEPENDENCY_VERSION]) {
-  throw new Error("Installer cannot resolve its exact dependency");
-}
-fs.writeFileSync(process.env.INSTALL_MARKER, registry);
-const bin = path.join(process.env.NPM_CONFIG_PREFIX, "bin");
-fs.mkdirSync(bin, { recursive: true });
-fs.writeFileSync(path.join(bin, "openclaw"), "#!/bin/sh\\nprintf '%s\\\\n' \\"$EXPECTED_PACKAGE_VERSION\\"\\n", { mode: 0o755 });
-NODE
-`,
-    );
-    const workflow = parse(readFileSync(".github/workflows/package-acceptance.yml", "utf8")) as {
-      jobs: { npm_12_install_sh: { steps: Array<{ name: string; shell?: string; run?: string }> } };
-    };
-    const step = workflow.jobs.npm_12_install_sh.steps.find(
-      (candidate) => candidate.name === "Run install.sh with npm 12",
-    );
-    if (!step?.run) {
-      throw new Error("Missing native npm 12 installer step");
-    }
-    expect(step.shell).toBe("bash");
-    const scriptPath = join(root, "npm12-workflow.sh");
-    writeFileSync(scriptPath, step.run);
-    await withPublishedRegistry(root, async (upstream) => {
-      const result = spawnSync(
-        bash,
-        ["--noprofile", "--norc", "-e", "-o", "pipefail", scriptPath],
-        {
-          cwd: root,
-          encoding: "utf8",
-          timeout: 30_000,
-          env: {
-            ...process.env,
-            ...fixture.env,
-            PATH: `${bin}:${process.env.PATH}`,
-            RUNNER_TEMP: join(root, "runner-temp"),
-            NPM_CONFIG_REGISTRY: upstream,
-            npm_config_registry: upstream,
-            OPENCLAW_NPM_REGISTRY_UPSTREAM: upstream,
-            OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_DIR: registry ? fixture.artifactDir : "",
-            OPENCLAW_DOCKER_E2E_SELECTED_SHA: fault === "source" ? "b".repeat(40) : SOURCE_SHA,
-            OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_MANIFEST_SHA256:
-              fault === "manifest" ? "b".repeat(64) : sha256(fixture.manifestPath),
-            EXPECTED_PACKAGE_SHA256: fault === "package" ? "b".repeat(64) : sha256(packageTgz),
-            EXPECTED_PACKAGE_VERSION: VERSION,
-            EXPECTED_DEPENDENCY_VERSION: registry ? VERSION : BASELINE_VERSION,
-            INSTALL_MARKER: installed,
-          },
-        },
-      );
-      if (fault) {
-        expect(result.status, result.stdout + result.stderr).not.toBe(0);
-        expect(existsSync(installed)).toBe(false);
-        if (fault !== "package") {
-          expect(result.stderr).toContain(
-            fault === "source" ? "source SHA differs" : "manifest SHA-256 differs",
-          );
-        }
-        return;
-      }
-      expect(result.status, result.stdout + result.stderr).toBe(0);
-      const registryUrl = readFileSync(installed, "utf8");
-      if (registry) {
-        expect(registryUrl).not.toBe(upstream);
-        await expect(fetch(registryUrl, { signal: AbortSignal.timeout(1_000) })).rejects.toThrow();
-      } else {
-        expect(registryUrl).toBe(upstream);
-      }
-    });
   });
 
   it("derives the immutable Docker mount contract from the registry artifact", () => {

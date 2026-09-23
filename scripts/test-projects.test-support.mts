@@ -2200,7 +2200,6 @@ const dockerE2e = "docker-e2e-plan";
 const workflowGuards = "ci-workflow-guards";
 const pluginPrerelease = "plugin-prerelease-test-plan";
 const releaseCheck = "test/release-check.test.ts";
-const installDocker = "test-install-sh-docker";
 const changedScope = "src/scripts/ci-changed-scope.test.ts";
 const changedScopeTests = [
   "src/scripts/ci-changed-scope.contract-fixtures.test.ts",
@@ -2238,7 +2237,7 @@ const EXACT_TOOLING_TARGETS = new Map<string, string[]>([
   ["scripts/generate-ci-git-owner.mts", ["ci-git-owner"]],
   [
     ".github/workflows/openclaw-live-and-e2e-checks-reusable.yml",
-    [packageAcceptance, workflowGuards, "release-workflow-matrix-plan", installDocker],
+    [packageAcceptance, workflowGuards, "release-workflow-matrix-plan"],
   ],
   [
     ".github/workflows/plugin-clawhub-release.yml",
@@ -2493,7 +2492,7 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
   ],
   [
     /^\.github\/workflows\/openclaw-release-checks\.yml$/u,
-    [packageAcceptance, crossOsReleaseChecks, pluginPrerelease, installDocker],
+    [packageAcceptance, crossOsReleaseChecks, pluginPrerelease],
   ],
   [
     /^\.github\/workflows\/docker-release(?:-prepare)?\.yml$/u,
@@ -2504,7 +2503,7 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       "vercel-container-registry-publish",
     ],
   ],
-  [/^\.github\/workflows\/install-smoke\.yml$/u, ["install-smoke-no-push-workflow", installDocker]],
+  [/^\.github\/workflows\/install-smoke\.yml$/u, ["install-smoke-no-push-workflow"]],
   [
     /^\.github\/workflows\/openclaw-performance\.yml$/u,
     ["openclaw-performance-workflow", "openclaw-performance-git-lifecycle"],
@@ -2605,10 +2604,7 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
   [/^scripts\/pr-lib\/merge(?:-outcome)?\.sh$/u, ["pr-merge", "pr-merge-outcome"]],
   [/^scripts\/plugin-clawhub-publish\.sh$/u, ["test/plugin-clawhub-release.test.ts"]],
   [/^scripts\/openclaw-npm-postpublish-verify\.ts$/u, [npmPostpublish]],
-  [
-    /^scripts\/install\.ps1$/u,
-    ["install-ps1", "website-installer-sync-workflow", crossOsReleaseChecks, changedScope],
-  ],
+  [/^scripts\/install\.ps1$/u, ["install-ps1", crossOsReleaseChecks, changedScope]],
   [
     /^scripts\/(?:crabbox-wrapper(?:-providers)?|crabbox-routing-policy|testbox-lease-freshness)\.mts$/u,
     ["crabbox-wrapper"],
@@ -2740,7 +2736,6 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     /^scripts\/lib\/recommended-tool-installs\.json$/u,
     ["src/plugins/recommended-tool-installs.test.ts", releaseCheck],
   ],
-  [/^scripts\/docker\/install-sh-common\/version-parse\.sh$/u, [installDocker]],
   [
     /^scripts\/lib\/local-build-metadata(?:-paths)?\.(?:mjs|mts)$/u,
     [
@@ -2771,7 +2766,6 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       "apple-release-source-check",
       "ios-version",
       "package-mac-app",
-      installDocker,
     ],
   ],
   [/^scripts\/lib\/plistbuddy\.sh$/u, ["create-dmg", "package-mac-app", "package-mac-dist"]],
@@ -2796,7 +2790,7 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       "upgrade-survivor-config-recipe",
     ],
   ],
-  [/^scripts\/lib\/npm-pack-budget\.mts$/u, [releaseCheck, installDocker]],
+  [/^scripts\/lib\/npm-pack-budget\.mts$/u, [releaseCheck]],
   [
     /^scripts\/lib\/actions-artifact-archive\.mjs$/u,
     ["full-release-candidate-reuse", "plugin-publication-artifact"],
@@ -2877,16 +2871,6 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
   ],
   [/^scripts\/check-plugin-npm-runtime-builds\.mts$/u, ["plugin-npm-runtime-build-args"]],
   [
-    /^scripts\/install\.sh$/u,
-    [
-      "install-sh",
-      installDocker,
-      "website-installer-sync-workflow",
-      crossOsReleaseChecks,
-      changedScope,
-    ],
-  ],
-  [
     /^scripts\/sparkle-build\.ts$/u,
     ["test/appcast.test.ts", releaseCheck, "package-mac-app", "package-mac-dist"],
   ],
@@ -2952,8 +2936,8 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
   ],
   [/^scripts\/docker\/cleanup-smoke\/Dockerfile$/u, [dockerCache, dockerDigests, dockerBuild]],
   [
-    /^scripts\/docker\/install-sh-(?:e2e|nonroot|smoke)\/Dockerfile$/u,
-    [dockerCache, dockerDigests, installDocker],
+    /^scripts\/docker\/candidate-packager\/Dockerfile$/u,
+    [dockerCache, dockerDigests, "install-smoke-no-push-workflow"],
   ],
   [
     /^scripts\/docker\/sandbox\/Dockerfile$/u,
@@ -3246,7 +3230,6 @@ function resolveToolingTestTargets(changedPath: string, cwd = process.cwd()) {
           "src/docker-build-cache.test.ts",
           "src/docker-image-digests.test.ts",
           "src/dockerfile.test.ts",
-          "test/scripts/test-install-sh-docker.test.ts",
         ]
       : changedPath === ".crabbox.yaml"
         ? ["test/scripts/package-acceptance-workflow.test.ts"]

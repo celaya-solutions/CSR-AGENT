@@ -385,15 +385,6 @@ export const mainLanes: DockerE2eLane[] = [
     weight: 3,
   }),
   npmLane(
-    "cli-installer-distribution",
-    "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:cli-installer-distribution",
-    {
-      stateScenario: "empty",
-      timeoutMs: 30 * 60 * 1000,
-      weight: 3,
-    },
-  ),
-  npmLane(
     "docker-package-install",
     "OPENCLAW_SKIP_DOCKER_BUILD=0 pnpm test:docker:package-install",
     {
@@ -836,40 +827,6 @@ const releasePathPluginRuntimeLanes = [
 ];
 
 const releasePathBundledChannelLanes = scheduledLaneList("plugin-update");
-
-// Public installer smoke needs a published, immutable package version. Keep it
-// selectable for post-publish verification, but out of frozen-candidate CI.
-export const publicInstallerLanes: DockerE2eLane[] = [
-  liveLane(
-    "install-e2e-openai",
-    liveDockerScriptCommand(
-      "test-install-sh-e2e-docker.sh",
-      "OPENCLAW_INSTALL_TAG=beta OPENCLAW_E2E_MODELS=openai OPENCLAW_INSTALL_E2E_IMAGE=openclaw-install-e2e-openai:local OPENCLAW_INSTALL_E2E_AGENT_TOOL_SMOKE=0 OPENCLAW_INSTALL_E2E_OPENAI_MODEL=openai/gpt-5.4-mini OPENCLAW_INSTALL_E2E_AGENT_TURN_TIMEOUT_SECONDS=120 OPENCLAW_INSTALL_E2E_OPENAI_PROVIDER_TIMEOUT_SECONDS=120",
-      { skipBuild: false },
-    ),
-    {
-      e2eImageKind: "bare",
-      provider: "openai",
-      resources: ["npm", "service"],
-      timeoutMs: 15 * 60 * 1000,
-      weight: 3,
-    },
-  ),
-  liveLane(
-    "install-e2e-anthropic",
-    liveDockerScriptCommand(
-      "test-install-sh-e2e-docker.sh",
-      "OPENCLAW_INSTALL_TAG=beta OPENCLAW_E2E_MODELS=anthropic OPENCLAW_INSTALL_E2E_IMAGE=openclaw-install-e2e-anthropic:local",
-      { skipBuild: false },
-    ),
-    {
-      e2eImageKind: "bare",
-      provider: "claude",
-      resources: ["npm", "service"],
-      weight: 3,
-    },
-  ),
-];
 
 const releasePathPackageUpdateOpenAiLanes = [
   liveOpenAiChatToolsLane(),

@@ -2272,7 +2272,6 @@ function runPackageAcceptanceSummary(params: {
   advisory?: boolean;
   dockerArtifactResult?: string;
   dockerRegistryResult?: string;
-  npm12InstallResult?: string;
   suiteProfile?: string;
   telegramAdvisory?: boolean;
   telegramEnabled: boolean;
@@ -2290,7 +2289,6 @@ function runPackageAcceptanceSummary(params: {
       DOCKER_ARTIFACT_RESULT: params.dockerArtifactResult ?? "success",
       DOCKER_REGISTRY_RESULT: params.dockerRegistryResult ?? "skipped",
       PACKAGE_INTEGRITY_RESULT: "success",
-      NPM_12_INSTALL_RESULT: params.npm12InstallResult ?? "success",
       PACKAGE_TELEGRAM_RESULT: params.telegramResult,
       PATH: process.env.PATH,
       RESOLVE_RESULT: "success",
@@ -3016,56 +3014,6 @@ printf '%s\\n' "$1" >> "$MOCK_SLEEPS"
     expect(workflow).toContain('[[ "$actual_sha256" == "$EXPECTED_PACKAGE_SHA256" ]]');
     expect(workflow).toContain("needs: [resolve_package, package_integrity]");
     expect(workflow).toContain("package_integrity=${PACKAGE_INTEGRITY_RESULT}");
-    const npm12Job = workflowJob(PACKAGE_ACCEPTANCE_WORKFLOW, "npm_12_install_sh");
-    expect(jobNeeds(npm12Job)).toEqual(["resolve_package", "package_integrity"]);
-    expect(npm12Job.permissions).toEqual({ actions: "read", contents: "read" });
-    const npm12Step = workflowStep(npm12Job, "Run install.sh with npm 12");
-    expect(npm12Step.run).toContain("npm@12.0.2");
-    expect(npm12Step.run).toContain("bash scripts/install.sh");
-    expect(npm12Step.run).toContain("scripts/docker/install-sh-common/version-parse.sh");
-    expect(npm12Step.run).toContain("extract_openclaw_semver");
-    expect(npm12Step.run).toContain(".openclaw-lifecycle-pending");
-    expect(JSON.stringify(npm12Job)).not.toContain("secrets.");
-  });
-
-  it("binds npm 12 installation to the supplied prerelease dependency artifact", () => {
-    const job = workflowJob(PACKAGE_ACCEPTANCE_WORKFLOW, "npm_12_install_sh");
-    const validate = workflowStep(job, "Validate prerelease plugin registry artifact identity");
-    const download = workflowStep(job, "Download prerelease plugin registry artifact");
-    const install = workflowStep(job, "Run install.sh with npm 12");
-    const tuple = "needs.resolve_package.outputs.prepublish_plugin_registry_json";
-    const field = (name: string) =>
-      `\${{ fromJSON(${tuple} || '{}').prepublishPluginRegistry${name} || '' }}`;
-
-    expect(validate.if).toBe(`${tuple} != ''`);
-    expect(validate.env).toMatchObject({
-      ARTIFACT_DIGEST: field("ArtifactDigest"),
-      ARTIFACT_ID: field("ArtifactId"),
-      ARTIFACT_NAME: field("ArtifactName"),
-      ARTIFACT_RUN_ATTEMPT: field("ArtifactRunAttempt"),
-      ARTIFACT_RUN_ID: field("ArtifactRunId"),
-    });
-    expect(validate.run).toContain('verify-upload "Prerelease plugin registry"');
-    expect(download.if).toBe(validate.if);
-    expect(download.uses).toBe(DOWNLOAD_ARTIFACT_V8);
-    expect(download.with).toMatchObject({
-      "artifact-ids": field("ArtifactId"),
-      "run-id": field("ArtifactRunId"),
-      path: ".artifacts/prepublish-plugin-registry",
-    });
-    expect(install.env).toMatchObject({
-      OPENCLAW_DOCKER_E2E_SELECTED_SHA: "${{ needs.resolve_package.outputs.package_source_sha }}",
-      OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_CANDIDATE_VERSION:
-        "${{ needs.resolve_package.outputs.package_version }}",
-      OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_DIR: `\${{ ${tuple} != '' && format('{0}/.artifacts/prepublish-plugin-registry', github.workspace) || '' }}`,
-      OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_MANIFEST_SHA256: field("ManifestSha256"),
-    });
-    expect(install.run).toMatch(
-      /bash scripts\/e2e\/lib\/prepublish-plugin-registry\.sh\s*\\\s*bash scripts\/install\.sh/u,
-    );
-    const steps = job.steps ?? [];
-    expect(steps.indexOf(validate)).toBeLessThan(steps.indexOf(download));
-    expect(steps.indexOf(download)).toBeLessThan(steps.indexOf(install));
   });
 
   it("keeps ref packaging independent of workflow-checkout dependencies", () => {
@@ -3089,7 +3037,6 @@ printf '%s\\n' "$1" >> "$MOCK_SLEEPS"
       PACKAGE_ACCEPTANCE_WORKFLOW,
       "docker_acceptance_registry",
     );
-    const npm12Install = workflowJob(PACKAGE_ACCEPTANCE_WORKFLOW, "npm_12_install_sh");
     const npmTelegram = workflowJob(NPM_TELEGRAM_WORKFLOW, "run_package_telegram_e2e");
     const buildPrivateQa = workflowStep(npmTelegram, "Build private QA harness runtime");
 
@@ -3265,7 +3212,6 @@ printf '%s\\n' "$1" >> "$MOCK_SLEEPS"
     expect(packageTelegram.with?.prepublish_plugin_registry_artifact_name).not.toContain(
       "startsWith(",
     );
-    expect(npm12Install.if).toBe("inputs.suite_profile != 'telegram'");
     expect(dockerAcceptance.if).toBe(
       "inputs.suite_profile != 'telegram' && inputs.shared_image_policy == 'no-push-artifact'",
     );
@@ -5127,32 +5073,9 @@ describe("package artifact reuse", () => {
       },
     },
     {
-      expectedOutput: "::error::npm_12_install_sh ended with failure",
-      expectedStatus: 1,
-      name: "rejects a failed npm 12 installer acceptance lane",
-      params: {
-        npm12InstallResult: "failure",
-        telegramEnabled: false,
-        telegramResult: "skipped",
-      },
-    },
-    {
       expectedOutput: undefined,
       expectedStatus: 0,
       name: "accepts Telegram-only profile when broad lanes skip and Telegram succeeds",
-      params: {
-        dockerArtifactResult: "skipped",
-        dockerRegistryResult: "skipped",
-        npm12InstallResult: "skipped",
-        suiteProfile: "telegram",
-        telegramEnabled: true,
-        telegramResult: "success",
-      },
-    },
-    {
-      expectedOutput: "::error::npm_12_install_sh ran for suite_profile=telegram",
-      expectedStatus: 1,
-      name: "rejects Telegram-only profile when npm 12 acceptance runs",
       params: {
         dockerArtifactResult: "skipped",
         dockerRegistryResult: "skipped",
@@ -5167,7 +5090,6 @@ describe("package artifact reuse", () => {
       name: "rejects Telegram-only profile when a Docker transport runs",
       params: {
         dockerRegistryResult: "skipped",
-        npm12InstallResult: "skipped",
         suiteProfile: "telegram",
         telegramEnabled: true,
         telegramResult: "success",

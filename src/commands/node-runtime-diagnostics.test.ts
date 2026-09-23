@@ -168,7 +168,7 @@ describe("Node runtime diagnostics command surfaces", () => {
       expect.stringContaining("Gateway service Node 22.23.2"),
     );
     expect(runtime.error).toHaveBeenCalledWith(
-      expect.stringContaining("https://openclaw.ai/install.sh"),
+      expect.stringContaining("pnpm install && pnpm build"),
     );
     expect(runtime.log).not.toHaveBeenCalled();
   });

@@ -11,9 +11,7 @@ const dockerfilePaths = [
   "scripts/docker/sandbox/Dockerfile.browser",
   "scripts/docker/sandbox/Dockerfile.common",
   "scripts/docker/cleanup-smoke/Dockerfile",
-  "scripts/docker/install-sh-smoke/Dockerfile",
-  "scripts/docker/install-sh-e2e/Dockerfile",
-  "scripts/docker/install-sh-nonroot/Dockerfile",
+  "scripts/docker/candidate-packager/Dockerfile",
   "scripts/e2e/Dockerfile.qr-import",
 ] as const;
 const aptCacheDockerfilePaths = dockerfilePaths.filter(

@@ -6,12 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import packageJson from "../package.json" with { type: "json" };
 import { laneResources, lanesNeedOpenClawPackage, laneWeight } from "./lib/docker-e2e-plan.mts";
-import {
-  allReleasePathLanes,
-  mainLanes,
-  publicInstallerLanes,
-  tailLanes,
-} from "./lib/docker-e2e-scenarios.mts";
+import { allReleasePathLanes, mainLanes, tailLanes } from "./lib/docker-e2e-scenarios.mts";
 import { resolveRepoRoot } from "./lib/repo-root.mjs";
 const ROOT_DIR = resolveRepoRoot(import.meta.url);
 const errors: string[] = [];
@@ -19,8 +14,6 @@ const packageScripts = new Set(Object.keys(packageJson.scripts ?? {}));
 // These lanes prove package-installed surfaces against live auth, so they
 // intentionally need both live credentials and a package-backed image.
 const livePackageBackedLanes = new Set([
-  "install-e2e-anthropic",
-  "install-e2e-openai",
   "live-anthropic-cache",
   "live-codex-npm-plugin",
   "live-mcp-code-mode-gateway",
@@ -163,7 +156,6 @@ function validateLane(label: string, lane: (typeof mainLanes)[number]) {
 const releasePathLanes = allReleasePathLanes({ includeOpenWebUI: true });
 for (const [label, lanes] of [
   ["release-path", releasePathLanes],
-  ["public-installer", publicInstallerLanes],
   ["main", mainLanes],
   ["tail", tailLanes],
 ] as const) {
