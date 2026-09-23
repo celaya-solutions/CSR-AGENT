@@ -6,7 +6,6 @@ import YAML from "yaml";
 import { pnpmLockfileDocuments } from "../../scripts/lib/pnpm-lockfile-documents.mjs";
 
 type RootPackageManifest = {
-  dependencies?: Record<string, string>;
   overrides?: Record<string, string>;
 };
 
@@ -35,31 +34,11 @@ function readPnpmLockfileConfig(): PnpmLockfileConfig {
   ) as PnpmLockfileConfig;
 }
 
-function readPackageManifest(packagePath: string): RootPackageManifest {
-  return JSON.parse(fs.readFileSync(packagePath, "utf8")) as RootPackageManifest;
-}
-
 describe("root package override guardrails", () => {
   it("pins the active axios override to an exact version", () => {
     const pnpmWorkspace = readPnpmWorkspaceConfig();
 
     expect(pnpmWorkspace.overrides?.axios).toMatch(/^\d+\.\d+\.\d+$/u);
-  });
-
-  it("keeps Bedrock runtime ownership in the Amazon provider plugin", () => {
-    const manifest = readRootManifest();
-    const pnpmWorkspace = readPnpmWorkspaceConfig();
-    const packageName = "@aws-sdk/client-bedrock-runtime";
-    const bedrockManifest = readPackageManifest(
-      path.resolve(process.cwd(), "extensions", "amazon-bedrock", "package.json"),
-    );
-    const bedrockRuntimeDependency = bedrockManifest.dependencies?.[packageName];
-    const npmOverride = manifest.overrides?.[packageName];
-
-    expect(bedrockRuntimeDependency).toBeDefined();
-    expect(manifest.dependencies).not.toHaveProperty(packageName);
-    expect(npmOverride).toBeUndefined();
-    expect(pnpmWorkspace.overrides).not.toHaveProperty(packageName);
   });
 
   it("pins the node-domexception alias exactly in pnpm override metadata", () => {

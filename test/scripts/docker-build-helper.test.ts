@@ -122,7 +122,6 @@ const MULTI_NODE_UPDATE_DOCKER_E2E_PATH = "scripts/e2e/multi-node-update-docker.
 const BUNDLED_PLUGIN_INSTALL_UNINSTALL_E2E_PATH =
   "scripts/e2e/bundled-plugin-install-uninstall-docker.sh";
 const AGENT_BUNDLE_MCP_TOOLS_DOCKER_E2E_PATH = "scripts/e2e/agent-bundle-mcp-tools-docker.sh";
-const SYSTEM_AGENT_FIRST_RUN_DOCKER_E2E_PATH = "scripts/e2e/system-agent-first-run-docker.sh";
 const SYSTEM_AGENT_RESCUE_DOCKER_E2E_PATH = "scripts/e2e/system-agent-rescue-docker.sh";
 const SESSION_RUNTIME_CONTEXT_DOCKER_E2E_PATH = "scripts/e2e/session-runtime-context-docker.sh";
 const BUNDLED_PLUGIN_INSTALL_UNINSTALL_SWEEP_PATH =
@@ -146,7 +145,6 @@ const PLUGIN_UPDATE_SCENARIO_PATH = "scripts/e2e/lib/plugin-update/unchanged-sce
 const PLUGIN_UPDATE_CORRUPT_SCENARIO_PATH =
   "scripts/e2e/lib/plugin-update/corrupt-update-scenario.sh";
 const PLUGIN_UPDATE_PROBE_PATH = "scripts/e2e/lib/plugin-update/probe.mjs";
-const PLUGIN_LIFECYCLE_MATRIX_DOCKER_E2E_PATH = "scripts/e2e/plugin-lifecycle-matrix-docker.sh";
 const DOCTOR_SWITCH_DOCKER_E2E_PATH = "scripts/e2e/doctor-install-switch-docker.sh";
 const DOCTOR_SWITCH_SCENARIO_PATH = "scripts/e2e/lib/doctor-install-switch/scenario.sh";
 const DOCTOR_SWITCH_BUSCTL_SHIM_PATH = "scripts/e2e/lib/doctor-install-switch/shims/busctl";
@@ -233,7 +231,6 @@ const CONTAINER_CLEANUP_RUNNERS = [
   [AGENT_BUNDLE_MCP_TOOLS_DOCKER_E2E_PATH, "openclaw-agent-bundle-mcp-tools-e2e-"],
   [PLUGIN_BINDING_COMMAND_ESCAPE_DOCKER_E2E_PATH, "openclaw-plugin-binding-command-escape-e2e-"],
   [SESSION_RUNTIME_CONTEXT_DOCKER_E2E_PATH, "openclaw-session-runtime-context-e2e-"],
-  [SYSTEM_AGENT_FIRST_RUN_DOCKER_E2E_PATH, "openclaw-system-agent-first-run-e2e-"],
   [SYSTEM_AGENT_RESCUE_DOCKER_E2E_PATH, "openclaw-system-agent-rescue-e2e-"],
 ] as const;
 
@@ -2721,42 +2718,6 @@ docker_e2e_docker_run_cmd run demo
 
     execFileSync("bash", ["-lc", script], { encoding: "utf8" });
   });
-
-  it("passes plugin lifecycle sampler timeout overrides into Docker", () => {
-    const runner = readFileSync(PLUGIN_LIFECYCLE_MATRIX_DOCKER_E2E_PATH, "utf8");
-    expectTextToIncludeAll(runner, [
-      "append_positive_int_env()",
-      "append_positive_number_env()",
-      "append_positive_int_env OPENCLAW_PLUGIN_LIFECYCLE_PHASE_TIMEOUT_MS",
-      "append_positive_int_env OPENCLAW_PLUGIN_LIFECYCLE_TIMEOUT_KILL_GRACE_MS",
-      "append_positive_int_env OPENCLAW_PLUGIN_LIFECYCLE_METRIC_POLL_MS",
-      "append_positive_int_env OPENCLAW_PLUGIN_LIFECYCLE_MAX_RSS_KB",
-      "append_positive_int_env OPENCLAW_PLUGIN_LIFECYCLE_MAX_WALL_MS",
-      "append_positive_number_env OPENCLAW_PLUGIN_LIFECYCLE_MAX_CPU_CORE_RATIO",
-      'docker_e2e_run_with_harness \\\n  "${DOCKER_ENV_ARGS[@]}"',
-    ]);
-  });
-
-  it.each([
-    ["phase timeout", "OPENCLAW_PLUGIN_LIFECYCLE_PHASE_TIMEOUT_MS", "150ms"],
-    ["CPU ratio", "OPENCLAW_PLUGIN_LIFECYCLE_MAX_CPU_CORE_RATIO", "0"],
-  ])(
-    "rejects invalid plugin lifecycle Docker %s overrides before package setup",
-    (_label, envName, value) => {
-      const result = spawnSync("bash", [PLUGIN_LIFECYCLE_MATRIX_DOCKER_E2E_PATH], {
-        encoding: "utf8",
-        env: {
-          ...process.env,
-          OPENCLAW_CURRENT_PACKAGE_TGZ: "/tmp/openclaw-missing-package.tgz",
-          [envName]: value,
-        },
-      });
-
-      expect(result.status).toBe(2);
-      expect(result.stderr).toContain(`invalid ${envName}: ${value}`);
-      expect(result.stderr).not.toContain("OpenAgent package tarball does not exist");
-    },
-  );
 
   it("wraps direct Docker E2E npm installs with the shared timeout helper", () => {
     const multiNode = readFileSync(MULTI_NODE_UPDATE_DOCKER_E2E_PATH, "utf8");
@@ -6822,7 +6783,6 @@ process.exit(73);
   it("keeps captured Docker E2E run log replay bounded", () => {
     for (const path of [
       AGENT_BUNDLE_MCP_TOOLS_DOCKER_E2E_PATH,
-      SYSTEM_AGENT_FIRST_RUN_DOCKER_E2E_PATH,
       SYSTEM_AGENT_RESCUE_DOCKER_E2E_PATH,
       PLUGIN_BINDING_COMMAND_ESCAPE_DOCKER_E2E_PATH,
       SESSION_RUNTIME_CONTEXT_DOCKER_E2E_PATH,

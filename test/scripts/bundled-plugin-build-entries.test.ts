@@ -10,7 +10,6 @@ import {
   listBundledPluginBuildEntries,
   listBundledPluginPackArtifacts,
 } from "../../scripts/lib/bundled-plugin-build-entries.mjs";
-import { resolvePluginNpmRuntimeBuildPlan } from "../../scripts/lib/plugin-npm-runtime-build.mts";
 import { expectNoNodeFsScans } from "../../src/test-utils/fs-scan-assertions.js";
 import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
 
@@ -125,16 +124,6 @@ describe("bundled plugin build entries", () => {
     expect(pickEntries(entries, Object.keys(expectedEntries))).toStrictEqual(expectedEntries);
   });
 
-  it("keeps the Matrix packaged runtime shim in its package-owned build", () => {
-    const entries = listBundledPluginBuildEntries();
-    const plan = resolvePluginNpmRuntimeBuildPlan({ packageDir: "extensions/matrix" });
-    expect(entries["extensions/matrix/plugin-entry.handlers.runtime"]).toBeUndefined();
-    expect(plan?.entry["plugin-entry.handlers.runtime"]).toBe(
-      path.resolve("extensions/matrix/plugin-entry.handlers.runtime.ts"),
-    );
-    expect(plan?.runtimeBuildOutputs).toContain("./dist/plugin-entry.handlers.runtime.js");
-  });
-
   it("keeps Codex CLI metadata in bundled build and standalone pack entries", () => {
     const entries = listBundledPluginBuildEntries();
     const artifacts = listBundledPluginPackArtifacts({ includeRootPackageExcludedDirs: true });
@@ -143,24 +132,17 @@ describe("bundled plugin build entries", () => {
     expect(artifacts).toContain("dist/extensions/codex/cli-metadata.js");
   });
 
-  it("builds narrow QA runner public surfaces", () => {
-    const entries = listBundledPluginBuildEntries();
-
-    expect(entries["extensions/buzz/qa-runner-api"]).toBe("extensions/buzz/qa-runner-api.ts");
-    expect(entries["extensions/msteams/qa-runner-api"]).toBe("extensions/msteams/qa-runner-api.ts");
-  });
-
   it("filters bundled plugin build entries for bounded script lanes", () => {
     const entries = listBundledPluginBuildEntries({
       env: {
         ...process.env,
-        OPENCLAW_BUNDLED_PLUGIN_BUILD_IDS: "active-memory,acpx",
+        OPENCLAW_BUNDLED_PLUGIN_BUILD_IDS: "device-pair,acpx",
       },
     });
     const entryKeys = Object.keys(entries);
 
     expect(entryKeys).toEqual(expect.arrayContaining(["extensions/acpx/index"]));
-    expect(entryKeys.every((entry) => /^extensions\/(?:acpx|active-memory)\//u.test(entry))).toBe(
+    expect(entryKeys.every((entry) => /^extensions\/(?:acpx|device-pair)\//u.test(entry))).toBe(
       true,
     );
   });
@@ -238,11 +220,11 @@ describe("bundled plugin build entries", () => {
     const entries = listBundledPluginBuildEntries();
     const artifacts = listBundledPluginPackArtifacts();
 
-    for (const pluginId of ["acpx", "googlechat", "line"]) {
+    for (const pluginId of ["acpx", "codex", "llama-cpp"]) {
       expectSomePrefixMatch(Object.keys(entries), `extensions/${pluginId}/`);
       expectNoPrefixMatches(artifacts, `dist/extensions/${pluginId}/`);
     }
-    for (const pluginId of ["whatsapp"]) {
+    for (const pluginId of ["discord", "duckduckgo"]) {
       expectNoPrefixMatches(Object.keys(entries), `extensions/${pluginId}/`);
       expectNoPrefixMatches(artifacts, `dist/extensions/${pluginId}/`);
     }
@@ -280,7 +262,7 @@ describe("bundled plugin build entries", () => {
     delete baselineEnv[DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV];
     const dockerEnv = {
       ...baselineEnv,
-      [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "slack clickclack,slack,msteams,whatsapp",
+      [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "discord duckduckgo,discord",
     };
     const entries = listBundledPluginBuildEntries({ env: dockerEnv });
     const baselineArtifacts = listBundledPluginPackArtifacts({ env: baselineEnv });
@@ -288,27 +270,21 @@ describe("bundled plugin build entries", () => {
     const reorderedEntries = listBundledPluginBuildEntries({
       env: {
         ...baselineEnv,
-        [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "whatsapp,msteams,clickclack slack",
+        [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "duckduckgo discord",
       },
     });
     const entryKeys = Object.keys(entries);
 
-    expect(entries["extensions/clickclack/index"]).toBe("extensions/clickclack/index.ts");
-    expect(entries["extensions/slack/index"]).toBe("extensions/slack/index.ts");
-    expect(entries["extensions/slack/setup-entry"]).toBe("extensions/slack/setup-entry.ts");
-    expect(entries["extensions/msteams/index"]).toBe("extensions/msteams/index.ts");
-    expect(entries["extensions/whatsapp/index"]).toBe("extensions/whatsapp/index.ts");
-    expect(entries["extensions/whatsapp/setup-entry"]).toBe("extensions/whatsapp/setup-entry.ts");
-    expect(entries["extensions/clawrouter/index"]).toBe("extensions/clawrouter/index.ts");
-    expect(entryKeys.findIndex((entry) => entry.startsWith("extensions/clickclack/"))).toBeLessThan(
-      entryKeys.findIndex((entry) => entry.startsWith("extensions/slack/")),
+    expect(entries["extensions/discord/index"]).toBe("extensions/discord/index.ts");
+    expect(entries["extensions/discord/setup-entry"]).toBe("extensions/discord/setup-entry.ts");
+    expect(entries["extensions/duckduckgo/index"]).toBe("extensions/duckduckgo/index.ts");
+    expect(entryKeys.findIndex((entry) => entry.startsWith("extensions/discord/"))).toBeLessThan(
+      entryKeys.findIndex((entry) => entry.startsWith("extensions/duckduckgo/")),
     );
     expect(Object.keys(reorderedEntries)).toEqual(entryKeys);
     expect(artifacts).toEqual(baselineArtifacts);
-    expectNoPrefixMatches(artifacts, "dist/extensions/clickclack/");
-    expectNoPrefixMatches(artifacts, "dist/extensions/msteams/");
-    expectNoPrefixMatches(artifacts, "dist/extensions/slack/");
-    expectNoPrefixMatches(artifacts, "dist/extensions/whatsapp/");
+    expectNoPrefixMatches(artifacts, "dist/extensions/discord/");
+    expectNoPrefixMatches(artifacts, "dist/extensions/duckduckgo/");
   });
 
   it("sorts Docker-selected build entries without git metadata", () => {
@@ -367,14 +343,12 @@ describe("bundled plugin build entries", () => {
     const selectedEntries = listBundledPluginBuildEntries({
       env: {
         ...baselineEnv,
-        [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "active-memory",
+        [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "device-pair",
       },
     });
 
     expect(selectedEntries).toEqual(baselineEntries);
-    expect(selectedEntries["extensions/active-memory/index"]).toBe(
-      "extensions/active-memory/index.ts",
-    );
+    expect(selectedEntries["extensions/device-pair/index"]).toBe("extensions/device-pair/index.ts");
   });
 
   it("rejects unknown and invalid Docker plugin selections", () => {
@@ -415,18 +389,6 @@ describe("bundled plugin build entries", () => {
       expect(artifacts).not.toContain(`dist/extensions/${pluginId}/openclaw.plugin.json`);
       expect(artifacts).not.toContain(`dist/extensions/${pluginId}/package.json`);
     }
-  });
-
-  it("keeps OpenCode Go bundled until its companion artifact is available", () => {
-    const artifacts = listBundledPluginPackArtifacts();
-
-    expect(artifacts).toEqual(
-      expect.arrayContaining([
-        "dist/extensions/opencode-go/index.js",
-        "dist/extensions/opencode-go/openclaw.plugin.json",
-        "dist/extensions/opencode-go/package.json",
-      ]),
-    );
   });
 
   it("excludes the externalized Vydra provider from bundled artifacts", () => {

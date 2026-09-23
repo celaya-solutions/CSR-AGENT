@@ -376,13 +376,11 @@ describe("npm onboard channel agent assertions", () => {
     try {
       writeConfig(tempDir, {
         discord: { enabled: true, token: "discord-token" },
-        slack: { enabled: true, appToken: "xapp-token", botToken: "xoxb-token" },
         telegram: { enabled: true, botToken: "telegram-token" },
       });
 
       expect(runAssert(tempDir, "telegram", "telegram-token").status).toBe(0);
       expect(runAssert(tempDir, "discord", "discord-token").status).toBe(0);
-      expect(runAssert(tempDir, "slack", "xoxb-token", "xapp-token").status).toBe(0);
     } finally {
       fs.rmSync(tempDir, { force: true, recursive: true });
     }

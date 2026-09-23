@@ -352,12 +352,6 @@ Opt-in live coverage for the shared bundled providers:
 OPENCLAW_LIVE_TEST=1 pnpm test:live -- extensions/video-generation-providers.live.test.ts
 ```
 
-Repo wrapper:
-
-```bash
-pnpm test:live:media video
-```
-
 This live file uses already-exported provider env vars ahead of stored auth
 profiles by default, and runs a release-safe smoke by default:
 

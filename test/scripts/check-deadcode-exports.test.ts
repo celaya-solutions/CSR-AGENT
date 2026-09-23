@@ -93,7 +93,6 @@ describe("check-deadcode-exports", () => {
       expect.arrayContaining([
         ".agents/skills/**/scripts/**/*.{js,mjs,cjs,ts,mts,cts}!",
         ".github/actions/setup-node-env/dependency-fingerprint.mjs!",
-        "apps/android/scripts/build-release-artifacts.ts!",
         "security/opengrep/check-rule-metadata.mjs!",
         "skills/meme-maker/scripts/meme.mjs!",
         "scripts/check-openclaw-package-tarball.mts!",
@@ -118,7 +117,6 @@ describe("check-deadcode-exports", () => {
     expect(knipConfig.workspaces["."].project).toEqual(
       expect.arrayContaining([
         ".github/actions/**/*.{js,mjs,cjs,ts,mts,cts}!",
-        "apps/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "config/**/*.{ts,mts,cts}!",
         "docs/**/*.js!",
         "security/**/*.{js,mjs,cjs,ts,mts,cts}!",

@@ -160,7 +160,6 @@ jobs:
       run_ios_screenshots: ${{ steps.changed_scope.outputs.run_ios_screenshots }}
       run_android_job: ${{ steps.manifest.outputs.run_android_job }}
       use_compatible_android_ci: ${{ steps.manifest.outputs.use_compatible_android_ci }}
-      run_protocol_event_coverage: ${{ steps.manifest.outputs.run_protocol_event_coverage }}
       android_matrix: ${{ steps.manifest.outputs.android_matrix }}
     steps:
       - name: Validate release-gate dispatch
@@ -1713,10 +1712,6 @@ jobs:
           const runNodeCoreDist =
             (changedNodeTestShards !== null && runBuildArtifacts) ||
             nodeTestDistShards.length > 0;
-          const protocolCoverageRequested = runNode || runIosBuild || runAndroid;
-          const runProtocolEventCoverage =
-            protocolCoverageRequested &&
-            (!frozenTarget || existsSync("scripts/check-protocol-event-coverage.mjs"));
 
           const additionalChecks = [
             { check_name: "check-additional-boundaries", group: "boundaries", runner: "blacksmith-8vcpu-ubuntu-2404" },
@@ -1837,7 +1832,6 @@ jobs:
             run_ios_build: runIosBuild,
             run_android_job: runAndroid,
             use_compatible_android_ci: useCompatibleAndroidCi,
-            run_protocol_event_coverage: runProtocolEventCoverage,
             android_matrix: createMatrix(
               runAndroid
                 ? [
@@ -1894,21 +1888,6 @@ jobs:
               (npmQualification ? "- Native app qualification: deferred; Linux, macOS, and Windows Node coverage retained.\n" : ""));
           }
           EOF
-
-      - name: Check mobile protocol event coverage
-        if: steps.manifest.outputs.run_protocol_event_coverage == 'true'
-        env:
-          OPENCLAW_CI_CHECKOUT_REVISION: ${{ steps.checkout_ref.outputs.sha }}
-          OPENCLAW_CI_WORKFLOW_REVISION: ${{ github.workflow_sha }}
-        run: |
-          # Different-revision dispatches may need their candidate-owned tsx
-          # shim; current workflow source runs the dependency-free .mts owner.
-          if [ "${GITHUB_EVENT_NAME:-}" = "workflow_dispatch" ] &&
-            [ "$OPENCLAW_CI_CHECKOUT_REVISION" != "$OPENCLAW_CI_WORKFLOW_REVISION" ]; then
-            node scripts/check-protocol-event-coverage.mjs
-          else
-            node scripts/check-protocol-event-coverage.mts
-          fi
 
       # Validate and consume the immutable dependency archive before same-repo
       # Blacksmith jobs fan out. Cache publication belongs to the trusted warmer.

@@ -269,13 +269,36 @@ describe("ClawHub fixture server", () => {
       packages: [{ name: "@openclaw/whatsapp", version, tarball, sha256 }],
     });
     writeFileSync(path.join(registryDir, "prepublish-plugin-registry.json"), registryManifest);
-    const npmRecord: PluginInstallRecord = {
+    const unacceptedNpmRecord: PluginInstallRecord = {
       source: "npm",
       spec: `@openclaw/whatsapp@${version}`,
       resolvedName: "@openclaw/whatsapp",
       resolvedVersion: version,
       integrity: npmIntegrity,
       installPath,
+    };
+    // This build ships no official plugin catalog, so no companion is exempt from
+    // capability consent; the fixture records the operator's acceptance.
+    const acceptedSurface = {
+      channels: [],
+      providers: [],
+      tools: [],
+      contracts: [],
+      hooks: [],
+      mcpServers: [],
+      cliCommands: [],
+      cliBackends: [],
+      skills: [],
+      dangerousConfigFlags: [],
+    };
+    const npmRecord: PluginInstallRecord = {
+      ...unacceptedNpmRecord,
+      acceptedSurface,
+      acceptedSurfaceHash: createHash("sha256")
+        .update(JSON.stringify(acceptedSurface))
+        .digest("hex"),
+      acceptedSurfaceAt: "2026-08-27T00:00:00.000Z",
+      acceptedSurfaceIntegrity: npmIntegrity,
     };
     const bin = path.join(isolatedCwd, "bin");
     const runner = readFileSync("scripts/e2e/lib/upgrade-survivor/run.sh", "utf8");
@@ -380,21 +403,26 @@ ${runner.slice(boundary)}
     expect(automatic.status, automatic.stdout + automatic.stderr).toBe(0);
     expect(automatic.stdout).toContain("assert-prepublish-requests passed");
     expect(automatic.stdout).toContain("assert-prepublish-recovery-requests passed");
-    expect(automatic.stdout).toContain(
-      'Plugin "whatsapp" has verified official capability-consent exemption.',
-    );
+    expect(automatic.stdout).not.toContain("verified official capability-consent exemption");
     for (const [record, failure] of [
       [null, "plugin install record missing"],
       [{ ...npmRecord, source: "path" }, "must be installed from npm"],
       [{ ...npmRecord, installPath: `${installPath}-missing` }, "installPath missing on disk"],
       [{ ...npmRecord, resolvedVersion: "2026.8.0" }, "plugin version changed"],
       [{ ...npmRecord, integrity: undefined }, "plugin integrity missing"],
-      [{ ...npmRecord, integrity: "sha512-wrong" }, "registry artifact integrity"],
       [
-        { ...npmRecord, sourcePath: tarballPath, artifactKind: "npm-pack" },
+        { ...npmRecord, integrity: "sha512-wrong", acceptedSurfaceIntegrity: "sha512-wrong" },
+        "registry artifact integrity",
+      ],
+      [unacceptedNpmRecord, "plugin accepted surface missing"],
+      [
+        { ...unacceptedNpmRecord, sourcePath: tarballPath, artifactKind: "npm-pack" },
         "plugin accepted surface missing",
       ],
-      [{ ...npmRecord, resolvedName: "@vendor/whatsapp" }, "plugin accepted surface missing"],
+      [
+        { ...unacceptedNpmRecord, resolvedName: "@vendor/whatsapp" },
+        "plugin accepted surface missing",
+      ],
     ] as const) {
       const rejected = runAutomaticChecks(record);
       expect(rejected.status).not.toBe(0);

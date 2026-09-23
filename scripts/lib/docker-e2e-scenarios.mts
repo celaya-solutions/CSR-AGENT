@@ -624,14 +624,6 @@ export const mainLanes: DockerE2eLane[] = [
       weight: 3,
     },
   ),
-  npmLane(
-    "plugin-lifecycle-matrix",
-    "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:plugin-lifecycle-matrix",
-    {
-      stateScenario: "empty",
-      timeoutMs: 12 * 60 * 1000,
-    },
-  ),
   serviceLane("config-reload", "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:config-reload", {
     stateScenario: "empty",
   }),
@@ -640,14 +632,6 @@ export const mainLanes: DockerE2eLane[] = [
     timeoutMs: 15 * 60 * 1000,
     weight: 3,
   }),
-  lane("openai-image-auth", "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:openai-image-auth", {
-    stateScenario: "empty",
-  }),
-  lane(
-    "system-agent-first-run",
-    "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:system-agent-first-run",
-    { stateScenario: "empty" },
-  ),
   lane(
     "session-runtime-context",
     "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:session-runtime-context",

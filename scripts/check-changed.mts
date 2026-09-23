@@ -20,7 +20,6 @@ import {
   hasConfigDocInput,
   isConfigDocSchemaSourcePath,
   hasDeadcodeScannedSource,
-  hasProtocolEventCoverageInput,
   listChangedPathsFromGit,
   listStagedChangedPaths,
 } from "./changed-lanes.mts";
@@ -605,14 +604,6 @@ export function createChangedCheckPlan(
     );
   };
 
-  if (result.lanes.all || hasProtocolEventCoverageInput(result.paths)) {
-    addCommand(
-      "mobile protocol event coverage",
-      "node",
-      ["scripts/check-protocol-event-coverage.mjs"],
-      baseEnv,
-    );
-  }
   add("conflict markers", ["check:no-conflict-markers"]);
   if (
     result.paths.some(

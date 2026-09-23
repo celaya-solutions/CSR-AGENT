@@ -641,10 +641,10 @@ ensure_vm_running`,
   });
 
   it("uses a forced Windows gateway stop only when the installed CLI supports it", () => {
-    expect(windows).toContain("Invoke-OpenAgent gateway stop --help");
+    expect(windows).toContain("Invoke-OpenClaw gateway stop --help");
     expect(windows).toContain("$stopHelp -match");
     expect(windows).toContain("$gatewayArgs += '--force'");
-    expect(windows).toContain("Invoke-OpenAgent @gatewayArgs");
+    expect(windows).toContain("Invoke-OpenClaw @gatewayArgs");
     expect(windows).not.toContain('const forceFlag = action === "stop"');
   });
 
@@ -1855,7 +1855,7 @@ if (commandArgs[0] === "list") {
     expect(orchestrator).not.toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("scrub_future_plugin_entries");
-    expect(updateScripts).toContain("Invoke-OpenAgent update");
+    expect(updateScripts).toContain("Invoke-OpenClaw update");
     expect(updateScripts).toContain("Parallels npm update smoke test assistant.");
   });
 
@@ -2582,7 +2582,7 @@ if (commandArgs[0] === "list") {
     expect(powershell).toContain("$ErrorActionPreference = 'Continue'");
     expect(powershell).toContain("$PSNativeCommandUseErrorActionPreference = $false");
     expect(windows).toContain("windowsOpenClawResolver");
-    expect(windows).toContain("Invoke-OpenAgent gateway");
+    expect(windows).toContain("Invoke-OpenClaw gateway");
     expect(windows).not.toContain("Join-Path $env:APPDATA 'npm\\\\openclaw.cmd'");
   });
 });

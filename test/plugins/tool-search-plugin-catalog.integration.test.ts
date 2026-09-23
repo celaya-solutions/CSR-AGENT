@@ -14,18 +14,11 @@ import type { OpenClawPluginApi } from "../../src/plugins/types.js";
 import { loadBundledPluginFacade } from "../../src/test-utils/bundled-plugin-public-surface.js";
 
 describe("public plugin registrations in Tool Search", () => {
-  it.each(["feishu", "file-transfer"])(
+  it.each(["agent-workforce", "memory-core"])(
     "preserves selected %s metadata and rejects excluded companions",
     async (pluginId) => {
       const registered: AnyAgentTool[] = [];
       const config = {
-        channels: {
-          feishu: {
-            enabled: true,
-            appId: "cli_test",
-            appSecret: "unused",
-          },
-        },
         tools: { toolSearch: { enabled: true, mode: "tools" as const } },
       };
       const api = createTestPluginApi({
@@ -39,17 +32,10 @@ describe("public plugin registrations in Tool Search", () => {
           }
         },
       });
-      if (pluginId === "feishu") {
-        const surface = await loadBundledPluginFacade<{
-          registerFeishuBitableTools(api: OpenClawPluginApi): void;
-        }>({ pluginId, artifactBasename: "api.js" });
-        surface.registerFeishuBitableTools(api);
-      } else {
-        const surface = await loadBundledPluginFacade<{
-          default: { register(api: OpenClawPluginApi): void };
-        }>({ pluginId, artifactBasename: "index.js" });
-        surface.default.register(api);
-      }
+      const surface = await loadBundledPluginFacade<{
+        default: { register(api: OpenClawPluginApi): void };
+      }>({ pluginId, artifactBasename: "index.js" });
+      surface.default.register(api);
       expect(registered.length).toBeGreaterThan(1);
 
       // Plugin suites own exact wording. This core contract protects its passage

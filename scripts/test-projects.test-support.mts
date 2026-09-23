@@ -604,21 +604,6 @@ const PRECISE_SOURCE_TEST_TARGETS = new Map<string, string[]>([
     ],
   ],
   [
-    "extensions/slack/src/monitor/enterprise-install.ts",
-    [
-      "extensions/slack/src/monitor/enterprise-install.test.ts",
-      "extensions/slack/src/monitor/provider.auth-test-token.test.ts",
-    ],
-  ],
-  [
-    "extensions/slack/src/channel-actions.ts",
-    [
-      "extensions/slack/src/actions.reactions-limit.test.ts",
-      "extensions/slack/src/channel-actions-setup-status.contract.test.ts",
-      "extensions/slack/src/message-tools.test.ts",
-    ],
-  ],
-  [
     "src/gateway/worker-environments/worker-turn-launcher.ts",
     [
       "src/gateway/worker-environments/worker-turn-launcher.test.ts",
@@ -636,7 +621,6 @@ const RUNTIME_SIDECAR_PATH_CONSUMER_TEST_TARGETS = [
   ...RUNTIME_SIDECAR_BASELINE_OWNER_TEST_TARGETS,
   "src/infra/update-global.test.ts",
   "src/infra/update-runner.test.ts",
-  "test/openclaw-npm-postpublish-verify.test.ts",
 ];
 const GITHUB_YAML_PINNING_GUARD_TEST_TARGETS = ["test/scripts/ci-workflow-guards.test.ts"];
 const GROUP_VISIBLE_REPLY_TEST_TARGETS = [
@@ -647,7 +631,6 @@ const GROUP_VISIBLE_REPLY_TEST_TARGETS = [
   "src/auto-reply/reply/followup-runner.test.ts",
   "src/auto-reply/reply/groups.test.ts",
   "extensions/discord/src/monitor/message-handler.process.test.ts",
-  "extensions/slack/src/monitor.tool-result.test.ts",
 ];
 const GROUP_VISIBLE_REPLY_PROMPT_TEST_TARGETS = [
   "src/agents/system-prompt.test.ts",
@@ -669,23 +652,11 @@ const CHANNEL_CONTRACT_REGISTRY_BACKED_TARGETS = [
 const CHANNEL_PLUGIN_SHAPE_PARITY_TEST_TARGET =
   "src/channels/plugins/contracts/plugin-shape.contract.test.ts";
 const CHANNEL_PLUGIN_SHAPE_PARITY_WIRING_PATHS = new Set([
-  "extensions/imessage/message-tool-api.ts",
-  "extensions/imessage/src/actions.ts",
-  "extensions/imessage/src/channel.ts",
-  "extensions/slack/message-tool-api.ts",
-  "extensions/slack/src/channel-actions.ts",
-  "extensions/slack/src/channel.ts",
-  "extensions/mattermost/gateway-auth-api.ts",
-  "extensions/mattermost/src/channel.ts",
-  "extensions/feishu/session-key-api.ts",
-  "extensions/feishu/src/channel.ts",
   "extensions/telegram/session-key-api.ts",
   "extensions/telegram/src/channel.ts",
   "extensions/discord/session-key-api.ts",
   "extensions/discord/thread-binding-api.ts",
   "extensions/discord/src/channel.ts",
-  "extensions/matrix/thread-binding-api.ts",
-  "extensions/matrix/src/channel.ts",
 ]);
 const TEST_HELPER_NORMALIZE_TEXT_TARGETS = [
   "src/auto-reply/reply/commands-status.test.ts",
@@ -693,7 +664,6 @@ const TEST_HELPER_NORMALIZE_TEXT_TARGETS = [
   "src/tui/components/chat-log.test.ts",
 ];
 const HAPPY_PATH_PROMPT_SNAPSHOT_HELPER_TEST_TARGETS = ["test/scripts/prompt-snapshots.test.ts"];
-const APPCAST_TEST_TARGETS = ["test/appcast.test.ts", "test/scripts/make-appcast.test.ts"];
 const CODEX_VERSION_CONTRACT_TEST_TARGETS = [
   "extensions/codex/src/manifest.test.ts",
   "extensions/openai/openai-provider.test.ts",
@@ -702,7 +672,6 @@ const CODEX_VERSION_CONTRACT_TEST_TARGETS = [
 // The iframe script and native document load as assets outside the import graph.
 const MERMAID_RENDERER_TEST_TARGETS = [
   "ui/src/components/markdown-mermaid.runtime.browser.test.ts",
-  "ui/src/components/markdown-mermaid-native.browser.test.ts",
 ];
 const SOURCE_TEST_TARGETS = new Map([
   ...PRECISE_SOURCE_TEST_TARGETS,
@@ -713,20 +682,9 @@ const SOURCE_TEST_TARGETS = new Map([
       "test/scripts/ci-chrome-mcp-prewarm.test.ts",
     ],
   ],
-  [
-    "scripts/prepare-apple-mermaid.mjs",
-    [
-      "test/scripts/build-and-run-mac.test.ts",
-      "test/scripts/package-mac-app.test.ts",
-      "test/scripts/ci-workflow-guards.test.ts",
-    ],
-  ],
   ["packages/mermaid-renderer/package.json", MERMAID_RENDERER_TEST_TARGETS],
-  ["packages/mermaid-renderer/vite.config.ts", MERMAID_RENDERER_TEST_TARGETS],
-  ["packages/mermaid-renderer/native/index.html", MERMAID_RENDERER_TEST_TARGETS],
   ["packages/mermaid-renderer/src/renderer.ts", MERMAID_RENDERER_TEST_TARGETS],
   ["packages/mermaid-renderer/src/frame.js", MERMAID_RENDERER_TEST_TARGETS],
-  ["packages/mermaid-renderer/src/native.ts", MERMAID_RENDERER_TEST_TARGETS],
   [
     "packages/normalization-core/src/record-coerce.ts",
     ["packages/normalization-core/src/record-coerce.test.ts", ...MERMAID_RENDERER_TEST_TARGETS],
@@ -755,18 +713,6 @@ const SOURCE_TEST_TARGETS = new Map([
     "test/helpers/agents/happy-path-prompt-snapshots.ts",
     HAPPY_PATH_PROMPT_SNAPSHOT_HELPER_TEST_TARGETS,
   ],
-  [
-    "test/e2e/qa-lab/runtime/qa-otel-smoke-runtime.ts",
-    ["test/e2e/qa-lab/runtime/qa-otel-smoke.e2e.test.ts"],
-  ],
-  [
-    "test/e2e/qa-lab/runtime/heartbeat-active-hours-runtime.ts",
-    ["test/e2e/qa-lab/runtime/heartbeat-active-hours-runtime.test.ts"],
-  ],
-  [
-    "test/e2e/qa-lab/runtime/telegram-bot-token-runtime.ts",
-    ["test/e2e/qa-lab/runtime/telegram-bot-token-runtime.test.ts"],
-  ],
   ["src/plugins/runtime-sidecar-paths-baseline.ts", RUNTIME_SIDECAR_BASELINE_OWNER_TEST_TARGETS],
   ["src/plugins/runtime-sidecar-paths.ts", RUNTIME_SIDECAR_PATH_CONSUMER_TEST_TARGETS],
   ["ui/config/control-ui-chunking.ts", ["ui/src/app/control-ui-chunking.test.ts"]],
@@ -775,7 +721,6 @@ const SOURCE_TEST_TARGETS = new Map([
     "src/plugin-sdk/test-helpers/directory-ids.ts",
     [
       "extensions/discord/src/directory-contract.test.ts",
-      "extensions/slack/src/directory-contract.test.ts",
       "extensions/telegram/src/directory-contract.test.ts",
     ],
   ],
@@ -784,50 +729,6 @@ const SOURCE_TEST_TARGETS = new Map([
     ["src/plugins/contracts/plugin-sdk-subpaths.test.ts", ...GROUP_VISIBLE_REPLY_TEST_TARGETS],
   ],
   ["src/plugin-sdk/reply-runtime.ts", ["src/plugins/contracts/plugin-sdk-subpaths.test.ts"]],
-  ["extensions/google-meet/index.ts", ["extensions/google-meet/index.test.ts"]],
-  [
-    "extensions/google-meet/src/cli.ts",
-    [
-      "extensions/google-meet/src/cli-artifacts.test.ts",
-      "extensions/google-meet/src/cli-runtime.test.ts",
-      "extensions/google-meet/src/cli.test.ts",
-    ],
-  ],
-  [
-    "extensions/google-meet/src/cli-artifact-commands.ts",
-    ["extensions/google-meet/src/cli-artifacts.test.ts"],
-  ],
-  [
-    "extensions/google-meet/src/cli-export.ts",
-    ["extensions/google-meet/src/cli-artifacts.test.ts"],
-  ],
-  [
-    "extensions/google-meet/src/cli-space-commands.ts",
-    ["extensions/google-meet/src/cli-artifacts.test.ts"],
-  ],
-  [
-    "extensions/google-meet/src/cli-runtime-commands.ts",
-    ["extensions/google-meet/src/cli-runtime.test.ts"],
-  ],
-  ["extensions/google-meet/src/cli-doctor.ts", ["extensions/google-meet/src/cli.test.ts"]],
-  [
-    "extensions/google-meet/src/cli-command-context.ts",
-    [
-      "extensions/google-meet/src/cli-artifacts.test.ts",
-      "extensions/google-meet/src/cli-runtime.test.ts",
-      "extensions/google-meet/src/cli.test.ts",
-    ],
-  ],
-  [
-    "extensions/google-meet/src/cli-shared.ts",
-    [
-      "extensions/google-meet/src/cli-artifacts.test.ts",
-      "extensions/google-meet/src/cli-runtime.test.ts",
-      "extensions/google-meet/src/cli.test.ts",
-    ],
-  ],
-  ["extensions/google-meet/src/create.ts", ["extensions/google-meet/index.test.ts"]],
-  ["extensions/google-meet/src/oauth.ts", ["extensions/google-meet/src/oauth.test.ts"]],
   [
     "extensions/discord/src/monitor/message-handler.ts",
     [
@@ -1305,7 +1206,6 @@ function resolveExplicitSourceTestTargets(
       cwd,
       forceFullImportGraph: options.forceFullImportGraph === true,
     }) ?? []),
-    ...(options.watchMode ? [] : resolveKovaSchemaTestTargets(relative)),
   ];
   if (preciseTargets.length > 0) {
     return [...new Set(preciseTargets)].toSorted((left, right) => left.localeCompare(right));
@@ -2199,7 +2099,6 @@ const dockerBuild = "docker-build-helper";
 const dockerE2e = "docker-e2e-plan";
 const workflowGuards = "ci-workflow-guards";
 const pluginPrerelease = "plugin-prerelease-test-plan";
-const releaseCheck = "test/release-check.test.ts";
 const changedScope = "src/scripts/ci-changed-scope.test.ts";
 const changedScopeTests = [
   "src/scripts/ci-changed-scope.contract-fixtures.test.ts",
@@ -2211,9 +2110,6 @@ const changedScopeTests = [
 ];
 const dockerCache = "src/docker-build-cache.test.ts";
 const dockerDigests = "src/docker-image-digests.test.ts";
-const openaiChatToolsE2e = "test/e2e/qa-lab/runtime/openai-compatible-chat-tools.e2e.test.ts";
-const npmPostpublish = "test/openclaw-npm-postpublish-verify.test.ts";
-const crossOsReleaseChecks = "openclaw-cross-os-release-checks";
 const runNode = "src/infra/run-node.test.ts";
 const pluginSdkEntryOwners = [
   "src/plugins/contracts/plugin-sdk-index.bundle.test.ts",
@@ -2222,7 +2118,6 @@ const pluginSdkEntryOwners = [
   "src/plugins/contracts/extension-package-project-boundaries.test.ts",
   "plugin-sdk-surface-report",
   "build-all",
-  releaseCheck,
   "prepare-extension-package-boundary-artifacts",
   "ts-topology",
   "test/vitest/vitest.tooling.config.ts",
@@ -2239,20 +2134,6 @@ const EXACT_TOOLING_TARGETS = new Map<string, string[]>([
     ".github/workflows/openclaw-live-and-e2e-checks-reusable.yml",
     [packageAcceptance, workflowGuards, "release-workflow-matrix-plan"],
   ],
-  [
-    ".github/workflows/plugin-clawhub-release.yml",
-    [packageAcceptance, "plugin-release-git-lifecycle", workflowGuards],
-  ],
-  [
-    ".github/workflows/plugin-npm-release.yml",
-    [
-      packageAcceptance,
-      "plugin-npm-extended-stable-workflow",
-      "plugin-release-git-lifecycle",
-      workflowGuards,
-    ],
-  ],
-  [".github/workflows/qa-live-transports-convex.yml", [packageAcceptance, workflowGuards]],
   [".github/workflows/update-migration.yml", [packageAcceptance, workflowGuards]],
   [
     ".github/actions/setup-node-env/action.yml",
@@ -2262,51 +2143,23 @@ const EXACT_TOOLING_TARGETS = new Map<string, string[]>([
   [".github/actions/setup-node-env/seed-bun-from-image.mjs", ["setup-node-env-bun"]],
   [".github/actions/setup-pnpm-store-cache/action.yml", [packageAcceptance, workflowGuards]],
   [".github/actions/setup-pnpm-store-cache/ensure-node.sh", ["setup-pnpm-store-cache-ensure-node"]],
-  ["test/e2e/qa-lab/runtime/mcp-channels-docker-client.ts", [dockerE2e, pluginPrerelease]],
   ["scripts/e2e/lib/mcp-code-mode-probe-server.ts", ["mcp-code-mode-gateway-client"]],
   ["scripts/e2e/cron-cli-docker.sh", [dockerBuild, "docker-e2e-observability"]],
-  ["scripts/ios-release-upload.sh", ["ios-release-wrapper-args", "ios-release-fastlane-gates"]],
-  ["scripts/release-verify-beta.ts", ["release-wrapper-scripts"]],
-  ["scripts/lib/bundled-plugin-build-entries.mjs", ["bundled-plugin-build-entries", releaseCheck]],
+  ["scripts/lib/bundled-plugin-build-entries.mjs", ["bundled-plugin-build-entries"]],
   ["scripts/lib/docker-e2e-package.sh", [dockerBuild]],
   [
     "scripts/lib/release-version.mjs",
     [
       "test/release-version.test.ts",
       "test/npm-publish-plan.test.ts",
-      "test/openclaw-npm-release-check.test.ts",
-      npmPostpublish,
-      "test/plugin-npm-release.test.ts",
-      "test/plugin-clawhub-release.test.ts",
-      "android-version",
-      "android-pin-version",
-      "docker-release-policy",
-      "docker-release-artifacts",
-      "full-release-validation-at-sha",
-      "ios-version",
       "openclaw-npm-extended-stable-release",
-      "openclaw-npm-publish",
       "npm-prepared-bundle",
-      "release-preflight",
-      "release-prepare",
       "release-upgrade-baseline",
-      "release-version",
       "upgrade-survivor-baselines",
       "upgrade-survivor-config-recipe",
     ],
   ],
-  [
-    "scripts/lib/release-context.mjs",
-    ["full-release-validation-at-sha", "release-candidate-checklist", packageAcceptance],
-  ],
-  [
-    "scripts/lib/clawhub-bootstrap-artifact.mjs",
-    ["clawhub-bootstrap-artifact", "verify-clawhub-published-artifact"],
-  ],
-  [
-    "scripts/lib/plugin-npm-release.ts",
-    ["test/plugin-npm-release.test.ts", "test/plugin-clawhub-release.test.ts"],
-  ],
+  ["scripts/lib/release-context.mjs", [packageAcceptance]],
   [
     "scripts/lib/extension-source-classifier.mts",
     [
@@ -2331,7 +2184,6 @@ const EXACT_TOOLING_TARGETS = new Map<string, string[]>([
   ["scripts/docker-e2e-rerun.mts", ["docker-e2e-helper-cli"]],
   ["scripts/openclaw-postpack.mjs", [TOOLING_VITEST_CONFIG]],
   ["scripts/package-manifest.mjs", ["test/openclaw-prepack.test.ts"]],
-  ["scripts/openclaw-npm-prepublish-verify.ts", ["test/openclaw-npm-prepublish-verify.test.ts"]],
   ["scripts/lib/docker-e2e-scenarios.mts", [dockerE2e, pluginPrerelease]],
   ["scripts/lib/upgrade-survivor-policy.mjs", [dockerE2e]],
   ["scripts/e2e/kitchen-sink-rpc-walk.mts", ["kitchen-sink-rpc-walk", pluginPrerelease]],
@@ -2357,7 +2209,6 @@ const EXACT_TOOLING_TARGETS = new Map<string, string[]>([
     "scripts/e2e/gateway-network-docker.sh",
     [dockerBuild, dockerE2e, packageAcceptance, "gateway-network-client", changedScope],
   ],
-  ["scripts/e2e/npm-telegram-live-runner.ts", ["npm-telegram-live"]],
   [
     "scripts/e2e/upgrade-survivor-docker.sh",
     [
@@ -2408,20 +2259,6 @@ const EXACT_TOOLING_TARGETS = new Map<string, string[]>([
     "scripts/e2e/release-user-journey-docker.sh",
     [dockerBuild, dockerE2e, packageAcceptance, "release-user-journey-assertions"],
   ],
-  [
-    "scripts/e2e/openai-image-auth-docker.sh",
-    [
-      dockerBuild,
-      dockerE2e,
-      "openai-image-auth-docker-client",
-      "extensions/openai/image-generation-provider.test.ts",
-    ],
-  ],
-  ["scripts/e2e/lib/openai-chat-tools/client.mjs", [openaiChatToolsE2e]],
-  [
-    "scripts/e2e/lib/openai-web-search-minimal/client.mjs",
-    ["test/e2e/qa-lab/runtime/openai-web-search-minimal.e2e.test.ts"],
-  ],
   ["scripts/e2e/qr-import-docker.sh", [dockerBuild]],
   ["scripts/bundle-a2ui.mts", ["bundled-plugin-assets"]],
 ]);
@@ -2463,110 +2300,11 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       "verify-pr-hosted-gates",
     ],
   ],
-  [
-    /^\.github\/workflows\/ci-check-testbox\.yml$/u,
-    [workflowGuards, packageAcceptance, "changed-lanes"],
-  ],
-  [/^\.github\/workflows\/ci-check-arm-testbox\.yml$/u, [workflowGuards, packageAcceptance]],
-  [/^\.github\/workflows\/crabbox-hydrate\.yml$/u, [workflowGuards, packageAcceptance]],
-  [/^\.github\/workflows\/ci-build-artifacts-testbox\.yml$/u, [packageAcceptance, workflowGuards]],
-  [
-    /^\.github\/workflows\/full-release-validation\.yml$/u,
-    [
-      "src/dockerfile.test.ts",
-      "full-release-validation-state",
-      "full-release-validation-at-sha",
-      "full-release-candidate-reuse",
-      "find-reusable-release-validation",
-      "openclaw-npm-extended-stable-full-validation-workflow",
-      "release-no-push-workflow",
-      "release-ci-summary",
-      packageAcceptance,
-      pluginPrerelease,
-      "check-workflows",
-    ],
-  ],
-  [
-    /^\.github\/workflows\/full-release-candidate\.yml$/u,
-    ["full-release-candidate-reuse", packageAcceptance, "check-workflows", workflowGuards],
-  ],
-  [
-    /^\.github\/workflows\/openclaw-release-checks\.yml$/u,
-    [packageAcceptance, crossOsReleaseChecks, pluginPrerelease],
-  ],
-  [
-    /^\.github\/workflows\/docker-release(?:-prepare)?\.yml$/u,
-    [
-      "src/dockerfile.test.ts",
-      "docker-channel-promote",
-      "docker-release-artifacts",
-      "vercel-container-registry-publish",
-    ],
-  ],
   [/^\.github\/workflows\/install-smoke\.yml$/u, ["install-smoke-no-push-workflow"]],
-  [
-    /^\.github\/workflows\/openclaw-performance\.yml$/u,
-    ["openclaw-performance-workflow", "openclaw-performance-git-lifecycle"],
-  ],
-  [/^\.github\/workflows\/linux-app-release\.yml$/u, ["release-workflow-git-lifecycle"]],
-  [
-    /^\.github\/workflows\/macos-release\.yml$/u,
-    ["release-workflow-git-lifecycle", packageAcceptance],
-  ],
-  [
-    /^\.github\/workflows\/npm-placeholder-bootstrap\.yml$/u,
-    ["release-workflow-git-lifecycle", "npm-placeholder-publication"],
-  ],
-  [/^\.github\/workflows\/plugin-prerelease\.yml$/u, [pluginPrerelease]],
-  [/^\.github\/workflows\/tui-pty\.yml$/u, [packageAcceptance]],
-  [
-    /^\.github\/workflows\/openclaw-cross-os-release-checks-reusable\.yml$/u,
-    [crossOsReleaseChecks, "openclaw-cross-os-release-workflow", packageAcceptance],
-  ],
-  [
-    /^\.github\/workflows\/openclaw-release-publish\.yml$/u,
-    [packageAcceptance, "docker-release-artifacts", "vercel-container-registry-publish"],
-  ],
   [/^\.github\/workflows\/package-acceptance\.yml$/u, [packageAcceptance]],
+  [/^\.github\/workflows\/labeler\.yml$/u, [workflowGuards]],
   [
-    /^\.github\/workflows\/vercel-container-registry-publish\.yml$/u,
-    ["docker-channel-promote", "release-plan-producer", "vercel-container-registry-publish"],
-  ],
-  [
-    /^\.github\/workflows\/plugin-clawhub-new\.yml$/u,
-    [packageAcceptance, "plugin-clawhub-new-workflow"],
-  ],
-  [
-    /^\.github\/workflows\/openclaw-npm-release\.yml$/u,
-    [npmPostpublish, "openclaw-npm-extended-stable-workflow", packageAcceptance],
-  ],
-  [
-    new RegExp(
-      [
-        "^\\.github\\/workflows\\/(?:auto-response|clawsweeper-dispatch|labeler|",
-        "real-behavior-proof|stale)\\.yml$",
-      ].join(""),
-      "u",
-    ),
-    [workflowGuards],
-  ],
-  [
-    new RegExp(
-      [
-        "^\\.github\\/workflows\\/mantis-(?:discord-(?:smoke|status-reactions|",
-        "thread-attachment)|slack-desktop-smoke)\\.yml$",
-      ].join(""),
-      "u",
-    ),
-    [packageAcceptance, workflowGuards],
-  ],
-  [
-    /^\.github\/(?:workflows\/mantis-web-ui-chat-proof\.yml|actions\/mantis-validate-trusted-ref\/action\.yml)$/u,
-    ["mantis-web-ui-chat-proof-workflow", packageAcceptance, workflowGuards],
-  ],
-  [/^\.github\/workflows\/android-release\.yml$/u, [packageAcceptance, workflowGuards]],
-  [
-    /^\.github\/(?:actions\/(?:ensure-base-commit|git-owner|publish-generated-pr|mantis-validate-trusted-ref)\/|workflows\/(?:workflow-sanity|qa-profile-evidence|maturity-scorecard|docs-agent|docs-sync-publish|openclaw-performance|linux-app-release|macos-release|npm-placeholder-bootstrap|plugin-clawhub-release|plugin-npm-release|mantis-(?:discord-(?:smoke|status-reactions|thread-attachment)|slack-desktop-smoke|web-ui-chat-proof))\.yml$)/u,
+    /^\.github\/(?:actions\/(?:ensure-base-commit|git-owner|publish-generated-pr)\/|workflows\/(?:workflow-sanity|docs-agent|docs-sync-publish)\.yml$)/u,
     [
       "ci-git-owner",
       "ci-linux-git",
@@ -2594,29 +2332,12 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     ),
     ["prompt-snapshots"],
   ],
-  [/^scripts\/e2e\/npm-telegram-live-docker\.sh$/u, ["npm-telegram-live"]],
-  [
-    /^scripts\/package-openclaw-for-docker\.m[jt]s$/u,
-    ["test/e2e/qa-lab/runtime/package-openclaw-for-docker.e2e.test.ts"],
-  ],
   [/^scripts\/run-node\.(?:mjs|mts)$/u, [runNode]],
-  [/^scripts\/ios-write-swift-filelist\.m[jt]s$/u, ["ios-run"]],
   [/^scripts\/pr-lib\/merge(?:-outcome)?\.sh$/u, ["pr-merge", "pr-merge-outcome"]],
-  [/^scripts\/plugin-clawhub-publish\.sh$/u, ["test/plugin-clawhub-release.test.ts"]],
-  [/^scripts\/openclaw-npm-postpublish-verify\.ts$/u, [npmPostpublish]],
-  [/^scripts\/install\.ps1$/u, ["install-ps1", crossOsReleaseChecks, changedScope]],
-  [
-    /^scripts\/(?:crabbox-wrapper(?:-providers)?|crabbox-routing-policy|testbox-lease-freshness)\.mts$/u,
-    ["crabbox-wrapper"],
-  ],
-  [/^scripts\/crabbox-wrapper\.mjs$/u, ["crabbox-wrapper"]],
+  [/^scripts\/install\.ps1$/u, ["install-ps1", changedScope]],
   [
     /^scripts\/copy-bundled-plugin-metadata\.(?:mjs|mts)$/u,
     ["src/plugins/copy-bundled-plugin-metadata.test.ts", runNode],
-  ],
-  [
-    /^scripts\/github\/run-openclaw-cross-os-release-checks\.sh$/u,
-    ["openclaw-cross-os-release-workflow"],
   ],
   [
     /^scripts\/(?:write-plugin-sdk-entry-dts\.ts|lib\/local-check-runtime\.mts)$/u,
@@ -2629,9 +2350,7 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     ],
   ],
   [/^scripts\/pr-lib\/worktree\.sh$/u, ["test/vitest/vitest.tooling.config.ts"]],
-  [/^scripts\/dev\/gateway-smoke\.ts$/u, ["test/e2e/qa-lab/runtime/gateway-smoke.e2e.test.ts"]],
   [/^scripts\/e2e\/mock-openai-server\.mjs$/u, ["e2e-mock-config-limits"]],
-  [/^apps\/android\/scripts\/build-release-artifacts\.ts$/u, ["android-release-artifacts"]],
   [
     new RegExp(
       [
@@ -2643,7 +2362,6 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     ),
     ["auth-monitor"],
   ],
-  [/^scripts\/native-app-i18n\.ts$/u, ["native-app-i18n", workflowGuards]],
   [
     /^scripts\/github\/(?:dependency-guard|guard-shared)\.mjs$/u,
     ["dependency-guard-script", "dependency-guard-workflow"],
@@ -2652,7 +2370,6 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     /^scripts\/github\/(?:security-sensitive-guard|guard-shared)\.mjs$/u,
     ["security-sensitive-guard-script", "security-sensitive-guard-workflow"],
   ],
-  [/^scripts\/plugin-clawhub-release-check\.ts$/u, ["release-wrapper-scripts"]],
   [
     /^scripts\/generate-runtime-sidecar-paths-baseline\.ts$/u,
     ["src/plugins/bundled-plugin-metadata.test.ts"],
@@ -2673,20 +2390,14 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     /^scripts\/check-workflows\.mts$/u,
     ["check-composite-action-input-interpolation", "check-no-conflict-markers", workflowGuards],
   ],
-  [/^apps\/android\/fastlane\/Fastfile$/u, ["android-release-fastlane-gates"]],
-  [/^apps\/ios\/fastlane\/Fastfile$/u, ["ios-release-fastlane-gates"]],
-  [/^scripts\/ios-release-cut\.(?:sh|ts)$/u, ["ios-release-plan"]],
-  [/^scripts\/ios-release-prepare\.sh$/u, ["ios-release-prepare", "ios-release-wrapper-args"]],
   [
     /^scripts\/lib\/bundled-runtime-sidecar-paths\.json$/u,
     [
       "src/plugins/bundled-plugin-metadata.test.ts",
       "src/infra/update-global.test.ts",
       "src/infra/update-runner.test.ts",
-      npmPostpublish,
     ],
   ],
-  [/^scripts\/lib\/android-version\.ts$/u, ["android-version", "android-pin-version"]],
   [
     /^scripts\/lib\/docker-e2e-plan\.(?:mjs|mts)$/u,
     [dockerE2e, "docker-all-scheduler", pluginPrerelease],
@@ -2715,26 +2426,21 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     /^scripts\/lib\/official-external-channel-(?:catalog|seed)\.json$/u,
     [
       "src/plugins/official-external-plugin-catalog.test.ts",
-      releaseCheck,
       "test/official-channel-catalog.test.ts",
     ],
   ],
   [
     /^scripts\/lib\/official-external-provider-catalog\.json$/u,
-    ["src/plugins/official-external-plugin-catalog.test.ts", releaseCheck],
+    ["src/plugins/official-external-plugin-catalog.test.ts"],
   ],
   [
     /^scripts\/lib\/official-external-plugin-catalog\.json$/u,
-    ["src/plugins/official-external-plugin-catalog.test.ts", releaseCheck],
-  ],
-  [
-    /^scripts\/lib\/workspace-bootstrap-smoke\.mts$/u,
-    [releaseCheck, "test/openclaw-npm-release-check.test.ts"],
+    ["src/plugins/official-external-plugin-catalog.test.ts"],
   ],
   [/^scripts\/lib\/extension-test-plan\.(?:mjs|mts)$/u, ["test-extension"]],
   [
     /^scripts\/lib\/recommended-tool-installs\.json$/u,
-    ["src/plugins/recommended-tool-installs.test.ts", releaseCheck],
+    ["src/plugins/recommended-tool-installs.test.ts"],
   ],
   [
     /^scripts\/lib\/local-build-metadata(?:-paths)?\.(?:mjs|mts)$/u,
@@ -2743,61 +2449,23 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       "runtime-postbuild-stamp",
       runNode,
       "src/infra/package-dist-inventory.test.ts",
-      releaseCheck,
-      "test/openclaw-npm-release-check.test.ts",
       "check-gateway-watch-regression",
       "check-openclaw-package-tarball",
-      crossOsReleaseChecks,
     ],
   ],
   [
     /^scripts\/lib\/package-dist-imports\.mjs$/u,
-    [
-      "check-package-dist-imports",
-      "check-openclaw-package-tarball",
-      "postinstall-bundled-plugins",
-      releaseCheck,
-    ],
+    ["check-package-dist-imports", "check-openclaw-package-tarball", "postinstall-bundled-plugins"],
   ],
-  [
-    /^scripts\/lib\/build-metadata\.sh$/u,
-    [
-      "src/docker-setup.e2e.test.ts",
-      "apple-release-source-check",
-      "ios-version",
-      "package-mac-app",
-    ],
-  ],
-  [/^scripts\/lib\/plistbuddy\.sh$/u, ["create-dmg", "package-mac-app", "package-mac-dist"]],
-  [/^scripts\/lib\/swift-toolchain\.sh$/u, ["package-mac-app", "package-mac-dist"]],
-  [/^scripts\/stage-cua-driver-macos\.sh$/u, ["package-mac-app"]],
-  [
-    /^scripts\/(stage-cloudflared-macos\.sh|lib\/cloudflared-macos\.json)$/u,
-    ["stage-cloudflared-macos", "package-mac-app"],
-  ],
+  [/^scripts\/lib\/build-metadata\.sh$/u, ["src/docker-setup.e2e.test.ts"]],
   [
     /^scripts\/lib\/npm-publish-plan\.mjs$/u,
     [
       "test/npm-publish-plan.test.ts",
-      "test/openclaw-npm-release-check.test.ts",
-      npmPostpublish,
-      "test/plugin-npm-release.test.ts",
-      "test/plugin-clawhub-release.test.ts",
       "release-upgrade-baseline",
-      "android-version",
-      "ios-version",
       "upgrade-survivor-baselines",
       "upgrade-survivor-config-recipe",
     ],
-  ],
-  [/^scripts\/lib\/npm-pack-budget\.mts$/u, [releaseCheck]],
-  [
-    /^scripts\/lib\/actions-artifact-archive\.mjs$/u,
-    ["full-release-candidate-reuse", "plugin-publication-artifact"],
-  ],
-  [
-    /^scripts\/(?:lib\/)?full-release-candidate-reuse\.(?:mjs|d\.mts)$/u,
-    ["full-release-candidate-reuse"],
   ],
   [
     /^scripts\/lib\/static-extension-assets\.(?:mjs|mts)$/u,
@@ -2853,27 +2521,10 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       ].join(""),
       "u",
     ),
-    [packageAcceptance, "plugin-clawhub-new-workflow"],
+    [packageAcceptance],
   ],
-  [
-    new RegExp(
-      [
-        "^(?:scripts\\/materialize-vercel-cli\\.sh|",
-        "\\.github\\/release\\/vercel-cli\\/package(?:-lock)?\\.json)$",
-      ].join(""),
-      "u",
-    ),
-    ["test/scripts/vercel-container-registry-publish.test.ts"],
-  ],
-  [
-    /^scripts\/lib\/generated-text-asset\.mts$/u,
-    ["build-diffs-viewer-runtime", "bundled-plugin-assets"],
-  ],
+  [/^scripts\/lib\/generated-text-asset\.mts$/u, ["bundled-plugin-assets"]],
   [/^scripts\/check-plugin-npm-runtime-builds\.mts$/u, ["plugin-npm-runtime-build-args"]],
-  [
-    /^scripts\/sparkle-build\.ts$/u,
-    ["test/appcast.test.ts", releaseCheck, "package-mac-app", "package-mac-dist"],
-  ],
   [
     /^test\/vitest\/vitest\.contracts-paths\.mjs$/u,
     [
@@ -2885,7 +2536,7 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       "test/vitest/vitest.contracts-channel-session.config.ts",
     ],
   ],
-  [/^scripts\/e2e\/openai-chat-tools-docker\.sh$/u, [openaiChatToolsE2e, dockerE2e]],
+  [/^scripts\/e2e\/openai-chat-tools-docker\.sh$/u, [dockerE2e]],
   [
     /^scripts\/e2e\/session-runtime-context-docker\.sh$/u,
     [
@@ -2899,7 +2550,7 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       [
         "^scripts\\/e2e\\/(?!(?:config-reload-source|",
         "kitchen-sink-(?:plugin|rpc)|npm-telegram-live|onboard|openai-chat-tools|",
-        "plugin-lifecycle-matrix|release-media-memory|session-runtime-context|",
+        "release-media-memory|session-runtime-context|",
         "update-corrupt-plugin)-docker\\.sh$).+-docker\\.sh$",
       ].join(""),
       "u",
@@ -2908,7 +2559,6 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
   ],
   [/^scripts\/e2e\/kitchen-sink-rpc-docker\.sh$/u, [dockerBuild, pluginPrerelease]],
   [/^scripts\/e2e\/kitchen-sink-plugin-docker\.sh$/u, [dockerBuild, pluginPrerelease]],
-  [/^scripts\/e2e\/plugin-lifecycle-matrix-docker\.sh$/u, [dockerBuild]],
   [
     /^scripts\/e2e\/release-media-memory-docker\.sh$/u,
     [dockerE2e, "release-media-memory-scenario"],
@@ -2955,36 +2605,11 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     [dockerDigests, dockerBuild, dockerE2e],
   ],
   [
-    new RegExp(
-      [
-        "^(?:scripts\\/e2e|test\\/e2e\\/qa-lab\\/runtime)\\/agent-bundle-mcp-tools-doc",
-        "ker(?:-client)?\\.(?:sh|ts)$",
-      ].join(""),
-      "u",
-    ),
+    /^scripts\/e2e\/agent-bundle-mcp-tools-docker\.sh$/u,
     [
       "src/agents/agent-bundle-mcp-runtime.test.ts",
       "src/agents/agent-bundle-mcp-tools.materialize.test.ts",
     ],
-  ],
-  [
-    /^test\/e2e\/qa-lab\/runtime\/system-agent-first-run-docker-client\.ts$/u,
-    [
-      "src/cli/program/register.onboard.test.ts",
-      "src/cli/run-main.test.ts",
-      "src/cli/run-main.exit.test.ts",
-      "src/commands/system-agent-with-inference.test.ts",
-      "src/system-agent/assistant.configured.test.ts",
-      "src/system-agent/assistant.test.ts",
-      "src/system-agent/system-agent.test.ts",
-      "src/system-agent/operations.test.ts",
-      "src/system-agent/overview.test.ts",
-      "src/system-agent/audit.test.ts",
-    ],
-  ],
-  [
-    /^scripts\/e2e\/system-agent-first-run-spec\.json$/u,
-    ["src/system-agent/operations.test.ts", "src/system-agent/audit.test.ts"],
   ],
   [
     /^scripts\/e2e\/system-agent-rescue-docker-client\.ts$/u,
@@ -3007,8 +2632,7 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
       [
         "^(?:scripts\\/e2e\\/(?!(?:cron-mcp-cleanup-docker-client\\.ts)$)(?:agent-bu",
         "ndle-mcp-tools|mcp-[^/]+-docker|cron-mcp-cleanup-docker|",
-        "bundled-plugin-install-uninstall|plugin-update-unchanged).+|",
-        "test\\/e2e\\/qa-lab\\/runtime\\/mcp-channels-docker-client\\.ts)$",
+        "bundled-plugin-install-uninstall|plugin-update-unchanged).+)$",
       ].join(""),
       "u",
     ),
@@ -3040,10 +2664,6 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
   ],
   [/^scripts\/e2e\/cron-mcp-cleanup-docker\.sh$/u, ["cron-mcp-cleanup-docker-client"]],
   [
-    /^test\/e2e\/qa-lab\/runtime\/mcp-channels\.fixture\.ts$/u,
-    ["test/e2e/qa-lab/runtime/mcp-gateway-transport.e2e.test.ts", "cron-mcp-cleanup-docker-client"],
-  ],
-  [
     /^scripts\/e2e\/lib\/auth-profile-store-assertions\.mjs$/u,
     ["release-scenarios-assertions", "npm-onboard-channel-agent-assertions"],
   ],
@@ -3057,45 +2677,14 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
   ],
   [/^scripts\/e2e\/lib\/fixtures\/config\.mjs$/u, ["fixture-config"]],
   [/^scripts\/e2e\/lib\/fixtures\/plugins\.mjs$/u, ["fixture-plugin-commands"]],
-  [
-    /^scripts\/e2e\/lib\/codex-app-server-fixture\.mjs$/u,
-    ["codex-media-path-client", "test/e2e/qa-lab/runtime/codex-auth-product-proof.e2e.test.ts"],
-  ],
+  [/^scripts\/e2e\/lib\/codex-app-server-fixture\.mjs$/u, ["codex-media-path-client"]],
   [
     /^scripts\/e2e\/lib\/incremental-line-reader\.mjs$/u,
-    [
-      "incremental-line-reader",
-      "config-reload-log-scanner",
-      "codex-media-path-client",
-      "test/e2e/qa-lab/runtime/codex-auth-product-proof.e2e.test.ts",
-    ],
+    ["incremental-line-reader", "config-reload-log-scanner", "codex-media-path-client"],
   ],
   [
     /^scripts\/e2e\/lib\/fixture\.mjs$/u,
     ["fixture-config", "fixtures-workspace", "fixture-plugin-commands"],
-  ],
-  [
-    /^test\/e2e\/qa-lab\/runtime\/openai-image-auth-docker-client\.ts$/u,
-    [
-      "openai-image-auth-docker-client",
-      "extensions/openai/image-generation-provider.test.ts",
-      "src/image-generation/openai-compatible-image-provider.test.ts",
-    ],
-  ],
-  [
-    /^test\/e2e\/qa-lab\/runtime\/codex-auth-app-server\.fixture\.mjs$/u,
-    ["test/e2e/qa-lab/runtime/codex-auth-product-proof.e2e.test.ts"],
-  ],
-  [
-    /^scripts\/e2e\/lib\/openai-web-search-minimal\/(?:mock-server\.mjs|scenario\.sh)$/u,
-    [
-      "test/e2e/qa-lab/runtime/openai-web-search-minimal.e2e.test.ts",
-      "test/e2e/qa-lab/runtime/openai-web-search-minimal-assertions.e2e.test.ts",
-    ],
-  ],
-  [
-    /^scripts\/e2e\/lib\/openwebui\/http-probe\.mjs$/u,
-    ["test/e2e/qa-lab/runtime/openwebui-probe.e2e.test.ts"],
   ],
   [
     /^scripts\/e2e\/(?:browser-cdp-snapshot-docker\.sh|lib\/env-limits\.mjs)$/u,
@@ -3107,30 +2696,12 @@ const SEMANTIC_TOOLING_TARGET_PATTERNS: Array<[RegExp, string[]]> = [
     /^scripts\/e2e\/lib\/clawhub-fixture-server\.cjs$/u,
     ["clawhub-fixture-server", pluginPrerelease],
   ],
-  [
-    /^scripts\/e2e\/lib\/codex-media-path\/jsonl-request-tail\.mts$/u,
-    ["codex-media-path-client", "test/e2e/qa-lab/runtime/codex-auth-product-proof.e2e.test.ts"],
-  ],
+  [/^scripts\/e2e\/lib\/codex-media-path\/jsonl-request-tail\.mts$/u, ["codex-media-path-client"]],
   [
     /^scripts\/e2e\/lib\/codex-npm-plugin-live\/assertions\.mjs$/u,
     ["codex-install-assertions", dockerBuild],
   ],
-  [
-    /^scripts\/e2e\/(?:lib\/openai-chat-tools\/scenario\.sh|openai-chat-tools-docker\.sh)$/u,
-    [openaiChatToolsE2e],
-  ],
-  [/^scripts\/e2e\/lib\/openai-chat-tools\/write-config\.mjs$/u, [openaiChatToolsE2e]],
-  [
-    /^scripts\/e2e\/openai-web-search-minimal-docker\.sh$/u,
-    [
-      "test/e2e/qa-lab/runtime/openai-web-search-minimal.e2e.test.ts",
-      "test/e2e/qa-lab/runtime/openai-web-search-minimal-assertions.e2e.test.ts",
-    ],
-  ],
-  [
-    /^scripts\/e2e\/openwebui-docker\.sh$/u,
-    ["test/e2e/qa-lab/runtime/openwebui-probe.e2e.test.ts", "fixture-config"],
-  ],
+  [/^scripts\/e2e\/openwebui-docker\.sh$/u, ["fixture-config"]],
 ];
 function resolveSemanticToolingTargets(changedPath: string) {
   return SEMANTIC_TOOLING_TARGET_PATTERNS.flatMap(([pattern, owners]) =>
@@ -3170,7 +2741,7 @@ function resolveDirectToolingReferenceTests(changedPath: string, cwd: string) {
 
 function resolveToolingTestTargets(changedPath: string, cwd = process.cwd()) {
   if (
-    /^test\/scripts\/(?:ci-(?:checkout|git-owner|linux-git|platform-checkout|windows-process-census)\.test(?:-support)?\.ts|generated-publisher\.test-support\.ts|openclaw-performance-(?:workflow\.test(?:-support)?|git-lifecycle\.test)\.ts|plugin-release-git-lifecycle\.test\.ts|release-workflow-git-lifecycle\.test\.ts|fixtures\/(?:ci-platform-checkout\.mjs|ci-checkout-auth\.py|ci-windows-process-census\.(?:mjs|py)))$/u.test(
+    /^test\/scripts\/(?:ci-(?:checkout|git-owner|linux-git|platform-checkout|windows-process-census)\.test(?:-support)?\.ts|generated-publisher\.test-support\.ts|fixtures\/(?:ci-platform-checkout\.mjs|ci-checkout-auth\.py|ci-windows-process-census\.(?:mjs|py)))$/u.test(
       changedPath,
     )
   ) {
@@ -3178,10 +2749,6 @@ function resolveToolingTestTargets(changedPath: string, cwd = process.cwd()) {
       "ci-git-owner",
       "ci-linux-git",
       "ci-platform-checkout",
-      "openclaw-performance-workflow",
-      "openclaw-performance-git-lifecycle",
-      "plugin-release-git-lifecycle",
-      "release-workflow-git-lifecycle",
       workflowGuards,
     );
   }
@@ -3214,16 +2781,10 @@ function resolveToolingTestTargets(changedPath: string, cwd = process.cwd()) {
     changedPath.startsWith(".agents/") ||
     isToolingScriptPath(implementationPath) ||
     (facts.surface === "app" && /\/(?:fastlane|scripts)\//u.test(changedPath)) ||
-    (facts.surface === "extension" && /\/(?:scripts\/|package\.json$)/u.test(changedPath)) ||
-    (facts.surface === "rootTest" && changedPath.startsWith("test/e2e/qa-lab/"));
+    (facts.surface === "extension" && /\/(?:scripts\/|package\.json$)/u.test(changedPath));
   if (!hasToolingOwner) {
     return null;
   }
-  const crossOsReleaseTargets =
-    implementationPath === "scripts/openclaw-cross-os-release-checks.ts" ||
-    implementationPath.startsWith("scripts/lib/cross-os-release-checks/")
-      ? ["test/scripts/openclaw-cross-os-release-checks.test.ts"]
-      : null;
   const explicitTargets =
     (changedPath === "Dockerfile"
       ? [
@@ -3234,7 +2795,6 @@ function resolveToolingTestTargets(changedPath: string, cwd = process.cwd()) {
       : changedPath === ".crabbox.yaml"
         ? ["test/scripts/package-acceptance-workflow.test.ts"]
         : null) ??
-    crossOsReleaseTargets ??
     resolveUpgradeSurvivorConfigRecipeTargets(implementationPath) ??
     resolveDocsI18nBehaviorTargets(implementationPath) ??
     resolveDocsI18nGoTargets(implementationPath) ??
@@ -3342,18 +2902,6 @@ function resolvePackageFixtureTargets(changedPath: string, cwd: string) {
   return fs.existsSync(path.join(cwd, owner)) ? [owner] : null;
 }
 
-function resolveAppcastTargets(changedPath: string) {
-  return changedPath === "appcast.xml" ? APPCAST_TEST_TARGETS : null;
-}
-
-function resolveKovaSchemaTestTargets(changedPath: string) {
-  // The workflow fixture reads schema bytes, so imports cannot express this dependency.
-  return changedPath === "src/config/zod-schema.agent-defaults.ts" ||
-    changedPath === "src/config/zod-schema.agent-defaults-base.ts"
-    ? ["test/scripts/openclaw-performance-workflow.test.ts"]
-    : [];
-}
-
 function resolvePreciseChangedTestTargets(
   changedPath: string,
   options: ChangedTestTargetOptions & { skipImportGraph?: boolean },
@@ -3369,7 +2917,6 @@ function resolvePreciseChangedTestTargets(
       ? [changedPath, DOCS_CONFIG_EXAMPLES_TEST_TARGET]
       : null) ??
     resolveToolingTestTargets(changedPath, cwd) ??
-    resolveAppcastTargets(changedPath) ??
     resolvePromptSnapshotFixtureTargets(changedPath) ??
     resolvePackageFixtureTargets(changedPath, cwd);
   if (mappedTargets) {
@@ -3476,10 +3023,7 @@ export function resolveChangedTestTargetPlan(
   }
   const plan: ChangedTestTargetPlan = {
     mode: "targets",
-    targets: uniqueOrdered([
-      ...targets,
-      ...(options.watchMode ? [] : executableChangedPaths.flatMap(resolveKovaSchemaTestTargets)),
-    ]),
+    targets: uniqueOrdered(targets),
   };
   if (skippedBroadFallbackPaths.length > 0) {
     plan.skippedBroadFallbackPaths = [...new Set(skippedBroadFallbackPaths)];

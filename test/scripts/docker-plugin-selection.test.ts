@@ -58,19 +58,19 @@ describe("Docker plugin selection", () => {
   it("adds standalone direct and Gateway provider selections to the shared live image", () => {
     const result = spawnSync(
       process.execPath,
-      [path.join(repoRoot, "scripts/print-live-docker-plugin-selection.mjs"), repoRoot, "twitch"],
+      [path.join(repoRoot, "scripts/print-live-docker-plugin-selection.mjs"), repoRoot, "telegram"],
       {
         encoding: "utf8",
         env: {
           PATH: process.env.PATH,
           OPENCLAW_LIVE_PROVIDERS: "ollama",
-          OPENCLAW_LIVE_GATEWAY_MODELS: "mistral/mistral-large-latest",
+          OPENCLAW_LIVE_GATEWAY_MODELS: "openrouter/openai/gpt-5.5",
         },
       },
     );
     expect(result.status, result.stderr).toBe(0);
     expect(result.stdout.trim().split(",")).toEqual(
-      expect.arrayContaining(["ollama", "mistral", "twitch"]),
+      expect.arrayContaining(["acpx", "anthropic", "ollama", "openrouter", "telegram"]),
     );
   });
 

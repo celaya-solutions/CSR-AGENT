@@ -38,7 +38,7 @@ Full walkthrough: [Telegram](/channels/telegram). Command reference:
 
 - [Discord](/channels/discord) - Discord bot setup, config keys, components, voice, and troubleshooting (official plugin).
 - [Telegram](/channels/telegram) - Telegram bot support status, capabilities, and configuration (bundled plugin).
-- [WebChat](/web/webchat) - Native and Control UI WebChat usage over the Gateway WebSocket (included in core).
+- [WebChat](/web/webchat) - Control UI WebChat usage over the Gateway WebSocket (included in core).
 
 <!-- END GENERATED: official channel catalog -->
 

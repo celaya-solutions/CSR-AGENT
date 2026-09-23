@@ -2,7 +2,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { telegramOutbound } from "../extensions/telegram/api.js";
 import { createDirectTextMediaOutbound } from "../src/channels/plugins/outbound/direct-text-media.js";
-import type { ChannelOutboundAdapter } from "../src/channels/plugins/types.adapters.js";
 import type { OpenClawConfig } from "../src/config/types.openclaw.js";
 import { deliverOutboundPayloadsCore } from "../src/infra/outbound/deliver-core.js";
 import { prepareOutboundPayloadBatch } from "../src/infra/outbound/deliver-prepare.js";

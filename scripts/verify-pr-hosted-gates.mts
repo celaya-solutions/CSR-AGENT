@@ -16,19 +16,10 @@ import { isDirectRunUrl } from "./lib/direct-run.mjs";
 import { execGhApiRead, plainGhEnv } from "./lib/plain-gh.mjs";
 
 const SCHEDULED_HOSTED_WORKFLOW_PATHS = new Map([
-  ["Blacksmith Testbox", ".github/workflows/ci-check-testbox.yml"],
-  ["Blacksmith ARM Testbox", ".github/workflows/ci-check-arm-testbox.yml"],
-  ["Blacksmith Build Artifacts Testbox", ".github/workflows/ci-build-artifacts-testbox.yml"],
   ["Workflow Sanity", ".github/workflows/workflow-sanity.yml"],
 ]);
 export const SCHEDULED_HOSTED_WORKFLOWS = [...SCHEDULED_HOSTED_WORKFLOW_PATHS.keys()];
 const CI_WORKFLOW_PATH = ".github/workflows/ci.yml";
-const BUILD_ARTIFACTS_WORKFLOW = "Blacksmith Build Artifacts Testbox";
-const ARTIFACT_FALLBACK_REQUIRED_WORKFLOWS = [
-  "Blacksmith Testbox",
-  "Blacksmith ARM Testbox",
-  "Workflow Sanity",
-];
 // Full workflow-run objects are large enough for a 100-row response to exceed
 // the Octopool relay cap on busy SHAs. Keep each REST page bounded and retain
 // the existing 1,000-result search window through pagination.
@@ -82,7 +73,6 @@ type HostedGateEvidence = {
     updatedAt: string | undefined;
     url: string | undefined;
   }>;
-  fallbackCoveredWorkflows?: Array<{ name: string; coveredBy: string; reason: string }>;
   notApplicableWorkflows?: string[];
 };
 
@@ -582,11 +572,6 @@ function successfulRunOrThrow(
   );
 }
 
-function hasSuccessfulRecentReleaseGate(workflowRuns: WorkflowRun[], sha: string, nowMs: number) {
-  const releaseGate = latestRun(workflowRuns.filter((run) => isReleaseGateCiRun(run, sha)));
-  return isSuccessfulRecentRun(releaseGate, nowMs);
-}
-
 function runBelongsToPullRequest(
   run: WorkflowRun,
   pr: number,
@@ -608,43 +593,6 @@ function runBelongsToPullRequest(
     pullRequestCommitShas.has(run.head_sha) &&
     run?.head_branch === pullRequestHeadBranch &&
     run?.head_repository?.full_name?.toLowerCase() === pullRequestHeadRepository.toLowerCase()
-  );
-}
-
-function canCoverQueuedBuildArtifacts(
-  workflowRuns: WorkflowRun[],
-  sha: string,
-  nowMs: number,
-  notApplicableScheduledWorkflowNames: Set<string> | undefined,
-) {
-  if (!hasSuccessfulRecentReleaseGate(workflowRuns, sha, nowMs)) {
-    return false;
-  }
-  const supportingGatesPassed = ARTIFACT_FALLBACK_REQUIRED_WORKFLOWS.every((workflowName) => {
-    const matchingRuns = matchingAuthoritativeRuns(workflowRuns, workflowName, sha, false);
-    if (matchingRuns.length === 0 && notApplicableScheduledWorkflowNames?.has(workflowName)) {
-      return true;
-    }
-    const run = latestRun(matchingRuns);
-    return isSuccessfulRecentRun(run, nowMs);
-  });
-  if (!supportingGatesPassed) {
-    return false;
-  }
-  const buildArtifactRuns = matchingAuthoritativeRuns(
-    workflowRuns,
-    BUILD_ARTIFACTS_WORKFLOW,
-    sha,
-    false,
-  );
-  const latestBuildArtifactRun = latestRun(buildArtifactRuns);
-  return (
-    latestBuildArtifactRun?.status === "queued" &&
-    isRecentRun(latestBuildArtifactRun, nowMs) &&
-    buildArtifactRuns.every(
-      (run) =>
-        run.status === "queued" || (run.status === "completed" && run.conclusion === "success"),
-    )
   );
 }
 
@@ -713,7 +661,6 @@ export function collectHostedGateEvidence({
     },
   ) => {
     const workflows: WorkflowRun[] = [];
-    const fallbackCoveredWorkflows: Array<{ name: string; coveredBy: string; reason: string }> = [];
     if (!changelogOnly) {
       workflows.push(
         ciRun ??
@@ -740,23 +687,6 @@ export function collectHostedGateEvidence({
       ) {
         continue;
       }
-      if (
-        allowManual &&
-        workflowName === BUILD_ARTIFACTS_WORKFLOW &&
-        canCoverQueuedBuildArtifacts(
-          workflowRuns,
-          evidenceSha,
-          nowMs,
-          notApplicableScheduledWorkflowNames,
-        )
-      ) {
-        fallbackCoveredWorkflows.push({
-          name: workflowName,
-          coveredBy: "CI release gate",
-          reason: "scheduled workflow is queued",
-        });
-        continue;
-      }
       workflows.push(
         successfulRunOrThrow(workflowRuns, workflowName, evidenceSha, {
           allowManual,
@@ -764,7 +694,7 @@ export function collectHostedGateEvidence({
         }),
       );
     }
-    return { workflows, fallbackCoveredWorkflows };
+    return { workflows };
   };
 
   let ciRun: WorkflowRun | undefined;
@@ -801,7 +731,6 @@ export function collectHostedGateEvidence({
   let selected:
     | {
         workflows: WorkflowRun[];
-        fallbackCoveredWorkflows: Array<{ name: string; coveredBy: string; reason: string }>;
       }
     | undefined;
   try {
@@ -866,9 +795,6 @@ export function collectHostedGateEvidence({
           reusedRunId: ciReuse.reusedRunId,
           patchIdMatched: true satisfies true,
         }
-      : {}),
-    ...(selected.fallbackCoveredWorkflows.length > 0
-      ? { fallbackCoveredWorkflows: selected.fallbackCoveredWorkflows }
       : {}),
     workflows: selected.workflows.map((run) => ({
       id: run.id,

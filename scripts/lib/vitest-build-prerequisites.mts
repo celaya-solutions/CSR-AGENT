@@ -40,12 +40,6 @@ const runtimeConsumers = [
     mode: "runtime" as const,
     dir: "",
   })),
-  ...[].map((file) => ({
-    file,
-    configs: ["test/vitest/vitest.extensions.config.ts"],
-    mode: "runtime" as const,
-    dir: "extensions",
-  })),
   {
     file: "src/node-host/linux-node-plugin.integration.test.ts",
     configs: ["test/vitest/vitest.unit.config.ts", "test/vitest/vitest.unit-src.config.ts"],
@@ -53,7 +47,6 @@ const runtimeConsumers = [
     dir: "",
   },
   ...[
-    "test/openai-model-discovery-auth-order.test.ts",
     "test/plugin-npm-runtime-build.test.ts",
     "test/scripts/plugin-inventory-module-refs.test.ts",
   ].map((file) => ({
@@ -131,12 +124,6 @@ const runtimeConsumers = [
     mode: "runtime",
     dir: "",
   },
-  {
-    file: "extensions/qa-lab/src/suite-process-lifecycle.test.ts",
-    configs: ["test/vitest/vitest.extension-qa.config.ts"],
-    mode: "private-qa",
-    dir: "extensions",
-  },
   // Sticker selection loads real provider registrations; only image description is mocked.
   {
     file: "extensions/telegram/src/sticker-cache.selection.test.ts",
@@ -178,18 +165,6 @@ const runtimeConsumers = [
     mode: "runtime" as const,
     dir: "src/commands",
   })),
-  {
-    file: "test/e2e/qa-lab/runtime/gateway-codex-delivery-cache.test.ts",
-    configs: ["test/vitest/vitest.tooling.config.ts"],
-    mode: "private-qa",
-    dir: "",
-  },
-  {
-    file: "test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts",
-    configs: ["test/vitest/vitest.tooling.config.ts"],
-    mode: "runtime",
-    dir: "",
-  },
   {
     file: "src/gateway/server.chat-cli-auth.test.ts",
     configs: [

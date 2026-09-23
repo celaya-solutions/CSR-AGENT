@@ -279,12 +279,6 @@ Opt-in live coverage for the shared bundled providers:
 OPENCLAW_LIVE_TEST=1 pnpm test:live -- extensions/music-generation-providers.live.test.ts
 ```
 
-Equivalent repo wrapper, which drives the same test file:
-
-```bash
-pnpm test:live:media:music
-```
-
 This live file uses already-exported provider env vars ahead of stored auth
 profiles by default, and runs both `generate` and declared `edit` coverage when
 the provider enables edit mode. OpenRouter runs `generate` plus `edit`.

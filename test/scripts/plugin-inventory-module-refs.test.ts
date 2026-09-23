@@ -46,7 +46,7 @@ it.each(["alias", "namespace", "inventory", "unrelated", "esm", "cjs"])(
     export const runtimeSelectedExport = 'retained';`,
     );
     const entry = path.join(root, "setup.ts");
-    const pluginId = binding === "inventory" ? "openai" : "a2a";
+    const pluginId = binding === "inventory" ? "openai" : "telegram";
     const entryName = `extensions/${pluginId}/${binding === "inventory" ? "setup-api" : "setup-entry"}`;
     const declaration = binding === "namespace" ? "sdk.defineBundledChannelSetupEntry" : "declare";
     fs.writeFileSync(

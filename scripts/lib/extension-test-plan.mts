@@ -391,7 +391,7 @@ function resolveExtensionDirectory(targetArg: string | undefined, cwd = process.
     }
 
     throw new Error(
-      `Unknown extension target "${targetArg}". Use a plugin name like "slack" or a path inside the bundled plugin workspace tree.`,
+      `Unknown extension target "${targetArg}". Use a plugin name like "telegram" or a path inside the bundled plugin workspace tree.`,
     );
   }
 

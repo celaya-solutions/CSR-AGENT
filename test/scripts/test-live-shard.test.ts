@@ -152,7 +152,7 @@ describe("scripts/test-live-shard", () => {
       expect(selectLiveShardFiles(shard, files), shard).toEqual(expectedFiles);
     }
     expect(selectLiveShardFiles("native-live-extensions-media-audio", allFiles)).toContain(
-      "extensions/tts-local-cli/speech-provider.live.test.ts",
+      "extensions/openai/openai-tts.live.test.ts",
     );
   });
 
@@ -247,8 +247,8 @@ describe("scripts/test-live-shard", () => {
     "native-live-src-infra",
     "native-live-test",
     "src/infra/heartbeat-runner.live.test.ts",
-    "test/e2e/qa-lab/runtime/worker-skill-resources.live.test.ts",
-    "test/e2e/qa-lab/runtime/gateway-node-mcp.live.test.ts",
+    "test/gateway-widget-restart.live.test.ts",
+    "test/agent-exec-code-mode.live.test.ts",
   ])("prepares the built gateway runtime before %s starts Vitest", (target) => {
     const files = target.endsWith(".live.test.ts")
       ? [target]
