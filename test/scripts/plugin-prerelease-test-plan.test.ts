@@ -209,7 +209,6 @@ describe("scripts/lib/plugin-prerelease-test-plan.mts", () => {
     expect(plan.dockerLanes).toEqual([
       "npm-onboard-channel-agent",
       "npm-onboard-discord-candidate-channel-agent",
-      "npm-onboard-slack-candidate-channel-agent",
       "doctor-switch",
       "update-channel-switch",
       "plugins-offline",
@@ -1286,8 +1285,6 @@ describe("scripts/lib/plugin-prerelease-test-plan.mts", () => {
     expect(releaseChecksWorkflow.jobs.qa_live_release_checks.with.fail_fast).toBe(
       "${{ fromJSON(needs.resolve_target.outputs.fail_fast) }}",
     );
-    const qaLiveSource = readFileSync(".github/workflows/qa-live-transports-convex.yml", "utf8");
-    expect(qaLiveSource).toContain('if [[ "$FAIL_FAST" == "true" ]]');
   });
 
   it("allows Unreleased notes only for current-tree release checks", () => {

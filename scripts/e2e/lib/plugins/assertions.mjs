@@ -878,11 +878,13 @@ async function assertClawHubPreflight() {
 
   const limits = readClawHubPreflightLimits();
   const packageName = parseClawHubPackageName(spec);
-  const baseUrl = (
-    process.env.OPENCLAW_CLAWHUB_URL ||
-    process.env.CLAWHUB_URL ||
-    "https://clawhub.ai"
-  ).replace(/\/+$/, "");
+  const registryUrl = process.env.OPENCLAW_CLAWHUB_URL || process.env.CLAWHUB_URL;
+  if (!registryUrl) {
+    throw new Error(
+      "ClawHub preflight needs OPENCLAW_CLAWHUB_URL; this build has no default registry",
+    );
+  }
+  const baseUrl = registryUrl.replace(/\/+$/, "");
   const token = process.env.CLAWHUB_TOKEN || process.env.CLAWHUB_AUTH_TOKEN || "";
   const preflightUrl = `${baseUrl}/api/v1/packages/${encodeURIComponent(packageName)}`;
   const response = await withTimeout(

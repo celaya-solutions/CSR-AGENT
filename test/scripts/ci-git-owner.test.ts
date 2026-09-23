@@ -1200,18 +1200,6 @@ posixIt("workflow sanity rejects a config without the Zizmor reference", async (
   expect(report.githubEnv).toBe("");
 });
 
-const maturityValidation = {
-  file: ".github/workflows/maturity-scorecard.yml",
-  job: "validate_selected_ref",
-  step: "Validate selected ref",
-};
-const maturityEnvironment = {
-  EXPECTED_SHA: head,
-  INPUT_REF: "main",
-  EVIDENCE_RUN_ID: "123",
-  PUBLISH_PULL_REQUEST: "true",
-};
-
 posixIt(
   "generated publisher drains real Git descendants before every continuation",
   async () => {
@@ -1234,42 +1222,12 @@ posixIt(
   55_000,
 );
 
-posixIt(
-  "maturity validation drains before trust probes and publication",
-  async () => {
-    const report = await runCiGitStep({
-      workflow: maturityValidation,
-      env: maturityEnvironment,
-      fetchResults: [0],
-      mergeBase: { ancestor: true, revision: head },
-      lsRemoteResults: [{ code: 0, output: `${head}\trefs/heads/main\n` }],
-      commandResults: {
-        [`diff --quiet ${head} refs/remotes/origin/main -- . :(exclude)qa/maturity-scores.yaml :(exclude)docs/maturity/scorecard.md :(exclude)docs/maturity/taxonomy.md`]:
-          { code: 0 },
-      },
-    });
-    expect(report.code, report.output).toBe(0);
-    expect(report.githubOutput).toContain("trusted_reason=main-ancestor\n");
-    expect(report.fetches).toHaveLength(2);
-  },
-  55_000,
-);
-
 function publisherRun(options: Partial<Parameters<typeof runCiGitStep>[0]> = {}) {
   return runCiGitStep({
     action: "publish-generated-pr",
     step: "Publish generated pull request",
     fetchResults: [],
     publisher: {},
-    ...options,
-  });
-}
-function maturityRun(options: Partial<Parameters<typeof runCiGitStep>[0]> = {}) {
-  return runCiGitStep({
-    workflow: maturityValidation,
-    env: maturityEnvironment,
-    fetchResults: [],
-    mergeBase: { ancestor: true, revision: head },
     ...options,
   });
 }
@@ -1374,44 +1332,6 @@ posixIt.each([
   55_000,
 );
 
-posixIt.each([0, 2, 23, 125, 143, "hang", "cleanup-failure", "cancel"] as const)(
-  "maturity branch lookup %s preserves 0/2/ordinary/fatal policy after drain",
-  async (code) => {
-    const report = await maturityRun({
-      env: { ...maturityEnvironment, INPUT_REF: "release/2026.8.1" },
-      gitFault: { match: "^ls-remote ", code },
-    });
-    const success = code === 0 || code === 2;
-    expect(report.code, report.output).toBe(
-      success
-        ? 0
-        : code === "hang"
-          ? 124
-          : code === "cancel"
-            ? 143
-            : code === "cleanup-failure"
-              ? 125
-              : code,
-    );
-    expect(report.fetches).toHaveLength(success ? 2 : 1);
-    if (success) {
-      expect(report.githubOutput).toContain(
-        `publication_base=${code === 0 ? "release/2026.8.1" : "main"}\n`,
-      );
-    } else {
-      expect(report.githubOutput).toBe("");
-      expect(report.githubSummary).toBe("");
-      expect(report.commands.at(-1)?.args[0]).toBe("ls-remote");
-      if (typeof code === "number" || code === "hang") {
-        expect(report.output).toContain(`(status ${code === "hang" ? 124 : code})`);
-      } else {
-        expect(report.output).not.toContain("Unable to determine");
-      }
-    }
-  },
-  55_000,
-);
-
 posixIt(
   "generated publisher retries one timed-out push under the unchanged lease",
   async () => {
@@ -1424,31 +1344,6 @@ posixIt(
     expect(report.publication?.generatedA).toBe("desired-a");
     expect(report.githubSummary).toContain("Generated pull request:");
     expect(report.output).toContain("retrying once under the same lease");
-  },
-  55_000,
-);
-
-posixIt.each(
-  [
-    { match: "^fetch ", occurrence: 1 },
-    { match: "^fetch ", occurrence: 2 },
-    { match: "^rev-parse refs/remotes", occurrence: 1 },
-    { match: "^rev-parse refs/remotes", occurrence: 2 },
-    { match: "^diff ", occurrence: 1 },
-  ].flatMap((site) =>
-    (["cleanup-failure", "cancel"] as const).map((code) => Object.assign({}, site, { code })),
-  ),
-)(
-  "maturity $code at $match/$occurrence stops before fallback/output",
-  async ({ match, occurrence, code }) => {
-    const report = await maturityRun({
-      env: { ...maturityEnvironment, EXPECTED_SHA: "" },
-      gitFault: { match, occurrence, code },
-    });
-    expect(report.code, report.output).toBe(code === "cancel" ? 143 : 125);
-    expect(report.commands.at(-1)?.args.join(" ")).toMatch(new RegExp(match));
-    expect(report.githubOutput).toBe("");
-    expect(report.githubSummary).toBe("");
   },
   55_000,
 );
@@ -1570,92 +1465,10 @@ posixIt(
   55_000,
 );
 
-posixIt.each(["main-ancestor", "release-tag", "release-branch-head", "floating-main"])(
-  "maturity preserves exact trust order, output hash bytes and fetches: %s",
-  async (reason) => {
-    const release = "release/2026.8.1";
-    const floating = reason === "floating-main";
-    const tag = reason === "release-tag";
-    const releaseBranch = reason === "release-branch-head";
-    const revision = floating ? "d".repeat(40) : head;
-    const publicationBase = releaseBranch ? release : "main";
-    const report = await maturityRun({
-      realClock: true,
-      realDrain: false,
-      env: {
-        ...maturityEnvironment,
-        EXPECTED_SHA: floating ? "" : head,
-        PUBLISH_PULL_REQUEST: tag ? "false" : "true",
-        INPUT_REF: tag ? "refs/tags/v2026.8.1" : releaseBranch ? release : "main",
-      },
-      revisions: { "refs/heads/main": revision, [`refs/heads/${release}`]: head },
-      commandResults: {
-        ...(tag || releaseBranch
-          ? { [`merge-base --is-ancestor ${head} refs/remotes/origin/main`]: { code: 1 } }
-          : {}),
-        ...(tag ? { [`tag --points-at ${head}`]: { code: 0, output: "v2026.8.1\n" } } : {}),
-      },
-    });
-    expect(report.code, report.output).toBe(0);
-    const { createHash } = await import("node:crypto");
-    const digest = createHash("sha256")
-      .update(`123\n${publicationBase}\n${revision}\n`)
-      .digest("hex")
-      .slice(0, 16);
-    expect(report.githubOutput).toBe(
-      `publication_base=${publicationBase}\npublication_head=${tag ? "" : `automation/maturity-scorecard-123-${digest}`}\nselected_revision=${revision}\ntrusted_reason=${floating ? "main-ancestor" : reason}\n`,
-    );
-    expect(report.fetches.map(({ args }) => args)).toEqual([
-      ["fetch", "--no-tags", "origin", "+refs/heads/main:refs/remotes/origin/main"],
-      ...(releaseBranch
-        ? [
-            [
-              "fetch",
-              "--no-tags",
-              "origin",
-              `+refs/heads/${release}:refs/remotes/origin/${release}`,
-            ],
-          ]
-        : []),
-      ...(!tag
-        ? [
-            [
-              "fetch",
-              "--no-tags",
-              "origin",
-              `+refs/heads/${publicationBase}:refs/remotes/origin/${publicationBase}`,
-            ],
-          ]
-        : []),
-    ]);
-    expect(report.commands.some(({ args }) => args[0] === "tag")).toBe(tag || releaseBranch);
-    expect(report.commands.at(-1)?.args).toEqual(
-      tag
-        ? ["tag", "--points-at", head]
-        : [
-            "diff",
-            "--quiet",
-            revision,
-            `refs/remotes/origin/${publicationBase}`,
-            "--",
-            ".",
-            ":(exclude)qa/maturity-scores.yaml",
-            ":(exclude)docs/maturity/scorecard.md",
-            ":(exclude)docs/maturity/taxonomy.md",
-          ],
-    );
-  },
-  55_000,
-);
-
-posixIt.each(
-  ["publisher", "maturity"].flatMap((surface) =>
-    (["owner", "python", "git"] as const).map((setupFailure) => ({ surface, setupFailure })),
-  ),
-)(
-  "$surface setup failure ($setupFailure) never reaches Git, GH, or outputs",
-  async ({ surface, setupFailure }) => {
-    const report = await (surface === "publisher" ? publisherRun : maturityRun)({ setupFailure });
+posixIt.each(["owner", "python", "git"] as const)(
+  "publisher setup failure (%s) never reaches Git, GH, or outputs",
+  async (setupFailure) => {
+    const report = await publisherRun({ setupFailure });
     expect(report.code).not.toBe(0);
     expect(report.commands).toEqual([]);
     expect(report.githubOutput).toBe("");
@@ -1694,59 +1507,6 @@ posixIt.each([125, 143])(
     ]);
     expect(report.publication?.generatedA).toBe("desired-a");
     expect(report.authHeaderPresent).toBe(false);
-  },
-  55_000,
-);
-
-posixIt.each([
-  {
-    label: "invalid expected SHA",
-    env: { EXPECTED_SHA: "bad" },
-    fetches: 0,
-    diagnostic: "expected_sha must be a full",
-  },
-  {
-    label: "mismatched expected SHA",
-    env: { EXPECTED_SHA: "f".repeat(40) },
-    fetches: 0,
-    diagnostic: "expected fffff",
-  },
-  {
-    label: "invalid evidence id",
-    env: { EVIDENCE_RUN_ID: "1x" },
-    fetches: 1,
-    diagnostic: "must be a numeric",
-  },
-  {
-    label: "publication ancestry",
-    fault: { match: "^merge-base ", occurrence: 2, code: 1 },
-    fetches: 2,
-    diagnostic: "not an ancestor of pull request base",
-  },
-  {
-    label: "changed publication inputs",
-    fault: { match: "^diff ", code: 1 },
-    fetches: 2,
-    diagnostic: "changed maturity inputs",
-  },
-  {
-    label: "failed publication diff",
-    fault: { match: "^diff ", code: 23 },
-    fetches: 2,
-    diagnostic: "",
-    code: 23,
-  },
-])(
-  "maturity rejects $label without outputs",
-  async ({ env, fault, fetches, diagnostic, code }) => {
-    const report = await maturityRun({ env: { ...maturityEnvironment, ...env }, gitFault: fault });
-    expect(report.code, report.output).toBe(code ?? 1);
-    expect(report.fetches).toHaveLength(fetches);
-    expect(report.githubOutput).toBe("");
-    expect(report.githubSummary).toBe("");
-    if (diagnostic) {
-      expect(report.output).toContain(diagnostic);
-    }
   },
   55_000,
 );

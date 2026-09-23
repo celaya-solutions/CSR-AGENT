@@ -15,21 +15,6 @@ const WORKFLOWS: {
   convertToDraft?: true;
 }[] = [
   {
-    file: ".github/workflows/ci-check-testbox.yml",
-    prGroup: "Blacksmith Testbox-pr-v1-123",
-    manual: { mode: "isolated per-run", group: "Blacksmith Testbox-manual-v1-201" },
-  },
-  {
-    file: ".github/workflows/ci-check-arm-testbox.yml",
-    prGroup: "Blacksmith ARM Testbox-pr-v1-123",
-    manual: { mode: "isolated per-run", group: "Blacksmith ARM Testbox-manual-v1-201" },
-  },
-  {
-    file: ".github/workflows/ci-build-artifacts-testbox.yml",
-    prGroup: "Blacksmith Build Artifacts Testbox-pr-v1-123",
-    manual: { mode: "isolated per-run", group: "Blacksmith Build Artifacts Testbox-manual-v1-201" },
-  },
-  {
     file: ".github/workflows/ios-periphery.yml",
     prGroup: "ios-periphery-iOS Periphery Dead Code-123",
     convertToDraft: true,

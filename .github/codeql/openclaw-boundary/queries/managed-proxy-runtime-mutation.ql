@@ -40,8 +40,7 @@ predicate relevantSourceFile(File file) {
     not path.regexpMatch(".*\\.(test-utils|test-harness|e2e-harness)\\.ts$") and
     not path.regexpMatch(".*/test-support/.*") and
     not path.regexpMatch(".*/vendor/.*") and
-    not path.regexpMatch(".*\\.min\\.js$") and
-    not path.regexpMatch("^extensions/diffs/assets/.*")
+    not path.regexpMatch(".*\\.min\\.js$")
   )
 }
 

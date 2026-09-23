@@ -25,8 +25,7 @@ predicate relevantSourceFile(File file) {
     path = file.getRelativePath() and
     path.regexpMatch("^(src|extensions|packages/net-policy/src)/.*\\.(ts|mts|js|mjs)$") and
     not path.regexpMatch(".*\\.(test|spec|test-utils|test-harness|e2e-harness)\\.(ts|mts|js|mjs)$") and
-    not path.regexpMatch(".*/test-support/.*") and
-    not path.regexpMatch("^extensions/diffs/assets/.*")
+    not path.regexpMatch(".*/test-support/.*")
   )
 }
 
@@ -80,12 +79,6 @@ predicate allowedRawSocketClientCall(Expr call) {
   or
   allowedOwnerScope(call, "extensions/codex/src/app-server/transport-websocket.ts",
     "connectCodexAppServerUnixSocket")
-  or
-  allowedOwnerScope(call, "extensions/irc/src/client.ts", "connectIrcClient")
-  or
-  allowedOwnerScope(call, "extensions/qa-lab/src/lab-server-capture.ts", "probeTcpReachability")
-  or
-  allowedOwnerScope(call, "extensions/qa-lab/src/lab-server-ui.ts", "proxyUpgradeRequest")
 }
 
 from Expr call

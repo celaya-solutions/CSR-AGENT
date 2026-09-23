@@ -116,7 +116,6 @@ const CODEX_NPM_PLUGIN_LIVE_FOLLOWTHROUGH_PATH =
   "scripts/e2e/lib/codex-npm-plugin-live/followthrough-turn.mjs";
 const LIVE_PLUGIN_TOOL_DOCKER_E2E_PATH = "scripts/e2e/live-plugin-tool-docker.sh";
 const NPM_ONBOARD_CHANNEL_AGENT_DOCKER_E2E_PATH = "scripts/e2e/npm-onboard-channel-agent-docker.sh";
-const SKILL_INSTALL_DOCKER_E2E_PATH = "scripts/e2e/skill-install-docker.sh";
 const PLUGIN_BINDING_COMMAND_ESCAPE_DOCKER_E2E_PATH =
   "scripts/e2e/plugin-binding-command-escape-docker.sh";
 const PLUGIN_BINDING_COMMAND_ESCAPE_DOCKERFILE_PATH =
@@ -6454,16 +6453,6 @@ throw new Error("unexpected fixture command: " + command + " " + JSON.stringify(
       expect(runner, path).toMatch(/trap cleanup(?:_outer)? EXIT/u);
       expect(runner, path).not.toContain('rm -f "$run_log"\n  exit 1');
     }
-  });
-
-  it("runs skill install through the package-cleaning Docker harness", () => {
-    const runner = readFileSync(SKILL_INSTALL_DOCKER_E2E_PATH, "utf8");
-    expect(runner).toContain('docker_e2e_package_mount_args "$PACKAGE_TGZ"');
-    expect(runner).toMatch(
-      /run_logged_print \\\n\s+skill-install-run \\\n\s+docker_e2e_run_with_harness \\/u,
-    );
-    expect(runner).not.toContain("docker_e2e_harness_mount_args");
-    expect(runner).not.toContain("docker run --rm");
   });
 
   it.each([

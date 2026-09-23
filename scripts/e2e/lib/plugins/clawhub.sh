@@ -38,7 +38,8 @@ run_plugins_clawhub_scenario() {
     }
 
     if [[ "${OPENCLAW_PLUGINS_E2E_LIVE_CLAWHUB:-0}" = "1" ]]; then
-      export OPENCLAW_CLAWHUB_URL="${OPENCLAW_CLAWHUB_URL:-${CLAWHUB_URL:-https://clawhub.ai}}"
+      # This build ships no default registry; live mode needs an explicit one.
+      export OPENCLAW_CLAWHUB_URL="${OPENCLAW_CLAWHUB_URL:-${CLAWHUB_URL:?set OPENCLAW_CLAWHUB_URL for live ClawHub plugin E2E}}"
       export NPM_CONFIG_REGISTRY="${OPENCLAW_PLUGINS_E2E_LIVE_NPM_REGISTRY:-https://registry.npmjs.org/}"
     else
       # Keep the release-path smoke hermetic; live ClawHub can rate-limit CI.

@@ -1,12 +1,12 @@
 ---
 name: openclaw-debugging
-description: Debug OpenAgent model, provider, tool-surface, code-mode, streaming, and live/Crabbox behavior by choosing the right logs, probes, and proof path before changing code, including fetching stored sessions, transcripts, and attachments as evidence.
+description: Debug OpenAgent model, provider, tool-surface, code-mode, streaming, and live behavior by choosing the right logs, probes, and proof path before changing code, including fetching stored sessions, transcripts, and attachments as evidence.
 ---
 
 # OpenAgent Debugging
 
 Use this skill when OpenAgent behavior differs between local tests, live models,
-providers, code mode, Tool Search, Crabbox, or CI, and the next move should be a
+providers, code mode, Tool Search, Docker, or CI, and the next move should be a
 debug signal rather than a guess.
 
 ## Read First
@@ -15,7 +15,6 @@ debug signal rather than a guess.
 - `docs/reference/test.md` for local test commands.
 - `docs/tools/code-mode.md` for code-mode exec/wait and tool catalog rules.
 - Use `$openclaw-testing` for choosing test lanes.
-- Use `$crabbox` for broad, Docker, package, Linux, live-key, or CI-parity proof.
 
 ## Default Loop
 
@@ -160,8 +159,7 @@ work, copy the DB into a dev state dir first.
 - Worker/dist/lazy import/package surface: targeted tests plus `pnpm build`.
 - Live provider/model behavior: same provider/model with debug flags and a real
   key if available.
-- Docker/package/Linux/CI-parity: current dedicated Linux worker when capable;
-  otherwise `$crabbox`.
+- Docker/package/Linux/CI-parity: a dedicated Linux worker or CI.
 - CI failure: exact SHA, relevant job only, logs only after failure/completion.
 
 ## Output Habit

@@ -2314,7 +2314,6 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
       "test/scripts/managed-child-process.test.ts",
       "test/scripts/vitest-worker-artifacts.test.ts",
       "test/scripts/vitest-worker-artifacts.transforms.test.ts",
-      "test/scripts/openclaw-performance-git-lifecycle.test.ts",
       "test/scripts/ci-linux-git.test.ts",
       "test/scripts/pr-merge-outcome.test.ts",
     ];

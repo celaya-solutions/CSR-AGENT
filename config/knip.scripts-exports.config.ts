@@ -10,8 +10,7 @@ import productionConfig from "./knip.config.ts";
 
 function isTypedShimImplementationEntry(entry: string): boolean {
   const filePath = entry.endsWith("!") ? entry.slice(0, -1) : entry;
-  // The export-free Crabbox implementation must remain a root so its library imports stay live.
-  if (!filePath.endsWith(".mts") || filePath === "scripts/crabbox-wrapper.mts") {
+  if (!filePath.endsWith(".mts")) {
     return false;
   }
   const basePath = filePath.slice(0, -".mts".length);
@@ -38,14 +37,6 @@ const config = {
   ignoreIssues: {
     // These executable modules are also loaded through variable/file-URL imports
     // by build or subprocess test harnesses, which Knip cannot resolve statically.
-    "scripts/diffs-shiki-curated.ts": [
-      "exports",
-      "nsExports",
-      "types",
-      "nsTypes",
-      "enumMembers",
-      "namespaceMembers",
-    ],
     "scripts/e2e/lib/bundled-plugin-install-uninstall/runtime-smoke.mjs": [
       "exports",
       "nsExports",

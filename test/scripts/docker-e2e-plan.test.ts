@@ -406,9 +406,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     ["release-typed-onboarding", ["@openclaw/codex"]],
     ["npm-onboard-channel-agent", ["@openclaw/codex"]],
     ["npm-onboard-discord-channel-agent", ["@openclaw/codex"]],
-    ["npm-onboard-slack-channel-agent", ["@openclaw/codex"]],
     ["npm-onboard-discord-candidate-channel-agent", ["@openclaw/codex", "@openclaw/discord"]],
-    ["npm-onboard-slack-candidate-channel-agent", ["@openclaw/codex", "@openclaw/slack"]],
     ["mcp-code-mode-gateway", ["@openclaw/codex"]],
   ] as const)("requests only the matching companions for %s", (name, packages) => {
     const plan = planFor({ selectedLaneNames: [name] });
@@ -937,16 +935,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         weight: 3,
       },
       {
-        command:
-          "OPENCLAW_NPM_ONBOARD_CHANNEL=slack OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-onboard-channel-agent",
-        imageKind: "bare",
-        live: false,
-        name: "npm-onboard-slack-channel-agent",
-        resources: ["docker", "npm", "service"],
-        stateScenario: "empty",
-        weight: 3,
-      },
-      {
         command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:doctor-switch",
         imageKind: "bare",
         live: false,
@@ -954,16 +942,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         resources: ["docker", "npm"],
         stateScenario: "empty",
         weight: 3,
-      },
-      {
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:skill-install",
-        imageKind: "bare",
-        live: false,
-        name: "skill-install",
-        resources: ["docker", "npm"],
-        stateScenario: "empty",
-        timeoutMs: 600_000,
-        weight: 2,
       },
       {
         command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:update-channel-switch",
@@ -1151,8 +1129,8 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       ].map((releaseChunk) => planFor({ ...options, releaseChunk }));
       const lanes = partitions.flatMap((partition) => partition.lanes);
 
-      expect(partitions.map((partition) => partition.lanes.length)).toEqual([5, 2, 3]);
-      expect(new Set(lanes.map((lane) => lane.name)).size).toBe(10);
+      expect(partitions.map((partition) => partition.lanes.length)).toEqual([3, 2, 3]);
+      expect(new Set(lanes.map((lane) => lane.name)).size).toBe(8);
       expect(lanes.map(summarizeLane)).toEqual(aggregate.lanes.map(summarizeLane));
       const complete = planFor({ ...options, planReleaseAll: true });
       const packageNames = new Set(lanes.map((lane) => lane.name));
@@ -1191,9 +1169,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       "update-restart-auth",
       "npm-onboard-channel-agent",
       "npm-onboard-discord-channel-agent",
-      "npm-onboard-slack-channel-agent",
       "doctor-switch",
-      "skill-install",
       "update-channel-switch",
       "published-upgrade-survivor",
       "upgrade-survivor",
@@ -1986,7 +1962,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       { credentials: ["factory"], name: "live-acp-bind-droid" },
       { credentials: ["gemini"], name: "live-acp-bind-gemini" },
       { credentials: ["opencode"], name: "live-acp-bind-opencode" },
-      { credentials: ["openai", "telegram"], name: "npm-telegram-live" },
     ] as const;
 
     for (const { credentials, name } of cases) {
@@ -2134,10 +2109,10 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
 
   it("plans Docker package scripts that were previously only directly runnable", () => {
     const plan = planFor({
-      selectedLaneNames: ["browser-cdp-snapshot", "multi-node-update", "npm-telegram-live"],
+      selectedLaneNames: ["browser-cdp-snapshot", "multi-node-update"],
     });
 
-    expect(plan.credentials).toEqual(["openai", "telegram"]);
+    expect(plan.credentials).toEqual([]);
     expect(plan.lanes.map(summarizeLane)).toEqual([
       {
         command: "pnpm test:docker:browser-cdp-snapshot",
@@ -2157,15 +2132,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         resources: ["docker", "npm"],
         stateScenario: "empty",
         timeoutMs: 900_000,
-        weight: 3,
-      },
-      {
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-telegram-live",
-        imageKind: "bare",
-        live: true,
-        name: "npm-telegram-live",
-        resources: ["docker", "live", "live:openai", "live:telegram", "npm", "service"],
-        timeoutMs: 1_800_000,
         weight: 3,
       },
     ]);
@@ -2239,7 +2205,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         "bundled-plugin-install-uninstall-0",
         "multi-node-update",
         "update-channel-switch",
-        "skill-install",
         "upgrade-survivor",
       ],
     });
@@ -2267,7 +2232,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       { name: "bundled-plugin-install-uninstall-0", stateScenario: "empty" },
       { name: "multi-node-update", stateScenario: "empty" },
       { name: "update-channel-switch", stateScenario: "update-stable" },
-      { name: "skill-install", stateScenario: "empty" },
       { name: "upgrade-survivor", stateScenario: "upgrade-survivor" },
     ]);
   });

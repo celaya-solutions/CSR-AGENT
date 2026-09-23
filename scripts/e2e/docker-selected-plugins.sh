@@ -13,7 +13,7 @@ source "$ROOT_DIR/scripts/lib/docker-e2e-container.sh"
 IMAGE_NAME="${OPENCLAW_DOCKER_SELECTED_PLUGINS_E2E_IMAGE:-openclaw-docker-selected-plugins-e2e:local}"
 DEPENDENCY_ONLY_IMAGE="${IMAGE_NAME}-dependency-only"
 CONTAINER_NAME="openclaw-docker-selected-plugins-e2e-$$"
-SELECTED_PLUGINS="${OPENCLAW_DOCKER_SELECTED_PLUGINS:-slack,msteams clickclack,slack,whatsapp}"
+SELECTED_PLUGINS="${OPENCLAW_DOCKER_SELECTED_PLUGINS:-discord,telegram duckduckgo,discord}"
 BUILD_GIT_COMMIT="${OPENCLAW_DOCKER_SELECTED_PLUGINS_E2E_GIT_COMMIT:-0123456789abcdef0123456789abcdef01234567}"
 BUILD_TIMESTAMP="${OPENCLAW_DOCKER_SELECTED_PLUGINS_E2E_BUILD_TIMESTAMP:-2026-07-10T12:34:56.000Z}"
 UNKNOWN_LOG="$(mktemp -t openclaw-docker-selected-plugins-unknown.XXXXXX)"
@@ -54,7 +54,7 @@ else
   echo "Proving manifest ids and selected plugin dependencies remain stageable..."
   docker_build_run docker-selected-plugins-dependency-only \
     --target workspace-deps \
-    --build-arg OPENCLAW_EXTENSIONS=whatsapp,kimi \
+    --build-arg OPENCLAW_EXTENSIONS=telegram,discord \
     -t "$DEPENDENCY_ONLY_IMAGE" \
     -f "$SOURCE_ROOT/Dockerfile" \
     "$SOURCE_ROOT"
@@ -62,7 +62,7 @@ else
   docker_e2e_docker_run_cmd run --rm \
     --entrypoint sh \
     "$DEPENDENCY_ONLY_IMAGE" \
-    -c 'test -f /out/extensions/whatsapp/package.json && test -f /out/extensions/kimi-coding/package.json && grep -qx kimi-coding /out/openclaw-selected-plugin-dirs'
+    -c 'test -f /out/extensions/telegram/package.json && test -f /out/extensions/discord/package.json && grep -qx discord /out/openclaw-selected-plugin-dirs'
 
   echo "Building selected-plugin runtime image: $IMAGE_NAME"
   docker_build_run docker-selected-plugins-build \

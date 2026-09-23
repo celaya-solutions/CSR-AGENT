@@ -14,7 +14,7 @@ new lock namespace to retry an uncertain merge.
 
 Run the trusted canonical/origin-main wrapper. Untrusted PR code must not supply
 the local wrapper or execute locally; use the source isolation procedure from
-`$openclaw-testing` and `$crabbox`. Do not weaken guards to accommodate missing
+`$openclaw-testing`. Do not weaken guards to accommodate missing
 commands or dependencies. The wrapper requires git, gh, jq, rg, pnpm, and node.
 Unset ambient `GITHUB_TOKEN`, `GH_TOKEN`, and `HOMEBREW_GITHUB_API_TOKEN` when they
 could select the wrong writer.

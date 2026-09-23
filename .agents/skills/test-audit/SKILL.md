@@ -108,7 +108,7 @@ to increase deletion counts.
 ## Validation
 
 Never edit source or tests while Vitest is running in the checkout. Follow
-`$openclaw-testing`; route heavy proof through its `$crabbox` rules.
+`$openclaw-testing` for heavy proof.
 
 1. Run the smallest owner and sibling tests with
    `node scripts/run-vitest.mjs <path-or-filter>`.

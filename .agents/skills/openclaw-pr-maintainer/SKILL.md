@@ -33,10 +33,8 @@ worker's patches, claims, and proof before taking over or reassigning its work.
 
 ## Inspect the actual item
 
-Start with `git status -sb`; preserve unrelated changes. Use available local
-`gitcrawl` data for related work when useful, then bare PATH `gh` with narrow
-JSON fields for live decisions. Stale/missing archives fall through to `gh`;
-do not broadly sync archives just to begin. PR source comes from `gh pr
+Start with `git status -sb`; preserve unrelated changes. Use bare PATH `gh` with narrow
+JSON fields for live decisions. PR source comes from `gh pr
 view/diff` and the checkout, not web search.
 
 ```bash
