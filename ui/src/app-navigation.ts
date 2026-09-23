@@ -295,11 +295,7 @@ export function visibleSettingsNavigationGroups(
 // Settings subpages render with settings chrome but stay out of the sidebar.
 // Subpages with a visible owner keep that owner selected so users retain
 // location context while completing the nested flow.
-const SETTINGS_SUBPAGE_ROUTES: readonly NavigationRouteId[] = [
-  "ai-agents",
-  "model-setup",
-  "lobsterdex",
-];
+const SETTINGS_SUBPAGE_ROUTES: readonly NavigationRouteId[] = ["ai-agents", "model-setup"];
 export const SETTINGS_SEARCHABLE_SUBPAGE_ROUTES: readonly NavigationRouteId[] = ["ai-agents"];
 const SETTINGS_SUBPAGE_OWNER_ROUTES: Partial<
   Readonly<Record<NavigationRouteId, NavigationRouteId>>
@@ -342,12 +338,11 @@ const NAVIGATION_PRESENTATION: Record<NavigationRouteId, NavigationPresentation>
   terminal: ["terminal", "terminal.title", "terminal.open"],
   dashboard: ["layoutDashboard", "tabs.chat", "subtitles.chat"],
   dashboards: ["layoutDashboard", "tabs.dashboards", "subtitles.dashboards"],
-  custodian: ["lobster", "tabs.custodian", "subtitles.custodian"],
+  custodian: ["brandMark", "tabs.custodian", "subtitles.custodian"],
   config: ["settings", "nav.settings", "subtitles.config"],
   profile: ["circleUser", "tabs.profile", "subtitles.profile"],
   communications: ["send", "tabs.communications", "subtitles.communications"],
   appearance: ["palette", "tabs.appearance", "subtitles.appearance"],
-  lobsterdex: ["bug", "tabs.lobsterdex", "subtitles.lobsterdex"],
   automation: ["terminal", "tabs.automation", "subtitles.automation"],
   mcp: ["wrench", "tabs.mcp", "subtitles.mcp"],
   memory: ["book", "tabs.memory", "subtitles.memory"],

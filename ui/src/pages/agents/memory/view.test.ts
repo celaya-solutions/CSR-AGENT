@@ -29,7 +29,6 @@ function buildProps(overrides?: Partial<DreamingProps>): DreamingProps {
     access: fullDreamingViewAccess,
     viewState,
     active: true,
-    selectedAgentId: "main",
     shortTermCount: 47,
     promotedCount: 12,
     phases: {
@@ -247,17 +246,6 @@ describe("dreaming view", () => {
     const container = renderInto(
       buildProps({ dreamingOf: "reindexing old chats\u2026", onViewStateChange }),
     );
-
-    expectElement(container, ".dreams__lobster svg");
-
-    // The sleeper is the seeded pet cameo: eyes closed, pupils hidden.
-    const closedEyes = container.querySelector<SVGGElement>(".dreams__lobster .lob-eye-closed");
-    expect(closedEyes?.getAttribute("style")).toContain("opacity:1");
-    const openEyes = container.querySelector<SVGGElement>(".dreams__lobster .lob-eye-open");
-    expect(openEyes?.getAttribute("style")).toContain("display:none");
-    expect(
-      container.querySelector<HTMLElement>(".dreams__lobster")?.getAttribute("style"),
-    ).toContain("--lob-shell:");
 
     expect(textItems(container, ".dreams__z")).toEqual(["z", "z", "Z"]);
 

@@ -51,7 +51,7 @@ describe("ManagedWorktreeService naming", () => {
     });
 
     expect(fallback.name).toMatch(
-      /^[a-z]+-(?:barnacle|claw|crab|crayfish|krill|langoustine|lobster|prawn|shrimp|shell)$/,
+      /^[a-z]+-(?:barnacle|claw|crab|crayfish|krill|langoustine|copepod|prawn|shrimp|shell)$/,
     );
     expect(second.name).toBe("release-planning-2");
   });

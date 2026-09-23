@@ -28,7 +28,6 @@ function buildBoundedDashboardProps(tab: "insights" | "wiki"): DreamingProps {
     access: fullDreamingViewAccess,
     viewState,
     active: true,
-    selectedAgentId: "main",
     shortTermCount: 0,
     promotedCount: 0,
     shortTermEntries: [],

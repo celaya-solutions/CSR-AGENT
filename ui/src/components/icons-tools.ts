@@ -165,7 +165,7 @@ export const toolIcons = {
   />`),
   // Celaya Solutions barcode mark. Bars follow the text color; the flagged
   // pole keeps the brand accent in both themes.
-  lobster: html`
+  brandMark: html`
     <svg viewBox="20 18 200 200" fill="none" aria-hidden="true">
       <g stroke="currentColor" stroke-width="10">
         <path d="M29 84V120M55 84V120M81 84V120M107 84V120M133 84V120M185 84V120M211 84V120" />

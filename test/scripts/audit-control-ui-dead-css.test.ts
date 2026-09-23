@@ -14,7 +14,7 @@ describe("Control UI dead-CSS dynamic stem detection", () => {
       "insight-badge--",
     ],
     ["palette string concatenation", 'const value = "palette-" + palette.id;', "palette-"],
-    ["lobster state template", "const value = `lobster-pet--act-${act}`;", "lobster-pet--act-"],
+    ["state modifier template", "const value = `status-chip--act-${act}`;", "status-chip--act-"],
     [
       "ternary-headed template first branch",
       'const value = `${channels ? "channels-wizard" : "wizard-step"}__${name}`;',
