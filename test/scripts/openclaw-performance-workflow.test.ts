@@ -998,18 +998,6 @@ describe("OpenAgent performance workflow", () => {
     expect(pushIndex).toBeGreaterThan(appTokenIndex);
   });
 
-  it("keeps report publication opt-out artifact-only for final release validation", () => {
-    const workflowText = readFileSync(WORKFLOW, "utf8");
-    const fullReleaseText = readFileSync(".github/workflows/full-release-validation.yml", "utf8");
-    const publisher = readWorkflow().jobs?.publish;
-
-    expect(workflowText).toContain("publish_reports:");
-    expect(workflowText).toContain("default: true");
-    expect(publisher?.if).toContain("inputs.publish_reports == true");
-    expect(fullReleaseText).toContain("-f publish_reports=false");
-    expect(fullReleaseText).toContain("Report publication: disabled (artifacts only)");
-  });
-
   it("fails closed when artifact-only mode does not keep the publisher skipped", () => {
     const guard = readWorkflow().jobs?.artifact_only_guard;
     const verify = findStep("Verify report publisher stayed disabled", "artifact_only_guard");

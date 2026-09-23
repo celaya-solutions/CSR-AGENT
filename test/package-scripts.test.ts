@@ -218,36 +218,8 @@ describe("package scripts", () => {
     expect(assets).toBeLessThan(postbuild);
   });
 
-  it("cleans package builds before validating release contents", () => {
-    const scripts = readPackageJson().scripts;
-
-    expect(scripts["build:package"]).toBe(
-      "node --import ./scripts/tsx.mjs scripts/build-all.mts package",
-    );
-    expect(scripts["release:check"]).toBe(
-      "pnpm build:package && pnpm release:generated:check && node --import ./scripts/tsx.mjs scripts/release-check.ts",
-    );
-  });
-
   it("uses the shipped package launcher for npm start", () => {
     expect(readPackageJson().scripts.start).toBe("node openclaw.mjs");
-  });
-
-  it("builds iOS against a generic simulator by default", () => {
-    const script = readPackageJson().scripts["ios:build"];
-
-    expect(script).toContain("${IOS_DEST:-generic/platform=iOS Simulator}");
-    expect(script).not.toContain("name=iPhone");
-  });
-
-  it("keeps the Wear app in the root Android contributor gates", () => {
-    const scripts = readPackageJson().scripts;
-
-    expect(scripts["android:assemble"]).toContain(":wear:assembleDebug");
-    expect(scripts["android:format"]).toContain(":wear:ktlintFormat");
-    expect(scripts["android:lint"]).toContain(":wear:ktlintCheck");
-    expect(scripts["android:lint:android"]).toContain(":wear:lintDebug");
-    expect(scripts["android:test"]).toContain(":wear:testDebugUnitTest");
   });
 
   it("routes every declared Windows CI test to its native lane", () => {

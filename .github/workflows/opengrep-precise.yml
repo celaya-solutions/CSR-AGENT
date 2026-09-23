@@ -15,7 +15,6 @@ on:
       - ".github/workflows/opengrep-precise.yml"
       - ".github/workflows/opengrep-precise-full.yml"
       - ".semgrepignore"
-      - "apps/**"
       - "extensions/**"
       - "packages/**"
       - "scripts/**"

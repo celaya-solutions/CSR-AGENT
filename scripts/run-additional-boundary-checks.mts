@@ -111,7 +111,6 @@ export const BOUNDARY_CHECKS = (
       "pnpm",
       ["run", "lint:extensions:telegram-grammy-types"],
     ],
-    ["native-state-schema-version", "node", ["scripts/check-native-state-schema-version.mjs"]],
   ] satisfies Array<[label: string, command: string, args: string[]]>
 ).map(([label, command, args]) => ({ label, command, args }));
 

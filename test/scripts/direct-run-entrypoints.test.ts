@@ -28,14 +28,11 @@ import {
 } from "./direct-run-entrypoints.test-support.js";
 
 const DIRECT_RUN_SCRIPTS = [
-  "scripts/android-app-i18n.ts",
-  "scripts/android-pin-version.ts",
   "scripts/ci-run-timings.mjs",
   "scripts/e2e/lib/package-compat.mjs",
   "scripts/generate-bundled-channel-config-metadata.ts",
   "scripts/plan-release-workflow-matrix.mjs",
   "scripts/run-additional-boundary-checks.mts",
-  "scripts/verify-docker-attestations.mjs",
 ] as const;
 
 const EXECUTABLE_ENTRYPOINTS = [
@@ -61,12 +58,6 @@ const EXECUTABLE_ENTRYPOINTS = [
     args: ["--help"],
     output: "Usage: node --import tsx scripts/run-additional-boundary-checks.mts",
     script: "scripts/run-additional-boundary-checks.mts",
-    status: 0,
-  },
-  {
-    args: ["--help"],
-    output: "Usage: node scripts/verify-docker-attestations.mjs",
-    script: "scripts/verify-docker-attestations.mjs",
     status: 0,
   },
 ] as const;

@@ -30,30 +30,6 @@ const WORKFLOWS: {
     manual: { mode: "isolated per-run", group: "Blacksmith Build Artifacts Testbox-manual-v1-201" },
   },
   {
-    file: ".github/workflows/ios-periphery.yml",
-    prGroup: "ios-periphery-iOS Periphery Dead Code-123",
-    convertToDraft: true,
-    manual: {
-      mode: "same-SHA cancels",
-      group: `ios-periphery-iOS Periphery Dead Code-${"a".repeat(40)}`,
-    },
-  },
-  {
-    file: ".github/workflows/macos-periphery.yml",
-    prGroup: "macos-periphery-macOS Periphery Dead Code-123",
-    convertToDraft: true,
-    manual: {
-      mode: "same-SHA cancels",
-      group: `macos-periphery-macOS Periphery Dead Code-${"a".repeat(40)}`,
-    },
-  },
-  {
-    file: ".github/workflows/shared-openclawkit-periphery.yml",
-    prGroup: "shared-openclawkit-periphery-123",
-    convertToDraft: true,
-    manual: { mode: "same-SHA cancels", group: `shared-openclawkit-periphery-${"a".repeat(40)}` },
-  },
-  {
     file: ".github/workflows/opengrep-precise.yml",
     prGroup: "opengrep-pr-diff-OpenGrep — PR Diff-123",
     manual: { mode: "absent" },

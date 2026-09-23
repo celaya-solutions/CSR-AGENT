@@ -33,12 +33,3 @@ paths:
   .github/workflows/qa-live-transports-convex.yml:
     ignore:
       - 'unexpected key "queue" for "concurrency" section'
-  .github/workflows/full-release-candidate.yml:
-    ignore:
-      - 'unexpected key "queue" for "concurrency" section'
-  .github/workflows/docker-release.yml:
-    ignore:
-      - 'unexpected key "queue" for "concurrency" section'
-  .github/workflows/docker-channel-promote.yml:
-    ignore:
-      - 'unexpected key "queue" for "concurrency" section'
