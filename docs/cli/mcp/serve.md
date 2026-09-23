@@ -3,34 +3,34 @@ summary: "Run OpenAgent as a stdio MCP server so an MCP client can read and send
 title: "Run OpenAgent as an MCP server"
 read_when:
   - Connecting Codex, Claude Code, or another MCP client to OpenAgent-backed channels
-  - Running `openclaw mcp serve`
+  - Running `openagent mcp serve`
   - Debugging bridge events, Claude notifications, or missing conversations
 ---
 
-This page covers the `openclaw mcp serve` path: OpenAgent acting as an MCP
+This page covers the `openagent mcp serve` path: OpenAgent acting as an MCP
 server over stdio, its tools, its event model, and its limits.
 
 ## OpenAgent as an MCP server
 
-This is the `openclaw mcp serve` path.
+This is the `openagent mcp serve` path.
 
 ### When to use serve
 
-Use `openclaw mcp serve` when:
+Use `openagent mcp serve` when:
 
 - Codex, Claude Code, or another MCP client should talk directly to OpenAgent-backed channel conversations
 - you already have a local or remote OpenAgent Gateway with routed sessions
 - you want one MCP server that works across OpenAgent's channel backends instead of running separate per-channel bridges
 
-Use [`openclaw acp`](/cli/acp) instead when OpenAgent should host the coding runtime itself and keep the agent session inside OpenAgent.
+Use [`openagent acp`](/cli/acp) instead when OpenAgent should host the coding runtime itself and keep the agent session inside OpenAgent.
 
 ### How it works
 
-`openclaw mcp serve` starts a stdio MCP server. The MCP client owns that process. While the client keeps the stdio session open, the bridge connects to a local or remote OpenAgent Gateway over WebSocket and exposes routed channel conversations over MCP.
+`openagent mcp serve` starts a stdio MCP server. The MCP client owns that process. While the client keeps the stdio session open, the bridge connects to a local or remote OpenAgent Gateway over WebSocket and exposes routed channel conversations over MCP.
 
 <Steps>
   <Step title="Client spawns the bridge">
-    The MCP client spawns `openclaw mcp serve`.
+    The MCP client spawns `openagent mcp serve`.
   </Step>
   <Step title="Bridge connects to Gateway">
     The bridge connects to the OpenAgent Gateway over WebSocket.
@@ -53,8 +53,8 @@ Use [`openclaw acp`](/cli/acp) instead when OpenAgent should host the coding run
     - Claude push notifications only exist while the MCP session is alive
     - when the client disconnects, the bridge exits and the live queue is gone
     - cancelling an `events_wait` request immediately releases its server-side wait and timeout
-    - bridge or MCP transport close failures make `openclaw mcp serve` fail instead of reporting a clean shutdown
-    - one-shot agent entry points such as `openclaw agent` and `openclaw infer model run` retire any bundled MCP runtimes they open when the reply completes, so repeated scripted runs do not accumulate stdio MCP child processes
+    - bridge or MCP transport close failures make `openagent mcp serve` fail instead of reporting a clean shutdown
+    - one-shot agent entry points such as `openagent agent` and `openagent infer model run` retire any bundled MCP runtimes they open when the reply completes, so repeated scripted runs do not accumulate stdio MCP child processes
     - stdio MCP servers launched by OpenAgent (bundled or user-configured) are torn down as a process tree on shutdown, so child subprocesses started by the server do not survive after the parent stdio client exits
     - deleting or resetting a session disposes that session's MCP clients through the shared runtime cleanup path, so there are no lingering stdio connections tied to a removed session
 
@@ -98,23 +98,23 @@ This gives MCP clients one place to:
 <Tabs>
   <Tab title="Local Gateway">
     ```bash
-    openclaw mcp serve
+    openagent mcp serve
     ```
   </Tab>
   <Tab title="Remote Gateway (token)">
     ```bash
-    openclaw mcp serve --url wss://gateway-host:18789 --token-file ~/.openclaw/gateway.token
+    openagent mcp serve --url wss://gateway-host:18789 --token-file ~/.openclaw/gateway.token
     ```
   </Tab>
   <Tab title="Remote Gateway (password)">
     ```bash
-    openclaw mcp serve --url wss://gateway-host:18789 --password-file ~/.openclaw/gateway.password
+    openagent mcp serve --url wss://gateway-host:18789 --password-file ~/.openclaw/gateway.password
     ```
   </Tab>
   <Tab title="Verbose / Claude off">
     ```bash
-    openclaw mcp serve --verbose
-    openclaw mcp serve --claude-channel-mode off
+    openagent mcp serve --verbose
+    openagent mcp serve --claude-channel-mode off
     ```
   </Tab>
 </Tabs>
@@ -247,7 +247,7 @@ For most generic MCP clients, start with the standard tool surface and ignore Cl
 
 ### Options
 
-`openclaw mcp serve` supports:
+`openagent mcp serve` supports:
 
 <ParamField path="--url" type="string">
   Gateway WebSocket URL. Defaults to `gateway.remote.url` when configured.
@@ -296,7 +296,7 @@ OpenAgent ships a deterministic Docker smoke for this bridge:
 pnpm test:docker:mcp-channels
 ```
 
-That smoke runs a single container: it seeds conversation state, starts the Gateway, then spawns `openclaw mcp serve` as a stdio child process and drives it as an MCP client. It verifies conversation discovery, transcript reads, attachment metadata reads, live event queue behavior, and Claude-style channel and permission notifications over the real stdio MCP bridge. Outbound send routing (`messages_send` reusing the stored conversation route) is covered separately by unit tests in `src/mcp/channel-server.test.ts`.
+That smoke runs a single container: it seeds conversation state, starts the Gateway, then spawns `openagent mcp serve` as a stdio child process and drives it as an MCP client. It verifies conversation discovery, transcript reads, attachment metadata reads, live event queue behavior, and Claude-style channel and permission notifications over the real stdio MCP bridge. Outbound send routing (`messages_send` reusing the stored conversation route) is covered separately by unit tests in `src/mcp/channel-server.test.ts`.
 
 This is the fastest way to prove the bridge works without wiring a real Telegram or Discord account into the test run.
 

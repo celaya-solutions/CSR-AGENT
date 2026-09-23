@@ -268,7 +268,7 @@ For an urgent data-loss, security, or recovery fix, a maintainer may authorize a
 Before activating or rolling back a release, run that target release's CLI against one explicit copied state database:
 
 ```bash
-openclaw database preflight <copied-state.sqlite> --json
+openagent database preflight <copied-state.sqlite> --json
 ```
 
 The command does not read the default state directory or mutate the supplied file. It opens the supplied consolidated file as immutable/read-only, compares the target release's own schema contract, and reports one status:
@@ -290,7 +290,7 @@ Diagnostic paths that prepare their own private read-only snapshots use the size
 Runtimes that provide the agent reader also support:
 
 ```bash
-openclaw database preflight-agent <copied-agent.sqlite> --agent-id main --json
+openagent database preflight-agent <copied-agent.sqlite> --agent-id main --json
 ```
 
 Use the exact canonical agent ID and a canonical regular-file path. This command

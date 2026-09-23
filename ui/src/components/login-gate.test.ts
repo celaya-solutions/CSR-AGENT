@@ -52,7 +52,7 @@ describe("login gate failure recovery", () => {
     const element = await mountFailure("", null, setupCode);
     const hint = element.querySelector("#login-gate-secret-hint");
     expect(hint?.textContent).toContain("device setup code for the OpenAgent mobile app");
-    expect(hint?.textContent).toContain("openclaw gateway auth-token --show");
+    expect(hint?.textContent).toContain("openagent gateway auth-token --show");
     expect(element.querySelector("#login-gate-credential")?.getAttribute("aria-describedby")).toBe(
       hint?.id,
     );
@@ -171,7 +171,7 @@ describe("login gate failure recovery", () => {
       Array.from(element.querySelectorAll(".login-gate__failure-steps code"), (entry) =>
         entry.textContent?.trim(),
       ),
-    ).toEqual(["openclaw gateway auth-token --show", "openclaw doctor --generate-gateway-token"]);
+    ).toEqual(["openagent gateway auth-token --show", "openagent doctor --generate-gateway-token"]);
   });
 
   it("edits and reveals one Gateway secret without choosing a credential type", async () => {
@@ -336,7 +336,7 @@ describe("login gate failure recovery", () => {
       "Approve this browser",
     );
     expect(failure?.querySelector(".login-gate__command--hero code")?.textContent?.trim()).toBe(
-      "openclaw devices approve --latest",
+      "openagent devices approve --latest",
     );
     const steps = Array.from(
       element.querySelectorAll<HTMLElement>(".login-gate__failure-steps li"),
@@ -344,7 +344,7 @@ describe("login gate failure recovery", () => {
     );
     expect(steps).toHaveLength(3);
     expect(steps[0]).toContain("prints the exact approve command");
-    expect(steps[1]).toContain("Prefer a link? Run openclaw dashboard");
+    expect(steps[1]).toContain("Prefer a link? Run openagent dashboard");
     expect(steps[1]).toContain("on the Gateway host and open the one-time URL");
     expect(steps[2]).toBe("Once approved, click Connect.");
     // The form stays reachable but folded; its summary names the target without a credential.
@@ -392,7 +392,7 @@ describe("login gate failure recovery", () => {
       "Approve the new access level",
     );
     expect(safe.querySelector(".login-gate__command--hero code")?.textContent?.trim()).toBe(
-      "openclaw devices approve req-123",
+      "openagent devices approve req-123",
     );
     expect(safe.querySelectorAll(".login-gate__failure-steps li")).toHaveLength(2);
     safe.remove();
@@ -403,7 +403,7 @@ describe("login gate failure recovery", () => {
     );
 
     expect(unsafe.querySelector(".login-gate__command--hero code")?.textContent?.trim()).toBe(
-      "openclaw devices approve --latest",
+      "openagent devices approve --latest",
     );
     // Only the redacted raw-error disclosure may echo the rejected id.
     expect(unsafe.querySelector(".login-gate__hero")?.textContent).not.toContain("touch-owned");
@@ -419,7 +419,7 @@ describe("login gate failure recovery", () => {
       Array.from(element.querySelectorAll(".login-gate__failure-steps code"), (entry) =>
         entry.textContent?.trim(),
       ),
-    ).toEqual(["openclaw status", "openclaw gateway run", "openclaw dashboard --no-open"]);
+    ).toEqual(["openagent status", "openagent gateway run", "openagent dashboard --no-open"]);
   });
 
   it("offers only supported recovery for an insecure browser context", async () => {
@@ -462,7 +462,7 @@ describe("login gate failure recovery", () => {
       await vi.waitFor(() => expect(button?.getAttribute("aria-label")).toBe("Copy failed"));
       expect(command?.querySelector('[role="status"]')?.textContent).toBe("Copy failed");
       expect(writeText).toHaveBeenCalledOnce();
-      expect(writeText).toHaveBeenCalledWith("openclaw status");
+      expect(writeText).toHaveBeenCalledWith("openagent status");
       expect(execCommand).toHaveBeenCalledOnce();
     },
   );
@@ -484,7 +484,7 @@ describe("login gate failure recovery", () => {
       expect(buttons[0]?.getAttribute("aria-label")).toBe("Copied!");
       expect(buttons[1]?.getAttribute("aria-label")).toBe("Copied!");
     });
-    expect(writeText.mock.calls).toEqual([["openclaw status"], ["openclaw gateway run"]]);
+    expect(writeText.mock.calls).toEqual([["openagent status"], ["openagent gateway run"]]);
     expect(buttons[2]?.getAttribute("aria-label")).toBe("Copy command");
   });
 

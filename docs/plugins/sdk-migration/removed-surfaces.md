@@ -322,7 +322,7 @@ timeline for current status.
     `resolveStorePath(...)` remains a supported SDK helper and is not part of
     this deprecation.
 
-    `openclaw plugins inspect --all --runtime` reports non-bundled plugins whose
+    `openagent plugins inspect --all --runtime` reports non-bundled plugins whose
     load errors or diagnostics still reference these removed file APIs. The
     `@openclaw/plugin-inspector` advisory sweep must use version `0.3.17` or
     newer so external package scans also flag whole-store session helpers,

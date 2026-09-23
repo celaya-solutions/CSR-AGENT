@@ -215,7 +215,7 @@ the change:
 `AGENT_ID` must name the agent bound to the maintenance conversation. The
 binding selects that agent for normal messages and `/fix`; the standalone file
 remains the single owner of owner-versus-maintainer tool policy.
-After editing the file itself, run `openclaw plugins reload maintenance-access`.
+After editing the file itself, run `openagent plugins reload maintenance-access`.
 
 `requireAuth: true` reuses each channel's existing sender admission. For
 Discord, a guild or channel `users`/`roles` allowlist can authorize the

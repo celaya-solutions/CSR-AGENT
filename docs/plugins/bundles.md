@@ -32,14 +32,14 @@ command pack, or a Codex skill bundle and use it immediately.
   <Step title="Install from a directory, archive, or marketplace">
     ```bash
     # Local directory
-    openclaw plugins install ./my-bundle
+    openagent plugins install ./my-bundle
 
     # Archive
-    openclaw plugins install ./my-bundle.tgz
+    openagent plugins install ./my-bundle.tgz
 
     # Claude marketplace
-    openclaw plugins marketplace list <source>
-    openclaw plugins install <plugin> --marketplace <source>
+    openagent plugins marketplace list <source>
+    openagent plugins install <plugin> --marketplace <source>
     ```
 
     `<source>` is a local marketplace path/repo or a git/GitHub source.
@@ -48,8 +48,8 @@ command pack, or a Codex skill bundle and use it immediately.
 
   <Step title="Verify detection">
     ```bash
-    openclaw plugins list
-    openclaw plugins inspect <id>
+    openagent plugins list
+    openagent plugins inspect <id>
     ```
 
     Bundles show `Format: bundle` plus a `Bundle format:` value of
@@ -74,14 +74,14 @@ detected but not wired.
 
 ### Supported now
 
-| Feature                  | How it maps                                                                                            | Applies to     |
-| ------------------------ | ------------------------------------------------------------------------------------------------------ | -------------- |
+| Feature                  | How it maps                                                                                        | Applies to     |
+| ------------------------ | -------------------------------------------------------------------------------------------------- | -------------- |
 | Skill content            | Bundle skill roots load as normal OpenAgent skills                                                 | All formats    |
-| Commands                 | `commands/` and `.cursor/commands/` treated as skill roots                                             | Claude, Cursor |
-| Agents and output styles | Claude `agents/` and `output-styles/` treated as skill roots                                           | Claude         |
+| Commands                 | `commands/` and `.cursor/commands/` treated as skill roots                                         | Claude, Cursor |
+| Agents and output styles | Claude `agents/` and `output-styles/` treated as skill roots                                       | Claude         |
 | Hook packs               | OpenAgent-style `HOOK.md` + `handler.ts` layouts                                                   | Claude, Codex  |
 | MCP tools                | Bundle MCP config merged into embedded OpenAgent settings; supported stdio and HTTP servers loaded | All formats    |
-| Env contract             | `PLUGIN_ROOT` and `PLUGIN_DATA` env vars plus placeholder expansion for stdio MCP servers              | Agent Plugins  |
+| Env contract             | `PLUGIN_ROOT` and `PLUGIN_DATA` env vars plus placeholder expansion for stdio MCP servers          | Agent Plugins  |
 | LSP servers              | Claude `.lsp.json` and manifest-declared `lspServers` merged into embedded OpenAgent LSP defaults  | Claude         |
 | Settings                 | Claude `settings.json` imported as embedded OpenAgent defaults                                     | Claude         |
 
@@ -123,7 +123,7 @@ them:
 - Bundle LSP config is merged into the effective embedded OpenAgent LSP
   defaults.
 - Only supported stdio-backed LSP servers are runnable; unsupported
-  transports still show up in `openclaw plugins inspect <id>`.
+  transports still show up in `openagent plugins inspect <id>`.
 
 ### Detected but not executed
 
@@ -188,7 +188,7 @@ MCP servers can use stdio or HTTP transport.
 ```
 
 - `transport` accepts `"streamable-http"` or `"sse"`; omitted defaults to `sse`.
-- `type: "http"` is a CLI-native downstream shape; use `transport: "streamable-http"` in OpenAgent config. `openclaw mcp set` and `openclaw doctor --fix` normalize the common alias.
+- `type: "http"` is a CLI-native downstream shape; use `transport: "streamable-http"` in OpenAgent config. `openagent mcp set` and `openagent doctor --fix` normalize the common alias.
 - Only `http:` and `https:` URL schemes are allowed.
 - `headers` values support `${ENV_VAR}` interpolation.
 - A server entry with both `command` and `url` is rejected.
@@ -317,12 +317,12 @@ packages from being partially installed as bundles.
 ## Runtime dependencies and cleanup
 
 - Third-party compatible bundles do not get startup `npm install` repair. They
-  should be installed through `openclaw plugins install` and ship everything
+  should be installed through `openagent plugins install` and ship everything
   they need in the installed plugin directory.
 - OpenAgent-owned bundled plugins are either shipped lightweight in core or
   downloadable through the plugin installer. Gateway startup never runs a
   package manager for them.
-- `openclaw doctor --fix` removes stale local bundled-plugin install records
+- `openagent doctor --fix` removes stale local bundled-plugin install records
   and can recover downloadable plugins that are missing from the local plugin
   index when config still references them.
 
@@ -342,7 +342,7 @@ bundles as trusted content for the features they do expose.
 
 <AccordionGroup>
   <Accordion title="Bundle is detected but capabilities do not run">
-    Run `openclaw plugins inspect <id>`. If a capability is listed but marked as
+    Run `openagent plugins inspect <id>`. If a capability is listed but marked as
     not wired, that is a product limit, not a broken install.
   </Accordion>
 

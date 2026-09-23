@@ -345,8 +345,8 @@ describe("doctor lint state isolation", () => {
                   message: expect.stringContaining(sourcePath),
                   fixHint: expect.stringContaining(
                     entry.profile
-                      ? "openclaw --profile work doctor --fix"
-                      : "openclaw doctor --fix",
+                      ? "openagent --profile work doctor --fix"
+                      : "openagent doctor --fix",
                   ),
                 }),
                 expect.objectContaining({

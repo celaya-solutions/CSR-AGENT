@@ -253,7 +253,7 @@ owning agent's database. Legacy Workspaces documents and databases are not
 automatically converted.
 
 Preserve any legacy documents, data, and widget assets before running
-`openclaw doctor --fix`: its Workspaces repair deletes identified legacy state
+`openagent doctor --fix`: its Workspaces repair deletes identified legacy state
 under `<stateDir>/workspaces`, without importing that content into a dashboard.
 
 ## Good to know

@@ -101,7 +101,7 @@ Source: `src/plugins/compaction-provider.ts`, `src/agents/agent-hooks/compaction
 ## User-visible surfaces
 
 - `/status` in any chat session
-- `openclaw status` (CLI)
-- `openclaw sessions` / `openclaw sessions --json`
-- Gateway logs (`pnpm gateway:watch` or `openclaw logs --follow`): `embedded run auto-compaction start` + `complete`
+- `openagent status` (CLI)
+- `openagent sessions` / `openagent sessions --json`
+- Gateway logs (`pnpm gateway:watch` or `openagent logs --follow`): `embedded run auto-compaction start` + `complete`
 - Verbose mode: `🧹 Auto-compaction complete` plus the compaction count

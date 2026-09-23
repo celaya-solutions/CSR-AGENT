@@ -651,11 +651,11 @@ describe("configured plugin install release step", () => {
   it("does not stamp config during update-time deferred install repair", async () => {
     mocks.repairMissingPluginInstallsForIds.mockResolvedValue({
       changes: [
-        'Skipped package-manager repair for configured plugin "codex" during package update; rerun "openclaw doctor --fix" after the update completes.',
+        'Skipped package-manager repair for configured plugin "codex" during package update; rerun "openagent doctor --fix" after the update completes.',
       ],
       warnings: [],
       deferredRepairDetails: [
-        'Skipped package-manager repair for configured plugin "codex" during package update; rerun "openclaw doctor --fix" after the update completes.',
+        'Skipped package-manager repair for configured plugin "codex" during package update; rerun "openagent doctor --fix" after the update completes.',
       ],
     });
     const result = await maybeRunConfiguredPluginInstallReleaseStep({
@@ -683,7 +683,7 @@ describe("configured plugin install release step", () => {
     });
     expect(result).toEqual({
       changes: [
-        'Skipped package-manager repair for configured plugin "codex" during package update; rerun "openclaw doctor --fix" after the update completes.',
+        'Skipped package-manager repair for configured plugin "codex" during package update; rerun "openagent doctor --fix" after the update completes.',
       ],
       warnings: [],
       completed: false,
@@ -694,7 +694,7 @@ describe("configured plugin install release step", () => {
           kind: "package-post-install-doctor",
           reason: "deferred-configured-plugin-repair",
           details: [
-            'Skipped package-manager repair for configured plugin "codex" during package update; rerun "openclaw doctor --fix" after the update completes.',
+            'Skipped package-manager repair for configured plugin "codex" during package update; rerun "openagent doctor --fix" after the update completes.',
           ],
         }),
       },
@@ -733,11 +733,11 @@ describe("configured plugin install release step", () => {
   it("defers package-manager plugin release completion for writable legacy parents", async () => {
     mocks.repairMissingPluginInstallsForIds.mockResolvedValue({
       changes: [
-        'Skipped package-manager repair for configured plugin "discord" during package update; rerun "openclaw doctor --fix" after the update completes.',
+        'Skipped package-manager repair for configured plugin "discord" during package update; rerun "openagent doctor --fix" after the update completes.',
       ],
       warnings: [],
       deferredRepairDetails: [
-        'Skipped package-manager repair for configured plugin "discord" during package update; rerun "openclaw doctor --fix" after the update completes.',
+        'Skipped package-manager repair for configured plugin "discord" during package update; rerun "openagent doctor --fix" after the update completes.',
       ],
     });
     const result = await maybeRunConfiguredPluginInstallReleaseStep({
@@ -762,7 +762,7 @@ describe("configured plugin install release step", () => {
     });
     expect(result).toEqual({
       changes: [
-        'Skipped package-manager repair for configured plugin "discord" during package update; rerun "openclaw doctor --fix" after the update completes.',
+        'Skipped package-manager repair for configured plugin "discord" during package update; rerun "openagent doctor --fix" after the update completes.',
       ],
       warnings: [],
       completed: false,
@@ -773,7 +773,7 @@ describe("configured plugin install release step", () => {
           kind: "package-post-install-doctor",
           reason: "deferred-configured-plugin-repair",
           details: [
-            'Skipped package-manager repair for configured plugin "discord" during package update; rerun "openclaw doctor --fix" after the update completes.',
+            'Skipped package-manager repair for configured plugin "discord" during package update; rerun "openagent doctor --fix" after the update completes.',
           ],
         }),
       },

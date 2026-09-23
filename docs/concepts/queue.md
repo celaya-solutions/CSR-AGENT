@@ -131,11 +131,11 @@ overflow summary.
 - Queued waits are not projected as active agent runs for `sessions.list` and
   do not own active-run timeout semantics; only the active phase does.
 
-Gateway-backed clients (including `openclaw tui`) forward mid-run prompts and
+Gateway-backed clients (including `openagent tui`) forward mid-run prompts and
 let the Gateway apply the queue mode. Esc/`/stop` uses a session-scoped abort
 so lost local handles cannot leave a still-queued prompt running.
 
-`openclaw chat` and `openclaw tui --local` apply the same four modes in the
+`openagent chat` and `openagent tui --local` apply the same four modes in the
 embedded runtime. Local `steer` injects into an active embedded run when that
 runtime accepts steering and otherwise becomes a followup; `followup` and
 `collect` remain local pending work; `interrupt` aborts the active local run

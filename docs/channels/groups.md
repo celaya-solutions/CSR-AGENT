@@ -50,7 +50,7 @@ Use `messages.groupChat.visibleReplies: "message_tool"` when a shared room shoul
 
 Use `"automatic"` for models or runtimes that do not reliably follow tool-only delivery: normal text finals post directly to the room, and the agent may still call `message(action=send)` for files, images, or other attachments that cannot ride along with the final text.
 
-If the message tool is unavailable under the active tool policy, OpenAgent falls back to automatic visible replies instead of silently suppressing the response. `openclaw doctor` warns about this mismatch.
+If the message tool is unavailable under the active tool policy, OpenAgent falls back to automatic visible replies instead of silently suppressing the response. `openagent doctor` warns about this mismatch.
 
 For direct chats and any other source event, `messages.visibleReplies: "message_tool"` applies the same tool-only behavior globally; `messages.groupChat.visibleReplies` remains the more specific override for group/channel rooms. Internal WebChat direct turns default to automatic final-reply delivery so Pi and Codex receive the same visible-reply contract.
 

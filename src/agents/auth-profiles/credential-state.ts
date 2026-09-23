@@ -89,7 +89,7 @@ export function isMalformedApiKeyInput(value: unknown): boolean {
   const normalized = normalizeSecretInputString(value);
   return (
     normalized !== undefined &&
-    /^openclaw\s+onboard(?:\s+.*)?\s+--auth-choice(?:\s|=|$)/i.test(normalized)
+    /^(?:openagent|openclaw)\s+onboard(?:\s+.*)?\s+--auth-choice(?:\s|=|$)/i.test(normalized)
   );
 }
 

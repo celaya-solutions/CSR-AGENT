@@ -17,7 +17,7 @@ const newerConfigHints = [
 ];
 const newerConfigHintItems = newerConfigHints.map((text) => ({ kind: "generic", text }));
 const invalidConfigRecoveryHint = [
-  'Run "openclaw doctor --fix" to repair, then retry.',
+  'Run "openagent doctor --fix" to repair, then retry.',
   "If startup is still blocked, inspect the adjacent .bak backup before restoring it manually.",
 ].join("\n");
 const pluginPackagingRecoveryHints = [

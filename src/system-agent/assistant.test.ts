@@ -59,8 +59,8 @@ describe("OpenAgent assistant", () => {
   it("keeps remote Gateway mode outside both hosted chat planners", () => {
     for (const prompt of [SYSTEM_AGENT_ASSISTANT_SYSTEM_PROMPT, SYSTEM_AGENT_SYSTEM_PROMPT]) {
       expect(prompt).toContain("running the Gateway on another machine");
-      expect(prompt).toContain("`openclaw onboard` for fresh setup");
-      expect(prompt).toContain("`openclaw configure` for the mode question");
+      expect(prompt).toContain("`openagent onboard` for fresh setup");
+      expect(prompt).toContain("`openagent configure` for the mode question");
       expect(prompt).toContain("LOCAL Gateway's port, bind, auth, and Tailscale exposure");
     }
   });

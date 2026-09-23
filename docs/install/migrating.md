@@ -11,9 +11,9 @@ OpenAgent supports three migration paths: importing from another agent system, m
 
 ## Import from another agent system
 
-Bundled migration providers bring instructions, MCP servers, skills, model config, and (opt-in) API keys into OpenAgent. Plans are previewed before any change and secrets are redacted in reports. Standalone `openclaw migrate` is backed by a verified backup; fresh onboarding imports instead stage and verify local artifacts before publishing them with configuration committed before any irreversible external activation.
+Bundled migration providers bring instructions, MCP servers, skills, model config, and (opt-in) API keys into OpenAgent. Plans are previewed before any change and secrets are redacted in reports. Standalone `openagent migrate` is backed by a verified backup; fresh onboarding imports instead stage and verify local artifacts before publishing them with configuration committed before any irreversible external activation.
 
-The CLI entry point is [`openclaw migrate`](/cli/migrate). Onboarding can also offer migration when it detects a known source (`openclaw onboard --flow import`).
+The CLI entry point is [`openagent migrate`](/cli/migrate). Onboarding can also offer migration when it detects a known source (`openagent onboard --flow import`).
 
 ## Move OpenAgent to a new machine
 
@@ -26,7 +26,7 @@ Copy the **state directory** (`~/.openclaw/` by default) and your **workspace** 
 - **Workspace files** — `MEMORY.md`, `USER.md`, skills, and prompts.
 
 <Tip>
-Run `openclaw status` on the old machine to confirm your state directory path. Custom profiles use `~/.openclaw-<profile>/` or a path set via `OPENCLAW_STATE_DIR`.
+Run `openagent status` on the old machine to confirm your state directory path. Custom profiles use `~/.openclaw-<profile>/` or a path set via `OPENCLAW_STATE_DIR`.
 </Tip>
 
 ### Migration steps
@@ -37,9 +37,9 @@ Run `openclaw status` on the old machine to confirm your state directory path. C
     archive:
 
     ```bash
-    openclaw gateway stop
+    openagent gateway stop
     mkdir -p ~/Backups/openclaw
-    openclaw backup create --output ~/Backups/openclaw --verify
+    openagent backup create --output ~/Backups/openclaw --verify
     ```
 
     Stop the Gateway before taking a machine-move snapshot. A raw copy of a
@@ -59,7 +59,7 @@ Run `openclaw status` on the old machine to confirm your state directory path. C
     staging directory:
 
     ```bash
-    openclaw backup restore <archive.tar.gz> --target ~/openclaw-restored
+    openagent backup restore <archive.tar.gz> --target ~/openclaw-restored
     ```
 
     Restore never activates in place. With the Gateway stopped, use the
@@ -85,9 +85,9 @@ Run `openclaw status` on the old machine to confirm your state directory path. C
     On the new machine, run [Doctor](/gateway/doctor) to apply config migrations and repair services:
 
     ```bash
-    openclaw doctor
-    openclaw gateway restart
-    openclaw status
+    openagent doctor
+    openagent gateway restart
+    openagent status
     ```
 
   </Step>
@@ -99,13 +99,13 @@ If Telegram or Discord uses the default env fallback (`TELEGRAM_BOT_TOKEN` or `D
 awk -F= '/^(TELEGRAM_BOT_TOKEN|DISCORD_BOT_TOKEN)=/ { print $1 "=present" }' ~/.openclaw/.env
 ```
 
-`openclaw doctor` also warns when an enabled default Telegram or Discord account has no configured token and the matching env variable is unavailable to the doctor process.
+`openagent doctor` also warns when an enabled default Telegram or Discord account has no configured token and the matching env variable is unavailable to the doctor process.
 
 ### Common pitfalls
 
 <AccordionGroup>
   <Accordion title="Profile or state-dir mismatch">
-    If the old gateway used `--profile` or `OPENCLAW_STATE_DIR` and the new one does not, channels will appear logged out and sessions will be empty. Launch the gateway with the **same** profile or state-dir you migrated, then rerun `openclaw doctor`.
+    If the old gateway used `--profile` or `OPENCLAW_STATE_DIR` and the new one does not, channels will appear logged out and sessions will be empty. Launch the gateway with the **same** profile or state-dir you migrated, then rerun `openagent doctor`.
   </Accordion>
 
   <Accordion title="Copying only openclaw.json">
@@ -129,7 +129,7 @@ awk -F= '/^(TELEGRAM_BOT_TOKEN|DISCORD_BOT_TOKEN)=/ { print $1 "=present" }' ~/.
 
 On the new machine, confirm:
 
-- [ ] `openclaw status` shows the gateway running.
+- [ ] `openagent status` shows the gateway running.
 - [ ] Channels are still connected (no re-pairing needed).
 - [ ] The dashboard opens and shows existing sessions.
 - [ ] Workspace files (memory, configs) are present.
@@ -140,9 +140,9 @@ In-place plugin upgrades preserve the same plugin id and config keys but may mov
 
 ## Related
 
-- [`openclaw migrate`](/cli/migrate): CLI reference for cross-system imports.
+- [`openagent migrate`](/cli/migrate): CLI reference for cross-system imports.
 - [Install overview](/install): all installation methods.
 - [Doctor](/gateway/doctor): post-migration health check.
 - [Updating](/install/updating): updating an existing install in place, plus rollback strategy.
 - [Uninstall](/install/uninstall): removing OpenAgent cleanly.
-- [`openclaw backup`](/cli/backup) — create the archive this migration restores
+- [`openagent backup`](/cli/backup) — create the archive this migration restores

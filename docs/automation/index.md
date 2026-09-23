@@ -40,7 +40,7 @@ flowchart TD
 | Monitor calendar for upcoming events      | Automations                                | Explicit recurring schedule and delivery policy        |
 | Surface ambient main-session updates      | Heartbeat                                  | System-owned monitor automation and quiet alerts       |
 | Inspect status of a subagent or ACP run   | Background Tasks                           | Tasks ledger tracks all detached work                  |
-| Audit what ran and when                   | Background Tasks                           | `openclaw tasks list` and `openclaw tasks audit`       |
+| Audit what ran and when                   | Background Tasks                           | `openagent tasks list` and `openagent tasks audit`     |
 | Multi-step research then summarize        | Task Flow                                  | Durable orchestration with revision tracking           |
 | Run a script on session reset             | Hooks                                      | Internal `HOOK.md` scripts react to lifecycle events   |
 | Trigger an agent from an external service | [Webhooks](/automation/cron-jobs#webhooks) | Authenticated HTTP ingress, not an internal event hook |
@@ -77,13 +77,13 @@ See [Automations](/automation/cron-jobs).
 
 ### Tasks
 
-The background task ledger tracks all detached work: ACP runs, subagent spawns, isolated automation runs, and CLI operations. Tasks are records, not schedulers. Use `openclaw tasks list` and `openclaw tasks audit` to inspect them.
+The background task ledger tracks all detached work: ACP runs, subagent spawns, isolated automation runs, and CLI operations. Tasks are records, not schedulers. Use `openagent tasks list` and `openagent tasks audit` to inspect them.
 
 See [Background Tasks](/automation/tasks).
 
 ### Task Flow
 
-Task Flow is the flow orchestration substrate above background tasks. It manages durable multi-step flows with managed and mirrored sync modes, revision tracking, and `openclaw tasks flow list|show|cancel` for inspection.
+Task Flow is the flow orchestration substrate above background tasks. It manages durable multi-step flows with managed and mirrored sync modes, revision tracking, and `openagent tasks flow list|show|cancel` for inspection.
 
 See [Task Flow](/automation/taskflow).
 
@@ -98,7 +98,7 @@ See [Standing Orders](/automation/standing-orders).
 Internal hooks are event-driven scripts triggered by agent lifecycle events
 (`/new`, `/reset`, `/stop`), session compaction, gateway startup, and message
 flow. They are discovered from hook directories and managed with
-`openclaw hooks`. For in-process tool-call interception, use
+`openagent hooks`. For in-process tool-call interception, use
 [Plugin hooks](/plugins/hooks).
 
 See [Hooks](/automation/hooks).

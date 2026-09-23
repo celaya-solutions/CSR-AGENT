@@ -67,7 +67,7 @@ override. Any configured DM isolation defaults it off. An explicit `true` or
 
 OpenAgent's built-in memory provider supports this protected path. Alternate memory providers can keep using their own
 recall hooks, but this setting is skipped unless the current provider supports
-protected private transcript recall. `openclaw doctor` reports an unsupported
+protected private transcript recall. `openagent doctor` reports an unsupported
 provider.
 
 The retrieval boundary is narrower than general session search:
@@ -105,8 +105,8 @@ Changing the embedding provider, model, provider settings, sources, scope,
 chunking, or tokenizer can make the existing SQLite vector index incompatible.
 OpenAgent pauses vector search and reports an index identity warning instead of
 automatically re-embedding everything. Rebuild when you are ready with
-`openclaw memory status --index --agent <id>` or
-`openclaw memory index --force --agent <id>`.
+`openagent memory status --index --agent <id>` or
+`openagent memory index --force --agent <id>`.
 </Warning>
 
 When `provider` is unset, legacy `provider: "auto"` is present, or
@@ -155,7 +155,7 @@ Remote embeddings require an API key.
 | OpenAI   | `OPENAI_API_KEY`               | `models.providers.openai.apiKey` |
 
 For custom OpenAI-compatible providers, `models.providers.<id>.apiKey` can name
-an API-key or bearer-token profile saved with [`openclaw models auth`](/cli/models#auth-profiles),
+an API-key or bearer-token profile saved with [`openagent models auth`](/cli/models#auth-profiles),
 such as `my-embeddings:default`. Literal keys keep their configured value even
 when other profiles are saved for the provider. Empty keys do not select a saved profile.
 
@@ -242,11 +242,11 @@ Use `provider: "openai-compatible"` for a generic OpenAI-compatible
     Use the standalone CLI to verify the same provider path the Gateway uses:
 
     ```bash
-    openclaw memory status --deep --agent main
-    openclaw memory index --force --agent main
+    openagent memory status --deep --agent main
+    openagent memory index --force --agent main
     ```
 
-    Cache placement is provider-owned. `openclaw memory status --deep` reports
+    Cache placement is provider-owned. `openagent memory status --deep` reports
     server build, model path, capability, and endpoint facts observed from the
     managed server after it has handled an embedding request.
 
@@ -278,7 +278,7 @@ insufficient, review file-watch and open-file limits on the Gateway host. There 
 `memory.search.sync.watch` setting.
 
 After changes, restart the Gateway. To refresh the affected index, run
-`openclaw memory index --force --agent <id>` on the Gateway host using its profile
+`openagent memory index --force --agent <id>` on the Gateway host using its profile
 and environment, including any `OPENCLAW_STATE_DIR` or `OPENCLAW_CONFIG_PATH`
 overrides. Use the affected agent's ID; the command printed in the warning includes
 it and the active profile or container hint. See [memory index](/cli/memory#memory-index).
@@ -345,17 +345,17 @@ auto-injected.
 Paths can be absolute or workspace-relative. Directories are scanned recursively for supported
 files. Object entries narrow a directory with a root-relative glob using `/` separators; direct
 file entries are indexed exactly. The builtin engine skips symlinks. When a configured root is a
-symlink, `openclaw memory status` names the skipped root in text and JSON output and recommends
+symlink, `openagent memory status` names the skipped root in text and JSON output and recommends
 configuring its canonical absolute directory instead.
 
 For shared notes, keep each workspace's `memory/` directory local and add the shared directory's
 canonical path to `extraPaths`. This setting indexes notes; it does not authorize legacy host-event
 migration through a symlink.
 
-If `openclaw doctor --fix` reports an unsafe Memory Core host-event source, check the named path and
+If `openagent doctor --fix` reports an unsafe Memory Core host-event source, check the named path and
 permissions. Back up the legacy journal before replacing any symlink. To import it, preserve its
 contents at `memory/.dreams/events.jsonl` as a regular file under regular directories inside the intended
-workspace, then rerun `openclaw doctor --fix`. Doctor leaves rejected sources untouched. A symlink to
+workspace, then rerun `openagent doctor --fix`. Doctor leaves rejected sources untouched. A symlink to
 the workspace root itself is supported. Symlinks below that root are refused when a legacy event
 source, import claim, or migrated archive is present; directories without those sources need no repair.
 
@@ -407,7 +407,7 @@ Internal dreaming-narrative, cron, and heartbeat session transcripts are not
 indexed, including retained compressed narrative archives whose live session
 metadata is gone. They may quote fragments from user conversations but are not
 searchable memory sources. Sessions purged with
-[`openclaw memory forget`](/cli/memory#memory-forget) are also durably excluded,
+[`openagent memory forget`](/cli/memory#memory-forget) are also durably excluded,
 even though their source transcripts remain in the session store. A forced
 reindex removes stale transcript records without readmitting either group.
 Ordinary user-session transcripts, including retained, reset, and
@@ -421,7 +421,7 @@ both `memory` and `sessions`, resulting in overlapping search results and
 additional embedding work. For hook-only recall, set `sources: ["memory"]` and
 `rememberAcrossConversations: false`; `sources` alone is insufficient because
 cross-conversation recall automatically adds `sessions`. For full-transcript
-recall instead, run `openclaw hooks disable session-memory`. Enable both only
+recall instead, run `openagent hooks disable session-memory`. Enable both only
 when you intentionally want both representations.
 </Note>
 

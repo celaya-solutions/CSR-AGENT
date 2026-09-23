@@ -35,7 +35,7 @@ Other common Linux launch failures:
   If you set `OPENCLAW_BROWSER_HEADLESS=0`, `browser.headless: false`, or
   `browser.profiles.<name>.headless: false`, remove that headed override, set
   `OPENCLAW_BROWSER_HEADLESS=1`, start `Xvfb`, run
-  `openclaw browser start --headless` for a one-shot managed launch, or run
+  `openagent browser start --headless` for a one-shot managed launch, or run
   OpenAgent in a real desktop session.
 
 ### Solution 1: install Google Chrome (recommended)
@@ -141,7 +141,7 @@ tabs are open to attach to.
 Fix options:
 
 1. Use the managed browser instead:
-   `openclaw browser --browser-profile openclaw start` (or set
+   `openagent browser --browser-profile openclaw start` (or set
    `browser.defaultProfile: "openclaw"`).
 2. Keep local Chrome running with at least one open tab, then retry with
    `--browser-profile user`.

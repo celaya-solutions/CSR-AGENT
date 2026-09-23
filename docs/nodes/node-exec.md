@@ -13,8 +13,8 @@ sidebarTitle: "Node exec"
 Exec approvals are **per node host**. Add allowlist entries from the gateway:
 
 ```bash
-openclaw approvals allowlist add --node <id|name|ip> "/usr/bin/uname"
-openclaw approvals allowlist add --node <id|name|ip> "/usr/bin/sw_vers"
+openagent approvals allowlist add --node <id|name|ip> "/usr/bin/uname"
+openagent approvals allowlist add --node <id|name|ip> "/usr/bin/sw_vers"
 ```
 
 Approvals live on the node host in
@@ -25,9 +25,9 @@ Approvals live on the node host in
 Configure defaults (gateway config):
 
 ```bash
-openclaw config set tools.exec.host node
-openclaw config set tools.exec.mode allowlist
-openclaw config set tools.exec.node "<id-or-name>"
+openagent config set tools.exec.host node
+openagent config set tools.exec.mode allowlist
+openagent config set tools.exec.node "<id-or-name>"
 ```
 
 Or per session:
@@ -51,7 +51,7 @@ Related:
 Low-level (raw RPC):
 
 ```bash
-openclaw nodes invoke --node <idOrNameOrIp> --command device.info --params '{}'
+openagent nodes invoke --node <idOrNameOrIp> --command device.info --params '{}'
 ```
 
 `nodes invoke` blocks `system.run` and `system.run.prepare`; those commands only run through the `exec` tool with `host=node` (see above). Higher-level helpers exist for the common "give the agent a MEDIA attachment" workflows (camera, screen, location: see Node device commands).
@@ -76,19 +76,19 @@ A binding sets the default node for `exec host=node` and can be overridden per a
 Global default:
 
 ```bash
-openclaw config set tools.exec.node "node-id-or-name"
+openagent config set tools.exec.node "node-id-or-name"
 ```
 
 Per-agent override:
 
 ```bash
-openclaw config get agents.entries
-openclaw config set 'agents.entries.main.tools.exec.node' "node-id-or-name"
+openagent config get agents.entries
+openagent config set 'agents.entries.main.tools.exec.node' "node-id-or-name"
 ```
 
 Unset the binding to use the sole eligible node, or choose a target per call when multiple eligible nodes are connected:
 
 ```bash
-openclaw config unset tools.exec.node
-openclaw config unset 'agents.entries.main.tools.exec.node'
+openagent config unset tools.exec.node
+openagent config unset 'agents.entries.main.tools.exec.node'
 ```

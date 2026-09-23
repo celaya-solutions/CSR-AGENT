@@ -90,11 +90,11 @@ OpenAgent keeps upstream's written [trust model](/gateway/security) and [inciden
 
 ## What we do not claim
 
-- Sandboxing and exec approvals are off by default. Default OpenAgent is a trusted single-operator assistant. Hardening is deliberate configuration, and `openclaw security audit` will tell you when you have drifted from it.
+- Sandboxing and exec approvals are off by default. Default OpenAgent is a trusted single-operator assistant. Hardening is deliberate configuration, and `openagent security audit` will tell you when you have drifted from it.
 - One gateway is one trust domain. Roles and session ownership are collaboration guardrails. Tenancy means one gateway cell per tenant, and fleet is still experimental.
 - Native plugins run in-process and are not sandboxed. Mitigations are allow-lists, an install-policy hook, pinned versions, dependency locking, and CI-enforced SDK boundaries. Both OpenAgent and Hermes require trust in installed native plugins.
 - Egress allowlisting covers cooperating traffic only. The [secret egress proxy](/gateway/secrets) gained an opt-in traffic allowlist for Gateway-hosted exec (August 2026) on top of its bypass-surviving sentinels, sandboxed execution defaults to kernel-enforced `network: "none"` or runs under the OpenShell backend's default-deny policy allowlists, but raw sockets from unsandboxed host exec answer to an operator-supplied [proxy](/security/network-proxy) or host policy, not to OpenAgent. Allowlist proxies elsewhere have had published bypasses; the sentinel design assumes bypass instead of trying to prevent it.
-- Promoted memories have no time-based retention bound. Provenance and [`openclaw memory forget`](/cli/memory) cover tracked artifacts; admission exclusions apply to dreaming ingestion and session backfill, not direct writes, hooks, or raw transcript indexing. Review [deletion limits](/concepts/memory-provenance#what-deletion-does-not-cover) separately. Turn taint covers network-sourced tool output; text arriving through non-network tools does not taint the turn.
+- Promoted memories have no time-based retention bound. Provenance and [`openagent memory forget`](/cli/memory) cover tracked artifacts; admission exclusions apply to dreaming ingestion and session backfill, not direct writes, hooks, or raw transcript indexing. Review [deletion limits](/concepts/memory-provenance#what-deletion-does-not-cover) separately. Turn taint covers network-sourced tool output; text arriving through non-network tools does not taint the turn.
 - `gateway.roles` is present in the reviewed August 2026 source snapshot. Check your installed version before depending on it.
 
 ## The hardened setup
@@ -104,9 +104,9 @@ Each enterprise configuration item links to its reference:
 - Sandbox on: `agents.defaults.sandbox.mode: "all"` with the `openshell` or [`docker`](/gateway/sandboxing) backend; `workspaceAccess: "ro"` unless the agent owns the workspace.
 - Select [`guarded` or `workspace`](/gateway/permission-modes) per session; `full` requires `operator.admin`. Sessions without a mode, including managed worktree sessions, use configured tool/exec policy.
 - Front the gateway with [Tailscale](/gateway/tailscale) or an [identity-aware proxy](/gateway/trusted-proxy-auth); define [`gateway.roles`](/gateway/operator-scopes) with a deny-all default; leave DM policy on [pairing](/channels/pairing).
-- Everything behind [SecretRefs](/gateway/secrets); run `openclaw secrets audit --check` against your config in CI.
+- Everything behind [SecretRefs](/gateway/secrets); run `openagent secrets audit --check` against your config in CI.
 - Enable [message auditing](/gateway/audit); export OpenTelemetry to your SIEM with operator-owned retention and monitoring for dropped data.
-- Schedule [`openclaw security audit --deep`](/gateway/security/audit-checks) and alarm on its check IDs.
+- Schedule [`openagent security audit --deep`](/gateway/security/audit-checks) and alarm on its check IDs.
 
 Then operate it as replaceable infrastructure: pin a channel, let [doctor](/cli/doctor) own migrations, restore [backups](/cli/backup) by verification, and redeploy instead of repairing deployments in place.
 

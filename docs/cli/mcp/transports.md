@@ -39,7 +39,7 @@ Connects to a remote MCP server over HTTP Server-Sent Events.
 | `headers`                   | Optional key-value map of HTTP headers (for example auth tokens) |
 | `connectionTimeoutMs`       | Per-server connection timeout in ms (optional)                   |
 | `requestTimeoutMs`          | Per-server MCP request timeout in milliseconds                   |
-| `auth: "oauth"`             | Use MCP OAuth credentials saved by `openclaw mcp login`          |
+| `auth: "oauth"`             | Use MCP OAuth credentials saved by `openagent mcp login`         |
 | `sslVerify`                 | Set false only for explicitly trusted private HTTPS endpoints    |
 | `clientCert` / `clientKey`  | mTLS client certificate and key paths                            |
 | `supportsParallelToolCalls` | Hint that concurrent calls are safe for this server              |
@@ -63,19 +63,19 @@ Example:
 }
 ```
 
-Sensitive values in `url` (userinfo) and `headers` are redacted in logs and status output. `openclaw mcp doctor` warns when sensitive-looking `headers` or `env` entries contain literal values, so operators can move those values out of committed config.
+Sensitive values in `url` (userinfo) and `headers` are redacted in logs and status output. `openagent mcp doctor` warns when sensitive-looking `headers` or `env` entries contain literal values, so operators can move those values out of committed config.
 
 ## OAuth workflow
 
-OAuth is for HTTP MCP servers that advertise the MCP OAuth flow. Static `Authorization` headers are ignored for a server while `auth: "oauth"` is enabled. By default, OAuth credentials are shared and operator-managed. Credentials saved by `openclaw mcp login` work with embedded MCP, CLI runners, and the local Codex app-server.
+OAuth is for HTTP MCP servers that advertise the MCP OAuth flow. Static `Authorization` headers are ignored for a server while `auth: "oauth"` is enabled. By default, OAuth credentials are shared and operator-managed. Credentials saved by `openagent mcp login` work with embedded MCP, CLI runners, and the local Codex app-server.
 
 Native MCP OAuth sessions live in the owner-only shared SQLite database at `<state-dir>/state/openclaw.sqlite` (`mcp_oauth_stores`). The row can contain access and refresh tokens, dynamic client registration secrets, discovery metadata, and the temporary PKCE verifier. Refresh, login, and logout use the same SQLite lease, so parallel OpenAgent processes cannot consume one refresh token or resurrect a logged-out session.
 
-Upgrades from the retired `<state-dir>/mcp-oauth/*.json` store are handled only by `openclaw doctor --fix`. Runtime code never reads, writes, or falls back to those files.
+Upgrades from the retired `<state-dir>/mcp-oauth/*.json` store are handled only by `openagent doctor --fix`. Runtime code never reads, writes, or falls back to those files.
 
-Until shared credentials are available, OpenAgent omits only that MCP server from the agent runtime instead of failing the agent turn. The operator, or an agent with shell access, can then run `openclaw mcp login <name>` and use the server on a later turn.
+Until shared credentials are available, OpenAgent omits only that MCP server from the agent runtime instead of failing the agent turn. The operator, or an agent with shell access, can then run `openagent mcp login <name>` and use the server on a later turn.
 
-If a server rejects a token with `insufficient_scope`, OpenAgent preserves the requested scope and asks for `openclaw mcp login <name>` instead of repeating a refresh that cannot grant new scope. That login starts a new authorization request while keeping the previous token until replacement credentials are saved.
+If a server rejects a token with `insufficient_scope`, OpenAgent preserves the requested scope and asks for `openagent mcp login <name>` instead of repeating a refresh that cannot grant new scope. That login starts a new authorization request while keeping the previous token until replacement credentials are saved.
 
 When a remote MCP service is already backed by a separate OpenAgent refresh-capable auth profile, you can optionally set `oauth.authProfileId`. OpenAgent refreshes either credential source before runtime projection and passes only the current access token to the downstream MCP client.
 
@@ -108,7 +108,7 @@ The per-requester flow is sender-driven:
 2. OpenAgent returns a sign-in link for that sender instead of exposing another sender's credentials.
 3. The provider redirects through the Gateway callback. After the callback succeeds, the sender retries the tool call with their connected account.
 
-If `gateway.publicOrigin` is missing, the sign-in result names that setting and `openclaw doctor` reports the same operator fix. `openclaw mcp login` and `openclaw mcp logout` remain operator-only commands for shared credentials; they do not manage per-requester accounts.
+If `gateway.publicOrigin` is missing, the sign-in result names that setting and `openagent doctor` reports the same operator fix. `openagent mcp login` and `openagent mcp logout` remain operator-only commands for shared credentials; they do not manage per-requester accounts.
 
 Sign-in links are single-use bearer links: any chat participant who opens one connects their own account to the sender the link was issued for. Use per-requester OAuth in channels where every trusted sender is mutually trusted; a requester-private sign-in handoff is tracked as follow-up work.
 
@@ -119,13 +119,13 @@ The shared operator flow uses the following commands:
     Add or update the server with `auth: "oauth"` and any optional OAuth metadata.
 
     ```bash
-    openclaw mcp set docs '{"url":"https://mcp.example.com/mcp","transport":"streamable-http","auth":"oauth","oauth":{"scope":"docs.read"}}'
+    openagent mcp set docs '{"url":"https://mcp.example.com/mcp","transport":"streamable-http","auth":"oauth","oauth":{"scope":"docs.read"}}'
     ```
 
     For an auth-profile-backed bearer, save the profile binding:
 
     ```bash
-    openclaw mcp set docs '{"url":"https://mcp.example.com/mcp","transport":"streamable-http","auth":"oauth","oauth":{"authProfileId":"docs:mcp"}}'
+    openagent mcp set docs '{"url":"https://mcp.example.com/mcp","transport":"streamable-http","auth":"oauth","oauth":{"authProfileId":"docs:mcp"}}'
     ```
 
   </Step>
@@ -133,7 +133,7 @@ The shared operator flow uses the following commands:
     Run login to create the authorization request.
 
     ```bash
-    openclaw mcp login docs
+    openagent mcp login docs
     ```
 
     OpenAgent starts the registered loopback callback, prints the authorization URL, and stores temporary OAuth verifier state in shared SQLite. Approve the request in the browser and return to the terminal; token exchange completes automatically after the callback arrives.
@@ -143,16 +143,16 @@ The shared operator flow uses the following commands:
     If the browser runs on another machine or cannot reach the printed loopback address, copy the returned code and pass it back to OpenAgent.
 
     ```bash
-    openclaw mcp login docs --code abc123
+    openagent mcp login docs --code abc123
     ```
 
   </Step>
   <Step title="Check authorization">
-    Use status or doctor to confirm that tokens are present and do not require additional authorization. If status reports `authorization-required` or doctor asks for additional authorization, run `openclaw mcp login <name>` again.
+    Use status or doctor to confirm that tokens are present and do not require additional authorization. If status reports `authorization-required` or doctor asks for additional authorization, run `openagent mcp login <name>` again.
 
     ```bash
-    openclaw mcp status --verbose
-    openclaw mcp doctor docs --probe
+    openagent mcp status --verbose
+    openagent mcp doctor docs --probe
     ```
 
   </Step>
@@ -160,31 +160,31 @@ The shared operator flow uses the following commands:
     Logout removes stored OAuth credentials but keeps the saved server definition.
 
     ```bash
-    openclaw mcp logout docs
+    openagent mcp logout docs
     ```
 
   </Step>
 </Steps>
 
-If the provider rotates tokens or the authorization state gets stuck, run `openclaw mcp logout <name>`, then repeat `login`. `logout` can clear credentials for a saved HTTP server even after `auth: "oauth"` has been removed from config, as long as the server name and URL still identify the credential store entry.
+If the provider rotates tokens or the authorization state gets stuck, run `openagent mcp logout <name>`, then repeat `login`. `logout` can clear credentials for a saved HTTP server even after `auth: "oauth"` has been removed from config, as long as the server name and URL still identify the credential store entry.
 
 ## Streamable HTTP transport
 
 `streamable-http` is an additional transport option alongside `sse` and `stdio`. It uses HTTP streaming for bidirectional communication with remote MCP servers.
 
-| Field                       | Description                                                                                 |
-| --------------------------- | ------------------------------------------------------------------------------------------- |
-| `url`                       | HTTP or HTTPS URL of the remote server (required)                                           |
+| Field                       | Description                                                                             |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| `url`                       | HTTP or HTTPS URL of the remote server (required)                                       |
 | `transport`                 | Set to `"streamable-http"` to select this transport; when omitted, OpenAgent uses `sse` |
-| `headers`                   | Optional key-value map of HTTP headers (for example auth tokens)                            |
-| `connectionTimeoutMs`       | Per-server connection timeout in ms (optional)                                              |
-| `requestTimeoutMs`          | Per-server MCP request timeout in milliseconds                                              |
-| `auth: "oauth"`             | Use MCP OAuth credentials saved by `openclaw mcp login`                                     |
-| `sslVerify`                 | Set false only for explicitly trusted private HTTPS endpoints                               |
-| `clientCert` / `clientKey`  | mTLS client certificate and key paths                                                       |
-| `supportsParallelToolCalls` | Hint that concurrent calls are safe for this server                                         |
+| `headers`                   | Optional key-value map of HTTP headers (for example auth tokens)                        |
+| `connectionTimeoutMs`       | Per-server connection timeout in ms (optional)                                          |
+| `requestTimeoutMs`          | Per-server MCP request timeout in milliseconds                                          |
+| `auth: "oauth"`             | Use MCP OAuth credentials saved by `openagent mcp login`                                |
+| `sslVerify`                 | Set false only for explicitly trusted private HTTPS endpoints                           |
+| `clientCert` / `clientKey`  | mTLS client certificate and key paths                                                   |
+| `supportsParallelToolCalls` | Hint that concurrent calls are safe for this server                                     |
 
-OpenAgent config uses `transport: "streamable-http"` as the canonical spelling. CLI-native MCP `type: "http"` values are accepted when saved through `openclaw mcp set` and repaired by `openclaw doctor --fix` in existing config, but `transport` is what embedded OpenAgent consumes directly.
+OpenAgent config uses `transport: "streamable-http"` as the canonical spelling. CLI-native MCP `type: "http"` values are accepted when saved through `openagent mcp set` and repaired by `openagent doctor --fix` in existing config, but `transport` is what embedded OpenAgent consumes directly.
 
 Example:
 

@@ -38,7 +38,7 @@ first-run failures see
     Reauthentication preserves an existing explicit model, including
     `openai/gpt-5.5`. If the Codex workspace does not expose GPT-5.6, select
     `openai/gpt-5.5` explicitly; OpenAgent does not silently downgrade. Legacy
-    Codex-prefixed model refs are legacy config repaired by `openclaw doctor
+    Codex-prefixed model refs are legacy config repaired by `openagent doctor
     --fix`. Direct OpenAI API-key access remains available for non-agent OpenAI
     API surfaces and, through an ordered `openai` API-key profile, for agent
     models too. See [Model providers](/concepts/model-providers) and
@@ -52,12 +52,12 @@ first-run failures see
 
     - `openai/gpt-6-astra` = fresh ChatGPT/Codex subscription setup with the native Codex runtime for agent turns.
     - `openai/gpt-5.5` = explicit supported selection for existing config or accounts without GPT-5.6 access.
-    - Legacy `openai-codex/*` model refs = legacy route repaired by `openclaw doctor --fix`.
+    - Legacy `openai-codex/*` model refs = legacy route repaired by `openagent doctor --fix`.
     - `openai/gpt-5.5` plus an ordered `openai` API-key profile = API-key auth for an OpenAI agent model.
-    - Legacy `openai-codex` auth profile ids = legacy ids migrated by `openclaw doctor --fix`.
+    - Legacy `openai-codex` auth profile ids = legacy ids migrated by `openagent doctor --fix`.
 
     Want direct OpenAI Platform billing? Set `OPENAI_API_KEY`. Want ChatGPT/Codex
-    subscription auth? Run `openclaw models auth login --provider openai`. Keep
+    subscription auth? Run `openagent models auth login --provider openai`. Keep
     model refs under the canonical `openai/*` provider. Fresh subscription
     setup uses exact `openai/gpt-6-astra`; doctor repairs legacy Codex-prefixed
     refs without upgrading an explicit `openai/gpt-5.5` selection.
@@ -68,7 +68,7 @@ first-run failures see
     Codex OAuth uses OpenAI-managed, plan-dependent quota windows that can differ from the
     ChatGPT website/app experience, even on the same account.
 
-    `openclaw models status` shows the currently visible provider usage/quota windows, but
+    `openagent models status` shows the currently visible provider usage/quota windows, but
     does not invent or normalize ChatGPT-web entitlements into direct API access. For the
     direct OpenAI Platform billing/limit path, use `openai/*` with an API key.
 
@@ -113,7 +113,7 @@ first-run failures see
     `system.run` on that device.
 
     Common pattern: Gateway on the always-on Mac mini; MacBook Pro runs a node host and
-    pairs to the Gateway. Check with `openclaw nodes status` / `openclaw nodes list`.
+    pairs to the Gateway. Check with `openagent nodes status` / `openagent nodes list`.
 
     Docs: [Nodes](/nodes), [Nodes CLI](/cli/nodes).
 
@@ -128,10 +128,10 @@ first-run failures see
 
   <Accordion title="Telegram: what goes in allowFrom?">
     `channels.telegram.allowFrom` is the **human sender's Telegram user ID** (numeric),
-    not the bot username. Setup asks for numeric user IDs only; `openclaw doctor --fix`
+    not the bot username. Setup asks for numeric user IDs only; `openagent doctor --fix`
     can try to resolve legacy `@username` entries.
 
-    Safer (no third-party bot): DM your bot, run `openclaw logs --follow`, read `from.id`.
+    Safer (no third-party bot): DM your bot, run `openagent logs --follow`, read `from.id`.
 
     Official Bot API: DM your bot, call `https://api.telegram.org/bot<bot_token>/getUpdates`, read `message.from.id`.
 

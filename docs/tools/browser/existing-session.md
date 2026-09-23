@@ -73,10 +73,10 @@ Common inspect pages:
 Live attach smoke test:
 
 ```bash
-openclaw browser --browser-profile user start
-openclaw browser --browser-profile user status
-openclaw browser --browser-profile user tabs
-openclaw browser --browser-profile user snapshot --format ai
+openagent browser --browser-profile user start
+openagent browser --browser-profile user status
+openagent browser --browser-profile user tabs
+openagent browser --browser-profile user snapshot --format ai
 ```
 
 What success looks like:
@@ -95,7 +95,7 @@ What to check if attach does not work:
 - if Chrome was started with an explicit `--remote-debugging-port`, set
   `browser.profiles.<name>.cdpUrl` to that DevTools endpoint instead of relying
   on Chrome MCP auto-connect
-- `openclaw doctor` migrates old extension-based browser config and checks that
+- `openagent doctor` migrates old extension-based browser config and checks that
   Chrome is installed locally for default auto-connect profiles, but it cannot
   enable browser-side remote debugging for you
 

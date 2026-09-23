@@ -60,8 +60,8 @@ Execution identity recording is off by default, including on fresh installs
 and upgrades. Enable it explicitly, then restart the Gateway:
 
 ```bash
-openclaw config set logging.audit.executionIdentity true
-openclaw gateway restart
+openagent config set logging.audit.executionIdentity true
+openagent gateway restart
 ```
 
 Collection requires both `logging.audit.enabled` and
@@ -98,7 +98,7 @@ Each admitted outer turn receives a new opaque `executionId`; `contextId`
 identifies its immutable evidence record, while the existing `runId` remains a
 possibly shared routing, session, or recovery correlation. Query one exact
 execution with `audit.run.inspect` or
-[`openclaw audit --execution <id> --explain`](/cli/audit). Use `--run <id>
+[`openagent audit --execution <id> --explain`](/cli/audit). Use `--run <id>
 --explain` to discover executions for a run correlation. One retained match
 resolves directly. Multiple matches return `ambiguous` with at most 50
 candidate execution ids and require exact selection; OpenAgent never chooses the
@@ -466,7 +466,7 @@ binding; run-only terminal writes leave it absent. Compatible older Gateways
 ignore this additive table as well.
 
 Upgrading from a Gateway with the earlier run/tool-only ledger migrates the
-schema automatically at startup (or via `openclaw doctor --fix`); existing
+schema automatically at startup (or via `openagent doctor --fix`); existing
 rows and their ledger sequences are preserved.
 
 Execution identity contexts also live in the shared state database. Canonical
@@ -516,7 +516,7 @@ correlation alone.
 
 ## Querying
 
-- CLI: [`openclaw audit`](/cli/audit) with filters for agent, session, run,
+- CLI: [`openagent audit`](/cli/audit) with filters for agent, session, run,
   kind, status, direction, channel, time bounds, and cursor paging.
 - Gateway RPC: `audit.activity.list` (requires `operator.read`) returns the
   versioned V1 activity event union; the shipped `audit.list` RPC is unchanged

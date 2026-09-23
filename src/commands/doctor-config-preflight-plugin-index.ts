@@ -70,7 +70,7 @@ export function createDoctorRehearsalSnapshotPreparation(
 
 function throwPluginRegistryPersistenceFailed(
   reason: string,
-  repair = 'Run "openclaw doctor --fix" and retry.',
+  repair = 'Run "openagent doctor --fix" and retry.',
 ): never {
   throw new Error(
     `OpenAgent refreshed the plugin registry but could not verify the persisted replacement (${reason}); refusing to write the migration checkpoint. ${repair}`,
@@ -192,7 +192,7 @@ export async function persistRefreshedPluginIndex(params: {
       `reread source was ${persistedPluginMetadataSnapshot?.registrySource ?? "missing"}${
         differences ? `; differences: ${differences}` : ""
       }${diagnosticCodes?.length ? `; diagnostics: ${diagnosticCodes.join(", ")}` : ""}`,
-      'Stop plugin package changes, run "openclaw plugins registry --refresh", then retry.',
+      'Stop plugin package changes, run "openagent plugins registry --refresh", then retry.',
     );
   }
   return persistedSnapshotRead;

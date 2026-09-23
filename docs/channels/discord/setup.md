@@ -97,13 +97,13 @@ cat > discord.patch.json5 <<'JSON5'
   },
 }
 JSON5
-openclaw config patch --file ./discord.patch.json5 --dry-run
-openclaw config patch --file ./discord.patch.json5
-openclaw gateway
+openagent config patch --file ./discord.patch.json5 --dry-run
+openagent config patch --file ./discord.patch.json5
+openagent gateway
 ```
 
-    If OpenAgent already runs as a background service, restart it via the OpenAgent Mac app or by stopping and restarting the `openclaw gateway run` process.
-    For managed service installs, run `openclaw gateway install` from a shell where `DISCORD_BOT_TOKEN` is set, or store the variable in `~/.openclaw/.env` so the service can resolve the env SecretRef after restart.
+    If OpenAgent already runs as a background service, restart it via the OpenAgent Mac app or by stopping and restarting the `openagent gateway run` process.
+    For managed service installs, run `openagent gateway install` from a shell where `DISCORD_BOT_TOKEN` is set, or store the variable in `~/.openclaw/.env` so the service can resolve the env SecretRef after restart.
     If your host is blocked or rate-limited by Discord's startup application lookup, set the application/client ID from the Developer Portal so startup can skip that REST call: `channels.discord.applicationId` for the default account, or `channels.discord.accounts.<accountId>.applicationId` per bot.
 
   </Step>
@@ -140,7 +140,7 @@ openclaw gateway
 DISCORD_BOT_TOKEN=...
 ```
 
-        For scripted or remote setup, write the same JSON5 block with `openclaw config patch --file ./discord.patch.json5 --dry-run`, then rerun without `--dry-run`. Plaintext `token` strings work too, and SecretRef values are supported for `channels.discord.token` across env/file/exec/store providers. See [Secrets Management](/gateway/secrets).
+        For scripted or remote setup, write the same JSON5 block with `openagent config patch --file ./discord.patch.json5 --dry-run`, then rerun without `--dry-run`. Plaintext `token` strings work too, and SecretRef values are supported for `channels.discord.token` across env/file/exec/store providers. See [Secrets Management](/gateway/secrets).
 
         For multiple Discord bots, keep each bot token and application ID under its account. A top-level `channels.discord.applicationId` is inherited by accounts, so only set it there when every account uses the same application ID.
 
@@ -181,8 +181,8 @@ DISCORD_BOT_TOKEN=...
       <Tab title="CLI">
 
 ```bash
-openclaw pairing list discord
-openclaw pairing approve discord <CODE>
+openagent pairing list discord
+openagent pairing approve discord <CODE>
 ```
 
       </Tab>

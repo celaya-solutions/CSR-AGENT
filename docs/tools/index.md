@@ -141,7 +141,7 @@ limits the combined list and defaults to 20. Codex's native implementation
 accepts one local filesystem `path`. Callers must follow the active tool schema.
 
 Existing policy entries named `image` must be migrated to `view_image`; run
-`openclaw doctor --fix` to update supported config policy surfaces and persisted
+`openagent doctor --fix` to update supported config policy surfaces and persisted
 automation `toolsAllow` lists.
 
 - [Tools and custom providers](/gateway/config-tools) documents tool profiles,

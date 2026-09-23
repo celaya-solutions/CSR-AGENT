@@ -42,7 +42,7 @@ Stopping a run also stops its overflow or timeout recovery. The built-in OpenAge
 
 The built-in OpenAgent runtime performs required checkpointing and compaction before inference. In persistent Gateway sessions, optional memory flushing and compaction wait until reply delivery has settled and its foreground owner has closed. That work uses a separate session owner and the turn's remaining time. A new message cancels and settles optional work before reading the session for its own inference.
 
-One-shot `openclaw agent --local` commands skip optional post-turn work; the next command performs required maintenance before inference. Generic CLI backends keep their existing synchronous host compaction, and native runtimes retain their own compaction policy. Optional maintenance failures are logged without replacing an already completed reply. Cancellation, restart, or a replaced session still fences active writers.
+One-shot `openagent agent --local` commands skip optional post-turn work; the next command performs required maintenance before inference. Generic CLI backends keep their existing synchronous host compaction, and native runtimes retain their own compaction policy. Optional maintenance failures are logged without replacing an already completed reply. Cancellation, restart, or a replaced session still fences active writers.
 
 Set `agents.defaults.compaction.enabled: false` to disable proactive threshold compaction and optional maintenance in the built-in runtime. Overflow-recovery compaction and manual `/compact` remain available.
 

@@ -7,7 +7,7 @@ read_when:
 title: "OpenAgent setup agent"
 ---
 
-# `openclaw setup`
+# `openagent setup`
 
 OpenAgent ships with a built-in system agent — it speaks as "OpenAgent" — for
 local setup, repair, and configuration (formerly called Crestodian). It starts only after the effective default model completes a real turn.
@@ -19,23 +19,23 @@ classic doctor path.
 Running `openclaw` with no subcommand routes based on config state:
 
 - Config missing, or exists with no authored settings (empty, or only `$schema`/`meta` keys): starts guided onboarding with live AI verification.
-- Config exists but fails validation: starts classic onboarding, which reports the issues and directs you to `openclaw doctor`.
+- Config exists but fails validation: starts classic onboarding, which reports the issues and directs you to `openagent doctor`.
 - Config exists and is valid: opens the normal agent TUI. A reachable
   configured Gateway whose default agent has a model goes directly to that UI
   without onboarding or OpenAgent. Use `/openclaw` inside the TUI, or run
-  `openclaw setup` directly, to reach OpenAgent later.
+  `openagent setup` directly, to reach OpenAgent later.
 
-Running `openclaw setup` first live-tests the configured default model. A passing turn starts OpenAgent. An interactive failure opens guided inference setup and hands off to OpenAgent after a candidate passes. One-shot, JSON, and other noninteractive requests fail with instructions to run [`openclaw onboard`](/cli/onboard) when inference is unavailable. `openclaw --help` and `openclaw --version` keep their normal fast paths.
+Running `openagent setup` first live-tests the configured default model. A passing turn starts OpenAgent. An interactive failure opens guided inference setup and hands off to OpenAgent after a candidate passes. One-shot, JSON, and other noninteractive requests fail with instructions to run [`openagent onboard`](/cli/onboard) when inference is unavailable. `openagent --help` and `openagent --version` keep their normal fast paths.
 
 If inference plugin loading or owner verification fails, the error includes the underlying cause after applying OpenAgent's error redaction. One-shot text and JSON output retain that detail alongside onboarding guidance.
 
-Noninteractive bare `openclaw` (no TTY) exits with a short message instead of printing root help: it points to non-interactive onboarding on a fresh or invalid install, or to `openclaw agent --local ...` when config is valid.
+Noninteractive bare `openclaw` (no TTY) exits with a short message instead of printing root help: it points to non-interactive onboarding on a fresh or invalid install, or to `openagent agent --local ...` when config is valid.
 
-`openclaw onboard --modern` remains a compatibility alias for OpenAgent, but uses the same inference gate: working inference opens the chat, interactive failures start guided inference setup, and noninteractive failures exit with onboarding guidance. `openclaw onboard --classic` opens the full step-by-step wizard.
+`openagent onboard --modern` remains a compatibility alias for OpenAgent, but uses the same inference gate: working inference opens the chat, interactive failures start guided inference setup, and noninteractive failures exit with onboarding guidance. `openagent onboard --classic` opens the full step-by-step wizard.
 
 ## What OpenAgent shows
 
-Interactive OpenAgent opens the same TUI shell as `openclaw tui`, with an OpenAgent chat backend. The startup greeting covers:
+Interactive OpenAgent opens the same TUI shell as `openagent tui`, with an OpenAgent chat backend. The startup greeting covers:
 
 - config validity and the default agent
 - the verified model OpenAgent is using
@@ -52,13 +52,13 @@ OpenAgent uses the same reference discovery as regular agents: in a Git checkout
 
 ```bash
 openclaw
-openclaw setup
-openclaw setup --json
-openclaw setup --message "models"
-openclaw setup --message "validate config"
-openclaw setup --message "setup workspace ~/path/to/work" --yes
-openclaw setup --message "set default model openai/gpt-5.6" --yes
-openclaw onboard --modern
+openagent setup
+openagent setup --json
+openagent setup --message "models"
+openagent setup --message "validate config"
+openagent setup --message "setup workspace ~/path/to/work" --yes
+openagent setup --message "set default model openai/gpt-5.6" --yes
+openagent onboard --modern
 ```
 
 Inside the OpenAgent TUI:
@@ -110,7 +110,7 @@ Read-only operations run immediately: show overview, list agents, list installed
 
 Starting a guided setup flow also runs immediately: channel setup (`connect telegram`), workspace skills setup (`configure skills`), web-search provider setup (`configure web search`), and local Gateway setup (`configure gateway`). Each config-backed hosted wizard collects explicit answers and owns the resulting writes; completions append audit entries and re-validate config. A web-search provider that needs a plugin install writes config only after the install succeeds — a failed or timed-out install stops setup and reports it instead of claiming the provider is configured.
 
-`configure gateway` guides you through the local Gateway's port, bind address, token or password auth, and Tailscale exposure. It saves config without applying it to the running Gateway, because changing the active address or credential could disconnect the setup chat. Say `restart gateway` after chat setup, or run `openclaw gateway restart` after a terminal-wizard handoff. Remote mode is guidance-only: use `openclaw onboard` for a fresh setup or `openclaw configure` to change the mode.
+`configure gateway` guides you through the local Gateway's port, bind address, token or password auth, and Tailscale exposure. It saves config without applying it to the running Gateway, because changing the active address or credential could disconnect the setup chat. Say `restart gateway` after chat setup, or run `openagent gateway restart` after a terminal-wizard handoff. Remote mode is guidance-only: use `openagent onboard` for a fresh setup or `openagent configure` to change the mode.
 
 `import memory` is copy-only rather than a config write. It detects supported local agent homes, lets you choose the available sources, and copies new memory files into the existing default agent workspace without importing config, credentials, or skills. It requires completed onboarding and reports confirmed imports, nothing-to-import results, provider failures, and failures where some files may already have been copied. No Gateway restart is needed. Use the Control UI's [Import Memory page](/web/control-ui/settings#import-assistant-memory) when you need to target another agent or replace an existing import.
 
@@ -122,8 +122,8 @@ Full Access applies the exact proposed operation automatically, including when
 Full Access comes from the configured default rather than an explicit session
 mode. Restricted runs still require approval in the OpenAgent operator UI. Replying
 "yes" in the delegated chat cannot authorize a change. When approval is required,
-run `openclaw dashboard` on the Gateway host to review it, or run the change
-directly with `openclaw setup` there. Independent filesystem and sandbox boundaries,
+run `openagent dashboard` on the Gateway host to review it, or run the change
+directly with `openagent setup` there. Independent filesystem and sandbox boundaries,
 tool policy, and the operation restrictions below still apply. The host also checks
 that the requesting run and verified inference route remain valid. Interactive
 setup and agent handoffs still require a direct operator session; delegated chat
@@ -144,11 +144,11 @@ agent as the new agent's creator.
 Delegated creation remains tied to the requesting run. If that run ends or loses
 authority during preparation, OpenAgent stops before starting the next persistent
 write. A write already in progress may finish, and workspace files created earlier
-are not automatically removed. Check `openclaw agents list` before retrying from
+are not automatically removed. Check `openagent agents list` before retrying from
 an active run; an agent whose creation already completed is not removed when its
 requesting run ends.
 
-Doctor repairs are unavailable inside OpenAgent because they can rewrite the provider, authentication, or default-agent inference route powering the session. Exit OpenAgent and run `openclaw doctor --fix` in a terminal. Read-only `doctor` remains available inside OpenAgent.
+Doctor repairs are unavailable inside OpenAgent because they can rewrite the provider, authentication, or default-agent inference route powering the session. Exit OpenAgent and run `openagent doctor --fix` in a terminal. Read-only `doctor` remains available inside OpenAgent.
 
 New agents inherit the live-verified default inference route. The agent ids `openclaw` and `crestodian` are reserved for the system agent and cannot be created as normal agents. The retired id remains blocked so an old config cannot claim it.
 
@@ -164,14 +164,14 @@ other agents remain writable behind approval. Gateway and channel auth remain
 normal config surfaces. Use `set default model <provider/model>` for an
 already configured route; it live-tests the route before saving it. To
 configure or repair provider/auth access, exit OpenAgent and run
-`openclaw onboard`.
+`openagent onboard`.
 
 `plugins.entries.<id>.*` writes (enable/disable/config of installed plugins)
 are allowed unless that plugin backs the active inference route. Plugin
 install sources and load policy keep their trust boundary in the typed
 plugin-install workflow. Plugin uninstall of the route-backing plugin is
 refused for the same reason; exit OpenAgent and run
-`openclaw plugins uninstall <id>` from a terminal.
+`openagent plugins uninstall <id>` from a terminal.
 
 Approval is given in your own words: unambiguous replies ("yes", "sure", "go ahead", "not now") resolve from a closed deterministic list. When the configured route supports a separate completion call, other replies can be classified from only your message and the pending proposal — never by the conversation model itself, which cannot self-approve. Unclassified or ambiguous replies keep the proposal pending and the conversation asks again.
 
@@ -200,8 +200,8 @@ until they reach a secret. The local OpenAgent TUI does not accept sensitive wiz
 because terminal chat input is visible. It offers `open channel wizard`
 (carrying the selected channel), `open search wizard`, or `open gateway wizard`
 immediately, handing off to the masked terminal wizard; you can also run
-`openclaw channels add --channel <channel>` or
-`openclaw configure --section web` or `openclaw configure --section gateway`
+`openagent channels add --channel <channel>` or
+`openagent configure --section web` or `openagent configure --section gateway`
 later.
 
 ### Switching to a masked terminal wizard
@@ -220,7 +220,7 @@ TUI closes. Use `channel info <channel>` first for the channel label, setup
 state, prerequisites summary, and docs link. `open search wizard` works the
 same way for web-search provider setup, opening the masked search wizard after
 the chat TUI closes. `open gateway wizard` opens masked local Gateway setup;
-when it finishes, run `openclaw gateway restart` to apply the saved settings.
+when it finishes, run `openagent gateway restart` to apply the saved settings.
 
 OpenAgent never changes provider/auth access from inside its own session: the
 session already depends on that inference route. For model-provider setup or
@@ -245,13 +245,13 @@ Delegated setup remains tied to the requesting run through configuration,
 workspace, and session preparation. If that run ends or loses authority,
 OpenAgent stops before starting the next persistent effect. Earlier completed
 effects remain, including an agent whose creation already finished; setup may
-still be incomplete. Check `openclaw agents list` and `status`, then request
+still be incomplete. Check `openagent agents list` and `status`, then request
 setup again from an active run and approve the new request, or finish directly
-with `openclaw setup` on the Gateway host. If cancellation deferred legacy
+with `openagent setup` on the Gateway host. If cancellation deferred legacy
 history migration for a newly named agent, the next Gateway startup retries it;
-use `openclaw doctor --fix` on the same state/config to finish it sooner.
+use `openagent doctor --fix` on the same state/config to finish it sooner.
 
-If inference is missing or its live check fails, leave OpenAgent and run `openclaw onboard`. Guided onboarding tries the configured model first, then authenticated subscription CLIs, API keys, and remaining supported CLIs; it asks each candidate for a real reply and persists only a passing route. OpenAgent starts immediately after that boundary and can then configure the workspace, Gateway, channels, agents, plugins, and other optional features.
+If inference is missing or its live check fails, leave OpenAgent and run `openagent onboard`. Guided onboarding tries the configured model first, then authenticated subscription CLIs, API keys, and remaining supported CLIs; it asks each candidate for a real reply and persists only a passing route. OpenAgent starts immediately after that boundary and can then configure the workspace, Gateway, channels, agents, plugins, and other optional features.
 
 Clients can drive the same inference ladder through
 the `openclaw.setup.detect` and `openclaw.setup.activate` Gateway methods:
@@ -270,7 +270,7 @@ supervision opt-outs remain untouched during inference setup.
 
 ## AI conversation
 
-Interactive OpenAgent's free-form conversation runs through the same agent loop as regular OpenAgent agents, restricted to one ring-zero OpenAgent authority tool, `openclaw`, that wraps the typed operations. Read actions run freely, mutations require your conversational approval for that exact operation (see Operations and approval), and every applied write is audited and re-validated. The agent session persists, so OpenAgent has real multi-turn memory. If the verified inference route later stops working, return to `openclaw onboard` and repair it before continuing.
+Interactive OpenAgent's free-form conversation runs through the same agent loop as regular OpenAgent agents, restricted to one ring-zero OpenAgent authority tool, `openclaw`, that wraps the typed operations. Read actions run freely, mutations require your conversational approval for that exact operation (see Operations and approval), and every applied write is audited and re-validated. The agent session persists, so OpenAgent has real multi-turn memory. If the verified inference route later stops working, return to `openagent onboard` and repair it before continuing.
 
 A failed or timed-out turn ends that setup conversation with a visible error.
 Retrying starts a fresh conversation and live-checks the inference route again.
@@ -332,7 +332,7 @@ talk to work agent
 switch to main agent
 ```
 
-`openclaw tui`, `openclaw chat`, and `openclaw terminal` open the normal agent TUI directly; they do not start OpenAgent. After switching into the normal TUI, `/openclaw` returns to OpenAgent, optionally with a follow-up request:
+`openagent tui`, `openagent chat`, and `openagent terminal` open the normal agent TUI directly; they do not start OpenAgent. After switching into the normal TUI, `/openclaw` returns to OpenAgent, optionally with a follow-up request:
 
 ```text
 /openclaw
@@ -376,7 +376,7 @@ Security contract for remote rescue:
 - Default effective state is `auto`: allow remote rescue only in trusted YOLO operation, where the runtime already has unsandboxed local authority (`tools.exec.security` resolves to `full` and `tools.exec.ask` resolves to `off`, with sandbox mode `off`).
 - Requires an explicit owner identity; no wildcard sender rules, open group policy, unauthenticated webhooks, or anonymous channels.
 - Rescue is limited to owner DMs.
-- Plugin search and list are read-only. Plugin install is always local-only (blocked in rescue, even when otherwise enabled) because it downloads executable code. Plugin uninstall is refused in both local OpenAgent and rescue; run `openclaw plugins uninstall <id>` from a terminal.
+- Plugin search and list are read-only. Plugin install is always local-only (blocked in rescue, even when otherwise enabled) because it downloads executable code. Plugin uninstall is refused in both local OpenAgent and rescue; run `openagent plugins uninstall <id>` from a terminal.
 - Remote rescue cannot open the local TUI or switch into an interactive agent session; use local `openclaw` for agent handoff.
 - Persistent writes still require approval, even in rescue mode.
 - Pending approvals are one-use. Any newer rescue command for the same account, channel, and sender revokes the older plan; failed execution also consumes approval, so resend the command to retry.
@@ -386,7 +386,7 @@ Security contract for remote rescue:
 
 Rescue policy is built in: it is available only when the effective runtime is
 YOLO, sandboxing is off, and the request is an owner DM. Pending write approvals
-expire after 15 minutes. `openclaw doctor --fix` removes the retired
+expire after 15 minutes. `openagent doctor --fix` removes the retired
 `systemAgent` and `crestodian` config blocks.
 
 Remote rescue is covered by the Docker lane:

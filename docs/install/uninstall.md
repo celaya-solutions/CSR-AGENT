@@ -17,42 +17,42 @@ Remove the service and selected local data first, then [any remaining CLI instal
 The command attempts independent requested cleanup scopes and returns a nonzero status if any scope fails or is blocked. Service teardown remains the safety gate for state and workspace deletion; if that gate fails, those data scopes are preserved while app cleanup is still attempted. Partial cleanup is reported explicitly and is never followed by an unconditional completion result.
 
 ```bash
-openclaw uninstall
+openagent uninstall
 ```
 
 The interactive prompt preselects only the Gateway service. For complete local
 removal, also select state, workspace, and app in the prompt, or run
-`openclaw uninstall --all`. State removal preserves configured workspace
+`openagent uninstall --all`. State removal preserves configured workspace
 directories unless you also select `--workspace`.
 
 Preview what will be removed (safe):
 
 ```bash
-openclaw uninstall --dry-run --all
+openagent uninstall --dry-run --all
 ```
 
 Non-interactive (automation). Use with caution and only after confirming scopes:
 
 ```bash
-openclaw uninstall --all --yes --non-interactive
+openagent uninstall --all --yes --non-interactive
 ```
 
 Flags: `--service`, `--state`, `--workspace`, `--app` select individual scopes; `--all` selects all four.
 
-Unlike `openclaw uninstall --state`, manual state deletion does not preserve
+Unlike `openagent uninstall --state`, manual state deletion does not preserve
 workspaces. Stop and uninstall the service successfully before deleting files.
 Before manual state or prefix deletion, move any configuration you want to keep outside that directory.
 
 1. Stop the gateway service:
 
 ```bash
-openclaw gateway stop
+openagent gateway stop
 ```
 
 2. Uninstall the gateway service (launchd/systemd/schtasks):
 
 ```bash
-openclaw gateway uninstall
+openagent gateway uninstall
 ```
 
 3. Decide whether to preserve the workspace.
@@ -98,7 +98,7 @@ If you used a profile, replace the label and plist name with `ai.openclaw.<profi
 
 ### Linux (systemd user unit)
 
-Default unit name is `openclaw-gateway.service` (or `openclaw-gateway-<profile>.service`). A pre-rename `clawdbot-gateway.service` unit may still exist on machines upgraded from very old installs; `openclaw uninstall` / `openclaw gateway uninstall` detects and removes it automatically.
+Default unit name is `openclaw-gateway.service` (or `openclaw-gateway-<profile>.service`). A pre-rename `clawdbot-gateway.service` unit may still exist on machines upgraded from very old installs; `openagent uninstall` / `openagent gateway uninstall` detects and removes it automatically.
 
 ```bash
 systemctl --user disable --now openclaw-gateway.service
@@ -134,12 +134,12 @@ Remove the Gateway service **before** deleting the checkout. Inspect the resolve
 1. If you linked a global command with `pnpm add --global "openclaw@link:$PWD"`, remove it with `pnpm remove --global openclaw`.
 2. Remove the source checkout directory you cloned. Move any state, configuration, and workspaces you want to keep outside it first.
 
-If completion was installed, remove only its `# OpenAgent Completion` block and OpenAgent source line from the [selected shell profile](/cli/completion#install-flow). Remove a legacy `openclaw completion` source/eval line only if it contains no other command; preserve surrounding content.
+If completion was installed, remove only its `# OpenAgent Completion` block and OpenAgent source line from the [selected shell profile](/cli/completion#install-flow). Remove a legacy `openagent completion` source/eval line only if it contains no other command; preserve surrounding content.
 
-Open a new shell and check `command -v openclaw` (PowerShell: `Get-Command openclaw -ErrorAction SilentlyContinue`). If a command still resolves, inspect it: a second install or foreign wrapper may remain.
+Open a new shell and check `command -v openclaw` (PowerShell: `Get-Command openagent -ErrorAction SilentlyContinue`). If a command still resolves, inspect it: a second install or foreign wrapper may remain.
 
 ## Related
 
 - [Install overview](/install)
 - [Migration guide](/install/migrating)
-- [`openclaw uninstall`](/cli/uninstall) — command reference and flags
+- [`openagent uninstall`](/cli/uninstall) — command reference and flags

@@ -101,7 +101,7 @@ export function buildBrowserDoctorReport(params: {
         ? {}
         : {
             fixHint:
-              "Install the OpenAgent Chrome extension (openclaw browser extension path), run openclaw browser extension pair, and paste the pairing string into the extension popup.",
+              "Install the OpenAgent Chrome extension (openagent browser extension path), run openagent browser extension pair, and paste the pairing string into the extension popup.",
           }),
     });
 
@@ -192,7 +192,7 @@ export function buildBrowserDoctorReport(params: {
       ...(status.cdpHttp || !status.running
         ? {}
         : {
-            fixHint: "Run openclaw browser start or inspect browser.cdpUrl/CDP port reachability.",
+            fixHint: "Run openagent browser start or inspect browser.cdpUrl/CDP port reachability.",
           }),
     });
 

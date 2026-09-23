@@ -114,7 +114,7 @@ This plugin does not schedule anything. Use core [automations](/cli/cron), which
 scheduled agent runs, and point a job at an agent that has these tools:
 
 ```bash
-openclaw automations create "0 9 * * 1" \
+openagent automations create "0 9 * * 1" \
   "Ask scout for anything new about our top three competitors, then stage a summary email for review." \
   --name "Monday competitor brief" \
   --agent main

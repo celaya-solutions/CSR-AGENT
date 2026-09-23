@@ -81,8 +81,8 @@ process. Link and enable the directory (`--force` acknowledges installing from
 a local source):
 
 ```bash
-openclaw plugins install --link ./hook-demo --force
-openclaw plugins enable hook-demo
+openagent plugins install --link ./hook-demo --force
+openagent plugins enable hook-demo
 ```
 
 Grant this plugin access to conversation hooks in `openclaw.json`:
@@ -104,7 +104,7 @@ Merge that entry into your existing config, then let the default hybrid reload
 mode apply it and inspect:
 
 ```bash
-openclaw plugins inspect hook-demo --runtime --json
+openagent plugins inspect hook-demo --runtime --json
 ```
 
 Send `hook-demo-check` as a normal chat message. Expect `Hook is working.`; other
@@ -119,7 +119,7 @@ the field is only the sender's raw text.
 
 Hook registration does not bypass plugin loading rules. The plugin must be
 loaded and enabled; `plugins.enabled`, `plugins.allow`, and `plugins.deny` still
-apply. Run `openclaw plugins reload <id>` after changing plugin code. With the default hybrid
+apply. Run `openagent plugins reload <id>` after changing plugin code. With the default hybrid
 reload mode, hook policy changes hot-reload the existing plugin runtime.
 
 - Non-bundled plugins need explicit
@@ -170,14 +170,14 @@ transcript, and compaction boundaries also differ. See
 
 ## Troubleshooting
 
-| Symptom                                    | Check                                                                                                                                                                                                                                                          |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Plugin loads but the handler never runs    | Use `api.on` for typed names, inspect `openclaw plugins inspect <id> --runtime --json`, and check diagnostics for blocked registrations. Runtime inspection loads the plugin in the inspecting process; use `openclaw plugins reload <id>` after code changes. |
-| Conversation hook is blocked               | Set `plugins.entries.<id>.hooks.allowConversationAccess: true`; for prompt hooks, also check that `allowPromptInjection` is not `false`. These keys belong under `hooks`, not the plugin's `config`.                                                           |
-| Hook works for one runtime or trigger only | Check the runtime boundary and `eligibleTriggers`. Missing context fields are not proof of a different sender, agent, or authorization state.                                                                                                                  |
-| Persistence rewrite has no effect          | Return `{ message }` synchronously. An `async` handler's result is ignored.                                                                                                                                                                                    |
-| A timed-out hook still performs work       | Timeout ends the host's await, not plugin work. Pass available abort signals through I/O and bound plugin-owned work yourself.                                                                                                                                 |
-| One plugin's rewrite disappears            | Check the hook's merge rule and priority. `message_sending` uses the last returned content; `reply_payload_sending` passes each updated payload onward.                                                                                                        |
+| Symptom                                    | Check                                                                                                                                                                                                                                                            |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Plugin loads but the handler never runs    | Use `api.on` for typed names, inspect `openagent plugins inspect <id> --runtime --json`, and check diagnostics for blocked registrations. Runtime inspection loads the plugin in the inspecting process; use `openagent plugins reload <id>` after code changes. |
+| Conversation hook is blocked               | Set `plugins.entries.<id>.hooks.allowConversationAccess: true`; for prompt hooks, also check that `allowPromptInjection` is not `false`. These keys belong under `hooks`, not the plugin's `config`.                                                             |
+| Hook works for one runtime or trigger only | Check the runtime boundary and `eligibleTriggers`. Missing context fields are not proof of a different sender, agent, or authorization state.                                                                                                                    |
+| Persistence rewrite has no effect          | Return `{ message }` synchronously. An `async` handler's result is ignored.                                                                                                                                                                                      |
+| A timed-out hook still performs work       | Timeout ends the host's await, not plugin work. Pass available abort signals through I/O and bound plugin-owned work yourself.                                                                                                                                   |
+| One plugin's rewrite disappears            | Check the hook's merge rule and priority. `message_sending` uses the last returned content; `reply_payload_sending` passes each updated payload onward.                                                                                                          |
 
 ## Upcoming deprecations
 

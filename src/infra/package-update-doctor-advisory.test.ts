@@ -10,7 +10,7 @@ describe("markPackagePostInstallDoctorAdvisory", () => {
     "retains specific Doctor warnings on normal exit %s",
     (exitCode) => {
       const warning =
-        "Skipped derived cache cleanup: permission denied. Run openclaw doctor --fix.";
+        "Skipped derived cache cleanup: permission denied. Run openagent doctor --fix.";
       const result =
         exitCode === 0
           ? { status: "ok" as const, warnings: [warning] }
@@ -27,7 +27,7 @@ describe("markPackagePostInstallDoctorAdvisory", () => {
         warnings: [
           warning,
           ...(exitCode === UPDATE_POST_INSTALL_DOCTOR_ADVISORY_EXIT_CODE
-            ? ["deferred plugin repair\nRun openclaw doctor --fix to finish deferred repairs."]
+            ? ["deferred plugin repair\nRun openagent doctor --fix to finish deferred repairs."]
             : []),
         ],
       });
@@ -51,7 +51,7 @@ describe("markPackagePostInstallDoctorAdvisory", () => {
     });
     expect(step).toMatchObject({
       warnings: [
-        "deferred configured plugin repair\nRun openclaw doctor --fix to finish deferred repairs.",
+        "deferred configured plugin repair\nRun openagent doctor --fix to finish deferred repairs.",
       ],
     });
     expect(step.stderrTail).toContain("doctor deferred repair");
@@ -76,7 +76,7 @@ describe("markPackagePostInstallDoctorAdvisory", () => {
     expect(step.stderrTail).toMatch(/^…/u);
     expect(step.stderrTail).toContain("recoverable update-time repair warning");
     expect(step.warnings).toEqual([
-      `${`deferred configured plugin repair ${"x".repeat(10_000)}`.slice(0, 500)}\nRun openclaw doctor --fix to finish deferred repairs.`,
+      `${`deferred configured plugin repair ${"x".repeat(10_000)}`.slice(0, 500)}\nRun openagent doctor --fix to finish deferred repairs.`,
     ]);
   });
 

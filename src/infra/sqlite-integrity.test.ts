@@ -130,7 +130,7 @@ describe("assertSqliteIntegrity", () => {
           parentTable: "task_runs",
           orphanCount: 6,
         },
-        message: expect.stringMatching(/foreign_key_check failed.*openclaw doctor --fix/u),
+        message: expect.stringMatching(/foreign_key_check failed.*openagent doctor --fix/u),
       });
       if (!(failure instanceof Error)) {
         throw new Error("Expected integrity admission to refuse unrepaired rows");

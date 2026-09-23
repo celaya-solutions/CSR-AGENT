@@ -144,8 +144,8 @@ describe("buildDeveloperInstructions credential routing", () => {
       dynamicTools,
     });
 
-    expect(instructions.includes("openclaw channels add <channel>")).toBe(terminalSetup);
-    expect(instructions.includes("openclaw configure")).toBe(terminalSetup);
+    expect(instructions.includes("openagent channels add <channel>")).toBe(terminalSetup);
+    expect(instructions.includes("openagent configure")).toBe(terminalSetup);
     expect(instructions).toContain("only to the requesting user in private");
     expect(instructions).toContain("then acknowledge in the group without them");
   });

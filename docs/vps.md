@@ -89,7 +89,7 @@ For VM hosts using `systemd`, consider:
 - The managed unit owns the generic restart policy: `Restart=always`, `RestartSec=5`.
 - SSD-backed disks for state/cache paths to reduce random-I/O cold-start penalties.
 
-The standard `openclaw onboard --install-daemon` path installs a systemd user
+The standard `openagent onboard --install-daemon` path installs a systemd user
 unit; customize only host-specific startup settings with:
 
 ```bash

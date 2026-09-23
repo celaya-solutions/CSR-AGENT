@@ -314,7 +314,7 @@ export async function migrateListCommand(runtime: RuntimeEnv, opts: { json?: boo
     }
     if (providers.length === 0) {
       runtime.log(
-        `No migration providers found. Run ${formatCliCommand("openclaw plugins list")} to verify provider plugins are installed and enabled.`,
+        `No migration providers found. Run ${formatCliCommand("openagent plugins list")} to verify provider plugins are installed and enabled.`,
       );
       return;
     }
@@ -339,7 +339,7 @@ export async function migratePlanCommand(
   const providerId = opts.provider?.trim();
   if (!providerId) {
     throw new Error(
-      `Migration provider is required. Run ${formatCliCommand("openclaw migrate list")} to choose one.`,
+      `Migration provider is required. Run ${formatCliCommand("openagent migrate list")} to choose one.`,
     );
   }
   const resolvedOpts = resolveDefaultIncludeSecrets(opts);
@@ -387,7 +387,7 @@ export async function migrateApplyCommand(
   const providerId = opts.provider?.trim();
   if (!providerId) {
     throw new Error(
-      `Migration provider is required. Run ${formatCliCommand("openclaw migrate list")} to choose one.`,
+      `Migration provider is required. Run ${formatCliCommand("openagent migrate list")} to choose one.`,
     );
   }
   assertVerifyPluginAppsProvider(providerId, opts);
@@ -396,7 +396,7 @@ export async function migrateApplyCommand(
   }
   if (!opts.yes && !process.stdin.isTTY) {
     throw new Error(
-      `openclaw migrate apply requires --yes in non-interactive mode. Preview first with ${formatCliCommand(`openclaw migrate plan '${providerId.replaceAll("'", "'\\''")}'`)}.`,
+      `openagent migrate apply requires --yes in non-interactive mode. Preview first with ${formatCliCommand(`openagent migrate plan '${providerId.replaceAll("'", "'\\''")}'`)}.`,
     );
   }
   if (!provider) {

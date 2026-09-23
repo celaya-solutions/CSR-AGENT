@@ -41,15 +41,15 @@ commands on the Gateway host with its profile/config. Validate the configuration
 restart the installed service to load it, and watch the logs:
 
 ```bash
-openclaw config validate
+openagent config validate
 ```
 
 ```bash
-openclaw gateway restart
+openagent gateway restart
 ```
 
 ```bash
-openclaw logs --follow
+openagent logs --follow
 ```
 
 If you run the Gateway in the foreground rather than as an installed service,
@@ -105,7 +105,7 @@ details remain private. The response never includes model output or summaries.
 Use an idempotency key so a lost response can replay the same admitted run and
 completion result without dispatching again.
 
-In `openclaw logs --follow`, search for `hook agent run completed` and the exact HTTP
+In `openagent logs --follow`, search for `hook agent run completed` and the exact HTTP
 `runId`. Runs with `status=ok` and no explicit delivery error log at info level;
 all non-ok statuses (including skipped runs), thrown errors, and explicit delivery
 errors log at warn level. For this `deliver: false` test, expect `status=ok` with
@@ -121,7 +121,7 @@ the key does not guarantee a separate durable session row. Missing session facts
 remain unknown. Diagnostics are redacted, single-line, and bounded to
 500 characters per string. Successful output is not logged: inspect the agent's
 run session for it. The HTTP `runId` correlates hook logs; it is not a TaskFlow id
-or a task id to pass to `openclaw tasks show`.
+or a task id to pass to `openagent tasks show`.
 
 `sessionMode` defaults to `isolated`, so this test gets a fresh run session and
 a generated logical `hook:<uuid>` key. The stored session can use a

@@ -124,7 +124,7 @@ export async function readSetupConfigFileSnapshot() {
 export async function readValidSetupConfigFile(): Promise<OpenClawConfig> {
   const snapshot = await readSetupConfigFileSnapshot();
   if (!snapshot.valid) {
-    throw new Error("Migration target config became invalid. Run `openclaw doctor`.");
+    throw new Error("Migration target config became invalid. Run `openagent doctor`.");
   }
   return snapshot.exists ? (snapshot.sourceConfig ?? snapshot.config) : {};
 }

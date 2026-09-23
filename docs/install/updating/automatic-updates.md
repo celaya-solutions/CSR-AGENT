@@ -43,7 +43,7 @@ install time until their next verified successful update.
 Automatic installation requires a managed Gateway service that can hand off
 the update and restart safely. A Gateway running directly in a terminal can
 still show update hints, but it does not automatically replace its running
-installation. Stop that Gateway, run `openclaw update`, and launch it again
+installation. Stop that Gateway, run `openagent update`, and launch it again
 afterward, or [install a managed service](/cli/gateway#manage-the-gateway-service) for
 unattended updates.
 
@@ -95,7 +95,7 @@ The gateway also logs an update hint on startup (disable with
 Updates requested through the live Gateway control-plane
 (`update.run`) do not replace the installation inside the running Gateway
 process. On managed service installs, the Gateway starts a detached handoff
-that runs the normal `openclaw update --yes --json` CLI path. The old Gateway
+that runs the normal `openagent update --yes --json` CLI path. The old Gateway
 keeps serving through candidate validation; the helper parks it only for
 activation. The CLI swaps the build, applies required migrations, refreshes
 service metadata, starts and verifies the Gateway, and recovers an

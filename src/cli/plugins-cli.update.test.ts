@@ -360,32 +360,39 @@ describe("plugins cli update", () => {
     ["preview", "missing-plugin", ["--dry-run"], undefined, undefined, "openclaw"],
     ["object-name", "constructor", [], undefined, undefined, "openclaw"],
     ["npm-spec", "@acme/missing-plugin@beta", [], undefined, undefined, "openclaw"],
-    ["profile", "missing-plugin", [], "work", undefined, "openclaw --profile work"],
+    ["profile", "missing-plugin", [], "work", undefined, "openagent --profile work"],
     [
       "profile preview",
       "missing-plugin",
       ["--dry-run"],
       "work",
       undefined,
-      "openclaw --profile work",
+      "openagent --profile work",
     ],
-    ["container", "missing-plugin", [], undefined, "demo", "openclaw --container demo"],
+    ["container", "missing-plugin", [], undefined, "demo", "openagent --container demo"],
     [
       "container preview",
       "missing-plugin",
       ["--dry-run"],
       undefined,
       "demo",
-      "openclaw --container demo",
+      "openagent --container demo",
     ],
-    ["container before profile", "missing-plugin", [], "work", "demo", "openclaw --container demo"],
+    [
+      "container before profile",
+      "missing-plugin",
+      [],
+      "work",
+      "demo",
+      "openagent --container demo",
+    ],
     [
       "container before profile preview",
       "missing-plugin",
       ["--dry-run"],
       "work",
       "demo",
-      "openclaw --container demo",
+      "openagent --container demo",
     ],
   ] as const)(
     "rejects untracked update target with %s guidance",
@@ -1893,7 +1900,7 @@ describe("plugins cli update", () => {
     });
     expect(pluginsCliRuntimeLogs.join("\n")).toContain("Plugin update committed");
     expect(pluginsCliRuntimeLogs).toContain("Updated alpha -> 1.1.0");
-    expect(pluginsCliRuntimeLogs.join("\n")).toContain("Run openclaw plugins doctor");
+    expect(pluginsCliRuntimeLogs.join("\n")).toContain("Run openagent plugins doctor");
     expectOfflineNoticeLogged();
   });
 

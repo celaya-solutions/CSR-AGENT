@@ -1,4 +1,4 @@
-// Update status helpers for `openclaw status`.
+// Update status helpers for `openagent status`.
 // Wraps registry/git update checks and formats compact update rows/hints.
 
 import { formatCliCommand } from "../cli/command-format.js";
@@ -112,7 +112,7 @@ export function formatUpdateAvailableHint(update: UpdateCheckResult): string | n
     details.push(`npm ${availability.latestVersion}`);
   }
   const suffix = details.length > 0 ? ` (${details.join(" · ")})` : "";
-  return `Update available${suffix}. Run: ${formatCliCommand("openclaw update")}`;
+  return `Update available${suffix}. Run: ${formatCliCommand("openagent update")}`;
 }
 
 /** Formats a compact one-line update summary for overview rows. */

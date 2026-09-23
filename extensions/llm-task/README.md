@@ -63,7 +63,7 @@ Designed to be called from workflow engines (for example, Lobster via
 
 The host-owned `llm` policy authorizes model/profile overrides. Its
 `allowedCompletionModels` restricts every completion, including the resolved agent
-default. Run `openclaw doctor --fix` once for entries created by older releases;
+default. Run `openagent doctor --fix` once for entries created by older releases;
 Doctor grants the shipped selection permissions and moves legacy
 `config.allowedModels` values into `llm.allowedCompletionModels` without widening them.
 

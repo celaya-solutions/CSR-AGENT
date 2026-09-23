@@ -346,7 +346,7 @@ Broadcast groups work alongside existing routing:
     **Debug:**
 
     ```bash
-    openclaw logs --follow | grep -i broadcast
+    openagent logs --follow | grep -i broadcast
     ```
 
     A successful fan-out logs `Broadcasting message to <n> agents (<strategy>)`.

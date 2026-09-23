@@ -1116,7 +1116,7 @@ exit 1
         [
           "openclaw_e2e_enable_openclaw_cli_timeout",
           "openclaw_e2e_enable_openclaw_cli_timeout",
-          "openclaw plugins list --json",
+          "openagent plugins list --json",
         ],
         {
           PATH: `${tempDir}:${hostPath}`,

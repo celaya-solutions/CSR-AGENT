@@ -98,7 +98,7 @@ noise, and recall feedback loops:
 
 Beyond per-chunk trust metadata, automatic session ingestion records source
 sessions for its staged entries. Consolidation carries those origins forward,
-so `openclaw memory forget` can remove tracked entries derived from selected
+so `openagent memory forget` can remove tracked entries derived from selected
 sessions and exclude those session IDs from future ingestion. Separately,
 admission policy can exclude matching sources from dreaming ingestion and session backfill.
 Neither control covers every workspace write or retained copy; see the

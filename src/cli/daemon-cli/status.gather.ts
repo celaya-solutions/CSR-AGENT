@@ -267,7 +267,7 @@ export type DaemonStatus = {
    * Plugin version drift report. Surfaces active official external plugins
    * whose installed version does not match the running gateway version, which
    * can happen after `npm install -g openclaw@<v>` updates the gateway binary
-   * without a corresponding `openclaw plugins update`.
+   * without a corresponding `openagent plugins update`.
    */
   pluginVersionDrift?: PluginVersionDriftReport;
   /** Doctor-only comparison against the installed service package a restart will load. */
@@ -668,7 +668,7 @@ export async function gatherDaemonStatus(
       runtime: runtime?.inspectionFailure
         ? {
             ...runtime,
-            detail: `${runtime.detail}; retry with openclaw gateway status --deep`,
+            detail: `${runtime.detail}; retry with openagent gateway status --deep`,
           }
         : runtime,
       configAudit,

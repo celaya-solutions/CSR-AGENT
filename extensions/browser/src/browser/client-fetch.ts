@@ -209,7 +209,7 @@ function resolveBrowserFetchOperatorHint(
   }
   const isLocal = !isAbsoluteHttp(url);
   return isLocal
-    ? `Restart the OpenAgent gateway (OpenClaw.app menubar, or \`${formatCliCommand("openclaw gateway")}\`).`
+    ? `Restart the OpenAgent gateway (\`${formatCliCommand("openagent gateway restart")}\`).`
     : "If this is a sandboxed session, ensure the sandbox browser is running.";
 }
 

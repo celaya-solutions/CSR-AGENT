@@ -1,12 +1,12 @@
 ---
-summary: "CLI reference for `openclaw promos` (list and claim promotional model offers)"
+summary: "CLI reference for `openagent promos` (list and claim promotional model offers)"
 read_when:
   - You want to try a free promotional model offer from ClawHub
   - You are configuring a provider through a promotion instead of onboarding
 title: "Promos"
 ---
 
-# `openclaw promos`
+# `openagent promos`
 
 Discover and claim promotional model offers published on ClawHub. Claiming a
 promotion configures the provider (auth and plugin, when needed) and registers
@@ -21,18 +21,18 @@ Related:
 ## Commands
 
 ```bash
-openclaw promos list
-openclaw promos claim <slug>
-openclaw promos claim <slug> --api-key <key> --set-default
+openagent promos list
+openagent promos claim <slug>
+openagent promos claim <slug> --api-key <key> --set-default
 ```
 
-## `openclaw promos list`
+## `openagent promos list`
 
 Lists promotions that are currently live, with their models, the suggested
 default, time remaining, and the exact claim command. `--json` prints the raw
 payload.
 
-## `openclaw promos claim <slug>`
+## `openagent promos claim <slug>`
 
 Claims a live promotion:
 
@@ -44,7 +44,7 @@ Claims a live promotion:
 3. Reuses your existing provider credentials when you have them. Otherwise it
    walks the provider's normal auth flow (printing the promotion's signup URL
    for a free key first). `--api-key <key>` completes API-key auth without
-   prompts, matching the `openclaw onboard` non-interactive flags; to keep the
+   prompts, matching the `openagent onboard` non-interactive flags; to keep the
    key off the command line, export the provider's environment variable
    instead (for example `OPENROUTER_API_KEY`) — existing env credentials are
    detected automatically and no flag is needed.
@@ -56,14 +56,14 @@ Claims a live promotion:
 
 When the promotion's window ends, the provider stops serving the free models;
 your configuration and credentials are untouched. Switch back anytime with
-`openclaw models set <model>`.
+`openagent models set <model>`.
 
 <a id="passive-discovery-in-models-list" />
 
 ## Model inventory and offers
 
-Run `openclaw promos list` to discover current offers and their claim commands.
-Ordinary `openclaw models list` reads the model catalog without refreshing the
+Run `openagent promos list` to discover current offers and their claim commands.
+Ordinary `openagent models list` reads the model catalog without refreshing the
 promotions feed, adding promotion notices, or changing notification state.
 Existing claimed-model configuration and credentials remain available.
 
@@ -73,4 +73,4 @@ is refused even when an older cached copy still shows it.
 ## Related
 
 - [CLI reference](/cli)
-- [`openclaw models`](/cli/models) — the models these promotions apply to
+- [`openagent models`](/cli/models) — the models these promotions apply to

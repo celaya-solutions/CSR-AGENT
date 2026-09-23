@@ -1,23 +1,23 @@
 ---
-summary: "CLI reference for `openclaw completion` (generate/install shell completion scripts)"
+summary: "CLI reference for `openagent completion` (generate/install shell completion scripts)"
 read_when:
   - You want shell completions for zsh/bash/fish/PowerShell
   - You need to cache completion scripts under OpenAgent state
 title: "Completion"
 ---
 
-# `openclaw completion`
+# `openagent completion`
 
 Generate shell completion scripts, cache them under OpenAgent state, and optionally install them into your shell profile.
 
 ## Usage
 
 ```bash
-openclaw completion                          # print the detected shell's script
-openclaw completion --shell fish             # print fish script
-openclaw completion --write-state            # cache scripts for all shells
-openclaw completion --write-state --install  # cache, then install in one step
-openclaw completion --shell bash --write-state
+openagent completion                          # print the detected shell's script
+openagent completion --shell fish             # print fish script
+openagent completion --write-state            # cache scripts for all shells
+openagent completion --write-state --install  # cache, then install in one step
+openagent completion --shell bash --write-state
 ```
 
 ## Options
@@ -29,9 +29,9 @@ openclaw completion --shell bash --write-state
 
 ## Install flow
 
-`--install` points your profile at the cached script, so the cache must exist first. If the cache is missing, the command fails and tells you to run `openclaw completion --write-state`. Combine `--write-state --install` to do both in one step. Without `--shell`, the command preserves a recognized `$SHELL`. When `$SHELL` is missing or unrecognized, it defaults to PowerShell on Windows and zsh elsewhere.
+`--install` points your profile at the cached script, so the cache must exist first. If the cache is missing, the command fails and tells you to run `openagent completion --write-state`. Combine `--write-state --install` to do both in one step. Without `--shell`, the command preserves a recognized `$SHELL`. When `$SHELL` is missing or unrecognized, it defaults to PowerShell on Windows and zsh elsewhere.
 
-The install writes a small `# OpenAgent Completion` block into your shell profile and replaces any older slow `source <(openclaw completion ...)` lines with the cached source line:
+The install writes a small `# OpenAgent Completion` block into your shell profile and replaces any older slow `source <(openagent completion ...)` lines with the cached source line:
 
 | Shell      | Profile                                                                                                                                                                                    |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -54,7 +54,7 @@ command to load that cache in your current matching shell session. Run the compl
 command as printed. This does not install completion for future shell sessions.
 
 For persistent installation, resolve the reported permission or read-only error
-before retrying `openclaw completion --install`. The failure location may be a
+before retrying `openagent completion --install`. The failure location may be a
 staging directory or a symlink target, not the profile itself. Atomic replacement
 also needs write access to the destination directory. The installer uses the
 profile selected in the table above. It has no profile-file destination option.
@@ -65,7 +65,7 @@ profile selected in the table above. It has no profile-file destination option.
 - Completion generation eagerly loads the full command tree, including plugin CLI commands, so nested subcommands are included.
 - If invalid configuration prevents plugin discovery, generation warns and still includes core commands. Repair the configuration and regenerate to include plugin commands.
 - Bash completion supports both `--flag value` and `--flag=value`, including named profiles before nested commands and single-quoted, double-quoted, or backslash-escaped value prefixes.
-- `openclaw update` refreshes the completion cache automatically after a successful update. `openclaw doctor` can repair missing or stale completion setups.
+- `openagent update` refreshes the completion cache automatically after a successful update. `openagent doctor` can repair missing or stale completion setups.
 
 ## Related
 

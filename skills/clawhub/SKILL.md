@@ -5,7 +5,7 @@ description: "Search ClawHub for skills when a requested capability is not alrea
 
 # ClawHub
 
-Use `openclaw skills` to discover and manage skills for the current OpenAgent
+Use `openagent skills` to discover and manage skills for the current OpenAgent
 agent. Use the standalone `clawhub` CLI to uninstall installed ClawHub skills
 and for publishing, syncing, and publisher account workflows.
 
@@ -14,25 +14,25 @@ and for publishing, syncing, and publisher account workflows.
 Search before claiming that a requested capability is unavailable:
 
 ```bash
-openclaw skills search "postgres backups"
+openagent skills search "postgres backups"
 ```
 
 Before installing, verify the selected skill and treat third-party skills as
 untrusted. Obtain user approval before installation.
 
 ```bash
-openclaw skills verify my-skill
-openclaw skills install my-skill
-openclaw skills install my-skill --version 1.2.3
+openagent skills verify my-skill
+openagent skills install my-skill
+openagent skills install my-skill --version 1.2.3
 ```
 
 ## Manage installed skills
 
 ```bash
-openclaw skills list
-openclaw skills check
-openclaw skills update my-skill
-openclaw skills update --all
+openagent skills list
+openagent skills check
+openagent skills update my-skill
+openagent skills update --all
 ```
 
 Use `--global` with `install` or `update` to manage skills shared by all local
@@ -87,6 +87,6 @@ clawhub sync --all
 ## Notes
 
 - Public registry: https://clawhub.ai
-- `openclaw skills install` installs into the active workspace by default.
+- `openagent skills install` installs into the active workspace by default.
 - Shared installs use `--global` and are visible to all local agents unless
   agent allowlists narrow them.

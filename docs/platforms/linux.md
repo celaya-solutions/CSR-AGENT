@@ -17,7 +17,7 @@ installation.
 The CLI is the way to run OpenAgent on a Linux desktop, headless server, or VPS:
 
 1. Install Node 26 (recommended), or another supported release: Node 24.16+ or Node 26.1+.
-2. [Install OpenAgent from source](/install) and run `pnpm openclaw onboard --install-daemon` from the checkout.
+2. [Install OpenAgent from source](/install) and run `pnpm openagent onboard --install-daemon` from the checkout.
 3. On a remote host, tunnel from your laptop: `ssh -N -L 18789:127.0.0.1:18789 <user>@<host>`
 4. Open `http://127.0.0.1:18789/` and authenticate with the configured shared
    secret (token by default; password if `gateway.auth.mode` is `"password"`).
@@ -30,18 +30,18 @@ Full server guide: [Linux Server](/vps). Optional: [Bun package workflow](/insta
 Install with one of:
 
 ```bash
-openclaw onboard --install-daemon
-openclaw gateway install
-openclaw configure   # select "Gateway service" when prompted
+openagent onboard --install-daemon
+openagent gateway install
+openagent configure   # select "Gateway service" when prompted
 ```
 
 Repair or migrate an existing install:
 
 ```bash
-openclaw doctor
+openagent doctor
 ```
 
-`openclaw gateway install` renders a systemd **user** unit by default. Full
+`openagent gateway install` renders a systemd **user** unit by default. Full
 service guidance, including the **system**-level unit variant for shared or
 always-on hosts, lives in the [Gateway runbook](/gateway#supervision-and-service-lifecycle).
 
@@ -71,7 +71,7 @@ KillMode=mixed
 WantedBy=default.target
 ```
 
-Hand-written units do not inherit the adaptive heap sizing that `openclaw gateway install` writes for managed Gateway services. Prefer the managed installer, or set an explicit heap limit in the custom supervisor after accounting for native-memory headroom.
+Hand-written units do not inherit the adaptive heap sizing that `openagent gateway install` writes for managed Gateway services. Prefer the managed installer, or set an explicit heap limit in the custom supervisor after accounting for native-memory headroom.
 
 `TimeoutStopSec=330` covers the Gateway's five-minute cooperative drain plus teardown reserve. To inspect the current managed unit body, run `systemctl --user cat openclaw-gateway.service` (or `systemctl --user cat openclaw-gateway-<profile>.service` for a named profile).
 

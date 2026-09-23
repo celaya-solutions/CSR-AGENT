@@ -488,8 +488,8 @@ describe("buildAgentSystemPrompt", () => {
         ...toolSurface,
       });
 
-      expect(prompt.includes("openclaw channels add <channel>")).toBe(terminalSetup);
-      expect(prompt.includes("openclaw configure")).toBe(terminalSetup);
+      expect(prompt.includes("openagent channels add <channel>")).toBe(terminalSetup);
+      expect(prompt.includes("openagent configure")).toBe(terminalSetup);
       expect(prompt).toContain(
         "deliver short-lived codes and verification URLs only to the requesting user in private",
       );
@@ -526,7 +526,7 @@ describe("buildAgentSystemPrompt", () => {
 
     expect(prompt).toContain("## OpenAgent Control");
     expect(prompt).toContain("Config read: `gateway`");
-    expect(prompt).not.toContain("openclaw gateway status|restart|start|stop");
+    expect(prompt).not.toContain("openagent gateway status|restart|start|stop");
     expect(prompt).toContain("Do not invent commands");
   });
 
@@ -1095,7 +1095,7 @@ describe("buildAgentSystemPrompt", () => {
     expect(prompt).not.toContain("Docs: ");
     expect(prompt).not.toContain("Source: ");
     expect(prompt).toContain(
-      "OpenAgent behavior questions: use `openclaw --help` and status commands first. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.",
+      "OpenAgent behavior questions: use `openagent --help` and status commands first. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.",
     );
     expect(prompt).toContain("If docs are silent/stale, say so.");
   });
@@ -1284,7 +1284,7 @@ describe("buildAgentSystemPrompt", () => {
       expect(prompt).toContain("For the Gateway hosting this session:");
       expect(prompt).toContain("For a user-requested update on another host");
       expect(prompt).toContain("verify it is not this Gateway");
-      expect(prompt).toContain("exec/SSH with `openclaw update --yes`");
+      expect(prompt).toContain("exec/SSH with `openagent update --yes`");
       expect(prompt).toContain("normal exec approvals still apply");
     },
   );
@@ -1305,7 +1305,7 @@ describe("buildAgentSystemPrompt", () => {
       "Update OpenAgent: `gateway` action update.run, only on an explicit owner request; the runtime coordinates restart and completion notices.",
     );
     expect(prompt).toContain(
-      "Never run openclaw update, npm install -g openclaw, or stop/restart the gateway service via exec.",
+      "Never run openagent update, npm install -g openclaw, or stop/restart the gateway service via exec.",
     );
     expect(prompt).not.toContain("Use config.schema to");
     expect(prompt).not.toContain("config.schema, config.apply");
@@ -1326,7 +1326,7 @@ describe("buildAgentSystemPrompt", () => {
         "Gateway restart, config, channels, plugins, agents, models/providers: ask `openclaw`.",
       );
       expect(prompt).toContain(
-        "Never run openclaw update, npm install -g openclaw, or stop/restart the gateway service via exec.",
+        "Never run openagent update, npm install -g openclaw, or stop/restart the gateway service via exec.",
       );
       expect(prompt).toContain("For a chat update request, direct the user to `/update`.");
       expect(prompt).not.toContain("System controls unavailable");
@@ -1347,7 +1347,7 @@ describe("buildAgentSystemPrompt", () => {
       expect(prompt).toContain("Outside chat, use the Control UI or ask the operator");
       expect(prompt).toContain("Missing chat ownership needs owner setup");
       expect(prompt).toContain(
-        "Never run openclaw update, npm install -g openclaw, or stop/restart the gateway service via exec.",
+        "Never run openagent update, npm install -g openclaw, or stop/restart the gateway service via exec.",
       );
       expect(prompt).not.toContain("System controls unavailable");
       expect(prompt).not.toContain("update.run");
@@ -1373,7 +1373,7 @@ describe("buildAgentSystemPrompt", () => {
     });
 
     expect(prompt).not.toContain("- openclaw:");
-    expect(prompt).not.toContain("exec/SSH with `openclaw update --yes`");
+    expect(prompt).not.toContain("exec/SSH with `openagent update --yes`");
     expect(prompt).not.toContain("ask `openclaw`");
     expect(prompt).not.toContain("Gateway restart, config");
   });
@@ -1554,7 +1554,7 @@ describe("buildAgentSystemPrompt", () => {
     const heartbeatPrompts = [
       "Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.",
       "Follow the heartbeat monitor scratch context when provided. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.",
-      "Follow the heartbeat monitor scratch context when provided. Recurring tasks are cron jobs; create or change their schedules with cron tools or the openclaw cron CLI, not heartbeat scratch. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.",
+      "Follow the heartbeat monitor scratch context when provided. Recurring tasks are cron jobs; create or change their schedules with cron tools or the openagent cron CLI, not heartbeat scratch. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.",
       "Follow the heartbeat monitor scratch context when provided. Recurring tasks are automations; create or change their schedules with the automations tool, not heartbeat scratch. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK.",
     ];
 

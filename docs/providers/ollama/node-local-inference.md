@@ -24,7 +24,7 @@ endpoint (`http://127.0.0.1:11434`).
   </Step>
   <Step title="Connect the node host">
     ```bash
-    openclaw node run \
+    openagent node run \
       --host <gateway-host> \
       --port 18789 \
       --display-name "Local inference"
@@ -33,16 +33,16 @@ endpoint (`http://127.0.0.1:11434`).
     Approve the device and its node commands on the Gateway host, then verify:
 
     ```bash
-    openclaw devices list
-    openclaw devices approve <deviceRequestId>
-    openclaw nodes pending
-    openclaw nodes approve <nodeRequestId>
-    openclaw nodes status --connected
+    openagent devices list
+    openagent devices approve <deviceRequestId>
+    openagent nodes pending
+    openagent nodes approve <nodeRequestId>
+    openagent nodes status --connected
     ```
 
     A first connection, or an upgrade that adds Ollama commands, can trigger
     node-command approval. If the node connects without advertising
-    `ollama.models` and `ollama.chat`, check `openclaw nodes pending` again.
+    `ollama.models` and `ollama.chat`, check `openagent nodes pending` again.
 
   </Step>
   <Step title="Use it from an agent">
@@ -65,26 +65,26 @@ do not support disabling thinking and may still emit reasoning tokens.
 To keep Ollama running on a node without exposing it to agents:
 
 ```bash
-openclaw config set plugins.entries.ollama.config.nodeInference.enabled false
+openagent config set plugins.entries.ollama.config.nodeInference.enabled false
 ```
 
-Restart the node (`openclaw node restart`, or stop/rerun `openclaw node run`
+Restart the node (`openagent node restart`, or stop/rerun `openagent node run`
 for a foreground session). The node stops advertising `ollama.models` and
 `ollama.chat`; Ollama itself and the Gateway's Ollama provider are unaffected.
 Set the value back to `true` and restart to re-enable; a changed command
-surface may need `openclaw nodes pending` approval again after reconnect.
+surface may need `openagent nodes pending` approval again after reconnect.
 
 Verify the node commands directly, without an agent turn:
 
 ```bash
-openclaw nodes invoke \
+openagent nodes invoke \
   --node "Local inference" \
   --command ollama.models \
   --params '{}' \
   --invoke-timeout 90000 \
   --timeout 100000
 
-openclaw nodes invoke \
+openagent nodes invoke \
   --node "Local inference" \
   --command ollama.chat \
   --params '{"model":"qwen3:0.6b","prompt":"Reply with exactly: pong","maxTokens":32,"timeoutMs":120000}' \

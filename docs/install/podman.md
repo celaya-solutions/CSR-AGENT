@@ -12,7 +12,7 @@ The model:
 - Podman runs the gateway container.
 - Your host `openclaw` CLI is the control plane.
 - Persistent state lives on the host under `~/.openclaw` by default.
-- Day-to-day management uses `openclaw --container <name> ...` instead of `sudo -u openclaw`, `podman exec`, or a separate service user.
+- Day-to-day management uses `openagent --container <name> ...` instead of `sudo -u openclaw`, `podman exec`, or a separate service user.
 
 ## Prerequisites
 
@@ -77,10 +77,10 @@ The model:
     Then normal `openclaw` commands run inside that container automatically:
 
     ```bash
-    openclaw dashboard --no-open
-    openclaw gateway status --deep   # includes extra service scan
-    openclaw doctor
-    openclaw channels login
+    openagent dashboard --no-open
+    openagent gateway status --deep   # includes extra service scan
+    openagent doctor
+    openagent channels login
     ```
 
     On macOS, Podman machine may make the browser appear non-local to the gateway. If the Control UI reports device-auth errors after launch, use the Tailscale guidance in [Podman and Tailscale](#podman-and-tailscale).
@@ -105,7 +105,7 @@ For HTTPS or remote browser access, follow the main Tailscale docs.
 Podman-specific notes:
 
 - Keep the Podman publish host at `127.0.0.1`.
-- Prefer host-managed `tailscale serve` over `openclaw gateway --tailscale serve`.
+- Prefer host-managed `tailscale serve` over `openagent gateway --tailscale serve`.
 - On macOS, if local browser device-auth context is unreliable, use Tailscale access instead of ad hoc local tunnel workarounds.
 
 See [Tailscale](/gateway/tailscale) and [Control UI](/web/control-ui).
@@ -166,7 +166,7 @@ On first startup for a new OpenAgent version, the gateway runs safe state and
 plugin repairs before reporting ready.
 
 If the gateway exits instead of becoming ready, run the same image once with
-`openclaw doctor --fix` against the same mounted state/config, then restart the
+`openagent doctor --fix` against the same mounted state/config, then restart the
 gateway normally:
 
 ```bash
@@ -182,7 +182,7 @@ podman run --rm -it \
   -v "$OPENCLAW_CONFIG_DIR:/home/node/.openclaw:rw" \
   -v "$OPENCLAW_WORKSPACE_DIR:/home/node/.openclaw/workspace:rw" \
   "$OPENCLAW_PODMAN_IMAGE" \
-  openclaw doctor --fix
+  openagent doctor --fix
 ```
 
 On SELinux hosts, add `,Z` to both bind mounts if Podman blocks access to the
@@ -193,7 +193,7 @@ deployment preflight through the container-aware host CLI:
 
 ```bash
 export OPENCLAW_CONTAINER=openclaw
-openclaw doctor --json
+openagent doctor --json
 ```
 
 ## Useful commands
@@ -201,16 +201,16 @@ openclaw doctor --json
 - **Container logs:** `podman logs -f openclaw`
 - **Stop container:** `podman stop openclaw`
 - **Remove container:** `podman rm -f openclaw`
-- **Open dashboard URL from host CLI:** `openclaw dashboard --no-open`
-- **Health/status via host CLI:** `openclaw gateway status --deep` (RPC probe + extra service scan)
+- **Open dashboard URL from host CLI:** `openagent dashboard --no-open`
+- **Health/status via host CLI:** `openagent gateway status --deep` (RPC probe + extra service scan)
 
 ## Troubleshooting
 
 - **Permission denied (EACCES) on config or workspace:** The container runs with `--userns=keep-id` and `--user <your uid>:<your gid>` by default. Ensure the host config/workspace paths are owned by your current user.
 - **Gateway start blocked (missing `gateway.mode=local`):** Ensure `~/.openclaw/openclaw.json` exists and sets `gateway.mode="local"`. `scripts/podman/setup.sh` creates this if missing.
-- **Container restarts after an image update:** Run the one-off `openclaw doctor --fix` command in [Upgrading images](#upgrading-images), then start the gateway again.
-- **Container CLI commands hit the wrong target:** Use `openclaw --container <name> ...` explicitly, or export `OPENCLAW_CONTAINER=<name>` in your shell.
-- **`openclaw update` fails with `--container`:** Expected. Rebuild the image, then restart the container or the Quadlet service.
+- **Container restarts after an image update:** Run the one-off `openagent doctor --fix` command in [Upgrading images](#upgrading-images), then start the gateway again.
+- **Container CLI commands hit the wrong target:** Use `openagent --container <name> ...` explicitly, or export `OPENCLAW_CONTAINER=<name>` in your shell.
+- **`openagent update` fails with `--container`:** Expected. Rebuild the image, then restart the container or the Quadlet service.
 - **Quadlet service does not start:** Run `systemctl --user daemon-reload`, then `systemctl --user start openclaw.service`. On headless systems you may also need `sudo loginctl enable-linger "$(whoami)"`.
 - **SELinux blocks bind mounts:** Leave the default mount behavior alone; the launcher auto-adds `:Z` on Linux when SELinux is enforcing or permissive.
 

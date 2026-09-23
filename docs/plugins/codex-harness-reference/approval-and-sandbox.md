@@ -63,7 +63,7 @@ are available.
 
 <Note>
 On Docker-backed OpenAgent sandbox hosts (`agents.defaults.sandbox.mode` set to
-a Docker backend), `openclaw doctor` probes whether the host allows the
+a Docker backend), `openagent doctor` probes whether the host allows the
 unprivileged user (and, when Docker sandbox network egress is disabled,
 network) namespaces that nested Codex `bwrap` needs for `workspace-write`
 shell execution inside the sandbox container. A failed probe usually surfaces

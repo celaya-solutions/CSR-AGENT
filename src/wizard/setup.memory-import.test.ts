@@ -150,10 +150,10 @@ describe("runSetupMemoryImportStep", () => {
     expect(mocks.applyProviderMemoryImport).not.toHaveBeenCalled();
     expect(prompter.multiselect).not.toHaveBeenCalled();
     const notes = JSON.stringify((prompter.note as ReturnType<typeof vi.fn>).mock.calls);
-    // The skip hint must not suggest `openclaw migrate <id>`: that command runs
+    // The skip hint must not suggest `openagent migrate <id>`: that command runs
     // the full provider migration, not a memory-only retry.
     expect(notes).toContain("Memory import page");
-    expect(notes).not.toContain("openclaw migrate");
+    expect(notes).not.toContain("openagent migrate");
   });
 
   it("applies only the selected providers with exact planned item ids", async () => {

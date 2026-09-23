@@ -21,7 +21,7 @@ describe("Parallels runtime companion setup", () => {
   it("leaves the shipped pre-consent CLI to provision its own companion version", async () => {
     const readCli = vi.fn((args: string[]) => {
       expect(args).toEqual(["plugins", "install", "--help"]);
-      return "Usage: openclaw plugins install [options] <spec>\n  --pin  Pin resolved version\n";
+      return "Usage: openagent plugins install [options] <spec>\n  --pin  Pin resolved version\n";
     });
     const installCli = vi.fn();
     await installSmokeRuntimeCompanions({ provider: "openai", readCli, installCli });

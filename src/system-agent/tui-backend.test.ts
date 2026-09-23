@@ -196,7 +196,7 @@ describe("runSystemAgentTui", () => {
     expect(options.session).toBe("agent:openclaw:main");
     expect(options.historyLimit).toBe(200);
     expect(options.config).toEqual({});
-    expect(options.title).toBe("openclaw setup");
+    expect(options.title).toBe("openagent setup");
     if (!options.backend || typeof options.backend !== "object") {
       throw new Error("expected openclaw TUI backend");
     }
@@ -274,7 +274,7 @@ describe("runSystemAgentTui", () => {
         expect.objectContaining({
           local: true,
           session: "agent:openclaw:main",
-          title: "openclaw setup",
+          title: "openagent setup",
         }),
       );
     } finally {
@@ -636,7 +636,7 @@ describe("runSystemAgentTui", () => {
         "disposed",
         expected,
         ...(handoff.target === "gateway"
-          ? ["log:Done — gateway settings saved. Run `openclaw gateway restart` to apply them."]
+          ? ["log:Done — gateway settings saved. Run `openagent gateway restart` to apply them."]
           : []),
       ]);
     }

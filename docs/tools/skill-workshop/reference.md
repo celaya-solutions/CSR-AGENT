@@ -105,7 +105,7 @@ Proposals created by older releases can still reference the earlier root-level
 next successful revision moves the proposal onto the generation layout and
 retires the previous bundle.
 
-Startup and `openclaw doctor --fix` use the same Workshop migration. It imports
+Startup and `openagent doctor --fix` use the same Workshop migration. It imports
 the previous `proposals.json`, `proposal.json`, and `rollback.json` metadata into
 SQLite after verifying each proposal, then removes the migrated JSON files.
 It moves applied legacy Workshop creates into `workshop-skills`, retargets
@@ -113,7 +113,7 @@ eligible pending creates, and marks outside updates stale before normal use.
 Pending updates follow their relocated skill in the same database commit.
 Ownership-only moves preserve the proposal's existing edit time.
 Interrupted moves resume without discarding those pending updates.
-If older workspace setup files remain, run `openclaw doctor --fix`.
+If older workspace setup files remain, run `openagent doctor --fix`.
 Startup defers the affected skill moves and backup conversion until Doctor
 has imported that workspace state.
 The migration infers each legacy proposal's owner from its row, origin metadata,
@@ -153,7 +153,7 @@ attestations keep their protection.
 
 If a proposal's draft is missing, Suggestions marks it unavailable. You can
 reject it, but cannot apply, evaluate, or revise content that is no longer there.
-Run `openclaw doctor --fix` to mark these proposals stale and remove them from
+Run `openagent doctor --fix` to mark these proposals stale and remove them from
 actionable Suggestions. Doctor preserves their metadata and remaining files.
 If a proposal has unfinished apply recovery, Reject and Quarantine refuse to
 dismiss it. Doctor leaves it pending and asks you to restore the draft before

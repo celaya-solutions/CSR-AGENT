@@ -11,14 +11,14 @@ prerequisites, and the credentials it starts with.
 
 ## Gateway service recovery
 
-Run `openclaw gateway status --deep` to inspect the installed service and its
-runtime before choosing a recovery action. Use `openclaw gateway install` for a
-missing service, `openclaw gateway start` for an installed service that is not
-loaded, or `openclaw gateway install --force` from the intended installation to
+Run `openagent gateway status --deep` to inspect the installed service and its
+runtime before choosing a recovery action. Use `openagent gateway install` for a
+missing service, `openagent gateway start` for an installed service that is not
+loaded, or `openagent gateway install --force` from the intended installation to
 replace its service definition. Externally managed services still belong to
 their supervisor.
 
-For legacy services or conflicting systemd scopes, run `openclaw doctor`
+For legacy services or conflicting systemd scopes, run `openagent doctor`
 interactively to review the findings and confirm supported cleanup. Cleanup
 reports what it removed or skipped; it does not guarantee a replacement service
 will be installed. Explicit repair maintenance skips this separate cleanup flow.
@@ -84,7 +84,7 @@ packaged installation.
 
 Doctor flags active Gateway tokens that are blank or contain the literal string
 `undefined` or `null`. The Gateway rejects these values at startup. To replace an
-inline token, run `openclaw doctor --fix --generate-gateway-token`, then restart
+inline token, run `openagent doctor --fix --generate-gateway-token`, then restart
 the Gateway. For a SecretRef, rotate the external secret source instead; doctor
 preserves its reference and leaves password, `none`, and trusted-proxy auth modes
 unchanged. An absent token still uses the normal startup token generation flow.

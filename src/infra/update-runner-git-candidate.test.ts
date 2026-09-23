@@ -262,7 +262,7 @@ describe("Git candidate activation", () => {
           return null;
         }
         return {
-          name: "openclaw doctor",
+          name: "openagent doctor",
           command: "candidate doctor",
           cwd: doctorRoot,
           durationMs: 1,
@@ -287,9 +287,9 @@ describe("Git candidate activation", () => {
       expect(result.status).toBe(outcome === "success" ? "ok" : "error");
       expect(result.reason).toBe(reason);
       if (outcome !== "requester-revoked" && outcome !== "missing") {
-        expect(result.steps.find((step) => step.name === "openclaw doctor")?.configChanges).toEqual(
-          configChanges,
-        );
+        expect(
+          result.steps.find((step) => step.name === "openagent doctor")?.configChanges,
+        ).toEqual(configChanges);
       }
     },
   );

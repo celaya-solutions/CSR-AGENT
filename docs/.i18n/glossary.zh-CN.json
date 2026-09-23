@@ -2576,20 +2576,20 @@
     "target": "待处理的设备配对请求"
   },
   {
-    "source": "openclaw devices list",
-    "target": "openclaw devices list"
+    "source": "openagent devices list",
+    "target": "openagent devices list"
   },
   {
-    "source": "openclaw devices approve",
-    "target": "openclaw devices approve"
+    "source": "openagent devices approve",
+    "target": "openagent devices approve"
   },
   {
-    "source": "openclaw nodes pending",
-    "target": "openclaw nodes pending"
+    "source": "openagent nodes pending",
+    "target": "openagent nodes pending"
   },
   {
-    "source": "openclaw nodes approve",
-    "target": "openclaw nodes approve"
+    "source": "openagent nodes approve",
+    "target": "openagent nodes approve"
   },
   {
     "source": "Cloud workers plan",

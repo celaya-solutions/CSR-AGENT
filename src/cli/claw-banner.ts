@@ -1,5 +1,5 @@
 // Shared OpenAgent banner: the Celaya Solutions barcode mark beside the
-// OPENCLAW wordmark, with a short startup animation on rich interactive terminals.
+// OPENAGENT wordmark, with a short startup animation on rich interactive terminals.
 // Used by the wizard flows (doctor/onboard/configure) and the foreground
 // gateway run; non-TTY and CI paths always get the plain static banner.
 import { restoreTerminalState } from "../../packages/terminal-core/src/restore.js";
@@ -28,12 +28,15 @@ const MARK_WIDTH = 20;
 const WORDMARK_ROW_OFFSET = 3;
 
 const WORDMARK_ART = [
-  "█▀▀▀█ █▀▀▀█ █▀▀▀▀ █▄  █ █▀▀▀▀ █     █▀▀▀█ █   █",
-  "█   █ █▀▀▀▀ █▀▀▀  █ ▀▄█ █     █     █▀▀▀█ █▄▀▄█",
-  "▀▀▀▀▀ ▀     ▀▀▀▀▀ ▀   ▀ ▀▀▀▀▀ ▀▀▀▀▀ ▀   ▀ ▀   ▀",
+  "█▀▀▀█ █▀▀▀█ █▀▀▀▀ █▄  █ █▀▀▀█ █▀▀▀▀ █▀▀▀▀ █▄  █ ▀▀█▀▀",
+  "█   █ █▀▀▀▀ █▀▀▀  █ ▀▄█ █▀▀▀█ █ ▀▀█ █▀▀▀  █ ▀▄█   █  ",
+  "▀▀▀▀▀ ▀     ▀▀▀▀▀ ▀   ▀ ▀   ▀ ▀▀▀▀▀ ▀▀▀▀▀ ▀   ▀   ▀  ",
 ] as const;
+// Org line under the wordmark, beside the lower bar row of the mark.
+const SUBTITLE = "Celaya Solutions Research";
+const SUBTITLE_ROW = 7;
 const GAP = 3;
-const BANNER_WIDTH = MARK_WIDTH + GAP + 48;
+const BANNER_WIDTH = MARK_WIDTH + GAP + WORDMARK_ART[0].length;
 const ROWS = MARK_ART.length;
 
 type ClawBannerOptions = {
@@ -71,7 +74,8 @@ function composeFrame(params: {
       const ch = markRow[col] ?? " ";
       out += ch === " " ? " " : (params.markTint?.(col) ?? theme.accent)(ch);
     }
-    const wordmarkRow = WORDMARK_ART[row - WORDMARK_ROW_OFFSET];
+    const wordmarkRow =
+      WORDMARK_ART[row - WORDMARK_ROW_OFFSET] ?? (row === SUBTITLE_ROW ? SUBTITLE : undefined);
     if (wordmarkRow) {
       out += " ".repeat(GAP);
       for (let col = 0; col < wordmarkRow.length; col++) {
@@ -90,7 +94,7 @@ function staticBannerLines(): string[] {
 }
 
 function plainTitleLine(): string {
-  return "OPENCLAW";
+  return `OPENAGENT — ${SUBTITLE}`;
 }
 
 const defaultSleep = (ms: number) =>

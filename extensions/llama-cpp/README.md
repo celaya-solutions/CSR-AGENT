@@ -11,7 +11,7 @@ the managed choice.
 ## Install
 
 ```bash
-openclaw plugins install @openclaw/llama-cpp-provider
+openagent plugins install @openclaw/llama-cpp-provider
 ```
 
 Restart the Gateway after installing or updating the plugin. Interactive setup

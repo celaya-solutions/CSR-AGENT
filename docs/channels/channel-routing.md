@@ -174,10 +174,10 @@ the state directory (default `~/.openclaw`):
 
 Older installs may have legacy transcript JSONL files and a `sessions.json` row
 store under `~/.openclaw/agents/<agentId>/sessions/`. To import that history into
-SQLite, stop the Gateway, back up its state, and run `openclaw doctor --fix`
+SQLite, stop the Gateway, back up its state, and run `openagent doctor --fix`
 before restarting it. Gateway startup does not import legacy session files: if
 it finds a legacy store, it refuses readiness and prints the Doctor command for
-the active profile. Use `openclaw doctor --session-sqlite inspect
+the active profile. Use `openagent doctor --session-sqlite inspect
 --session-sqlite-all-agents` and the
 [Doctor](/cli/doctor#session-sqlite-migration) migration sequence for inspection
 and validation.

@@ -47,7 +47,7 @@ New user and assistant messages are indexed in the same transaction that persist
 index never lags live conversations; tool results, reasoning blocks, and images are excluded.
 Only the transcript's active branch is searchable.
 
-Transcripts that predate the index (for example, sessions imported by `openclaw doctor`) and
+Transcripts that predate the index (for example, sessions imported by `openagent doctor`) and
 sessions whose active branch was rewound are reindexed by a background reconciliation that starts
 with the next search. A response with `indexing: true` can therefore be incomplete; retry after
 indexing finishes. Deleting a session removes its index entries in the same transaction.

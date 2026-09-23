@@ -68,7 +68,7 @@ function bounded(text: string, limit: number): string {
 
 function recoveryHints(run: ReportInput, nextAction?: string): string[] {
   if (run.status === "running") {
-    return ["Check progress with openclaw update status."];
+    return ["Check progress with openagent update status."];
   }
   if (run.status !== "failed") {
     return [];
@@ -99,7 +99,7 @@ function recoveryHints(run: ReportInput, nextAction?: string): string[] {
     );
   }
   if (!nextAction) {
-    hints.push("Run openclaw triage to diagnose and repair the failed update.");
+    hints.push("Run openagent triage to diagnose and repair the failed update.");
   }
   return hints;
 }
@@ -232,11 +232,11 @@ export function renderUpdateRunReport(
     run.status === "failed" && repairStopReason === "requester-revoked"
       ? nextAction
         ? "Repair stopped because the chat requester is no longer a command owner. Further recovery requires a current command owner."
-        : "Repair stopped because the chat requester is no longer a command owner. A current command owner must start a new update, or the operator can run openclaw triage locally."
+        : "Repair stopped because the chat requester is no longer a command owner. A current command owner must start a new update, or the operator can run openagent triage locally."
       : run.status === "failed" && repairStopReason === "repair-requires-config-change"
         ? nextAction
           ? "Doctor could not promote config changes. Review the named keys and writer refusal before continuing recovery."
-          : "Doctor could not promote config changes. Review the named keys and writer refusal, then run openclaw doctor --fix under your own authority, or openclaw triage."
+          : "Doctor could not promote config changes. Review the named keys and writer refusal, then run openagent doctor --fix under your own authority, or openagent triage."
         : undefined;
   const hints =
     run.status === "running"

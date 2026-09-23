@@ -115,7 +115,7 @@ describe("official Codex plugin version drift doctor evidence", () => {
       expect.objectContaining({
         requirement: "plugin-version-gateway-restart",
         message: expect.stringContaining(`running Gateway is ${runningGatewayVersion}`),
-        fixHint: "openclaw gateway restart",
+        fixHint: "openagent gateway restart",
       }),
     ]);
 
@@ -168,7 +168,7 @@ describe("official Codex plugin version drift doctor evidence", () => {
           path: "plugins.entries.codex",
           target: "codex",
           requirement: "plugin-version-drift",
-          fixHint: "openclaw plugins update @openclaw/codex@2026.6.1 && openclaw gateway restart",
+          fixHint: "openagent plugins update @openclaw/codex@2026.6.1 && openagent gateway restart",
         },
       ]);
 
@@ -187,8 +187,8 @@ describe("official Codex plugin version drift doctor evidence", () => {
         expect(driftNotes[0]?.[0]).toContain(
           `codex: ${installedVersion} (npm) -> expected ${gatewayVersion}`,
         );
-        expect(driftNotes[0]?.[0]).toContain("openclaw plugins update @openclaw/codex@2026.6.1");
-        expect(driftNotes[0]?.[0]).toContain("openclaw gateway restart");
+        expect(driftNotes[0]?.[0]).toContain("openagent plugins update @openclaw/codex@2026.6.1");
+        expect(driftNotes[0]?.[0]).toContain("openagent gateway restart");
       } finally {
         noteSpy.mockRestore();
       }

@@ -1,12 +1,12 @@
 ---
-summary: "CLI reference for `openclaw migrate` (import state from another agent system)"
+summary: "CLI reference for `openagent migrate` (import state from another agent system)"
 read_when:
   - You want to migrate from Hermes or another agent system into OpenAgent
   - You are adding a plugin-owned migration provider
 title: "Migrate"
 ---
 
-# `openclaw migrate`
+# `openagent migrate`
 
 Import state from another agent system through a plugin-owned migration provider. Bundled providers cover Claude, Codex CLI, and Hermes. Plugins can register additional providers.
 
@@ -17,29 +17,29 @@ For user-facing walkthroughs, see Migrating from Claude and Migrating from Herme
 ## Commands
 
 ```bash
-openclaw migrate list
-openclaw migrate claude --dry-run
-openclaw migrate codex --dry-run
-openclaw migrate codex --skill gog-vault77-google-workspace
-openclaw migrate codex --plugin google-calendar --dry-run
-openclaw migrate codex --plugin google-calendar --verify-plugin-apps --dry-run
-openclaw migrate hermes --dry-run
-openclaw migrate hermes
-openclaw migrate apply codex --yes --skill gog-vault77-google-workspace
-openclaw migrate apply codex --yes --plugin google-calendar
-openclaw migrate apply codex --yes
-openclaw migrate apply claude --yes
-openclaw migrate apply hermes --yes
-openclaw migrate apply hermes --include-secrets --yes
-openclaw onboard --flow import
-openclaw onboard --import-from claude --import-source ~/.claude
-openclaw onboard --import-from hermes --import-source ~/.hermes
+openagent migrate list
+openagent migrate claude --dry-run
+openagent migrate codex --dry-run
+openagent migrate codex --skill gog-vault77-google-workspace
+openagent migrate codex --plugin google-calendar --dry-run
+openagent migrate codex --plugin google-calendar --verify-plugin-apps --dry-run
+openagent migrate hermes --dry-run
+openagent migrate hermes
+openagent migrate apply codex --yes --skill gog-vault77-google-workspace
+openagent migrate apply codex --yes --plugin google-calendar
+openagent migrate apply codex --yes
+openagent migrate apply claude --yes
+openagent migrate apply hermes --yes
+openagent migrate apply hermes --include-secrets --yes
+openagent onboard --flow import
+openagent onboard --import-from claude --import-source ~/.claude
+openagent onboard --import-from hermes --import-source ~/.hermes
 ```
 
-Running `openclaw migrate <provider>` with no other flags plans, previews, and (in a TTY) prompts before applying. `openclaw migrate plan <provider>` and `openclaw migrate apply <provider>` split preview and apply into separate subcommands with the same flags.
+Running `openagent migrate <provider>` with no other flags plans, previews, and (in a TTY) prompts before applying. `openagent migrate plan <provider>` and `openagent migrate apply <provider>` split preview and apply into separate subcommands with the same flags.
 
 <ParamField path="<provider>" type="string">
-  Name of a registered migration provider, for example `hermes`. Run `openclaw migrate list` to see installed providers.
+  Name of a registered migration provider, for example `hermes`. Run `openagent migrate list` to see installed providers.
 </ParamField>
 <ParamField path="--dry-run" type="boolean">
   Build the plan and exit without changing state.
@@ -75,7 +75,7 @@ Running `openclaw migrate <provider>` with no other flags plans, previews, and (
   Codex only. Forces a fresh source Codex app-server `app/installed` snapshot read before planning native plugin activation. Off by default to keep migration planning fast.
 </ParamField>
 <ParamField path="--backup-output <path>" type="string">
-  Pre-migration backup archive path or directory. Passed through to `openclaw backup create`.
+  Pre-migration backup archive path or directory. Passed through to `openagent backup create`.
 </ParamField>
 <ParamField path="--no-backup" type="boolean">
   Skip the pre-apply backup. Requires `--force` when local OpenAgent state exists.
@@ -89,13 +89,13 @@ Running `openclaw migrate <provider>` with no other flags plans, previews, and (
 
 ## Safety model
 
-`openclaw migrate` is preview-first.
+`openagent migrate` is preview-first.
 
 <AccordionGroup>
   <Accordion title="Preview before apply">
     The provider returns an itemized plan before anything changes, including conflicts, skipped items, and sensitive items. JSON plans, apply output, and migration reports redact nested secret-looking keys such as API keys, tokens, authorization headers, cookies, and passwords.
 
-    `openclaw migrate apply <provider>` previews the plan and prompts before changing state unless `--yes` is set. In non-interactive mode, apply requires `--yes`.
+    `openagent migrate apply <provider>` previews the plan and prompts before changing state unless `--yes` is set. In non-interactive mode, apply requires `--yes`.
 
   </Accordion>
   <Accordion title="Backups">
@@ -144,19 +144,19 @@ Import those credentials into the owning agent's OpenAgent auth store explicitly
 Replace `<agent-id>` with that configured agent's ID:
 
 ```bash
-openclaw migrate plan codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai
-openclaw migrate apply codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai --yes
+openagent migrate plan codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai
+openagent migrate apply codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai --yes
 ```
 
-Running `openclaw migrate codex` in an interactive terminal previews the full plan, then opens checkbox selectors before the final apply confirmation. Skill copy items are prompted first. Use `Toggle all on` or `Toggle all off` for bulk selection. Press Space to toggle rows, or Enter to activate the highlighted row and continue. Planned skills start checked, conflict skills start unchecked, and `Skip for now` skips skill copies for this run while still continuing to plugin selection. When source-installed curated Codex plugins are migratable and `--plugin` was not supplied, migration then prompts for native Codex plugin activation by plugin name. Plugin items start checked unless the target OpenAgent Codex plugin config already has that plugin. Existing target plugins start unchecked and show a conflict hint such as `conflict: plugin exists`. Choose `Toggle all off` to migrate no native Codex plugins in that run, or `Skip for now` to stop before applying.
+Running `openagent migrate codex` in an interactive terminal previews the full plan, then opens checkbox selectors before the final apply confirmation. Skill copy items are prompted first. Use `Toggle all on` or `Toggle all off` for bulk selection. Press Space to toggle rows, or Enter to activate the highlighted row and continue. Planned skills start checked, conflict skills start unchecked, and `Skip for now` skips skill copies for this run while still continuing to plugin selection. When source-installed curated Codex plugins are migratable and `--plugin` was not supplied, migration then prompts for native Codex plugin activation by plugin name. Plugin items start checked unless the target OpenAgent Codex plugin config already has that plugin. Existing target plugins start unchecked and show a conflict hint such as `conflict: plugin exists`. Choose `Toggle all off` to migrate no native Codex plugins in that run, or `Skip for now` to stop before applying.
 
 For scripted or exact runs, select one or more skills or plugins explicitly:
 
 ```bash
-openclaw migrate codex --dry-run --skill gog-vault77-google-workspace
-openclaw migrate apply codex --yes --skill gog-vault77-google-workspace
-openclaw migrate codex --dry-run --plugin google-calendar
-openclaw migrate apply codex --yes --plugin google-calendar
+openagent migrate codex --dry-run --skill gog-vault77-google-workspace
+openagent migrate apply codex --yes --skill gog-vault77-google-workspace
+openagent migrate codex --dry-run --plugin google-calendar
+openagent migrate apply codex --yes --plugin google-calendar
 ```
 
 ### What Codex imports
@@ -227,7 +227,7 @@ Hermes state that OpenAgent cannot safely interpret is copied into the migration
 ### After applying
 
 ```bash
-openclaw doctor
+openagent doctor
 ```
 
 ## Plugin contract
@@ -242,7 +242,7 @@ Migration sources are plugins. A plugin declares its provider ids in `openclaw.p
 }
 ```
 
-At runtime the plugin calls `api.registerMigrationProvider(...)`. The provider implements `detect`, `plan`, and `apply`. Core owns CLI orchestration, backup policy, prompts, JSON output, and conflict preflight. Core passes the reviewed plan into `apply(ctx, plan)`, and providers may rebuild the plan only when that argument is absent for compatibility. Migration items may set `applyPhase: "after-promotion"` for external activation effects that onboarding must defer until staged local data is durably published. Those providers must declare `deferredApply: { retrySafe: true }` and make each deferred effect safe to replay after an interrupted process. Onboarding rejects undeclared deferred effects. An idempotent no-op should return a non-mutating item with `deferredCompletion: true` so recovery can record it as complete. Standalone `openclaw migrate` still applies the complete plan through its normal backup-backed flow.
+At runtime the plugin calls `api.registerMigrationProvider(...)`. The provider implements `detect`, `plan`, and `apply`. Core owns CLI orchestration, backup policy, prompts, JSON output, and conflict preflight. Core passes the reviewed plan into `apply(ctx, plan)`, and providers may rebuild the plan only when that argument is absent for compatibility. Migration items may set `applyPhase: "after-promotion"` for external activation effects that onboarding must defer until staged local data is durably published. Those providers must declare `deferredApply: { retrySafe: true }` and make each deferred effect safe to replay after an interrupted process. Onboarding rejects undeclared deferred effects. An idempotent no-op should return a non-mutating item with `deferredCompletion: true` so recovery can record it as complete. Standalone `openagent migrate` still applies the complete plan through its normal backup-backed flow.
 
 Provider plugins can use `openclaw/plugin-sdk/migration` for item construction and summary counts, plus `openclaw/plugin-sdk/migration-runtime` for conflict-aware file copies, archive-only report copies, cached config-runtime wrappers, and migration reports.
 
@@ -250,7 +250,7 @@ In JSON mode, an apply that finishes with item errors or conflicts writes one co
 
 ## Onboarding integration
 
-Onboarding can offer migration when a provider detects a known source. Both `openclaw onboard --flow import` and `openclaw setup --wizard --import-from hermes` use the same plugin migration provider and still show a preview before applying. Unlike standalone migration, the fresh-target onboarding path stages local artifacts and imported credentials. It verifies or repairs imported inference inside staging. It then promotes workspace and agent state before it commits configuration. A mode-`0600` promotion journal lets the next run finish or roll back an interrupted publish, including any deferred external activation, without replaying imported local data.
+Onboarding can offer migration when a provider detects a known source. Both `openagent onboard --flow import` and `openagent setup --wizard --import-from hermes` use the same plugin migration provider and still show a preview before applying. Unlike standalone migration, the fresh-target onboarding path stages local artifacts and imported credentials. It verifies or repairs imported inference inside staging. It then promotes workspace and agent state before it commits configuration. A mode-`0600` promotion journal lets the next run finish or roll back an interrupted publish, including any deferred external activation, without replaying imported local data.
 
 <Note>
 Onboarding imports require a fresh OpenAgent setup. Reset config, credentials, sessions, and the workspace first if you already have local state. Backup-plus-overwrite or merge imports are feature-gated for existing setups.

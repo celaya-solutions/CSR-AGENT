@@ -156,30 +156,33 @@ describe("cli json stdout contract", () => {
     {
       name: "account validation in human mode",
       args: ["channels", "capabilities", "--account", "ghost"],
-      message: "--account requires a specific --channel. Run openclaw channels list to choose one.",
+      message:
+        "--account requires a specific --channel. Run openagent channels list to choose one.",
       human: true,
     },
     {
       name: "account validation with JSON before its option",
       args: ["channels", "capabilities", "--json", "--account", "ghost"],
-      message: "--account requires a specific --channel. Run openclaw channels list to choose one.",
+      message:
+        "--account requires a specific --channel. Run openagent channels list to choose one.",
     },
     {
       name: "target validation with JSON after its option and explicit Commander routing",
       args: ["channels", "capabilities", "--target", "channel:1", "--json"],
-      message: "--target requires a specific --channel. Run openclaw channels list to choose one.",
+      message: "--target requires a specific --channel. Run openagent channels list to choose one.",
       commander: true,
     },
     {
       name: "unknown channel validation with JSON before its option",
       args: ["channels", "capabilities", "--json", "--channel", "definitely-not-a-channel"],
       message:
-        'Unknown channel "definitely-not-a-channel". Run `openclaw channels list --all` to see configured and installable channels.',
+        'Unknown channel "definitely-not-a-channel". Run `openagent channels list --all` to see configured and installable channels.',
     },
     {
       name: "account validation through dual-TTY finalization",
       args: ["channels", "capabilities", "--account", "ghost", "--json"],
-      message: "--account requires a specific --channel. Run openclaw channels list to choose one.",
+      message:
+        "--account requires a specific --channel. Run openagent channels list to choose one.",
       tty: true,
     },
   ])(
@@ -559,25 +562,25 @@ describe("cli json stdout contract", () => {
       name: "unknown root",
       args: ["pairng"],
       diagnostic: 'OpenAgent does not know the command "pairng".',
-      suggestion: "openclaw pairing",
+      suggestion: "openagent pairing",
     },
     {
       name: "unknown nested command",
       args: ["sessions", "lst"],
       diagnostic: 'OpenAgent sessions has no command "lst".',
-      suggestion: "openclaw sessions list",
+      suggestion: "openagent sessions list",
     },
     {
       name: "unknown nested command with a later argument",
       args: ["config", "gett", "gateway.port"],
       diagnostic: 'OpenAgent config has no command "gett".',
-      suggestion: "openclaw config get",
+      suggestion: "openagent config get",
     },
     {
       name: "unknown root before help",
       args: ["pairng", "--help"],
       diagnostic: 'OpenAgent does not know the command "pairng".',
-      suggestion: "openclaw pairing",
+      suggestion: "openagent pairing",
     },
   ])("renders $name as actionable guidance", async (testCase) => {
     await withTempHome(
@@ -593,7 +596,7 @@ describe("cli json stdout contract", () => {
         expect(result.stderr).not.toContain("The CLI command failed.");
         expect(result.stderr).not.toContain("Could not start the CLI.");
         expect(result.stderr).not.toContain("OPENCLAW_DEBUG");
-        expect(result.stderr).not.toContain("openclaw doctor");
+        expect(result.stderr).not.toContain("openagent doctor");
         if (testCase.args.includes("--help")) {
           expect(result.stdout).not.toContain("Usage: openclaw [options] [command]");
         }
@@ -607,13 +610,13 @@ describe("cli json stdout contract", () => {
       name: "unknown root",
       args: ["pairng", "--json"],
       diagnostic: 'OpenAgent does not know the command "pairng".',
-      suggestion: "openclaw pairing",
+      suggestion: "openagent pairing",
     },
     {
       name: "unknown nested command",
       args: ["sessions", "lst", "--json"],
       diagnostic: 'OpenAgent sessions has no command "lst".',
-      suggestion: "openclaw sessions list",
+      suggestion: "openagent sessions list",
     },
   ])("reports $name once with structured JSON guidance", async (testCase) => {
     await withTempHome(
@@ -631,7 +634,7 @@ describe("cli json stdout contract", () => {
         expect(payload.error.message).not.toMatch(/^error:/i);
         expect(payload.error.message).toContain(`Did you mean this?\n  ${testCase.suggestion}`);
         expect(payload.error.message).not.toContain("OPENCLAW_DEBUG");
-        expect(payload.error.message).not.toContain("openclaw doctor");
+        expect(payload.error.message).not.toContain("openagent doctor");
         expect(result.stderr).toContain(testCase.diagnostic);
         expect(result.stderr).toContain(`Did you mean this?\n  ${testCase.suggestion}`);
         expect(result.stderr.split(testCase.diagnostic)).toHaveLength(2);
@@ -639,7 +642,7 @@ describe("cli json stdout contract", () => {
         expect(result.stderr).not.toContain("The CLI command failed.");
         expect(result.stderr).not.toContain("Could not start the CLI.");
         expect(result.stderr).not.toContain("OPENCLAW_DEBUG");
-        expect(result.stderr).not.toContain("openclaw doctor");
+        expect(result.stderr).not.toContain("openagent doctor");
       },
       { prefix: "openclaw-unknown-command-json-e2e-" },
     );
@@ -657,7 +660,7 @@ describe("cli json stdout contract", () => {
           error: { message: string };
         };
         expect(payload.error.message).toBe(
-          'OpenAgent sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\nDocs: https://docs.openclaw.ai/cli',
+          'OpenAgent sessions has no command "lst".\nDid you mean this?\n  openagent sessions list\nTry: openagent sessions --help\nDocs: https://docs.openclaw.ai/cli',
         );
         expect(payload.error.message).not.toContain("\u001B");
         expect(payload.error.message).not.toContain("\u0007");

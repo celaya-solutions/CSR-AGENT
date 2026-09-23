@@ -10,7 +10,7 @@ read_when:
 ## Local vs remote control
 
 - **Local control (default):** the Gateway starts the loopback control service and can launch a local browser.
-  Targetless actions can launch it (for example, `open`, `navigate`, or `openclaw browser start`). Actions that name a
+  Targetless actions can launch it (for example, `open`, `navigate`, or `openagent browser start`). Actions that name a
   tab by `targetId`, tab id, or label never start a stopped browser, because a new browser cannot
   contain that tab; start the browser or open a new tab, then select a current target.
 - **Remote control (node host):** run a node host on the machine that has the browser; the Gateway proxies browser actions to it.
@@ -26,9 +26,9 @@ read_when:
 
 Stopping behavior differs by profile mode:
 
-- local managed profiles: `openclaw browser stop` stops the browser process that
+- local managed profiles: `openagent browser stop` stops the browser process that
   OpenAgent launched
-- attach-only and remote CDP profiles: `openclaw browser stop` closes the active
+- attach-only and remote CDP profiles: `openagent browser stop` closes the active
   control session and releases Playwright/CDP emulation overrides (viewport,
   color scheme, locale, timezone, offline mode, and similar state), even
   though no browser process was launched by OpenAgent
@@ -50,7 +50,7 @@ This is the default path for remote gateways. Automatic host fallback is allowed
 only before the selected node handles a request. Once an action reaches the node,
 its follow-up snapshot or settings stay on that node instead of switching browsers.
 
-Standalone runs such as `openclaw agent exec` use the host browser when no
+Standalone runs such as `openagent agent exec` use the host browser when no
 Gateway or node route is selected. They do not need Gateway credentials for
 local browser control. Sandbox routing and host-control restrictions still apply.
 To discover browser nodes through a local Gateway from a standalone run, set
@@ -159,7 +159,7 @@ CDP URL shapes and picks the right connection strategy automatically:
   providers can still use their root WebSocket endpoint when their discovery
   endpoint advertises a short-lived URL that is not suitable for Playwright CDP.
 
-`openclaw browser doctor` uses the same discovery-first, WebSocket-fallback
+`openagent browser doctor` uses the same discovery-first, WebSocket-fallback
 logic as runtime attach, so a bare-root URL that connects successfully is not
 reported as unreachable by diagnostics.
 

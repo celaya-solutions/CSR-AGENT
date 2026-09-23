@@ -395,13 +395,13 @@ installation retains the existing restart requirement.
 ```bash
 openclaw claws status
 openclaw claws status incident-triage --json
-openclaw doctor
+openagent doctor
 ```
 
 `status` compares the installed agent and its recorded workspace, package, MCP,
 and cron provenance with current state. It also reports whether native
 first-run bootstrap remains pending. It reports incomplete installs, missing
-resources, and drift without changing local state. `openclaw doctor` adds
+resources, and drift without changing local state. `openagent doctor` adds
 Claw-specific diagnostics for incomplete ownership records, unsafe managed
 files, and cron jobs that cannot be corroborated with live Gateway inventory.
 
@@ -453,7 +453,7 @@ stop on operator drift. Package installers, source-config writers, and the Gatew
 are not one transaction. If compensation cannot be proven after an external
 mutation, OpenAgent reports error code `update_partial` with structured
 `status: partial`, preserves uncertain provenance,
-and stops. Inspect `claws status`, the affected resource, and `openclaw doctor`;
+and stops. Inspect `claws status`, the affected resource, and `openagent doctor`;
 then preview again before retrying or removing anything.
 
 ## Remove an installed Claw
@@ -584,7 +584,7 @@ Use `--json` for experimental machine-readable output.
 Successful commands exit `0`. Validation errors, blocked plans, missing
 targets, and both `failed` and `partial` mutation results exit `1`. Inspect the
 JSON `status` and `error.code` fields to distinguish a failure that made no
-change from a partial result that requires `claws status`, `openclaw doctor`,
+change from a partial result that requires `claws status`, `openagent doctor`,
 and a new preview before retrying.
 
 ## See also

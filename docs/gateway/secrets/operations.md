@@ -62,9 +62,9 @@ Behavior:
 - Recovered: emitted once after the next successful activation. It confirms recovery, including cold owners that had no usable previous credential.
 - Repeated failures while already degraded log warnings but do not re-emit the event.
 - A strict startup failure never emits a degraded event, because runtime never became active. A successful startup with cold owners logs the owner degradation but does not emit a reloader event.
-- Ref-scoped startup and reload failures emit a structured `SECRETS_DEGRADED` warning for each affected owner. Provider-scoped outages emit one `SECRETS_PROVIDER_DEGRADED` warning with the provider and complete affected-owner list instead of repeating the provider failure per owner. Warnings include a redacted reason, `cold` or `stale` owner state, and the `openclaw secrets reload` retry hint. They never include resolved values or SecretRef ids.
-- `openclaw doctor` lists cold and stale owners with their affected config paths, redacted reason, and retry guidance.
-- Channel health and status keep cold accounts visible as configured but unavailable, alongside healthy accounts. Read-only inspection does not resolve inactive credentials or probe cold accounts. `/healthz` still reports Gateway liveness; `/readyz` may report the affected channel as failing until it recovers. Restore the secret, then run `openclaw secrets reload`.
+- Ref-scoped startup and reload failures emit a structured `SECRETS_DEGRADED` warning for each affected owner. Provider-scoped outages emit one `SECRETS_PROVIDER_DEGRADED` warning with the provider and complete affected-owner list instead of repeating the provider failure per owner. Warnings include a redacted reason, `cold` or `stale` owner state, and the `openagent secrets reload` retry hint. They never include resolved values or SecretRef ids.
+- `openagent doctor` lists cold and stale owners with their affected config paths, redacted reason, and retry guidance.
+- Channel health and status keep cold accounts visible as configured but unavailable, alongside healthy accounts. Read-only inspection does not resolve inactive credentials or probe cold accounts. `/healthz` still reports Gateway liveness; `/readyz` may report the affected channel as failing until it recovers. Restore the secret, then run `openagent secrets reload`.
 
 ## Command-path resolution
 
@@ -72,10 +72,10 @@ Command paths can opt into supported SecretRef resolution via a gateway snapshot
 
 <Tabs>
   <Tab title="Strict command paths">
-    For example `openclaw memory` remote-memory paths and `openclaw qr --remote` when it needs remote shared-secret refs. They read from the active snapshot and fail fast when a required SecretRef is unavailable.
+    For example `openagent memory` remote-memory paths and `openagent qr --remote` when it needs remote shared-secret refs. They read from the active snapshot and fail fast when a required SecretRef is unavailable.
   </Tab>
   <Tab title="Read-only command paths">
-    For example `openclaw status`, `openclaw status --all`, `openclaw channels status`, `openclaw channels resolve`, `openclaw security audit`, and read-only doctor/config repair flows. They also prefer the active snapshot, but degrade instead of aborting when a targeted SecretRef is unavailable.
+    For example `openagent status`, `openagent status --all`, `openagent channels status`, `openagent channels resolve`, `openagent security audit`, and read-only doctor/config repair flows. They also prefer the active snapshot, but degrade instead of aborting when a targeted SecretRef is unavailable.
 
     Read-only behavior:
 
@@ -93,7 +93,7 @@ Standalone agent commands without config-ref preparation and calls with a differ
 
 Other notes:
 
-- Snapshot refresh after backend secret rotation is handled by `openclaw secrets reload`.
+- Snapshot refresh after backend secret rotation is handled by `openagent secrets reload`.
 - Gateway RPC method used by these command paths: `secrets.resolve`.
 
 ## Audit and configure workflow
@@ -103,24 +103,24 @@ Default operator flow:
 <Steps>
   <Step title="Audit current state">
     ```bash
-    openclaw secrets audit --check
+    openagent secrets audit --check
     ```
   </Step>
   <Step title="Configure and apply SecretRefs">
     ```bash
-    openclaw secrets configure --apply
+    openagent secrets configure --apply
     ```
   </Step>
   <Step title="Re-audit">
     ```bash
-    openclaw secrets audit --check
+    openagent secrets audit --check
     ```
   </Step>
 </Steps>
 
 Do not treat the migration as complete until the re-audit is clean. If the audit still reports plaintext values at rest, the agent-access risk remains even when runtime APIs return redacted values.
 
-If you save a plan instead of applying during `configure`, apply that saved plan with `openclaw secrets apply --from <plan-path>` before the re-audit.
+If you save a plan instead of applying during `configure`, apply that saved plan with `openagent secrets apply --from <plan-path>` before the re-audit.
 
 <AccordionGroup>
   <Accordion title="secrets audit">
@@ -132,7 +132,7 @@ If you save a plan instead of applying during `configure`, apply that saved plan
     - Precedence shadowing (SQLite auth profiles taking priority over `openclaw.json` refs).
     - Store residue (a stored name still has an equivalent plaintext value in config).
 
-    Exec note: by default, audit skips exec SecretRef resolvability checks to avoid command side effects. Use `openclaw secrets audit --allow-exec` to execute exec providers during audit.
+    Exec note: by default, audit skips exec SecretRef resolvability checks to avoid command side effects. Use `openagent secrets audit --allow-exec` to execute exec providers during audit.
 
     Header residue note: sensitive provider header detection is name-heuristic based (common auth/credential header names and fragments such as `authorization`, `x-api-key`, `token`, `secret`, `password`, and `credential`).
 
@@ -150,14 +150,14 @@ If you save a plan instead of applying during `configure`, apply that saved plan
 
     Helpful modes:
 
-    - `openclaw secrets configure --providers-only`
-    - `openclaw secrets configure --skip-provider-setup`
-    - `openclaw secrets configure --agent <id>`
+    - `openagent secrets configure --providers-only`
+    - `openagent secrets configure --skip-provider-setup`
+    - `openagent secrets configure --agent <id>`
 
     `configure` apply defaults:
 
     - Scrub matching static credentials from SQLite auth-profile rows for targeted providers.
-    - Leave retired `auth.json` untouched; run `openclaw doctor --fix` to migrate and archive it.
+    - Leave retired `auth.json` untouched; run `openagent doctor --fix` to migrate and archive it.
     - Scrub matching known secret lines from the effective state and active-config `.env` files (deduplicated when both paths match).
 
   </Accordion>
@@ -165,10 +165,10 @@ If you save a plan instead of applying during `configure`, apply that saved plan
     Apply a saved plan:
 
     ```bash
-    openclaw secrets apply --from /tmp/openclaw-secrets-plan.json
-    openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --allow-exec
-    openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run
-    openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run --allow-exec
+    openagent secrets apply --from /tmp/openclaw-secrets-plan.json
+    openagent secrets apply --from /tmp/openclaw-secrets-plan.json --allow-exec
+    openagent secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run
+    openagent secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run --allow-exec
     ```
 
     Exec note: dry-run skips exec checks unless `--allow-exec` is set; write mode rejects plans containing exec SecretRefs/providers unless `--allow-exec` is set.

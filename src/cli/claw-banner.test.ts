@@ -52,7 +52,8 @@ describe("printClawBanner", () => {
     const output = stripAnsi(String(log.mock.calls[0]?.[0]));
     const rows = output.split("\n").filter((row) => row.length > 0);
     expect(rows.map((row) => row.slice(0, 20).trimEnd())).toEqual(EXPECTED_MARK);
-    expect(output).toContain("█▀▀▀█ █▀▀▀█ █▀▀▀▀ █▄  █");
+    expect(output).toContain("█▀▀▀█ █▀▀▀█ █▀▀▀▀ █▄  █ █▀▀▀█ █▀▀▀▀");
+    expect(output).toContain("Celaya Solutions Research");
   });
 
   it("stays static under CI even on a rich TTY", async () => {
@@ -65,7 +66,7 @@ describe("printClawBanner", () => {
     const { runtime, log } = runtimeStub();
     await printClawBanner(runtime, { columns: 50, isTty: true, rich: true, env: {} });
     const output = String(log.mock.calls[0]?.[0]);
-    expect(output).toContain("OPENCLAW");
+    expect(output).toContain("OPENAGENT — Celaya Solutions Research");
     expect(output).not.toContain("█");
   });
 

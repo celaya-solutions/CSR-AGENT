@@ -151,7 +151,7 @@ describe("triageCommand", () => {
       expect(runtime.exit).not.toHaveBeenCalled();
       const output = runtime.log.mock.calls.flat().join("\n");
       expect(output).toContain("No repair agent was started.");
-      expect(output).toContain(run ? "openclaw triage --run" : "claude -p");
+      expect(output).toContain(run ? "openagent triage --run" : "claude -p");
       expect(runtime.log.mock.calls.filter(([line]) => String(line).startsWith("  "))).toHaveLength(
         1,
       );
@@ -392,7 +392,7 @@ describe("triageCommand", () => {
       expect(output).toContain(
         configured ? "Authentication required" : "No configured embedded agent",
       );
-      expect(output).toContain(configured ? "openclaw triage --run" : "openclaw triage");
+      expect(output).toContain(configured ? "openagent triage --run" : "openagent triage");
       expect(output).not.toContain("codex exec --skip-git-repo-check - <");
       const promptFile = (await fs.readdir(path.join(stateDir, "logs/support"))).find((file) =>
         file.endsWith(".md"),
@@ -575,14 +575,14 @@ describe("triageCommand", () => {
               expect.stringContaining("| & codex exec --skip-git-repo-check -"),
               expect.stringContaining("| & opencode run"),
               expect.stringContaining("| & pi --print"),
-              expect.stringContaining("& openclaw triage --run"),
+              expect.stringContaining("& openagent triage --run"),
             ]
           : [
               `${targetEnv} claude -p < '${promptPath}'`,
               `${targetEnv} codex exec --skip-git-repo-check - < '${promptPath}'`,
               `${targetEnv} opencode run < '${promptPath}'`,
               `${targetEnv} pi --print < '${promptPath}'`,
-              `${targetEnv} openclaw triage --run`,
+              `${targetEnv} openagent triage --run`,
             ],
     });
     expect(await fs.readFile(promptPath, "utf8")).toContain("[error] core/error: broken");

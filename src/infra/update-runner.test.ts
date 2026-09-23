@@ -1103,7 +1103,7 @@ describe("runGatewayUpdate", () => {
         if (
           options?.cwd &&
           preflightPrefixPattern.test(options.cwd) &&
-          key === "pnpm openclaw config validate --json"
+          key === "pnpm openagent config validate --json"
         ) {
           return { code: 1, stderr: invalidConfig };
         }
@@ -3142,7 +3142,7 @@ describe("runGatewayUpdate", () => {
 
     expect(result.status).toBe("error");
     expect(result.reason).toBe("doctor-entry-missing");
-    expect(result.steps.some((step) => step.name === "openclaw doctor entry")).toBe(true);
+    expect(result.steps.some((step) => step.name === "openagent doctor entry")).toBe(true);
     expect(result.steps.at(-1)?.name).toMatch(/^git rollback/);
   });
 

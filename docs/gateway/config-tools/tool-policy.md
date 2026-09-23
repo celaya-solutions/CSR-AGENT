@@ -95,7 +95,7 @@ Per-run `toolsAllow` caps also accept globs such as `outlook*` or `out*graph*` f
 }
 ```
 
-Without that sandbox-layer entry, the MCP server can still load successfully while its tools are filtered before the provider request. Use `openclaw doctor` to catch this shape for OpenAgent-managed servers in `mcp.servers`. MCP servers loaded from bundled plugin manifests or Claude `.mcp.json` use the same sandbox gate, but this diagnostic does not enumerate those sources yet; use the same allowlist entries if their tools disappear in sandboxed turns.
+Without that sandbox-layer entry, the MCP server can still load successfully while its tools are filtered before the provider request. Use `openagent doctor` to catch this shape for OpenAgent-managed servers in `mcp.servers`. MCP servers loaded from bundled plugin manifests or Claude `.mcp.json` use the same sandbox gate, but this diagnostic does not enumerate those sources yet; use the same allowlist entries if their tools disappear in sandboxed turns.
 
 ## `tools.codeMode`
 
@@ -160,7 +160,7 @@ Global tool allow/deny policy (deny wins). Case-insensitive, supports `*` wildca
 </Note>
 
 The image inspection tool is `view_image`. If an older config still names
-`image` in an allow, `alsoAllow`, or deny list, run `openclaw doctor --fix` to
+`image` in an allow, `alsoAllow`, or deny list, run `openagent doctor --fix` to
 rewrite supported global, per-agent, provider, sandbox, sender, channel, and
 Gateway policy surfaces. Doctor preserves patterns such as `image*` that may
 still match other tools and adds `view_image` when the pattern no longer covers

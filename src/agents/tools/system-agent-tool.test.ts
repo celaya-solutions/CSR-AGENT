@@ -622,7 +622,7 @@ describe("openclaw tool", () => {
     expect(toolText(configureModel)).toContain(
       "active inference route cannot be changed inside OpenAgent",
     );
-    expect(toolText(configureModel)).toContain("openclaw onboard");
+    expect(toolText(configureModel)).toContain("openagent onboard");
     expect(directiveRef.current).toEqual({ kind: "model-setup", workspace: "/tmp/work" });
 
     const open = await tool.execute("t7", { action: "open_agent", agentId: "work" });
@@ -646,7 +646,7 @@ describe("openclaw tool", () => {
       target: "guided",
     });
     expect(toolText(guidedSetup)).toContain("cannot run inside OpenAgent");
-    expect(toolText(guidedSetup)).toContain("openclaw onboard");
+    expect(toolText(guidedSetup)).toContain("openagent onboard");
     expect(directiveRef.current).toEqual({ kind: "open-setup", target: "guided" });
 
     const gatewaySetup = await tool.execute("t9", {
@@ -741,13 +741,13 @@ describe("openclaw tool", () => {
       resolveSystemAgentDirectiveTransition({
         args: { action: "configure_model_provider", workspace: "/tmp/work" },
         resultText:
-          "directive: the active inference route cannot be changed inside OpenAgent; run openclaw onboard.",
+          "directive: the active inference route cannot be changed inside OpenAgent; run openagent onboard.",
       }),
     ).toEqual({ kind: "model-setup", workspace: "/tmp/work" });
     expect(
       resolveSystemAgentDirectiveTransition({
         args: { action: "open_setup", target: "classic" },
-        resultText: "directive: classic setup cannot run inside OpenAgent; run openclaw onboard.",
+        resultText: "directive: classic setup cannot run inside OpenAgent; run openagent onboard.",
       }),
     ).toEqual({ kind: "open-setup", target: "classic" });
     expect(

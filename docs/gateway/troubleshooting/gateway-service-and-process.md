@@ -13,11 +13,11 @@ read_when:
 Use when the service is installed but the process does not stay up.
 
 ```bash
-openclaw gateway status
-openclaw status
-openclaw logs --follow
-openclaw doctor
-openclaw gateway status --deep   # also scan system-level services
+openagent gateway status
+openagent status
+openagent logs --follow
+openagent doctor
+openagent gateway status --deep   # also scan system-level services
 ```
 
 Look for:
@@ -30,12 +30,12 @@ Look for:
 
 <AccordionGroup>
   <Accordion title="Common signatures">
-    - `Gateway start blocked: set gateway.mode=local` or `existing config is missing gateway.mode` → local gateway mode is not enabled, or the config file was clobbered and lost `gateway.mode`. Fix: set `gateway.mode="local"` in your config, or re-run `openclaw onboard --mode local` / `openclaw setup` to restamp the expected local-mode config. If you are running OpenAgent via Podman, the default config path is `~/.openclaw/openclaw.json`.
+    - `Gateway start blocked: set gateway.mode=local` or `existing config is missing gateway.mode` → local gateway mode is not enabled, or the config file was clobbered and lost `gateway.mode`. Fix: set `gateway.mode="local"` in your config, or re-run `openagent onboard --mode local` / `openagent setup` to restamp the expected local-mode config. If you are running OpenAgent via Podman, the default config path is `~/.openclaw/openclaw.json`.
     - `refusing to bind gateway ... without auth` → non-loopback bind without a valid gateway auth path (token/password, or trusted-proxy where configured).
     - `another gateway instance is already listening` / `EADDRINUSE` → port conflict.
     - `Other gateway-like services detected (best effort)` → stale or parallel launchd/systemd/schtasks units exist. Most setups should keep one gateway per machine; if you do need more than one, isolate ports + config/state/workspace. See [/gateway#multiple-gateways-same-host](/gateway#multiple-gateways-same-host).
     - `System-level OpenAgent gateway service detected` from doctor → a systemd system unit exists while the user-level service is missing. Remove or disable the duplicate before allowing doctor to install a user service, or set `OPENCLAW_SERVICE_REPAIR_POLICY=external` if the system unit is the intended supervisor.
-    - `Gateway service port does not match current gateway config` → the installed supervisor still pins the old `--port`. Run `openclaw doctor --fix` or `openclaw gateway install --force`, then restart the gateway service.
+    - `Gateway service port does not match current gateway config` → the installed supervisor still pins the old `--port`. Run `openagent doctor --fix` or `openagent gateway install --force`, then restart the gateway service.
 
   </Accordion>
 </AccordionGroup>
@@ -48,11 +48,11 @@ Related:
 
 ## macOS gateway silently stops responding, then resumes when you touch the dashboard
 
-Use when channels (Telegram, WhatsApp, etc.) on a macOS host go quiet for minutes to hours at a time, and the gateway appears to come back the moment you open the Control UI, SSH in, or otherwise interact with the host. There is usually no obvious symptom in `openclaw status` because by the time you look the gateway is alive again.
+Use when channels (Telegram, WhatsApp, etc.) on a macOS host go quiet for minutes to hours at a time, and the gateway appears to come back the moment you open the Control UI, SSH in, or otherwise interact with the host. There is usually no obvious symptom in `openagent status` because by the time you look the gateway is alive again.
 
 ```bash
 ls ~/.openclaw/logs/stability/ | tail -5
-openclaw gateway stability --bundle latest
+openagent gateway stability --bundle latest
 pmset -g log | grep -iE "sleep|wake|maintenance" | tail -50
 launchctl print gui/$UID/ai.openclaw.gateway | grep -E "state|last exit|runs"
 ```
@@ -115,8 +115,8 @@ for i in 1 2 3 4; do
   sleep 10
 done
 
-openclaw gateway status --deep
-openclaw node status
+openagent gateway status --deep
+openagent node status
 launchctl print gui/$UID/ai.openclaw.gateway | grep -E 'state|last exit|runs'
 tail -n 80 ~/Library/Logs/openclaw/gateway.log
 ```
@@ -139,7 +139,7 @@ What to do:
    this host:
 
    ```bash
-   openclaw node uninstall
+   openagent node uninstall
    ```
 
 2. Install a persistent Gateway wrapper that clears the inherited launchd
@@ -157,7 +157,7 @@ What to do:
    EOF
    chmod 700 ~/.local/bin/openclaw-launchd-workaround
 
-   openclaw gateway install \
+   openagent gateway install \
      --wrapper ~/.local/bin/openclaw-launchd-workaround \
      --force
    ```
@@ -168,7 +168,7 @@ What to do:
 3. Verify that the Gateway is stable and serving RPC, not merely listening:
 
    ```bash
-   openclaw gateway status --deep --require-rpc
+   openagent gateway status --deep --require-rpc
 
    for i in 1 2 3 4; do
      ps aux | grep 'openclaw.*index.js' | grep -v grep | awk '{print $2}'
@@ -183,7 +183,7 @@ What to do:
    fixed, remove the workaround and reinstall the normal managed service:
 
    ```bash
-   OPENCLAW_WRAPPER= openclaw gateway install --force
+   OPENCLAW_WRAPPER= openagent gateway install --force
    rm ~/.local/bin/openclaw-launchd-workaround
    ```
 
@@ -197,10 +197,10 @@ Related:
 Use when the Gateway disappears under load, the supervisor reports an OOM-style restart, or logs mention `critical memory pressure bundle written`.
 
 ```bash
-openclaw gateway status --deep
-openclaw logs --follow
-openclaw gateway stability --bundle latest
-openclaw gateway diagnostics export
+openagent gateway status --deep
+openagent logs --follow
+openagent gateway stability --bundle latest
+openagent gateway diagnostics export
 ```
 
 Look for:
@@ -213,12 +213,12 @@ Look for:
 
 Common signatures:
 
-- `critical memory pressure bundle written` appears shortly before restart → OpenAgent captured a pre-OOM stability bundle. Inspect it with `openclaw gateway stability --bundle latest`.
+- `critical memory pressure bundle written` appears shortly before restart → OpenAgent captured a pre-OOM stability bundle. Inspect it with `openagent gateway stability --bundle latest`.
 - `memory pressure: level=critical` appears in gateway logs → OpenAgent detected critical memory pressure and recorded the available in-process memory facts.
 - `Largest session files:` points at a very large redacted transcript path → reduce retained session history, inspect session growth, or move old transcripts out of the active store before restarting.
-- `V8 heap:` used bytes are close to the heap limit → lower prompt/session pressure or reduce concurrent work first. For a managed service, compare the configured controls and install-time recommendation in `Gateway heap:` from `openclaw gateway status` with the runtime measurement. Reinstalling preserves existing stored heap settings; it does not automatically replace an older value with the current recommendation.
+- `V8 heap:` used bytes are close to the heap limit → lower prompt/session pressure or reduce concurrent work first. For a managed service, compare the configured controls and install-time recommendation in `Gateway heap:` from `openagent gateway status` with the runtime measurement. Reinstalling preserves existing stored heap settings; it does not automatically replace an older value with the current recommendation.
 - `Memory pressure: critical/rss_growth` → memory grew quickly inside one sampling window. Check the latest logs for a large import, runaway tool output, repeated retries, or a batch of queued agent work.
-- Critical memory pressure appears in logs but no bundle exists → capture `openclaw gateway diagnostics export` after the event for the available operational evidence.
+- Critical memory pressure appears in logs but no bundle exists → capture `openagent gateway diagnostics export` after the event for the available operational evidence.
 
 The stability bundle is payload-free. It includes operational memory evidence and redacted relative file paths, not message text, webhook bodies, credentials, tokens, cookies, or raw session ids. Attach the diagnostics export to bug reports instead of copying raw logs.
 
@@ -227,7 +227,7 @@ Node's automatic heap ceiling can be roughly 4 GiB on a large host. That is a de
 For a foreground Node Gateway, set a native heap flag before Node starts, for example on a host with sufficient capacity:
 
 ```bash
-NODE_OPTIONS="--max-old-space-size=16384" openclaw gateway run
+NODE_OPTIONS="--max-old-space-size=16384" openagent gateway run
 ```
 
 For a custom supervisor or Docker runtime command, place `--max-old-space-size=16384` immediately after `node`, before the OpenAgent entry script, or set `NODE_OPTIONS` in that process or container's launch environment. Docker image build-time heap options do not configure the runtime Gateway. An OpenAgent config or dotenv value loaded after Node starts cannot resize its heap. `NODE_OPTIONS` can also reach spawned Node children, so prefer a direct Node argument when only the Gateway should receive the budget.

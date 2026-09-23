@@ -23,9 +23,9 @@ latest 32 investigated attempt identities, scoped to their Gateway and profile.
 Status checks, switching between those scopes, and reloading the same tab do not
 automatically send those investigations again. If the browser cannot read or
 save that history, the failure details remain visible without an automatic
-diagnostic request. Ask OpenAgent manually or run `openclaw triage` on the host.
+diagnostic request. Ask OpenAgent manually or run `openagent triage` on the host.
 If the Gateway or agent is
-unavailable, use `openclaw triage` on the Gateway host. Automatic diagnosis keeps
+unavailable, use `openagent triage` on the Gateway host. Automatic diagnosis keeps
 your unsent composer draft, including when its conversation session must restart.
 
 **Control UI → Settings → Updates** keeps the latest recorded attempt visible,
@@ -98,7 +98,7 @@ the CLI fallback on the Gateway host.
   step, fix the dependency or build error, then retry.
 - `global-install-failed`: retry after checking package-manager ownership and
   permissions for the linked global `openclaw` command.
-- `doctor-failed`: run `openclaw doctor` on the Gateway host, resolve its
+- `doctor-failed`: run `openagent doctor` on the Gateway host, resolve its
   findings, then retry. See [Doctor](/cli/doctor) for the check list and
   `--fix` behavior.
 - `restart-disabled`, `restart-unavailable`: restore a supported supervisor or
@@ -117,17 +117,17 @@ Run these commands on the Gateway host, not on the computer that merely has the
 Control UI open:
 
 ```bash
-openclaw update status --json
-openclaw triage
+openagent update status --json
+openagent triage
 ```
 
-Use `openclaw update --dry-run` to preview a new attempt. If an update failed
+Use `openagent update --dry-run` to preview a new attempt. If an update failed
 after installation began, follow the manual source update steps in
 [Updating](/install/updating#manual-source-update).
 
 If the installed CLI is damaged or the filesystem cannot write diagnostics,
 automatic triage reports that failure and preserves the original update error.
-Repair the installed command, then run `openclaw triage`. Managed updates retain
+Repair the installed command, then run `openagent triage`. Managed updates retain
 their detached helper log even when the Gateway cannot start; the recorded
 outcome points to the available diagnostics or the failed collection attempt.
 Restart notices summarize the diagnostic outcome. Saved artifact paths and exact,
@@ -136,8 +136,8 @@ managed update helper log rather than the notice sent to an agent or channel.
 
 If the updater crashes or is killed after the Gateway stops, the Gateway stays
 stopped unless the updater completed and verified recovery. Inspect
-`openclaw gateway status --deep`, repair the reported dependency or installation
-failure, and rerun `openclaw update`. A failed Git dependency install restores
+`openagent gateway status --deep`, repair the reported dependency or installation
+failure, and rerun `openagent update`. A failed Git dependency install restores
 and rebuilds the previous runtime before allowing an automatic restart. Restarts
 after verified recovery still check the installed configuration, service ownership,
 and Gateway health.
@@ -157,6 +157,6 @@ process output:
 - OpenAgent version and install type;
 - update timestamp, target, phase, and reason code from Settings → Updates;
 - the bounded failure detail shown by **View details**;
-- `openclaw update status --json`;
-- `openclaw gateway status --deep --json`;
+- `openagent update status --json`;
+- `openagent gateway status --deep --json`;
 - relevant redacted Gateway log lines.

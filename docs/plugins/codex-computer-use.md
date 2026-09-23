@@ -36,7 +36,7 @@ cua-driver mcp-config --client openclaw
 or register the stdio server directly:
 
 ```bash
-openclaw mcp set cua-driver '{"command":"cua-driver","args":["mcp"]}'
+openagent mcp set cua-driver '{"command":"cua-driver","args":["mcp"]}'
 ```
 
 That path keeps the upstream MCP tool surface intact, including the driver
@@ -160,7 +160,7 @@ generation convergence.
 
 Use the `/codex computer-use` commands from any chat surface where the
 `codex` plugin command surface is available. These are OpenAgent chat/runtime
-commands, not `openclaw codex ...` CLI subcommands:
+commands, not `openagent codex ...` CLI subcommands:
 
 ```text
 /codex computer-use status

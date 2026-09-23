@@ -28,7 +28,7 @@ and resolved values still fail startup or reject the update.
       Auto-TTS mode. `inbound` only sends audio after an inbound voice message; `tagged` only sends audio when the reply includes `[[tts:...]]` directives or a `[[tts:text]]` block.
     </ParamField>
     <ParamField path="enabled" type="boolean" deprecated>
-      Legacy toggle. `openclaw doctor --fix` migrates this to `auto`.
+      Legacy toggle. `openagent doctor --fix` migrates this to `auto`.
     </ParamField>
     <ParamField path="mode" type='"final" | "all"' default="final">
       `"all"` includes tool/block replies in addition to final replies.
@@ -49,7 +49,7 @@ and resolved values still fail startup or reject the update.
       Allow the model to emit TTS directives. `enabled` defaults to `true`; `allowProvider` defaults to `false`.
     </ParamField>
     <ParamField path="providers.<id>" type="object">
-      Provider-owned settings keyed by speech provider id. Legacy direct blocks such as `tts.openai` are rewritten by `openclaw doctor --fix`; commit only `tts.providers.<id>`.
+      Provider-owned settings keyed by speech provider id. Legacy direct blocks such as `tts.openai` are rewritten by `openagent doctor --fix`; commit only `tts.providers.<id>`.
     </ParamField>
     <ParamField path="maxTextLength" type="number" default="4096">
       Hard cap for TTS input characters. `/tts audio`, `tts.convert`, and `tts.speak` fail if exceeded.

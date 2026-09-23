@@ -78,8 +78,8 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
   const spacer = () => defaultRuntime.log("");
   // Advice belongs to this shell, not the stored service environment or probe target.
   const installBlock = resolveDaemonInstallBlockMessage("gateway");
-  const installCommand = formatCliCommand("openclaw gateway install");
-  const reinstallCommand = formatCliCommand("openclaw gateway install --force");
+  const installCommand = formatCliCommand("openagent gateway install");
+  const reinstallCommand = formatCliCommand("openagent gateway install --force");
 
   const { service, rpc, extraServices } = status;
   const serviceTargetsProbe = service.targetRole !== "diagnostic-only";
@@ -135,7 +135,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
     }
     const recommendation =
       installBlock ??
-      `Recommendation: run "${formatCliCommand("openclaw doctor")}" interactively for guided checks, or reinstall with "${reinstallCommand}".`;
+      `Recommendation: run "${formatCliCommand("openagent doctor")}" interactively for guided checks, or reinstall with "${reinstallCommand}".`;
     defaultRuntime.error(warnText(recommendation));
   }
 
@@ -242,7 +242,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
       );
       defaultRuntime.error(
         warnText(
-          "Check `openclaw --version`, `which openclaw`, and `openclaw gateway status --deep`; if this mismatch is unexpected, update PATH so `openclaw` points to the version you want, or reinstall the Gateway service from that same OpenAgent install.",
+          "Check `openagent --version`, `which openagent`, and `openagent gateway status --deep`; if this mismatch is unexpected, update PATH so `openagent` points to the version you want, or reinstall the Gateway service from that same OpenAgent install.",
         ),
       );
     }
@@ -334,7 +334,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
     );
     defaultRuntime.error(
       errorText(
-        `Fix: run ${formatCliCommand("openclaw gateway restart")} and re-check with ${formatCliCommand("openclaw gateway status --deep")}.`,
+        `Fix: run ${formatCliCommand("openagent gateway restart")} and re-check with ${formatCliCommand("openagent gateway status --deep")}.`,
       ),
     );
     spacer();
@@ -367,7 +367,9 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
       : undefined;
   if (serviceInspectionDetail) {
     defaultRuntime.error(errorText(`Service inspection failed: ${serviceInspectionDetail}`));
-    defaultRuntime.error(errorText(`Retry: ${formatCliCommand("openclaw gateway status --deep")}`));
+    defaultRuntime.error(
+      errorText(`Retry: ${formatCliCommand("openagent gateway status --deep")}`),
+    );
     spacer();
   }
   const systemdUnavailableDetail =
@@ -410,7 +412,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
             ? // systemd gave up restarting after repeated crashes; sending the operator
               // to restart (which now clears the failed latch) beats "exited immediately".
               `systemd stopped restarting the gateway after repeated crashes; run ${formatCliCommand(
-                "openclaw gateway restart",
+                "openagent gateway restart",
               )} or inspect logs.`
             : "Service is loaded but not running (likely exited immediately).",
       ),
@@ -418,7 +420,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
     const env = service.command?.environment ?? process.env;
     for (const hint of buildGatewayRuntimeRecoveryHints({
       kind: missingGuiSession ? "gui-session" : "stopped",
-      restartCommand: formatCliCommand("openclaw gateway restart", env),
+      restartCommand: formatCliCommand("openagent gateway restart", env),
       env,
       logFile: status.logFile,
     })) {
@@ -469,7 +471,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
     if (shouldWarn && service.foreignLaunchdJobs.some((job) => job.safeToRemove)) {
       defaultRuntime.error(
         warnText(
-          `Remove confirmed stray Gateway lifecycle jobs with ${formatCliCommand("openclaw doctor --fix")}.`,
+          `Remove confirmed stray Gateway lifecycle jobs with ${formatCliCommand("openagent doctor --fix")}.`,
         ),
       );
     }
@@ -489,7 +491,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
     }
     defaultRuntime.error(
       errorText(
-        `Fix after confirming no update is running: launchctl remove <label>, then run ${formatCliCommand("openclaw gateway restart")}.`,
+        `Fix after confirming no update is running: launchctl remove <label>, then run ${formatCliCommand("openagent gateway restart")}.`,
       ),
     );
     spacer();
@@ -603,7 +605,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
       }
       if (updateCommands.length === 1 && unresolvedRepairs.length === 0) {
         defaultRuntime.log(
-          `${label("Fix:")} ${updateCommands[0]} && ${formatCliCommand("openclaw gateway restart")}.`,
+          `${label("Fix:")} ${updateCommands[0]} && ${formatCliCommand("openagent gateway restart")}.`,
         );
       } else if (updateCommands.length > 0) {
         defaultRuntime.log(`${label("Fix:")} update each drifted plugin:`);
@@ -611,13 +613,13 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
           defaultRuntime.log(`- ${command}`);
         }
         if (unresolvedRepairs.length === 0) {
-          defaultRuntime.log(`Then run ${formatCliCommand("openclaw gateway restart")}.`);
+          defaultRuntime.log(`Then run ${formatCliCommand("openagent gateway restart")}.`);
         }
       }
     } else {
       defaultRuntime.log(
         infoText(
-          `Run ${formatCliCommand("openclaw gateway status --deep")} for affected plugin ids and fix commands.`,
+          `Run ${formatCliCommand("openagent gateway status --deep")} for affected plugin ids and fix commands.`,
         ),
       );
     }
@@ -638,5 +640,5 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean; d
     spacer();
   }
 
-  defaultRuntime.log(`${label("Troubles:")} run ${formatCliCommand("openclaw status")}`);
+  defaultRuntime.log(`${label("Troubles:")} run ${formatCliCommand("openagent status")}`);
 }

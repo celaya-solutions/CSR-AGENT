@@ -102,7 +102,7 @@ export async function ensureOnboardingAgent(params: {
     before ??= await readConfigFileSnapshot();
     if (hasCandidateRoster || hasResolvedRosterBeforeMigrations(before)) {
       throw new Error(
-        "The requested team was not created because an agent roster already exists. Use `openclaw agents team create` to add a team.",
+        "The requested team was not created because an agent roster already exists. Use `openagent agents team create` to add a team.",
       );
     }
   }
@@ -184,7 +184,7 @@ export async function ensureOnboardingAgent(params: {
   const sessionMigrationWarnings =
     sessionMigration.armed && !sessionMigration.complete
       ? [
-          `Legacy main-agent session history migration is incomplete${sessionMigration.warnings.length > 0 ? `: ${sessionMigration.warnings.join("; ")}` : ""}. Run \`openclaw doctor --fix\`; OpenAgent will also retry at next startup.`,
+          `Legacy main-agent session history migration is incomplete${sessionMigration.warnings.length > 0 ? `: ${sessionMigration.warnings.join("; ")}` : ""}. Run \`openagent doctor --fix\`; OpenAgent will also retry at next startup.`,
         ]
       : [];
   return {

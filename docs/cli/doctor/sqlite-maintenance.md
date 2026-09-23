@@ -13,11 +13,11 @@ shared-state compaction and the targeted session SQLite modes.
 
 See [Database schemas](/reference/database-schemas) for schema versioning, integrity checks, and downgrade recovery.
 
-`openclaw doctor --state-sqlite compact` is explicit offline maintenance for
+`openagent doctor --state-sqlite compact` is explicit offline maintenance for
 the canonical shared state database at
 `<state-dir>/state/openclaw.sqlite`. It does not accept an arbitrary database
 path, is never invoked by normal Gateway operation, and is not part of
-`openclaw doctor --fix`. The command acquires the same state ownership lock as
+`openagent doctor --fix`. The command acquires the same state ownership lock as
 Gateway startup and holds it through validation, checkpointing, `VACUUM`, and
 the final integrity checks. It refuses to run while a Gateway or another
 SQLite maintenance command owns that lock. The state lock remains active when
@@ -28,10 +28,10 @@ maintenance to detect it.
 Stop the Gateway and create a verified backup first:
 
 ```bash
-openclaw gateway stop
-openclaw backup create --verify
-openclaw doctor --state-sqlite compact --json
-openclaw gateway start
+openagent gateway stop
+openagent backup create --verify
+openagent doctor --state-sqlite compact --json
+openagent gateway start
 ```
 
 The command:
@@ -55,7 +55,7 @@ fail-closed and has no separate success field. SQLite reports `auto_vacuum` as
 
 Compaction fails without mutation when the schema is old, newer than the
 running OpenAgent build, or belongs to an agent database. Run
-`openclaw doctor --fix` first for an older shared-state schema. Restore a
+`openagent doctor --fix` first for an older shared-state schema. Restore a
 compatible backup or upgrade OpenAgent for a newer schema.
 
 ## Session SQLite migration
@@ -67,10 +67,10 @@ When startup finds a legacy session store, it refuses readiness and prints a
 `doctor --fix` command for the active profile instead of serving empty history.
 
 To upgrade history from an older file-backed installation, stop the Gateway
-(`openclaw gateway stop`), back up its state (`openclaw backup create --verify`),
-and run `openclaw doctor --fix` before restarting it with
-`openclaw gateway start`.
-`openclaw doctor --session-sqlite <mode>` provides targeted inspection,
+(`openagent gateway stop`), back up its state (`openagent backup create --verify`),
+and run `openagent doctor --fix` before restarting it with
+`openagent gateway start`.
+`openagent doctor --session-sqlite <mode>` provides targeted inspection,
 import, validation, and SQLite maintenance. Legacy `sessions.json` files are
 migration sources. Hot transcript JSONL files are imported and archived after
 successful import; archive-tier JSONL files remain support artifacts, not
@@ -114,8 +114,8 @@ after cleanup. Databases without auto-vacuum still need a full `VACUUM` to enabl
 it. Incremental cleanup frees unused pages but does not repack partially filled
 pages; explicit session and shared-state `compact` modes still run a full `VACUUM`.
 
-The regular `openclaw doctor` pass also reports canonical SQLite transcripts
-whose initial session header was never persisted. `openclaw doctor --fix`
+The regular `openagent doctor` pass also reports canonical SQLite transcripts
+whose initial session header was never persisted. `openagent doctor --fix`
 prepends a current header and rebuilds the transcript indexes in one
 transaction while preserving existing event IDs, parent links, row timestamps,
 and session-list recency. Headerless legacy or malformed transcripts remain
@@ -152,10 +152,10 @@ With the Gateway stopped and its state backed up, inspect and import legacy
 history:
 
 ```bash
-openclaw doctor --session-sqlite inspect --session-sqlite-all-agents
-openclaw doctor --session-sqlite dry-run --session-sqlite-all-agents --json
-openclaw doctor --session-sqlite import --session-sqlite-all-agents
-openclaw doctor --session-sqlite inspect --session-sqlite-all-agents --json
+openagent doctor --session-sqlite inspect --session-sqlite-all-agents
+openagent doctor --session-sqlite dry-run --session-sqlite-all-agents --json
+openagent doctor --session-sqlite import --session-sqlite-all-agents
+openagent doctor --session-sqlite inspect --session-sqlite-all-agents --json
 ```
 
 `import` validates rows and transcript event counts before archiving its
@@ -169,7 +169,7 @@ expected target count; a nonexistent legacy source selects no targets for
 
 SQLite deletes reclaim pages inside the database first; they do not necessarily
 shrink the database file immediately. After deleting or archiving large
-transcripts, run `openclaw doctor --session-sqlite compact --session-sqlite-all-agents`
+transcripts, run `openagent doctor --session-sqlite compact --session-sqlite-all-agents`
 to checkpoint WAL files, run `VACUUM`, and report before/after database and WAL
 sizes. Compaction requires a regular file with the current agent schema, its
 durable database owner metadata, and no open handle in the doctor
@@ -193,7 +193,7 @@ If an explicit import fails after artifacts moved, keep the Gateway stopped and
 run recovery:
 
 ```bash
-openclaw doctor --session-sqlite recover --github-issue
+openagent doctor --session-sqlite recover --github-issue
 ```
 
 Recovery selects the latest failed migration manifest, restores only the
@@ -245,9 +245,9 @@ archives, invalid archives, and archives missing without a recorded prior
 restore fail closed so restore cannot silently replace or hide recoverable data.
 
 After verifying the migration and current history, use
-`openclaw update cleanup --dry-run` to inspect retained recovery data without
-stopping the Gateway. Apply with `openclaw update cleanup` or
-`openclaw update cleanup --yes --json` only after stopping the Gateway, other
+`openagent update cleanup --dry-run` to inspect retained recovery data without
+stopping the Gateway. Apply with `openagent update cleanup` or
+`openagent update cleanup --yes --json` only after stopping the Gateway, other
 SQLite maintenance, and database readers for the same profile/state directory.
 Keep session-listing watchers stopped until cleanup exits: even read-only
 connections can change WAL/SHM sidecars and invalidate verification. This permanently
@@ -274,7 +274,7 @@ copy preserves the snapshot's contents without needing to find its other paths.
 
 If an earlier migration was interrupted or the reported path is an archived
 recovery artifact, preserve the files and manifests. Run
-`openclaw doctor --session-sqlite recover` with the same profile and legacy-source
+`openagent doctor --session-sqlite recover` with the same profile and legacy-source
 selectors first. Recorded artifacts depend on their original identities;
 replacing them with copies can prevent restoration. If recovery still refuses
 the artifact, retain that evidence for support instead of replacing it.
@@ -282,12 +282,12 @@ the artifact, retain that evidence for support instead of replacing it.
 ### Downgrading after session SQLite migration
 
 Follow [Downgrade](/install/updating#downgrade) before starting an older release.
-With writers stopped, `openclaw doctor --session-sqlite restore
+With writers stopped, `openagent doctor --session-sqlite restore
 --session-sqlite-all-agents` restores manifest-recorded legacy transcript
 artifacts to their original paths. This supports recovery from retained originals;
 it does not reverse SQLite schema migrations or replace a pre-update backup.
 
-Run recovery before `openclaw update cleanup` retires those originals. After
+Run recovery before `openagent update cleanup` retires those originals. After
 cleanup, restore reports intentional disposal and cannot recreate them. Sessions
 created only in SQLite will not appear to an older file-backed runtime. If you
 upgrade again, use the normal migration validation sequence above to compare

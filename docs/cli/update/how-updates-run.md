@@ -1,5 +1,5 @@
 ---
-summary: "How `openclaw update` switches channels, validates a candidate, hands off the restart, and updates a Git checkout"
+summary: "How `openagent update` switches channels, validates a candidate, hands off the restart, and updates a Git checkout"
 read_when:
   - You want to know what an update does before you run one
   - You are debugging a restart handoff or a control-plane update response
@@ -7,7 +7,7 @@ read_when:
 title: "How an update runs"
 ---
 
-Channel switching, candidate validation, the restart handoff, and the Git checkout flow. Part of the [`openclaw update`](/cli/update) reference.
+Channel switching, candidate validation, the restart handoff, and the Git checkout flow. Part of the [`openagent update`](/cli/update) reference.
 
 ## What it does
 
@@ -44,7 +44,7 @@ validate the candidate even when its build identity matches.
 Updates continue with recorded warnings when disposable validation-copy cleanup,
 retired derived-cache cleanup, or Git upstream tracking setup fails. Resolve the
 reported cause, then run the warning's exact cleanup command or
-`openclaw doctor --fix`. Invalid ownership, unsafe state migrations, and a Gateway
+`openagent doctor --fix`. Invalid ownership, unsafe state migrations, and a Gateway
 that cannot boot or pass readiness still block completion. See
 [Status and history](/cli/update/status-and-history) to inspect recorded warnings.
 
@@ -100,7 +100,7 @@ the candidate root, even when the serving source launcher passed its own checkou
 root. This keeps candidate assets and validation independent of the old checkout.
 
 Warning-severity Doctor findings do not block candidate or post-plugin readiness.
-The updater retains them in the run report shown by `openclaw update status`,
+The updater retains them in the run report shown by `openagent update status`,
 including when an intentional open channel policy requires no configuration change.
 Error findings and failed check execution still refuse the update.
 
@@ -151,7 +151,7 @@ so updating to this fix cannot change that first hop. If their system temporary
 filesystem is too small, select another filesystem with sufficient space:
 
 ```bash
-TMPDIR=/var/tmp openclaw update --yes
+TMPDIR=/var/tmp openagent update --yes
 ```
 
 Subsequent updates use the new updater's measured destination selection.
@@ -189,7 +189,7 @@ exit zero.
 Pre-activation repair uses disposable rehearsal state and configuration, then
 independently validates surviving candidate changes before activation, and
 `repair-requires-config-change` reports changed top-level keys that require
-operator-run `openclaw doctor --fix` or `openclaw triage`. Post-activation
+operator-run `openagent doctor --fix` or `openagent triage`. Post-activation
 finalization may use live repair when compatibility-checked package rollback is
 unsafe or fails. See
 [Unattended repair](/install/updating#unattended-repair-on-your-own-inference) for
@@ -233,7 +233,7 @@ state and retained package material, and reports the failed operation. Restoring
 an older package alone is not proof that the service can safely start.
 
 Existing pending records that require checkpoint replay are unsupported by this
-update path. `openclaw update` reports them before ordinary mutable update work;
+update path. `openagent update` reports them before ordinary mutable update work;
 it does not replay, rewrite, retire, or clear their retained state. `update
 finalize` does not bypass that refusal. Preserve the records and any named
 recovery artifacts for recovery with a compatible implementation or a verified
@@ -286,7 +286,7 @@ If schema state cannot be verified, rollback is refused with
 
 ### Restart handoff
 
-When an agent runs `openclaw update` inside a systemd user service or macOS
+When an agent runs `openagent update` inside a systemd user service or macOS
 LaunchAgent Gateway, the CLI hands the update to the same managed-service helper
 before stopping the Gateway. It prints the helper log path and follow-up commands
 for update status and Gateway health, then exits; this acknowledges the handoff,
@@ -313,12 +313,12 @@ When the handoff records a manager UID, a different UID blocks service mutation.
 The Gateway core auto-updater requires a managed service restart path. It hands
 the CLI update to a detached helper before activation. A foreground
 Gateway keeps update hints but leaves installation and activation to the
-operator: stop it, run `openclaw update`, then launch it again.
+operator: stop it, run `openagent update`, then launch it again.
 
 Control-plane `update.run` package-manager updates and supervised git-checkout updates use
 the same managed-service handoff instead of replacing the package tree or
 rebuilding `dist/` inside the live Gateway process: the Gateway starts a
-detached helper, which runs `openclaw update --yes --json` from outside the
+detached helper, which runs `openagent update --yes --json` from outside the
 Gateway process tree. The Gateway exits only after candidate validation succeeds
 and activation begins. If the handoff is unavailable,
 `update.run` returns a structured response with the safe shell command to run
@@ -350,7 +350,7 @@ its own version guards apply and automatic repair stays disabled. If the target
 CLI does not support that option, it rejects activation before repair. The code
 update stays installed, but the command exits nonzero with the activation error
 (on stderr in JSON mode). A service stopped for the update may remain stopped.
-Run `openclaw gateway status --deep` and ask the deployment owner to restart it
+Run `openagent gateway status --deep` and ask the deployment owner to restart it
 through its native manager or repair stale metadata; do not retry without the
 preservation option unless definition repair is intended.
 
@@ -370,12 +370,12 @@ manager runtime state, or failed filesystem inspection still require service acc
 If service inspection is unavailable or installation ownership is unresolved,
 the update refuses to mutate the checkout or package tree, including with
 `--no-restart`. It cannot assess another service-owned profile's databases from
-the invoking profile alone. Run `openclaw gateway status --deep` and retry when
+the invoking profile alone. Run `openagent gateway status --deep` and retry when
 ownership can be inspected. Proven-absent services and inspectable stopped
 services remain supported. Services owned by another install remain untouched.
 
 The published 2026.8.2 CLI also refuses updates on service-less Linux installs.
-Use `openclaw update --no-restart` for that upgrade after confirming that no Gateway
+Use `openagent update --no-restart` for that upgrade after confirming that no Gateway
 is running; the new CLI cannot fix the old CLI's pre-update inspection.
 
 #### Node runtime for package-manager updates
@@ -418,7 +418,7 @@ separately from the CLI update that continues in the detached helper:
 - `ok: true`, `result.status: "skipped"`,
   `result.reason: "managed-service-handoff-started"`, and
   `handoff.status: "started"`: the Gateway created the managed-service handoff
-  so the detached helper can run `openclaw update --yes --json` outside the live
+  so the detached helper can run `openagent update --yes --json` outside the live
   service process. The old Gateway stays available during validation; this
   response does not mean the service has stopped or the update has completed.
 - `ok: false`, `result.reason: "managed-service-handoff-unavailable"`, and
@@ -436,7 +436,7 @@ health checks complete. During the handoff, the sentinel can carry
 `stats.reason: "restart-health-pending"` with no success continuation; the
 restarted Gateway polls it and fires the continuation only after the CLI has
 verified service health and rewritten the sentinel with the final `ok` result.
-`openclaw status` and `openclaw status --all` show an `Update restart` row
+`openagent status` and `openagent status --all` show an `Update restart` row
 while that sentinel is pending or failed. `update.status` retains the latest
 sentinel and also returns the durable run record. The sentinel carries
 `stats.runId`; the run record remains available after notice delivery consumes
@@ -540,7 +540,7 @@ successful core update. When a compatible, runnable plugin is installed, plugin
 sync retains that
 installed version and its recorded selector. The summary, warning log, and run
 history name the plugin, requested target, resolution failure, and
-`openclaw plugins update <id>` next action. JSON keeps top-level `status: "ok"`
+`openagent plugins update <id>` next action. JSON keeps top-level `status: "ok"`
 with a `plugin-target-unavailable` advisory under `postUpdate.plugins.warnings`.
 
 Before mutation, OpenAgent checks installed compatibility metadata and skips
@@ -553,10 +553,10 @@ and core readiness checks still have to pass.
 
 Older updaters may still refuse with `plugin-target-unavailable` before candidate
 code runs. Use your installation's [manual update method](/install/updating/update-methods),
-then run `openclaw update repair` from the updated installation.
+then run `openagent update repair` from the updated installation.
 
 <Warning>
-If an exact pinned npm plugin update resolves to an artifact whose integrity differs from the stored install record, `openclaw update` aborts that plugin artifact update instead of installing it. Reinstall or update the plugin explicitly only after verifying you trust the new artifact.
+If an exact pinned npm plugin update resolves to an artifact whose integrity differs from the stored install record, `openagent update` aborts that plugin artifact update instead of installing it. Reinstall or update the plugin explicitly only after verifying you trust the new artifact.
 </Warning>
 
 <Note>
@@ -564,14 +564,14 @@ Plugin-only availability, installation, and load failures are reported as named,
 actionable warnings after an otherwise successful core update. JSON keeps
 top-level `status: "ok"` and reports `postUpdate.plugins.status: "warning"`.
 Follow the command in `postUpdate.plugins.warnings[].guidance`. For a named
-plugin, retry failed installs or updates with `openclaw plugins update <id>`;
-use `openclaw doctor --fix` for load problems.
+plugin, retry failed installs or updates with `openagent plugins update <id>`;
+use `openagent doctor --fix` for load problems.
 A failed plugin operation retains previous payloads and install records where
 possible and preserves registry choices, plugin settings, enable/disable choices,
 and active slots. A plugin can remain unavailable until repaired.
 
 After installing the core and before restarting the managed Gateway,
-`openclaw update` runs mandatory **post-core convergence**: it repairs missing
+`openagent update` runs mandatory **post-core convergence**: it repairs missing
 configured plugin payloads, validates each _active_ tracked install record on disk,
 and statically verifies its `package.json` is parseable and its declared
 `openclaw.extensions` entries are loadable. When a package does not declare
@@ -600,7 +600,7 @@ current plugin operation takes precedence.
 
 ## Package-manager installs
 
-For package-manager installs, `openclaw update` resolves the target package
+For package-manager installs, `openagent update` resolves the target package
 version before invoking the package manager. npm global installs use a staged
 install: OpenAgent installs the new package into a temporary npm prefix,
 lets the candidate package validate the host Node version during `preinstall`,
@@ -621,7 +621,7 @@ does not make simultaneous package swaps safe.
 
 A matching installed version skips core replacement but still converges plugins. Core updates also
 refresh core-command completion; full plugin-command completion rebuilds remain explicit
-`openclaw completion --write-state` runs.
+`openagent completion --write-state` runs.
 
 pnpm and Bun on macOS/Linux stage their owning global project and launchers,
 preserving the manager's manifests, locks, and sibling packages for rollback.
@@ -646,7 +646,7 @@ By default, the update installs the new package without replaying local code.
 To replay edits you trust during that update:
 
 ```bash
-openclaw update --reapply-local-overrides
+openagent update --reapply-local-overrides
 ```
 
 Packages that advertise a content inventory record shipped file hashes and

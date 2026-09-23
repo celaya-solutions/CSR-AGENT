@@ -52,9 +52,9 @@ Each entry points at the page that now holds the content.
 ## CLI examples
 
 ```bash
-openclaw onboard --auth-choice openai-api-key
-openclaw models set openai/gpt-5.5
-openclaw models list
+openagent onboard --auth-choice openai-api-key
+openagent models set openai/gpt-5.5
+openagent models list
 ```
 
 See also: [Configuration](/gateway/configuration) for full configuration examples.
@@ -66,4 +66,4 @@ See also: [Configuration](/gateway/configuration) for full configuration example
 - [Models](/concepts/models) - model configuration and aliases
 - [Providers](/providers) - per-provider setup guides
 - [Agent harness plugins](/plugins/sdk-agent-harness) - SDK surface for plugins that replace the embedded agent executor
-- [`openclaw models`](/cli/models) - list, select, and authenticate providers from the CLI
+- [`openagent models`](/cli/models) - list, select, and authenticate providers from the CLI

@@ -172,7 +172,7 @@ Defaults for Talk mode in the browser Control UI.
 
 - `talk.provider` must match a key in `talk.providers` when multiple Talk providers are configured.
 - `talk.agentId` owns Talk sessions created without an explicit agent-scoped session key. Session-scoped Talk calls continue to use the agent encoded in that key. Doctor may create a minimal `talk` block containing only this owner for an existing multi-agent config.
-- Legacy flat Talk keys (`talk.voiceId`, `talk.voiceAliases`, `talk.modelId`, `talk.outputFormat`, `talk.apiKey`) are compatibility-only. Run `openclaw doctor --fix` to rewrite persisted config into `talk.providers.<provider>`.
+- Legacy flat Talk keys (`talk.voiceId`, `talk.voiceAliases`, `talk.modelId`, `talk.outputFormat`, `talk.apiKey`) are compatibility-only. Run `openagent doctor --fix` to rewrite persisted config into `talk.providers.<provider>`.
 - `providers.*.apiKey` accepts plaintext strings or SecretRef objects.
 - `providers.*.voiceAliases` lets Talk directives use friendly names.
 - `consultThinkingLevel` controls the thinking level for the full OpenAgent agent run behind Control UI Talk realtime `openclaw_agent_consult` calls. Leave unset to preserve normal session/model behavior.

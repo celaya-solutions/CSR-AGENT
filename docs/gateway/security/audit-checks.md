@@ -1,20 +1,20 @@
 ---
-summary: "Reference catalog of checkIds emitted by openclaw security audit"
+summary: "Reference catalog of checkIds emitted by openagent security audit"
 read_when:
-  - You saw a specific `checkId` in `openclaw security audit` output and want to know what it means
+  - You saw a specific `checkId` in `openagent security audit` output and want to know what it means
   - You need the fix key/path for a given finding
   - You are triaging severity across a security audit run
 title: "Security audit checks"
 ---
 
-`openclaw security audit` emits structured findings keyed by `checkId`. This
+`openagent security audit` emits structured findings keyed by `checkId`. This
 page is the reference catalog for those IDs. For the high-level threat model
 and hardening guidance, see [Security](/gateway/security).
 
-Some checks only run with `openclaw security audit --deep`: plugin/skill code
+Some checks only run with `openagent security audit --deep`: plugin/skill code
 scans (`plugins.code_safety*`, `skills.code_safety*`) and live Gateway probe
 checks (`gateway.probe_*`). Everything else in this table runs on a plain
-`openclaw security audit`.
+`openagent security audit`.
 
 A severity like `warn/critical` means the same `checkId` can be emitted at
 either level depending on config (for example, whether the Gateway is remotely
@@ -23,8 +23,8 @@ exhaustive):
 
 | `checkId`                                                       | Severity           | Why it matters                                                                                     | Primary fix key/path                                                                                    | Auto-fix |
 | --------------------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------- |
-| `fs.state_dir.perms_world_writable`                             | critical           | Other users/processes can modify full OpenAgent state                                          | filesystem perms on `~/.openclaw`                                                                       | yes      |
-| `fs.state_dir.perms_group_writable`                             | warn               | Group users can modify full OpenAgent state                                                    | filesystem perms on `~/.openclaw`                                                                       | yes      |
+| `fs.state_dir.perms_world_writable`                             | critical           | Other users/processes can modify full OpenAgent state                                              | filesystem perms on `~/.openclaw`                                                                       | yes      |
+| `fs.state_dir.perms_group_writable`                             | warn               | Group users can modify full OpenAgent state                                                        | filesystem perms on `~/.openclaw`                                                                       | yes      |
 | `fs.state_dir.perms_readable`                                   | warn               | State dir is readable by others                                                                    | filesystem perms on `~/.openclaw`                                                                       | yes      |
 | `fs.state_dir.symlink`                                          | warn               | State dir target becomes another trust boundary                                                    | state dir filesystem layout                                                                             | no       |
 | `fs.config.perms_writable`                                      | critical           | Others can change auth/tool policy/config                                                          | filesystem perms on `~/.openclaw/openclaw.json`                                                         | yes      |
@@ -95,8 +95,8 @@ exhaustive):
 | `sandbox.dangerous_apparmor_profile`                            | critical           | Sandbox AppArmor profile weakens container isolation                                               | `agents.*.sandbox.docker.securityOpt`                                                                   | no       |
 | `sandbox.browser_cdp_bridge_unrestricted`                       | warn               | Sandbox browser bridge is exposed without source-range restriction                                 | `sandbox.browser.cdpSourceRange`                                                                        | no       |
 | `sandbox.browser_container.non_loopback_publish`                | critical           | Existing browser container publishes CDP on non-loopback interfaces                                | browser sandbox container publish config                                                                | no       |
-| `sandbox.browser_container.hash_label_missing`                  | warn               | Existing browser container predates current config-hash labels                                     | `openclaw sandbox recreate --browser --all`                                                             | no       |
-| `sandbox.browser_container.hash_epoch_stale`                    | warn               | Existing browser container predates current browser config epoch                                   | `openclaw sandbox recreate --browser --all`                                                             | no       |
+| `sandbox.browser_container.hash_label_missing`                  | warn               | Existing browser container predates current config-hash labels                                     | `openagent sandbox recreate --browser --all`                                                            | no       |
+| `sandbox.browser_container.hash_epoch_stale`                    | warn               | Existing browser container predates current browser config epoch                                   | `openagent sandbox recreate --browser --all`                                                            | no       |
 | `sandbox.browser_container.docker_probe_timeout`                | warn               | Docker label probe for the browser container timed out                                             | Docker daemon reachability                                                                              | no       |
 | `tools.exec.host_sandbox_no_sandbox_defaults`                   | warn               | `exec host=sandbox` fails closed when sandbox is off                                               | `tools.exec.host`, `agents.defaults.sandbox.mode`                                                       | no       |
 | `tools.exec.host_sandbox_no_sandbox_agents`                     | warn               | Per-agent `exec host=sandbox` fails closed when sandbox is off                                     | `agents.entries.*.tools.exec.host`, `agents.entries.*.sandbox.mode`                                     | no       |

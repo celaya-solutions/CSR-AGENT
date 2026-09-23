@@ -8,7 +8,7 @@ title: "Query a running Gateway"
 sidebarTitle: "Query"
 ---
 
-The WebSocket RPC query subcommands and their shared options. Part of the [`openclaw gateway`](/cli/gateway) reference.
+The WebSocket RPC query subcommands and their shared options. Part of the [`openagent gateway`](/cli/gateway) reference.
 
 ## Query a running Gateway
 
@@ -42,8 +42,8 @@ WebSocket opening-handshake timeouts report a Gateway transport error with
 ### `gateway health`
 
 ```bash
-openclaw gateway health --url ws://127.0.0.1:18789
-openclaw gateway health --port 18789
+openagent gateway health --url ws://127.0.0.1:18789
+openagent gateway health --port 18789
 ```
 
 `/healthz` is a liveness probe: it returns as soon as the server can answer HTTP. `/readyz` is stricter and stays red while startup plugin sidecars, channels, or configured hooks are still settling. Local or authenticated detailed `/readyz` responses include an `eventLoop` diagnostic block (delay, utilization, CPU-core ratio, `degraded` flag).
@@ -57,11 +57,11 @@ openclaw gateway health --port 18789
 Fetch usage-cost summaries from session logs.
 
 ```bash
-openclaw gateway usage-cost
-openclaw gateway usage-cost --days 7
-openclaw gateway usage-cost --agent work --json
-openclaw gateway usage-cost --all-agents
-openclaw gateway usage-cost --json
+openagent gateway usage-cost
+openagent gateway usage-cost --days 7
+openagent gateway usage-cost --agent work --json
+openagent gateway usage-cost --all-agents
+openagent gateway usage-cost --json
 ```
 
 Human-readable output warns that totals may be incomplete when the usage cache is
@@ -84,11 +84,11 @@ the `cacheStatus` object so scripts can inspect the same state.
 Fetch the recent diagnostic stability recorder from a running Gateway.
 
 ```bash
-openclaw gateway stability
-openclaw gateway stability --type payload.large
-openclaw gateway stability --bundle latest
-openclaw gateway stability --bundle latest --export
-openclaw gateway stability --json
+openagent gateway stability
+openagent gateway stability --type payload.large
+openagent gateway stability --bundle latest
+openagent gateway stability --bundle latest --export
+openagent gateway stability --json
 ```
 
 <ParamField path="--limit <limit>" type="number" default="25">
@@ -113,7 +113,7 @@ openclaw gateway stability --json
 <AccordionGroup>
   <Accordion title="Privacy and bundle behavior">
     - Records keep operational metadata: event names, counts, byte sizes, memory readings, queue/session state, approval ids, channel/plugin names, and redacted session summaries. They exclude chat text, webhook bodies, tool outputs, raw request/response bodies, tokens, cookies, secret values, hostnames, and raw session ids. Set `diagnostics.enabled: false` to disable the recorder entirely.
-    - Fatal Gateway exits, shutdown timeouts, and restart startup failures write the same diagnostic snapshot to `~/.openclaw/logs/stability/openclaw-stability-*.json` when the recorder has events. Inspect the newest bundle with `openclaw gateway stability --bundle latest`; `--limit`, `--type`, and `--since-seq` apply to bundle output too.
+    - Fatal Gateway exits, shutdown timeouts, and restart startup failures write the same diagnostic snapshot to `~/.openclaw/logs/stability/openclaw-stability-*.json` when the recorder has events. Inspect the newest bundle with `openagent gateway stability --bundle latest`; `--limit`, `--type`, and `--since-seq` apply to bundle output too.
 
   </Accordion>
 </AccordionGroup>
@@ -123,9 +123,9 @@ openclaw gateway stability --json
 Write a local diagnostics zip designed for bug reports. For the privacy model and bundle contents, see [Diagnostics Export](/gateway/diagnostics).
 
 ```bash
-openclaw gateway diagnostics export
-openclaw gateway diagnostics export --output openclaw-diagnostics.zip
-openclaw gateway diagnostics export --json
+openagent gateway diagnostics export
+openagent gateway diagnostics export --output openclaw-diagnostics.zip
+openagent gateway diagnostics export --json
 ```
 
 <ParamField path="--output <path>" type="string">
@@ -165,10 +165,10 @@ It is designed to be shared. It keeps operational details useful for debugging â
 Shows the Gateway service (launchd/systemd/schtasks) plus an optional connectivity/auth probe.
 
 ```bash
-openclaw gateway status
-openclaw gateway status --json
-openclaw gateway status --require-rpc
-openclaw gateway status --port 19001
+openagent gateway status
+openagent gateway status --json
+openagent gateway status --require-rpc
+openagent gateway status --port 19001
 ```
 
 <ParamField path="--url <url>" type="string">
@@ -235,9 +235,9 @@ If multiple probe targets are reachable, all are printed. An SSH tunnel, TLS/pro
 </Note>
 
 ```bash
-openclaw gateway probe
-openclaw gateway probe --json
-openclaw gateway probe --port 18789
+openagent gateway probe
+openagent gateway probe --json
+openagent gateway probe --port 18789
 ```
 
 <ParamField path="--port <port>" type="number">
@@ -288,7 +288,7 @@ openclaw gateway probe --port 18789
 CLI equivalent:
 
 ```bash
-openclaw gateway probe --ssh user@gateway-host
+openagent gateway probe --ssh user@gateway-host
 ```
 
 <ParamField path="--ssh <target>" type="string">
@@ -315,13 +315,13 @@ Low-level RPC helper.
 Use `--expect-url <url>` to bind a call to a previously observed Gateway endpoint
 without changing URL selection or authentication. The CLI compares the exact
 resolved URL before connecting and fails if the destination changed. Automation
-can obtain the endpoint from `gateway.url` in `openclaw status --json`; a redacted
+can obtain the endpoint from `gateway.url` in `openagent status --json`; a redacted
 URL cannot serve as an exact endpoint assertion.
 
 ```bash
-openclaw gateway call status
-openclaw gateway call health --port 18999
-openclaw gateway call logs.tail --params '{"limit": 200}'
+openagent gateway call status
+openagent gateway call health --port 18999
+openagent gateway call logs.tail --params '{"limit": 200}'
 ```
 
 For `sessions.send` and `chat.send`, JSON `timeoutMs` is the receiving agent's
@@ -329,7 +329,7 @@ execution budget, not an acknowledgment timeout. Omit it for ordinary
 coordination; `--timeout` independently limits how long this CLI waits:
 
 ```bash
-openclaw gateway call sessions.send --params '{"key":"<session-key>","message":"Status update"}' --timeout 10000
+openagent gateway call sessions.send --params '{"key":"<session-key>","message":"Status update"}' --timeout 10000
 ```
 
 A `started` response confirms acceptance, not a completed reply. Agents should
@@ -377,9 +377,9 @@ ID. The value must be a non-negative number of seconds; an empty value is reject
 Use `--wait 0` for a single attempt without polling.
 
 ```bash
-openclaw gateway suspend
-openclaw gateway suspend --request-id snapshot-2026-08-11 --wait 30
-openclaw gateway suspend --port 18999 --json
+openagent gateway suspend
+openagent gateway suspend --request-id snapshot-2026-08-11 --wait 30
+openagent gateway suspend --port 18999 --json
 ```
 
 The ready output includes the suspension ID, lease expiry, and the matching
@@ -392,8 +392,8 @@ Release a prepared suspension after thaw or when the host operation is
 abandoned.
 
 ```bash
-openclaw gateway resume <suspensionId>
-openclaw gateway resume <suspensionId> --port 18999 --json
+openagent gateway resume <suspensionId>
+openagent gateway resume <suspensionId> --port 18999 --json
 ```
 
 An already expired or resumed lease is a successful no-op. A different active

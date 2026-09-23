@@ -127,7 +127,7 @@ function readRegisteredAgentDatabases(
     );
     if (!artifactPreserving && schemaMigrations.length > 0) {
       throw new Error(
-        `OpenAgent state database ${pathname} has a legacy agent database registry schema; run openclaw doctor --fix to migrate it.`,
+        `OpenAgent state database ${pathname} has a legacy agent database registry schema; run openagent doctor --fix to migrate it.`,
       );
     }
     const registryTable = database

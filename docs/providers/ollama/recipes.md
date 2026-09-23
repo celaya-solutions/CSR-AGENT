@@ -10,7 +10,7 @@ sidebarTitle: "Recipes"
 ## Common recipes
 
 Replace model IDs with exact names from `ollama list` or
-`openclaw models list --provider ollama`.
+`openagent models list --provider ollama`.
 
 <AccordionGroup>
   <Accordion title="Local model with auto-discovery">
@@ -20,8 +20,8 @@ Replace model IDs with exact names from `ollama list` or
     ollama serve
     ollama pull gemma4
     export OLLAMA_API_KEY="ollama-local"
-    openclaw models list --provider ollama
-    openclaw models set ollama/gemma4
+    openagent models list --provider ollama
+    openagent models set ollama/gemma4
     ```
 
     Leave `models.providers.ollama` unset to use the default local endpoint, or
@@ -301,11 +301,11 @@ model when first-turn load time is the bottleneck.
 curl http://127.0.0.1:11434/api/tags
 
 # OpenAgent catalog and selected model
-openclaw models list --provider ollama
-openclaw models status
+openagent models list --provider ollama
+openagent models status
 
 # Direct model smoke
-openclaw infer model run \
+openagent infer model run \
   --model ollama/gemma4 \
   --prompt "Reply with exactly: ok"
 ```

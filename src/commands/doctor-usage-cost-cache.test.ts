@@ -213,7 +213,7 @@ describe("legacy usage-cost cache cleanup", () => {
       expect(note.mock.calls[0]?.[0]).toContain(scope === "root" ? agentsDir : tempFile);
       expect(note.mock.calls[0]?.[0]).toContain(code);
       expect(note.mock.calls[0]?.[0]).toContain(
-        shouldRepair ? "openclaw doctor --fix" : "openclaw doctor",
+        shouldRepair ? "openagent doctor --fix" : "openagent doctor",
       );
       expect(note.mock.calls[0]?.[0]).not.toContain("Removed");
       await expect(fs.readFile(cacheFile, "utf8")).resolves.toBe("x");

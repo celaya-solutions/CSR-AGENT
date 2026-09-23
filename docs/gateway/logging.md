@@ -42,7 +42,7 @@ Talk, realtime voice, and managed-room code paths use the shared file logger for
 The Control UI Logs tab tails this file via the gateway (`logs.tail`). The CLI does the same:
 
 ```bash
-openclaw logs --follow
+openagent logs --follow
 ```
 
 If a tail read observes that the active file has disappeared, the Control UI clears its previous records and follows the recreated file. Missing files still return an empty tail; filesystem read errors remain visible.
@@ -141,7 +141,7 @@ the configured file log level.
 Tune console verbosity independently:
 
 - `logging.consoleLevel` (default `info`)
-- `logging.consoleStyle` (`pretty` | `json`). When unset, output is `pretty` on a TTY and the automatic `compact` style otherwise. `compact` is no longer a settable value. `openclaw doctor --fix` maps a stored one to `pretty`.
+- `logging.consoleStyle` (`pretty` | `json`). When unset, output is `pretty` on a TTY and the automatic `compact` style otherwise. `compact` is no longer a settable value. `openagent doctor --fix` maps a stored one to `pretty`.
 
 ## Redaction
 
@@ -190,7 +190,7 @@ contents are included.
 
 ### WS log style
 
-`openclaw gateway` supports a per-gateway style switch:
+`openagent gateway` supports a per-gateway style switch:
 
 - `--ws-log auto` (default): normal mode is optimized. Verbose mode uses compact output.
 - `--ws-log compact`: compact output (paired request/response) when verbose.
@@ -199,13 +199,13 @@ contents are included.
 
 ```bash
 # optimized (only errors/slow)
-openclaw gateway
+openagent gateway
 
 # show all WS traffic (paired)
-openclaw gateway --verbose --ws-log compact
+openagent gateway --verbose --ws-log compact
 
 # show all WS traffic (full meta)
-openclaw gateway --verbose --ws-log full
+openagent gateway --verbose --ws-log full
 ```
 
 ## Console formatting (subsystem logging)
@@ -227,4 +227,4 @@ This keeps file logs stable while making interactive output scannable.
 
 - [Logging](/logging)
 - [Diagnostics export](/gateway/diagnostics)
-- [`openclaw logs`](/cli/logs) — tail Gateway logs over RPC from the CLI
+- [`openagent logs`](/cli/logs) — tail Gateway logs over RPC from the CLI

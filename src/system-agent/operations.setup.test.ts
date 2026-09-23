@@ -435,7 +435,7 @@ describe("parseSystemAgentOperation", () => {
           },
         },
       ),
-    ).rejects.toThrow("`openclaw onboard` on the machine running OpenAgent");
+    ).rejects.toThrow("`openagent onboard` on the machine running OpenAgent");
 
     expect(applySetup).not.toHaveBeenCalled();
   });

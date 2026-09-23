@@ -161,7 +161,7 @@ describe("cli json stdout contract", () => {
           error: {
             type: "cli_error",
             message:
-              "TaskFlow not found: missing-flow. Run openclaw tasks flow list to see recent flow ids.",
+              "TaskFlow not found: missing-flow. Run openagent tasks flow list to see recent flow ids.",
           },
         });
         expect(result.stderr).toBe("");

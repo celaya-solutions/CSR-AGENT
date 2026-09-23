@@ -1,14 +1,14 @@
 ---
-summary: "CLI reference for `openclaw update` (updates, repair, and recovery cleanup)"
+summary: "CLI reference for `openagent update` (updates, repair, and recovery cleanup)"
 read_when:
   - You want to update a source checkout safely
-  - You are debugging `openclaw update` output or options
+  - You are debugging `openagent update` output or options
   - You want to inspect or retire migration recovery originals after an update
   - You need to understand `--update` shorthand behavior
 title: "Update"
 ---
 
-# `openclaw update`
+# `openagent update`
 
 Update OpenAgent and switch between stable/extended-stable/beta/dev channels.
 
@@ -24,7 +24,7 @@ paths and the package-manager probe results in its guidance.
 
 An older updater that stops before staging cannot use this repair. For a known
 npm installation, supply its configured prefix explicitly for that update:
-`NPM_CONFIG_PREFIX="$(npm prefix -g)" openclaw update`.
+`NPM_CONFIG_PREFIX="$(npm prefix -g)" openagent update`.
 
 An installation without a detected package-manager owner records a **skipped**
 update, exits successfully, and leaves the Gateway running. For Docker/container
@@ -40,24 +40,24 @@ update failure report.
 ## Usage
 
 ```bash
-openclaw update
-openclaw update status
-openclaw update repair
-openclaw update cleanup --dry-run
-openclaw update wizard
-openclaw update --channel extended-stable
-openclaw update --channel beta
-openclaw update --channel dev
-openclaw update --tag beta
-openclaw update --dry-run
-openclaw update --no-restart
-openclaw update --yes
-openclaw update --accept-capabilities
-openclaw update --json
-openclaw --update
+openagent update
+openagent update status
+openagent update repair
+openagent update cleanup --dry-run
+openagent update wizard
+openagent update --channel extended-stable
+openagent update --channel beta
+openagent update --channel dev
+openagent update --tag beta
+openagent update --dry-run
+openagent update --no-restart
+openagent update --yes
+openagent update --accept-capabilities
+openagent update --json
+openagent --update
 ```
 
-`openclaw --update` rewrites to `openclaw update` (useful for shells and
+`openagent --update` rewrites to `openagent update` (useful for shells and
 launcher scripts).
 
 Update admission recognizes orphan `task_delivery_state` rows whose parent tasks
@@ -66,14 +66,14 @@ the same [preservation-first recovery](/reference/database-schemas/integrity-and
 before creating update history. Recovery and its ledger entry commit together;
 the entry records the row count and recovery directory. A live Gateway owner,
 read-only store, or failed preservation prevents repair and reports
-`openclaw doctor --fix` as the next action. Other foreign-key violations and
+`openagent doctor --fix` as the next action. Other foreign-key violations and
 structural damage still refuse admission.
 `--dry-run` reports the repairable condition without recovering rows or creating
 an update ledger entry for that refused preview.
 
 The installed 2026.9.4 updater cannot use this recovery before updating itself.
 If it refuses with a database integrity error, install the corrective release
-manually and run `openclaw doctor --fix`.
+manually and run `openagent doctor --fix`.
 
 Failed update and repair attempts enter [recovery triage](/cli/update#recover-a-failed-update)
 after service recovery and cleanup finish.
@@ -111,7 +111,7 @@ For an authorized update on another host, use the target installation's owning
 account and a non-interactive SSH command:
 
 ```bash
-ssh -T user@gateway-host 'openclaw update --yes' </dev/null
+ssh -T user@gateway-host 'openagent update --yes' </dev/null
 ```
 
 Ensure `openclaw` resolves to the intended installation in that account's SSH
@@ -144,7 +144,7 @@ target CLI or an older target without support is refused; the updater does not
 invoke the old runtime installer as a substitute. Authorized installation-root
 changes bind the destination CLI separately while retaining the original update owner. Update-owned commands also refuse unmanaged
 restart/stop and detached restart or Windows Startup-folder fallbacks that cannot
-retain this ownership. Ordinary user-invoked `openclaw gateway` commands keep their
+retain this ownership. Ordinary user-invoked `openagent gateway` commands keep their
 existing behavior.
 
 This target-CLI protection does not cover every Doctor or plugin child, the
@@ -153,7 +153,7 @@ deferred-install activation checks.
 
 ## Options
 
-Updater-managed `openclaw update finalize` runs repair Doctor without an automatic
+Updater-managed `openagent update finalize` runs repair Doctor without an automatic
 wall-clock deadline, including post-plugin repair. It waits for completion,
 failure, or manual cancellation. An explicit `--timeout <seconds>` still limits
 each finalization phase and its child commands. Post-plugin config validation and
@@ -173,7 +173,7 @@ phase limits are unchanged.
 | `--accept-capabilities`                          | Accept each plugin's reviewed capability changes during post-update sync. This acknowledges the exact staged capability surface; it does not disable capability checks or establish future trust.                                                                                                                                             |
 
 There is no `--verbose` flag. Use `--dry-run` to preview planned actions,
-`--json` for machine-readable results, and `openclaw update status --json`
+`--json` for machine-readable results, and `openagent update status --json`
 for channel, availability, and the latest durable update report. Gateway console verbosity (`--verbose`) and
 file log level (`logging.level: "debug"`/`"trace"`) are independent knobs; see
 [Gateway logging](/gateway/logging).
@@ -223,11 +223,11 @@ For explicit package artifacts, configured plugin availability is checked agains
 
 For source checkouts, `--dry-run` previews the update flow without fetching Git
 refs or checking working-tree changes. The real update checks for uncommitted
-changes before modifying the checkout. Use `openclaw update status` to inspect
+changes before modifying the checkout. Use `openagent update status` to inspect
 the current branch, version, and update availability.
 
 <Note>
-In Nix mode (`OPENCLAW_NIX_MODE=1`), mutating `openclaw update` runs are disabled. Update the Nix source or flake input for this install instead. `openclaw update status` remains read-only. `openclaw update --dry-run` previews the flow without changing the installation. It records a skipped run only when the profile already has a runtime database.
+In Nix mode (`OPENCLAW_NIX_MODE=1`), mutating `openagent update` runs are disabled. Update the Nix source or flake input for this install instead. `openagent update status` remains read-only. `openagent update --dry-run` previews the flow without changing the installation. It records a skipped run only when the profile already has a runtime database.
 </Note>
 
 <Warning>
@@ -245,7 +245,7 @@ checkout offers to create one.
 
 The channel picker reads the local install identity without checking Git
 freshness or dependencies. Those checks run when you apply the update; use
-`openclaw update status` to inspect availability first.
+`openagent update status` to inspect availability first.
 
 | Flag                    | Default | Description                                                  |
 | ----------------------- | ------- | ------------------------------------------------------------ |
@@ -290,6 +290,6 @@ freshness or dependencies. Those checks run when you apply the update; use
 
 ## Related
 
-- `openclaw doctor` (offers to run update first on git checkouts)
+- `openagent doctor` (offers to run update first on git checkouts)
 - [Updating](/install/updating)
 - [CLI reference](/cli)

@@ -18,7 +18,7 @@ Once enabled, it serves all of these on the same port as the Gateway (WS + HTTP 
 
 `POST /v1/responses` is enabled separately with `gateway.http.endpoints.responses.enabled`. See [OpenResponses API](/gateway/openresponses-http-api).
 
-Requests run as a normal Gateway agent run (same codepath as `openclaw agent`), so routing, permissions, and config match your Gateway.
+Requests run as a normal Gateway agent run (same codepath as `openagent agent`), so routing, permissions, and config match your Gateway.
 
 ## Enabling the endpoint
 

@@ -6,7 +6,7 @@ do not have identical routing.
 
 ## Local or direct Gateway
 
-Prefer `openclaw dashboard` on the Gateway host. It creates a short-lived local
+Prefer `openagent dashboard` on the Gateway host. It creates a short-lived local
 bootstrap URL and binds the browser to durable device identity. Do not paste or
 log bootstrap credentials.
 
@@ -26,7 +26,7 @@ and enabled MCP Apps, but it never serves the authenticated Control UI.
 Use managed Tailscale Serve for browser access:
 
 ```bash
-openclaw gateway --tailscale serve
+openagent gateway --tailscale serve
 ```
 
 Serve keeps the Gateway on loopback and publishes the Control UI and WebSocket

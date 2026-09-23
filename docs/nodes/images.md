@@ -13,13 +13,13 @@ portable formats, byte limits, and lazy transcoding, see
 
 ## Goals
 
-- Send media with an optional caption via `openclaw message send --media`.
+- Send media with an optional caption via `openagent message send --media`.
 - Allow auto-replies to include media alongside text.
 - Keep per-type limits sane and predictable.
 
 ## CLI Surface
 
-`openclaw message send --target <dest> --media <path-or-url> [--message <caption>]`
+`openagent message send --target <dest> --media <path-or-url> [--message <caption>]`
 
 - `--media <path-or-url>` — attach media (image/audio/video/document); accepts local paths or URLs. Optional; caption can be empty for media-only sends.
 - `--force-document` — send images, GIFs, and videos as documents on Telegram to avoid channel compression.
@@ -46,7 +46,7 @@ metadata precedence does not change MIME detection when media bytes are loaded o
 ## Auto-Reply Pipeline
 
 - `getReplyFromConfig` returns a reply payload (or array of payloads) with `text?`, `mediaUrl?`, and `mediaUrls?` among other fields.
-- When media is present, the channel sender resolves local paths or URLs using the same pipeline as `openclaw message send`.
+- When media is present, the channel sender resolves local paths or URLs using the same pipeline as `openagent message send`.
 - Multiple media entries are sent sequentially if provided.
 
 Generated attachments stay separate from later tool-error warnings. Image references

@@ -208,7 +208,7 @@ export async function resolveNpmSpecMetadata(params: {
     if (/E404|is not in this registry/i.test(raw)) {
       return {
         ok: false,
-        error: `Package not found on npm: ${params.spec}. Check the package name, or run \`openclaw plugins list\` to see available plugins.`,
+        error: `Package not found on npm: ${params.spec}. Check the package name, or run \`openagent plugins list\` to see available plugins.`,
       };
     }
     return { ok: false, error: `npm view failed: ${raw}`, category: "metadata-env" };
@@ -406,7 +406,7 @@ export async function packNpmSpecToArchive(params: {
     if (/E404|is not in this registry/i.test(raw)) {
       return {
         ok: false,
-        error: `Package not found on npm: ${params.spec}. Check the package name, or run \`openclaw plugins list\` to see available plugins.`,
+        error: `Package not found on npm: ${params.spec}. Check the package name, or run \`openagent plugins list\` to see available plugins.`,
       };
     }
     return { ok: false, error: `npm pack failed: ${raw}` };

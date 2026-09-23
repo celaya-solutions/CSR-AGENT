@@ -31,7 +31,7 @@ const ANTHROPIC_SETUP_TOKEN_NOTE_LINES = [
   "Anthropic setup-token auth is supported in OpenAgent.",
   "OpenAgent prefers the native Claude CLI runtime when it is available on the host.",
   "Anthropic staff told us this OpenAgent path is allowed again.",
-  `If you want a direct API billing path instead, use ${formatCliCommand("openclaw models auth login --provider anthropic --method api-key --set-default")} or ${formatCliCommand("openclaw models auth login --provider anthropic --method cli --set-default")}.`,
+  `If you want a direct API billing path instead, use ${formatCliCommand("openagent models auth login --provider anthropic --method api-key --set-default")} or ${formatCliCommand("openagent models auth login --provider anthropic --method cli --set-default")}.`,
 ] as const;
 
 function normalizeAnthropicSetupTokenInput(value: string): string {
@@ -215,7 +215,7 @@ export function buildAnthropicAuthDoctorHint(params: {
     }`,
     `- auth store oauth profiles: ${storeOauthProfiles || "(none)"}`,
     `- suggested profile: ${suggested}`,
-    `Fix: run "${formatCliCommand("openclaw doctor --yes")}"`,
+    `Fix: run "${formatCliCommand("openagent doctor --yes")}"`,
   ].join("\n");
 }
 

@@ -108,7 +108,7 @@ Record camera names, SSH hosts and users, preferred voices and speakers, and dev
 
 ## Automations - Be Proactive
 
-Use scheduled automations for recurring checks, reminders, and background work. Keep checklists and check timing in each automation's scratch. Keep it small; do not create a separate state file. Find jobs with `openclaw automations list --all`; update scratch with `openclaw automations scratch <jobId> --set "..."`.
+Use scheduled automations for recurring checks, reminders, and background work. Keep checklists and check timing in each automation's scratch. Keep it small; do not create a separate state file. Find jobs with `openagent automations list --all`; update scratch with `openagent automations scratch <jobId> --set "..."`.
 
 **Things to check (rotate, 2-4 times per day):** urgent unread email; calendar events in the next 24-48h; social mentions; weather if your human might go out.
 

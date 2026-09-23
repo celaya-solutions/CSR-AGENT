@@ -1,5 +1,5 @@
 ---
-summary: "Build simple typed agent tools with defineToolPlugin and openclaw plugins init/build/validate"
+summary: "Build simple typed agent tools with defineToolPlugin and openagent plugins init/build/validate"
 title: "Tool plugins"
 sidebarTitle: "Tool Plugins"
 read_when:
@@ -31,7 +31,7 @@ or [Provider Plugins](/plugins/sdk-provider-plugins) instead.
 ## Quickstart
 
 ```bash
-openclaw plugins init stock-quotes --name "Stock Quotes"
+openagent plugins init stock-quotes --name "Stock Quotes"
 cd stock-quotes
 npm install
 npm run plugin:build
@@ -51,15 +51,15 @@ npm test
 | `openclaw.plugin.json` | Generated manifest metadata for the initial tool                  |
 
 `npm run plugin:build` runs `npm run build` (tsc) then
-`openclaw plugins build --entry ./dist/index.js`. `npm run plugin:validate`
-rebuilds and runs `openclaw plugins validate --entry ./dist/index.js`.
+`openagent plugins build --entry ./dist/index.js`. `npm run plugin:validate`
+rebuilds and runs `openagent plugins validate --entry ./dist/index.js`.
 Successful validation prints:
 
 ```text
 Plugin stock-quotes is valid.
 ```
 
-`openclaw plugins init <id>` options:
+`openagent plugins init <id>` options:
 
 | Flag                 | Default            | Effect                                 |
 | -------------------- | ------------------ | -------------------------------------- |
@@ -121,7 +121,7 @@ specific enough to avoid collisions with core tools or other plugins.
 ## Optional and factory tools
 
 Set `optional: true` when users should explicitly allowlist the tool before it
-is sent to a model. `openclaw plugins build` writes the matching
+is sent to a model. `openagent plugins build` writes the matching
 `toolMetadata.<tool>.optional` manifest entry, so OpenAgent can see that the
 tool is optional without loading plugin runtime code.
 
@@ -325,13 +325,13 @@ variables, or SecretRefs per the plugin's security model.
 
 OpenAgent must read the plugin manifest before importing plugin runtime code.
 `defineToolPlugin` exposes static metadata for this, and
-`openclaw plugins build` writes it into the package. Rerun the generator after
+`openagent plugins build` writes it into the package. Rerun the generator after
 changing plugin id, name, description, config schema, activation, or tool
 names:
 
 ```bash
 npm run build
-openclaw plugins build --entry ./dist/index.js
+openagent plugins build --entry ./dist/index.js
 ```
 
 Generated manifest for a one-tool plugin:
@@ -363,7 +363,7 @@ error gets blamed on the wrong plugin.
 
 ## Package metadata
 
-`openclaw plugins build` also aligns `package.json` to the selected runtime
+`openagent plugins build` also aligns `package.json` to the selected runtime
 entry:
 
 ```json
@@ -392,8 +392,8 @@ is stale:
 
 ```bash
 npm run build
-openclaw plugins build --entry ./dist/index.js --check
-openclaw plugins validate --entry ./dist/index.js
+openagent plugins build --entry ./dist/index.js --check
+openagent plugins validate --entry ./dist/index.js
 npm test
 ```
 
@@ -417,16 +417,16 @@ Oxlint is not type-aware, so it cannot enforce these annotations. The generated
 From a separate OpenAgent checkout or installed CLI, install the package path:
 
 ```bash
-openclaw plugins install ./stock-quotes
-openclaw plugins inspect stock-quotes --runtime
+openagent plugins install ./stock-quotes
+openagent plugins inspect stock-quotes --runtime
 ```
 
 For a packaged smoke test, pack first and install the tarball:
 
 ```bash
 npm pack
-openclaw plugins install npm-pack:./openclaw-plugin-stock-quotes-0.1.0.tgz
-openclaw plugins inspect stock-quotes --runtime --json
+openagent plugins install npm-pack:./openclaw-plugin-stock-quotes-0.1.0.tgz
+openagent plugins inspect stock-quotes --runtime --json
 ```
 
 Installation applies to a running local Gateway automatically; start the Gateway
@@ -448,7 +448,7 @@ clawhub package publish ./stock-quotes
 Install with an explicit ClawHub locator:
 
 ```bash
-openclaw plugins install clawhub:your-org/stock-quotes
+openagent plugins install clawhub:your-org/stock-quotes
 ```
 
 Bare npm package specs install from npm, but ClawHub is the preferred
@@ -460,8 +460,8 @@ release review.
 ### `plugin entry not found: ./dist/index.js`
 
 The selected entry file does not exist. Run `npm run build`, then rerun
-`openclaw plugins build --entry ./dist/index.js` or
-`openclaw plugins validate --entry ./dist/index.js`.
+`openagent plugins build --entry ./dist/index.js` or
+`openagent plugins validate --entry ./dist/index.js`.
 
 ### `plugin entry does not expose defineToolPlugin metadata`
 
@@ -475,7 +475,7 @@ The manifest no longer matches the entry metadata. Run:
 
 ```bash
 npm run build
-openclaw plugins build --entry ./dist/index.js
+openagent plugins build --entry ./dist/index.js
 ```
 
 Commit both `openclaw.plugin.json` and `package.json` changes.
@@ -483,7 +483,7 @@ Commit both `openclaw.plugin.json` and `package.json` changes.
 ### `package.json openclaw.extensions must include ./dist/index.js`
 
 The package metadata points at a different runtime entry. Run
-`openclaw plugins build --entry ./dist/index.js` so the generator aligns
+`openagent plugins build --entry ./dist/index.js` so the generator aligns
 package metadata with the entry you intend to ship.
 
 ### `Cannot find package 'typebox'`
@@ -495,11 +495,11 @@ reinstall, rebuild, and rerun validation.
 
 Check these in order:
 
-1. `openclaw plugins inspect <plugin-id> --runtime`
-2. `openclaw plugins validate --root <plugin-root> --entry ./dist/index.js`
+1. `openagent plugins inspect <plugin-id> --runtime`
+2. `openagent plugins validate --root <plugin-root> --entry ./dist/index.js`
 3. `openclaw.plugin.json` has `contracts.tools` with the expected tool names.
 4. `package.json` has `openclaw.extensions: ["./dist/index.js"]`.
-5. Installation reported successful runtime application; after source edits or a repaired activation failure, run `openclaw plugins reload <plugin-id>`.
+5. Installation reported successful runtime application; after source edits or a repaired activation failure, run `openagent plugins reload <plugin-id>`.
 
 ## See also
 

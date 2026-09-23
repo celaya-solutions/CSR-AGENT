@@ -18,7 +18,7 @@ remain yours; the removed plugin did not store state in OpenAgent's SQLite datab
 1. Clean stale bundled-plugin configuration:
 
    ```bash
-   openclaw doctor --fix
+   openagent doctor --fix
    ```
 
    Doctor removes `open-prose` from plugin allowlists, denylists, and plugin

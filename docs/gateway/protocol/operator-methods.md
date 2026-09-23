@@ -203,4 +203,4 @@ or restart, not a silent local fallback. The model CLI uses this contract for
 - Final `agent` results may include `result.deliveryStatus` when delivery was
   requested, using the same `sent`, `suppressed`, `partial_failed`, and
   `failed` statuses documented for
-  [`openclaw agent --json --deliver`](/cli/agent#json-delivery-status).
+  [`openagent agent --json --deliver`](/cli/agent#json-delivery-status).

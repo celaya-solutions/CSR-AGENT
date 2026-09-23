@@ -21,13 +21,13 @@ This keeps the rescue bot able to debug or apply config changes if the primary b
 
 ```bash
 # Rescue bot (separate Telegram bot, separate profile, port 19789)
-openclaw --profile rescue onboard
-openclaw --profile rescue gateway install --port 19789
+openagent --profile rescue onboard
+openagent --profile rescue gateway install --port 19789
 ```
 
 If your main bot is already running, that's usually all you need. If onboarding already installed the rescue service, skip the final `gateway install`.
 
-During `openclaw --profile rescue onboard`:
+During `openagent --profile rescue onboard`:
 
 - Use a separate Telegram bot token, dedicated to the rescue account. It is easy to keep operator-only, it stays independent from the main bot's channel and app install, and it gives a simple DM-based recovery path.
 - Keep the `rescue` profile name.
@@ -51,33 +51,33 @@ Prompts are otherwise identical to normal onboarding.
 
 The same isolation pattern works for any pair or group of Gateways on one host. Give each extra Gateway its own named profile and base port.
 
-`openclaw setup` runs onboarding on a profile that is not configured yet. It does the same first-run job as the `onboard` command used for the rescue bot above. Use `onboard` when you want the onboarding flow on a profile that is already configured.
+`openagent setup` runs onboarding on a profile that is not configured yet. It does the same first-run job as the `onboard` command used for the rescue bot above. Use `onboard` when you want the onboarding flow on a profile that is already configured.
 
 ```bash
 # main (default profile)
-openclaw setup
-openclaw gateway --port 18789
+openagent setup
+openagent gateway --port 18789
 
 # extra gateway
-openclaw --profile ops setup
-openclaw --profile ops gateway --port 19789
+openagent --profile ops setup
+openagent --profile ops gateway --port 19789
 ```
 
 Named profiles on both sides also work:
 
 ```bash
-openclaw --profile main setup
-openclaw --profile main gateway --port 18789
+openagent --profile main setup
+openagent --profile main gateway --port 18789
 
-openclaw --profile ops setup
-openclaw --profile ops gateway --port 19789
+openagent --profile ops setup
+openagent --profile ops gateway --port 19789
 ```
 
 Services follow the same pattern:
 
 ```bash
-openclaw gateway install
-openclaw --profile ops gateway install --port 19789
+openagent gateway install
+openagent --profile ops gateway install --port 19789
 ```
 
 Use the rescue-bot quickstart for a fallback operator lane. Use the general profile pattern for multiple long-lived Gateways across different channels, tenants, workspaces, or operational roles.
@@ -124,22 +124,22 @@ Override any of these in config or env and you must keep them unique per instanc
 ```bash
 OPENCLAW_CONFIG_PATH=~/.openclaw/main.json \
 OPENCLAW_STATE_DIR=~/.openclaw \
-openclaw gateway --port 18789
+openagent gateway --port 18789
 
 OPENCLAW_CONFIG_PATH=~/.openclaw/rescue.json \
 OPENCLAW_STATE_DIR=~/.openclaw-rescue \
-openclaw gateway --port 19789
+openagent gateway --port 19789
 ```
 
 ## Quick checks
 
 ```bash
-openclaw gateway status --deep
-openclaw --profile rescue gateway status --deep
-openclaw --profile rescue gateway probe
-openclaw status
-openclaw --profile rescue status
-openclaw --profile rescue browser status
+openagent gateway status --deep
+openagent --profile rescue gateway status --deep
+openagent --profile rescue gateway probe
+openagent status
+openagent --profile rescue status
+openagent --profile rescue browser status
 ```
 
 - `gateway status --deep` catches stale launchd/systemd/schtasks services from older installs.

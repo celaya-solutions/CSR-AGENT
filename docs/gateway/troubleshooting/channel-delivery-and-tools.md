@@ -13,11 +13,11 @@ read_when:
 If channel state is connected but message flow is dead, focus on policy, permissions, and channel specific delivery rules.
 
 ```bash
-openclaw channels status --probe
-openclaw pairing list --channel <channel> [--account <id>]
-openclaw status --deep
-openclaw logs --follow
-openclaw config get channels
+openagent channels status --probe
+openagent pairing list --channel <channel> [--account <id>]
+openagent status --deep
+openagent logs --follow
+openagent config get channels
 ```
 
 Look for:
@@ -43,11 +43,11 @@ Related:
 If cron or heartbeat did not run or did not deliver, verify scheduler state first, then delivery target.
 
 ```bash
-openclaw automations status
-openclaw automations list
-openclaw automations runs <jobId> --limit 20
-openclaw system heartbeat last
-openclaw logs --follow
+openagent automations status
+openagent automations list
+openagent automations runs <jobId> --limit 20
+openagent system heartbeat last
+openagent logs --follow
 ```
 
 Look for:
@@ -80,11 +80,11 @@ Related:
 If a node is paired but tools fail, isolate foreground, permission, and approval state.
 
 ```bash
-openclaw nodes status
-openclaw nodes describe --node <idOrNameOrIp>
-openclaw approvals get --node <idOrNameOrIp>
-openclaw logs --follow
-openclaw status
+openagent nodes status
+openagent nodes describe --node <idOrNameOrIp>
+openagent approvals get --node <idOrNameOrIp>
+openagent logs --follow
+openagent status
 ```
 
 Look for:
@@ -111,11 +111,11 @@ Related:
 Use when browser tool actions fail even though the gateway itself is healthy.
 
 ```bash
-openclaw browser status
-openclaw browser start --browser-profile openclaw
-openclaw browser profiles
-openclaw logs --follow
-openclaw doctor
+openagent browser status
+openagent browser start --browser-profile openclaw
+openagent browser profiles
+openagent logs --follow
+openagent doctor
 ```
 
 Look for:
@@ -151,7 +151,7 @@ Look for:
     - `existing-session dialog handling does not support timeoutMs.` → dialog hooks on Chrome MCP profiles do not support timeout overrides.
     - `existing-session type does not support timeoutMs overrides.` → omit `timeoutMs` for `act:type` on `profile="user"` / Chrome MCP existing-session profiles, or use a managed/CDP browser profile when a custom timeout is required.
     - `response body is not supported for existing-session profiles yet.` → `responsebody` still requires a managed browser or raw CDP profile.
-    - Stale viewport / dark-mode / locale / offline overrides on attach-only or remote CDP profiles → run `openclaw browser stop --browser-profile <name>` to close the active control session and release Playwright/CDP emulation state without restarting the whole gateway.
+    - Stale viewport / dark-mode / locale / offline overrides on attach-only or remote CDP profiles → run `openagent browser stop --browser-profile <name>` to close the active control session and release Playwright/CDP emulation state without restarting the whole gateway.
 
   </Accordion>
 </AccordionGroup>

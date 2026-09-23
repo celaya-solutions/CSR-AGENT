@@ -21,7 +21,7 @@ background services, plus the SDK helpers those surfaces depend on. Part of the
 | `api.registerGatewayMethod(name, handler, opts?)` | Gateway RPC method                                                     |
 | `api.registerGatewayDiscoveryService(service)`    | Local Gateway discovery advertiser                                     |
 | `api.registerCli(registrar, opts?)`               | CLI subcommand                                                         |
-| `api.registerNodeCliFeature(registrar, opts?)`    | Node feature CLI under `openclaw nodes`                                |
+| `api.registerNodeCliFeature(registrar, opts?)`    | Node feature CLI under `openagent nodes`                               |
 | `api.registerService(service)`                    | Background service                                                     |
 | `api.registerInteractiveHandler(registration)`    | Interactive handler                                                    |
 | `api.registerAgentToolResultMiddleware(...)`      | Runtime tool-result middleware                                         |
@@ -32,11 +32,11 @@ background services, plus the SDK helpers those surfaces depend on. Part of the
 | `api.registerMcpServerConnectionResolver(...)`    | Per-requester MCP transport (`url`/`headers`) for a static server name |
 | `api.registerTextTransforms(transforms)`          | Plugin-owned prompt/message compatibility text rewrites                |
 | `api.registerConfigMigration(migrate)`            | Lightweight config migration run before plugin runtime loads           |
-| `api.registerMigrationProvider(provider)`         | Importer for `openclaw migrate`                                        |
+| `api.registerMigrationProvider(provider)`         | Importer for `openagent migrate`                                       |
 | `api.registerAutoEnableProbe(probe)`              | Config probe that can auto-enable this plugin                          |
 | `api.registerReload(registration)`                | Restart/hot/noop config-prefix policy for reload handling              |
 | `api.registerNodeInvokePolicy(policy)`            | Allowlist/approval policy for node-invoked commands                    |
-| `api.registerSecurityAuditCollector(collector)`   | Findings collector for `openclaw security audit`                       |
+| `api.registerSecurityAuditCollector(collector)`   | Findings collector for `openagent security audit`                      |
 
 Gateway methods default to `profileAccess: "required"`, so authenticated-profile verification fails closed before plugin dispatch. Set `profileAccess: "independent"` only for an audited method that neither reads nor mutates durable user or session state. Operator scope remains a separate authorization requirement.
 

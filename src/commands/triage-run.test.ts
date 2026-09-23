@@ -103,7 +103,7 @@ describe("triage --run", () => {
 
     await withTriageTerminal(true, async () => {
       await expect(triageCommand(runtime, { noExport: true, run: true })).rejects.toThrow(
-        "Run `openclaw onboard` or use a suggested handoff command.",
+        "Run `openagent onboard` or use a suggested handoff command.",
       );
     });
     expect(mocks.runUpdateRepairLoop).toHaveBeenCalledOnce();
@@ -213,7 +213,7 @@ describe("triage --run", () => {
         triageCommand(createTriageRuntime(), { noExport: true, run: true }),
       ),
     ).rejects.toThrow(
-      "The operator's policy denies unattended repair (exec-denied-by-policy). Use `openclaw triage` for an external handoff.",
+      "The operator's policy denies unattended repair (exec-denied-by-policy). Use `openagent triage` for an external handoff.",
     );
   });
 

@@ -93,8 +93,8 @@ function readRuntimeTargetIssues(value: unknown): RuntimeTargetIssue[] | undefin
     }
     return raw.code === "update-required" &&
       raw.action === "update-and-reconnect" &&
-      raw.updateCommand === "openclaw update" &&
-      raw.headlessReconnectCommand === "openclaw node restart"
+      raw.updateCommand === "openagent update" &&
+      raw.headlessReconnectCommand === "openagent node restart"
       ? [raw as RuntimeTargetIssue]
       : [];
   });

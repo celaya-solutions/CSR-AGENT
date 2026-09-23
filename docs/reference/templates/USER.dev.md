@@ -8,7 +8,7 @@ read_when:
 
 # USER.md - User Profile
 
-This is the fixed profile that `openclaw gateway --dev` seeds for its own
+This is the fixed profile that `openagent gateway --dev` seeds for its own
 workspace, so it stays a plain label list. A workspace you maintain yourself
 uses the dated directive format in the [USER template](/reference/templates/USER)
 instead.

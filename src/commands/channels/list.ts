@@ -1,4 +1,4 @@
-// Implements `openclaw channels list` across runtime accounts, local config, and catalog-only entries.
+// Implements `openagent channels list` across runtime accounts, local config, and catalog-only entries.
 import { theme } from "../../../packages/terminal-core/src/theme.js";
 import type { ChannelPluginCatalogEntry } from "../../channels/plugins/catalog.js";
 import { isChannelVisibleInConfiguredLists } from "../../channels/plugins/exposure.js";
@@ -388,7 +388,7 @@ export async function channelsListCommand(
   runtime.log("");
   runtime.log(
     theme.muted(
-      "Model provider usage moved out of `channels list` — see `openclaw status` or `openclaw models list`.",
+      "Model provider usage moved out of `channels list` — see `openagent status` or `openagent models list`.",
     ),
   );
 }

@@ -335,7 +335,7 @@ export const acpxSessionOwnerMigration: PluginDoctorStateMigration = {
     return ids.length
       ? {
           preview: [
-            `ACP backend has ${ids.length} unqualified record(s). Stop the Gateway and run openclaw doctor --fix; ambiguous histories remain intact.`,
+            `ACP backend has ${ids.length} unqualified record(s). Stop the Gateway and run openagent doctor --fix; ambiguous histories remain intact.`,
           ],
         }
       : null;

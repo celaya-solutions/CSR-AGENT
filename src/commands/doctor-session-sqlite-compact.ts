@@ -47,7 +47,7 @@ export async function compactDoctorSessionSqliteTarget(
   const requireQuarantineCleared = () => {
     if (!clearOpenClawAgentDatabaseOpenFailure(sqlitePath, { env: options.env })) {
       throw new Error(
-        `OpenAgent agent database ${sqlitePath} was repaired, but its persisted quarantine record could not be cleared. Rerun openclaw doctor --fix so the database is not refused again.`,
+        `OpenAgent agent database ${sqlitePath} was repaired, but its persisted quarantine record could not be cleared. Rerun openagent doctor --fix so the database is not refused again.`,
       );
     }
   };

@@ -3483,10 +3483,10 @@ fi
       '-e OPENCLAW_UPGRADE_SURVIVOR_COMMAND_TIMEOUT="$COMMAND_TIMEOUT"',
       'command_timeout="${OPENCLAW_UPGRADE_SURVIVOR_COMMAND_TIMEOUT:-900s}"',
       'openclaw_e2e_maybe_timeout "$command_timeout" env -u OPENCLAW_GATEWAY_TOKEN',
-      'openclaw_e2e_maybe_timeout "$command_timeout" openclaw doctor --fix --non-interactive',
-      'openclaw_e2e_maybe_timeout "$command_timeout" openclaw config validate',
-      'openclaw_e2e_maybe_timeout "$command_timeout" openclaw gateway status',
-      'openclaw gateway --port "$PORT" --bind loopback --allow-unconfigured',
+      'openclaw_e2e_maybe_timeout "$command_timeout" openagent doctor --fix --non-interactive',
+      'openclaw_e2e_maybe_timeout "$command_timeout" openagent config validate',
+      'openclaw_e2e_maybe_timeout "$command_timeout" openagent gateway status',
+      'openagent gateway --port "$PORT" --bind loopback --allow-unconfigured',
       'PROBE_TIMEOUT_MS="$(openclaw_e2e_read_nonnegative_int_env OPENCLAW_UPGRADE_SURVIVOR_PROBE_TIMEOUT_MS 60000)"',
       "openclaw_e2e_read_positive_int_env OPENCLAW_UPGRADE_SURVIVOR_PROBE_ATTEMPT_TIMEOUT_MS 5000",
       "openclaw_e2e_read_positive_int_env OPENCLAW_UPGRADE_SURVIVOR_PROBE_MAX_BODY_BYTES 1048576",
@@ -3511,10 +3511,10 @@ fi
       'budget="$(openclaw_e2e_read_positive_int_env OPENCLAW_UPGRADE_SURVIVOR_STATUS_BUDGET_SECONDS 30)"',
     );
     expect(publishedRunner).toContain(
-      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openclaw --version',
+      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openagent --version',
     );
     expect(publishedRunner).toContain(
-      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openclaw config validate >"$BASELINE_CONFIG_VALIDATE_LOG"',
+      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openagent config validate >"$BASELINE_CONFIG_VALIDATE_LOG"',
     );
     expect(publishedRunner).toContain(
       'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" "${update_env[@]}" openclaw',
@@ -3523,22 +3523,22 @@ fi
       'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" "${root_cli_env[@]}" openclaw',
     );
     expect(publishedRunner).toContain(
-      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openclaw update repair',
+      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openagent update repair',
     );
     expect(publishedRunner).toContain("--accept-capabilities --yes --no-restart --json");
     expect(publishedRunner).toContain(
-      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openclaw config validate',
+      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openagent config validate',
     );
     expect(publishedRunner).toContain(
-      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openclaw gateway status',
+      'openclaw_e2e_maybe_timeout "$COMMAND_TIMEOUT" openagent gateway status',
     );
-    expect(publishedRunner).toContain('openclaw gateway --port "$port" --bind loopback');
+    expect(publishedRunner).toContain('openagent gateway --port "$port" --bind loopback');
 
     expect(updateRestartAuth).toContain(
       'command_timeout="${OPENCLAW_UPGRADE_SURVIVOR_COMMAND_TIMEOUT:-900s}"',
     );
     expectTextToIncludeAll(updateRestartAuth, [
-      "command=(env -u OPENCLAW_GATEWAY_TOKEN -u OPENCLAW_GATEWAY_PASSWORD openclaw gateway install --force --json)",
+      "command=(env -u OPENCLAW_GATEWAY_TOKEN -u OPENCLAW_GATEWAY_PASSWORD openagent gateway install --force --json)",
       'openclaw_e2e_maybe_timeout "$command_timeout" "${command[@]}"',
     ]);
   });
@@ -5646,8 +5646,8 @@ if (starts === 1) {
     expectTextToIncludeInOrder(runner, [
       "update_status=$?",
       'if [ "$update_status" -ne 0 ]; then',
-      'echo "openclaw update failed" >&2',
-      'openclaw config validate --json >"$OPENCLAW_UPGRADE_SURVIVOR_ARTIFACT_ROOT/post-update-validate.json"',
+      'echo "openagent update failed" >&2',
+      'openagent config validate --json >"$OPENCLAW_UPGRADE_SURVIVOR_ARTIFACT_ROOT/post-update-validate.json"',
       'echo "post-update config validation probe status=$validate_status" >&2',
       'openclaw_e2e_print_log "$OPENCLAW_UPGRADE_SURVIVOR_ARTIFACT_ROOT/post-update-validate.err" >&2 || true',
       'openclaw_e2e_print_log "$OPENCLAW_UPGRADE_SURVIVOR_ARTIFACT_ROOT/post-update-validate.json" >&2 || true',
@@ -5660,8 +5660,8 @@ if (starts === 1) {
       'openclaw "${update_args[@]}" >"$update_json" 2>"$update_err" || update_status=$?',
       "assert-recoverable-update-json",
       "assert-successful-update-json",
-      'echo "openclaw update failed before the recoverable post-core boundary" >&2',
-      'openclaw config validate --json >"$POST_UPDATE_VALIDATE_JSON"',
+      'echo "openagent update failed before the recoverable post-core boundary" >&2',
+      'openagent config validate --json >"$POST_UPDATE_VALIDATE_JSON"',
       'echo "post-update config validation probe status=$validate_status" >&2',
       'openclaw_e2e_print_log "$POST_UPDATE_VALIDATE_ERR" >&2 || true',
       'openclaw_e2e_print_log "$POST_UPDATE_VALIDATE_JSON" >&2 || true',
@@ -7648,8 +7648,8 @@ fs.appendFileSync(process.env.FIXTURE_DOCKER_CAPTURE, JSON.stringify({ args, sta
     expectTextToIncludeAll(packageRunner, [
       "--user root",
       "npm install -g /tmp/openclaw-current.tgz",
-      "runuser -u appuser -- openclaw --version",
-      "runuser -u appuser -- openclaw --help",
+      "runuser -u appuser -- openagent --version",
+      "runuser -u appuser -- openagent --help",
       'corepack prepare "$1" --activate',
       "pnpm list --global --json",
       'test -f "$package_root/package.json"',
@@ -7669,17 +7669,17 @@ fs.appendFileSync(process.env.FIXTURE_DOCKER_CAPTURE, JSON.stringify({ args, sta
     ]);
     expect(packageRunner).not.toContain('-v "$ROOT_DIR:/repo:ro"');
     expectTextToIncludeAll(updateRunner, [
-      "openclaw update --channel beta",
+      "openagent update --channel beta",
       'OPENCLAW_NPM_REGISTRY_DIST_TAGS="latest=0.0.0,beta=$package_version"',
       'OPENCLAW_NPM_REGISTRY_UPSTREAM="${OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_URL:-https://registry.npmjs.org}"',
       "assert-update beta",
       "assert-config-channel beta",
       "assert-installed-version",
       "assert-status-kind package",
-      "openclaw update --channel stable",
+      "openagent update --channel stable",
     ]);
-    expect(updateRunner).toContain("openclaw update --channel beta --yes --json --no-restart");
-    expect(updateRunner).not.toContain("openclaw update --channel beta --tag");
+    expect(updateRunner).toContain("openagent update --channel beta --yes --json --no-restart");
+    expect(updateRunner).not.toContain("openagent update --channel beta --tag");
   });
 
   it("routes the gateway network client through the timeout-aware run helper", () => {

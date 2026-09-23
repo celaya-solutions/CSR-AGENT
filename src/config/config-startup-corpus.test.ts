@@ -187,7 +187,7 @@ describe("operator config startup corpus", () => {
           fixHints: [],
         },
         shouldRepair: true,
-        doctorFixCommand: "openclaw doctor --fix",
+        doctorFixCommand: "openagent doctor --fix",
       });
       const normalized = normalizeCompatibilityConfigValues(migrated.state.candidate, {
         sourceRaw: snapshot.parsed,

@@ -130,7 +130,7 @@ describe("command-path-policy", () => {
         networkProxy: "bypass",
       });
     }
-    // Bare `openclaw nodes` still resolves plugin subcommands from validated config.
+    // Bare `openagent nodes` still resolves plugin subcommands from validated config.
     expectResolvedPolicy(["nodes"], { networkProxy: "bypass" });
     expectResolvedPolicy(["nodes", "pair"], { networkProxy: "bypass" });
   });

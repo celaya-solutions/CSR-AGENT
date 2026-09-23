@@ -24,7 +24,7 @@ describe("cloud target menu", () => {
       container,
     );
     expect(container.querySelector("code.new-session-page__command")?.textContent).toBe(
-      "openclaw connect --service --session-host",
+      "openagent connect --service --session-host",
     );
   });
 

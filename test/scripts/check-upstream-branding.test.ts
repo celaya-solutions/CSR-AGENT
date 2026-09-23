@@ -52,7 +52,7 @@ describe("check-upstream-branding", () => {
 
   it("passes when shipped surfaces carry no upstream references", () => {
     const root = createRepo({
-      "src/help.ts": 'export const hint = "Run openclaw doctor for setup help.";\n',
+      "src/help.ts": 'export const hint = "Run openagent doctor for setup help.";\n',
       "docs/page.md": "OpenAgent keeps the `openclaw` command and `~/.openclaw` state.\n",
     });
 

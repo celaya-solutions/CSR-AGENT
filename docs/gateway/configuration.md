@@ -27,7 +27,7 @@ docs before editing config. Use this page for task-oriented guidance and
 field map and defaults.
 
 <Tip>
-**New to configuration?** Start with `openclaw onboard` for interactive setup, or check out the [Configuration Examples](/gateway/configuration-examples) guide for complete copy-paste configs.
+**New to configuration?** Start with `openagent onboard` for interactive setup, or check out the [Configuration Examples](/gateway/configuration-examples) guide for complete copy-paste configs.
 </Tip>
 
 ## Minimal config
@@ -45,15 +45,15 @@ field map and defaults.
 <Tabs>
   <Tab title="Interactive wizard">
     ```bash
-    openclaw onboard       # full onboarding flow
-    openclaw configure     # config wizard
+    openagent onboard       # full onboarding flow
+    openagent configure     # config wizard
     ```
   </Tab>
   <Tab title="CLI (one-liners)">
     ```bash
-    openclaw config get agents.defaults.workspace
-    openclaw config set agents.defaults.heartbeat.every "2h"
-    openclaw config unset plugins.entries.brave.config.webSearch.apiKey
+    openagent config get agents.defaults.workspace
+    openagent config set agents.defaults.heartbeat.every "2h"
+    openagent config unset plugins.entries.brave.config.webSearch.apiKey
     ```
   </Tab>
   <Tab title="Control UI">
@@ -81,7 +81,7 @@ field map and defaults.
 OpenAgent only accepts configurations that fully match the schema. Gateway startup first applies safe legacy-key migrations to eligible single-file configs. Unknown keys, malformed types, or invalid values that remain cause the Gateway to **refuse to start**. The only root-level exception is `$schema` (string), so editors can attach JSON Schema metadata.
 </Warning>
 
-`openclaw config schema` prints the canonical JSON Schema used by Control UI
+`openagent config schema` prints the canonical JSON Schema used by Control UI
 and validation. `config.schema.lookup` fetches a single path-scoped node plus
 child summaries for drill-down tooling. Field `title`/`description` docs metadata
 carries through nested objects, wildcard (`*`), array-item (`[]`), and `anyOf`/
@@ -94,17 +94,17 @@ settings. A leaf inherits the nearest ancestor tier when it has no direct hint.
 Paths with no declared ancestor default to advanced. This affects presentation
 only, not validation, defaults, reload behavior, or whether the key can be set.
 
-Startup migration uses the same deterministic, prompt-free transforms as `openclaw doctor --fix` and writes only when the entire migrated config validates, including plugins. The previous config stays in the `.bak` ring. Configs using `$include`, Nix-managed configs, and configs written by a newer OpenAgent version are not automatically migrated. See [Legacy config key migrations](/gateway/doctor#detailed-behavior-and-rationale) for the conditions and fallback.
+Startup migration uses the same deterministic, prompt-free transforms as `openagent doctor --fix` and writes only when the entire migrated config validates, including plugins. The previous config stays in the `.bak` ring. Configs using `$include`, Nix-managed configs, and configs written by a newer OpenAgent version are not automatically migrated. See [Legacy config key migrations](/gateway/doctor#detailed-behavior-and-rationale) for the conditions and fallback.
 
 When validation still fails:
 
 - The Gateway does not boot
-- Only diagnostic commands work (`openclaw doctor`, `openclaw logs`, `openclaw health`, `openclaw status`)
-- Run `openclaw doctor` to see exact issues
-- Run `openclaw doctor --fix` (`--repair` is the same flag, and `--yes` skips prompts) to apply repairs
+- Only diagnostic commands work (`openagent doctor`, `openagent logs`, `openagent health`, `openagent status`)
+- Run `openagent doctor` to see exact issues
+- Run `openagent doctor --fix` (`--repair` is the same flag, and `--yes` skips prompts) to apply repairs
 
 The Gateway keeps a trusted last-known-good copy after each successful startup,
-but startup and hot reload do not restore it automatically - only `openclaw doctor --fix`
+but startup and hot reload do not restore it automatically - only `openagent doctor --fix`
 does. If `openclaw.json` remains invalid after eligible startup migrations (including
 plugin-local validation), Gateway startup fails. An invalid hot reload is skipped and
 the current runtime keeps the last accepted config. When a write is blocked as an
@@ -173,8 +173,8 @@ _Related: [Configuration Examples](/gateway/configuration-examples) · [Configur
 - [Configuration reference](/gateway/configuration-reference)
 - [Configuration examples](/gateway/configuration-examples)
 - [Gateway runbook](/gateway)
-- [`openclaw config`](/cli/config) — read and write these settings from the CLI
-- [`openclaw configure`](/cli/configure) — guided editor for these settings
+- [`openagent config`](/cli/config) — read and write these settings from the CLI
+- [`openagent configure`](/cli/configure) — guided editor for these settings
 - [Docker](/install/docker) — container deployment, its environment variables, and the mounted config and state paths
 - [Security audit checks](/gateway/security/audit-checks) — what the audit flags in this configuration
 - [Trusted proxy auth](/gateway/trusted-proxy-auth) — configuring the Gateway behind a reverse proxy

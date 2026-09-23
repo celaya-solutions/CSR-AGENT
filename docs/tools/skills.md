@@ -77,8 +77,8 @@ system/Custodian agent.
 
 <Note>
   Codex CLI's native `$CODEX_HOME/skills` directory is **not** an OpenAgent
-  skill root. Use `openclaw migrate plan codex` to inventory those skills, then
-  `openclaw migrate codex` to copy them into your OpenAgent workspace.
+  skill root. Use `openagent migrate plan codex` to inventory those skills, then
+  `openagent migrate codex` to copy them into your OpenAgent workspace.
 </Note>
 
 ## Node-hosted skills
@@ -296,10 +296,10 @@ isolated turn may edit `SKILL.md` files directly inside the Workshop directory.
 Operators edit skills outside that directory through their owning tools or files.
 
 ```bash
-openclaw skills workshop list
-openclaw skills workshop inspect <proposal-id>
-openclaw skills workshop evaluate <proposal-id>
-openclaw skills workshop apply <proposal-id>
+openagent skills workshop list
+openagent skills workshop inspect <proposal-id>
+openagent skills workshop evaluate <proposal-id>
+openagent skills workshop apply <proposal-id>
 ```
 
 See [Skill Workshop](/tools/skill-workshop) for the full lifecycle, CLI
@@ -309,27 +309,27 @@ reference, and configuration.
 
 <a id="installing-from-clawhub" />
 
-Use `openclaw skills` commands for install and update. Git, local, and
+Use `openagent skills` commands for install and update. Git, local, and
 skills.sh sources work out of the box. `@owner/<slug>` refs come from a skills
 registry, which an operator must configure with `OPENCLAW_CLAWHUB_URL`; there
 is no default registry, and registry requests fail until one is set.
 
-| Action                             | Command                                                |
-| ---------------------------------- | ------------------------------------------------------ |
-| Install a skill into the workspace | `openclaw skills install @owner/<slug>`                |
-| Install an external skills.sh ref  | `openclaw skills install skills-sh:owner/repo/slug`    |
-| Install from a Git repository      | `openclaw skills install git:owner/repo@ref`           |
-| Install a local skill directory    | `openclaw skills install ./path/to/skill --as my-tool` |
-| Install for all local agents       | `openclaw skills install @owner/<slug> --global`       |
-| Update all workspace skills        | `openclaw skills update --all`                         |
-| Update a shared managed skill      | `openclaw skills update @owner/<slug> --global`        |
-| Update all shared managed skills   | `openclaw skills update --all --global`                |
-| Verify a skill's trust envelope    | `openclaw skills verify @owner/<slug>`                 |
-| Print the generated Skill Card     | `openclaw skills verify @owner/<slug> --card`          |
+| Action                             | Command                                                 |
+| ---------------------------------- | ------------------------------------------------------- |
+| Install a skill into the workspace | `openagent skills install @owner/<slug>`                |
+| Install an external skills.sh ref  | `openagent skills install skills-sh:owner/repo/slug`    |
+| Install from a Git repository      | `openagent skills install git:owner/repo@ref`           |
+| Install a local skill directory    | `openagent skills install ./path/to/skill --as my-tool` |
+| Install for all local agents       | `openagent skills install @owner/<slug> --global`       |
+| Update all workspace skills        | `openagent skills update --all`                         |
+| Update a shared managed skill      | `openagent skills update @owner/<slug> --global`        |
+| Update all shared managed skills   | `openagent skills update --all --global`                |
+| Verify a skill's trust envelope    | `openagent skills verify @owner/<slug>`                 |
+| Print the generated Skill Card     | `openagent skills verify @owner/<slug> --card`          |
 
 <AccordionGroup>
   <Accordion title="Install details">
-    `openclaw skills install` installs into the active workspace `skills/`
+    `openagent skills install` installs into the active workspace `skills/`
     directory by default. Add `--global` to install into the shared
     `~/.openclaw/skills` directory, visible to all local agents unless agent
     allowlists narrow it.
@@ -340,12 +340,12 @@ is no default registry, and registry requests fail until one is set.
     Git and local installs expect `SKILL.md` at the source root. The slug comes
     from `SKILL.md` frontmatter `name` when valid, then falls back to the
     directory or repository name. Use `--as <slug>` to override.
-    `openclaw skills update` tracks registry installs only — reinstall Git or
+    `openagent skills update` tracks registry installs only — reinstall Git or
     local sources to refresh them.
 
   </Accordion>
   <Accordion title="Verification and security scanning">
-    `openclaw skills verify @owner/<slug>` asks the configured registry for the
+    `openagent skills verify @owner/<slug>` asks the configured registry for the
     skill's `clawhub.skill.verify.v1` trust envelope. Installed registry skills
     verify against the version and registry recorded in `.clawhub/origin.json`.
     Bare slugs remain accepted for existing installed or unambiguous skills, but
@@ -775,7 +775,7 @@ If the rendered block would exceed the configured prompt budget
 identities (name and location) as the description-free compact format
 can fit. It then uses any remaining budget for shortened descriptions. If no
 description budget remains, descriptions are omitted. The prompt includes a
-note pointing at `openclaw skills check` whenever compact formatting or list
+note pointing at `openagent skills check` whenever compact formatting or list
 truncation is required.
 
 Keep descriptions short and descriptive to minimize prompt overhead.

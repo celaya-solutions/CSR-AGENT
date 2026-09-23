@@ -6,23 +6,23 @@ read_when:
   - You are configuring a signed feed profile or pinning a feed payload checksum
 ---
 
-This page covers `openclaw plugins marketplace`: reading entries, listing a
+This page covers `openagent plugins marketplace`: reading entries, listing a
 marketplace source, and refreshing a hosted feed snapshot.
 
 ## Marketplace
 
 ```bash
-openclaw plugins marketplace entries
-openclaw plugins marketplace entries --offline
-openclaw plugins marketplace entries --json
-openclaw plugins marketplace entries --feed-profile <name>
-openclaw plugins marketplace entries --feed-url <url>
-openclaw plugins marketplace list <source>
-openclaw plugins marketplace list <source> --json
-openclaw plugins marketplace refresh
-openclaw plugins marketplace refresh --feed-profile <name>
-openclaw plugins marketplace refresh --feed-url <url>
-openclaw plugins marketplace refresh --expected-sha256 <sha256> --json
+openagent plugins marketplace entries
+openagent plugins marketplace entries --offline
+openagent plugins marketplace entries --json
+openagent plugins marketplace entries --feed-profile <name>
+openagent plugins marketplace entries --feed-url <url>
+openagent plugins marketplace list <source>
+openagent plugins marketplace list <source> --json
+openagent plugins marketplace refresh
+openagent plugins marketplace refresh --feed-profile <name>
+openagent plugins marketplace refresh --feed-url <url>
+openagent plugins marketplace refresh --expected-sha256 <sha256> --json
 ```
 
 `plugins marketplace entries` lists entries from the configured OpenAgent marketplace feed. By default it attempts the hosted feed and falls back to the latest accepted snapshot or bundled data. Use `--feed-profile <name>` to read a specific configured profile, `--feed-url <url>` to read an explicit hosted feed URL, and `--offline` to read the latest accepted snapshot without fetching the feed.

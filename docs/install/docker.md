@@ -167,7 +167,7 @@ docker compose up -d openclaw-gateway
 
 The channel command fails before changing config if a plugin-declared environment variable is missing. Keep `TELEGRAM_BOT_TOKEN` in `.env` after bootstrap: `--use-env` leaves credential lookup to the environment without copying the token into `openclaw.json`, and the running Gateway needs the same variable. When channel config changes after startup, the Gateway's config watcher hot-reloads the affected channel automatically.
 
-See [`openclaw channels`](/cli/channels) for credential-flag alternatives and other channel plugins.
+See [`openagent channels`](/cli/channels) for credential-flag alternatives and other channel plugins.
 
 ### Manual flow
 
@@ -199,17 +199,17 @@ Run `docker compose` from the repo root. If you enabled `OPENCLAW_EXTRA_MOUNTS` 
 When you rebuild the OpenAgent image from a newer checkout but keep the same mounted state/config, the
 new Gateway runs startup-safe upgrade migrations and plugin convergence before
 readiness. Routine image upgrades should not require a separate
-`openclaw doctor --fix` pass.
+`openagent doctor --fix` pass.
 
 If startup cannot complete those repairs safely, the Gateway exits instead of
 reporting healthy. With a restart policy, Docker, Podman, or Kubernetes may show
 the Gateway container restarting. Keep the mounted state volume, then run the
-same image once with `openclaw doctor --fix` as the container command, using the
+same image once with `openagent doctor --fix` as the container command, using the
 same state/config mounts the Gateway uses:
 
 ```bash
-docker run --rm -v <openclaw-state>:/home/node/.openclaw <image> openclaw doctor --fix
-podman run --rm -v <openclaw-state>:/home/node/.openclaw <image> openclaw doctor --fix
+docker run --rm -v <openclaw-state>:/home/node/.openclaw <image> openagent doctor --fix
+podman run --rm -v <openclaw-state>:/home/node/.openclaw <image> openagent doctor --fix
 ```
 
 After doctor finishes, restart the Gateway container with its default command.

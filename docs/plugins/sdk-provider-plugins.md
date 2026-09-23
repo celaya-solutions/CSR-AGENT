@@ -299,7 +299,7 @@ a saved policy is not proof that the running Gateway applied it.
     shape, source labels, and help rendering.
 
     That is a working provider. Users can now run
-    `openclaw onboard --acme-ai-api-key <key>` and select
+    `openagent onboard --acme-ai-api-key <key>` and select
     `acme-ai/acme-large` as their model.
 
     For provider-key lookup and selection from an already loaded auth store,

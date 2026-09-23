@@ -20,7 +20,7 @@ DuckDuckGo is never auto-selected, since auto-detection only considers providers
 <Steps>
   <Step title="Install the plugin">
     ```bash
-    openclaw plugins install @openclaw/duckduckgo-plugin
+    openagent plugins install @openclaw/duckduckgo-plugin
     ```
 
     Installation applies to a running Gateway automatically; otherwise it takes effect
@@ -29,7 +29,7 @@ DuckDuckGo is never auto-selected, since auto-detection only considers providers
   </Step>
   <Step title="Configure">
     ```bash
-    openclaw configure --section web
+    openagent configure --section web
     # Select "duckduckgo" as the provider
     ```
   </Step>

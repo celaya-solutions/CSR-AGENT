@@ -118,7 +118,7 @@ Provider ids (`providers: string[]`) are manifest metadata, not package metadata
 
 ### Channel-owned setup fields
 
-Channel plugins should define setup fields once in runtime code with `defineChannelSetupContract(...)` and publish the matching serializable projection under `openclaw.channel.setup.fields`. The runtime definition infers the plugin-local input type, parses both guided and non-interactive values, and keeps channel-specific keys out of core types. Package metadata lets `openclaw channels add <channel-id> --help` and `openclaw channels add --channel <channel-id> --help` discover only the selected channel's options without loading the plugin.
+Channel plugins should define setup fields once in runtime code with `defineChannelSetupContract(...)` and publish the matching serializable projection under `openclaw.channel.setup.fields`. The runtime definition infers the plugin-local input type, parses both guided and non-interactive values, and keeps channel-specific keys out of core types. Package metadata lets `openagent channels add <channel-id> --help` and `openagent channels add --channel <channel-id> --help` discover only the selected channel's options without loading the plugin.
 
 ```ts
 import { defineChannelSetupContract } from "openclaw/plugin-sdk/channel-setup";
@@ -275,7 +275,7 @@ Example:
 
   </Accordion>
   <Accordion title="allowInvalidConfigRecovery scope">
-    `allowInvalidConfigRecovery` is not a general bypass for broken configs. It is narrow bundled-plugin recovery only, letting reinstall/setup repair known upgrade leftovers like a missing bundled plugin path or a stale `channels.<id>` entry for that same plugin. If config is broken for unrelated reasons, install still fails closed and tells the operator to run `openclaw doctor --fix`.
+    `allowInvalidConfigRecovery` is not a general bypass for broken configs. It is narrow bundled-plugin recovery only, letting reinstall/setup repair known upgrade leftovers like a missing bundled plugin path or a stale `channels.<id>` entry for that same plugin. If config is broken for unrelated reasons, install still fails closed and tells the operator to run `openagent doctor --fix`.
   </Accordion>
 </AccordionGroup>
 
@@ -521,7 +521,7 @@ For third-party plugins, the cold-path contract is still the plugin manifest: mi
 
 ## Setup wizards
 
-Channel plugins can provide interactive setup wizards for `openclaw onboard`. The wizard is a `ChannelSetupWizard` object on the `ChannelPlugin`:
+Channel plugins can provide interactive setup wizards for `openagent onboard`. The wizard is a `ChannelSetupWizard` object on the `ChannelPlugin`:
 
 ```typescript
 import type { ChannelSetupWizard } from "openclaw/plugin-sdk/channel-setup";
@@ -601,7 +601,7 @@ const setupWizard: ChannelSetupWizard = {
 <Tabs>
   <Tab title="npm">
     ```bash
-    openclaw plugins install @myorg/openclaw-my-plugin
+    openagent plugins install @myorg/openclaw-my-plugin
     ```
 
     Bare package specs install from npm, unless the name matches a bundled or official plugin id, in which case OpenAgent uses that local/official copy instead. Use `clawhub:`, `npm:`, `git:`, or `npm-pack:` for deterministic source selection — see [Manage plugins](/plugins/manage-plugins).
@@ -609,7 +609,7 @@ const setupWizard: ChannelSetupWizard = {
   </Tab>
   <Tab title="ClawHub only">
     ```bash
-    openclaw plugins install clawhub:@myorg/openclaw-my-plugin
+    openagent plugins install clawhub:@myorg/openclaw-my-plugin
     ```
   </Tab>
   <Tab title="npm package spec">
@@ -617,7 +617,7 @@ const setupWizard: ChannelSetupWizard = {
     direct npm install path during migration:
 
     ```bash
-    openclaw plugins install npm:@myorg/openclaw-my-plugin
+    openagent plugins install npm:@myorg/openclaw-my-plugin
     ```
 
   </Tab>
@@ -626,7 +626,7 @@ const setupWizard: ChannelSetupWizard = {
 **In-repo plugins:** place under the bundled plugin workspace tree. They are automatically discovered during build.
 
 <Info>
-For npm-sourced installs, `openclaw plugins install` installs the package into a per-plugin project under `~/.openclaw/npm/projects` with lifecycle scripts disabled (`--ignore-scripts`). Keep plugin dependency trees pure JS/TS and avoid packages that require `postinstall` builds.
+For npm-sourced installs, `openagent plugins install` installs the package into a per-plugin project under `~/.openclaw/npm/projects` with lifecycle scripts disabled (`--ignore-scripts`). Keep plugin dependency trees pure JS/TS and avoid packages that require `postinstall` builds.
 </Info>
 
 <Note>

@@ -22,7 +22,7 @@ For Anthropic, the practical split is:
 OpenAgent stores both OpenAI API-key auth and ChatGPT/Codex OAuth under the
 canonical provider id `openai`. Older `openai-codex:*` profile ids and
 `auth.order.openai-codex` entries are legacy state repaired by
-`openclaw doctor --fix`; use `openai:*` profile ids and `auth.order.openai` for
+`openagent doctor --fix`; use `openai:*` profile ids and `auth.order.openai` for
 new config.
 
 This page covers:
@@ -35,7 +35,7 @@ Provider plugins that ship their own OAuth or API-key flow run through the
 same entry point:
 
 ```bash
-openclaw models auth login --provider <id>
+openagent models auth login --provider <id>
 ```
 
 ## The token sink (why it exists)
@@ -82,7 +82,7 @@ credential.
 
 Older installations may still contain `auth-profiles.json`, `auth-state.json`,
 per-agent `auth.json`, or shared `credentials/oauth.json`. Run
-`openclaw doctor --fix` once after upgrading. Doctor imports verified values,
+`openagent doctor --fix` once after upgrading. Doctor imports verified values,
 records a migration receipt, and renames the original file to a timestamped
 archive.
 
@@ -98,7 +98,7 @@ that agent:
   `auth-profiles.json` to scope `AUTH_PROFILE_MIGRATION_REQUIRED`. Providers named
   there cannot fall through to environment or config auth; unrelated providers
   keep resolving normally. The error and Doctor finding list affected providers
-  and the recovery command, `openclaw doctor --fix`.
+  and the recovery command, `openagent doctor --fix`.
 - If provider scope cannot be determined (including malformed JSON or other
   retired credential formats), the refusal remains agent-wide. Gateway startup
   degrades the credential owner instead of refusing to start. Credential writes
@@ -160,13 +160,13 @@ OpenAI Codex OAuth is explicitly supported for use outside the Codex CLI, includ
 The login command uses the canonical OpenAI provider id:
 
 ```bash
-openclaw models auth login --provider openai
+openagent models auth login --provider openai
 ```
 
 Use `--profile-id openai:<name>` for multiple ChatGPT/Codex OAuth accounts in
 one agent. Do not use `openai-codex:<name>` for new profiles. Doctor migrates
 that older prefix to a collision-free `openai:*` profile id; run
-`openclaw models auth list --provider openai` after repair before copying
+`openagent models auth list --provider openai` after repair before copying
 profile ids into `auth.order` or `/model ...@<profileId>`.
 
 Flow shape (PKCE):
@@ -184,7 +184,7 @@ Flow shape (PKCE):
 5. exchange the code at `https://auth.openai.com/oauth/token`
 6. extract `accountId` from the access token and store `{ access, refresh, expires, accountId }`
 
-Wizard path is `openclaw onboard` → auth choice `openai`.
+Wizard path is `openagent onboard` → auth choice `openai`.
 
 ## Refresh + expiry
 
@@ -213,8 +213,8 @@ Three patterns:
 If you want "personal" and "work" to never interact, use isolated agents (separate sessions + credentials + workspace):
 
 ```bash
-openclaw agents add work
-openclaw agents add personal
+openagent agents add work
+openagent agents add personal
 ```
 
 Then configure auth per-agent (wizard) and route chats to the right agent.
@@ -235,7 +235,7 @@ Example (session override):
 
 On a shared gateway, each verified person can save several accounts per provider
 in **Settings → Profile → Connected accounts** and choose one as their new-chat
-default. **Add account** and `openclaw models accounts login` use the same
+default. **Add account** and `openagent models accounts login` use the same
 Gateway-owned provider and sign-in method catalog. Anthropic personal setup
 accepts an API key, not a Claude subscription token; system/agent auth remains
 a separate flow.
@@ -253,13 +253,13 @@ guarantee. Personal credentials stay outside the shared profile list. See
 List your saved personal accounts with:
 
 ```bash
-openclaw models accounts list
+openagent models accounts list
 ```
 
 For shared or agent-local profile IDs, use:
 
 ```bash
-openclaw models auth list --provider <id>
+openagent models auth list --provider <id>
 ```
 
 Related docs:

@@ -61,7 +61,7 @@ No configuration needed. The hook automatically:
 To disable this hook:
 
 ```bash
-openclaw hooks disable command-logger
+openagent hooks disable command-logger
 ```
 
 Or via config:

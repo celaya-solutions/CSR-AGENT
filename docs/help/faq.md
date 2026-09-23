@@ -32,31 +32,31 @@ topic. The triage ladder stays on this page; open the page that matches your que
 <Steps>
   <Step title="Quick status">
     ```bash
-    openclaw status
+    openagent status
     ```
     Fast local summary: OS + update, Gateway/service reachability, agents/sessions, provider config + runtime issues (when the Gateway is reachable).
   </Step>
   <Step title="Pasteable report (safe to share)">
     ```bash
-    openclaw status --all
+    openagent status --all
     ```
     Read-only diagnosis with a log tail (tokens redacted).
   </Step>
   <Step title="Daemon + port state">
     ```bash
-    openclaw gateway status
+    openagent gateway status
     ```
     Shows supervisor runtime vs RPC reachability, the probe target URL, and which config the service likely used.
   </Step>
   <Step title="Deep probes">
     ```bash
-    openclaw status --deep
+    openagent status --deep
     ```
     Live Gateway health probe, including channel probes when supported (requires a reachable Gateway). See [Health](/gateway/health).
   </Step>
   <Step title="Tail the latest log">
     ```bash
-    openclaw logs --follow
+    openagent logs --follow
     ```
     If RPC is down, fall back to:
     ```bash
@@ -68,14 +68,14 @@ topic. The triage ladder stays on this page; open the page that matches your que
   </Step>
   <Step title="Run the doctor (repairs)">
     ```bash
-    openclaw doctor
+    openagent doctor
     ```
     Repairs/migrates config and state, then runs health checks. See [Doctor](/gateway/doctor).
   </Step>
   <Step title="Gateway snapshot (WS-only)">
     ```bash
-    openclaw health --json
-    openclaw health --verbose   # shows the target URL + config path on errors
+    openagent health --json
+    openagent health --verbose   # shows the target URL + config path on errors
     ```
     Asks the running Gateway for a full snapshot. See [Health](/gateway/health).
   </Step>
@@ -193,8 +193,8 @@ resolves. Each entry points at the page that now holds the answer.
 - <a id="can-i-run-multiple-bots-or-chats-at-the-same-time-slack-and-how-should-i-set-that-up" />[Can I run multiple bots or chats at the same time, and how should I set that up?](/help/faq/sessions-and-chats#can-i-run-multiple-bots-or-chats-at-the-same-time-slack-and-how-should-i-set-that-up)
 - <a id="gateway%3A-ports%2C-%22already-running%22%2C-and-remote-mode" /><a id="gateway-ports-already-running-and-remote-mode" />[Gateway: ports, "already running", and remote mode](/help/faq/gateway-ports-and-remote-mode#gateway-ports-already-running-and-remote-mode)
 - <a id="what-port-does-the-gateway-use" />[What port does the Gateway use?](/help/faq/gateway-ports-and-remote-mode#what-port-does-the-gateway-use)
-- <a id="why-does-openclaw-gateway-status-say-runtime-running-but-connectivity-probe-failed" />[Why does openclaw gateway status say "Runtime: running" but "Connectivity probe: failed"?](/help/faq/gateway-ports-and-remote-mode#why-does-openclaw-gateway-status-say-runtime-running-but-connectivity-probe-failed)
-- <a id="why-does-openclaw-gateway-status-show-config-cli-and-config-service-different" />[Why does openclaw gateway status show "Config (cli)" and "Config (service)" different?](/help/faq/gateway-ports-and-remote-mode#why-does-openclaw-gateway-status-show-config-cli-and-config-service-different)
+- <a id="why-does-openclaw-gateway-status-say-runtime-running-but-connectivity-probe-failed" />[Why does openagent gateway status say "Runtime: running" but "Connectivity probe: failed"?](/help/faq/gateway-ports-and-remote-mode#why-does-openclaw-gateway-status-say-runtime-running-but-connectivity-probe-failed)
+- <a id="why-does-openclaw-gateway-status-show-config-cli-and-config-service-different" />[Why does openagent gateway status show "Config (cli)" and "Config (service)" different?](/help/faq/gateway-ports-and-remote-mode#why-does-openclaw-gateway-status-show-config-cli-and-config-service-different)
 - <a id="what-does-another-gateway-instance-is-already-listening-mean" />[What does "another gateway instance is already listening" mean?](/help/faq/gateway-ports-and-remote-mode#what-does-another-gateway-instance-is-already-listening-mean)
 - <a id="how-do-i-run-openclaw-in-remote-mode-client-connects-to-a-gateway-elsewhere" />[How do I run OpenAgent in remote mode (client connects to a Gateway elsewhere)?](/help/faq/gateway-ports-and-remote-mode#how-do-i-run-openclaw-in-remote-mode-client-connects-to-a-gateway-elsewhere)
 - <a id="the-control-ui-says-unauthorized-or-keeps-reconnecting-what-now" />[The Control UI says "unauthorized" (or keeps reconnecting). What now?](/help/faq/gateway-ports-and-remote-mode#the-control-ui-says-unauthorized-or-keeps-reconnecting-what-now)
@@ -210,7 +210,7 @@ resolves. Each entry points at the page that now holds the answer.
 - <a id="telegram-setmycommands-fails-what-should-i-check" />[Telegram setMyCommands fails. What should I check?](/help/faq/logging-and-debugging#telegram-setmycommands-fails-what-should-i-check)
 - <a id="tui-shows-no-output-what-should-i-check" />[TUI shows no output. What should I check?](/help/faq/logging-and-debugging#tui-shows-no-output-what-should-i-check)
 - <a id="how-do-i-completely-stop-then-start-the-gateway" />[How do I completely stop then start the Gateway?](/help/faq/logging-and-debugging#how-do-i-completely-stop-then-start-the-gateway)
-- <a id="eli5-openclaw-gateway-restart-vs-openclaw-gateway" />[ELI5: openclaw gateway restart vs openclaw gateway](/help/faq/logging-and-debugging#eli5-openclaw-gateway-restart-vs-openclaw-gateway)
+- <a id="eli5-openclaw-gateway-restart-vs-openclaw-gateway" />[ELI5: openagent gateway restart vs openagent gateway](/help/faq/logging-and-debugging#eli5-openclaw-gateway-restart-vs-openclaw-gateway)
 - <a id="fastest-way-to-get-more-details-when-something-fails" />[Fastest way to get more details when something fails](/help/faq/logging-and-debugging#fastest-way-to-get-more-details-when-something-fails)
 - <a id="media-and-attachments" />[Media and attachments](/help/faq/media-and-attachments#media-and-attachments)
 - <a id="my-skill-generated-an-image-pdf-but-nothing-was-sent" />[My skill generated an image/PDF, but nothing was sent](/help/faq/media-and-attachments#my-skill-generated-an-image-pdf-but-nothing-was-sent)

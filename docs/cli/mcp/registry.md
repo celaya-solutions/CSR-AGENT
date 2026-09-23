@@ -13,7 +13,7 @@ ready-made server recipes.
 
 ## OpenAgent as an MCP client registry
 
-This is the `openclaw mcp list`, `show`, `status`, `doctor`, `probe`, `add`, `set`,
+This is the `openagent mcp list`, `show`, `status`, `doctor`, `probe`, `add`, `set`,
 `configure`, `tools`, `login`, `logout`, `reload`, and `unset` path.
 
 These commands do not expose OpenAgent over MCP. They manage OpenAgent-managed MCP server definitions under `mcp.servers` in OpenAgent config. They do not read mcporter servers from `config/mcporter.json`.
@@ -55,19 +55,19 @@ Runtime adapters may normalize this shared registry into the shape their downstr
 
 Commands:
 
-- `openclaw mcp list [--json]`
-- `openclaw mcp show [name] [--json]`
-- `openclaw mcp status [--verbose] [--json]`
-- `openclaw mcp doctor [name] [--probe] [--json]`
-- `openclaw mcp probe [name] [--json]`
-- `openclaw mcp add <name> [flags]`
-- `openclaw mcp set <name> <json>`
-- `openclaw mcp configure <name> [flags]`
-- `openclaw mcp tools <name> [--include csv] [--exclude csv] [--clear]`
-- `openclaw mcp login <name> [--code code]`
-- `openclaw mcp logout <name>`
-- `openclaw mcp reload`
-- `openclaw mcp unset <name>`
+- `openagent mcp list [--json]`
+- `openagent mcp show [name] [--json]`
+- `openagent mcp status [--verbose] [--json]`
+- `openagent mcp doctor [name] [--probe] [--json]`
+- `openagent mcp probe [name] [--json]`
+- `openagent mcp add <name> [flags]`
+- `openagent mcp set <name> <json>`
+- `openagent mcp configure <name> [flags]`
+- `openagent mcp tools <name> [--include csv] [--exclude csv] [--clear]`
+- `openagent mcp login <name> [--code code]`
+- `openagent mcp logout <name>`
+- `openagent mcp reload`
+- `openagent mcp unset <name>`
 
 Notes:
 
@@ -83,26 +83,26 @@ Notes:
 - `login` runs the OAuth flow for HTTP servers configured with `auth: "oauth"`. For a loopback redirect, OpenAgent listens for the browser callback and completes login automatically. The printed `--code` command remains the fallback for remote, headless, or unreachable callbacks.
 - `logout` clears stored OAuth credentials for the named server without removing the saved server definition.
 - `reload` disposes cached in-process MCP runtimes for the current CLI process only. Gateway or agent processes in another process still need their own reload or restart path.
-- Use `transport: "streamable-http"` for Streamable HTTP MCP servers. `openclaw mcp set` also normalizes CLI-native `type: "http"` to the same canonical config shape for compatibility.
+- Use `transport: "streamable-http"` for Streamable HTTP MCP servers. `openagent mcp set` also normalizes CLI-native `type: "http"` to the same canonical config shape for compatibility.
 - `unset` fails if the named server does not exist.
 
 Examples:
 
 ```bash
-openclaw mcp list
-openclaw mcp show context7 --json
-openclaw mcp status --verbose
-openclaw mcp doctor --probe
-openclaw mcp probe context7 --json
-openclaw mcp add memory --command npx --arg -y --arg @modelcontextprotocol/server-memory
-openclaw mcp set context7 '{"command":"uvx","args":["context7-mcp"]}'
-openclaw mcp tools context7 --include 'resolve-library-id,get-library-docs'
-openclaw mcp set docs '{"url":"https://mcp.example.com","transport":"streamable-http"}'
-openclaw mcp configure docs --timeout 20 --connect-timeout 5 --include 'search,read_*'
-openclaw mcp configure docs --auth oauth --oauth-scope 'docs.read'
-openclaw mcp login docs
-openclaw mcp logout docs
-openclaw mcp unset context7
+openagent mcp list
+openagent mcp show context7 --json
+openagent mcp status --verbose
+openagent mcp doctor --probe
+openagent mcp probe context7 --json
+openagent mcp add memory --command npx --arg -y --arg @modelcontextprotocol/server-memory
+openagent mcp set context7 '{"command":"uvx","args":["context7-mcp"]}'
+openagent mcp tools context7 --include 'resolve-library-id,get-library-docs'
+openagent mcp set docs '{"url":"https://mcp.example.com","transport":"streamable-http"}'
+openagent mcp configure docs --timeout 20 --connect-timeout 5 --include 'search,read_*'
+openagent mcp configure docs --auth oauth --oauth-scope 'docs.read'
+openagent mcp login docs
+openagent mcp logout docs
+openagent mcp unset context7
 ```
 
 ### Codex tool approvals
@@ -117,7 +117,7 @@ Interactive turns can approve those calls in the Control UI.
 For a server you trust, set the mode while adding it:
 
 ```bash
-openclaw mcp add memory \
+openagent mcp add memory \
   --command npx \
   --arg -y \
   --arg @modelcontextprotocol/server-memory \
@@ -127,11 +127,11 @@ openclaw mcp add memory \
 For an existing saved server, update only its approval mode:
 
 ```bash
-openclaw mcp configure memory --approval approve
+openagent mcp configure memory --approval approve
 ```
 
 The flag writes `codex.defaultToolsApprovalMode`. An explicit
-`openclaw mcp configure <server> --approval approve|prompt|auto` overrides the
+`openagent mcp configure <server> --approval approve|prompt|auto` overrides the
 posture-derived default for that server: `approve` bypasses per-call approval,
 `prompt` asks for every call, and `auto` uses the tool's safety annotations.
 Use `approve` only for trusted servers. `mcp probe` and `mcp doctor --probe`
@@ -152,8 +152,8 @@ approval. A new grant is picked up at the next thread configuration and hook
 registration, such as a new session or restart. The current session continues
 on Codex's remembered decision.
 
-Use `openclaw approvals get --gateway` to inspect grants and
-`openclaw approvals set --gateway --file <file>` to revoke them by editing
+Use `openagent approvals get --gateway` to inspect grants and
+`openagent approvals set --gateway --file <file>` to revoke them by editing
 `agents.<agentId>.mcpTools`. Revocation also takes effect on the next
 preparation/registration. Codex can additionally persist its own approval
 when the server is saved in native config; revoke that separately if present.
@@ -174,18 +174,18 @@ the native `mcp_servers` config to Codex.
 
 ### Common server recipes
 
-These examples save server definitions only. Run `openclaw mcp doctor --probe` afterward to prove that the server starts and exposes tools.
+These examples save server definitions only. Run `openagent mcp doctor --probe` afterward to prove that the server starts and exposes tools.
 
 <Tabs>
   <Tab title="Filesystem">
     ```bash
-    openclaw mcp add files \
+    openagent mcp add files \
       --command npx \
       --arg -y \
       --arg @modelcontextprotocol/server-filesystem \
       --arg "$HOME/Documents" \
       --include 'read_file,list_directory,search_files'
-    openclaw mcp doctor files --probe
+    openagent mcp doctor files --probe
     ```
 
     Scope filesystem servers to the smallest directory tree that the agent should read or edit.
@@ -193,11 +193,11 @@ These examples save server definitions only. Run `openclaw mcp doctor --probe` a
   </Tab>
   <Tab title="Memory">
     ```bash
-    openclaw mcp add memory \
+    openagent mcp add memory \
       --command npx \
       --arg -y \
       --arg @modelcontextprotocol/server-memory
-    openclaw mcp probe memory --json
+    openagent mcp probe memory --json
     ```
 
     Use a tool filter if the server exposes write tools that should not be available to normal agents.
@@ -205,12 +205,12 @@ These examples save server definitions only. Run `openclaw mcp doctor --probe` a
   </Tab>
   <Tab title="Local script">
     ```bash
-    openclaw mcp add local-tools \
+    openagent mcp add local-tools \
       --command node \
       --arg ./dist/mcp-server.js \
       --cwd /srv/openclaw-tools \
       --env API_BASE=https://internal.example
-    openclaw mcp status --verbose
+    openagent mcp status --verbose
     ```
 
     `doctor` checks that `cwd` exists and that the command resolves from the configured environment.
@@ -218,7 +218,7 @@ These examples save server definitions only. Run `openclaw mcp doctor --probe` a
   </Tab>
   <Tab title="Remote HTTP">
     ```bash
-    openclaw mcp add docs \
+    openagent mcp add docs \
       --url https://mcp.example.com/mcp \
       --transport streamable-http \
       --auth oauth \
@@ -226,7 +226,7 @@ These examples save server definitions only. Run `openclaw mcp doctor --probe` a
       --timeout 20 \
       --connect-timeout 5 \
       --include 'search,read_*'
-    openclaw mcp doctor docs --probe
+    openagent mcp doctor docs --probe
     ```
 
     Use OAuth when the remote server supports it. If the server requires static headers, avoid committing literal bearer tokens.
@@ -234,9 +234,9 @@ These examples save server definitions only. Run `openclaw mcp doctor --probe` a
   </Tab>
   <Tab title="Desktop/CUA">
     ```bash
-    openclaw mcp set cua-driver '{"command":"cua-driver","args":["mcp"]}'
-    openclaw mcp tools cua-driver --include 'list_apps,get_window_state,click,type_text'
-    openclaw mcp doctor cua-driver --probe
+    openagent mcp set cua-driver '{"command":"cua-driver","args":["mcp"]}'
+    openagent mcp tools cua-driver --include 'list_apps,get_window_state,click,type_text'
+    openagent mcp doctor cua-driver --probe
     ```
 
     Direct desktop-control servers inherit the permissions of the process they launch. Use narrow tool filters and OS-level permission prompts.

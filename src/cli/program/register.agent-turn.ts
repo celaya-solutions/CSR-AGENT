@@ -11,7 +11,7 @@ function collectFallback(value: string, previous: string[]): string[] {
   return [...previous, value];
 }
 
-/** Register `openclaw agent` for one Gateway-backed agent turn. */
+/** Register `openagent agent` for one Gateway-backed agent turn. */
 export function registerAgentTurnCommand(
   program: Command,
   args: { agentChannelOptions: string },
@@ -55,24 +55,24 @@ export function registerAgentTurnCommand(
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['openclaw agent --to +15555550123 --message "status update"', "Start a new session."],
-  ['openclaw agent --agent ops --message "Summarize logs"', "Use a specific agent."],
-  ["openclaw agent --agent ops --message-file ./task.md", "Read a multiline message file."],
+  ['openagent agent --to +15555550123 --message "status update"', "Start a new session."],
+  ['openagent agent --agent ops --message "Summarize logs"', "Use a specific agent."],
+  ["openagent agent --agent ops --message-file ./task.md", "Read a multiline message file."],
   [
-    'openclaw agent --session-key agent:ops:incident-42 --message "Summarize status"',
+    'openagent agent --session-key agent:ops:incident-42 --message "Summarize status"',
     "Target an exact session key.",
   ],
   [
-    'openclaw agent --session-id 1234 --message "Summarize inbox" --thinking medium',
+    'openagent agent --session-id 1234 --message "Summarize inbox" --thinking medium',
     "Target a session with explicit thinking level.",
   ],
   [
-    'openclaw agent --to +15555550123 --message "Trace logs" --verbose on --json',
+    'openagent agent --to +15555550123 --message "Trace logs" --verbose on --json',
     "Enable verbose logging and JSON output.",
   ],
-  ['openclaw agent --to +15555550123 --message "Summon reply" --deliver', "Deliver reply."],
+  ['openagent agent --to +15555550123 --message "Summon reply" --deliver', "Deliver reply."],
   [
-    'openclaw agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"',
+    'openagent agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"',
     "Send reply to a different channel/target.",
   ],
 ])}`,
@@ -134,17 +134,17 @@ ${formatHelpExamples([
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ['openclaw agent exec "Fix the failing test"', "Run in the current directory."],
+          ['openagent agent exec "Fix the failing test"', "Run in the current directory."],
           [
-            "openclaw agent exec --message-file task.md --cwd ./repo",
+            "openagent agent exec --message-file task.md --cwd ./repo",
             "Read a prompt file and set the workspace.",
           ],
           [
-            'openclaw agent exec "Summarize this repo" --model openai/gpt-6-astra --fallback anthropic/claude-sonnet-4-6 --json',
+            'openagent agent exec "Summarize this repo" --model openai/gpt-6-astra --fallback anthropic/claude-sonnet-4-6 --json',
             "Use an explicit fallback chain and JSON output.",
           ],
           [
-            'openclaw agent exec "Inspect this repo" --model ollama/qwen3.5:9b --code-mode code --local-model-lean --json',
+            'openagent agent exec "Inspect this repo" --model ollama/qwen3.5:9b --code-mode code --local-model-lean --json',
             "Force Code Mode with the lean local-model tool surface.",
           ],
         ])}`,

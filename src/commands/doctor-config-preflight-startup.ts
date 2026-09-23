@@ -111,7 +111,9 @@ export async function readStartupMigrationSnapshot(params: {
       }
       const repair = read.snapshot.valid ? null : params.planRepair(read);
       if (!read.snapshot.valid && !repair) {
-        throw new Error('OpenAgent config is invalid; run "openclaw doctor --fix" before startup.');
+        throw new Error(
+          'OpenAgent config is invalid; run "openagent doctor --fix" before startup.',
+        );
       }
       await params.validateConfig?.(repair?.snapshot ?? read.snapshot);
       if (params.beforeStateMigrations && !(await params.beforeStateMigrations(read.snapshot))) {

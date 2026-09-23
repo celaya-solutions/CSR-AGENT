@@ -52,7 +52,7 @@ This page collects working integration examples: exec provider recipes for exter
     The resolver batches requested ids, runs `bws secret list`, and returns values for matching secret `key` fields. Use keys that satisfy the exec SecretRef id contract, such as `openclaw/providers/openai/apiKey`; env-var-style keys with underscores are rejected before the resolver runs. If more than one visible Bitwarden secret shares the requested key, the resolver fails that id as ambiguous instead of guessing. After updating config, verify the resolver path:
 
     ```bash
-    openclaw secrets audit --allow-exec
+    openagent secrets audit --allow-exec
     ```
 
   </Accordion>
@@ -158,8 +158,8 @@ This page collects working integration examples: exec provider recipes for exter
     Keep the secret on the first line of the `pass` entry, or customize the wrapper to return the full `pass show` output instead. After updating config, verify both the static audit and the exec resolver path:
 
     ```bash
-    openclaw secrets audit --check
-    openclaw secrets audit --allow-exec
+    openagent secrets audit --check
+    openagent secrets audit --allow-exec
     ```
 
   </Accordion>

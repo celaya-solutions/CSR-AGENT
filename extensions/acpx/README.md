@@ -7,7 +7,7 @@ ACPx lets OpenAgent run external coding harnesses through the Agent Client Proto
 ## Install
 
 ```bash
-openclaw plugins install @openclaw/acpx
+openagent plugins install @openclaw/acpx
 ```
 
 Restart the Gateway after installing or updating the plugin.

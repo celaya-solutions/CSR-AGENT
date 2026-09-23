@@ -45,7 +45,7 @@ For production deployments where agent-accessible files are in scope, treat migr
 
 - Supported credentials use SecretRefs instead of plaintext values.
 - Legacy plaintext residue is scrubbed from `openclaw.json`, the SQLite auth-profile store, `.env`, and generated `models.json` files. Retired auth JSON is doctor-owned migration input and is never rewritten by `secrets apply`.
-- `openclaw secrets audit --check` is clean after migration.
+- `openagent secrets audit --check` is clean after migration.
 - Any remaining unsupported or rotating credentials are protected by OS isolation, container isolation, or an external credential proxy.
 
 This is why the audit/configure/apply workflow is a security migration gate, not just a convenience helper.

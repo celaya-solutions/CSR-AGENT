@@ -6,9 +6,9 @@ read_when:
 title: "Worker"
 ---
 
-# `openclaw worker`
+# `openagent worker`
 
-`openclaw worker` is the restricted runtime entry point for a Gateway-owned
+`openagent worker` is the restricted runtime entry point for a Gateway-owned
 launcher to start inside a prepared cloud or paired-node worker environment.
 It is not a general-purpose command for manual worker registration.
 

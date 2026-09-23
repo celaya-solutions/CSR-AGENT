@@ -58,7 +58,7 @@ Use `--proposal-dir` when the proposed skill needs files beside
 `PROPOSAL.md`:
 
 ```bash
-openclaw skills workshop propose-create \
+openagent skills workshop propose-create \
   --name weekly-update \
   --description "Friday wrap-up: stats, highlights, next week's top three" \
   --proposal-dir ./weekly-update-proposal

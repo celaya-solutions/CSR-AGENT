@@ -248,7 +248,7 @@ export function validateToolPluginProject(params: {
     existingManifest: params.manifest,
   });
   if (!jsonSchemaValuesEqual(params.manifest, expectedManifest)) {
-    errors.push("openclaw.plugin.json generated metadata is stale. Run openclaw plugins build.");
+    errors.push("openclaw.plugin.json generated metadata is stale. Run openagent plugins build.");
   }
   if (params.manifest.id !== params.metadata.id) {
     errors.push(
@@ -321,7 +321,9 @@ export async function runPluginsBuildCommand(opts: PluginsBuildOptions): Promise
       !jsonSchemaValuesEqual(currentManifest, manifest) ||
       !jsonSchemaValuesEqual(currentPackage, nextPackageManifest)
     ) {
-      defaultRuntime.error("Generated plugin metadata is out of date. Run openclaw plugins build.");
+      defaultRuntime.error(
+        "Generated plugin metadata is out of date. Run openagent plugins build.",
+      );
       return defaultRuntime.exit(1);
     }
     defaultRuntime.log("Plugin metadata is up to date.");
@@ -365,7 +367,7 @@ export async function collectPluginsValidationResult(
   if (browserSource) {
     const declaration = await buildPluginControlUi({ rootDir, source: browserSource, check: true });
     if (!jsonSchemaValuesEqual(manifest.controlUi, declaration)) {
-      errors.push("Control UI manifest is stale. Run openclaw plugins build.");
+      errors.push("Control UI manifest is stale. Run openagent plugins build.");
     }
   }
   if (errors.length > 0) {
@@ -516,8 +518,8 @@ function writeToolPluginScaffold(params: { rootDir: string; id: string; name: st
     private: true,
     scripts: {
       build: "tsc -p tsconfig.json",
-      "plugin:build": "npm run build && openclaw plugins build --entry ./dist/index.js",
-      "plugin:validate": "npm run build && openclaw plugins validate --entry ./dist/index.js",
+      "plugin:build": "npm run build && openagent plugins build --entry ./dist/index.js",
+      "plugin:validate": "npm run build && openagent plugins validate --entry ./dist/index.js",
       test: "vitest run --config ./vitest.config.ts",
     },
     files: ["dist", "openclaw.plugin.json", "README.md"],

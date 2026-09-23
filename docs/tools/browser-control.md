@@ -2,13 +2,13 @@
 summary: "OpenAgent browser control API, CLI reference, and scripting actions"
 read_when:
   - Scripting or debugging the agent browser via the local control API
-  - Looking for the `openclaw browser` CLI reference
+  - Looking for the `openagent browser` CLI reference
   - Adding custom browser automation with snapshots and refs
 title: "Browser control API"
 ---
 
 For setup, configuration, and troubleshooting, see [Browser](/tools/browser).
-This page is the reference for the local control HTTP API, the `openclaw browser`
+This page is the reference for the local control HTTP API, the `openagent browser`
 CLI, and scripting patterns (snapshots, refs, waits, debug flows).
 
 ## Control API (optional)
@@ -227,23 +227,23 @@ All commands accept `--browser-profile <name>` to target a specific profile, and
 <Accordion title="Basics: status, tabs, open/focus/close">
 
 ```bash
-openclaw browser status
-openclaw browser doctor
-openclaw browser doctor --deep    # add a live snapshot probe
-openclaw browser start
-openclaw browser start --headless # one-shot local managed headless launch
-openclaw browser stop            # also clears emulation on attach-only/remote CDP
-openclaw browser reset-profile   # moves the profile's browser data to Trash
-openclaw browser tabs
-openclaw browser tab             # shortcut for current tab
-openclaw browser tab new
-openclaw browser tab new --label research
-openclaw browser tab label abcd1234 research
-openclaw browser tab select 2
-openclaw browser tab close 2
-openclaw browser open https://example.com
-openclaw browser focus abcd1234
-openclaw browser close abcd1234
+openagent browser status
+openagent browser doctor
+openagent browser doctor --deep    # add a live snapshot probe
+openagent browser start
+openagent browser start --headless # one-shot local managed headless launch
+openagent browser stop            # also clears emulation on attach-only/remote CDP
+openagent browser reset-profile   # moves the profile's browser data to Trash
+openagent browser tabs
+openagent browser tab             # shortcut for current tab
+openagent browser tab new
+openagent browser tab new --label research
+openagent browser tab label abcd1234 research
+openagent browser tab select 2
+openagent browser tab close 2
+openagent browser open https://example.com
+openagent browser focus abcd1234
+openagent browser close abcd1234
 ```
 
 </Accordion>
@@ -251,10 +251,10 @@ openclaw browser close abcd1234
 <Accordion title="Profiles: list, create, delete">
 
 ```bash
-openclaw browser profiles
-openclaw browser create-profile --name research --color "#0066CC"
-openclaw browser create-profile --name attach --driver existing-session --cdp-url http://127.0.0.1:9222
-openclaw browser delete-profile --name research
+openagent browser profiles
+openagent browser create-profile --name research --color "#0066CC"
+openagent browser create-profile --name attach --driver existing-session --cdp-url http://127.0.0.1:9222
+openagent browser delete-profile --name research
 ```
 
 </Accordion>
@@ -262,24 +262,24 @@ openclaw browser delete-profile --name research
 <Accordion title="Inspection: screenshot, snapshot, console, errors, requests">
 
 ```bash
-openclaw browser screenshot
-openclaw browser screenshot --full-page
-openclaw browser screenshot --ref 12        # or --ref e12
-openclaw browser screenshot --labels
-openclaw browser snapshot
-openclaw browser snapshot --format aria --limit 200
-openclaw browser snapshot --interactive --compact --depth 6
-openclaw browser snapshot --efficient
-openclaw browser snapshot --labels
-openclaw browser snapshot --urls
-openclaw browser snapshot --selector "#main" --interactive
-openclaw browser snapshot --frame "iframe#main" --interactive
-openclaw browser snapshot --out snapshot.txt
-openclaw browser console --level error
-openclaw browser errors --clear
-openclaw browser requests --filter api --clear
-openclaw browser pdf
-openclaw browser responsebody "**/api" --max-chars 5000
+openagent browser screenshot
+openagent browser screenshot --full-page
+openagent browser screenshot --ref 12        # or --ref e12
+openagent browser screenshot --labels
+openagent browser snapshot
+openagent browser snapshot --format aria --limit 200
+openagent browser snapshot --interactive --compact --depth 6
+openagent browser snapshot --efficient
+openagent browser snapshot --labels
+openagent browser snapshot --urls
+openagent browser snapshot --selector "#main" --interactive
+openagent browser snapshot --frame "iframe#main" --interactive
+openagent browser snapshot --out snapshot.txt
+openagent browser console --level error
+openagent browser errors --clear
+openagent browser requests --filter api --clear
+openagent browser pdf
+openagent browser responsebody "**/api" --max-chars 5000
 ```
 
 </Accordion>
@@ -287,32 +287,32 @@ openclaw browser responsebody "**/api" --max-chars 5000
 <Accordion title="Actions: navigate, click, type, drag, wait, evaluate">
 
 ```bash
-openclaw browser navigate https://example.com
-openclaw browser resize 1280 720
-openclaw browser click 12 --double           # or e12 for role refs
-openclaw browser click-coords 120 340        # viewport coordinates
-openclaw browser type 23 "hello" --submit
-openclaw browser press Enter
-openclaw browser hover 44
-openclaw browser scrollintoview e12
-openclaw browser drag 10 11
-openclaw browser select 9 OptionA OptionB
-openclaw browser download e12 report.pdf
-openclaw browser waitfordownload report.pdf
-openclaw browser upload /tmp/openclaw/uploads/file.pdf
-openclaw browser upload /tmp/openclaw/uploads/file.pdf --ref e12
-openclaw browser upload media://inbound/file.pdf
-openclaw browser fill --fields '[{"ref":"1","type":"text","value":"Ada"}]'
-openclaw browser dialog --accept
-openclaw browser dialog --dismiss --dialog-id d1
-openclaw browser wait --text "Done"
-openclaw browser wait "#main" --url "**/dash" --load networkidle --fn "window.ready===true"
-openclaw browser evaluate --fn '(el) => el.textContent' --ref 7
-openclaw browser evaluate --fn 'const title = document.title; return title;'
-openclaw browser evaluate --timeout-ms 30000 --fn 'async () => { await window.ready; return true; }'
-openclaw browser highlight e12
-openclaw browser trace start
-openclaw browser trace stop
+openagent browser navigate https://example.com
+openagent browser resize 1280 720
+openagent browser click 12 --double           # or e12 for role refs
+openagent browser click-coords 120 340        # viewport coordinates
+openagent browser type 23 "hello" --submit
+openagent browser press Enter
+openagent browser hover 44
+openagent browser scrollintoview e12
+openagent browser drag 10 11
+openagent browser select 9 OptionA OptionB
+openagent browser download e12 report.pdf
+openagent browser waitfordownload report.pdf
+openagent browser upload /tmp/openclaw/uploads/file.pdf
+openagent browser upload /tmp/openclaw/uploads/file.pdf --ref e12
+openagent browser upload media://inbound/file.pdf
+openagent browser fill --fields '[{"ref":"1","type":"text","value":"Ada"}]'
+openagent browser dialog --accept
+openagent browser dialog --dismiss --dialog-id d1
+openagent browser wait --text "Done"
+openagent browser wait "#main" --url "**/dash" --load networkidle --fn "window.ready===true"
+openagent browser evaluate --fn '(el) => el.textContent' --ref 7
+openagent browser evaluate --fn 'const title = document.title; return title;'
+openagent browser evaluate --timeout-ms 30000 --fn 'async () => { await window.ready; return true; }'
+openagent browser highlight e12
+openagent browser trace start
+openagent browser trace stop
 ```
 
 </Accordion>
@@ -320,20 +320,20 @@ openclaw browser trace stop
 <Accordion title="State: cookies, storage, offline, headers, geo, device">
 
 ```bash
-openclaw browser cookies
-openclaw browser cookies set session abc123 --url "https://example.com"
-openclaw browser cookies clear
-openclaw browser storage local get
-openclaw browser storage local set theme dark
-openclaw browser storage session clear
-openclaw browser set offline on
-openclaw browser set headers --headers-json '{"X-Debug":"1"}'
-openclaw browser set credentials user pass            # --clear to remove
-openclaw browser set geo 37.7749 -122.4194 --origin "https://example.com"
-openclaw browser set media dark
-openclaw browser set timezone America/New_York
-openclaw browser set locale en-US
-openclaw browser set device "iPhone 14"
+openagent browser cookies
+openagent browser cookies set session abc123 --url "https://example.com"
+openagent browser cookies clear
+openagent browser storage local get
+openagent browser storage local set theme dark
+openagent browser storage session clear
+openagent browser set offline on
+openagent browser set headers --headers-json '{"X-Debug":"1"}'
+openagent browser set credentials user pass            # --clear to remove
+openagent browser set geo 37.7749 -122.4194 --origin "https://example.com"
+openagent browser set media dark
+openagent browser set timezone America/New_York
+openagent browser set locale en-US
+openagent browser set device "iPhone 14"
 ```
 
 </Accordion>
@@ -370,7 +370,7 @@ Snapshot flags at a glance:
 - `--format aria`: accessibility tree with `axN` refs. When Playwright is available, OpenAgent binds refs with backend DOM ids to the live page. Follow-up actions can then use them. Otherwise treat the output as inspection-only.
 - `--efficient` (or `--mode efficient`): compact role snapshot preset. Set `browser.snapshotDefaults.mode: "efficient"` to make this the default (see [Gateway configuration](/gateway/config-browser-ui-desktop#browser)).
 - `--interactive`, `--compact`, `--depth`, `--selector` force a role snapshot with `ref=e12` refs. `--frame "<iframe>"` scopes role snapshots to an iframe.
-- A selector-scoped snapshot is a point-in-time observation. If no element matches at request time, it returns an empty snapshot immediately. It does not wait for the snapshot timeout. Use `openclaw browser wait "<selector>"` when the page is expected to add the element later.
+- A selector-scoped snapshot is a point-in-time observation. If no element matches at request time, it returns an empty snapshot immediately. It does not wait for the snapshot timeout. Use `openagent browser wait "<selector>"` when the page is expected to add the element later.
 - `--selector` does not change the behavior of page-wide or frame-scoped transport failures. Those still use the configured snapshot timeout and diagnostics.
 - With Playwright, `--labels` adds a screenshot with overlayed ref labels
   (prints `MEDIA:<path>`) plus an `annotations` array with each ref's bounding
@@ -386,14 +386,14 @@ Snapshot flags at a glance:
 
 OpenAgent supports three "snapshot" styles:
 
-- **AI snapshot (native refs)**: `openclaw browser snapshot` (default, `--format ai`)
+- **AI snapshot (native refs)**: `openagent browser snapshot` (default, `--format ai`)
   - Output: a text snapshot with refs such as `f1e12` and matching `refs` metadata.
-  - Actions: `openclaw browser click f1e12`, `openclaw browser type f1e23 "hello"` (use your snapshot's refs).
+  - Actions: `openagent browser click f1e12`, `openagent browser type f1e23 "hello"` (use your snapshot's refs).
   - Internally, the ref is resolved via Playwright's `aria-ref`.
 
-- **Role snapshot (role refs like `e12`)**: `openclaw browser snapshot --interactive` (or `--compact`, `--depth`, `--selector`, `--frame`)
+- **Role snapshot (role refs like `e12`)**: `openagent browser snapshot --interactive` (or `--compact`, `--depth`, `--selector`, `--frame`)
   - Output: a role-based list/tree with `[ref=e12]` (and optional `[nth=1]`).
-  - Actions: `openclaw browser click e12`, `openclaw browser highlight e12`.
+  - Actions: `openagent browser click e12`, `openagent browser highlight e12`.
   - Internally, the ref is resolved via `getByRole(...)` (plus `nth()` for duplicates).
   - Names containing quotes, backslashes, or YAML punctuation remain actionable. Use the ref rather than reconstructing a locator from the displayed name.
   - A missing displayed name can mean an empty accessible name or one above Playwright's 900 UTF-16-unit limit. Keep using the returned ref.
@@ -403,9 +403,9 @@ OpenAgent supports three "snapshot" styles:
   - Add `--urls` when link text is ambiguous and the agent needs concrete
     navigation targets.
 
-- **ARIA snapshot (ARIA refs like `ax12`)**: `openclaw browser snapshot --format aria`
+- **ARIA snapshot (ARIA refs like `ax12`)**: `openagent browser snapshot --format aria`
   - Output: the accessibility tree as structured nodes.
-  - Actions: `openclaw browser click ax12` works when the snapshot path can bind
+  - Actions: `openagent browser click ax12` works when the snapshot path can bind
     the ref through Playwright and Chrome backend DOM ids.
 - If Playwright is unavailable, ARIA snapshots can still be useful for
   inspection, but refs may not be actionable. Re-snapshot with `--format ai`
@@ -437,19 +437,19 @@ Ref behavior:
 
 ## Browser batch CLI
 
-`openclaw browser batch` runs an array of nested `/act` actions in one `/act`
+`openagent browser batch` runs an array of nested `/act` actions in one `/act`
 call (the same `kind="batch"` runtime reached through the agent tool), so CLI
 users and scripts can combine actions like `wait`, `click`, `type`, and
 `evaluate` into a single replayable plan without per-action round trips. Each
 entry in `actions[]` is a `BrowserActRequest` — the closed union the `/act`
 route accepts (`click`, `clickCoords`, `type`, `press`, `hover`,
 `scrollIntoView`, `drag`, `select`, `fill`, `resize`, `wait`, `evaluate`,
-`close`, `batch`) — not arbitrary `openclaw browser` subcommands. `batch` is
+`close`, `batch`) — not arbitrary `openagent browser` subcommands. `batch` is
 not supported on `profile="user"` and other existing-session (chrome-mcp)
 profiles. Send actions individually there.
 
-- CLI: `openclaw browser batch --actions '<json>'`, `openclaw browser batch
---actions-file plan.json`, or `openclaw browser batch --actions-file -` to
+- CLI: `openagent browser batch --actions '<json>'`, `openagent browser batch
+--actions-file plan.json`, or `openagent browser batch --actions-file -` to
   read the JSON array from stdin. `--continue` sets `stopOnError=false`. The
   default is to stop on first error. `--target-id` scopes the whole batch to
   one tab. `--actions-file` and stdin input are capped at 1,000,000 bytes.
@@ -459,7 +459,7 @@ profiles. Send actions individually there.
   `click` that triggers navigation, or an `evaluate` that mutates the DOM — can
   invalidate earlier refs for the rest of the batch. Put state-changing actions
   first, or split into a follow-up batch after re-snapshotting. Navigation and
-  re-snapshotting happen outside the batch (`openclaw browser navigate` /
+  re-snapshotting happen outside the batch (`openagent browser navigate` /
   `snapshot`), since `open`, `navigate`, and `snapshot` are not `/act` kinds.
 - Target id conflicts: a nested action may omit `targetId` or repeat the
   request-level `targetId`. An explicit nested `targetId` that resolves to a
@@ -480,19 +480,19 @@ profiles. Send actions individually there.
 You can wait on more than just time/text:
 
 - Wait for URL (globs supported by Playwright):
-  - `openclaw browser wait --url "**/dash"`
+  - `openagent browser wait --url "**/dash"`
 - Wait for load state:
-  - `openclaw browser wait --load networkidle`
+  - `openagent browser wait --load networkidle`
   - Supported on managed `openclaw` and raw/remote CDP profiles. Profiles using the `existing-session` driver (including the default `user` profile) reject `networkidle`. Use `--url`, `--text`, a selector, or `--fn` waits there.
 - Wait for a JS predicate:
-  - `openclaw browser wait --fn "window.ready===true"`
+  - `openagent browser wait --fn "window.ready===true"`
 - Wait for a selector to become visible:
-  - `openclaw browser wait "#main"`
+  - `openagent browser wait "#main"`
 
 These can be combined:
 
 ```bash
-openclaw browser wait "#main" \
+openagent browser wait "#main" \
   --url "**/dash" \
   --load networkidle \
   --fn "window.ready===true" \
@@ -503,16 +503,16 @@ openclaw browser wait "#main" \
 
 When an action fails (e.g. "not visible", "strict mode violation", "covered"):
 
-1. `openclaw browser snapshot --interactive`
+1. `openagent browser snapshot --interactive`
 2. Use `click <ref>` / `type <ref>` (prefer role refs in interactive mode)
-3. If it still fails: `openclaw browser highlight <ref>` to see what Playwright is targeting
+3. If it still fails: `openagent browser highlight <ref>` to see what Playwright is targeting
 4. If the page behaves oddly:
-   - `openclaw browser errors --clear`
-   - `openclaw browser requests --filter api --clear`
+   - `openagent browser errors --clear`
+   - `openagent browser requests --filter api --clear`
 5. For deep debugging: record a trace:
-   - `openclaw browser trace start`
+   - `openagent browser trace start`
    - reproduce the issue
-   - `openclaw browser trace stop` (prints `TRACE:<path>`)
+   - `openagent browser trace stop` (prints `TRACE:<path>`)
 
 ## JSON output
 
@@ -521,10 +521,10 @@ When an action fails (e.g. "not visible", "strict mode violation", "covered"):
 Examples:
 
 ```bash
-openclaw browser --json status
-openclaw browser --json snapshot --interactive
-openclaw browser --json requests --filter api
-openclaw browser --json cookies
+openagent browser --json status
+openagent browser --json snapshot --interactive
+openagent browser --json requests --filter api
+openagent browser --json cookies
 ```
 
 Role snapshots in JSON include `refs` plus a small `stats` block (lines/chars/refs/interactive) so tools can reason about payload size and density.
@@ -547,11 +547,11 @@ These are useful for "make the site behave like X" workflows:
 
 ## Security and privacy
 
-- The openclaw browser profile may contain logged-in sessions. Treat it as sensitive.
-- `browser act kind=evaluate` / `openclaw browser evaluate` and `wait --fn`
+- The openagent browser profile may contain logged-in sessions. Treat it as sensitive.
+- `browser act kind=evaluate` / `openagent browser evaluate` and `wait --fn`
   execute arbitrary JavaScript in the page context. Prompt injection can steer
   this. Disable it with `browser.evaluateEnabled=false` if you do not need it.
-- `openclaw browser evaluate --fn` accepts a function source, an expression, or
+- `openagent browser evaluate --fn` accepts a function source, an expression, or
   a statement body. Statement bodies are wrapped as async functions, so use
   `return` for the value you want back. Use `--timeout-ms <ms>` when the
   page-side function may need longer than the default evaluate timeout.

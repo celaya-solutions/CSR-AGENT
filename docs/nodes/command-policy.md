@@ -17,7 +17,7 @@ can be invoked:
 2. The command must be in the node's approved command surface on its paired-device record.
 3. The Gateway's platform-and-approval-derived allowlist must include the declared command.
 
-Use `openclaw nodes pending` and `openclaw nodes approve <nodeRequestId>` to
+Use `openagent nodes pending` and `openagent nodes approve <nodeRequestId>` to
 approve a pending surface. This request ID differs from the device request ID.
 An initial unapproved surface has no effective commands. During a pending
 expansion, only previously approved commands that remain declared and allowed
@@ -46,8 +46,8 @@ Dangerous or privacy-heavy commands require a one-time persistent opt-in with `g
 Plugin-owned node commands can add a Gateway node-invoke policy. That policy runs after the allowlist check and before forwarding to the node, so raw `node.invoke`, CLI helpers, and dedicated agent tools share the same plugin permission boundary. Dangerous plugin node commands still require explicit `gateway.nodes.commands.allow` opt-in.
 
 After a node expands its declared commands, capabilities, or permissions,
-reconnect it, inspect `openclaw nodes pending`, and approve the widened surface
-with `openclaw nodes approve <nodeRequestId>`. Removing declarations does not
+reconnect it, inspect `openagent nodes pending`, and approve the widened surface
+with `openagent nodes approve <nodeRequestId>`. Removing declarations does not
 grant new access or require approval for an expansion.
 
 ## Config (`openclaw.json`)
@@ -62,7 +62,7 @@ Node-related settings live under `gateway.nodes` and `tools.exec`:
       // Disabled when unset. Only applies to first-time role:node requests
       // with no requested scopes; does not auto-approve upgrades. This
       // approves the device only: the node's command/capability surface still
-      // needs `openclaw nodes approve <requestId>` (see `openclaw nodes
+      // needs `openagent nodes approve <requestId>` (see `openagent nodes
       // pending`), because device pairing alone must not grant commands.
       // Silent same-host pairing behaves the same way. SSH-verified pairing
       // and node-profile setup codes approve the initial surface, since both

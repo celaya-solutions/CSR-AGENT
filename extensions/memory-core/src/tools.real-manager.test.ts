@@ -319,7 +319,7 @@ describe("memory_search real manager", () => {
       warning:
         "Tell the user: memory search is paused because this OpenAgent version changed the memory index format (index provenance classifier changed); no configuration change is needed.",
       action:
-        "Tell the user to run: openclaw memory status --index --agent main. Rebuilding uses keyword indexing only and does not call an embedding provider.",
+        "Tell the user to run: openagent memory status --index --agent main. Rebuilding uses keyword indexing only and does not call an embedding provider.",
     });
     expect(fixture.provider.embedQueryCalls).toBe(0);
   });
@@ -353,7 +353,7 @@ describe("memory_search real manager", () => {
         throw new Error("memory_search tool missing");
       }
       const action =
-        "Tell the user to run: openclaw memory status --index --agent main. Rebuilding may call the configured embedding provider and can incur provider cost.";
+        "Tell the user to run: openagent memory status --index --agent main. Rebuilding may call the configured embedding provider and can incur provider cost.";
       const primary = await tool.execute("paused-primary", { query: "alpha" });
       expect(primary.details).toMatchObject({
         disabled: true,
@@ -710,11 +710,11 @@ describe("memory_search real manager", () => {
     });
     const expected = {
       unavailable: true,
-      error: expect.stringContaining("openclaw doctor --fix"),
+      error: expect.stringContaining("openagent doctor --fix"),
       warning:
         "Memory search is unavailable because the session catalog requires canonical-key migration.",
       action:
-        "Stop the Gateway and run openclaw doctor --fix, then restart the Gateway and retry memory_search.",
+        "Stop the Gateway and run openagent doctor --fix, then restart the Gateway and retry memory_search.",
     };
 
     expect(first.details).toMatchObject(expected);

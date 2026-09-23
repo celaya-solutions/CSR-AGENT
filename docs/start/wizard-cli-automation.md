@@ -7,7 +7,7 @@ title: "CLI automation"
 sidebarTitle: "CLI automation"
 ---
 
-Use `openclaw onboard --non-interactive` to script setup. It requires `--accept-risk`: non-interactive setup can write credentials and daemon config without a confirmation prompt, so the flag is the explicit risk acknowledgement.
+Use `openagent onboard --non-interactive` to script setup. It requires `--accept-risk`: non-interactive setup can write credentials and daemon config without a confirmation prompt, so the flag is the explicit risk acknowledgement.
 
 Each command can install a managed Gateway with `--install-daemon`, require an already-running compatible Gateway by omitting daemon flags, explicitly leave the Gateway stopped with `--skip-daemon`, or use `--skip-health` for config-only setup. The explicit skip still probes for an existing Gateway and reports whether one is reachable, but an absent listener is informational rather than a setup failure.
 
@@ -28,13 +28,13 @@ or channel plugin, review its source and declared capabilities, then preinstall
 it with explicit consent:
 
 ```bash
-openclaw plugins install <plugin-spec> --accept-capabilities
+openagent plugins install <plugin-spec> --accept-capabilities
 ```
 
 If onboarding reports a required plugin capability review, review and install
 the named plugin and rerun the same command. For an already-installed plugin
 that needs approval to enable it, use
-`openclaw plugins enable <plugin-id> --accept-capabilities`.
+`openagent plugins enable <plugin-id> --accept-capabilities`.
 
 Consent applies to the reviewed plugin operation, not every subsequent install.
 See [Capability consent](/plugins/manage-plugins#capability-consent) for artifact
@@ -43,7 +43,7 @@ review, enablement, and update rules.
 ## Baseline non-interactive example
 
 ```bash
-openclaw onboard --non-interactive --accept-risk \
+openagent onboard --non-interactive --accept-risk \
   --mode local \
   --auth-choice apiKey \
   --anthropic-api-key "$ANTHROPIC_API_KEY" \
@@ -63,12 +63,12 @@ Add `--json` for a machine-readable summary.
   `--gateway-password <value>` to supply a password explicitly; the password flag
   also selects password mode on its own. Tailscale Funnel requires password mode.
 - `--skip-bootstrap` skips creating default workspace files, for automation that pre-seeds its own workspace.
-- `--secret-input-mode ref` stores new credentials as env-backed references, in the form `{ source: "env", provider: "default", id: "<ENV_VAR>" }`. Set the provider env var when you add a credential or pass an inline key flag. Existing resolvable named profiles and their `env`, `file`, `exec`, or `store` references are reused unchanged, without a new credential write or additional provider env var. Existing plaintext is not migrated. Run `openclaw secrets configure --apply`, then `openclaw secrets audit --check`. See [Secrets management](/gateway/secrets).
-- The gateway token follows the same mode. Setup generates that value itself, so reference mode has no env var to point at unless you supply one. With `OPENCLAW_GATEWAY_TOKEN` exported, `gateway.auth.token` becomes an `env` ref to it. Otherwise the token goes into the SQLite secret store as `OPENCLAW_GATEWAY_TOKEN`, and config keeps a `store` ref. Either way `openclaw.json` holds no plaintext gateway token. Inspect the entry with `openclaw secrets store list`.
+- `--secret-input-mode ref` stores new credentials as env-backed references, in the form `{ source: "env", provider: "default", id: "<ENV_VAR>" }`. Set the provider env var when you add a credential or pass an inline key flag. Existing resolvable named profiles and their `env`, `file`, `exec`, or `store` references are reused unchanged, without a new credential write or additional provider env var. Existing plaintext is not migrated. Run `openagent secrets configure --apply`, then `openagent secrets audit --check`. See [Secrets management](/gateway/secrets).
+- The gateway token follows the same mode. Setup generates that value itself, so reference mode has no env var to point at unless you supply one. With `OPENCLAW_GATEWAY_TOKEN` exported, `gateway.auth.token` becomes an `env` ref to it. Otherwise the token goes into the SQLite secret store as `OPENCLAW_GATEWAY_TOKEN`, and config keeps a `store` ref. Either way `openclaw.json` holds no plaintext gateway token. Inspect the entry with `openagent secrets store list`.
 - In reference mode, explicit `--gateway-password` and `--remote-password` must match `OPENCLAW_GATEWAY_PASSWORD`. `--remote-token` must match `OPENCLAW_GATEWAY_TOKEN`. Missing or mismatched environment values fail before setup changes state. Matching credentials are stored as env SecretRefs.
 
 ```bash
-openclaw onboard --non-interactive --accept-risk --skip-health \
+openagent onboard --non-interactive --accept-risk --skip-health \
   --mode local \
   --auth-choice openai-api-key \
   --secret-input-mode ref
@@ -79,7 +79,7 @@ openclaw onboard --non-interactive --accept-risk --skip-health \
 <AccordionGroup>
   <Accordion title="Anthropic API key example">
     ```bash
-    openclaw onboard --non-interactive --accept-risk --skip-health \
+    openagent onboard --non-interactive --accept-risk --skip-health \
       --mode local \
       --auth-choice apiKey \
       --anthropic-api-key "$ANTHROPIC_API_KEY" \
@@ -88,7 +88,7 @@ openclaw onboard --non-interactive --accept-risk --skip-health \
   </Accordion>
   <Accordion title="Ollama example">
     ```bash
-    openclaw onboard --non-interactive --accept-risk --skip-health \
+    openagent onboard --non-interactive --accept-risk --skip-health \
       --mode local \
       --auth-choice ollama \
       --custom-model-id "qwen3.5:27b" \
@@ -97,7 +97,7 @@ openclaw onboard --non-interactive --accept-risk --skip-health \
   </Accordion>
   <Accordion title="Custom provider example">
     ```bash
-    openclaw onboard --non-interactive --accept-risk --skip-health \
+    openagent onboard --non-interactive --accept-risk --skip-health \
       --mode local \
       --auth-choice custom-api-key \
       --custom-base-url "https://llm.example.com/v1" \
@@ -117,7 +117,7 @@ openclaw onboard --non-interactive --accept-risk --skip-health \
 
     ```bash
     export CUSTOM_API_KEY="your-key"
-    openclaw onboard --non-interactive --accept-risk --skip-health \
+    openagent onboard --non-interactive --accept-risk --skip-health \
       --mode local \
       --auth-choice custom-api-key \
       --custom-base-url "https://llm.example.com/v1" \
@@ -136,10 +136,10 @@ Anthropic setup-token auth remains supported, but OpenAgent prefers Claude CLI r
 
 ## Add another agent
 
-`openclaw agents add <name>` creates a separate agent with its own workspace, sessions, and auth profiles. Running it without `--workspace` (and no other flags) launches the interactive wizard; passing any of `--workspace`, `--model`, `--agent-dir`, `--bind`, or `--non-interactive` runs it non-interactively and then requires `--workspace`.
+`openagent agents add <name>` creates a separate agent with its own workspace, sessions, and auth profiles. Running it without `--workspace` (and no other flags) launches the interactive wizard; passing any of `--workspace`, `--model`, `--agent-dir`, `--bind`, or `--non-interactive` runs it non-interactively and then requires `--workspace`.
 
 ```bash
-openclaw agents add work \
+openagent agents add work \
   --workspace ~/.openclaw/workspace-work \
   --model openai/gpt-6-astra \
   --bind whatsapp:biz \
@@ -159,11 +159,11 @@ Notes:
 - Default workspace (when `--workspace` is omitted in the interactive wizard): `~/.openclaw/workspace-<agentId>`.
 - `--bind <channel[:accountId]>` is repeatable; add bindings to route inbound messages to the new agent (the wizard can also do this interactively).
 - The agent name is normalized to a valid agent id. `main` is allowed, but an
-  existing named installation may require `openclaw doctor --fix` to finish
+  existing named installation may require `openagent doctor --fix` to finish
   legacy-session and shared-auth ownership migrations before creating it.
 
 ## Related docs
 
 - Onboarding hub: [Onboarding (CLI)](/start/wizard)
 - Full reference: [CLI Setup Reference](/start/wizard-cli-reference)
-- Command reference: [`openclaw onboard`](/cli/onboard)
+- Command reference: [`openagent onboard`](/cli/onboard)

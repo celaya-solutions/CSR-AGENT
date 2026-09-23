@@ -53,7 +53,7 @@ function hasCanonicalOperatorApprovalKinds(db: DatabaseSync): boolean {
 export function assertCanonicalOperatorApprovalKinds(db: DatabaseSync, pathname: string): void {
   if (!hasCanonicalOperatorApprovalKinds(db)) {
     throw new Error(
-      `OpenAgent state database ${pathname} has a legacy operator approval schema; run openclaw doctor --fix to migrate it.`,
+      `OpenAgent state database ${pathname} has a legacy operator approval schema; run openagent doctor --fix to migrate it.`,
     );
   }
 }

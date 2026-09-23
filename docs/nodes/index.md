@@ -8,7 +8,7 @@ title: "Nodes"
 doc-schema-version: 1
 ---
 
-A **node** is a machine that connects to the Gateway with `role: "node"` and exposes a command surface (e.g. `system.*`) via `node.invoke`. In OpenAgent, nodes are headless node hosts started with `openclaw node run` or installed as a service. Nodes use the Gateway WebSocket on the operator port. Protocol details: [Gateway protocol](/gateway/protocol).
+A **node** is a machine that connects to the Gateway with `role: "node"` and exposes a command surface (e.g. `system.*`) via `node.invoke`. In OpenAgent, nodes are headless node hosts started with `openagent node run` or installed as a service. Nodes use the Gateway WebSocket on the operator port. Protocol details: [Gateway protocol](/gateway/protocol).
 
 Nodes are **peripherals**, not gateways: they don't run the gateway service, and channel messages (Discord, Telegram) land on the gateway, not on nodes.
 
@@ -42,7 +42,7 @@ Node capabilities in depth:
 - [Image and media support](/nodes/images) - Image formats and attachment handling.
 - [Audio and voice notes](/nodes/audio) - Audio capture and voice-note handling.
 - [Node troubleshooting](/nodes/troubleshooting) - Pairing, foreground, permission, and tool failures.
-- [`openclaw nodes`](/cli/nodes) - CLI reference for listing, inspecting, and managing nodes.
+- [`openagent nodes`](/cli/nodes) - CLI reference for listing, inspecting, and managing nodes.
 
 ## Where each section moved
 

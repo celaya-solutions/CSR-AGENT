@@ -56,7 +56,7 @@ describe("resolvePluginSurface", () => {
         ],
       }),
     ).toEqual([
-      "CLI commands: `openclaw browser`, `openclaw voicecall`",
+      "CLI commands: `openagent browser`, `openclaw voicecall`",
       "Slash commands: `/voice`",
     ]);
   });

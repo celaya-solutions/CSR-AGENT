@@ -28,12 +28,12 @@ locally.
   </Step>
   <Step title="Configure">
     ```bash
-    openclaw configure --section web
+    openagent configure --section web
     ```
     This stores the provider choice.
 
     You can also configure search by talking to
-    [OpenAgent](/cli/openclaw): say `configure web search` in `openclaw setup`
+    [OpenAgent](/cli/openclaw): say `configure web search` in `openagent setup`
     or in the Control UI's **Settings → Ask OpenAgent** chat.
 
   </Step>
@@ -150,7 +150,7 @@ Provider lists in docs and setup flows are alphabetical. The bundled providers
 (**Codex Hosted Search**, **DuckDuckGo**, and **Ollama Web Search**) are all
 key-free, and key-free providers never win auto-detection. Select one
 explicitly with `tools.web.search.provider` or through
-`openclaw configure --section web`. OpenAgent does not send managed
+`openagent configure --section web`. OpenAgent does not send managed
 `web_search` queries to a key-free provider just because no other provider is
 configured.
 
@@ -256,7 +256,7 @@ network controls instead of Codex-hosted search.
 
 Selecting `provider: "codex"` enables the bundled `codex` plugin and uses the
 same `tools.web.search.openaiCodex` restrictions shown above. Authenticate the
-Codex app-server first with `openclaw models auth login --provider openai`.
+Codex app-server first with `openagent models auth login --provider openai`.
 The parent agent can use any model or runtime; only the bounded search worker
 runs through Codex.
 
@@ -310,7 +310,7 @@ fails config validation instead of silently falling back to auto-detection. If a
 configured provider only has stale plugin evidence, such as a leftover
 `plugins.entries.<plugin>` block after uninstalling a third-party plugin,
 OpenAgent keeps startup resilient and reports a warning so you can reinstall the
-plugin or run `openclaw doctor --fix` to clean up the stale config.
+plugin or run `openagent doctor --fix` to clean up the stale config.
 
 `web_fetch` fallback provider selection is separate:
 

@@ -1,23 +1,23 @@
 ---
-summary: "CLI reference for `openclaw security` (audit and fix common security footguns)"
+summary: "CLI reference for `openagent security` (audit and fix common security footguns)"
 read_when:
   - You want to run a quick security audit on config/state
   - You want to apply safe "fix" suggestions (permissions, tighten defaults)
 title: "Security CLI"
 ---
 
-# `openclaw security`
+# `openagent security`
 
 Security tools: audit plus optional safe fixes. Related: [Security](/gateway/security).
 
 ```bash
-openclaw security audit
-openclaw security audit --deep
-openclaw security audit --deep --password <password>
-openclaw security audit --deep --token <token>
-openclaw security audit --auth password --password <password>
-openclaw security audit --fix
-openclaw security audit --json
+openagent security audit
+openagent security audit --deep
+openagent security audit --deep --password <password>
+openagent security audit --deep --token <token>
+openagent security audit --auth password --password <password>
+openagent security audit --fix
+openagent security audit --json
 ```
 
 ## Audit modes
@@ -50,7 +50,7 @@ Startup logs a non-fatal security warning, and audit flags `hooks.token` reuse o
 - request `sessionKey` overrides are enabled
 - overrides are enabled without `hooks.allowedSessionKeyPrefixes`
 
-Run `openclaw doctor --fix` to rotate a persisted reused `hooks.token`, then update external hook senders to use the new token.
+Run `openagent doctor --fix` to rotate a persisted reused `hooks.token`, then update external hook senders to use the new token.
 
 ### Sandbox/tools
 
@@ -66,7 +66,7 @@ Run `openclaw doctor --fix` to rotate a persisted reused `hooks.token`, then upd
 
 - Warns when sandbox browser uses Docker `bridge` network without `sandbox.browser.cdpSourceRange`.
 - Flags dangerous sandbox Docker network modes, including `host` and `container:*` namespace joins.
-- Warns when existing sandbox browser Docker containers have missing/stale hash labels (for example pre-migration containers missing `openclaw.browserConfigEpoch`) and recommends `openclaw sandbox recreate --browser --all`.
+- Warns when existing sandbox browser Docker containers have missing/stale hash labels (for example pre-migration containers missing `openclaw.browserConfigEpoch`) and recommends `openagent sandbox recreate --browser --all`.
 
 ### Network/discovery
 
@@ -114,14 +114,14 @@ Because suppressions can hide standing risk, adding or removing them through age
 ## JSON output
 
 ```bash
-openclaw security audit --json | jq '.summary'
-openclaw security audit --deep --json | jq '.findings[] | select(.severity=="critical") | .checkId'
+openagent security audit --json | jq '.summary'
+openagent security audit --deep --json | jq '.findings[] | select(.severity=="critical") | .checkId'
 ```
 
 With `--fix --json`, output includes both fix actions and the final report:
 
 ```bash
-openclaw security audit --fix --json | jq '{fix: .fix.ok, summary: .report.summary}'
+openagent security audit --fix --json | jq '{fix: .fix.ok, summary: .report.summary}'
 ```
 
 ## What `--fix` changes

@@ -28,7 +28,7 @@ Keep provider refs and runtime policy separate:
   or ChatGPT Responses route with no authored provider request override may
   select Codex implicitly. Valid model-scoped Fast-mode and cutoff controls do
   not count as authored request params.
-- Do not use legacy Codex GPT refs in config; run `openclaw doctor --fix` to
+- Do not use legacy Codex GPT refs in config; run `openagent doctor --fix` to
   repair legacy refs and stale session route pins.
 - `agentRuntime.id: "codex"` makes Codex a fail-closed requirement for a
   compatible route. It does not make an incompatible effective route compatible.
@@ -57,13 +57,13 @@ Keep provider refs and runtime policy separate:
 | Send Codex feedback only                                   | `/codex diagnostics [note]`                                                                           |
 | Start an ACP/acpx task                                     | ACP/acpx session commands, not `/codex`                                                               |
 
-| Use case                                            | Configure                                                                                                            | Verify                                  | Notes                                                      |
-| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------- |
-| Eligible OpenAI route with native Codex runtime     | Exact official HTTPS Responses/ChatGPT route with no authored provider request override, plus enabled `codex` plugin | `/status` shows `Runtime: OpenAI Codex` | Valid Fast runtime controls do not disqualify this path    |
-| Fail closed if Codex is unavailable                 | Provider or model `agentRuntime.id: "codex"`                                                                         | Missing harness fails the turn          | Authored request overrides may still use declared fallback |
-| Direct OpenAI API-key traffic through OpenAgent | Provider or model `agentRuntime.id: "openclaw"` and normal OpenAI auth                                               | `/status` shows OpenAgent runtime   | Use only when OpenAgent is intentional                 |
-| Legacy config                                       | legacy Codex GPT refs                                                                                                | `openclaw doctor --fix` rewrites it     | Do not write new config this way                           |
-| ACP/acpx Codex adapter                              | ACP `sessions_spawn({ runtime: "acp" })`                                                                             | ACP task/session status                 | Separate from native Codex harness                         |
+| Use case                                        | Configure                                                                                                            | Verify                                  | Notes                                                      |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------- |
+| Eligible OpenAI route with native Codex runtime | Exact official HTTPS Responses/ChatGPT route with no authored provider request override, plus enabled `codex` plugin | `/status` shows `Runtime: OpenAI Codex` | Valid Fast runtime controls do not disqualify this path    |
+| Fail closed if Codex is unavailable             | Provider or model `agentRuntime.id: "codex"`                                                                         | Missing harness fails the turn          | Authored request overrides may still use declared fallback |
+| Direct OpenAI API-key traffic through OpenAgent | Provider or model `agentRuntime.id: "openclaw"` and normal OpenAI auth                                               | `/status` shows OpenAgent runtime       | Use only when OpenAgent is intentional                     |
+| Legacy config                                   | legacy Codex GPT refs                                                                                                | `openagent doctor --fix` rewrites it    | Do not write new config this way                           |
+| ACP/acpx Codex adapter                          | ACP `sessions_spawn({ runtime: "acp" })`                                                                             | ACP task/session status                 | Separate from native Codex harness                         |
 
 `agents.defaults.imageModel` follows the same prefix split. Use `openai/gpt-*`
 for the normal OpenAI route and `codex/gpt-*` only when image understanding

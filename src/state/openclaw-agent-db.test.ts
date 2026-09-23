@@ -822,7 +822,7 @@ afterEach(() => {
   closeOpenClawStateDatabaseForTest();
 });
 
-describe("openclaw agent database", () => {
+describe("openagent agent database", () => {
   it.each([false, true])(
     "keeps agent state writable without SQLite extension support (incognito=%s)",
     (incognito) => {
@@ -1192,7 +1192,7 @@ describe("openclaw agent database", () => {
       version: AGENT_MEDIA_SCHEMA_VERSION - 1,
       expectedError: {
         name: "OpenClawAgentDatabaseMediaMigrationRequiredError",
-        message: expect.stringContaining("run openclaw doctor --fix to migrate persisted media"),
+        message: expect.stringContaining("run openagent doctor --fix to migrate persisted media"),
       },
     },
     {
@@ -1200,7 +1200,7 @@ describe("openclaw agent database", () => {
       expectedError: {
         name: "Error",
         message: expect.stringContaining(
-          "stop active agents and run openclaw doctor --fix to migrate session identities",
+          "stop active agents and run openagent doctor --fix to migrate session identities",
         ),
       },
     },
@@ -3082,7 +3082,7 @@ describe("openclaw agent database", () => {
     legacyDb.close();
 
     expect(() => listOpenClawRegisteredAgentDatabases({ env })).toThrow(
-      /run openclaw doctor --fix/,
+      /run openagent doctor --fix/,
     );
 
     expect(() =>
@@ -3090,7 +3090,7 @@ describe("openclaw agent database", () => {
         agentId: "worker-1",
         env,
       }),
-    ).toThrow(/run openclaw doctor --fix/);
+    ).toThrow(/run openagent doctor --fix/);
 
     fs.rmSync(stateDatabasePath);
     const reopened = openOpenClawAgentDatabase({
@@ -3530,7 +3530,7 @@ describe("openclaw agent database", () => {
 
     try {
       await expect(withAgentDatabaseMaintenanceLease({ env }, repair)).rejects.toThrow(
-        "stop that process and rerun openclaw doctor --fix",
+        "stop that process and rerun openagent doctor --fix",
       );
       expect(repair).not.toHaveBeenCalled();
       expect(() => assertNoOpenClawAgentDatabaseLeases("worker-1", { env })).toThrow(
@@ -5298,7 +5298,7 @@ describe("openclaw agent database", () => {
       }
 
       expect(() => openOpenClawAgentDatabase({ agentId: "worker-1", env })).toThrow(
-        "run openclaw doctor --fix to migrate persisted media",
+        "run openagent doctor --fix to migrate persisted media",
       );
     },
   );
@@ -5307,7 +5307,7 @@ describe("openclaw agent database", () => {
     {
       kind: "sqlitefoo-only application schema",
       schema: "CREATE TABLE sqlitefoo (value TEXT);",
-      expectedError: /uses schema version 0; run openclaw doctor --fix/,
+      expectedError: /uses schema version 0; run openagent doctor --fix/,
     },
     {
       kind: "malformed ownership metadata",
@@ -5433,7 +5433,7 @@ describe("openclaw agent database", () => {
     expect(firstFailure).toMatchObject({
       name: "SqliteSchemaVersionError",
       message: expect.stringContaining(
-        "restore your pre-update backup created with openclaw backup.",
+        "restore your pre-update backup created with openagent backup.",
       ),
     });
     expect(isOpenClawAgentDatabaseOpen(databasePath)).toBe(false);

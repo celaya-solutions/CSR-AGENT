@@ -126,7 +126,7 @@ Example roster for a personal-assistant workspace, last reviewed for 2026.9.3; s
 - Prefer the `openclaw` CLI for scripting.
 - Run installs from the Skills tab; the install button is hidden once a required binary is already present.
 - Keep heartbeats enabled so the assistant can schedule reminders, monitor inboxes, and trigger camera captures.
-- For browser-driven verification, use the `openclaw browser` CLI (bundled `browser` plugin) with the OpenAgent-managed Chrome/Brave/Edge/Chromium profile.
+- For browser-driven verification, use the `openagent browser` CLI (bundled `browser` plugin) with the OpenAgent-managed Chrome/Brave/Edge/Chromium profile.
 - Manage: `status`, `doctor [--deep]`, `start [--headless]`, `stop`, `tabs`, `tab [new|select|close]`, `open <url>`, `focus <id>`, `close <id>`.
 - Inspect: `screenshot [--full-page|--ref|--labels]`, `snapshot [--format ai|aria|--interactive|--efficient]`, `console`, `errors`, `requests`, `pdf`, `responsebody`.
 - Act: `navigate`, `click <ref>`, `type <ref> <text>`, `press`, `hover`, `drag`, `select`, `upload`, `download`, `fill`, `dialog`, `wait`, `evaluate --fn <js>`, `highlight`. Actions need a `ref` from `snapshot` (CSS selectors are not accepted for actions); use `evaluate` when you need `document.querySelector`-style targeting.

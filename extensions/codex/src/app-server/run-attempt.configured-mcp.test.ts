@@ -691,7 +691,7 @@ describe("runCodexAppServerAttempt configured MCP ownership", () => {
       // Codex drops decline meta, so the remedy must reach the operator via the card.
       if (testCase.delegate) {
         expect(requestApproval.mock.calls[0]?.[0]?.description).toContain(
-          `openclaw mcp configure ${testCase.source === "bundle" ? "bundled" : "fake"} --approval approve`,
+          `openagent mcp configure ${testCase.source === "bundle" ? "bundled" : "fake"} --approval approve`,
         );
       }
       const expectedApprovalPolicy = testCase.delegate

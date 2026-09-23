@@ -102,7 +102,7 @@ CLI registration:
   Meeting runtime shells accept that descriptor through `cli.descriptor`.
   Nested descriptors do not expose `machineOutput`.
 - Use `api.registerNodeCliFeature(...)` for paired-node feature commands so
-  they land under `openclaw nodes` (equivalent to
+  they land under `openagent nodes` (equivalent to
   `registerCli(registrar, { parentPath: ["nodes"], ... })`).
 - For other nested plugin commands, add `parentPath` and register commands
   on the `program` object passed to the registrar; OpenAgent resolves it to

@@ -20,18 +20,18 @@ sidebarTitle: "Setup"
       </Step>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard --auth-choice openai-api-key
+        openagent onboard --auth-choice openai-api-key
         ```
 
         Or pass the key directly:
 
         ```bash
-        openclaw onboard --openai-api-key "$OPENAI_API_KEY"
+        openagent onboard --openai-api-key "$OPENAI_API_KEY"
         ```
       </Step>
       <Step title="Verify the model is available">
         ```bash
-        openclaw models list --provider openai
+        openagent models list --provider openai
         ```
       </Step>
     </Steps>
@@ -51,7 +51,7 @@ sidebarTitle: "Setup"
     route may select the Codex app-server harness implicitly. For API-key auth
     on an agent model, create an `openai` API-key auth profile and order it with
     `auth.order.openai`; `OPENAI_API_KEY` remains the direct fallback for
-    non-agent OpenAI API surfaces. Run `openclaw doctor --fix` to migrate older
+    non-agent OpenAI API surfaces. Run `openagent doctor --fix` to migrate older
     legacy Codex auth-order entries.
     </Note>
 
@@ -101,13 +101,13 @@ sidebarTitle: "Setup"
     <Steps>
       <Step title="Run Codex OAuth">
         ```bash
-        openclaw onboard --auth-choice openai
+        openagent onboard --auth-choice openai
         ```
 
         Or run OAuth directly:
 
         ```bash
-        openclaw models auth login --provider openai
+        openagent models auth login --provider openai
         ```
 
         For headless or callback-hostile setups, add `--device-code` to sign
@@ -115,12 +115,12 @@ sidebarTitle: "Setup"
         callback:
 
         ```bash
-        openclaw models auth login --provider openai --device-code
+        openagent models auth login --provider openai --device-code
         ```
       </Step>
       <Step title="Use the canonical OpenAI model route">
         ```bash
-        openclaw config set agents.defaults.model.primary openai/gpt-6-astra
+        openagent config set agents.defaults.model.primary openai/gpt-6-astra
         ```
 
         No runtime config is required for this exact official HTTPS native
@@ -130,7 +130,7 @@ sidebarTitle: "Setup"
       </Step>
       <Step title="Verify Codex auth is available">
         ```bash
-        openclaw models list --provider openai
+        openagent models list --provider openai
         ```
 
         After the gateway is running, send `/codex status` or `/codex models`
@@ -157,7 +157,7 @@ sidebarTitle: "Setup"
     native Codex catalog may also expose exact Terra or Luna refs. If the
     account does not expose Astra, select an available model explicitly. Older
     Codex GPT refs are legacy OpenAgent routes, not the native Codex runtime
-    path; run `openclaw doctor --fix` to migrate them without upgrading an
+    path; run `openagent doctor --fix` to migrate them without upgrading an
     existing explicit GPT-5.5 selection. `gpt-5.3-codex-spark` stays limited
     to accounts whose Codex subscription catalog advertises it; direct OpenAI
     API-key and Azure refs for it stay suppressed.
@@ -213,44 +213,44 @@ sidebarTitle: "Setup"
     ### Check and recover Codex OAuth routing
 
     ```bash
-    openclaw models status
-    openclaw models auth list --provider openai
-    openclaw config get agents.defaults.model --json
-    openclaw config get models.providers.openai.agentRuntime --json
+    openagent models status
+    openagent models auth list --provider openai
+    openagent config get agents.defaults.model --json
+    openagent config get models.providers.openai.agentRuntime --json
     ```
 
     For a specific agent, add `--agent <id>`:
 
     ```bash
-    openclaw models status --agent <id>
-    openclaw models auth list --agent <id> --provider openai
+    openagent models status --agent <id>
+    openagent models auth list --agent <id> --provider openai
     ```
 
     If an older config still has legacy Codex GPT refs, or a stale OpenAI
     runtime session pin without explicit runtime config, repair it:
 
     ```bash
-    openclaw doctor --fix
-    openclaw config validate
+    openagent doctor --fix
+    openagent config validate
     ```
 
     If `models auth list --provider openai` shows no usable profile, sign in
     again:
 
     ```bash
-    openclaw models auth login --provider openai
-    openclaw models status --probe --probe-provider openai
+    openagent models auth login --provider openai
+    openagent models status --probe --probe-provider openai
     ```
 
     Use `--profile-id` for multiple Codex OAuth logins in the same agent, then
     control them via auth ordering or `/model ...@<profileId> -s`:
 
     ```bash
-    openclaw models auth login --provider openai --profile-id openai:ritsuko
-    openclaw models auth login --provider openai --profile-id openai:lain
+    openagent models auth login --provider openai --profile-id openai:ritsuko
+    openagent models auth login --provider openai --profile-id openai:lain
     ```
 
-    Run `openclaw doctor --fix` to migrate older legacy OpenAI Codex prefix
+    Run `openagent doctor --fix` to migrate older legacy OpenAI Codex prefix
     profile ids and order entries before relying on profile ordering.
 
     ### Status indicator
@@ -263,7 +263,7 @@ sidebarTitle: "Setup"
     ### Doctor warning
 
     If legacy Codex model refs or stale OpenAI runtime pins remain in config
-    or session state, `openclaw doctor --fix` rewrites them to `openai/*` with
+    or session state, `openagent doctor --fix` rewrites them to `openai/*` with
     the Codex runtime unless OpenAgent is explicitly configured.
 
     ### Context window defaults and long-context opt-in

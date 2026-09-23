@@ -6,16 +6,16 @@ read_when:
   - You are debugging a `plugins.allow` warning or the persisted plugin index
 ---
 
-This page covers `openclaw plugins list`, its options and discovery
+This page covers `openagent plugins list`, its options and discovery
 diagnostics, and the machine-managed plugin index that backs it.
 
 ## List
 
 ```bash
-openclaw plugins list
-openclaw plugins list --enabled
-openclaw plugins list --verbose
-openclaw plugins list --json
+openagent plugins list
+openagent plugins list --enabled
+openagent plugins list --verbose
+openagent plugins list --json
 ```
 
 <ParamField path="--enabled" type="boolean">
@@ -39,8 +39,8 @@ dependencies.
 </Note>
 
 If startup logs `plugins.allow is empty; discovered non-bundled plugins may auto-load: ...`,
-run `openclaw plugins list --enabled --verbose` or
-`openclaw plugins inspect <id>` with a listed plugin id to confirm the plugin
+run `openagent plugins list --enabled --verbose` or
+`openagent plugins inspect <id>` with a listed plugin id to confirm the plugin
 ids and copy trusted ids into `plugins.allow` in `openclaw.json`. When the
 warning can list every discovered plugin, it prints a ready-to-paste
 `plugins.allow` snippet that already includes those ids. If a plugin loads
@@ -56,15 +56,15 @@ remains inert, so normal packaged installs still use compiled dist.
 
 For runtime hook debugging:
 
-- `openclaw plugins inspect <id> --runtime --json` shows registered hooks and diagnostics from a module-loaded inspection pass. Runtime inspection uses an uncached, non-activating registry and releases its inspection claim before printing the result. It awaits disposal due for that release, and a failure prevents a successful result. If an SDK host still borrows provider callbacks from the inspection, that host retains their backing resources and reports any later disposal failure during teardown; see [retained SDK contracts](/plugins/sdk-migration/compatibility-policy#retained-helper-contracts). This does not stop the running Gateway or invoke context-engine factories. Runtime inspection never installs dependencies; use `openclaw doctor --fix` to clean legacy dependency state or recover missing downloadable plugins that are referenced by config.
-- `openclaw gateway status --deep --require-rpc` confirms the reachable Gateway URL/profile, service/process hints, config path, and RPC health.
+- `openagent plugins inspect <id> --runtime --json` shows registered hooks and diagnostics from a module-loaded inspection pass. Runtime inspection uses an uncached, non-activating registry and releases its inspection claim before printing the result. It awaits disposal due for that release, and a failure prevents a successful result. If an SDK host still borrows provider callbacks from the inspection, that host retains their backing resources and reports any later disposal failure during teardown; see [retained SDK contracts](/plugins/sdk-migration/compatibility-policy#retained-helper-contracts). This does not stop the running Gateway or invoke context-engine factories. Runtime inspection never installs dependencies; use `openagent doctor --fix` to clean legacy dependency state or recover missing downloadable plugins that are referenced by config.
+- `openagent gateway status --deep --require-rpc` confirms the reachable Gateway URL/profile, service/process hints, config path, and RPC health.
 - If a hook-only plugin is absent from runtime inspection, confirm its [hook startup intent](/tools/plugin#plugin-hooks): either manifest `activation.onCapabilities: ["hook"]` with explicit plugin enablement, or a startup-signaling `plugins.entries.<id>.hooks` policy such as `allowConversationAccess: true`. Global disable, deny, and restrictive allowlists still win.
 - Non-bundled conversation hooks (`before_model_resolve`, `agent_turn_prepare`, `before_prompt_build`, `before_agent_reply`, `llm_input`, `llm_output`, `before_agent_run`, `before_agent_finalize`, `agent_end`) require `plugins.entries.<id>.hooks.allowConversationAccess=true`.
 
 ### Plugin index
 
-Plugin install metadata is machine-managed state, not user config. Installs and updates write it to the shared SQLite state database under the active OpenAgent state directory. The `config_machine_state` value keyed by `plugins.installedIndex` stores durable `installRecords` metadata, including records for broken or missing plugin manifests, plus a manifest-derived cold registry cache used by `openclaw plugins update`, uninstall, diagnostics, and the cold plugin registry.
+Plugin install metadata is machine-managed state, not user config. Installs and updates write it to the shared SQLite state database under the active OpenAgent state directory. The `config_machine_state` value keyed by `plugins.installedIndex` stores durable `installRecords` metadata, including records for broken or missing plugin manifests, plus a manifest-derived cold registry cache used by `openagent plugins update`, uninstall, diagnostics, and the cold plugin registry.
 
-An unreadable index is not invalid data. Permission, lock, and other read errors stop fallback, migration, and refresh with the original error. Restore database access, then rerun `openclaw plugins registry` to inspect the state before attempting repair. Do not delete the `plugins.installedIndex` row unless inspection succeeds and confirms invalid install records; a failed read alone does not justify deletion.
+An unreadable index is not invalid data. Permission, lock, and other read errors stop fallback, migration, and refresh with the original error. Restore database access, then rerun `openagent plugins registry` to inspect the state before attempting repair. Do not delete the `plugins.installedIndex` row unless inspection succeeds and confirms invalid install records; a failed read alone does not justify deletion.
 
-`plugins.installs` is a retired authored-config surface. Runtime and update commands read only the SQLite machine-state plugin index. Run `openclaw doctor --fix` to import legacy config records into the index and remove the retired key before normal runtime use.
+`plugins.installs` is a retired authored-config surface. Runtime and update commands read only the SQLite machine-state plugin index. Run `openagent doctor --fix` to import legacy config records into the index and remove the retired key before normal runtime use.

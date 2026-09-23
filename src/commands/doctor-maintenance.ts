@@ -54,7 +54,7 @@ function assertDoctorMaintenanceInspection(
   }
   throw new Error(
     inspection.blockMessage ??
-      `Gateway service ownership or shutdown could not be verified. Run ${formatCliCommand("openclaw gateway status --deep", env)} and stop it through its service owner before retrying.`,
+      `Gateway service ownership or shutdown could not be verified. Run ${formatCliCommand("openagent gateway status --deep", env)} and stop it through its service owner before retrying.`,
   );
 }
 
@@ -227,7 +227,7 @@ export async function beginDoctorMaintenance(params: {
       throw error;
     }
     throw new Error(
-      `Doctor could not enter maintenance. ${String(error)} Stop the Gateway service and other OpenAgent processes using this state, then run ${formatCliCommand("openclaw doctor --fix", env)} from an independent shell.`,
+      `Doctor could not enter maintenance. ${String(error)} Stop the Gateway service and other OpenAgent processes using this state, then run ${formatCliCommand("openagent doctor --fix", env)} from an independent shell.`,
       { cause: error },
     );
   }
@@ -307,12 +307,12 @@ export async function beginDoctorMaintenance(params: {
         });
         if (!health.healthy) {
           throw new Error(
-            `Doctor repaired state, but the managed Gateway did not become ready: ${renderRestartDiagnostics(health).join(" ")}. Run ${formatCliCommand("openclaw gateway status --deep", env)}.`,
+            `Doctor repaired state, but the managed Gateway did not become ready: ${renderRestartDiagnostics(health).join(" ")}. Run ${formatCliCommand("openagent gateway status --deep", env)}.`,
           );
         }
       } catch (error) {
         throw new Error(
-          `Doctor repaired state, but could not restore the managed Gateway: ${String(error)} Run ${formatCliCommand("openclaw gateway status --deep", env)}, then ${formatCliCommand("openclaw gateway restart", env)} after resolving the reported failure.`,
+          `Doctor repaired state, but could not restore the managed Gateway: ${String(error)} Run ${formatCliCommand("openagent gateway status --deep", env)}, then ${formatCliCommand("openagent gateway restart", env)} after resolving the reported failure.`,
           { cause: error },
         );
       }

@@ -80,7 +80,7 @@ export function registerSystemCli(program: Command) {
         const text = normalizeOptionalString(opts.text) ?? "";
         if (!text) {
           throw new Error(
-            `--text is required. Example: ${formatCliCommand('openclaw system event --text "deploy finished"')}.`,
+            `--text is required. Example: ${formatCliCommand('openagent system event --text "deploy finished"')}.`,
           );
         }
         const mode = normalizeWakeMode(opts.mode);

@@ -241,25 +241,25 @@ function formatUnsupportedRemoteOperation(operation: SystemAgentOperation): stri
   if (operation.kind === "channel-setup") {
     return [
       "OpenAgent rescue cannot host the interactive channel setup from a message channel.",
-      "Run `openclaw setup` locally and say `connect " + operation.channel + "` instead.",
+      "Run `openagent setup` locally and say `connect " + operation.channel + "` instead.",
     ].join(" ");
   }
   if (operation.kind === "model-setup") {
     return [
       "OpenAgent rescue cannot host model-provider credential setup from a message channel.",
-      "Run `openclaw onboard` locally; it live-tests the candidate route before saving it.",
+      "Run `openagent onboard` locally; it live-tests the candidate route before saving it.",
     ].join(" ");
   }
   if (operation.kind === "doctor-fix") {
     return [
       "OpenAgent rescue cannot run doctor repairs from a message channel because they can change the inference route powering this session.",
-      "On the machine running OpenAgent, with OpenAgent stopped, run `openclaw doctor --fix`.",
+      "On the machine running OpenAgent, with OpenAgent stopped, run `openagent doctor --fix`.",
     ].join(" ");
   }
   if (operation.kind === "plugin-install") {
     return [
       "OpenAgent rescue cannot install plugins from a message channel by default because plugin install downloads executable code.",
-      "Use local `openclaw setup` or `openclaw plugins install` instead.",
+      "Use local `openagent setup` or `openagent plugins install` instead.",
     ].join(" ");
   }
   return null;

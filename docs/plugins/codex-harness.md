@@ -32,7 +32,7 @@ Uploads always use the Gateway's configured channel identity and request timeout
 Use canonical OpenAI model refs such as `openai/gpt-6-astra`. Do not configure
 legacy Codex GPT refs. Put OpenAI agent auth order under `auth.order.openai`.
 Legacy Codex auth profile ids and legacy Codex auth order entries are
-repaired by `openclaw doctor --fix`.
+repaired by `openagent doctor --fix`.
 
 With provider/model runtime policy unset or `auto`, the `openai/*` prefix alone
 never selects this harness. OpenAI may select Codex implicitly only for an
@@ -140,7 +140,7 @@ Proxy launch arguments are rejected to avoid changing a shared daemon's login.
   validation.
 - Node.js on the remote Codex app-server host when `remoteWorkspaceRoot` is set
   and cross-machine workspace attachments must be transferred.
-- Codex auth through `openclaw models auth login --provider openai`, an
+- Codex auth through `openagent models auth login --provider openai`, an
   app-server account already present in the agent's Codex home, or an
   explicit Codex API-key auth profile.
 
@@ -153,7 +153,7 @@ model discovery, and the full config field list, see
 The `codex` plugin is bundled. Sign in with Codex OAuth:
 
 ```bash
-openclaw models auth login --provider openai
+openagent models auth login --provider openai
 ```
 
 Enable the `codex` plugin and select an OpenAI agent model:
@@ -217,7 +217,7 @@ After installing or updating OpenAgent, explicitly verify the managed package
 binary before cutover:
 
 ```bash
-openclaw doctor --lint --only codex/managed-app-server --json
+openagent doctor --lint --only codex/managed-app-server --json
 ```
 
 For an effective Codex route using the managed stdio app-server, this

@@ -77,7 +77,7 @@ In the Control UI Devices page, open the pairing dialog, choose **Node host**,
 and copy the generated command to the device:
 
 ```bash
-openclaw node run --pair "oc-pair://<setup-code>"
+openagent node run --pair "oc-pair://<setup-code>"
 ```
 
 The setup link carries the Gateway endpoint, a short-lived single-use bootstrap
@@ -103,28 +103,28 @@ configure them before using a link if that access is too broad.
 For manual device admission, first run on the Gateway:
 
 ```bash
-openclaw devices list
-openclaw devices approve <deviceRequestId>
+openagent devices list
+openagent devices approve <deviceRequestId>
 ```
 
-Restart the installed node with `openclaw node restart`, or stop and rerun its
+Restart the installed node with `openagent node restart`, or stop and rerun its
 foreground command. A node paused on `PAIRING_REQUIRED` does not resume after
 manual approval. Its reconnect creates the separate command-surface request:
 
 ```bash
-openclaw nodes pending
-openclaw nodes approve <nodeRequestId>
-openclaw nodes status
-openclaw nodes describe --node <idOrNameOrIp>
+openagent nodes pending
+openagent nodes approve <nodeRequestId>
+openagent nodes status
+openagent nodes describe --node <idOrNameOrIp>
 ```
 
 The device and node request IDs are distinct. To reject a surface request or
 manage an existing node instead:
 
 ```bash
-openclaw nodes reject <nodeRequestId>
-openclaw nodes remove --node <id|name|ip>
-openclaw nodes rename --node <id|name|ip> --name "Living Room iPad"
+openagent nodes reject <nodeRequestId>
+openagent nodes remove --node <id|name|ip>
+openagent nodes rename --node <id|name|ip> --name "Living Room iPad"
 ```
 
 `nodes status` shows paired/connected nodes and their capabilities.
@@ -258,7 +258,7 @@ do not create approval churn.
 First-time `role: node` device pairing from a private/CGNAT address is
 auto-approved when the gateway can **prove machine ownership over SSH**: it
 connects back to the pairing host (`BatchMode`, `StrictHostKeyChecking=yes`),
-runs `openclaw node identity --json` there, and approves only when the remote
+runs `openagent node identity --json` there, and approves only when the remote
 device id and public key match the pending request exactly. The key match is
 what makes this safe: reachability alone never approves, so NAT co-tenants,
 other users on a shared host, and LAN spoofing all fall through to the normal
@@ -336,7 +336,7 @@ Security boundary:
 - Only a fresh `role: node` device pairing request with no requested scopes is
   eligible.
 - This approves the device only. Its first command surface still needs
-  `openclaw nodes pending` and `openclaw nodes approve <nodeRequestId>`.
+  `openagent nodes pending` and `openagent nodes approve <nodeRequestId>`.
 - Operator, browser, Control UI, and WebChat clients stay manual.
 - Role, scope, metadata, and public-key upgrades stay manual.
 - Same-host loopback trusted-proxy header paths are not eligible, because that
@@ -365,7 +365,7 @@ Boundaries:
   eligible, as trigger and as target. Trusted-CIDR and SSH-verified pairings
   cross hosts where display metadata is not a machine identity, so they are
   never removed automatically — use the Control UI cleanup or
-  `openclaw nodes remove` for those.
+  `openagent nodes remove` for those.
 - Owner-approved and QR/setup-code (bootstrap) pairings are never removed
   automatically. Records approved before provenance existed stay protected,
   even after a later silent re-approval of the same device id.
@@ -423,7 +423,7 @@ upgraded from releases with JSON stores import them at startup and leave
 Security notes:
 
 - Device tokens are secrets; treat the state database as sensitive.
-- Rotating a device token uses `openclaw devices rotate` /
+- Rotating a device token uses `openagent devices rotate` /
   `device.token.rotate`.
 
 ## Transport behavior

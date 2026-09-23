@@ -20,8 +20,8 @@ Every DM-capable channel supports `dmPolicy` (or `*.dm.policy`), which gates inb
 | `disabled`  | Inbound DMs ignored entirely.                                                                                                                                                                                        |
 
 ```bash
-openclaw pairing list <channel>
-openclaw pairing approve <channel> <code>
+openagent pairing list <channel>
+openagent pairing approve <channel> <code>
 ```
 
 Details + files on disk: [Pairing](/channels/pairing)
@@ -56,7 +56,7 @@ By default, OpenAgent routes all DMs into the main session for cross-device cont
 | `per-account-channel-peer` | Like above, split further by account (multi-account channels).         |
 | `per-peer`                 | Each sender gets one session across all channels of the same type.     |
 
-Local CLI onboarding preserves an explicit `session.dmScope` and otherwise leaves it unset, so the `"main"` default applies: all direct messages across channels share the agent's rolling main session (the personal-agent default). For shared or multi-user inboxes, set `session.dmScope: "per-channel-peer"`; `openclaw security audit` recommends isolation when it detects multi-user DM traffic.
+Local CLI onboarding preserves an explicit `session.dmScope` and otherwise leaves it unset, so the `"main"` default applies: all direct messages across channels share the agent's rolling main session (the personal-agent default). For shared or multi-user inboxes, set `session.dmScope: "per-channel-peer"`; `openagent security audit` recommends isolation when it detects multi-user DM traffic.
 
 This is a messaging-context boundary, not a host-admin boundary. If users are mutually adversarial and share the same Gateway host/config, run separate gateways per trust boundary instead.
 

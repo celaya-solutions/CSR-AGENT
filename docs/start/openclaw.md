@@ -27,13 +27,13 @@ A connected agent is a capable one: depending on your tool policy it can run com
 1. Add the bot:
 
 ```bash
-openclaw channels add --channel telegram --token "<bot-token>"
+openagent channels add --channel telegram --token "<bot-token>"
 ```
 
 2. Start the Gateway (leave it running):
 
 ```bash
-openclaw gateway --port 18789
+openagent gateway --port 18789
 ```
 
 3. Put a minimal config in `~/.openclaw/openclaw.json`:
@@ -47,7 +47,7 @@ openclaw gateway --port 18789
 
 Now message the bot from your allowlisted Telegram account.
 
-When onboarding finishes, OpenAgent auto-opens the dashboard and prints a clean (non-tokenized) link. If the dashboard prompts for auth, paste the configured shared secret into Control UI settings. Onboarding uses a token by default (`gateway.auth.token`), but password auth works too if you switched `gateway.auth.mode` to `password`. To reopen later: `openclaw dashboard`.
+When onboarding finishes, OpenAgent auto-opens the dashboard and prints a clean (non-tokenized) link. If the dashboard prompts for auth, paste the configured shared secret into Control UI settings. Onboarding uses a token by default (`gateway.auth.token`), but password auth works too if you switched `gateway.auth.mode` to `password`. To reopen later: `openagent dashboard`.
 
 ## Give the agent a workspace (AGENTS)
 
@@ -62,10 +62,10 @@ Treat this folder like OpenAgent's memory and make it a git repo (ideally privat
 To create the workspace and config folders without running the full onboarding wizard:
 
 ```bash
-openclaw setup --baseline
+openagent setup --baseline
 ```
 
-(Bare `openclaw setup` is an alias for `openclaw onboard` and runs the full interactive wizard.)
+(Bare `openagent setup` is an alias for `openagent onboard` and runs the full interactive wizard.)
 
 Full workspace layout + backup guide: [Agent workspace](/concepts/agent-workspace)
 Memory workflow: [Memory](/concepts/memory)
@@ -156,7 +156,7 @@ Example:
 
 By default, OpenAgent runs a heartbeat every 30 minutes — or every hour when Anthropic OAuth/token auth is configured (including Claude CLI reuse). See [Heartbeat](/gateway/heartbeat) for the full defaults. The prompt is:
 `Follow the heartbeat monitor scratch context when provided. Recurring tasks are automations; create or change their schedules with the automations tool, not heartbeat scratch. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply NO_REPLY.`
-Set `agents.defaults.heartbeat.every: "0m"` to disable recurring cadence. Targeted event-driven wakes, such as background exec completion follow-ups, remain available and do not create a recurring schedule. Heartbeat checklists live in the monitor's cron scratch (see [Heartbeat](/gateway/heartbeat)); `openclaw doctor --fix` migrates a legacy workspace `HEARTBEAT.md` into it.
+Set `agents.defaults.heartbeat.every: "0m"` to disable recurring cadence. Targeted event-driven wakes, such as background exec completion follow-ups, remain available and do not create a recurring schedule. Heartbeat checklists live in the monitor's cron scratch (see [Heartbeat](/gateway/heartbeat)); `openagent doctor --fix` migrates a legacy workspace `HEARTBEAT.md` into it.
 
 - If the monitor scratch exists but is effectively empty (only blank lines, Markdown/HTML comments, Markdown headings like `# Heading`, fence markers, or empty checklist stubs), OpenAgent skips the heartbeat run to save API calls.
 - If no scratch exists, the heartbeat still runs and the model decides what to do.
@@ -217,10 +217,10 @@ Keep sensitive files outside the agent-readable filesystem, or keep `tools.fs.wo
 ## Operations checklist
 
 ```bash
-openclaw status          # local status (creds, sessions, queued events)
-openclaw status --all    # full diagnosis (read-only, pasteable)
-openclaw status --deep   # probe channels (Telegram + Discord)
-openclaw health --json   # gateway health snapshot over the WS connection
+openagent status          # local status (creds, sessions, queued events)
+openagent status --all    # full diagnosis (read-only, pasteable)
+openagent status --deep   # probe channels (Telegram + Discord)
+openagent health --json   # gateway health snapshot over the WS connection
 ```
 
 Logs live under `/tmp/openclaw/`: `openclaw-YYYY-MM-DD.log` for the default

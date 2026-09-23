@@ -65,7 +65,7 @@ title: "Features"
 **Interfaces:**
 
 - WebChat and browser Control UI
-- Terminal UI (`openclaw tui`)
+- Terminal UI (`openagent tui`)
 
 **Tools and automation:**
 

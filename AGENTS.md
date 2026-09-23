@@ -23,7 +23,7 @@ Update instructions at their owner instead of adding competing rules here.
 - Lead with the result and follow the user's format. Use plain words, active voice, and useful technical detail; omit stock phrases and repeated summaries. Progress updates explain new findings, decisions, or blockers. Keep delegated messages equally clear.
 - Report routine findings in chat/stdout. Create files only for deliverables or concrete tool/proof/recovery needs; state their purpose and reuse them. Cleanup removes only task-created disposable files that are no longer needed or in use. Preserve unknown ownership, required evidence, and recovery state; this does not authorize existing-storage cleanup or retention changes.
 - Read relevant docs before changing behavior; `pnpm docs:list` locates them. `package.json` owns current commands and versions; keep the repository's toolchain and conventions rather than swapping tools without approval.
-- Use **OpenAgent** for the product, `openclaw` for CLI/package/config names, **plugins** for user-facing integrations, and American English.
+- Use **OpenAgent** for the product, `openagent` for the CLI command, `openclaw` for package/config names, **plugins** for user-facing integrations, and American English.
 - Edit canonical `AGENTS.md` files; new ones need a sibling `CLAUDE.md` symlink.
 
 ## One owner, complete cutover
@@ -80,7 +80,7 @@ These commands apply on the host permitted by the task and its workflow; they do
 not authorize local execution or a broader test plan.
 
 - Restore missing dependencies in a trusted normal checkout with `pnpm install`, then retry once before diagnosing a code defect. Never reconcile a shared/worktree install while other jobs use it.
-- Run the CLI through `pnpm openclaw ...` or `pnpm dev`, never `node --import tsx src/index.ts`; the supported wrappers own build freshness and process setup.
+- Run the CLI through `pnpm openagent ...` or `pnpm dev`, never `node --import tsx src/index.ts`; the supported wrappers own build freshness and process setup.
 - Use installed `oxfmt` for formatting and the repository's `tsgo` lanes for typechecking. Inspect scope with `pnpm changed:lanes --json`; use targeted tests/checks. When avoiding worktree reconciliation, use `node scripts/check-changed.mjs` or `node scripts/run-vitest.mjs` with ready dependencies. Host restrictions still apply.
 
 ## Authority and safety

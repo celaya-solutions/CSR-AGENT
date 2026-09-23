@@ -21,7 +21,7 @@ sidebarTitle: "Setup"
     A custom provider with `api: "ollama"` follows the same rules. For example, an `ollama-remote` provider pointed at a private LAN host can use `apiKey: "ollama-local"`; sub-agents resolve that marker through the Ollama provider hook instead of treating it as a missing credential. `memory.search.provider` can also point at a custom provider id so embeddings use that Ollama endpoint.
   </Accordion>
   <Accordion title="Auth profiles">
-    SQLite auth stores hold the credential for a provider id; put endpoint settings (`baseUrl`, `api`, models, headers, timeouts) in `models.providers.<id>`. Older flat `auth-profiles.json` files such as `{ "ollama-windows": { "apiKey": "ollama-local" } }` are not a runtime format; `openclaw doctor --fix` imports them into SQLite as a canonical `ollama-windows:default` API-key profile with a backup. A `baseUrl` value in that legacy file is noise and should move to provider config.
+    SQLite auth stores hold the credential for a provider id; put endpoint settings (`baseUrl`, `api`, models, headers, timeouts) in `models.providers.<id>`. Older flat `auth-profiles.json` files such as `{ "ollama-windows": { "apiKey": "ollama-local" } }` are not a runtime format; `openagent doctor --fix` imports them into SQLite as a canonical `ollama-windows:default` API-key profile with a backup. A `baseUrl` value in that legacy file is noise and should move to provider config.
   </Accordion>
   <Accordion title="Memory embedding scope">
     Bearer auth for Ollama memory embeddings is scoped to the host it was declared for:
@@ -40,7 +40,7 @@ sidebarTitle: "Setup"
     <Steps>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard
+        openagent onboard
         ```
 
         Select **Ollama**, then pick a mode: **Cloud + Local**, **Cloud only**, or **Local only**.
@@ -63,7 +63,7 @@ sidebarTitle: "Setup"
       </Step>
       <Step title="Verify">
         ```bash
-        openclaw models list --provider ollama
+        openagent models list --provider ollama
         ```
       </Step>
     </Steps>
@@ -71,7 +71,7 @@ sidebarTitle: "Setup"
     Non-interactive:
 
     ```bash
-    openclaw onboard --non-interactive --accept-risk --skip-health \
+    openagent onboard --non-interactive --accept-risk --skip-health \
       --auth-choice ollama \
       --custom-base-url "http://ollama-host:11434" \
       --custom-model-id "qwen3.5:27b"
@@ -111,12 +111,12 @@ sidebarTitle: "Setup"
         export OLLAMA_API_KEY="your-real-key"
         ```
 
-        Or in config: `openclaw config set models.providers.ollama.apiKey "OLLAMA_API_KEY"`.
+        Or in config: `openagent config set models.providers.ollama.apiKey "OLLAMA_API_KEY"`.
       </Step>
       <Step title="Select the model">
         ```bash
-        openclaw models list
-        openclaw models set ollama/gemma4
+        openagent models list
+        openagent models set ollama/gemma4
         ```
 
         Or in config:
@@ -148,14 +148,14 @@ OpenAgent prompts for the base URL, discovers local models, and checks
 `glm-5.2:cloud`). If not signed in, setup stays local-only until you run
 `ollama signin`.
 
-For cloud-only access without a local daemon, use `openclaw onboard --auth-choice ollama-cloud` and see [Ollama Cloud](/providers/ollama-cloud) — that path does not need `ollama signin` or a running server:
+For cloud-only access without a local daemon, use `openagent onboard --auth-choice ollama-cloud` and see [Ollama Cloud](/providers/ollama-cloud) — that path does not need `ollama signin` or a running server:
 
 ```bash
-openclaw onboard --auth-choice ollama-cloud
-openclaw models set ollama-cloud/minimax-m2.7:cloud
+openagent onboard --auth-choice ollama-cloud
+openagent models set ollama-cloud/minimax-m2.7:cloud
 ```
 
-The cloud model list shown during `openclaw onboard` is populated live from
+The cloud model list shown during `openagent onboard` is populated live from
 `https://ollama.com/api/tags`, capped at 500 entries, so the picker reflects
 the current hosted catalog. If `ollama.com` is unreachable or returns no
 models at setup time, OpenAgent falls back to its hardcoded suggested list so

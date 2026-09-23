@@ -34,7 +34,7 @@ Map of OpenAgent features that can call paid provider APIs, where each reads its
 
 **CLI usage windows** (provider quotas, not per-message cost)
 
-- `openclaw status --usage` and `openclaw channels list` show provider **usage windows** as `X% left`.
+- `openagent status --usage` and `openagent channels list` show provider **usage windows** as `X% left`.
 - Usage-window providers among the bundled plugins: Anthropic, OpenAI (covers ChatGPT/Codex OAuth/token auth), and OpenRouter. Provider plugins supply these snapshots, so an installed plugin can add one. See [Models CLI](/cli/models) and [Channels CLI](/cli/channels) for the full provider/flag list.
 - Usage auth comes from provider-specific hooks when available, otherwise OpenAgent falls back to matching OAuth/API-key credentials from auth profiles, env, or config.
 
@@ -96,7 +96,7 @@ See [Web tools](/tools/web).
 
 ### Provider usage snapshots (status/health)
 
-`openclaw status --usage` and `openclaw models status --json` call provider usage endpoints to show quota windows or auth health. Calls are low-volume but still hit provider APIs.
+`openagent status --usage` and `openagent models status --json` call provider usage endpoints to show quota windows or auth health. Calls are low-volume but still hit provider APIs.
 
 See [Models CLI](/cli/models).
 
@@ -108,7 +108,7 @@ See [Session management and compaction](/reference/session-management-compaction
 
 ### Model scan / probe
 
-`openclaw models scan` can probe OpenRouter models and uses `OPENROUTER_API_KEY` when probing is enabled.
+`openagent models scan` can probe OpenRouter models and uses `OPENROUTER_API_KEY` when probing is enabled.
 
 See [Models CLI](/cli/models).
 

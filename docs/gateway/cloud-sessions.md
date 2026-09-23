@@ -11,11 +11,11 @@ A cloud session is an ordinary session whose coding work runs on another machine
 
 Sessions can run in three places, and every one of them uses the same session, the same chat, and the same Place picker:
 
-| Destination       | The machine                                               | Best for                                                    | Scope to dispatch |
-| ----------------- | --------------------------------------------------------- | ----------------------------------------------------------- | ----------------- |
-| Gateway (default) | The host running `openclaw gateway`                       | Everyday sessions                                           | —                 |
-| Paired device     | Your own hardware, connected once with `openclaw connect` | Spare Macs, build boxes, servers you already own            | `operator.write`  |
-| Cloud worker      | A throwaway machine leased through Crabbox                | Burst capacity, long jobs, isolation from your own machines | `operator.admin`  |
+| Destination       | The machine                                                | Best for                                                    | Scope to dispatch |
+| ----------------- | ---------------------------------------------------------- | ----------------------------------------------------------- | ----------------- |
+| Gateway (default) | The host running `openagent gateway`                       | Everyday sessions                                           | —                 |
+| Paired device     | Your own hardware, connected once with `openagent connect` | Spare Macs, build boxes, servers you already own            | `operator.write`  |
+| Cloud worker      | A throwaway machine leased through Crabbox                 | Burst capacity, long jobs, isolation from your own machines | `operator.admin`  |
 
 In all remote placements, model inference stays proxied through the Gateway — provider credentials never reach the remote machine — and completed work is retained with the Gateway as accepted repository checkpoints or changes in a Gateway-source managed worktree. Both the OpenAgent runtime (`worker-turn`) and Codex (`remote-exec`) can use the same destinations.
 
@@ -48,7 +48,7 @@ Attachment staging uses the existing workspace-result transfer limits (25,000 fi
 Pair any machine with one pasted command, then opt it into session hosting:
 
 ```bash
-openclaw connect <join-url> --service --session-host
+openagent connect <join-url> --service --session-host
 ```
 
 The device holds an outbound connection to the Gateway, advertises worker slots (one per CPU core by default, tunable with `nodeHost.workerRuns.capacity`), and can optionally run each hosted session in a Docker-compatible container (`nodeHost.workerRuns.isolation: "container"`). A device that goes offline keeps its active placement — the session waits for it to reconnect rather than losing work.

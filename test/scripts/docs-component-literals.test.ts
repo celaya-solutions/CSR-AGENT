@@ -19,7 +19,7 @@ describe("docs component literal attributes", () => {
       "First recall returns `status=timeout`",
       "first-recall-returns-status-timeout",
     ],
-    ["Step", "stepOpen", "Run `openclaw status`", "run-%60openclaw-status%60"],
+    ["Step", "stepOpen", "Run `openagent status`", "run-%60openclaw-status%60"],
     ["Tab", "tabOpen", "Use `default`", "use-%60default%60"],
     ["Card", "cardOpen", "Inspect `config`", undefined],
     ["Tooltip", "tooltipOpen", "The `config` value", undefined],

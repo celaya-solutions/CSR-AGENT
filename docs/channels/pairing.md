@@ -54,8 +54,8 @@ not a permanent block; the sender can request access again later.
 ### Approve from the CLI
 
 ```bash
-openclaw pairing list telegram
-openclaw pairing approve telegram <CODE>
+openagent pairing list telegram
+openagent pairing approve telegram <CODE>
 ```
 
 Add `--notify` to tell the requester on the same channel. Multi-account channels
@@ -69,11 +69,11 @@ pairing approvals only grant DM access; they do not add more owners.
 
 Manually allowlisted senders are not automatically command owners. If an
 authorized sender has no owner access, owner-only commands reply with the exact
-`openclaw config set commands.ownerAllowFrom` command for the operator to run.
+`openagent config set commands.ownerAllowFrom` command for the operator to run.
 
 ### Set up an owner without DM pairing
 
-Run `openclaw channels add` and complete the channel setup. When no command owner
+Run `openagent channels add` and complete the channel setup. When no command owner
 exists, the wizard offers **Set up my operator account** separately from chat
 access. Enter your personal user ID and confirm the exact account that may
 administer this installation. **Skip for now** leaves ownership unchanged.
@@ -138,7 +138,7 @@ Account scoping behavior:
 
 Older gateways wrote `<channel>-pairing.json` and
 `<channel>-<accountId>-allowFrom.json` under `~/.openclaw/credentials/`.
-Startup migration and `openclaw doctor --fix` import those files into SQLite and
+Startup migration and `openagent doctor --fix` import those files into SQLite and
 remove each source after a successful import. Treat the SQLite database as
 sensitive because these rows gate access to your assistant.
 
@@ -203,7 +203,7 @@ That bootstrap token carries the built-in pairing bootstrap profile:
 - the default handed-off `operator` token includes `operator.admin`,
   `operator.approvals`, `operator.read`, `operator.talk.secrets`, and
   `operator.write`
-- Control UI **Limited access** and `openclaw qr --limited` omit
+- Control UI **Limited access** and `openagent qr --limited` omit
   `operator.admin` while keeping the other operator scopes
 - plaintext LAN `ws://` setup automatically uses the same limited profile;
   configure `wss://` or Tailscale Serve and generate a new code for full access
@@ -225,7 +225,7 @@ QR/setup-code issuance.
 OpenAgent advertises Tailscale setup URLs only when it owns the route through
 `gateway.tailscale.mode=serve|funnel`. Legacy external Serve routes that proxy a
 `gateway.bind=lan` listener are not advertised because the ordinary listener
-rejects Tailscale-shaped proxy ingress. Run `openclaw doctor` to inspect the
+rejects Tailscale-shaped proxy ingress. Run `openagent doctor` to inspect the
 route; Doctor leaves the configuration unchanged because it cannot prove route
 ownership. If you confirm it is a stale route from an older OpenAgent release,
 remove only its root handler with `tailscale serve --yes --https=443
@@ -240,9 +240,9 @@ ingress and prints the command needed to clear the retained Service route.
 ### Approve a node device
 
 ```bash
-openclaw devices list
-openclaw devices approve <requestId>
-openclaw devices reject <requestId>
+openagent devices list
+openagent devices approve <requestId>
+openagent devices reject <requestId>
 ```
 
 When an explicit approval is denied because the approving paired-device session
@@ -257,7 +257,7 @@ role/scopes/public key), the previous pending request is superseded and a new
 `requestId` is created.
 
 <Note>
-An already paired device does not get broader access silently. If it reconnects asking for more scopes or a broader role, OpenAgent keeps the existing approval as-is and creates a fresh pending upgrade request. Use `openclaw devices list` to compare the currently approved access with the newly requested access before you approve.
+An already paired device does not get broader access silently. If it reconnects asking for more scopes or a broader role, OpenAgent keeps the existing approval as-is and creates a fresh pending upgrade request. Use `openagent devices list` to compare the currently approved access with the newly requested access before you approve.
 </Note>
 
 ### Optional trusted-CIDR node auto-approve
@@ -294,7 +294,7 @@ imported into SQLite at gateway startup and archived with a `.migrated` suffix.
 
 ### Notes
 
-- The `node.pair.*` API (CLI: `openclaw nodes pending|approve|reject|remove|rename`) manages
+- The `node.pair.*` API (CLI: `openagent nodes pending|approve|reject|remove|rename`) manages
   node capability approvals stored on the same paired device records. WS nodes
   still require device pairing; see [Node pairing](/gateway/pairing).
 - The pairing record is the durable source of truth for approved roles. Active
@@ -308,4 +308,4 @@ imported into SQLite at gateway startup and archived with a `.migrated` suffix.
 - Channel configs:
   - Telegram: [Telegram](/channels/telegram)
   - Discord: [Discord](/channels/discord)
-- [`openclaw pairing`](/cli/pairing) — drive pairing from the CLI
+- [`openagent pairing`](/cli/pairing) — drive pairing from the CLI

@@ -87,11 +87,11 @@ OpenAgent classifies every loaded plugin into a shape based on its actual regist
   </Accordion>
 </AccordionGroup>
 
-Use `openclaw plugins inspect <id>` to see a plugin's shape and capability breakdown. See [CLI reference](/cli/plugins#inspect) for details.
+Use `openagent plugins inspect <id>` to see a plugin's shape and capability breakdown. See [CLI reference](/cli/plugins#inspect) for details.
 
 ### Compatibility signals
 
-`openclaw doctor`, `openclaw plugins inspect <id>`, `openclaw status --all`, and `openclaw plugins doctor` surface these compatibility notices:
+`openagent doctor`, `openagent plugins inspect <id>`, `openagent status --all`, and `openagent plugins doctor` surface these compatibility notices:
 
 | Signal                                     | Meaning                                                                                                       |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
@@ -100,7 +100,7 @@ Use `openclaw plugins inspect <id>` to see a plugin's shape and capability break
 | **deprecated memory-embedding API** (warn) | Non-bundled plugin uses the old memory-specific embedding provider API instead of `registerEmbeddingProvider` |
 | **hard error**                             | Config is invalid or plugin failed to load                                                                    |
 
-None of the advisory/warn signals break your plugin today. These signals also appear in `openclaw status --all` and `openclaw plugins doctor`.
+None of the advisory/warn signals break your plugin today. These signals also appear in `openagent status --all` and `openagent plugins doctor`.
 
 ## Architecture overview
 
@@ -160,7 +160,7 @@ The snapshot and lookup table keep repeated startup decisions on the fast path:
 
 Startup and hot replacement share one prepared registry publisher. Replacement retains unchanged plugin instances, validates the candidate, drains affected services and channels, then publishes runtime methods and metadata together. Connected clients refresh their plugin capabilities after publication. A rejected candidate leaves the old generation selected when cleanup succeeds; a failure after publication reports the committed generation. Plugin runtime imports remain lazy; retaining metadata does not activate every discovered plugin.
 
-A provider or harness plugin load failure remains recorded in its runtime generation. It makes that plugin unavailable without superseding the generation or blocking models that use healthy plugins. Inspect the failing owner with `openclaw plugins inspect <id> --runtime --json`. Use `openclaw doctor --fix` for supported installation repairs, or fix the reported problem in plugin code, then request `plugins.reload` through the admin Gateway API to load the repaired plugin.
+A provider or harness plugin load failure remains recorded in its runtime generation. It makes that plugin unavailable without superseding the generation or blocking models that use healthy plugins. Inspect the failing owner with `openagent plugins inspect <id> --runtime --json`. Use `openagent doctor --fix` for supported installation repairs, or fix the reported problem in plugin code, then request `plugins.reload` through the admin Gateway API to load the repaired plugin.
 
 Read-only model validation, effective tool inventory, and isolated model probes acquire their own registrations when they need executable provider or harness hooks. Concurrent callers share the prepared generation, and its lifecycle disposers run after the final borrower and any unfinished preparation or catalog work settle. Cancellation does not close a registration while its callback is still running. Process shutdown revokes these registry views before joining their remaining work and disposal. Catalog reads that need only metadata do not acquire these executable registrations.
 

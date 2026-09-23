@@ -179,7 +179,7 @@ describe("update repair ledger recovery", () => {
         "age 3600s",
         `last activity ${new Date(current.updatedAtMs).toISOString()}`,
         "stop that driver",
-        "openclaw update repair",
+        "openagent update repair",
       ]) {
         await expect(pending).rejects.toThrow(detail);
       }

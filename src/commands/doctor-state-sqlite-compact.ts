@@ -84,7 +84,7 @@ export async function runDoctorStateSqliteCompact(
             afterSuccess: () => {
               if (!clearOpenClawDatabaseQuarantine(sqlitePath, { env })) {
                 throw new Error(
-                  `OpenAgent state database ${sqlitePath} was compacted, but its persisted quarantine record could not be cleared. Rerun openclaw doctor --fix so the database is not refused again.`,
+                  `OpenAgent state database ${sqlitePath} was compacted, but its persisted quarantine record could not be cleared. Rerun openagent doctor --fix so the database is not refused again.`,
                 );
               }
               clearOpenClawStateDatabaseOpenFailure(sqlitePath);

@@ -13,13 +13,13 @@ title: "TUI"
 1. Start the Gateway.
 
 ```bash
-openclaw gateway
+openagent gateway
 ```
 
 2. Open the TUI.
 
 ```bash
-openclaw tui
+openagent tui
 ```
 
 3. Type a message and press Enter.
@@ -27,7 +27,7 @@ openclaw tui
 Remote Gateway:
 
 ```bash
-openclaw tui --url ws://<host>:<port> --token <gateway-token>
+openagent tui --url ws://<host>:<port> --token <gateway-token>
 ```
 
 Use `--password` if your Gateway uses password auth.
@@ -37,12 +37,12 @@ Use `--password` if your Gateway uses password auth.
 Run the TUI without a Gateway:
 
 ```bash
-openclaw chat
+openagent chat
 # or
-openclaw tui --local
+openagent tui --local
 ```
 
-- `openclaw chat` and `openclaw terminal` are aliases for `openclaw tui --local`.
+- `openagent chat` and `openagent terminal` are aliases for `openagent tui --local`.
 - `--local` cannot be combined with `--url`, `--token`, or `--password`.
 - Local mode uses the embedded agent runtime directly. Most local tools work, but Gateway-only features are unavailable.
 - Bare `openclaw` (no subcommand) picks a target automatically. An unconfigured install runs inference onboarding. Invalid config opens classic doctor guidance. A reachable configured Gateway opens this TUI shell in gateway mode. Otherwise, a configured local model opens it in local mode.
@@ -76,7 +76,7 @@ openclaw tui --local
 
 - Messages always go to the Gateway (or embedded runtime in local mode). Delivering the assistant's reply back out to a chat provider is a separate, off-by-default step.
 - The TUI is an internal source surface like WebChat, not a generic outbound channel. Harnesses that require `tools.message` for visible replies can satisfy the active TUI turn with a targetless `message.send`. Explicit provider delivery still uses normal configured channels and never falls back to `lastChannel`.
-- Delivery is fixed for the whole TUI session when it starts. Start with `openclaw tui --deliver` to turn it on. There is no `/deliver` slash command or Settings toggle to flip it mid-session. Restart the TUI to change it.
+- Delivery is fixed for the whole TUI session when it starts. Start with `openagent tui --deliver` to turn it on. There is no `/deliver` slash command or Settings toggle to flip it mid-session. Restart the TUI to change it.
 
 ## Pickers + overlays
 
@@ -91,7 +91,7 @@ Esc or Ctrl+C closes a picker. In the session picker, the first press clears a n
 
 When the agent calls [`ask_user`](/tools/ask-user), the TUI opens a question
 prompt for the active session. This works in Gateway mode and local mode
-(`openclaw chat` or `openclaw tui --local`). Prompts with up to three questions
+(`openagent chat` or `openagent tui --local`). Prompts with up to three questions
 show one at a time, with a stepper and the time remaining.
 
 Use arrow keys or number keys to choose an option, then Enter to continue.
@@ -111,7 +111,7 @@ Gateway-connected [`secrets`](/tools/secrets) requests use a masked input that
 renders bullets and keeps the value out of chat and input history. The prompt
 shows the entry name, reason, and proposed allowed hosts. Hosts are read-only
 here: submitting accepts the list as shown. Use the Control UI to edit it.
-Local mode cannot fulfill store-bound requests. Use `openclaw secrets store`
+Local mode cannot fulfill store-bound requests. Use `openagent secrets store`
 or the Control UI with a running Gateway. Enter credentials only in a masked
 prompt, never in the composer.
 
@@ -202,12 +202,12 @@ Other Gateway slash commands (for example, `/context`) are forwarded to the Gate
 
 ## OpenAgent setup and repair helper
 
-OpenAgent is the ring-zero setup/repair assistant. It is exposed as `openclaw setup` after the configured default model passes a live inference check. If inference is unavailable, an interactive invocation returns to inference onboarding and automation fails with repair guidance. It runs inside the same local TUI shell as `openclaw tui --local`, backed by an AI agent restricted to OpenAgent's typed, approval-gated operations:
+OpenAgent is the ring-zero setup/repair assistant. It is exposed as `openagent setup` after the configured default model passes a live inference check. If inference is unavailable, an interactive invocation returns to inference onboarding and automation fails with repair guidance. It runs inside the same local TUI shell as `openagent tui --local`, backed by an AI agent restricted to OpenAgent's typed, approval-gated operations:
 
 ```bash
-openclaw setup                       # start interactively
-openclaw setup -m "status"           # run one request and exit
-openclaw setup -m "set default model openai/gpt-5.2" --yes   # apply a config write
+openagent setup                       # start interactively
+openagent setup -m "status"           # run one request and exit
+openagent setup -m "set default model openai/gpt-5.2" --yes   # apply a config write
 ```
 
 - Persistent config writes need approval: either approve interactively or pass `--yes`.
@@ -216,14 +216,14 @@ openclaw setup -m "set default model openai/gpt-5.2" --yes   # apply a config wr
 
 Use local mode when the current config already passes validation and you want the embedded agent to work on it. That agent inspects the config on the same machine, compares it against the docs, and helps repair drift. Local mode does not depend on a running Gateway.
 
-If `openclaw config validate` is already failing, start with `openclaw configure` or `openclaw doctor --fix` first. `openclaw chat` still needs a loadable config to start.
+If `openagent config validate` is already failing, start with `openagent configure` or `openagent doctor --fix` first. `openagent chat` still needs a loadable config to start.
 
 Typical loop:
 
 1. Start local mode:
 
 ```bash
-openclaw chat
+openagent chat
 ```
 
 2. Ask the agent what you want checked, for example:
@@ -235,20 +235,20 @@ Compare my gateway auth config with the docs and suggest the smallest fix.
 3. Use local shell commands for exact evidence and validation:
 
 ```text
-!openclaw config file
+!openagent config file
 !openclaw docs gateway auth token secretref
-!openclaw config validate
-!openclaw doctor
+!openagent config validate
+!openagent doctor
 ```
 
-4. Apply narrow changes with `openclaw config set` or `openclaw configure`, then rerun `!openclaw config validate`.
-5. If Doctor recommends an automatic migration or repair, review it and run `!openclaw doctor --fix`.
+4. Apply narrow changes with `openagent config set` or `openagent configure`, then rerun `!openagent config validate`.
+5. If Doctor recommends an automatic migration or repair, review it and run `!openagent doctor --fix`.
 
 Tips:
 
-- Prefer `openclaw config set` or `openclaw configure` over hand-editing `openclaw.json`.
+- Prefer `openagent config set` or `openagent configure` over hand-editing `openclaw.json`.
 - `openclaw docs "<query>"` searches the live docs index from the same machine.
-- `openclaw config validate --json` is useful when you want structured schema and SecretRef/resolvability errors.
+- `openagent config validate --json` is useful when you want structured schema and SecretRef/resolvability errors.
 
 ## Tool output
 
@@ -283,7 +283,7 @@ disabled by default inside tmux and GNU Screen. Sixel is not supported.
 ## Terminal colors
 
 - The TUI keeps assistant body text in your terminal's default foreground so dark and light terminals both stay readable.
-- If your terminal uses a light background and auto-detection is wrong, set `OPENCLAW_THEME=light` before starting `openclaw tui`.
+- If your terminal uses a light background and auto-detection is wrong, set `OPENCLAW_THEME=light` before starting `openagent tui`.
 - To force the original dark palette instead, set `OPENCLAW_THEME=dark`.
 
 ## History + streaming
@@ -324,14 +324,14 @@ When you set `--url`, the TUI does not fall back to config or environment creden
 No output after sending a message:
 
 - Run `/status` in the TUI to check the Gateway is connected and idle/busy.
-- Check the Gateway logs: `openclaw logs --follow`.
-- Check the agent can run: `openclaw status` and `openclaw models status`.
+- Check the Gateway logs: `openagent logs --follow`.
+- Check the agent can run: `openagent status` and `openagent models status`.
 - If you expect messages in a chat channel, check the TUI was started with `--deliver`. Delivery cannot be turned on later without restarting.
 
 ## Connection troubleshooting
 
 - `disconnected`: ensure the Gateway is running and your `--url/--token/--password` are correct.
-- No agents in picker: check `openclaw agents list` and your routing config.
+- No agents in picker: check `openagent agents list` and your routing config.
 - Empty session picker: you might be in global scope or have no sessions yet.
 
 ## Related
@@ -340,5 +340,5 @@ No output after sending a message:
 - [Config](/cli/config) — inspect, validate, and edit `openclaw.json`
 - [Doctor](/cli/doctor) — guided repair and migration checks
 - [CLI Reference](/cli) — full CLI command reference
-- [`openclaw resume`](/cli/resume) — attach the TUI to a recent Gateway session
-- [`openclaw tui`](/cli/tui) — command reference and flags for the terminal UI
+- [`openagent resume`](/cli/resume) — attach the TUI to a recent Gateway session
+- [`openagent tui`](/cli/tui) — command reference and flags for the terminal UI

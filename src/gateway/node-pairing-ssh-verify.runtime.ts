@@ -19,9 +19,11 @@ export type NodeIdentityProbeResult =
 
 const MAX_PROBE_OUTPUT_BYTES = 64 * 1024;
 
-// `sh -lc` loads the remote login profile so `openclaw` resolves on PATH even
-// though sshd runs remote commands through a non-login shell.
-const REMOTE_IDENTITY_COMMAND = "sh -lc 'openclaw node identity --json'";
+// `sh -lc` loads the remote login profile so the CLI resolves on PATH even
+// though sshd runs remote commands through a non-login shell. Hosts installed
+// before the `openagent` rename only expose `openclaw`, so fall back to it.
+const REMOTE_IDENTITY_COMMAND =
+  "sh -lc 'if command -v openagent >/dev/null 2>&1; then exec openagent node identity --json; else exec openclaw node identity --json; fi'";
 
 /** Read the node device identity back from the pairing host over SSH. */
 export async function runNodeIdentityProbe(

@@ -53,7 +53,7 @@ not answer within the app-server's timeout fails that turn rather than falling
 back to another credential. A failed refresh retires the shared client from
 reuse; existing leases drain, and the next request starts a fresh client. If the
 workspace changed, retry the request. If credentials cannot refresh, sign in
-again with `openclaw models auth login --provider openai` and select that profile.
+again with `openagent models auth login --provider openai` and select that profile.
 Shared clients recheck the selected profile before reuse so changing accounts
 under the same profile ID also selects a new client.
 
@@ -117,8 +117,8 @@ plugins from a Codex home that should become part of an isolated OpenAgent
 agent, inventory them explicitly:
 
 ```bash
-openclaw migrate codex --dry-run
-openclaw migrate apply codex --yes
+openagent migrate codex --dry-run
+openagent migrate apply codex --yes
 ```
 
 Credentials need the sensitive migration path because the default agent scope
@@ -126,8 +126,8 @@ does not consume a copied or mounted `codex-home/auth.json` directly. Replace
 `<agent-id>` with the configured agent that owns this Codex home:
 
 ```bash
-openclaw migrate plan codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai
-openclaw migrate apply codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai --yes
+openagent migrate plan codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai
+openagent migrate apply codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai --yes
 ```
 
 If a deployment needs additional environment isolation, add those variables

@@ -62,8 +62,8 @@ export function warnIfConfigFromFuture(
   logger.warn(
     [
       `Your OpenAgent config was written by version ${touched}, but this command is running ${VERSION}.`,
-      "Check: `openclaw --version`, `which openclaw`, and `openclaw gateway status --deep`.",
-      "If unexpected, update PATH so `openclaw` points to the version you want, or reinstall the Gateway service from that same OpenAgent install.",
+      "Check: `openagent --version`, `which openagent`, and `openagent gateway status --deep`.",
+      "If unexpected, update PATH so `openagent` points to the version you want, or reinstall the Gateway service from that same OpenAgent install.",
     ].join("\n"),
   );
 }

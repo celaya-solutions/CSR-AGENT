@@ -431,7 +431,7 @@ function inspectExactExecution(
       remediation: [
         {
           code: "inspect_state_integrity",
-          text: "Run openclaw doctor and inspect the shared state database before trusting this execution.",
+          text: "Run openagent doctor and inspect the shared state database before trusting this execution.",
         },
       ],
     });
@@ -524,7 +524,7 @@ function inspectRunSelector(
           remediation: [
             {
               code: "inspect_state_integrity",
-              text: "Run openclaw doctor and inspect the shared state database before trusting this run.",
+              text: "Run openagent doctor and inspect the shared state database before trusting this run.",
             },
           ],
         });
@@ -556,7 +556,7 @@ function inspectRunSelector(
           remediation: [
             {
               code: "select_execution_id",
-              text: "Select one candidate with openclaw audit --execution <id> --explain.",
+              text: "Select one candidate with openagent audit --execution <id> --explain.",
             },
           ],
         },
@@ -613,7 +613,7 @@ function inspectRunSelector(
         remediation: [
           {
             code: "inspect_state_integrity",
-            text: "Run openclaw doctor and retry the run inspection.",
+            text: "Run openagent doctor and retry the run inspection.",
           },
         ],
       });

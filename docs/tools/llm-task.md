@@ -71,7 +71,7 @@ completion, so include the resolved agent default as well as any override target
 `authProfileId` parameter. The `config` keys are selection defaults used when a
 tool call omits the corresponding parameter.
 
-Run `openclaw doctor --fix` once for llm-task entries created by older releases.
+Run `openagent doctor --fix` once for llm-task entries created by older releases.
 Doctor grants the shipped model/profile selection permissions and moves any
 legacy `config.allowedModels` value into `llm.allowedCompletionModels` without widening it.
 

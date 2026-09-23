@@ -47,7 +47,7 @@ export function formatIndeterminateDatabaseReadiness(
       : operation === "gateway-startup"
         ? "Gateway refused startup"
         : "Gateway refused restart";
-  return `${action} because persisted database readiness could not be verified: ${shown.join("; ")}${omitted > 0 ? `; +${omitted} more` : ""}. ${operation === "doctor" ? "Stop OpenAgent processes, then restore the affected database from a verified backup." : "Stop the Gateway and other OpenAgent processes, run openclaw doctor --fix, then retry."}`;
+  return `${action} because persisted database readiness could not be verified: ${shown.join("; ")}${omitted > 0 ? `; +${omitted} more` : ""}. ${operation === "doctor" ? "Stop OpenAgent processes, then restore the affected database from a verified backup." : "Stop the Gateway and other OpenAgent processes, run openagent doctor --fix, then retry."}`;
 }
 
 export function describeDeferredStateSchemaPublication(

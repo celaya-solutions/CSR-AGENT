@@ -20,19 +20,19 @@ Permission modes decide how much authority an agent has before it runs host comm
 Use `auto` for coding agents that need useful host access without making every miss a human prompt:
 
 ```bash
-openclaw config set tools.exec.mode auto
-openclaw approvals get
-openclaw gateway restart
+openagent config set tools.exec.mode auto
+openagent approvals get
+openagent gateway restart
 ```
 
-`openclaw approvals get` prints the requested policy, the host policy sources
+`openagent approvals get` prints the requested policy, the host policy sources
 behind it, and the effective result. Use it to confirm the `tools.exec.mode`
 write landed in the source you expect before the restart applies it.
 
 Then verify the effective policy:
 
 ```bash
-openclaw exec-policy show
+openagent exec-policy show
 ```
 
 ## OpenAgent host exec modes
@@ -89,8 +89,8 @@ uses separate harness-level settings under `plugins.entries.acpx.config`:
 Set ACPX permissions separately from OpenAgent exec approvals:
 
 ```bash
-openclaw config set plugins.entries.acpx.config.permissionMode approve-all
-openclaw config set plugins.entries.acpx.config.nonInteractivePermissions fail
+openagent config set plugins.entries.acpx.config.permissionMode approve-all
+openagent config set plugins.entries.acpx.config.nonInteractivePermissions fail
 ```
 
 With the default hybrid reload mode, these changes automatically reload the ACPX
@@ -100,20 +100,20 @@ Use `approve-all` as the ACPX break-glass equivalent of a no-prompt harness sess
 
 ## Choosing a mode
 
-| Goal                                              | Configure                                                                              |
-| ------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Block host commands completely                    | `tools.exec.mode: "deny"`                                                              |
-| Let known-safe commands run only                  | `tools.exec.mode: "allowlist"`                                                         |
-| Ask a human for every new command shape           | `tools.exec.mode: "ask"`                                                               |
+| Goal                                          | Configure                                                                              |
+| --------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Block host commands completely                | `tools.exec.mode: "deny"`                                                              |
+| Let known-safe commands run only              | `tools.exec.mode: "allowlist"`                                                         |
+| Ask a human for every new command shape       | `tools.exec.mode: "ask"`                                                               |
 | Use Codex/OpenAgent auto-review before humans | `tools.exec.mode: "auto"`                                                              |
-| Skip ordinary host exec approval prompts          | `tools.exec.mode: "full"` plus matching host approvals, with `strictInlineEval: false` |
-| Make non-interactive ACPX sessions write/exec     | `plugins.entries.acpx.config.permissionMode: "approve-all"`                            |
+| Skip ordinary host exec approval prompts      | `tools.exec.mode: "full"` plus matching host approvals, with `strictInlineEval: false` |
+| Make non-interactive ACPX sessions write/exec | `plugins.entries.acpx.config.permissionMode: "approve-all"`                            |
 
 If a command still prompts or fails after changing mode, inspect both layers:
 
 ```bash
-openclaw approvals get
-openclaw exec-policy show
+openagent approvals get
+openagent exec-policy show
 ```
 
 Outside the full-permission Gateway session exception described above, host exec uses the stricter result of OpenAgent config and the host-local approvals file. ACPX harness permissions do not loosen host exec approvals, and host exec approvals do not loosen ACPX harness prompts.

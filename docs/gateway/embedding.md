@@ -47,12 +47,12 @@ project-local `openclaw` binary is on the host process's `PATH`. The example
 inherits output so the child cannot block on full stdout or stderr pipes. If the
 host captures those streams instead, attach consumers immediately after spawning.
 
-| Setting                          | Embedding effect                                                                                                                                                                                |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `OPENCLAW_DISABLE_BONJOUR=1`     | Disables Gateway-owned LAN multicast advertising when the host owns discovery.                                                                                                                  |
+| Setting                          | Embedding effect                                                                                                                                                                            |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `OPENCLAW_DISABLE_BONJOUR=1`     | Disables Gateway-owned LAN multicast advertising when the host owns discovery.                                                                                                              |
 | `OPENCLAW_NO_RESPAWN=1`          | In an unmanaged embedding child, prevents OpenAgent from handing an update restart to a detached child. Routine restarts remain in process, so the host keeps ownership of the tracked PID. |
-| `OPENCLAW_EXEC_SHELL_SNAPSHOT=0` | Disables login-shell snapshot capture for host exec commands.                                                                                                                                   |
-| `OPENCLAW_SKIP_CHANNELS=1`       | Skips channel startup and reload. Set it only when the embedding app wants a control-plane or WebChat-only Gateway.                                                                             |
+| `OPENCLAW_EXEC_SHELL_SNAPSHOT=0` | Disables login-shell snapshot capture for host exec commands.                                                                                                                               |
+| `OPENCLAW_SKIP_CHANNELS=1`       | Skips channel startup and reload. Set it only when the embedding app wants a control-plane or WebChat-only Gateway.                                                                         |
 
 `--allow-unconfigured` bypasses only the `gateway.mode=local` startup guard. It
 does not write configuration or repair an invalid file. Omit it when the embedding
@@ -75,7 +75,7 @@ Gateway startup uses exit code `78` (`EX_CONFIG`) for configuration-class startu
 failures, including an invalid config. Branch on the exit code instead of scraping
 human-readable stderr:
 
-1. Run `openclaw doctor --fix --yes --non-interactive` against the same config and
+1. Run `openagent doctor --fix --yes --non-interactive` against the same config and
    state environment as the Gateway child.
 2. Retry Gateway startup once after doctor exits successfully.
 3. If the child exits `78` again, stop the repair loop and surface the config

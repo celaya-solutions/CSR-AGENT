@@ -186,7 +186,7 @@ export function resolveMissingPluginCommandMessage(
       return (
         `The \`openclaw ${normalizedPluginId}\` command is provided by the ` +
         `"${parentPluginId}" plugin, but that bundled plugin is disabled by default. Run ` +
-        `\`openclaw plugins enable ${parentPluginId}\` to enable that CLI surface.`
+        `\`openagent plugins enable ${parentPluginId}\` to enable that CLI surface.`
       );
     }
     if (commandAlias.kind === "runtime-slash") {
@@ -225,13 +225,13 @@ export function resolveMissingPluginCommandMessage(
         return (
           `"${normalizedPluginId}" may be provided by the "${toolOwner.pluginId}" plugin ` +
           `as an agent tool, not a CLI subcommand. ` +
-          "Run `openclaw --help` to see available CLI subcommands."
+          "Run `openagent --help` to see available CLI subcommands."
         );
       }
       return (
         `"${normalizedPluginId}" is an agent tool available from the "${toolOwner.pluginId}" plugin, ` +
         `not a CLI subcommand. Use it from an agent turn (model tool-use), not the CLI. ` +
-        "Run `openclaw --help` to see available CLI subcommands."
+        "Run `openagent --help` to see available CLI subcommands."
       );
     }
   }

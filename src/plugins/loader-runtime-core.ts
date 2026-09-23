@@ -440,7 +440,7 @@ export function loadOpenClawPluginsCore(
         logger.warn(
           `[plugins] ${failedPlugins.length} plugin(s) failed to initialize (${formatPluginFailureSummary(
             failedPlugins,
-          )}). Run 'openclaw plugins inspect <id> --runtime --json' for runtime diagnostics and 'openclaw plugins list' for registry state. After fixing plugin code or load paths, run 'openclaw plugins reload <id>' to retry.`,
+          )}). Run 'openagent plugins inspect <id> --runtime --json' for runtime diagnostics and 'openagent plugins list' for registry state. After fixing plugin code or load paths, run 'openagent plugins reload <id>' to retry.`,
         );
       }
     }

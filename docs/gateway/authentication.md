@@ -19,11 +19,11 @@ OpenAgent supports OAuth and API keys for model providers. For an always-on gate
 ## Recommended setup: API key (any provider)
 
 1. Create an API key in your provider console.
-2. Put it on the **gateway host** (the machine running `openclaw gateway`):
+2. Put it on the **gateway host** (the machine running `openagent gateway`):
 
 ```bash
 export <PROVIDER>_API_KEY="..."
-openclaw models status
+openagent models status
 ```
 
 3. If the gateway runs under systemd/launchd, put the key in `~/.openclaw/.env` so the daemon can read it:
@@ -37,11 +37,11 @@ EOF
 4. Restart the gateway process (or the daemon), then re-check:
 
 ```bash
-openclaw models status
-openclaw doctor
+openagent models status
+openagent doctor
 ```
 
-`openclaw onboard` can also store API keys for daemon use if you don't want to manage env vars yourself. See [Environment variables](/help/environment) for the full env-loading precedence (`env.shellEnv`, `~/.openclaw/.env`, systemd/launchd).
+`openagent onboard` can also store API keys for daemon use if you don't want to manage env vars yourself. See [Environment variables](/help/environment) for the full env-loading precedence (`env.shellEnv`, `~/.openclaw/.env`, systemd/launchd).
 
 ## Anthropic: Claude CLI reuse
 
@@ -53,7 +53,7 @@ Host setup for Claude CLI reuse:
 # Run on the gateway host
 claude auth login
 claude auth status --text
-openclaw models auth login --provider anthropic --method cli --set-default
+openagent models auth login --provider anthropic --method cli --set-default
 ```
 
 This is two steps: log Claude Code into Anthropic on the host, then tell OpenAgent to route Anthropic models through the local `claude-cli` backend.
@@ -69,24 +69,24 @@ nonstandard executable path, register a wrapper through a
 Run `claude setup-token` on any machine with Claude Code installed. It prints a long-lived token starting with `sk-ant-oat01-`. Store it on the gateway host with:
 
 ```bash
-openclaw models auth login --provider anthropic --method setup-token
+openagent models auth login --provider anthropic --method setup-token
 ```
 
-The command requires an interactive TTY. See [`openclaw models`](/cli/models#auth-profiles) for the auth-profile commands that manage the stored token afterwards, and [Anthropic](/providers/anthropic) for the provider-side details.
+The command requires an interactive TTY. See [`openagent models`](/cli/models#auth-profiles) for the auth-profile commands that manage the stored token afterwards, and [Anthropic](/providers/anthropic) for the provider-side details.
 
 ## Manual token entry
 
 Works for any provider; writes the per-agent SQLite auth store and updates config:
 
 ```bash
-openclaw models auth paste-token --provider openrouter
+openagent models auth paste-token --provider openrouter
 ```
 
 OpenAgent reads auth profiles from each agent's `openclaw-agent.sqlite`. Endpoint details (`baseUrl`, `api`, model ids, headers, timeouts) belong under `models.providers.<id>` in `openclaw.json` or `models.json`, not in auth profiles.
 
-If an older install still has `auth-profiles.json`, `auth-state.json`, or a flat shape like `{ "openrouter": { "apiKey": "..." } }`, run `openclaw doctor --fix` to import it into SQLite; doctor keeps timestamped backups beside the original JSON files.
+If an older install still has `auth-profiles.json`, `auth-state.json`, or a flat shape like `{ "openrouter": { "apiKey": "..." } }`, run `openagent doctor --fix` to import it into SQLite; doctor keeps timestamped backups beside the original JSON files.
 
-External auth routes such as Bedrock `auth: "aws-sdk"` aren't credentials. For a named Bedrock route, set `auth.profiles.<id>.mode: "aws-sdk"` in `openclaw.json` — don't write `type: "aws-sdk"` into the auth profile store. `openclaw doctor --fix` migrates legacy AWS SDK markers from the credential store into config metadata.
+External auth routes such as Bedrock `auth: "aws-sdk"` aren't credentials. For a named Bedrock route, set `auth.profiles.<id>.mode: "aws-sdk"` in `openclaw.json` — don't write `type: "aws-sdk"` into the auth profile store. `openagent doctor --fix` migrates legacy AWS SDK markers from the credential store into config metadata.
 
 ### SecretRef-backed credentials
 
@@ -97,20 +97,20 @@ External auth routes such as Bedrock `auth: "aws-sdk"` aren't credentials. For a
 ## Checking model auth status
 
 ```bash
-openclaw models status
-openclaw doctor
+openagent models status
+openagent doctor
 ```
 
 Automation-friendly check, exit `1` when expired/missing, `2` when expiring:
 
 ```bash
-openclaw models status --check
+openagent models status --check
 ```
 
 Live auth probes (add `--probe-provider`, `--probe-profile`, `--probe-timeout`, `--probe-concurrency`, or `--probe-max-tokens` to narrow scope):
 
 ```bash
-openclaw models status --probe
+openagent models status --probe
 ```
 
 Notes:
@@ -156,8 +156,8 @@ OpenAI API-key profiles and ChatGPT/Codex OAuth profiles both use the canonical 
 If you see `openai-codex` in older config, auth profile ids, or `auth.order.openai-codex`, treat it as legacy migration input — don't create new `openai-codex` profiles. Run:
 
 ```bash
-openclaw doctor --fix
-openclaw models auth list --provider openai
+openagent doctor --fix
+openagent models auth list --provider openai
 ```
 
 Doctor rewrites legacy `openai-codex:*` profile ids and `auth.order.openai-codex` entries to the canonical `openai` route. For OpenAI-specific model/runtime routing, see [OpenAI](/providers/openai).
@@ -165,8 +165,8 @@ Doctor rewrites legacy `openai-codex:*` profile ids and `auth.order.openai-codex
 ### During login (CLI)
 
 ```bash
-openclaw models auth login --provider openai --profile-id openai:ritsuko
-openclaw models auth login --provider openai --profile-id openai:lain
+openagent models auth login --provider openai --profile-id openai:ritsuko
+openagent models auth login --provider openai --profile-id openai:lain
 ```
 
 `--profile-id` keeps multiple OAuth logins for the same provider separate inside one agent.
@@ -174,7 +174,7 @@ openclaw models auth login --provider openai --profile-id openai:lain
 `--force` deletes the saved auth profiles for that provider in the selected agent directory, then reruns the same auth flow. Use it when a saved profile is stuck, expired, or tied to the wrong account. It doesn't revoke credentials at the provider.
 
 ```bash
-openclaw models auth login --provider anthropic --force
+openagent models auth login --provider anthropic --force
 ```
 
 ### Per-session (chat command)
@@ -189,12 +189,12 @@ Changes to `auth.order` affect automatic profile selection. `/new` and `/reset` 
 Auth order overrides are stored in that agent's SQLite auth state:
 
 ```bash
-openclaw models auth order get --provider anthropic
-openclaw models auth order set --provider anthropic anthropic:default
-openclaw models auth order clear --provider anthropic
+openagent models auth order get --provider anthropic
+openagent models auth order set --provider anthropic anthropic:default
+openagent models auth order clear --provider anthropic
 ```
 
-Use `--agent <id>` to target a specific agent; omit it to use the configured default agent. `openclaw models status --probe` shows omitted stored profiles as `excluded_by_auth_order` rather than silently skipping them.
+Use `--agent <id>` to target a specific agent; omit it to use the configured default agent. `openagent models status --probe` shows omitted stored profiles as `excluded_by_auth_order` rather than silently skipping them.
 
 ## Troubleshooting
 
@@ -203,12 +203,12 @@ Use `--agent <id>` to target a specific agent; omit it to use the configured def
 Configure an Anthropic API key on the **gateway host**, or set up the [Anthropic setup-token](#anthropic-setup-token) path, then re-check:
 
 ```bash
-openclaw models status
+openagent models status
 ```
 
 ### Token expiring/expired
 
-Run `openclaw models status` to see which profile is expiring. If an Anthropic token profile is missing or expired, refresh it via [setup-token](#anthropic-setup-token) or migrate to an Anthropic API key.
+Run `openagent models status` to see which profile is expiring. If an Anthropic token profile is missing or expired, refresh it via [setup-token](#anthropic-setup-token) or migrate to an Anthropic API key.
 
 ## Related
 

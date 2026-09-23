@@ -51,12 +51,12 @@ for the OpenAI account and admin model.
 
 The source Codex home is the Codex CLI state directory you are migrating from:
 `~/.codex` by default, or `CODEX_HOME` when that variable is set. See
-[`openclaw migrate`](/cli/migrate) to point at a different one with `--from`.
+[`openagent migrate`](/cli/migrate) to point at a different one with `--from`.
 
 Preview migration from the source Codex home:
 
 ```bash
-openclaw migrate codex --dry-run
+openagent migrate codex --dry-run
 ```
 
 Add `--verify-plugin-apps` to make migration read the source installed app
@@ -64,13 +64,13 @@ snapshot and app metadata, requiring every owned app to be present, enabled,
 and accessible before planning native activation:
 
 ```bash
-openclaw migrate codex --dry-run --verify-plugin-apps
+openagent migrate codex --dry-run --verify-plugin-apps
 ```
 
 Apply the migration when the plan looks right:
 
 ```bash
-openclaw migrate apply codex --yes
+openagent migrate apply codex --yes
 ```
 
 Migration writes explicit `codexPlugins` entries for eligible plugins and
@@ -341,7 +341,7 @@ The integration tracks three states:
 | State      | Meaning                                                                                                                            |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | Installed  | Codex has the plugin bundle in the target app-server runtime.                                                                      |
-| Enabled    | Codex reports the plugin enabled, and OpenAgent config allows it for Codex harness turns.                                      |
+| Enabled    | Codex reports the plugin enabled, and OpenAgent config allows it for Codex harness turns.                                          |
 | Accessible | Codex app-server confirms the plugin's app entries are available for the active account and map to the configured plugin identity. |
 
 For `openai-curated` plugins, migration is the durable install/eligibility
@@ -566,19 +566,19 @@ authoritative.
 
 ## Troubleshooting
 
-| Code                                              | Meaning                                                                                                                              | Fix                                                                                                                        |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| Code                                              | Meaning                                                                                                                              | Fix                                                                                                                    |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
 | `auth_required`                                   | Migration installed the plugin, but one of its apps still needs authentication. The entry is written disabled until you reauthorize. | Reauthorize the app in Codex, then enable the plugin in OpenAgent.                                                     |
-| `app_inaccessible`, `app_disabled`, `app_missing` | With `--verify-plugin-apps`, the source Codex app inventory did not show all owned apps as present, enabled, and accessible.         | Reauthorize or enable the app in Codex, then rerun migration with `--verify-plugin-apps`.                                  |
-| `app_inventory_unavailable`                       | Strict source app verification was requested but the source Codex app inventory refresh failed.                                      | Fix source Codex app-server access, or retry without `--verify-plugin-apps` to accept the faster account-gated plan.       |
-| `codex_subscription_required`                     | The source app-server positively identified an API-key or other non-ChatGPT account.                                                 | Log in to the Codex app with subscription auth, then rerun migration.                                                      |
-| `codex_account_unavailable`                       | The source account was missing or `account/read` failed without strict app verification.                                             | Restore source account access, or use `--verify-plugin-apps` when authenticated source app inventory can prove access.     |
-| `marketplace_missing`, `plugin_missing`           | The exact marketplace or configured plugin is unavailable in the installed snapshot; plugin apps fail closed.                        | Verify the target app-server's `plugin/installed` response and exact configured plugin identity.                           |
-| `plugin_detail_unavailable`                       | OpenAgent could not read the exact configured plugin's ownership details.                                                        | Inspect the target app-server's `plugin/installed` and `plugin/read` responses.                                            |
-| `plugin_disabled`                                 | Codex reports the plugin installed but disabled.                                                                                     | Enable the plugin in Codex, or have the owner explicitly install and authorize it again.                                   |
-| `plugin_activation_failed`                        | Plugin activation did not complete.                                                                                                  | Use the attached diagnostic to distinguish marketplace, auth, refresh, or workspace-readiness failures.                    |
+| `app_inaccessible`, `app_disabled`, `app_missing` | With `--verify-plugin-apps`, the source Codex app inventory did not show all owned apps as present, enabled, and accessible.         | Reauthorize or enable the app in Codex, then rerun migration with `--verify-plugin-apps`.                              |
+| `app_inventory_unavailable`                       | Strict source app verification was requested but the source Codex app inventory refresh failed.                                      | Fix source Codex app-server access, or retry without `--verify-plugin-apps` to accept the faster account-gated plan.   |
+| `codex_subscription_required`                     | The source app-server positively identified an API-key or other non-ChatGPT account.                                                 | Log in to the Codex app with subscription auth, then rerun migration.                                                  |
+| `codex_account_unavailable`                       | The source account was missing or `account/read` failed without strict app verification.                                             | Restore source account access, or use `--verify-plugin-apps` when authenticated source app inventory can prove access. |
+| `marketplace_missing`, `plugin_missing`           | The exact marketplace or configured plugin is unavailable in the installed snapshot; plugin apps fail closed.                        | Verify the target app-server's `plugin/installed` response and exact configured plugin identity.                       |
+| `plugin_detail_unavailable`                       | OpenAgent could not read the exact configured plugin's ownership details.                                                            | Inspect the target app-server's `plugin/installed` and `plugin/read` responses.                                        |
+| `plugin_disabled`                                 | Codex reports the plugin installed but disabled.                                                                                     | Enable the plugin in Codex, or have the owner explicitly install and authorize it again.                               |
+| `plugin_activation_failed`                        | Plugin activation did not complete.                                                                                                  | Use the attached diagnostic to distinguish marketplace, auth, refresh, or workspace-readiness failures.                |
 | `app_inventory_missing`, `app_inventory_stale`    | App readiness came from an empty or stale cache.                                                                                     | OpenAgent schedules an async refresh automatically; plugin apps stay excluded until ownership and readiness are known. |
-| `app_ownership_ambiguous`                         | App inventory only matched by display name.                                                                                          | The app stays hidden from the Codex thread until a later refresh proves ownership.                                         |
+| `app_ownership_ambiguous`                         | App inventory only matched by display name.                                                                                          | The app stays hidden from the Codex thread until a later refresh proves ownership.                                     |
 
 **Workspace plugin is installed but not visible:** confirm the workspace
 `plugin/installed` snapshot reports the exact configured ID as installed and

@@ -349,7 +349,7 @@ read_when:
       array positions.
       Include targets and contents are rechecked around persistence; a concurrent
       edit to an intermediate include refuses the write or rolls back its unchanged leaf.
-    - **Doctor repairs**: `openclaw doctor --fix` writes through the same
+    - **Doctor repairs**: `openagent doctor --fix` writes through the same
       boundary. A run whose candidate mixes a root-owned repair with an
       include-owned repair is refused as a whole. That refused write leaves every
       file unchanged (earlier writes in the same run stay saved), and Doctor names

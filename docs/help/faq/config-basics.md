@@ -41,7 +41,7 @@ read_when:
 
     On a fresh loopback start, the Gateway prepares the canonical same-user CLI device credential before `/readyz`, so normal `openclaw` CLI calls can authenticate without persisting the generated token. Other clients still need an explicit shared secret or an approved device pairing.
 
-    Configure `gateway.auth.token`, `gateway.auth.password`, `OPENCLAW_GATEWAY_TOKEN`, or `OPENCLAW_GATEWAY_PASSWORD` explicitly when clients need a stable secret across restarts. You can also choose password mode, or `trusted-proxy` for identity-aware reverse proxies. For open loopback, set `gateway.auth.mode: "none"` explicitly. `openclaw doctor --generate-gateway-token` generates a token any time.
+    Configure `gateway.auth.token`, `gateway.auth.password`, `OPENCLAW_GATEWAY_TOKEN`, or `OPENCLAW_GATEWAY_PASSWORD` explicitly when clients need a stable secret across restarts. You can also choose password mode, or `trusted-proxy` for identity-aware reverse proxies. For open loopback, set `gateway.auth.mode: "none"` explicitly. `openagent doctor --generate-gateway-token` generates a token any time.
 
   </Accordion>
 
@@ -57,7 +57,7 @@ read_when:
     | DuckDuckGo | Yes (unofficial HTML-based) | - |
     | Ollama Web Search | Local: yes (needs `ollama signin`); hosted: no | Hosted: `OLLAMA_API_KEY` |
 
-    **Recommended**: `openclaw configure --section web` and pick a provider.
+    **Recommended**: `openagent configure --section web` and pick a provider.
 
     ```json5
     {
@@ -94,18 +94,18 @@ read_when:
     - OpenAgent-owned config writes validate the full post-change config before writing.
     - Invalid or destructive OpenAgent-owned writes are rejected and saved as `openclaw.json.rejected.*`.
     - Startup can migrate deterministic legacy keys in eligible single-file configs when the whole result validates, keeping the previous config in the `.bak` ring. Other invalid edits make startup fail closed; hot reload skips invalid edits without rewriting `openclaw.json`.
-    - `openclaw doctor --fix` owns repairs beyond that startup migration, can restore last-known-good, and saves the rejected file as `openclaw.json.clobbered.*`.
+    - `openagent doctor --fix` owns repairs beyond that startup migration, can restore last-known-good, and saves the rejected file as `openclaw.json.clobbered.*`.
 
     Recover:
 
-    - Check `openclaw logs --follow` for `Invalid config at`, `Config write rejected:`, or `config reload skipped (invalid config)`.
+    - Check `openagent logs --follow` for `Invalid config at`, `Config write rejected:`, or `config reload skipped (invalid config)`.
     - Inspect the newest `openclaw.json.clobbered.*` or `openclaw.json.rejected.*` beside the active config.
-    - Run `openclaw config validate` and `openclaw doctor --fix`.
-    - Copy only the intended keys back with `openclaw config set` or `config.patch`.
-    - No last-known-good or rejected payload: restore from backup, or re-run `openclaw doctor` and reconfigure channels/models.
+    - Run `openagent config validate` and `openagent doctor --fix`.
+    - Copy only the intended keys back with `openagent config set` or `config.patch`.
+    - No last-known-good or rejected payload: restore from backup, or re-run `openagent doctor` and reconfigure channels/models.
     - Unexpected loss: file a bug with your last known config or a backup. A local coding agent can often reconstruct a working config from logs or history.
 
-    Avoid it: use `openclaw config set` for small changes, `openclaw configure` for interactive edits, `config.schema.lookup` to inspect an unfamiliar path (returns a shallow schema node plus immediate child summaries), and `config.patch` for partial RPC edits - reserve `config.apply` for full-config replacement. The agent-facing `gateway` runtime tool refuses to rewrite `tools.exec.ask` / `tools.exec.security` even via legacy `tools.bash.*` aliases.
+    Avoid it: use `openagent config set` for small changes, `openagent configure` for interactive edits, `config.schema.lookup` to inspect an unfamiliar path (returns a shallow schema node plus immediate child summaries), and `config.patch` for partial RPC edits - reserve `config.apply` for full-config replacement. The agent-facing `gateway` runtime tool refuses to rewrite `tools.exec.ask` / `tools.exec.security` even via legacy `tools.bash.*` aliases.
 
     Docs: [Config](/cli/config), [Configure](/cli/configure), [Gateway troubleshooting](/gateway/troubleshooting#gateway-rejected-invalid-config), [Doctor](/gateway/doctor).
 

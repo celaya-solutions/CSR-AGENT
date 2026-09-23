@@ -57,22 +57,22 @@ read_when:
 
   <Accordion title="How do I completely reset OpenAgent but keep it installed?">
     ```bash
-    openclaw reset
+    openagent reset
     ```
 
     Non-interactive full reset:
 
     ```bash
-    openclaw reset --scope full --yes --non-interactive
+    openagent reset --scope full --yes --non-interactive
     ```
 
     Then re-run setup:
 
     ```bash
-    openclaw onboard --install-daemon
+    openagent onboard --install-daemon
     ```
 
-    To reset and immediately re-run onboarding, pass `openclaw onboard --reset`; reset is a command flag, not a **Setup mode** menu choice. See [Onboarding (CLI)](/start/wizard). If you used profiles (`--profile` / `OPENCLAW_PROFILE`), reset each state dir (default `~/.openclaw-<profile>`). Dev-only reset: `openclaw gateway --dev --reset` wipes dev config, credentials, sessions, and workspace.
+    To reset and immediately re-run onboarding, pass `openagent onboard --reset`; reset is a command flag, not a **Setup mode** menu choice. See [Onboarding (CLI)](/start/wizard). If you used profiles (`--profile` / `OPENCLAW_PROFILE`), reset each state dir (default `~/.openclaw-<profile>`). Dev-only reset: `openagent gateway --dev --reset` wipes dev config, credentials, sessions, and workspace.
 
   </Accordion>
 
@@ -132,7 +132,7 @@ read_when:
     - **Token cost**: more agents means more concurrent model usage.
     - **Ops overhead**: per-agent auth profiles, workspaces, and channel routing.
 
-    Keep one **active** workspace per agent (`agents.defaults.workspace`), prune old sessions with `openclaw sessions cleanup` if disk grows (do not edit active SQLite state by hand), and use `openclaw doctor` to spot stray workspaces and profile mismatches.
+    Keep one **active** workspace per agent (`agents.defaults.workspace`), prune old sessions with `openagent sessions cleanup` if disk grows (do not edit active SQLite state by hand), and use `openagent doctor` to spot stray workspaces and profile mismatches.
 
   </Accordion>
 

@@ -81,7 +81,7 @@ Most skills configuration lives under `skills` in
   Node package manager preference for skill installs. This only affects skill
   installs. Node remains the primary and recommended OpenAgent runtime; Bun 1.4+
   with WAL-reset-safe `node:sqlite` is supported as an explicit runtime opt-in.
-  `openclaw setup --node-manager` and `openclaw onboard --node-manager` accept
+  `openagent setup --node-manager` and `openagent onboard --node-manager` accept
   `npm`, `pnpm`, or `bun`; set `"yarn"` directly in config for Yarn-backed skill
   installs. Setup preserves this preference unless you pass `--node-manager`;
   fresh configurations default to `npm`.
@@ -213,7 +213,7 @@ fails closed.
 
 OpenAgent does not execute install policy during normal Gateway startup.
 Installs and updates fail closed when policy is enabled but unavailable.
-`openclaw doctor` performs static validation; `openclaw doctor --deep`
+`openagent doctor` performs static validation; `openagent doctor --deep`
 executes a synthetic install probe against the configured command.
 
 Bulk updates apply policy per target: a blocked skill or plugin update fails

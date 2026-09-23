@@ -138,7 +138,7 @@ describe("gateway update action", () => {
           reason: "managed-service-update-handoff",
           before: { version: "2026.9.1" },
         },
-        handoff: { status: "started", command: "openclaw update --timeout 1200", pid: 123 },
+        handoff: { status: "started", command: "openagent update --timeout 1200", pid: 123 },
         restart: { ok: true, delayMs: 2000, pid: 456 },
         sentinel: { payload: "private-runtime-state" },
         ackDelivered: true,
@@ -240,7 +240,7 @@ describe("gateway update action", () => {
   });
 
   it.each([1, 20])("bounds %i noisy failed steps and preserves handoff text", async (stepCount) => {
-    const command = `openclaw update --tag ${"v".repeat(520)}`;
+    const command = `openagent update --tag ${"v".repeat(520)}`;
     const message = `${"Recovery instructions. ".repeat(36)}Run ${command} in a terminal.`;
     dispatchMock.mockResolvedValue({
       ok: false,
@@ -279,7 +279,7 @@ describe("gateway update action", () => {
   });
 
   it("preserves long manual instructions without repeating them", async () => {
-    const command = `openclaw update --tag ${"v".repeat(1100)}`;
+    const command = `openagent update --tag ${"v".repeat(1100)}`;
     const message = "Recovery instructions. ".repeat(90);
     dispatchMock.mockResolvedValue({
       ok: false,

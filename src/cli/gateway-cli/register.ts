@@ -448,12 +448,12 @@ export function registerGatewayCli(program: Command, deps: GatewayCliDependencie
         "after",
         () =>
           `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-            ["openclaw gateway run", "Run the gateway in the foreground."],
-            ["openclaw gateway status", "Show service status plus connectivity/capability."],
-            ["openclaw gateway auth-token --show", "Reveal the shared token interactively."],
-            ["openclaw gateway discover", "Find local and wide-area gateway beacons."],
-            ["openclaw gateway stability", "Show recent stability diagnostics."],
-            ["openclaw gateway call health", "Call a gateway RPC method directly."],
+            ["openagent gateway run", "Run the gateway in the foreground."],
+            ["openagent gateway status", "Show service status plus connectivity/capability."],
+            ["openagent gateway auth-token --show", "Reveal the shared token interactively."],
+            ["openagent gateway discover", "Find local and wide-area gateway beacons."],
+            ["openagent gateway stability", "Show recent stability diagnostics."],
+            ["openagent gateway call health", "Call a gateway RPC method directly."],
           ])}\n`,
       ),
   );

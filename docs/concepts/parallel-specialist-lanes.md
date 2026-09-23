@@ -33,7 +33,7 @@ background work.
 
 ## Recommended rollout
 
-For a ready-made starting point, `openclaw agents team create` ships these lane
+For a ready-made starting point, `openagent agents team create` ships these lane
 contracts as coordinator, researcher, writer, and reviewer roles. Each role puts
 its scope, artifact handoff, approval gates, and escalation rules in `AGENTS.md`.
 The preset wires the coordinator to the specialists and instructs specialists

@@ -122,7 +122,7 @@ async function runGatewayHealthCheck(params: {
             ? ["Continuing with the other configured remote credential."]
             : [
                 "Health check skipped to avoid falling back to ambient credentials.",
-                `Fix the SecretRef, then run \`${formatCliCommand("openclaw health")}\` again.`,
+                `Fix the SecretRef, then run \`${formatCliCommand("openagent health")}\` again.`,
               ]),
         ].join("\n"),
         "Gateway auth",
@@ -147,7 +147,7 @@ async function runGatewayHealthCheck(params: {
           "Could not resolve local gateway SecretRef for health check.",
           localProbeAuth.warning,
           "Health check skipped to avoid falling back to ambient credentials.",
-          `Fix the SecretRef, then run \`${formatCliCommand("openclaw health")}\` again.`,
+          `Fix the SecretRef, then run \`${formatCliCommand("openagent health")}\` again.`,
         ].join("\n"),
         "Gateway auth",
       );
@@ -189,7 +189,9 @@ async function runGatewayHealthCheck(params: {
       params.runtime.error(formatHealthCheckFailure(err));
     }
     note(
-      [formatCliCommand("openclaw doctor"), formatCliCommand("openclaw logs --follow")].join("\n"),
+      [formatCliCommand("openagent doctor"), formatCliCommand("openagent logs --follow")].join(
+        "\n",
+      ),
       "Health check help",
     );
     return "failed";
@@ -465,7 +467,7 @@ export async function runConfigureWizard(
       }
       if (!snapshot.valid) {
         outro(
-          `Config invalid. Run \`${formatCliCommand("openclaw doctor")}\` to repair it, then re-run configure.`,
+          `Config invalid. Run \`${formatCliCommand("openagent doctor")}\` to repair it, then re-run configure.`,
         );
         runtime.exit(1);
         return;

@@ -17,7 +17,7 @@ agent turns. Enable the bundled `codex` plugin first, and include `codex` in
 `plugins.allow` if your config uses a restrictive allowlist. Native app-server
 configs should use `openai/gpt-*`; OpenAI agent turns select the Codex harness
 only when the effective route declares Codex compatibility. Legacy Codex model
-refs should be repaired with `openclaw doctor --fix`, and legacy `codex/*`
+refs should be repaired with `openagent doctor --fix`, and legacy `codex/*`
 model refs remain compatibility aliases for the native harness.
 
 When this mode runs, Codex owns the native thread id, resume behavior,

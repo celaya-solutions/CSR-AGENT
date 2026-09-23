@@ -77,12 +77,12 @@ Use PNG or WebP for transparent backgrounds. Edits accept up to 5 reference
 images through OpenAgent.
 
 ```bash
-openclaw infer image generate \
+openagent infer image generate \
   --model openai/gpt-image-2.5-flare \
   --prompt "A simple red circle sticker on a transparent background" \
   --quality low --output-format webp --background transparent --json
 
-openclaw infer image edit \
+openagent infer image edit \
   --model openai/gpt-image-2.5-sunburst \
   --file /path/to/reference.png \
   --prompt "Keep the shape and change the color to blue" \
@@ -106,7 +106,7 @@ configured deployment/model names.
 The same setting is exposed for headless CLI runs:
 
 ```bash
-openclaw infer image generate \
+openagent infer image generate \
   --model openai/gpt-image-1.5 \
   --output-format png \
   --background transparent \
@@ -115,7 +115,7 @@ openclaw infer image generate \
 ```
 
 Use the same `--output-format` and `--background` flags with
-`openclaw infer image edit` when starting from an input file.
+`openagent infer image edit` when starting from an input file.
 `--openai-background` remains available as an OpenAI-specific alias. Use
 `--quality low|medium|high|auto` to control OpenAI Images quality and cost.
 Use `--openai-moderation low|auto` with both `image generate` and `image edit`

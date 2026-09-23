@@ -18,7 +18,7 @@ Status: the Control UI chat tab talks directly to the Gateway WebSocket.
 ## Quick start
 
 1. Start the gateway.
-2. Open the Control UI chat tab (`openclaw dashboard`).
+2. Open the Control UI chat tab (`openagent dashboard`).
 3. Ensure a valid gateway auth path is configured (shared-secret by default, even on loopback). See [Auth basics (local vs remote)](/web/dashboard#auth-basics-local-vs-remote).
 
 ## How it works
@@ -108,7 +108,7 @@ Delivery is best-effort. The Inbox and replay bookkeeping survive Gateway restar
 
 Full configuration: [Configuration](/gateway/configuration)
 
-WebChat has no persisted config section. Gateway uses the built-in `chat.history` display limit. API clients can send per-request `maxChars` to override it for a single call. Legacy `channels.webchat` and `gateway.webchat` config is retired. Run `openclaw doctor --fix` to remove it.
+WebChat has no persisted config section. Gateway uses the built-in `chat.history` display limit. API clients can send per-request `maxChars` to override it for a single call. Legacy `channels.webchat` and `gateway.webchat` config is retired. Run `openagent doctor --fix` to remove it.
 
 Related global options:
 

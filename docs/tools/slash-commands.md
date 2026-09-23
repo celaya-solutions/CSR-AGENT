@@ -142,7 +142,7 @@ command handling is enabled for the surface.
   non-owners receive a refusal with the exact configuration command for their
   sender ID when using an owner-only command such as `/restart` or `/update`.
   Use `channel:id` (for example, `discord:123456789012345678`). If an upgrade
-  leaves a legacy `channel:user:id` owner entry, run `openclaw doctor --fix`.
+  leaves a legacy `channel:user:id` owner entry, run `openagent doctor --fix`.
   Doctor rewrites recognized channel entries and reports their list positions.
 </ParamField>
 

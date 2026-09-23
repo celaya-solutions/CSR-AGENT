@@ -44,7 +44,7 @@ Use for background feature builds, PR reviews, large refactors, and issue-to-PR 
   separately authenticated coding-agent home and scope it to each Codex command.
 - Claude Code: no PTY; use `claude --permission-mode bypassPermissions --print`.
 - Capture a real notification route before spawning.
-- Worker must send completion/failure via `openclaw message send`.
+- Worker must send completion/failure via `openagent message send`.
 - Do not rely on heartbeat, system events, or notify-on-exit.
 - Monitor with `process`; do not kill slow workers without cause.
 - If user asked for a specific agent, use that agent.
@@ -99,9 +99,9 @@ Notification route:
 - thread_id: <notifyThreadId or omit>
 
 When finished, send exactly one completion or failure message using:
-openclaw message send --channel <channel> --target '<target>' --message '<brief result>'
+openagent message send --channel <channel> --target '<target>' --message '<brief result>'
 Add --account, --reply-to, or --thread-id only when present above.
-Do not use openclaw system event or heartbeat.
+Do not use openagent system event or heartbeat.
 ```
 
 If no trustworthy route exists, say completion auto-notify is unavailable.

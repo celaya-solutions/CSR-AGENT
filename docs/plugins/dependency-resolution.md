@@ -49,7 +49,7 @@ npm install --omit=dev --omit=peer --legacy-peer-deps --ignore-scripts --no-audi
 
 ### npm-pack tarball installs
 
-`openclaw plugins install npm-pack:<path.tgz>` uses the same per-plugin npm
+`openagent plugins install npm-pack:<path.tgz>` uses the same per-plugin npm
 project root for a local npm-pack tarball: OpenAgent reads the tarball's npm
 metadata, adds it to the managed project as a copied `file:` dependency, runs
 the normal npm install above, then verifies the installed lockfile metadata
@@ -198,9 +198,9 @@ A missing dependency at runtime fails plugin load with an error that points
 the operator to an explicit fix:
 
 ```bash
-openclaw plugins update <id>
-openclaw plugins install <source>
-openclaw doctor --fix
+openagent plugins update <id>
+openagent plugins install <source>
+openagent doctor --fix
 ```
 
 `doctor --fix` removes dangling global plugin-runtime symlinks and can
@@ -248,12 +248,12 @@ packaged bundled runtime still uses the root runtime declarations above.
 Rebuild to pick up source edits when using a built tree. Source checkout development is pnpm-only; plain
 `npm install` at the repository root does not prepare the pnpm workspace.
 
-| Install shape                                   | Bundled plugin location                              | Dependency owner                                        |
-| ----------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------- |
-| Global npm install                              | Built runtime tree inside the package                | Root OpenAgent package for internal bundled runtime |
-| Git checkout plus `pnpm install` + `pnpm build` | `dist/extensions`, then `dist-runtime/extensions`    | Root runtime declarations plus plugin manifests         |
-| Unbuilt source checkout                         | `extensions/<id>` fallback when no built tree exists | pnpm workspace with explicit root runtime dependencies  |
-| `openclaw plugins install ...`                  | Managed npm project/git/ClawHub root                 | The plugin install/update flow                          |
+| Install shape                                   | Bundled plugin location                              | Dependency owner                                       |
+| ----------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
+| Global npm install                              | Built runtime tree inside the package                | Root OpenAgent package for internal bundled runtime    |
+| Git checkout plus `pnpm install` + `pnpm build` | `dist/extensions`, then `dist-runtime/extensions`    | Root runtime declarations plus plugin manifests        |
+| Unbuilt source checkout                         | `extensions/<id>` fallback when no built tree exists | pnpm workspace with explicit root runtime dependencies |
+| `openagent plugins install ...`                 | Managed npm project/git/ClawHub root                 | The plugin install/update flow                         |
 
 For the global npm row, use
 `npm install -g openclaw --allow-scripts=openclaw` on npm 12 or npm 11.16+.

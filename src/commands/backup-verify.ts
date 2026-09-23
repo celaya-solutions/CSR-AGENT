@@ -547,7 +547,7 @@ async function verifyResolvedBackupArchive(archivePath: string): Promise<Prepare
   } catch (error) {
     if (hasErrnoCode(error, "ENOENT")) {
       throw new Error(
-        "Archive does not exist. Check the path and run `openclaw backup verify <archive>` again.",
+        "Archive does not exist. Check the path and run `openagent backup verify <archive>` again.",
         { cause: error },
       );
     }
@@ -558,7 +558,7 @@ async function verifyResolvedBackupArchive(archivePath: string): Promise<Prepare
   }
   if (!archiveStat.isFile()) {
     throw new Error(
-      "Archive must be a regular file. Choose a backup archive created by `openclaw backup create` and try again.",
+      "Archive must be a regular file. Choose a backup archive created by `openagent backup create` and try again.",
     );
   }
 
@@ -569,7 +569,7 @@ async function verifyResolvedBackupArchive(archivePath: string): Promise<Prepare
   });
   if (listing.invalidReason) {
     throw new Error(
-      `Archive is not a valid OpenAgent backup. ${listing.invalidReason.replace(/[.!?]*$/u, ".")} Choose another archive or create a new one with \`openclaw backup create\`.`,
+      `Archive is not a valid OpenAgent backup. ${listing.invalidReason.replace(/[.!?]*$/u, ".")} Choose another archive or create a new one with \`openagent backup create\`.`,
     );
   }
   const rawEntries = listing.entries;

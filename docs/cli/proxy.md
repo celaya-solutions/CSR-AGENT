@@ -1,5 +1,5 @@
 ---
-summary: "CLI reference for `openclaw proxy`, including operator-managed proxy validation and the local debug proxy capture inspector"
+summary: "CLI reference for `openagent proxy`, including operator-managed proxy validation and the local debug proxy capture inspector"
 read_when:
   - You need to validate operator-managed proxy routing before deployment
   - You need to capture OpenAgent transport traffic locally for debugging
@@ -7,19 +7,19 @@ read_when:
 title: "Proxy"
 ---
 
-# `openclaw proxy`
+# `openagent proxy`
 
 Validate operator-managed proxy routing, or run the local explicit debug proxy and inspect captured traffic.
 
 ```bash
-openclaw proxy validate [--json] [--proxy-url <url>] [--proxy-ca-file <path>] [--allowed-url <url>] [--denied-url <url>] [--apns-reachable] [--apns-authority <url>] [--timeout-ms <ms>]
-openclaw proxy start [--host <host>] [--port <port>]
-openclaw proxy run [--host <host>] [--port <port>] -- <cmd...>
-openclaw proxy coverage [--json]
-openclaw proxy sessions [--limit <count>] [--json]
-openclaw proxy query --preset <name> [--session <id>] [--json]
-openclaw proxy blob --id <blobId>
-openclaw proxy purge
+openagent proxy validate [--json] [--proxy-url <url>] [--proxy-ca-file <path>] [--allowed-url <url>] [--denied-url <url>] [--apns-reachable] [--apns-authority <url>] [--timeout-ms <ms>]
+openagent proxy start [--host <host>] [--port <port>]
+openagent proxy run [--host <host>] [--port <port>] -- <cmd...>
+openagent proxy coverage [--json]
+openagent proxy sessions [--limit <count>] [--json]
+openagent proxy query --preset <name> [--session <id>] [--json]
+openagent proxy blob --id <blobId>
+openagent proxy purge
 ```
 
 `validate` preflights an operator-managed forward proxy. The rest are debugging tools for transport-level investigation: start a local capturing proxy, run a child command through it, list capture sessions, query traffic patterns, read captured blobs, and purge local capture data.

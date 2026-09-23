@@ -370,7 +370,7 @@ export function createCommandHandlers(context: CommandHandlerContext) {
             const guidance =
               model.unavailableReason === "cooldown"
                 ? "Wait and retry, or choose another model."
-                : "Run openclaw models auth login or choose another model.";
+                : "Run openagent models auth login or choose another model.";
             chatLog.addSystem(
               `model unavailable: ${model.unavailableReason ?? "unavailable"}. ${guidance}`,
             );

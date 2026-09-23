@@ -124,7 +124,7 @@ With an isolating scope, each sender gets their own session and
 cross-conversation memory recall defaults off. Group watching remains controlled
 independently by `session.groupScope`: `per-group` keeps ambient main-session
 visibility, while `main` puts the room in the main conversation directly.
-`openclaw security audit` recommends DM isolation when it detects multiple
+`openagent security audit` recommends DM isolation when it detects multiple
 senders. The full scope matrix, identity linking, and per-route overrides are
 covered in [Session management](/concepts/session) and [Channel routing](/channels/channel-routing).
 

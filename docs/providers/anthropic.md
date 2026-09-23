@@ -52,19 +52,19 @@ OpenAgent release:
       </Step>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard
+        openagent onboard
         # choose: Anthropic API key
         ```
 
         Or pass the key directly:
 
         ```bash
-        openclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
+        openagent onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
         ```
       </Step>
       <Step title="Verify the model is available">
         ```bash
-        openclaw models list --provider anthropic
+        openagent models list --provider anthropic
         ```
       </Step>
     </Steps>
@@ -108,7 +108,7 @@ OpenAgent release:
       </Step>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard
+        openagent onboard
         # choose: Claude CLI
         ```
 
@@ -121,7 +121,7 @@ OpenAgent release:
         captures recheck availability for their own generation.
         New sessions select saved subscription credentials by account order and
         use protected file-descriptor forwarding, including tokens saved with
-        `openclaw models auth paste-token --provider anthropic`. API keys saved for
+        `openagent models auth paste-token --provider anthropic`. API keys saved for
         the `anthropic` provider require an explicit account selection for CLI
         forwarding. Existing sessions keep their account until you select another
         or remove its saved profile. Native-tool approvals remain under OpenAgent
@@ -136,7 +136,7 @@ OpenAgent release:
       </Step>
       <Step title="Verify the model is available">
         ```bash
-        openclaw models list --provider anthropic
+        openagent models list --provider anthropic
         ```
       </Step>
     </Steps>
@@ -164,7 +164,7 @@ OpenAgent release:
     Paste the token during onboarding, or use:
 
     ```bash
-    openclaw models auth login --provider anthropic --method setup-token
+    openagent models auth login --provider anthropic --method setup-token
     ```
 
     ### Config example
@@ -222,7 +222,7 @@ OpenAgent release:
 After setting up either auth route above, select the canonical model ref:
 
 ```bash
-openclaw models set anthropic/claude-fable-5-1
+openagent models set anthropic/claude-fable-5-1
 ```
 
 For Claude CLI authentication, keep that same ref and select the CLI runtime:
@@ -805,7 +805,7 @@ OpenAgent supports Anthropic's prompt caching feature for API-key auth.
     ```bash
     claude auth status --text
     claude auth login
-    openclaw gateway restart
+    openagent gateway restart
     ```
 
     Claude Code owns its login and refresh lifecycle; do not copy an OAuth token into OpenAgent.
@@ -819,7 +819,7 @@ OpenAgent supports Anthropic's prompt caching feature for API-key auth.
   <Accordion title='No API key found for provider "anthropic"'>
     Agents read shared auth profiles at runtime, with agent-local profiles overriding shared profiles with the same ID. A new agent does not need a separate API key when a usable shared Anthropic profile exists.
 
-    Check the affected agent with `openclaw models status --agent <agentId>`. If no usable credential is available, configure an Anthropic API key on the Gateway host or set up auth for that agent.
+    Check the affected agent with `openagent models status --agent <agentId>`. If no usable credential is available, configure an Anthropic API key on the Gateway host or set up auth for that agent.
 
     Read-through is separate from copying: non-portable profiles can still be used from the shared store. Explicit copy flows follow the [agent copy portability policy](/auth-credential-semantics#agent-copy-portability).
 
@@ -828,11 +828,11 @@ OpenAgent supports Anthropic's prompt caching feature for API-key auth.
   </Accordion>
 
   <Accordion title='No credentials found for profile "anthropic:default"'>
-    Run `openclaw models status` to see which auth profile is active. Re-run onboarding, or configure an API key for that profile path.
+    Run `openagent models status` to see which auth profile is active. Re-run onboarding, or configure an API key for that profile path.
   </Accordion>
 
   <Accordion title="No available auth profile (all in cooldown)">
-    Check `openclaw models status --json` for `auth.unusableProfiles`. Anthropic rate-limit cooldowns can be model-scoped, so a sibling Anthropic model may still be usable. Add another Anthropic profile or wait for cooldown.
+    Check `openagent models status --json` for `auth.unusableProfiles`. Anthropic rate-limit cooldowns can be model-scoped, so a sibling Anthropic model may still be usable. Add another Anthropic profile or wait for cooldown.
   </Accordion>
 </AccordionGroup>
 

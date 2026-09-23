@@ -2,27 +2,27 @@
 summary: "Doctor postures, example invocations, and the full option table"
 title: "Run doctor"
 read_when:
-  - You want to run `openclaw doctor` and pick the right posture
+  - You want to run `openagent doctor` and pick the right posture
   - You need the meaning of a doctor flag or a flag combination rule
 ---
 
-This page covers how to invoke `openclaw doctor`: the supported postures, ready-to-run
+This page covers how to invoke `openagent doctor`: the supported postures, ready-to-run
 examples, and every option the command accepts.
 
 ## Postures
 
 Doctor supports these postures:
 
-| Posture                   | Command                                   | Behavior                                                                              |
-| ------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------- |
-| Guided checks             | `openclaw doctor`                         | Interactive health flow; can copy legacy config and apply automatic state migrations. |
-| Advisory JSON             | `openclaw doctor --json`                  | Read-only findings; exits successfully after producing a report.                      |
-| Repair                    | `openclaw doctor --fix`                   | Applies supported repairs, using prompts unless non-interactive repair is safe.       |
-| Lint                      | `openclaw doctor --lint [--json]`         | Read-only findings with threshold-based exit codes for CI gates.                      |
-| Shared SQLite maintenance | `openclaw doctor --state-sqlite compact`  | Explicitly checkpoints, compacts, and verifies the canonical shared state DB.         |
-| Session SQLite tools      | `openclaw doctor --session-sqlite <mode>` | Inspects or maintains SQLite sessions and explicitly imports legacy history.          |
+| Posture                   | Command                                    | Behavior                                                                              |
+| ------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------- |
+| Guided checks             | `openagent doctor`                         | Interactive health flow; can copy legacy config and apply automatic state migrations. |
+| Advisory JSON             | `openagent doctor --json`                  | Read-only findings; exits successfully after producing a report.                      |
+| Repair                    | `openagent doctor --fix`                   | Applies supported repairs, using prompts unless non-interactive repair is safe.       |
+| Lint                      | `openagent doctor --lint [--json]`         | Read-only findings with threshold-based exit codes for CI gates.                      |
+| Shared SQLite maintenance | `openagent doctor --state-sqlite compact`  | Explicitly checkpoints, compacts, and verifies the canonical shared state DB.         |
+| Session SQLite tools      | `openagent doctor --session-sqlite <mode>` | Inspects or maintains SQLite sessions and explicitly imports legacy history.          |
 
-Use `openclaw doctor --json` when an operator or script wants the advisory Doctor report as JSON. It exits successfully after producing a report; inspect `ok` and `findings` for health state. Use explicit `openclaw doctor --lint --json` when CI should exit nonzero for findings at the selected severity threshold. Prefer `--fix` when a human operator wants Doctor to edit config or state.
+Use `openagent doctor --json` when an operator or script wants the advisory Doctor report as JSON. It exits successfully after producing a report; inspect `ok` and `findings` for health state. Use explicit `openagent doctor --lint --json` when CI should exit nonzero for findings at the selected severity threshold. Prefer `--fix` when a human operator wants Doctor to edit config or state.
 
 For read-only diagnosis, use `--lint` or bare `--json`. Ordinary `doctor`, including `doctor --non-interactive`, can copy legacy config and migrate state even without `--fix`. `--non-interactive` suppresses prompts, not writes.
 
@@ -30,7 +30,7 @@ When ordinary `doctor` asks **Apply recommended config repairs now?**, it checks
 that the selected root config file still matches the source of that proposal.
 If its contents or selected path changed before the write, Doctor preserves the newer file,
 leaves the pending config fixes unwritten, and exits with an error. Rerun
-`openclaw doctor` to review an updated proposal.
+`openagent doctor` to review an updated proposal.
 
 If saving succeeds but later processing fails, Doctor stops with an error, names
 the file that was written, and reports whether the write was rolled back. When it was not rolled
@@ -47,10 +47,10 @@ Doctor checks all database schemas again before diagnostics or repair. See
 
 After an exec-approval format upgrade, Doctor reports older generated approvals
 that are no longer active because they were not tied to a working directory.
-`openclaw doctor --fix` removes those inactive generated entries and leaves
+`openagent doctor --fix` removes those inactive generated entries and leaves
 manual allowlist rules unchanged. Rerun affected workflows and choose
 **Always allow here** to renew trust for the intended directory. The normal
-`openclaw update` finalization runs this safe repair automatically.
+`openagent update` finalization runs this safe repair automatically.
 
 Explicit repair stops the matching managed Gateway and checks Gateway, state,
 and agent-database ownership before taking read-only schema snapshots. It
@@ -67,7 +67,7 @@ During [automatic triage](/cli/triage#automatic-failure-handoff), repair can run
 against an offline target when schema and maintenance locks permit it. If repair
 needs to stop the managed Gateway, Doctor refuses inside its automatic fixing
 subtree because that stop would cancel recovery. Use read-only diagnosis or safe
-offline artifact repair followed by an atomic `openclaw gateway restart`, or ask
+offline artifact repair followed by an atomic `openagent gateway restart`, or ask
 an independent operator to run Doctor from a shell outside triage.
 
 Read-only database snapshots and initial integrity scans have a 30-second
@@ -76,7 +76,7 @@ its Gateway service and other OpenAgent processes before retrying. If all writer
 are stopped, inspect storage performance and the reported database; a timeout
 does not prove corruption.
 
-`openclaw doctor --fix --non-interactive` applies the supported migrations that
+`openagent doctor --fix --non-interactive` applies the supported migrations that
 block Gateway startup without prompting, including shared-state audit schema,
 legacy workspace setup, legacy session stores, and exec approvals. Malformed or
 conflicting input is retained and requires the manual action in the diagnostic.
@@ -85,7 +85,7 @@ The updater uses this repair path before accepting the installed target.
 Update-time Doctor omits project-clone inspection, SQLite database-size advice,
 active tool-schema warnings, and workspace backup and memory suggestions. These
 diagnostics do not migrate state or establish restart readiness. Doctor names
-the omitted checks in its output; run `openclaw doctor` after the update to
+the omitted checks in its output; run `openagent doctor` after the update to
 inspect them. Update-time Doctor still runs required repairs and final session,
 database, workspace-state, and exec-approval readiness checks. A successful
 update does not mean the omitted diagnostics passed.
@@ -94,7 +94,7 @@ This maintenance window also applies when repair ultimately finds no changes.
 Runs without `--fix`, `--repair`, or `--yes` do not enter maintenance.
 Custom state directories remain runtime-only and do not adopt a native service.
 
-`--force` alone does not select repair mode: `openclaw doctor --force` remains
+`--force` alone does not select repair mode: `openagent doctor --force` remains
 guided and still requires interactive consent before an eligible service rewrite.
 With `--fix`, `--repair`, or `--yes`, it allows aggressive config/state repairs
 but preserves the installed service definition. Force does not bypass service
@@ -111,13 +111,13 @@ ownership, write-access, or interactive-only confirmation requirements.
 
 When an updater supplies an explicit Gateway activation policy, Doctor leaves
 stop and restart ownership with that updater. The native manager must confirm
-the service is already offline before repair. If `openclaw update --no-restart`
+the service is already offline before repair. If `openagent update --no-restart`
 reaches Doctor while that service is running, repair fails without stopping or
 restarting it; stop the service through its owner, then retry the update.
 
 If service inspection is unavailable or an unmatched service can still run,
 Doctor refuses maintenance before changing config or state. Inspect it with
-`openclaw gateway status --deep`, restore service-manager access, and stop the
+`openagent gateway status --deep`, restore service-manager access, and stop the
 service through its owner. Once the native manager confirms it is offline,
 Doctor can repair its selected state without changing or starting that service.
 
@@ -139,35 +139,35 @@ the service through its owner.
 ## Examples
 
 ```bash
-openclaw doctor
-openclaw doctor --lint
-openclaw doctor --json
-openclaw doctor --lint --json
-openclaw doctor --lint --severity-min warning
-openclaw doctor --lint --all
-openclaw doctor --lint --allow-exec
-openclaw doctor --deep
-openclaw doctor --fix
-openclaw doctor --fix --non-interactive
-openclaw doctor --generate-gateway-token
-openclaw doctor --post-upgrade
-openclaw doctor --post-upgrade --json
-openclaw doctor --state-sqlite compact
-openclaw doctor --state-sqlite compact --json
-openclaw doctor --session-sqlite inspect --session-sqlite-all-agents
-openclaw doctor --session-sqlite dry-run --session-sqlite-agent main --json
-openclaw doctor --session-sqlite import --session-sqlite-all-agents
-openclaw doctor --session-sqlite validate --session-sqlite-all-agents --json
-openclaw doctor --session-sqlite compact --session-sqlite-all-agents
-openclaw doctor --session-sqlite recover --github-issue
-openclaw doctor --session-sqlite restore --session-sqlite-all-agents
+openagent doctor
+openagent doctor --lint
+openagent doctor --json
+openagent doctor --lint --json
+openagent doctor --lint --severity-min warning
+openagent doctor --lint --all
+openagent doctor --lint --allow-exec
+openagent doctor --deep
+openagent doctor --fix
+openagent doctor --fix --non-interactive
+openagent doctor --generate-gateway-token
+openagent doctor --post-upgrade
+openagent doctor --post-upgrade --json
+openagent doctor --state-sqlite compact
+openagent doctor --state-sqlite compact --json
+openagent doctor --session-sqlite inspect --session-sqlite-all-agents
+openagent doctor --session-sqlite dry-run --session-sqlite-agent main --json
+openagent doctor --session-sqlite import --session-sqlite-all-agents
+openagent doctor --session-sqlite validate --session-sqlite-all-agents --json
+openagent doctor --session-sqlite compact --session-sqlite-all-agents
+openagent doctor --session-sqlite recover --github-issue
+openagent doctor --session-sqlite restore --session-sqlite-all-agents
 ```
 
 For channel-specific permissions, use the channel probes instead of `doctor`:
 
 ```bash
-openclaw channels capabilities --channel discord --target channel:<channel-id>
-openclaw channels status --probe
+openagent channels capabilities --channel discord --target channel:<channel-id>
+openagent channels status --probe
 ```
 
 `channels capabilities` reports the bot's effective permissions for a specific channel target. `channels status --probe` audits all configured channels and voice auto-join targets.

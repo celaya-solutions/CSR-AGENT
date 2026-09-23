@@ -13,25 +13,25 @@ read_when:
 Use when an update finishes but the Gateway is down, channels are empty, or model calls fail with 401s.
 
 ```bash
-openclaw status --all
-openclaw update status --json
-openclaw gateway status --deep
-openclaw doctor --fix
-openclaw gateway restart
+openagent status --all
+openagent update status --json
+openagent gateway status --deep
+openagent doctor --fix
+openagent gateway restart
 ```
 
 Look for:
 
-- `Update restart` in `openclaw status` / `openclaw status --all`. Pending or failed handoffs include the next command to run.
-- `plugin load failed: dependency tree corrupted; run openclaw doctor --fix` under Channels: the channel config still exists, but plugin registration failed before the channel could load.
-- Provider 401s after re-auth: `openclaw doctor --fix` checks for stale per-agent OAuth auth shadows and removes old copies so all agents resolve the current shared profile.
+- `Update restart` in `openagent status` / `openagent status --all`. Pending or failed handoffs include the next command to run.
+- `plugin load failed: dependency tree corrupted; run openagent doctor --fix` under Channels: the channel config still exists, but plugin registration failed before the channel could load.
+- Provider 401s after re-auth: `openagent doctor --fix` checks for stale per-agent OAuth auth shadows and removes old copies so all agents resolve the current shared profile.
 
 ## Prepared model runtime publication timeout
 
 If startup reports `prepared model runtime publication (...) timed out`, the
 parenthesized detail identifies the pending stage and, during workspace
 preparation, its agent. Collect that error together with
-`openclaw gateway status --deep` and the startup logs.
+`openagent gateway status --deep` and the startup logs.
 
 An `ambient credentials` stage can be waiting for a plugin's external login
 check even when the Gateway process uses little CPU. For Claude CLI, run
@@ -48,9 +48,9 @@ OpenAgent stamps config writes with `meta.lastTouchedVersion`. Read-only command
 
 ```bash
 which openclaw
-openclaw --version
-openclaw gateway status --deep
-openclaw config get meta.lastTouchedVersion
+openagent --version
+openagent gateway status --deep
+openagent config get meta.lastTouchedVersion
 ```
 
 <Steps>
@@ -61,8 +61,8 @@ openclaw config get meta.lastTouchedVersion
     Reinstall the intended gateway service from the newer install:
 
     ```bash
-    openclaw gateway install --force
-    openclaw gateway restart
+    openagent gateway install --force
+    openagent gateway restart
     ```
 
   </Step>
@@ -83,23 +83,23 @@ the guard to run older code against migrated state.
 Use when logs keep printing `protocol mismatch` after a downgrade or rollback. An older Gateway is running, but a newer local client process is still reconnecting with a protocol range the older Gateway cannot speak.
 
 ```bash
-openclaw --version
+openagent --version
 which -a openclaw
-openclaw gateway status --deep
-openclaw doctor --deep
-openclaw logs --follow
+openagent gateway status --deep
+openagent doctor --deep
+openagent logs --follow
 ```
 
 Look for:
 
 - `protocol mismatch ... client=... v<version> min=<n> max=<n> expected=<n>` in Gateway logs.
-- `Established clients:` in `openclaw gateway status --deep` or `Gateway clients` in `openclaw doctor --deep`: active TCP clients connected to the Gateway port, with PIDs and command lines when the OS allows it.
+- `Established clients:` in `openagent gateway status --deep` or `Gateway clients` in `openagent doctor --deep`: active TCP clients connected to the Gateway port, with PIDs and command lines when the OS allows it.
 - A client process whose command line points at the newer OpenAgent install or wrapper you rolled back from.
 
 Fix:
 
 1. Stop or restart the stale OpenAgent client process shown by `gateway status --deep`.
-2. Restart apps or wrappers that embed OpenAgent: local dashboards, editors, app-server helpers, or long-running `openclaw logs --follow` shells.
-3. Re-run `openclaw gateway status --deep` or `openclaw doctor --deep` and confirm the stale client PID is gone.
+2. Restart apps or wrappers that embed OpenAgent: local dashboards, editors, app-server helpers, or long-running `openagent logs --follow` shells.
+3. Re-run `openagent gateway status --deep` or `openagent doctor --deep` and confirm the stale client PID is gone.
 
 Do not make an older Gateway accept a newer incompatible protocol. Protocol bumps protect the wire contract; rollback recovery is a process/version cleanup problem.

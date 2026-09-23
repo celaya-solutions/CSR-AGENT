@@ -13,7 +13,7 @@ OpenAgent has two related but distinct discovery problems:
 2. **Node pairing**: node hosts finding a Gateway and pairing securely.
 
 All network discovery/advertising lives in the **Gateway**
-(`openclaw gateway`); clients are consumers only.
+(`openagent gateway`); clients are consumers only.
 
 ## Terms
 
@@ -41,8 +41,8 @@ Protocol details: [Gateway protocol](/gateway/protocol).
 
 OpenAgent can publish and browse the Gateway beacon through a configured
 unicast DNS-SD domain, so discovery can work across networks. Use
-[`openclaw dns`](/cli/dns) to set up the zone and
-[`openclaw gateway discover`](/cli/gateway/discovery) to browse it. This build
+[`openagent dns`](/cli/dns) to set up the zone and
+[`openagent gateway discover`](/cli/gateway/discovery) to browse it. This build
 does not include LAN multicast (mDNS) advertising.
 
 #### Service beacon details

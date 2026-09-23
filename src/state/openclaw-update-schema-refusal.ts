@@ -21,10 +21,10 @@ export class UpdateSchemaRefusalError extends Error {
   ) {
     const { targetVersion } = options;
     const commands = [
-      "openclaw gateway stop",
+      "openagent gateway stop",
       `npm install -g openclaw@${targetVersion} --allow-scripts=openclaw`,
-      "openclaw doctor --fix",
-      "openclaw gateway start",
+      "openagent doctor --fix",
+      "openagent gateway start",
     ];
     const reason =
       options.cause === undefined

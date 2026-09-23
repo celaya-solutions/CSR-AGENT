@@ -1356,7 +1356,7 @@ describe("kitchen-sink RPC command catalog assertions", () => {
     await expect(
       assertOperatorRpcDenied({ method: "skills.bins", params: {} }, async () => {
         throw new Error(
-          "openclaw gateway call skills.bins failed with 1\nGateway call failed: unauthorized role: operator",
+          "openagent gateway call skills.bins failed with 1\nGateway call failed: unauthorized role: operator",
         );
       }),
     ).rejects.toThrow("Gateway call failed: unauthorized role: operator");
@@ -2010,7 +2010,7 @@ describe("kitchen-sink RPC process sampling", () => {
   it("samples the POSIX gateway child instead of the pnpm launcher", async () => {
     const sample = await samplePosixSnapshot(
       [
-        " 4321     1   16384   0.0 node /usr/local/bin/corepack pnpm openclaw gateway --port 19080",
+        " 4321     1   16384   0.0 node /usr/local/bin/corepack pnpm openagent gateway --port 19080",
         " 4322  4321  262144  12.5 node dist/index.js gateway --port 19080 --bind loopback",
         " 4323  4322   32768   1.5 node helper.js",
       ].join("\n"),
@@ -2042,7 +2042,7 @@ describe("kitchen-sink RPC process sampling", () => {
   it("falls back to the POSIX gateway process title when the port arg is rewritten", async () => {
     const sample = await samplePosixSnapshot(
       [
-        " 4321     1 1048576   0.0 node /usr/local/bin/corepack pnpm openclaw gateway --port 19080",
+        " 4321     1 1048576   0.0 node /usr/local/bin/corepack pnpm openagent gateway --port 19080",
         " 4322  4321  262144  12.5 openclaw-gateway",
         " 4323  4322   32768   1.5 node helper.js",
       ].join("\n"),
@@ -2060,7 +2060,7 @@ describe("kitchen-sink RPC process sampling", () => {
   it("falls back to the largest POSIX child when the gateway command line is unavailable", async () => {
     const sample = await samplePosixSnapshot(
       [
-        " 4321     1 1048576   0.0 node /usr/local/bin/corepack pnpm openclaw gateway --port 19080",
+        " 4321     1 1048576   0.0 node /usr/local/bin/corepack pnpm openagent gateway --port 19080",
         " 4322  4321  262144  12.5 node",
         " 4323  4322   32768   1.5 node helper.js",
       ].join("\n"),
@@ -2077,7 +2077,7 @@ describe("kitchen-sink RPC process sampling", () => {
 
   it("does not accept a POSIX launcher sample when the gateway child is missing", async () => {
     const sample = await samplePosixSnapshot(
-      " 4321     1   16384   0.0 node /usr/local/bin/corepack pnpm openclaw status\n",
+      " 4321     1   16384   0.0 node /usr/local/bin/corepack pnpm openagent status\n",
       { commandLineNeedles: ["gateway", "--port", "19080"], platform: "darwin" },
     );
 

@@ -10,7 +10,7 @@ Use this page when a node is visible in status but node tools fail.
 
 ## Node goes offline after SSH logout (Linux)
 
-On Linux, `openclaw node install` creates a **user-level** systemd service. The
+On Linux, `openagent node install` creates a **user-level** systemd service. The
 `systemd --user` instance is torn down when your last login session ends, so the
 node service stops the moment you log out — even though it looked healthy
 (`enabled` + `running`) while you were connected.
@@ -30,12 +30,12 @@ sudo loginctl enable-linger "$USER"
 Then restart the node service and verify it survives logout:
 
 ```bash
-openclaw node restart
+openagent node restart
 # log out, then from another machine:
-openclaw nodes status
+openagent nodes status
 ```
 
-`openclaw node install` prints a warning with this recovery command when it
+`openagent node install` prints a warning with this recovery command when it
 detects lingering is disabled. Don't mix a user-level service with a
 system-level one for the same node. The duplicate-scope guard that prevents
 two managers from running the same unit name is enforced for gateway units
@@ -47,20 +47,20 @@ before switching.
 ## Command ladder
 
 ```bash
-openclaw status
-openclaw gateway status
-openclaw logs --follow
-openclaw doctor
-openclaw channels status --probe
+openagent status
+openagent gateway status
+openagent logs --follow
+openagent doctor
+openagent channels status --probe
 ```
 
 Then run node-specific checks:
 
 ```bash
-openclaw nodes pending
-openclaw nodes status
-openclaw nodes describe --node <idOrNameOrIp>
-openclaw approvals get --node <idOrNameOrIp>
+openagent nodes pending
+openagent nodes status
+openagent nodes describe --node <idOrNameOrIp>
+openagent approvals get --node <idOrNameOrIp>
 ```
 
 Healthy signals:
@@ -85,16 +85,16 @@ restart the node host. Explicitly disabled hosting produces no such diagnostic.
 ## Fast recovery loop
 
 ```bash
-openclaw nodes status
-openclaw nodes describe --node <idOrNameOrIp>
-openclaw approvals get --node <idOrNameOrIp>
-openclaw logs --follow
+openagent nodes status
+openagent nodes describe --node <idOrNameOrIp>
+openagent approvals get --node <idOrNameOrIp>
+openagent logs --follow
 ```
 
 If still stuck:
 
 - Re-approve device pairing.
-- Restart or rerun a node paused for manual pairing, then approve its pending surface request with `openclaw nodes pending` / `openclaw nodes approve <nodeRequestId>`.
+- Restart or rerun a node paused for manual pairing, then approve its pending surface request with `openagent nodes pending` / `openagent nodes approve <nodeRequestId>`.
 - Re-grant OS permissions.
 - Recreate/adjust the exec approval policy.
 

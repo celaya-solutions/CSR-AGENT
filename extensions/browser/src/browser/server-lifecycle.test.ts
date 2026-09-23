@@ -55,6 +55,8 @@ describe("stopKnownBrowserProfiles", () => {
       }),
     ).rejects.toThrow("profile stop failed");
 
-    expect(onWarn).toHaveBeenCalledWith("openclaw browser stop failed: Error: profile stop failed");
+    expect(onWarn).toHaveBeenCalledWith(
+      "openagent browser stop failed: Error: profile stop failed",
+    );
   });
 });

@@ -61,7 +61,7 @@ export abstract class MemoryManagerWatchResources extends MemoryManagerSyncBase 
 
   protected warnIfMemoryWatchPressure(count: number, unit: MemoryWatchPressureUnit): void {
     const reindexCommand = formatCliCommand(
-      `openclaw memory index --force --agent ${this.agentId}`,
+      `openagent memory index --force --agent ${this.agentId}`,
     );
     warnIfMemoryWatchPressureHigh(
       this.memoryWatchPressureWarning,

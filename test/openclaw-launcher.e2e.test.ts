@@ -609,7 +609,7 @@ describe("openclaw launcher", () => {
       } else {
         expect(result.status, version).toBe(1);
         expect(result.stderr, version).toContain(
-          `openclaw: Node ${version}: openclaw requires Node >=24.16.0 <25, or >=26.1.0.`,
+          `openagent: Node ${version}: OpenAgent requires Node >=24.16.0 <25, or >=26.1.0.`,
         );
       }
     }
@@ -639,7 +639,7 @@ describe("openclaw launcher", () => {
 
     expect(result.status).toBe(1);
     expect(result.stdout).toBe("");
-    expect(result.stderr).toContain("openclaw: Node 20.0.0:");
+    expect(result.stderr).toContain("openagent: Node 20.0.0:");
     expect(result.stderr).toContain("nvm install 26");
     expect(result.stderr).not.toContain("TypeError");
   });
@@ -1201,7 +1201,7 @@ describe("openclaw launcher", () => {
     expect(result.stderr).toContain("missing dist/entry.(m)js");
     expect(result.stderr).toContain("unbuilt source tree or GitHub source archive");
     expect(result.stderr).toContain("pnpm install && pnpm build");
-    expect(result.stderr).toContain("github:openclaw/openclaw#<ref>");
+    expect(result.stderr).not.toContain("npm install -g");
   });
 
   it("respawns source-checkout launchers without inherited NODE_COMPILE_CACHE", async () => {

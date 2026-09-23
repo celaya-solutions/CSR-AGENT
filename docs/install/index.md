@@ -37,10 +37,10 @@ enabled so pnpm can provision its native executable.
 Then run onboarding and install the Gateway service:
 
 ```bash
-pnpm openclaw onboard --install-daemon
+pnpm openagent onboard --install-daemon
 ```
 
-Always run the CLI through `pnpm openclaw ...` (or `pnpm dev`) from inside the
+Always run the CLI through `pnpm openagent ...` (or `pnpm dev`) from inside the
 checkout. These wrappers handle build freshness and process setup. See
 [Setup](/start/setup) for development workflows.
 
@@ -55,7 +55,7 @@ pnpm add --global "openclaw@link:$PWD"
 This links the CLI without changing its package files. If pnpm reports that
 its global bin directory is not on `PATH`, run `pnpm setup`, reopen your shell,
 and retry. The rest of these docs write commands as `openclaw ...`; inside the
-checkout, `pnpm openclaw ...` works the same way.
+checkout, `pnpm openagent ...` works the same way.
 
 ### Containers
 
@@ -74,14 +74,14 @@ checkout, `pnpm openclaw ...` works the same way.
 ## Verify the install
 
 ```bash
-openclaw --version      # confirm the CLI is available
-openclaw doctor         # check for config issues
-openclaw gateway status # verify the Gateway is running
+openagent --version      # confirm the CLI is available
+openagent doctor         # check for config issues
+openagent gateway status # verify the Gateway is running
 ```
 
 If you want managed startup after install:
 
-- macOS: LaunchAgent via `openclaw onboard --install-daemon` or `openclaw gateway install`
+- macOS: LaunchAgent via `openagent onboard --install-daemon` or `openagent gateway install`
 - Linux/WSL2: systemd user service via the same commands
 - Native Windows: Scheduled Task first, with a per-user Startup-folder login item fallback if task creation is denied
 
@@ -129,7 +129,7 @@ building the Docker image from your checkout.
 
 ## Troubleshooting: `openclaw` not found
 
-Use `pnpm openclaw ...` from inside the checkout, or link a global command as
+Use `pnpm openagent ...` from inside the checkout, or link a global command as
 shown above. If the linked command is still missing, pnpm's global bin
 directory is not on your shell's `PATH`. See
 [Node.js troubleshooting](/install/node#troubleshooting).

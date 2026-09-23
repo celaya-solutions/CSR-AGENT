@@ -50,8 +50,8 @@ the route instead, in both directions:
 
 A stored OpenAI profile is fine alongside `homeScope: "user"`; OpenAgent keeps it
 for agent-scoped connections and simply does not hand it to the native home. Use
-`openclaw models auth list --provider openai` to inspect stored profiles and
-`openclaw models auth logout <profileId> --yes` to remove one you no longer want.
+`openagent models auth list --provider openai` to inspect stored profiles and
+`openagent models auth logout <profileId> --yes` to remove one you no longer want.
 
 Owner turns gain the `codex_threads` tool: list, search, read, fork, rename,
 archive, and restore native threads. Fork a thread to continue it in

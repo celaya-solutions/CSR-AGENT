@@ -33,7 +33,7 @@ OpenAgent assembles its own system prompt on every run. It includes:
     the active workspace differs from the agent memory workspace, `MEMORY.md`
     falls back to the normal bounded turn-context path.
   - Lowercase root `memory.md` is never injected. It is legacy repair input
-    for `openclaw doctor --fix`, which migrates it into `MEMORY.md`.
+    for `openagent doctor --fix`, which migrates it into `MEMORY.md`.
   - `memory/*.md` daily files are not part of the normal bootstrap prompt;
     they stay on-demand via memory tools on ordinary turns. Reset/startup
     model runs can prepend a one-shot startup-context block with recent
@@ -128,7 +128,7 @@ Other surfaces:
   count. This counter excludes input tokens and is separate from the composer
   context-window meter and persisted billing summaries.
 - **TUI/Web TUI:** `/status` and `/usage` are supported.
-- **CLI:** `openclaw status --usage` and `openclaw channels list` show
+- **CLI:** `openagent status --usage` and `openagent channels list` show
   normalized provider quota windows (`X% left`, not per-response costs).
   Usage-window providers among the bundled plugins: Claude (Anthropic),
   OpenAI, and OpenRouter. Provider plugins supply these

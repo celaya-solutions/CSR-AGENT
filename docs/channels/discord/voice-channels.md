@@ -35,7 +35,7 @@ Use `/vc join|leave|status` to control sessions. The command uses the account de
 To inspect the bot's effective permissions before joining:
 
 ```bash
-openclaw channels capabilities --channel discord --target channel:<voice-channel-id>
+openagent channels capabilities --channel discord --target channel:<voice-channel-id>
 ```
 
 Auto-join example:
@@ -83,7 +83,7 @@ policy while retaining their own audio transports. Unpinned Discord
 configurations keep the provider's existing default; select GPT-Live explicitly.
 For the Codex
 GPT-Live route with `cove`, sign in with
-`openclaw models auth login --provider openai`, then configure:
+`openagent models auth login --provider openai`, then configure:
 
 ```json5
 {

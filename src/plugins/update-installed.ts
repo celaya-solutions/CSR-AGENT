@@ -362,7 +362,7 @@ export async function updateNpmInstalledPlugins(
         const retainedMessage =
           `Retained "${pluginId}" at ${currentVersion}: target ${effectiveSpec}` +
           `${params.coreVersion ? ` for OpenAgent ${params.coreVersion}` : ""} is unavailable. ${message} ` +
-          `Retry "${formatCliCommand(`openclaw plugins update ${pluginId}`)}" after the target is published or registry access recovers.`;
+          `Retry "${formatCliCommand(`openagent plugins update ${pluginId}`)}" after the target is published or registry access recovers.`;
         logger.warn?.(retainedMessage);
         outcomes.push({
           pluginId,

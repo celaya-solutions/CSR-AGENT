@@ -31,7 +31,7 @@ serving real traffic (yours or another operator's):
   dev instance with an isolated state dir (`OPENCLAW_STATE_DIR=<scratch>`) and a
   free port. Do not bind the default gateway port (18789) while a real gateway
   is running on it.
-- Do not `openclaw gateway stop`/`restart` (or `launchctl`/`systemctl`/tmux
+- Do not `openagent gateway stop`/`restart` (or `launchctl`/`systemctl`/tmux
   equivalents) a service you did not start in this session — that is the
   operator's live instance. Get explicit approval first.
 - Need realistic data? Copy the live state/DB into your dev state dir and test
@@ -43,7 +43,7 @@ serving real traffic (yours or another operator's):
 Live tests discover credentials the same way the CLI does. Practical implications:
 
 - If the CLI works, live tests should find the same keys.
-- If a live test says "no creds", debug the same way you'd debug `openclaw models list` / model selection.
+- If a live test says "no creds", debug the same way you'd debug `openagent models list` / model selection.
 - An OpenAgent live suite that cannot resolve its credentials must skip visibly in the reporter with Vitest test-context `skip(reason)` or fail; it must never pass green without reaching the provider, because a green run that did not reach the provider is not live evidence.
 
 - Per-agent auth profiles: SQLite credential rows in `~/.openclaw/agents/<agentId>/agent/openclaw-agent.sqlite` (this is what "profile keys" means in the live tests)

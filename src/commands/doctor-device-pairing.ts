@@ -542,7 +542,7 @@ export async function collectDevicePairingHealthFindings(params: {
   // Report this debt even without a reachable remote Gateway or local identity.
   const deviceAuth = detectLegacyDeviceAuth({ stateDir: resolveStateDir(params.env) });
   if (deviceAuth.sourcePresent) {
-    const fixCommand = formatCliCommand("openclaw doctor --fix", params.env);
+    const fixCommand = formatCliCommand("openagent doctor --fix", params.env);
     const fixHint = `Stop the Gateway and run ${fixCommand} to finish migration or cleanup.`;
     legacyStoreFindings.push({
       checkId: DEVICE_PAIRING_CHECK_ID,

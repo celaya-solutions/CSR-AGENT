@@ -135,9 +135,9 @@ The reviewer should abstain for:
 Set the mode with the CLI:
 
 ```bash
-openclaw config set skills.workshop.autonomous.mode auto
-openclaw config set skills.workshop.autonomous.mode propose
-openclaw config set skills.workshop.autonomous.mode off
+openagent config set skills.workshop.autonomous.mode auto
+openagent config set skills.workshop.autonomous.mode propose
+openagent config set skills.workshop.autonomous.mode off
 ```
 
 Or edit `~/.openclaw/openclaw.json`:
@@ -182,10 +182,10 @@ scanner, hash binding, size validation, and rollback metadata.
 Reject a pending miscapture with one command:
 
 ```bash
-openclaw skills workshop reject <proposal-id> --reason "Not reusable"
+openagent skills workshop reject <proposal-id> --reason "Not reusable"
 ```
 
-Proposal captures remain visible in `openclaw skills workshop list`. Direct
+Proposal captures remain visible in `openagent skills workshop list`. Direct
 maintenance changes appear in the installed Workshop skills, not as proposal
 records. Weekly review results remain in automation history. Retained legacy
 backups keep their [restore path](/tools/skill-workshop#changes-and-recovery).
@@ -248,15 +248,15 @@ or change settings. Like other sessions, it shares the agent's normal capacity.
 List and inspect every pending, applied, rejected, quarantined, or stale capture:
 
 ```bash
-openclaw skills workshop list
-openclaw skills workshop inspect <proposal-id>
+openagent skills workshop list
+openagent skills workshop inspect <proposal-id>
 ```
 
 Stop a pending capture from becoming active or quarantine it for safety review:
 
 ```bash
-openclaw skills workshop reject <proposal-id> --reason "Too specific"
-openclaw skills workshop quarantine <proposal-id> --reason "Needs security review"
+openagent skills workshop reject <proposal-id> --reason "Too specific"
+openagent skills workshop quarantine <proposal-id> --reason "Needs security review"
 ```
 
 Use `/learn` when you want an explicit proposal from the current conversation or
@@ -306,7 +306,7 @@ Check the following:
 
 An eligible experience review can still abstain. No proposal is the expected
 result when the evidence does not clear the reusable-procedure bar.
-Use `openclaw skills curator status` to inspect experience review outcomes and
+Use `openagent skills curator status` to inspect experience review outcomes and
 live skill usage. Current weekly collection results are in automation run history.
 That CLI retains only the earlier collection records. It does not archive or
 expire skills by age. The `curator pin`, `unpin`, and `restore` commands return an
@@ -314,7 +314,7 @@ error explaining that weekly collection review manages the skill collection.
 
 ### Doctor reports that Workshop is hidden
 
-In `propose` and `auto` modes, `openclaw doctor` checks whether the default agent
+In `propose` and `auto` modes, `openagent doctor` checks whether the default agent
 tool policy permits `skill_workshop`. Apply the reported `tools.allow` or
 `tools.alsoAllow` change, or set the autonomous mode to `off`.
 
@@ -323,7 +323,7 @@ tool policy permits `skill_workshop`. Apply the reported `tools.allow` or
 Automatic apply runs once. Inspect the proposal and its scanner state:
 
 ```bash
-openclaw skills workshop inspect <proposal-id>
+openagent skills workshop inspect <proposal-id>
 ```
 
 A normal write failure leaves it pending for manual review. A critical scanner
@@ -336,8 +336,8 @@ Switch to `propose` to review every capture, or `off` to disable autonomous
 capture:
 
 ```bash
-openclaw config set skills.workshop.autonomous.mode propose
-openclaw config set skills.workshop.autonomous.mode off
+openagent config set skills.workshop.autonomous.mode propose
+openagent config set skills.workshop.autonomous.mode off
 ```
 
 Existing proposals and applied skills remain visible after the mode changes.

@@ -17,17 +17,17 @@ title: "Usage tracking"
 - `/status` in chats: status card with session tokens and estimated cost (API key models only). Provider usage shows for the **current model provider** when available, as a normalized `X% left` window or provider summary text.
 - `/usage off|tokens|full` in chats: per-response usage footer.
 - `/usage cost` in chats: local cost summary aggregated from OpenAgent session logs.
-- CLI: `openclaw status --usage` prints a full per-provider usage/quota breakdown.
-- CLI: `openclaw models status` lists OAuth/token auth profiles and shows a usage-window summary next to each provider that has one.
+- CLI: `openagent status --usage` prints a full per-provider usage/quota breakdown.
+- CLI: `openagent models status` lists OAuth/token auth profiles and shows a usage-window summary next to each provider that has one.
 - Control UI: **Usage** shows provider plan and billing cards above OpenAgent's session-derived token and estimated-cost analysis. Anthropic and OpenAI Admin API credentials add provider-reported today, 7-day, and 30-day spend, daily trends, token totals, top models, and cost categories.
 - Control UI: the chat composer's context ring popover shows **plan usage** for subscription providers — per-window bars (5-hour, weekly, model-scoped) with reset times, the provider plan when known (for example `Max (20x)`), and extra-usage credits. Sessions billed through a plan hide per-token dollar estimates; API-billed sessions keep `Est. cost` and the cost-by-type breakdown. Claude Code CLI (`claude-cli`) setups reuse the same Anthropic subscription usage.
 
-Since v2026.5.7, `openclaw channels list` no longer prints provider usage; it points users to `openclaw status` or `openclaw models list` instead.
+Since v2026.5.7, `openagent channels list` no longer prints provider usage; it points users to `openagent status` or `openagent models list` instead.
 
 `/usage cost` warns that the **Today** and **Last 30d** totals may be incomplete
 if their aggregate cache is refreshing, partial, or stale, and suggests running
 the command again later. The **Session** total is loaded separately. The CLI
-`openclaw gateway usage-cost` also reports the recorded cache state before its
+`openagent gateway usage-cost` also reports the recorded cache state before its
 totals.
 
 ## Usage date ranges

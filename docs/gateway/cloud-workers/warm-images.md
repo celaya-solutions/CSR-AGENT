@@ -269,7 +269,7 @@ The acknowledgement attests that the original capture and worker are stopped and
 Warm profiles use a version-3 envelope in the existing `warm-images` plugin-state namespace; the SQLite schema version does not change. Stop the owning Gateway and original capture processes, then run:
 
 ```bash
-openclaw doctor --fix
+openagent doctor --fix
 ```
 
 Doctor performs this migration under the Gateway's exclusive maintenance lock. It preserves legacy image metadata, allocation choices, operating-system/runtime identity, capture selectors, and retirement obligations. Historical records do not acquire preparation, reserve-purpose, or successful-demand facts. Older empty capture markers become explicitly uncertain captures with their original recovery selector. Unsupported records stay unchanged and produce a warning. Runtime provisioning requires the canonical envelope; it does not silently convert old rows.
@@ -278,7 +278,7 @@ Older `warm-leases` rows record an enrolled class but cannot establish whether a
 
 ```bash
 openclaw crabbox warm-images --recover <legacy-allocation-selector> --acknowledge-provider-cleanup
-openclaw doctor --fix
+openagent doctor --fix
 ```
 
 This recovery deletes only the unchanged legacy row matching that selector. It does not establish provider absence or clean up a machine for you. Keep the row when cleanup is uncertain. Checkpoints already forgotten by older code are not rediscovered; reconcile those manually through Crabbox. Do not run older and newer writers against the same state or downgrade while allocations, captures, or retirements remain unresolved.

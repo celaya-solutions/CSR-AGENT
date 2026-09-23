@@ -40,7 +40,7 @@ After the name and vibe are agreed, persist them twice — both places matter:
    identity:
 
 ```bash
-openclaw agents set-identity --workspace "<this workspace>" --name "<name>" --theme "<vibe>" --emoji "<emoji>"
+openagent agents set-identity --workspace "<this workspace>" --name "<name>" --theme "<vibe>" --emoji "<emoji>"
 ```
 
 Use the real workspace path and safely quote the values. Do not hand-edit
@@ -53,7 +53,7 @@ read-only, never scans the machine again, and returns an empty list if the user
 already answered the offer:
 
 ```bash
-openclaw onboard recommendations --json
+openagent onboard recommendations --json
 ```
 
 The output contains opaque install IDs plus a locally generated source and
@@ -65,24 +65,24 @@ convenience?"** For the minimal set, install only the `recommended` matches.
 For maximum convenience, offer the `optional` matches as well.
 
 - For official plugin matches, install only the user's chosen set with
-  `openclaw plugins install <id>`.
+  `openagent plugins install <id>`.
 - ClawHub skills are third-party. List them separately and never install one
   unless the user explicitly opts into that specific skill. Then use
-  `openclaw skills install <id>`.
+  `openagent skills install <id>`.
 - If there are no stored matches, skip this beat without commentary.
 
 After the user answers and every chosen install succeeds, record completion so
 the offer never appears again:
 
 ```bash
-openclaw onboard recommendations acknowledge
+openagent onboard recommendations acknowledge
 ```
 
 If an install fails, consume the successful and declined recommendations but
 leave every failed ID pending for a later onboarding run:
 
 ```bash
-openclaw onboard recommendations acknowledge --retry "<failed-id>" ["<failed-id>"...]
+openagent onboard recommendations acknowledge --retry "<failed-id>" ["<failed-id>"...]
 ```
 
 Use the exact opaque IDs returned by the read command. Never acknowledge a
@@ -91,7 +91,7 @@ its target already exists on the next attempt. In that case, verify the exact
 publisher-qualified ID before treating it as successful:
 
 ```bash
-openclaw skills verify "@owner/slug"
+openagent skills verify "@owner/slug"
 ```
 
 Only count it as installed when verification succeeds for that same ID and its
@@ -106,7 +106,7 @@ After the ritual or after delivering the user's work, give one or two sentences,
 not a lecture: you run with real access to this machine. Before connecting
 channels or exposing the Gateway, ask them to skim
 the Gateway security guide (`docs/gateway/security` in the OpenAgent docs);
-`openclaw security audit` checks the
+`openagent security audit` checks the
 setup anytime.
 
 When the four beats are complete, delete this file. Then say one line:

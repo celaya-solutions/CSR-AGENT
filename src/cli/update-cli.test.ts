@@ -293,7 +293,7 @@ vi.mock("../config/config.js", () => {
         throw new Error(
           [
             "Config is managed by Nix (`OPENCLAW_NIX_MODE=1`), so OpenAgent treats openclaw.json as immutable.",
-            "Do not run setup, onboarding, openclaw update, plugin install/update/uninstall/enable, doctor repair/token-generation, or config set against this file.",
+            "Do not run setup, onboarding, openagent update, plugin install/update/uninstall/enable, doctor repair/token-generation, or config set against this file.",
           ].join("\n"),
         );
       }
@@ -2140,7 +2140,7 @@ describe("update-cli", () => {
         steps: [
           {
             name: "candidate gateway canary",
-            command: "openclaw gateway",
+            command: "openagent gateway",
             cwd: "/candidate",
             durationMs: 1,
             exitCode: 0,
@@ -2878,7 +2878,7 @@ describe("update-cli", () => {
 
     const logOutput = getLogOutput();
     expect(logOutput).toContain("timed out after 30s");
-    expect(logOutput).toContain("openclaw completion --write-state");
+    expect(logOutput).toContain("openagent completion --write-state");
   });
 
   it("keeps update completion refresh best-effort when profile install fails", async () => {
@@ -3391,7 +3391,7 @@ describe("update-cli", () => {
                   reason: "missing-extension-entry: ./dist/index.js",
                   message:
                     'Plugin "demo" failed post-core payload smoke check (missing-extension-entry): ./dist/index.js',
-                  guidance: ["Run openclaw update repair to retry post-update plugin repair."],
+                  guidance: ["Run openagent update repair to retry post-update plugin repair."],
                 },
               ],
               sync: {
@@ -4453,14 +4453,14 @@ describe("update-cli", () => {
         : [repairWarning];
       const reportedRepairWarning = {
         ...repairWarning,
-        message: "Plugin updates could not complete. Run `openclaw update repair` to retry.",
-        guidance: ["openclaw update repair"],
+        message: "Plugin updates could not complete. Run `openagent update repair` to retry.",
+        guidance: ["openagent update repair"],
       };
       const reportedSmokeWarning = {
         ...smokeWarning,
         message:
-          'Plugin "reporting-fixture" could not be loaded. Run `openclaw doctor --fix` to check and repair the load problem.',
-        guidance: ["openclaw doctor --fix"],
+          'Plugin "reporting-fixture" could not be loaded. Run `openagent doctor --fix` to check and repair the load problem.',
+        guidance: ["openagent doctor --fix"],
       };
       runPostCorePluginConvergenceSpy.mockResolvedValueOnce({
         ...postCoreConvergenceResult({ warnings, errored }),
@@ -4542,7 +4542,7 @@ describe("update-cli", () => {
     mockFileBackedPathExists();
     const message =
       "discord is pinned to @openclaw/discord@2026.9.2 (installed 2026.9.2); " +
-      "registry latest resolves to 2026.9.3. Pass `openclaw plugins update " +
+      "registry latest resolves to 2026.9.3. Pass `openagent plugins update " +
       "@openclaw/discord@latest` to replace this version pin.";
     const records: Record<string, PluginInstallRecord> = {
       discord: { source: "npm", spec: "@openclaw/discord@2026.9.2", installPath, ...fields },
@@ -5123,7 +5123,7 @@ describe("update-cli", () => {
       expect(jsonOutput?.postUpdate?.plugins?.warnings).toContainEqual(
         expect.objectContaining({
           pluginId,
-          message: expect.stringContaining(`openclaw plugins update ${pluginId}`),
+          message: expect.stringContaining(`openagent plugins update ${pluginId}`),
         }),
       );
       expect(jsonOutput?.postUpdate?.plugins?.npm.outcomes).toEqual([
@@ -5135,7 +5135,7 @@ describe("update-cli", () => {
       ]);
       if (source === "bridge") {
         expect(jsonOutput?.postUpdate?.plugins?.sync.errors).toEqual([
-          'Failed to update consent-fixture: Operator review token changed.\nBundled relocation did not install the replacement plugin payload; resolve the error above, then run "openclaw update repair".',
+          'Failed to update consent-fixture: Operator review token changed.\nBundled relocation did not install the replacement plugin payload; resolve the error above, then run "openagent update repair".',
         ]);
       }
       expect(defaultRuntime.exit).not.toHaveBeenCalledWith(1);
@@ -5206,7 +5206,7 @@ describe("update-cli", () => {
     ]);
     expect(jsonOutput?.postUpdate?.plugins?.status).toBe("warning");
     expect(pluginWarning(jsonOutput)?.pluginId).toBe("demo");
-    expect(pluginWarning(jsonOutput)?.guidance).toEqual(["openclaw plugins update demo"]);
+    expect(pluginWarning(jsonOutput)?.guidance).toEqual(["openagent plugins update demo"]);
     expect(pluginWarning(jsonOutput)?.reason).toContain("npm package integrity drift");
     expect(jsonOutput?.postUpdate?.plugins?.npm.outcomes[0]?.status).toBe("error");
     expect(jsonOutput?.postUpdate?.plugins?.npm.outcomes[0]?.message).toContain(
@@ -5353,7 +5353,7 @@ describe("update-cli", () => {
     const output = getLogOutput();
     const trustWarningOccurrences = output.split(trustWarning).length - 1;
     expect(trustWarningOccurrences).toBe(1);
-    expect(output).toContain("openclaw plugins update demo");
+    expect(output).toContain("openagent plugins update demo");
   });
 
   it("detects missing plugin payloads from persisted records before npm updates", async () => {
@@ -5392,8 +5392,8 @@ describe("update-cli", () => {
     expect(pluginWarning(jsonOutput)?.reason).toContain("package.json is missing");
     expect(pluginWarning(jsonOutput)).toMatchObject({
       message:
-        'Plugin "demo" could not be loaded. Run `openclaw doctor --fix` to check and repair the load problem.',
-      guidance: ["openclaw doctor --fix"],
+        'Plugin "demo" could not be loaded. Run `openagent doctor --fix` to check and repair the load problem.',
+      guidance: ["openagent doctor --fix"],
     });
     expect(pluginOutcome(jsonOutput)?.pluginId).toBe("demo");
     expect(pluginOutcome(jsonOutput)?.status).toBe("error");
@@ -5485,7 +5485,7 @@ describe("update-cli", () => {
     expect(getErrorOutput()).not.toContain("Update failed during plugin post-update sync.");
     const logs = getLogOutput();
     expect(logs).toContain('Plugin "demo" could not be updated.');
-    expect(logs).toContain("openclaw plugins update demo");
+    expect(logs).toContain("openagent plugins update demo");
   });
 
   it("marks disabled-after-failure plugin skips as post-update warnings", async () => {
@@ -5510,7 +5510,7 @@ describe("update-cli", () => {
     const jsonOutput = lastWriteJsonCall() as UpdateRunResult | undefined;
     expect(jsonOutput?.postUpdate?.plugins?.status).toBe("warning");
     expect(pluginWarning(jsonOutput)?.pluginId).toBe("demo");
-    expect(pluginWarning(jsonOutput)?.guidance).toEqual(["openclaw plugins update demo"]);
+    expect(pluginWarning(jsonOutput)?.guidance).toEqual(["openagent plugins update demo"]);
     expect(pluginOutcome(jsonOutput)?.pluginId).toBe("demo");
     expect(pluginOutcome(jsonOutput)?.status).toBe("skipped");
   });
@@ -5524,7 +5524,7 @@ describe("update-cli", () => {
     "reports unavailable retained plugin targets without failing core ($json, repaired=$repaired, version=$version)",
     async ({ json, repaired, version }) => {
       const message =
-        'Retained plugin "demo" at 1.0.0: requested @example/demo@2.0.0 for core 9999.0.0 could not be resolved: No matching version found. Run `openclaw plugins update demo` when the package or registry is available.';
+        'Retained plugin "demo" at 1.0.0: requested @example/demo@2.0.0 for core 9999.0.0 could not be resolved: No matching version found. Run `openagent plugins update demo` when the package or registry is available.';
       const installPath = createCaseDir("unavailable-target");
       await fs.mkdir(installPath, { recursive: true });
       await writeJsonFixture(path.join(installPath, "package.json"), {
@@ -5649,7 +5649,7 @@ describe("update-cli", () => {
     expect(pluginOutcome(jsonOutput)?.message).toContain(
       "Existing installed plugin left unchanged",
     );
-    expect(pluginWarning(jsonOutput)?.guidance).toEqual(["openclaw plugins update demo"]);
+    expect(pluginWarning(jsonOutput)?.guidance).toEqual(["openagent plugins update demo"]);
   });
 
   it.each([
@@ -5689,10 +5689,10 @@ describe("update-cli", () => {
                     pluginId: "demo",
                     reason: "Failed to update demo: registry timeout",
                     message:
-                      'Plugin "demo" could not be processed after the core update: Failed to update demo: registry timeout Run openclaw update repair to retry post-update plugin repair. Run openclaw plugins inspect demo --runtime --json for details.',
+                      'Plugin "demo" could not be processed after the core update: Failed to update demo: registry timeout Run openagent update repair to retry post-update plugin repair. Run openagent plugins inspect demo --runtime --json for details.',
                     guidance: [
-                      "Run openclaw update repair to retry post-update plugin repair.",
-                      "Run openclaw plugins inspect demo --runtime --json for details.",
+                      "Run openagent update repair to retry post-update plugin repair.",
+                      "Run openagent plugins inspect demo --runtime --json for details.",
                     ],
                   },
                 ],
@@ -5733,7 +5733,7 @@ describe("update-cli", () => {
     expect(jsonOutput?.status).toBe("ok");
     expect(jsonOutput?.reason).toBeUndefined();
     expect(jsonOutput?.postUpdate?.plugins?.warnings?.[0]?.guidance).toContain(
-      "Run openclaw update repair to retry post-update plugin repair.",
+      "Run openagent update repair to retry post-update plugin repair.",
     );
     expect(jsonOutput?.postUpdate?.plugins?.npm.outcomes[0]?.message).toContain("registry timeout");
   });
@@ -7182,7 +7182,7 @@ describe("update-cli", () => {
             pluginId: "demo",
             reason: "plugin smoke failed",
             message: "plugin smoke failed",
-            guidance: ["Run openclaw update repair."],
+            guidance: ["Run openagent update repair."],
           },
         ],
         errored: true,
@@ -7430,7 +7430,7 @@ describe("update-cli", () => {
       };
       loadInstalledPluginIndexInstallRecords.mockResolvedValue(records);
       const message =
-        "discord is pinned to @openclaw/discord@2026.9.2 (installed 2026.9.2); registry latest resolves to 2026.9.3. Pass `openclaw plugins update @openclaw/discord@latest` to replace this version pin.";
+        "discord is pinned to @openclaw/discord@2026.9.2 (installed 2026.9.2); registry latest resolves to 2026.9.3. Pass `openagent plugins update @openclaw/discord@latest` to replace this version pin.";
       mockNpmPluginOutcomes(
         [
           {
@@ -7676,7 +7676,7 @@ describe("update-cli", () => {
   const packageUpdateInGatewayMessage = [
     "Package updates cannot run from inside the gateway service process.",
     "That path replaces the active OpenAgent dist tree while the live gateway may still lazy-load old chunks.",
-    "Run `openclaw update` from a terminal outside the gateway service.",
+    "Run `openagent update` from a terminal outside the gateway service.",
   ].join("\n");
 
   it("allows package updates from inherited gateway service env when the managed gateway is not running", async () => {
@@ -7891,7 +7891,7 @@ describe("update-cli", () => {
         handoffId: "test-handoff",
         installRoot: root,
         logPath: "/tmp/update-handoff/handoff.log",
-        command: "openclaw update --yes",
+        command: "openagent update --yes",
         pid: 12345,
       });
       managedUpdateHandoff.transfer.mockResolvedValue(true);
@@ -8151,7 +8151,7 @@ describe("update-cli", () => {
       expect(cleanupStaleManagedServiceUpdateHandoffs).not.toHaveBeenCalled();
     }
     expect(defaultRuntime.exit).not.toHaveBeenCalled();
-    expect(getErrorOutput()).toContain("openclaw update --channel dev");
+    expect(getErrorOutput()).toContain("openagent update --channel dev");
   });
 
   it("fails package updates when the installed correction version does not match the requested target", async () => {
@@ -8528,7 +8528,7 @@ describe("update-cli", () => {
     const rollback = await retained.rollback(assertCurrent);
     expect(rollback.exitCode).toBe(0);
     await retained.complete({ activationVerified: false }, assertCurrent);
-    const doctorStep = result.steps.find((step) => step.name === "openclaw doctor");
+    const doctorStep = result.steps.find((step) => step.name === "openagent doctor");
     expect(doctorStep?.exitCode).toBe(1);
     expect(doctorStep?.advisory).toBeUndefined();
     await expect(fs.readFile(path.join(pkgRoot, "package.json"), "utf8")).resolves.toContain(
@@ -8672,7 +8672,7 @@ describe("update-cli", () => {
       expect(updateNpmInstalledPlugins).not.toHaveBeenCalled();
       expect(defaultRuntime.exit).not.toHaveBeenCalledWith(1);
       const jsonOutput = lastWriteJsonCall() as UpdateRunResult | undefined;
-      const doctorStep = jsonOutput?.steps.find((step) => step.name === "openclaw doctor");
+      const doctorStep = jsonOutput?.steps.find((step) => step.name === "openagent doctor");
       expect(jsonOutput?.status).toBe("ok");
       expect(doctorStep?.exitCode).toBe(exitCode);
       // Keep the established advisory shape; complete ledger warnings travel on the step.
@@ -8684,7 +8684,7 @@ describe("update-cli", () => {
         warnings: [
           exitCode === 0
             ? warning
-            : `${warning}\nRun openclaw doctor --fix to finish deferred repairs.`,
+            : `${warning}\nRun openagent doctor --fix to finish deferred repairs.`,
         ],
       });
       expect(doctorStep?.advisory?.message).not.toContain("gateway restart");
@@ -8736,7 +8736,7 @@ describe("update-cli", () => {
     expect(spawn).not.toHaveBeenCalled();
     expect(defaultRuntime.exit).not.toHaveBeenCalled();
     const jsonOutput = lastWriteJsonCall() as UpdateRunResult | undefined;
-    const doctorStep = jsonOutput?.steps.find((step) => step.name === "openclaw doctor");
+    const doctorStep = jsonOutput?.steps.find((step) => step.name === "openagent doctor");
     expect(doctorStep?.exitCode).toBe(124);
     expect(doctorStep?.advisory).toBeUndefined();
     expect(doctorStep?.termination).toBe("timeout");
@@ -9015,7 +9015,7 @@ describe("update-cli", () => {
           steps: [
             {
               name: "candidate gateway canary",
-              command: "openclaw gateway",
+              command: "openagent gateway",
               cwd: root,
               durationMs: 1,
               exitCode: candidateReady ? 0 : 1,
@@ -9196,7 +9196,7 @@ describe("update-cli", () => {
         steps: [
           {
             name: "candidate gateway canary",
-            command: "openclaw gateway",
+            command: "openagent gateway",
             cwd: options.root,
             durationMs: 1,
             exitCode: 0,
@@ -9227,7 +9227,7 @@ describe("update-cli", () => {
         steps: [
           {
             name: "candidate gateway canary",
-            command: "openclaw gateway",
+            command: "openagent gateway",
             cwd: root,
             durationMs: 1,
             exitCode: 0,
@@ -9243,7 +9243,7 @@ describe("update-cli", () => {
     expect(freshRestartCalls()).toEqual([]);
     expect(lastWriteJsonCall()).toMatchObject({
       status: "error",
-      reason: "openclaw doctor",
+      reason: "openagent doctor",
       steps: expect.arrayContaining([
         expect.objectContaining({
           exitCode: 1,
@@ -13033,7 +13033,7 @@ describe("update-cli", () => {
       "Git-based updates need a clean working tree before they can switch commits, fetch, or rebase.",
     );
     expect(logs).toContain(
-      "Commit, stash, or discard the local changes, then rerun `openclaw update`.",
+      "Commit, stash, or discard the local changes, then rerun `openagent update`.",
     );
     expect(listUpdateRuns({ limit: 1 })[0]?.origin.nextAction).toContain(
       "Commit, stash, or discard the local changes",
@@ -13559,7 +13559,7 @@ describe("update-cli", () => {
                   pluginId: "telegram",
                   reason: "failed to load plugin dependency: ENOSPC",
                   message: expect.stringContaining("could not be loaded"),
-                  guidance: ["openclaw doctor --fix"],
+                  guidance: ["openagent doctor --fix"],
                 }),
               ]),
             },
@@ -13568,7 +13568,7 @@ describe("update-cli", () => {
       } else {
         expect(getLogOutput()).toContain("Gateway: restarted and verified.");
         expect(getLogOutput()).toContain('Plugin "telegram" could not be loaded.');
-        expect(getLogOutput()).toContain("openclaw doctor --fix");
+        expect(getLogOutput()).toContain("openagent doctor --fix");
         expect(getLogOutput()).not.toContain("failed to load plugin dependency: ENOSPC");
       }
     },
@@ -14232,7 +14232,7 @@ describe("update-cli", () => {
       run: async () => await updateWizardCommand({}),
       requireTty: false,
       expectedError:
-        "Update wizard requires a TTY. Use `openclaw update --channel <stable|extended-stable|beta|dev>` instead.",
+        "Update wizard requires a TTY. Use `openagent update --channel <stable|extended-stable|beta|dev>` instead.",
     },
   ] as const)(
     "validates update command invocation errors: $name",

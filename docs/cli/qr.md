@@ -1,25 +1,25 @@
 ---
-summary: "CLI reference for `openclaw qr` (generate mobile pairing QR + setup code)"
+summary: "CLI reference for `openagent qr` (generate mobile pairing QR + setup code)"
 read_when:
   - You want to pair a mobile node app with a gateway quickly
   - You need setup-code output for remote/manual sharing
 title: "QR"
 ---
 
-# `openclaw qr`
+# `openagent qr`
 
 Generate a mobile pairing QR and setup code from your current Gateway configuration.
 
-The legacy [`openclaw clawbot qr`](/cli/clawbot) alias accepts every flag below.
+The legacy [`openagent clawbot qr`](/cli/clawbot) alias accepts every flag below.
 
 ```bash
-openclaw qr
-openclaw qr --setup-code-only
-openclaw qr --json
-openclaw qr --remote
-openclaw qr --limited
-openclaw qr --voice-node
-openclaw qr --url wss://gateway.example/ws
+openagent qr
+openagent qr --setup-code-only
+openagent qr --json
+openagent qr --remote
+openagent qr --limited
+openagent qr --voice-node
+openagent qr --url wss://gateway.example/ws
 ```
 
 Official OpenAgent iOS and Android apps connect automatically when their
@@ -27,8 +27,8 @@ setup-code metadata matches. If a request remains pending (for example, for a
 non-official client or mismatched metadata), review and approve it:
 
 ```bash
-openclaw devices list
-openclaw devices approve <requestId>
+openagent devices list
+openagent devices approve <requestId>
 ```
 
 ## Options
@@ -69,7 +69,7 @@ Mobile pairing fails closed for Tailscale/public `ws://` gateway URLs: use Tails
 The QR command advertises Tailscale URLs only when OpenAgent owns the route through `gateway.tailscale.mode=serve|funnel`. Legacy external Serve routes that target the ordinary Gateway listener are not advertised because that listener rejects Tailscale-shaped proxy ingress.
 
 If an older setup used `gateway.bind=lan` with a persistent default HTTPS Serve
-route, run `openclaw doctor` to inspect it. Doctor does not migrate or clear the
+route, run `openagent doctor` to inspect it. Doctor does not migrate or clear the
 route because its status cannot prove who owns it, even with `--fix`; if you
 confirm it is stale, clear only its root handler, configure
 `gateway.bind=loopback` plus `gateway.tailscale.mode=serve` manually, and restart

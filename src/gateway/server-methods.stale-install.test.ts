@@ -45,10 +45,10 @@ describe("gateway stale install errors", () => {
       expect.objectContaining({
         code: "UNAVAILABLE",
         retryable: false,
-        message: expect.stringContaining("openclaw --profile sd1 gateway restart"),
+        message: expect.stringContaining("openagent --profile sd1 gateway restart"),
         details: {
           code: "STALE_INSTALL",
-          restartCommand: "openclaw --profile sd1 gateway restart",
+          restartCommand: "openagent --profile sd1 gateway restart",
         },
       }),
     );

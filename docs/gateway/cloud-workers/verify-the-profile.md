@@ -11,18 +11,18 @@ The checks to run before and after restarting the Gateway, and the end-to-end fl
 Validate before restarting the Gateway:
 
 ```bash
-openclaw config validate --json
-openclaw plugins inspect crabbox --runtime --json
+openagent config validate --json
+openagent plugins inspect crabbox --runtime --json
 ```
 
-Changes under `cloudWorkers.profiles` require a Gateway restart. The default `gateway.reload.mode: "hybrid"` watches the config and performs that restart automatically; with reload watching disabled, run `openclaw gateway restart`.
+Changes under `cloudWorkers.profiles` require a Gateway restart. The default `gateway.reload.mode: "hybrid"` watches the config and performs that restart automatically; with reload watching disabled, run `openagent gateway restart`.
 
 To use the same profile with Codex, enable a trusted Codex plugin installation on the Gateway and explicitly add `codex.exec-server.stdio.v1` to `gateway.nodes.commands.allow`. Bootstrap includes and enables the required plugin in the cloud node's isolated state automatically. Installing the runtime does not grant execution authority: persistent command enablement does not replace the critical launch approval. **Allow once** covers one exec-server launch; **Allow always** covers later launches only while the exact placement, node pairing, environment owner, command approval scope, and workspace stay current.
 
 After the Gateway is back, prove the profile is advertised and compare it with Crabbox's read-only lease inventory:
 
 ```bash
-openclaw gateway call environments.list --params '{}'
+openagent gateway call environments.list --params '{}'
 crabbox list --provider aws --json
 ```
 

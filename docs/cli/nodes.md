@@ -1,12 +1,12 @@
 ---
-summary: "CLI reference for `openclaw nodes` (status, pairing, invoke, camera/screen/location/notify and the macOS widget panel)"
+summary: "CLI reference for `openagent nodes` (status, pairing, invoke, camera/screen/location/notify and the macOS widget panel)"
 read_when:
   - You're managing paired nodes (cameras, screen, or the macOS widget panel)
   - You need to approve requests or invoke node commands
 title: "Nodes CLI"
 ---
 
-# `openclaw nodes`
+# `openagent nodes`
 
 Manage paired nodes (devices) and invoke node capabilities.
 
@@ -21,11 +21,11 @@ and fails before node lookup or Gateway requests.
 ## Status
 
 ```bash
-openclaw nodes status
-openclaw nodes status --connected
-openclaw nodes status --last-connected 24h
-openclaw nodes list
-openclaw nodes describe --node <idOrNameOrIp>
+openagent nodes status
+openagent nodes status --connected
+openagent nodes status --last-connected 24h
+openagent nodes list
+openagent nodes describe --node <idOrNameOrIp>
 ```
 
 `status` and `list` both accept `--connected` (only connected nodes) and `--last-connected <duration>` (for example `24h` or `7d`, matching only nodes that connected within the duration). Both use the Gateway's recorded last connection time, including recent reconnects and disconnected nodes with known connection history. `list` shows pending and paired nodes in separate tables. Paired rows carry the most recent connect age (Last Connect). `status` shows one merged table with per-node capability, version, and last-input detail. A connected macOS node reports last input only after the user enables **Active computer detection** and grants Accessibility. The freshest row is marked `active`. See Active computer presence. `describe` prints one node's capabilities, permissions, activity, and effective/pending invoke commands.
@@ -43,14 +43,14 @@ original timestamp. See [Node host stats](/gateway/protocol/presence#node-host-s
 ## Pairing
 
 ```bash
-openclaw nodes pending
-openclaw nodes approve <requestId>
-openclaw nodes reject <requestId>
-openclaw nodes remove --node <id|name|ip>
-openclaw nodes rename --node <id|name|ip> --name <displayName>
+openagent nodes pending
+openagent nodes approve <requestId>
+openagent nodes reject <requestId>
+openagent nodes remove --node <id|name|ip>
+openagent nodes rename --node <id|name|ip> --name <displayName>
 ```
 
-These commands manage the node's approved command/capability surface on its paired-device record. Device pairing (`openclaw devices approve`) gates the node's WebSocket `connect` handshake.
+These commands manage the node's approved command/capability surface on its paired-device record. Device pairing (`openagent devices approve`) gates the node's WebSocket `connect` handshake.
 
 For manual enrollment, first approve the device request, then restart or rerun
 a node paused on `PAIRING_REQUIRED`. Its reconnect creates the separate request
@@ -73,7 +73,7 @@ for the complete sequence.
 ## Invoke
 
 ```bash
-openclaw nodes invoke --node <id> --command system.which --params '{"bins":["uname"]}'
+openagent nodes invoke --node <id> --command system.which --params '{"bins":["uname"]}'
 ```
 
 Flags:
@@ -91,10 +91,10 @@ The invocation timeout covers Gateway checks, node wake-up, readiness retries, a
 ## Notify, push, location, screen
 
 ```bash
-openclaw nodes notify --node <id> --title "Build" --body "Done" --priority timeSensitive
-openclaw nodes push --node <id> --title "OpenAgent" --environment sandbox
-openclaw nodes location get --node <id> --accuracy precise
-openclaw nodes screen record --node <id> --duration 10s --fps 10 --out ./clip.mp4
+openagent nodes notify --node <id> --title "Build" --body "Done" --priority timeSensitive
+openagent nodes push --node <id> --title "OpenAgent" --environment sandbox
+openagent nodes location get --node <id> --accuracy precise
+openagent nodes screen record --node <id> --duration 10s --fps 10 --out ./clip.mp4
 ```
 
 - `notify` sends a local notification on a node that declares `system.notify`, including macOS, iOS, Android, and direct watchOS nodes. Direct watchOS delivery requires OpenAgent to be active. Requires `--title` or `--body`. Options: `--sound <name>`, `--priority <passive|active|timeSensitive>`, `--delivery <system|overlay|auto>` (default `system`), `--invoke-timeout <ms>` (default `15000`).
@@ -103,7 +103,7 @@ openclaw nodes screen record --node <id> --duration 10s --fps 10 --out ./clip.mp
 - `screen record` captures a short clip and prints the saved path (or writes JSON with `--json`). Options: `--screen <index>` (default `0`), `--duration <ms|10s>` (default `10000`), `--fps <fps>` (default `10`), `--no-audio`, `--out <path>`, `--invoke-timeout <ms>` (default `120000`).
 - Explicit screen output paths are staged beside the destination. They replace it only after a complete write. A failed write leaves an existing file unchanged.
 
-Camera and macOS widget-panel commands have their own docs: Camera nodes, Widget panel. The bundled experimental Canvas plugin registers `openclaw nodes canvas` with the surviving `present`, `hide`, and `navigate` subcommands.
+Camera and macOS widget-panel commands have their own docs: Camera nodes, Widget panel. The bundled experimental Canvas plugin registers `openagent nodes canvas` with the surviving `present`, `hide`, and `navigate` subcommands.
 
 ## Related
 

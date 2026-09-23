@@ -10,7 +10,7 @@ This page covers the shared secret store, the default-off secret egress proxy an
 
 ## Shared secret store
 
-The shared secret store is a Gateway-wide, team-scoped place for secrets and environment values that should be available to every Gateway process using the same state database. Manage it from **Settings → Secrets** in the Control UI or locally with `openclaw secrets store`. The CLI commands operate on the local state database and do not accept Gateway URL or token options.
+The shared secret store is a Gateway-wide, team-scoped place for secrets and environment values that should be available to every Gateway process using the same state database. Manage it from **Settings → Secrets** in the Control UI or locally with `openagent secrets store`. The CLI commands operate on the local state database and do not accept Gateway URL or token options.
 
 Entries have two explicit access modes. Both retain the existing `secret` and `env` storage kinds, and either kind can back a SecretRef:
 
@@ -37,11 +37,11 @@ Reference an entry from `openclaw.json` with the `store` source:
 }
 ```
 
-Control UI set/delete operations automatically refresh the active secrets runtime when the changed name is referenced by a `store` SecretRef in the active source config or auth-profile snapshot. Names that are not referenced skip that work. Direct CLI writes remain an offline/local path; after changing a referenced value with the CLI, run `openclaw secrets reload` so the active in-memory snapshot picks it up.
+Control UI set/delete operations automatically refresh the active secrets runtime when the changed name is referenced by a `store` SecretRef in the active source config or auth-profile snapshot. Names that are not referenced skip that work. Direct CLI writes remain an offline/local path; after changing a referenced value with the CLI, run `openagent secrets reload` so the active in-memory snapshot picks it up.
 
 The agent can also ask you to add an entry with the [`secrets` tool](/tools/secrets): it names the entry and the reason, you type the value into a masked prompt, and the Gateway writes it directly into the store. The value never enters the chat, the transcript, or the model's context, and the same automatic runtime refresh applies.
 
-Credential prompts are bound to the exact requesting authority and cancel when it closes. A committed answer is terminal even if the subsequent runtime refresh fails. The saved value remains; resolve the provider error and retry `openclaw secrets reload`, not the answer. Use the tool's returned full SecretRef, including its provider alias.
+Credential prompts are bound to the exact requesting authority and cancel when it closes. A committed answer is terminal even if the subsequent runtime refresh fails. The saved value remains; resolve the provider error and retry `openagent secrets reload`, not the answer. Use the tool's returned full SecretRef, including its provider alias.
 
 <Warning>
 Store values are not encrypted at rest. They are stored unencrypted in the shared state SQLite database (`state/openclaw.sqlite`), protected by the same `0600` file and `0700` directory permissions as other credentials in that database. Operators who need stronger storage isolation should use an external exec provider such as Vault or another secret manager through SecretRefs.
@@ -54,7 +54,7 @@ The secret egress proxy lets Gateway-hosted agent subprocesses use shared-store 
 Each secret must also name the exact HTTPS hosts where substitution is allowed. Hostnames are stored lowercase in ASCII/punycode form and matched exactly; wildcards, suffix matching, and ports are not supported. A secret with no allowed hosts is never substituted. Bind a host without replacing the stored value:
 
 ```bash
-openclaw secrets store set OPENAI_API_KEY --allow-host api.openai.com
+openagent secrets store set OPENAI_API_KEY --allow-host api.openai.com
 ```
 
 Repeat `--allow-host` to replace the binding with multiple hosts, or use `--clear-allowed-hosts` to remove every binding. A refused request names the secret and prints the exact `store set ... --allow-host ...` command needed for that destination.
@@ -62,15 +62,15 @@ Repeat `--allow-host` to replace the binding with multiple hosts, or use `--clea
 Enable it explicitly, then restart the Gateway:
 
 ```bash
-openclaw config set secrets.egressProxy.enabled true --strict-json
-openclaw gateway restart
+openagent config set secrets.egressProxy.enabled true --strict-json
+openagent gateway restart
 ```
 
 For example, bind an OpenAI key to its API host and enable the proxy:
 
 ```bash
-openclaw secrets store set OPENAI_API_KEY --allow-host api.openai.com
-openclaw config set secrets.egressProxy.enabled true --strict-json
+openagent secrets store set OPENAI_API_KEY --allow-host api.openai.com
+openagent config set secrets.egressProxy.enabled true --strict-json
 ```
 
 After restarting the Gateway, a Gateway-hosted agent can run:
@@ -79,7 +79,7 @@ After restarting the Gateway, a Gateway-hosted agent can run:
 curl -sS https://api.openai.com/v1/models -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-In the agent environment, `$OPENAI_API_KEY` is an `oc-sent-v2...end` sentinel. The proxy replaces it with the stored value only for `api.openai.com`. A request to an unbound host is refused with `Secret "OPENAI_API_KEY" is not allowed for host "<host>". Run: openclaw secrets store set OPENAI_API_KEY --allow-host <host>`.
+In the agent environment, `$OPENAI_API_KEY` is an `oc-sent-v2...end` sentinel. The proxy replaces it with the stored value only for `api.openai.com`. A request to an unbound host is refused with `Secret "OPENAI_API_KEY" is not allowed for host "<host>". Run: openagent secrets store set OPENAI_API_KEY --allow-host <host>`.
 
 Equivalent config:
 
@@ -114,7 +114,7 @@ Destination binding does not make an allowed host trustworthy. A bound service t
 
 The CA is generated once per Gateway start under the state directory with a ten-year certificate validity window. Its key is still process-owned, not retained for ten years. One-day leaf certificates renew on demand within their final hour without replacing the CA or interrupting established TLS connections. This keeps already-running subprocesses trusting the same issuer across renewal. Its directory is mode `0700`, its private keys are mode `0600`, it is removed during Gateway shutdown, and OpenAgent never installs it in a system trust store. Requests fail closed when a sentinel cannot be authenticated or resolved; the proxy never forwards or silently strips an unresolved sentinel. Request bodies are scanned as a stream with a bounded carry window, so substitution also works when a sentinel crosses chunk boundaries or appears in a large upload.
 
-`openclaw status` and `openclaw doctor` report certificate preparation failures and warn when the process CA is within seven days of expiry. Failed preparation refuses the new CONNECT request with an actionable error; the next request can retry after OpenSSL, filesystem access, or clock problems are corrected. An expired or not-yet-valid CA requires checking the system clock and restarting the Gateway, not disabling TLS verification. Gateway RPC can remain reachable while protected egress is degraded. For a read-only, machine-readable probe, run `openclaw doctor --lint --only core/doctor/gateway-health --json`; the default JSON checks do not probe the running Gateway.
+`openagent status` and `openagent doctor` report certificate preparation failures and warn when the process CA is within seven days of expiry. Failed preparation refuses the new CONNECT request with an actionable error; the next request can retry after OpenSSL, filesystem access, or clock problems are corrected. An expired or not-yet-valid CA requires checking the system clock and restarting the Gateway, not disabling TLS verification. Gateway RPC can remain reachable while protected egress is degraded. For a read-only, machine-readable probe, run `openagent doctor --lint --only core/doctor/gateway-health --json`; the default JSON checks do not probe the running Gateway.
 
 `bypassHosts` contains exact hostnames that must remain end-to-end TLS for certificate-pinned clients. Those hosts use an authenticated blind CONNECT tunnel. No substitution is possible inside the tunnel; a sentinel sent there is safe by construction because it is authenticated ciphertext rather than a credential, so the vendor sees an invalid credential and rejects it.
 
@@ -123,10 +123,10 @@ The CA is generated once per Gateway start under the state directory with a ten-
 Destination binding protects secrets, not traffic: a request that carries no sentinel can reach any host once a run holds proxy credentials. Set `secrets.egressProxy.allowedHosts` to also restrict where non-sentinel traffic may go:
 
 ```bash
-openclaw config set secrets.egressProxy.allowedHosts '["api.openai.com"]' --strict-json
+openagent config set secrets.egressProxy.allowedHosts '["api.openai.com"]' --strict-json
 ```
 
-When the list is present, the proxy forwards only to hostnames in the list, hosts bound to a secret registered for the current agent run, and `bypassHosts`, so an existing `--allow-host` binding keeps working without listing its host twice. A request or CONNECT tunnel to any other host is refused with `Host "<host>" is not in the secret egress proxy traffic allowlist. Add it to secrets.egressProxy.allowedHosts or bind a store secret to it with: openclaw secrets store set <NAME> --allow-host <host>, then restart the Gateway.`
+When the list is present, the proxy forwards only to hostnames in the list, hosts bound to a secret registered for the current agent run, and `bypassHosts`, so an existing `--allow-host` binding keeps working without listing its host twice. A request or CONNECT tunnel to any other host is refused with `Host "<host>" is not in the secret egress proxy traffic allowlist. Add it to secrets.egressProxy.allowedHosts or bind a store secret to it with: openagent secrets store set <NAME> --allow-host <host>, then restart the Gateway.`
 
 An empty array is lockdown mode: only per-secret bound hosts and `bypassHosts` remain reachable. Omitting `allowedHosts` leaves traffic unrestricted. Hostnames follow the same rules as secret bindings: exact lowercase ASCII/punycode match, no wildcards or ports. Restart the Gateway after changing the allowlist.
 

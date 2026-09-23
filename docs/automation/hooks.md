@@ -42,14 +42,14 @@ you a concrete file to inspect. Run these commands on the **Gateway host**, with
 the same profile and config as that Gateway:
 
 ```bash
-openclaw hooks list
-openclaw hooks info command-logger
-openclaw hooks enable command-logger
+openagent hooks list
+openagent hooks info command-logger
+openagent hooks enable command-logger
 ```
 
 The default `hybrid` [reload mode](/gateway/configuration#reload-modes) applies
 hook config changes without a restart. With reload mode `off`, run
-`openclaw gateway restart`, or restart a foreground Gateway yourself. Add
+`openagent gateway restart`, or restart a foreground Gateway yourself. Add
 `--agent <id>` when your configuration has multiple agents and no implicit owner.
 
 In a conversation you can safely reset, send `/new` or `/reset` as an authorized
@@ -62,13 +62,13 @@ tail -n 5 ~/.openclaw/logs/commands.log
 Look for a new JSON line with `"action":"new"` or `"action":"reset"`, a recent
 `timestamp`, and that conversation's `sessionKey`. With a custom state directory,
 read `<stateDir>/logs/commands.log` instead. This proves that a handler ran;
-`openclaw hooks check` alone does not.
+`openagent hooks check` alone does not.
 
 The log contains session and sender identifiers. Disable the hook after trying
 it if you do not want to retain those records:
 
 ```bash
-openclaw hooks disable command-logger
+openagent hooks disable command-logger
 ```
 
 ### Eligible, enabled, and loaded
@@ -153,7 +153,7 @@ with an explicit shutdown lifecycle, not a request/event handler.
 
 ## CLI reference
 
-See [`openclaw hooks`](/cli/hooks) for every public report and toggle option,
+See [`openagent hooks`](/cli/hooks) for every public report and toggle option,
 JSON output fields, exit behavior, and install/update aliases.
 
 ## Detailed topics

@@ -69,10 +69,10 @@ if (args[0] === 'update') {
     fs.renameSync(manifest + '.next', manifest);
   }
   console.log(JSON.stringify({
-    status:'error', mode:'npm', reason:'openclaw doctor',
+    status:'error', mode:'npm', reason:'openagent doctor',
     before:{version:${JSON.stringify(baselineVersion)}},
     after:{version:${JSON.stringify(targetVersion)}},
-    steps:[{name:'global update',exitCode:0},{name:'global install swap',exitCode:0},{name:'openclaw doctor',exitCode:${fixture.exitCode}}]
+    steps:[{name:'global update',exitCode:0},{name:'global install swap',exitCode:0},{name:'openagent doctor',exitCode:${fixture.exitCode}}]
   }));
   console.error('target Doctor fixture failed');
   process.exitCode = ${fixture.exitCode};

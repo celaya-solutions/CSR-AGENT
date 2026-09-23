@@ -300,10 +300,10 @@ function renderFormBody(params: { props: LoginGateProps; feedback: LoginFailureF
                 <summary class="login-gate__help-title">${t("connection.help.title")}</summary>
                 <ol class="login-gate__steps">
                   <li>
-                    ${t("connection.help.step1")}${renderConnectCommand("openclaw gateway run")}
+                    ${t("connection.help.step1")}${renderConnectCommand("openagent gateway run")}
                   </li>
                   <li>
-                    ${t("connection.help.step2")} ${renderConnectCommand("openclaw dashboard")}
+                    ${t("connection.help.step2")} ${renderConnectCommand("openagent dashboard")}
                   </li>
                   <li>${t("connection.help.step3")}</li>
                 </ol>

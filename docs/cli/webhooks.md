@@ -1,21 +1,21 @@
 ---
 doc-schema-version: 1
-summary: "CLI reference for `openclaw webhooks` (Gmail Pub/Sub setup and runner)"
+summary: "CLI reference for `openagent webhooks` (Gmail Pub/Sub setup and runner)"
 read_when:
   - You want to wire Gmail Pub/Sub events into OpenAgent
   - You need the full flag list and default values
 title: "Webhooks"
 ---
 
-# `openclaw webhooks`
+# `openagent webhooks`
 
-`openclaw webhooks` sets up and runs the Gmail Pub/Sub transport through `gog` (gogcli). It does not register [internal `HOOK.md` hooks](/automation/hooks), manage arbitrary [Gateway hook mappings](/automation/cron-jobs#webhooks), or manage the TaskFlow Webhooks plugin.
+`openagent webhooks` sets up and runs the Gmail Pub/Sub transport through `gog` (gogcli). It does not register [internal `HOOK.md` hooks](/automation/hooks), manage arbitrary [Gateway hook mappings](/automation/cron-jobs#webhooks), or manage the TaskFlow Webhooks plugin.
 
 ## Subcommands
 
 ```bash
-openclaw webhooks gmail setup --account <email> [...]
-openclaw webhooks gmail run   [--account <email>] [...]
+openagent webhooks gmail setup --account <email> [...]
+openagent webhooks gmail run   [--account <email>] [...]
 ```
 
 | Subcommand    | Description                                                                            |
@@ -30,14 +30,14 @@ The Gateway also auto-starts `gog gmail watch serve` on boot once `hooks.enabled
 ## `webhooks gmail setup`
 
 ```bash
-openclaw webhooks gmail setup --account you@example.com
-openclaw webhooks gmail setup --account you@example.com --project my-gcp-project --json
-openclaw webhooks gmail setup --account you@example.com --hook-url https://gateway.example.com/hooks/gmail
+openagent webhooks gmail setup --account you@example.com
+openagent webhooks gmail setup --account you@example.com --project my-gcp-project --json
+openagent webhooks gmail setup --account you@example.com --hook-url https://gateway.example.com/hooks/gmail
 ```
 
 Authenticates `gcloud`, enables the required APIs, creates or updates the Pub/Sub topic/subscription and push endpoint, starts the Gmail watch, and writes `hooks.gmail` with `hooks.enabled: true` and the Gmail preset. Missing `gcloud`, `gog`, and Tailscale dependencies can be installed automatically on macOS with Homebrew. Other platforms need them installed first. The Gmail account must already be authorized in `gog`.
 
-Setup changes cloud resources, exposure settings, and local config. It is not a read-only check. Re-running it can apply the CLI defaults over saved Gmail settings. It prints `Next: openclaw webhooks gmail run`. Use that only if the Gateway-managed watcher is not already running.
+Setup changes cloud resources, exposure settings, and local config. It is not a read-only check. Re-running it can apply the CLI defaults over saved Gmail settings. It prints `Next: openagent webhooks gmail run`. Use that only if the Gateway-managed watcher is not already running.
 
 <Warning>
 This command connects Gmail transport but does not create a restricted reader agent or the session-key policy required by the templated preset. Without a custom Gmail mapping that sets `agentId`, inbound email runs as the default agent with that agent's effective workspace, sandbox, and tool policy. Complete [Configure a restricted Gmail reader](/automation/cron-jobs#configure-a-restricted-gmail-reader-recommended) before running setup for an untrusted inbox.
@@ -103,7 +103,7 @@ Command failures show bounded tails from both stdout and stderr, with terminal c
 ## `webhooks gmail run`
 
 ```bash
-openclaw webhooks gmail run --account you@example.com
+openagent webhooks gmail run --account you@example.com
 ```
 
 Starts the Gmail watch and runs `gog gmail watch serve` plus periodic watch renewal in the foreground. Unexpected serve-process exits continue to restart after 5 seconds. A bind conflict stops restarts. Run only one watcher per listener and stop the other watcher before retrying. Ctrl-C or SIGTERM cancels pending restarts and renewal work and shuts down the serve process tree. Investigate repeated exits in the logs.
@@ -130,8 +130,8 @@ For `run`, the `--topic` value is the full Pub/Sub topic path (`projects/.../top
 ## Verify forwarding
 
 ```bash
-openclaw config validate
-openclaw logs --follow
+openagent config validate
+openagent logs --follow
 ```
 
 Send a test from another account to the watched inbox. The watcher excludes

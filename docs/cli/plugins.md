@@ -1,5 +1,5 @@
 ---
-summary: "CLI reference for `openclaw plugins` (init, build, validate, list, install, reload, marketplace, uninstall, enable/disable, doctor)"
+summary: "CLI reference for `openagent plugins` (init, build, validate, list, install, reload, marketplace, uninstall, enable/disable, doctor)"
 read_when:
   - You want to install or manage Gateway plugins or compatible bundles
   - You want to scaffold or validate a simple tool plugin
@@ -8,7 +8,7 @@ title: "Plugins CLI"
 sidebarTitle: "Plugins"
 ---
 
-# `openclaw plugins`
+# `openagent plugins`
 
 Manage Gateway plugins, hook packs, and compatible bundles.
 
@@ -33,26 +33,26 @@ Manage Gateway plugins, hook packs, and compatible bundles.
 ## Commands
 
 ```bash
-openclaw plugins list [--enabled] [--verbose] [--json]
-openclaw plugins search <query> [--limit <n>] [--json]
-openclaw plugins install <path-or-spec> [--link] [--force] [--pin] [--accept-capabilities] [--acknowledge-install-policy-warning] [--marketplace <source>]
-openclaw plugins inspect <id> [--runtime] [--json]
-openclaw plugins inspect --all [--runtime] [--json]
-openclaw plugins info <id>                    # alias for inspect
-openclaw plugins enable <id> [--accept-capabilities]
-openclaw plugins disable <id>
-openclaw plugins reload <id> [--accept-capabilities] [--json]
-openclaw plugins uninstall <id> [--dry-run] [--keep-files] [--force]
-openclaw plugins update <id-or-npm-spec> | --all [--dry-run]
-openclaw plugins registry [--refresh] [--json]
-openclaw plugins doctor [--json]
-openclaw plugins init <id> [--name <name>] [--type tool|provider|feature] [--directory <path>]
-openclaw plugins build [--root <path>] [--entry <path>] [--check]
-openclaw plugins validate [--root <path>] [--entry <path>] [--json]
-openclaw plugins pack [--root <path>] [--out <file.tgz>] [--json]
-openclaw plugins marketplace entries [--offline] [--feed-profile <name>] [--json]
-openclaw plugins marketplace list <source> [--json]
-openclaw plugins marketplace refresh [--feed-profile <name>] [--expected-sha256 <sha256>] [--json]
+openagent plugins list [--enabled] [--verbose] [--json]
+openagent plugins search <query> [--limit <n>] [--json]
+openagent plugins install <path-or-spec> [--link] [--force] [--pin] [--accept-capabilities] [--acknowledge-install-policy-warning] [--marketplace <source>]
+openagent plugins inspect <id> [--runtime] [--json]
+openagent plugins inspect --all [--runtime] [--json]
+openagent plugins info <id>                    # alias for inspect
+openagent plugins enable <id> [--accept-capabilities]
+openagent plugins disable <id>
+openagent plugins reload <id> [--accept-capabilities] [--json]
+openagent plugins uninstall <id> [--dry-run] [--keep-files] [--force]
+openagent plugins update <id-or-npm-spec> | --all [--dry-run]
+openagent plugins registry [--refresh] [--json]
+openagent plugins doctor [--json]
+openagent plugins init <id> [--name <name>] [--type tool|provider|feature] [--directory <path>]
+openagent plugins build [--root <path>] [--entry <path>] [--check]
+openagent plugins validate [--root <path>] [--entry <path>] [--json]
+openagent plugins pack [--root <path>] [--out <file.tgz>] [--json]
+openagent plugins marketplace entries [--offline] [--feed-profile <name>] [--json]
+openagent plugins marketplace list <source> [--json]
+openagent plugins marketplace refresh [--feed-profile <name>] [--expected-sha256 <sha256>] [--json]
 ```
 
 For slow install, inspect, uninstall, or registry-refresh investigation, run the
@@ -73,7 +73,7 @@ Native OpenAgent plugins ship `openclaw.plugin.json` with an inline JSON Schema 
 
 ## Plugins pages
 
-This page is an index. `openclaw plugins` is documented on six pages, one per
+This page is an index. `openagent plugins` is documented on six pages, one per
 reader job. Open the page that matches your task.
 
 | Page                                                              | Read it when                                                                     |

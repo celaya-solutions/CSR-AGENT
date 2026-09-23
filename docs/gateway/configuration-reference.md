@@ -13,7 +13,7 @@ Config format is **JSON5** (comments + trailing commas allowed). All fields are 
 
 Code truth beats this page:
 
-- `openclaw config schema` prints the live JSON Schema used for validation and Control UI, with bundled/plugin/channel metadata merged in.
+- `openagent config schema` prints the live JSON Schema used for validation and Control UI, with bundled/plugin/channel metadata merged in.
 - Agents should call the `gateway` tool action `config.schema.lookup` for one exact path-scoped schema node before editing config.
 - `pnpm config:docs:check` / `pnpm config:docs:gen` validate this doc's baseline hash against the current schema surface.
 
@@ -226,4 +226,4 @@ Moved to [Configuration — environment, secrets, and includes](/gateway/config-
 - [Configuration examples](/gateway/configuration-examples)
 - [Doctor](/gateway/doctor)
 - [Cloud Workers](/gateway/cloud-workers) — the feature these worker settings configure
-- [`openclaw configure`](/cli/configure) — interactive prompts that edit these settings without hand-editing the file
+- [`openagent configure`](/cli/configure) — interactive prompts that edit these settings without hand-editing the file

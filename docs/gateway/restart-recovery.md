@@ -92,14 +92,14 @@ See [Database schemas](/reference/database-schemas) for downgrade precautions.
 ## Graceful restarts drain first
 
 Startup migration warnings do not prevent the Gateway from starting. It logs the
-warnings once and starts degraded. `openclaw status` and `openclaw doctor` show the
+warnings once and starts degraded. `openagent status` and `openagent doctor` show the
 running Gateway's warning report. Read-only operators receive the repair hint.
 Warning details are restricted to administrators and startup logs.
-Run `openclaw doctor --fix` against the same
+Run `openagent doctor --fix` against the same
 state/config, then restart the Gateway. Unfinished migrations remain pending for
 a later startup. Errors that leave required state unsafe to read still stop startup.
 
-A requested restart (`openclaw gateway restart`, a config change that requires
+A requested restart (`openagent gateway restart`, a config change that requires
 a restart, or a gateway update) does not kill in-flight work immediately. The
 gateway stops accepting new work, then waits for active agent turns and
 background tasks to finish, up to a drain budget (5 minutes by default). Most
@@ -109,7 +109,7 @@ On Linux, the systemd unit must use `KillMode=mixed` so the initial stop signal
 reaches only the Gateway. Systemd still kills remaining child processes when the
 Gateway exits or its stop deadline expires. Older `KillMode=control-group` units
 signal child runtimes immediately, which can interrupt a turn before drain finishes.
-After upgrading, run `openclaw gateway install --force` for the same profile to
+After upgrading, run `openagent gateway install --force` for the same profile to
 rewrite and restart the managed unit. Ordinary updates leave existing Linux
 service definitions unchanged. Doctor reports incompatible effective settings.
 Operator-owned drop-ins must be inspected and updated separately because reinstalling
@@ -150,7 +150,7 @@ the gateway.
 ## Recovery after a failed update
 
 After a failed interactive update or repair, OpenAgent finishes cleanup and any
-service recovery, then opens [`openclaw triage`](/cli/triage). Triage immediately
+service recovery, then opens [`openagent triage`](/cli/triage). Triage immediately
 starts the first directly launchable coding agent in this order: Claude Code,
 Codex, OpenCode, then Pi. It passes the captured failure before fresh Doctor
 checks or archive collection and asks the agent to diagnose, repair, and verify
@@ -162,12 +162,12 @@ command printed on the Gateway host, or run triage there with the same OpenAgent
 profile and state/config paths. Use `--agent` to select a particular coding agent:
 
 ```bash
-openclaw triage
-openclaw triage --agent codex
+openagent triage
+openagent triage --agent codex
 ```
 
 JSON, `--yes`, and non-interactive update invocations collect diagnostics without
-starting an external coding agent. `openclaw triage --non-interactive` also prepares
+starting an external coding agent. `openagent triage --non-interactive` also prepares
 diagnostics without launching an agent. `--update-result <path>` includes an
 updater's saved failure artifact. Printed handoff commands preserve installation
 selectors and use PowerShell on Windows or POSIX shells on macOS, Linux, and WSL.
@@ -248,12 +248,12 @@ Native task-control failures appear in the update report. Failed suspension
 never triggers automatic re-enablement of the rejected installation.
 
 On macOS, a terminated update helper can leave the selected Gateway LaunchAgent
-installed but unloaded and disabled across logins. `openclaw doctor` and
-`openclaw doctor --fix` diagnose this state. `--fix` leaves an already-stopped
+installed but unloaded and disabled across logins. `openagent doctor` and
+`openagent doctor --fix` diagnose this state. `--fix` leaves an already-stopped
 Gateway stopped. If the update was interrupted or installation safety is
-uncertain, rerun `openclaw update` or use Doctor and triage before starting it.
-Once verified, run `openclaw gateway start` (or
-`openclaw --profile <profile> gateway start`) to re-enable and start that service.
+uncertain, rerun `openagent update` or use Doctor and triage before starting it.
+Once verified, run `openagent gateway start` (or
+`openagent --profile <profile> gateway start`) to re-enable and start that service.
 Keep the same state/config and custom-label overrides. Doctor prints the selected
 label and recovery command. Interactive Doctor can offer bootstrap repair.
 
@@ -292,7 +292,7 @@ does not recreate them after the recovering Gateway consumes them. Check the
 final CLI result and the handoff log for the recovery outcome.
 
 Repair the failed Doctor or installation check before restarting. Triage can
-inspect `openclaw gateway status --deep` and the update diagnostics. Avoid blindly installing
+inspect `openagent gateway status --deep` and the update diagnostics. Avoid blindly installing
 older code after a newer release has migrated configuration or databases. See
 [Updating and recovery](/install/updating). Restart sentinels report the outcome.
 Copying one does not grant permission to restart a service.
@@ -343,7 +343,7 @@ until that work settles.
 
 After the durable budget is exhausted, the session is tombstoned instead of
 looping forever. Inspect the failed session and use `/new` or `/reset` to start a
-replacement. `openclaw doctor --fix` can repair a stale aborted flag that
+replacement. `openagent doctor --fix` can repair a stale aborted flag that
 conflicts with a tombstone, but it does not re-enable that recovery cycle.
 
 If you message the failed session again in a channel, OpenAgent sends a short
@@ -461,7 +461,7 @@ If the existing restart-verification retry window expires, a still-running row
 finishes as failed with `restart-unhealthy`. An already-finalized CLI outcome
 stays intact.
 The post-restart notice is rendered from that row using the same report as
-`openclaw update status`. Consuming the sentinel does not remove run history.
+`openagent update status`. Consuming the sentinel does not remove run history.
 Sentinels left by older releases retain their existing delivery route.
 
 Any update run with an existing internal origin session, including Control UI
@@ -491,15 +491,15 @@ restart handling continues.
   boots. Recovery preserves channels that an operator manually stopped and any
   separate development-mode suppression. Gateway logs look like:
   `channel autostart suppressed by crash-loop breaker; refusing automatic
-start for <channel>… Start a channel manually with: openclaw gateway call
+start for <channel>… Start a channel manually with: openagent gateway call
 channels.start --params '{"channel":"<id>"}'`
 
   Operator recovery SOP:
 
-  1. Confirm the gateway process is up (`openclaw gateway status` / LaunchAgent
+  1. Confirm the gateway process is up (`openagent gateway status` / LaunchAgent
      or systemd unit still running). A “channel disconnected” symptom often
      means suppressed autostart, not a dead gateway.
-  2. Inspect channel state: `openclaw channels status` (add `--probe` when
+  2. Inspect channel state: `openagent channels status` (add `--probe` when
      useful). Look for stopped / not connected accounts while the gateway
      itself is healthy.
   3. Fix the root cause of the unclean boots (bad config, plugin crash on
@@ -507,7 +507,7 @@ channels.start --params '{"channel":"<id>"}'`
   4. Manually start a channel while suppression is active:
 
      ```bash
-     openclaw gateway call channels.start --params '{"channel":"<id>"}'
+     openagent gateway call channels.start --params '{"channel":"<id>"}'
      # optional: {"channel":"<id>","accountId":"<account>"}
      ```
 
@@ -518,7 +518,7 @@ channels.start --params '{"channel":"<id>"}'`
      drains. The same process logs that the restart-loop breaker recovered and
      starts the deferred configured channels.
      If that message does not appear after the window plus one health-monitor
-     interval, inspect the gateway logs and run `openclaw doctor` before
+     interval, inspect the gateway logs and run `openagent doctor` before
      restarting.
 
   See also [Gateway](/gateway) (safe mode paragraph) for the same control-plane

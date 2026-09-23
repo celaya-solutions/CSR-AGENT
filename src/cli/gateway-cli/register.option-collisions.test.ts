@@ -256,7 +256,7 @@ describe("gateway register option collisions", () => {
       assert: () => {
         expectLocalGatewayCall("gateway.suspend.prepare", 19086);
         expect(defaultRuntime.log).toHaveBeenCalledWith(
-          "Resume with: openclaw gateway resume suspension-1 --port 19086",
+          "Resume with: openagent gateway resume suspension-1 --port 19086",
         );
       },
     },
@@ -266,7 +266,7 @@ describe("gateway register option collisions", () => {
       assert: () => {
         expectLocalGatewayCall("gateway.suspend.prepare", 19087);
         expect(defaultRuntime.log).toHaveBeenCalledWith(
-          "Resume with: openclaw gateway resume suspension-1 --port 19087",
+          "Resume with: openagent gateway resume suspension-1 --port 19087",
         );
       },
     },

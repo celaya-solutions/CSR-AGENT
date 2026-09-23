@@ -122,7 +122,7 @@ export function collectWhatsappResponsivenessHealthFindings(params: {
       target: pids,
       requirement: "local-tui-event-loop-pressure",
       fixHint: `Inspect Gateway diagnostics with ${formatCliCommand(
-        "openclaw gateway diagnostics export",
+        "openagent gateway diagnostics export",
       )} before deciding whether to close clients.`,
     },
   ];

@@ -192,7 +192,7 @@ targeted logging:
 OPENCLAW_DEBUG_CODE_MODE=1 \
 OPENCLAW_DEBUG_MODEL_TRANSPORT=1 \
 OPENCLAW_DEBUG_MODEL_PAYLOAD=tools \
-openclaw gateway
+openagent gateway
 ```
 
 With code mode active, the logged model-facing tool names should be `exec` and

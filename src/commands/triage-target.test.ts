@@ -477,7 +477,7 @@ describe.skipIf(process.platform === "win32")("embedded triage installation targ
                     expect(runSignal.aborted).toBe(false);
                     expect(opts.assertSourceCurrent).toBe(assertCurrent);
                     expect(prompt).toContain("## Triggering failure");
-                    expect(prompt).toContain("openclaw health --json");
+                    expect(prompt).toContain("openagent health --json");
                     if (fails) {
                       controller.abort(runFailure);
                       expect(runSignal.aborted).toBe(true);

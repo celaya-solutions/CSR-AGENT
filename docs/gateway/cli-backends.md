@@ -25,7 +25,7 @@ Use it as a safety net for "always works" text responses, not a primary path. Fo
 The bundled Anthropic plugin registers a default `claude-cli` backend, so it works with no config beyond having Claude Code installed and logged in:
 
 ```bash
-openclaw agent --agent main --message "hi" --model claude-cli/claude-sonnet-5
+openagent agent --agent main --message "hi" --model claude-cli/claude-sonnet-5
 ```
 
 `main` is the default agent id when no explicit agent list is configured. Swap in your own agent id otherwise.
@@ -106,15 +106,15 @@ Remove a short overall-timeout override to return to the 48-hour default, or set
 
 ```bash
 # Return to the 48-hour default:
-openclaw config unset agents.defaults.timeoutSeconds
+openagent config unset agents.defaults.timeoutSeconds
 
 # Or choose an explicit 12-hour limit:
-openclaw config set agents.defaults.timeoutSeconds 43200
+openagent config set agents.defaults.timeoutSeconds 43200
 ```
 
 Background work started inside a CLI is still part of that CLI subprocess. If the parent turn reaches its overall limit, OpenAgent stops the subprocess and its CLI-internal background tasks together. For durable long work, use a detached OpenAgent [sub-agent](/tools/subagents) or [ACP agent](/tools/acp-agents). Detached sub-agents have no run timeout by default.
 
-The `openclaw agent` command also has its own request deadline. Its 600-second fallback default applies to that command invocation, not to ordinary Gateway turns. See [`openclaw agent`](/cli/agent).
+The `openagent agent` command also has its own request deadline. Its 600-second fallback default applies to that command invocation, not to ordinary Gateway turns. See [`openagent agent`](/cli/agent).
 
 ### Claude CLI specifics
 
@@ -189,7 +189,7 @@ With `ask: "on-miss"`, the `claude-cli` backend checks native `Bash` commands
 against the agent's [exec allowlist](/tools/exec-approvals). For example:
 
 ```bash
-openclaw approvals allowlist add --agent main /usr/local/bin/gog
+openagent approvals allowlist add --agent main /usr/local/bin/gog
 ```
 
 OpenAgent reuses its exec shell evaluator and allows a call without prompting
@@ -225,13 +225,13 @@ For native login, sign in to Claude Code on the Gateway host:
 ```bash
 claude auth login
 claude auth status --text
-openclaw models auth login --provider anthropic --method cli --set-default
+openagent models auth login --provider anthropic --method cli --set-default
 ```
 
 Normal agent turns can also use a saved subscription token without a native login:
 
 ```bash
-openclaw models auth paste-token --provider anthropic
+openagent models auth paste-token --provider anthropic
 ```
 
 New sessions select saved subscription credentials through the configured account
@@ -469,7 +469,7 @@ Claude CLI backends scale this cap with the resolved Claude context window inste
 ## Troubleshooting
 
 When a local Claude Code subprocess fails, its run error includes a bounded,
-redacted stderr diagnostic when available. Check the run error or `openclaw logs`
+redacted stderr diagnostic when available. Check the run error or `openagent logs`
 for the underlying launch, permission, or runtime failure. Successful turns do not
 forward stderr into logs. Each live process has its own diagnostic buffer. Since
 stderr has no turn identifiers, a warm process's failure can include earlier turns.

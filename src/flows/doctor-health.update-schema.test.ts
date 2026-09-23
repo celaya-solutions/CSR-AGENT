@@ -103,10 +103,10 @@ describe("Doctor schema bumps under an updating parent", () => {
             { kind, path: target, foundVersion: supported - 1, supportedVersion: supported },
           ],
           commands: [
-            "openclaw gateway stop",
+            "openagent gateway stop",
             `npm install -g openclaw@${VERSION} --allow-scripts=openclaw`,
-            "openclaw doctor --fix",
-            "openclaw gateway start",
+            "openagent doctor --fix",
+            "openagent gateway start",
           ],
         });
         expect(files.map((file) => fs.readFileSync(file))).toEqual(bytes);

@@ -36,7 +36,7 @@ export function createOpenClawDatabaseVerificationError(
   // Doctor's clearing hooks run after a full integrity assertion, so a still-
   // corrupt file cannot be cleared directly: the file must be healthy first.
   const error = new Error(
-    `OpenAgent ${kind} database ${pathname} is quarantined after integrity verification failed: ${storedError ?? "unknown integrity error"}. Restore the database from a backup or repair it, then run openclaw doctor --fix to clear the quarantine.`,
+    `OpenAgent ${kind} database ${pathname} is quarantined after integrity verification failed: ${storedError ?? "unknown integrity error"}. Restore the database from a backup or repair it, then run openagent doctor --fix to clear the quarantine.`,
   );
   error.name = "SqliteIntegrityError";
   return error;

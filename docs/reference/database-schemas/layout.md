@@ -40,7 +40,7 @@ index includes `expires_at` after the existing plugin, namespace, creation-time,
 and entry-key columns, so live-row counts can read the index without fetching
 stored values. Quotas, TTL cutoffs, ordering, and row contents are unchanged.
 
-Writable startup and `openclaw doctor --fix` replace the older four-column
+Writable startup and `openagent doctor --fix` replace the older four-column
 definition through canonical index repair, without a schema-version bump. The
 repair builds temporary indexes and runs the existing table and full-file
 integrity checks; allow for extra disk space and work proportional to stored
@@ -229,7 +229,7 @@ no finish timestamp, no recorded driver, and only its initial `requested` step.
 The ledger retains it as `failed` with reason `legacy-driver-expired` and a
 `reconcile:abandoned` step. Startup, `update status`, `status`, and the Control UI's
 update reads reconcile this shape through the same transaction. Status and failure
-reports explain that the update never progressed and recommend `openclaw update`
+reports explain that the update never progressed and recommend `openagent update`
 to retry. Status retains the latest such advisory even after a newer update finishes.
 This fixed legacy expiry does not establish process death. It is the bounded
 recovery policy for 2026.9.2-era orphan admissions. Younger rows, progressed rows,

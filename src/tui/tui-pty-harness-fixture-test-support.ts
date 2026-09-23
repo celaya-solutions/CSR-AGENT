@@ -681,7 +681,7 @@ export async function writeTuiPtyFixtureScript(dir: string) {
           thinking: launchThinkingLevel,
           message: initialMessage,
           historyLimit: 5,
-          title: "openclaw tui pty fixture",
+          title: "openagent tui pty fixture",
           ${TUI_PTY_RESET_FIXTURE.options}
         });
       }

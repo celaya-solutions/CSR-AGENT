@@ -40,7 +40,7 @@ completion so browsers outside the tailnet can still finish setup.
     <Steps>
       <Step title="Run OAuth onboarding">
         ```bash
-        openclaw onboard --auth-choice openrouter-oauth
+        openagent onboard --auth-choice openrouter-oauth
         ```
 
         OpenAgent opens OpenRouter's browser sign-in flow (PKCE), exchanges the
@@ -52,7 +52,7 @@ completion so browsers outside the tailnet can still finish setup.
         Onboarding defaults to `openrouter/auto`. Pick a concrete model later:
 
         ```bash
-        openclaw models set openrouter/<provider>/<model>
+        openagent models set openrouter/<provider>/<model>
         ```
 
       </Step>
@@ -66,14 +66,14 @@ completion so browsers outside the tailnet can still finish setup.
       </Step>
       <Step title="Run API-key onboarding">
         ```bash
-        openclaw onboard --auth-choice openrouter-api-key
+        openagent onboard --auth-choice openrouter-api-key
         ```
       </Step>
       <Step title="(Optional) Switch to a specific model">
         Onboarding defaults to `openrouter/auto`. Pick a concrete model later:
 
         ```bash
-        openclaw models set openrouter/<provider>/<model>
+        openagent models set openrouter/<provider>/<model>
         ```
 
       </Step>
@@ -271,7 +271,7 @@ through the normal OpenRouter endpoint. The upstream model slug is
 provider prefix and the upstream OpenRouter namespace:
 
 ```bash
-openclaw models set openrouter/openrouter/fusion
+openagent models set openrouter/openrouter/fusion
 ```
 
 Configure Fusion's panel and judge through the model's `params.extraBody`;
@@ -327,7 +327,7 @@ pick faster analysis/judge models for quicker responses.
 Test a configured ref with a one-shot local call:
 
 ```bash
-openclaw infer model run --local \
+openagent infer model run --local \
   --model openrouter/openrouter/fusion \
   --prompt "Reply with exactly: FUSION_OK" \
   --json
@@ -344,8 +344,8 @@ To sign in or rotate the stored key on an existing install without rerunning
 full onboarding:
 
 ```bash
-openclaw models auth login --provider openrouter --method oauth
-openclaw models auth login --provider openrouter --method api-key
+openagent models auth login --provider openrouter --method oauth
+openagent models auth login --provider openrouter --method api-key
 ```
 
 On verified OpenRouter requests (`https://openrouter.ai/api/v1`), OpenAgent adds

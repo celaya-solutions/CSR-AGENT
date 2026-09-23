@@ -1776,7 +1776,7 @@ describe("openclaw state database", () => {
     defensiveProbe.close();
 
     expect(() => openOpenClawStateDatabase(options)).toThrow(
-      /legacy-workshop-review-index.*openclaw doctor --fix/u,
+      /legacy-workshop-review-index.*openagent doctor --fix/u,
     );
     expect(readDanglingSkillWorkshopReviewIndex(databasePath)).toMatchObject({ rootpage });
 
@@ -5402,7 +5402,7 @@ INSERT INTO macos_port_guardian_records VALUES (4242, 18789, '/usr/bin/ssh', 're
       const metadataBefore = damaged.prepare("SELECT * FROM schema_meta ORDER BY meta_key").all();
       damaged.close();
 
-      const message = `SQLite schema is incomplete or noncanonical for ${databasePath}: missing table apns_registration_tombstones; run openclaw doctor --fix to repair it.`;
+      const message = `SQLite schema is incomplete or noncanonical for ${databasePath}: missing table apns_registration_tombstones; run openagent doctor --fix to repair it.`;
       if (migrationPath === "runtime open") {
         expect(() => openOpenClawStateDatabase(options)).toThrow(new Error(message));
       } else if (migrationPath === "doctor repair") {
@@ -7116,7 +7116,7 @@ INSERT INTO macos_port_guardian_records VALUES (4242, 18789, '/usr/bin/ssh', 're
     expect(result.warnings).toEqual([
       expect.stringContaining("automatic repair refused the unrecognized schema shape"),
     ]);
-    expect(result.warnings[0]).not.toContain("run openclaw doctor --fix");
+    expect(result.warnings[0]).not.toContain("run openagent doctor --fix");
   });
 
   it.each([
@@ -8426,7 +8426,7 @@ INSERT INTO macos_port_guardian_records VALUES (4242, 18789, '/usr/bin/ssh', 're
     expect(firstFailure).toMatchObject({
       name: "SqliteSchemaVersionError",
       message: expect.stringContaining(
-        "restore your pre-update backup created with openclaw backup.",
+        "restore your pre-update backup created with openagent backup.",
       ),
     });
 

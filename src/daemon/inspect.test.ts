@@ -104,7 +104,7 @@ describe("detectMarkerLineWithGateway", () => {
   it.each(["After", "Requires", "Description", "Environment"])(
     "ignores gateway mentions in %s instead of an executable directive",
     (key) => {
-      expect(detectMarkerLineWithGateway(`${key}=openclaw gateway\n`)).toBeNull();
+      expect(detectMarkerLineWithGateway(`${key}=openagent gateway\n`)).toBeNull();
     },
   );
 
@@ -445,7 +445,7 @@ describe("findExtraGatewayServices (darwin / scanLaunchdDir) — real filesystem
     expect(result).toStrictEqual([]);
   });
 
-  it("reports custom LaunchAgents that execute openclaw gateway", async () => {
+  it("reports custom LaunchAgents that execute openagent gateway", async () => {
     const tmpHome = tempDirs.make("openclaw-test-", os.tmpdir());
     const launchdDir = path.join(tmpHome, "Library", "LaunchAgents");
     const plistPath = path.join(launchdDir, "com.example.openclaw-gateway.plist");

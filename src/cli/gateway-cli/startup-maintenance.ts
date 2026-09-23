@@ -15,11 +15,11 @@ export async function handleGatewayStartupMaintenance(error: unknown): Promise<b
   if (!reason) {
     return false;
   }
-  const stop = `Stop the service with ${formatCliCommand("openclaw gateway stop")} (or its service owner), then`;
+  const stop = `Stop the service with ${formatCliCommand("openagent gateway stop")} (or its service owner), then`;
   const guidance =
     reason === "a newer OpenAgent build"
-      ? `${stop} restore your pre-update backup created with ${formatCliCommand("openclaw backup")}, then start it again with ${formatCliCommand("openclaw gateway start")}.`
-      : `${stop} run ${formatCliCommand("openclaw doctor --fix")}, then start it again with ${formatCliCommand("openclaw gateway start")}.`;
+      ? `${stop} restore your pre-update backup created with ${formatCliCommand("openagent backup")}, then start it again with ${formatCliCommand("openagent gateway start")}.`
+      : `${stop} run ${formatCliCommand("openagent doctor --fix")}, then start it again with ${formatCliCommand("openagent gateway start")}.`;
   let parked = false;
   try {
     // launchd ignores exit 78 under KeepAlive. Park without opening the database,

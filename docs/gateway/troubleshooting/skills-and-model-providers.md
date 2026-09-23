@@ -23,7 +23,7 @@ Inspect the link:
 ```bash
 ls -l ~/.agents/skills/<name>
 realpath ~/.agents/skills/<name>
-openclaw config get skills.load
+openagent config get skills.load
 ```
 
 If the target is intentional, configure both the direct skill root and the allowed symlink target:
@@ -56,9 +56,9 @@ Related:
 Use when logs/errors include: `HTTP 429: rate_limit_error: Extra usage is required for long context requests`.
 
 ```bash
-openclaw logs --follow
-openclaw models status
-openclaw config get agents.defaults.models
+openagent logs --follow
+openagent models status
+openagent config get agents.defaults.models
 ```
 
 Look for:
@@ -95,9 +95,9 @@ Use when an upstream LLM provider returns a generic `403` such as `Your request 
 Do not assume this is always an OpenAgent configuration issue. The response can come from an upstream security layer such as a CDN, WAF, bot-management rule, or reverse proxy in front of an OpenAI-compatible endpoint.
 
 ```bash
-openclaw status
-openclaw gateway status
-openclaw logs --follow
+openagent status
+openagent gateway status
+openagent logs --follow
 ```
 
 Look for:
@@ -132,8 +132,8 @@ curl http://127.0.0.1:1234/v1/models
 curl http://127.0.0.1:1234/v1/chat/completions \
   -H 'content-type: application/json' \
   -d '{"model":"<id>","messages":[{"role":"user","content":"hi"}],"stream":false}'
-openclaw infer model run --model <provider/model> --prompt "hi" --json
-openclaw logs --follow
+openagent infer model run --model <provider/model> --prompt "hi" --json
+openagent logs --follow
 ```
 
 Look for:

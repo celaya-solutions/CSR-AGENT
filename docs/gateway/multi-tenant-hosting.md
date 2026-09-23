@@ -11,7 +11,7 @@ title: "Multi-tenant hosting"
 
 OpenAgent's default security model is one trusted operator boundary per Gateway, not hostile multi-tenant isolation inside one shared Gateway. Hosting users or organizations that do not share a trust boundary therefore means running a separate complete OpenAgent instance for each tenant.
 
-`openclaw fleet` calls each isolated instance a **cell**. A cell is a full Gateway in a hardened container with its own state, credentials, workspace, channel accounts, token, and loopback-only host port.
+`openagent fleet` calls each isolated instance a **cell**. A cell is a full Gateway in a hardened container with its own state, credentials, workspace, channel accounts, token, and loopback-only host port.
 
 Fleet is **experimental**: its commands, flags, and container profile can change between releases without a deprecation window.
 
@@ -56,7 +56,7 @@ No rung in this ladder changes the OpenAgent application trust model: one Gatewa
 Create a cell. The command prints a generated Gateway token once, so store it immediately:
 
 ```bash
-openclaw fleet create acme
+openagent fleet create acme
 ```
 
 Open the reported `http://127.0.0.1:<port>` URL on the Fleet host, authenticate with that tenant's token, and configure provider credentials and channel accounts inside the cell.
@@ -64,28 +64,28 @@ Open the reported `http://127.0.0.1:<port>` URL on the Fleet host, authenticate 
 Check the container state and Gateway liveness:
 
 ```bash
-openclaw fleet status acme
+openagent fleet status acme
 ```
 
 Upgrade while preserving the host port, mounted data, resource profile, user-supplied environment, and Gateway token:
 
 ```bash
-openclaw fleet upgrade acme
+openagent fleet upgrade acme
 ```
 
 Remove the container and registry row while retaining tenant data:
 
 ```bash
-openclaw fleet rm acme --force
+openagent fleet rm acme --force
 ```
 
 To delete persistent tenant data too, add `--purge-data`. Purge requires `--force`, is irreversible, and performs a resolved-path containment check before deleting anything:
 
 ```bash
-openclaw fleet rm acme --purge-data --force
+openagent fleet rm acme --purge-data --force
 ```
 
-See the [`openclaw fleet` CLI reference](/cli/fleet) for every command and option.
+See the [`openagent fleet` CLI reference](/cli/fleet) for every command and option.
 
 ## Current scope
 
@@ -100,7 +100,7 @@ These capabilities need explicit identity, routing, authorization, and failure-d
 
 ## Related
 
-- [`openclaw fleet`](/cli/fleet)
+- [`openagent fleet`](/cli/fleet)
 - [Gateway security](/gateway/security)
 - [Multiple gateways](/gateway/multiple-gateways)
 - [Docker](/install/docker)

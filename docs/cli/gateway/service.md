@@ -8,16 +8,16 @@ title: "Manage the Gateway service"
 sidebarTitle: "Service"
 ---
 
-Native service lifecycle, recovery, wrappers, and the managed-service option reference. Part of the [`openclaw gateway`](/cli/gateway) reference.
+Native service lifecycle, recovery, wrappers, and the managed-service option reference. Part of the [`openagent gateway`](/cli/gateway) reference.
 
 ## Manage the Gateway service
 
 ```bash
-openclaw gateway install
-openclaw gateway start
-openclaw gateway stop
-openclaw gateway restart
-openclaw gateway uninstall
+openagent gateway install
+openagent gateway start
+openagent gateway stop
+openagent gateway restart
+openagent gateway uninstall
 ```
 
 `gateway stop` remains available when plugin configuration needs Doctor migration.
@@ -29,7 +29,7 @@ OpenAgent binary. Start and restart continue to validate plugin configuration.
 If installation or a managed update reports `SERVICE_DEFINITION_UNKNOWN`, first
 restore access to the service files and native service manager. `--force` does not
 bypass unknown service facts. Inspect the selected service with
-`openclaw gateway status --deep` from the account and profile that own it.
+`openagent gateway status --deep` from the account and profile that own it.
 
 For a malformed definition or unsupported environment syntax, privately back up
 the service files and any values stored only in its environment. Correct unresolved
@@ -37,9 +37,9 @@ or unsupported values before reinstalling; OpenAgent cannot infer their intended
 values. Then, from an external shell using the same account and profile:
 
 ```bash
-openclaw gateway uninstall
-openclaw gateway install
-openclaw gateway health
+openagent gateway uninstall
+openagent gateway install
+openagent gateway health
 ```
 
 Uninstall removes the native registration and launcher, preserving configuration,
@@ -92,7 +92,7 @@ If systemd definitively refuses a stop after teardown and the same native instan
 remains active with no pending job, the host logs the failed stop and starts a fresh
 Gateway generation in the same process. An uncertain native result is recorded as
 a failed shutdown, without claiming success or starting an in-process replacement.
-After an unexpected disconnect, check `openclaw gateway status` and the native
+After an unexpected disconnect, check `openagent gateway status` and the native
 service logs from an external shell before retrying. Standalone CLI lifecycle
 commands retain their service-management behavior.
 
@@ -108,22 +108,22 @@ exec doppler run --project my-project --config production -- openclaw "$@"
 EOF
 chmod +x ~/.local/bin/openclaw-doppler
 
-openclaw gateway install --wrapper ~/.local/bin/openclaw-doppler --force
-openclaw gateway restart
+openagent gateway install --wrapper ~/.local/bin/openclaw-doppler --force
+openagent gateway restart
 ```
 
 You can also set the wrapper through the environment. `gateway install` validates that the path is an executable file, writes the wrapper into the service `ProgramArguments`, and persists `OPENCLAW_WRAPPER` in the service environment for later forced reinstalls, updates, and doctor repairs.
 
 ```bash
-OPENCLAW_WRAPPER="$HOME/.local/bin/openclaw-doppler" openclaw gateway install --force
-openclaw doctor
+OPENCLAW_WRAPPER="$HOME/.local/bin/openclaw-doppler" openagent gateway install --force
+openagent doctor
 ```
 
 To remove a persisted wrapper, clear `OPENCLAW_WRAPPER` while reinstalling:
 
 ```bash
-OPENCLAW_WRAPPER= openclaw gateway install --force
-openclaw gateway restart
+OPENCLAW_WRAPPER= openagent gateway install --force
+openagent gateway restart
 ```
 
 <AccordionGroup>
@@ -144,7 +144,7 @@ openclaw gateway restart
   <Accordion title="Lifecycle behavior">
     - `gateway start` is idempotent: when the managed service is already running, it reports the running process and leaves it untouched. A loaded but stopped service is started as before.
     - If no managed service is installed, `gateway start` prints install hints and exits nonzero. `gateway restart` can first recover an installed-but-unloaded LaunchAgent or a verified unmanaged Gateway; if neither a managed service nor recovery handles the action, it prints the same hints and exits nonzero. Stopping an absent service remains a successful no-op.
-    - If `gateway start` or `gateway restart` needs to repair a stale service definition, the command refuses when the invoking shell resolves a different state directory, config path, or port than the installed service. Match or unset the conflicting environment overrides, or use `openclaw gateway install --force` to retarget the service intentionally.
+    - If `gateway start` or `gateway restart` needs to repair a stale service definition, the command refuses when the invoking shell resolves a different state directory, config path, or port than the installed service. Match or unset the conflicting environment overrides, or use `openagent gateway install --force` to retarget the service intentionally.
     - On Linux, `gateway start` and `gateway restart` also refuse ineffective repairs when an operator-owned systemd drop-in overrides the command or working directory. Inspect the effective unit with `systemctl --user cat <unit>.service`, then update or remove that drop-in. `gateway install --force` rewrites only the managed base unit and warns if the override remains; `Environment=` drop-ins remain supported.
     - `gateway restart --preserve-definition` restarts only an inspectable native service, skips automatic definition repair, and checks health at the installed launcher's port. It does not recover an unmanaged listener and cannot be combined with `--safe` or external supervision. On macOS it can bootstrap an unloaded readable plist without rewriting the plist, environment, wrapper, or permissions; denied native activation fails without file repair. On Windows it also retains existing Startup entries. The `daemon restart` alias accepts the same option.
     - During writable Linux service installs or refreshes, keep the unit and state directories stationary and avoid concurrent manual edits. OpenAgent serializes its own writers and aborts on detected changes, but cannot coordinate arbitrary filesystem edits. Moving or replacing a parent directory mid-publication can leave a temporary file inside the moved directory; inspect it before retrying.

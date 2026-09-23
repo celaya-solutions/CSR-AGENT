@@ -22,25 +22,25 @@ const surfaces = [
     kind: "missing-unit",
     name: "missing service unit",
     fact: "Service unit not found",
-    command: "openclaw gateway install",
+    command: "openagent gateway install",
   },
   {
     kind: "config-mismatch",
     name: "CLI/service config-path mismatch",
     fact: "CLI and service are using different config paths",
-    command: "openclaw gateway install --force",
+    command: "openagent gateway install --force",
   },
   {
     kind: "cached-label",
     name: "cached LaunchAgent label with missing plist",
     fact: "LaunchAgent label cached but plist missing",
-    command: "openclaw gateway install",
+    command: "openagent gateway install",
   },
   {
     kind: "config-audit",
     name: "embedded-token service audit",
     fact: "embeds OPENCLAW_GATEWAY_TOKEN",
-    command: "openclaw gateway install --force",
+    command: "openagent gateway install --force",
   },
 ] as const;
 type StatusSurface = (typeof surfaces)[number]["kind"];
@@ -259,7 +259,7 @@ describe("eligible status recovery", () => {
       }),
       async (accountHome, print) => {
         print(await createStatus("missing-unit", accountHome), { json: false });
-        expect(humanOutput()).toContain("openclaw --profile work gateway install");
+        expect(humanOutput()).toContain("openagent --profile work gateway install");
         expect(humanOutput()).not.toContain("service management skipped");
       },
     );
@@ -271,7 +271,7 @@ describe("eligible status recovery", () => {
       async (accountHome, print) => {
         print(await createStatus("config-audit", accountHome), { json: false });
         const output = humanOutput();
-        expect(output).toContain("openclaw gateway install --force");
+        expect(output).toContain("openagent gateway install --force");
         expect(output).not.toContain("managed by an external supervisor");
       },
     );
@@ -287,7 +287,7 @@ describe("eligible status recovery", () => {
 
         const output = humanOutput();
         expect(output).toContain("launchctl bootout gui/$UID/ai.openclaw.gateway");
-        expect(output).toContain("openclaw gateway install");
+        expect(output).toContain("openagent gateway install");
       },
     );
   });

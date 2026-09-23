@@ -79,7 +79,7 @@ export function assertGatewayServiceAdmissionUnchanged(
   const expectedVerdict = expectedService?.serviceUpdateVerdict;
   if (expectedVerdict && expectedVerdict.kind !== serviceUpdateVerdict.kind) {
     throw new GatewayServiceUpdateOwnershipError(
-      "Gateway service ownership changed after database admission; run `openclaw gateway status --deep` and retry.",
+      "Gateway service ownership changed after database admission; run `openagent gateway status --deep` and retry.",
       undefined,
       serviceUpdateVerdict.kind === "unavailable"
         ? serviceUpdateVerdict.inspectionReason
@@ -153,7 +153,7 @@ export async function resolvePackageRuntimePreflight(params: {
     const version = normalizeOptionalString(manifest?.version);
     if (!version) {
       return resultError(
-        "Cannot inspect the installed OpenAgent runtime requirement; repair its package.json before retrying openclaw update.",
+        "Cannot inspect the installed OpenAgent runtime requirement; repair its package.json before retrying openagent update.",
       );
     }
     target = {
@@ -208,8 +208,8 @@ export async function resolvePackageRuntimePreflight(params: {
         ...(runtime.failure ? [runtime.failure] : []),
         `The requested package requires ${target.nodeEngine}.`,
         runtime.nodeRunner
-          ? "Use a compatible version of the Node runtime that owns the managed Gateway service, then rerun `openclaw update`."
-          : "Use a Node runtime that satisfies the engine range above, then rerun `openclaw update`.",
+          ? "Use a compatible version of the Node runtime that owns the managed Gateway service, then rerun `openagent update`."
+          : "Use a Node runtime that satisfies the engine range above, then rerun `openagent update`.",
         "Bare `npm i -g openclaw` can silently install an older compatible release.",
         "After switching Node versions, use `npm i -g openclaw@latest`.",
       ].join("\n"),
