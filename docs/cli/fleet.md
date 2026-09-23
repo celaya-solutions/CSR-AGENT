@@ -12,7 +12,7 @@ title: "Fleet"
 
 Fleet is **experimental**. Command names, flags, output shapes, and the container profile can change between releases without a deprecation window.
 
-Fleet supports Docker and Podman. The default image is `ghcr.io/openclaw/openclaw:latest`.
+Fleet supports Docker and Podman. The default image is `openclaw:local`, the image `scripts/docker/setup.sh` builds from your checkout; no image is published for this build.
 
 Fleet is tested on Linux and macOS hosts. Windows hosts are currently untested.
 
@@ -71,7 +71,7 @@ Fleet defaults `XDG_CACHE_HOME` to `/home/node/.openclaw/cache` on the tenant st
 
 | Option                    | Default                               | Description                                                                                    |
 | ------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `--image <ref>`           | `ghcr.io/openclaw/openclaw:latest`    | Container image for the cell.                                                                  |
+| `--image <ref>`           | `openclaw:local`                      | Container image for the cell.                                                                  |
 | `--runtime <runtime>`     | `docker`                              | Container CLI: `docker` or `podman`.                                                           |
 | `--port <number>`         | Automatically allocated from `19100`  | Loopback host port. An explicitly selected port must not belong to another registered cell.    |
 | `--memory <value>`        | `2g`                                  | Container memory limit in Docker/Podman syntax.                                                |
@@ -94,7 +94,7 @@ When Fleet starts a new cell, create waits up to about a minute for its Gateway 
 
 ### Pinning by digest
 
-Create and upgrade accept digest-pinned image references such as `--image ghcr.io/openclaw/openclaw@sha256:<digest>`. Fleet passes the image reference through verbatim to Docker or Podman, which lets an operator keep a cell on immutable image bytes instead of a moving tag.
+Create and upgrade accept digest-pinned image references such as `--image registry.example.com/openclaw@sha256:<digest>`. Fleet passes the image reference through verbatim to Docker or Podman, which lets an operator keep a cell on immutable image bytes instead of a moving tag.
 
 The create result includes the tenant ID, container name, host port, Gateway token, and local URL. Even in JSON output, treat the result as secret-bearing because it contains the token.
 
@@ -198,7 +198,7 @@ openclaw fleet upgrade acme
 Move the cell to another image:
 
 ```bash
-openclaw fleet upgrade acme --image ghcr.io/openclaw/openclaw:<version>
+openclaw fleet upgrade acme --image openclaw:local
 ```
 
 Upgrade pulls the target image, inspects the existing container and per-cell network, stops and removes the container, then recreates and starts it. The replacement preserves the same host port, data directories, per-cell bridge network, runtime profile, resource limits, restart policy, Fleet-managed environment, and values originally supplied with `--env`. Mounted state survives container replacement; image-default environment can change with the target image.

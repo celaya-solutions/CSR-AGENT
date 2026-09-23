@@ -3,7 +3,9 @@ import path from "node:path";
 
 export type FleetContainerRuntimeName = "docker" | "podman";
 
-export const DEFAULT_FLEET_IMAGE = "ghcr.io/openclaw/openclaw:latest";
+// No image is published for this build; fleet cells run the image built from
+// this checkout by scripts/docker/setup.sh (see docker-compose.yml).
+export const DEFAULT_FLEET_IMAGE = "openclaw:local";
 const FLEET_BASE_PORT = 19_100;
 export const FLEET_GATEWAY_PORT = 18_789;
 const FLEET_CONTAINER_HOME = "/home/node";
