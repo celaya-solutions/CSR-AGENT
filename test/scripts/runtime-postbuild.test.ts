@@ -126,12 +126,13 @@ describe("runtime postbuild static assets", () => {
     expect(payload.outputs).toEqual([
       "dist/extensions/acpx/mcp-command-line.mjs",
       "dist/extensions/acpx/mcp-proxy.mjs",
+      "dist/extensions/discord/assets/embedded-app-sdk.mjs",
     ]);
     expect(payload.sources).not.toContain(
       "extensions/diffs-language-pack/assets/viewer-runtime.js",
     );
     expect(payload.sources).not.toContain("extensions/diffs/assets/viewer-runtime.js");
-    expect(payload.sources).not.toContain("extensions/discord/assets/embedded-app-sdk.mjs");
+    expect(payload.sources).toContain("extensions/discord/assets/embedded-app-sdk.mjs");
     expect(payload.packageOutputs).toContain("dist/extensions/discord/assets/embedded-app-sdk.mjs");
     expect(payload.sources).toContain("extensions/acpx/src/runtime-internals/mcp-proxy.mjs");
   });

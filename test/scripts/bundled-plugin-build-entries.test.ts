@@ -216,17 +216,13 @@ describe("bundled plugin build entries", () => {
     expectNoPrefixMatches(artifacts, "dist/extensions/qa-lab/");
   });
 
-  it("keeps explicitly downloadable plugins out of bundled package artifacts", () => {
+  it("ships the kept first-party plugins as bundled package artifacts", () => {
     const entries = listBundledPluginBuildEntries();
     const artifacts = listBundledPluginPackArtifacts();
 
-    for (const pluginId of ["acpx", "codex", "llama-cpp"]) {
+    for (const pluginId of ["acpx", "codex", "discord", "duckduckgo", "llama-cpp"]) {
       expectSomePrefixMatch(Object.keys(entries), `extensions/${pluginId}/`);
-      expectNoPrefixMatches(artifacts, `dist/extensions/${pluginId}/`);
-    }
-    for (const pluginId of ["discord", "duckduckgo"]) {
-      expectNoPrefixMatches(Object.keys(entries), `extensions/${pluginId}/`);
-      expectNoPrefixMatches(artifacts, `dist/extensions/${pluginId}/`);
+      expectSomePrefixMatch(artifacts, `dist/extensions/${pluginId}/`);
     }
   });
 
@@ -258,33 +254,66 @@ describe("bundled plugin build entries", () => {
   });
 
   it("builds explicitly selected external plugins only for Docker", () => {
+    const repoDir = tempDirs.make("openclaw-docker-selected-external-");
+    fs.writeFileSync(
+      path.join(repoDir, "package.json"),
+      `${JSON.stringify({
+        files: ["dist/**", "!dist/extensions/ext-a/**", "!dist/extensions/ext-b/**"],
+      })}\n`,
+    );
+    for (const [pluginId, external] of [
+      ["ext-a", true],
+      ["ext-b", true],
+      ["plain", false],
+    ] as const) {
+      const pluginDir = path.join(repoDir, "extensions", pluginId);
+      fs.mkdirSync(pluginDir, { recursive: true });
+      fs.writeFileSync(path.join(pluginDir, "index.ts"), "export default {};\n");
+      fs.writeFileSync(path.join(pluginDir, "setup-entry.ts"), "export default {};\n");
+      fs.writeFileSync(
+        path.join(pluginDir, "openclaw.plugin.json"),
+        `${JSON.stringify({ id: pluginId })}\n`,
+      );
+      fs.writeFileSync(
+        path.join(pluginDir, "package.json"),
+        `${JSON.stringify({
+          name: `@openclaw/${pluginId}`,
+          openclaw: {
+            extensions: ["./index.ts"],
+            setupEntry: "./setup-entry.ts",
+            ...(external ? { build: { bundledDist: false } } : {}),
+          },
+        })}\n`,
+      );
+    }
     const baselineEnv = { ...process.env };
     delete baselineEnv[DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV];
     const dockerEnv = {
       ...baselineEnv,
-      [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "discord duckduckgo,discord",
+      [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "ext-a ext-b,ext-a",
     };
-    const entries = listBundledPluginBuildEntries({ env: dockerEnv });
-    const baselineArtifacts = listBundledPluginPackArtifacts({ env: baselineEnv });
-    const artifacts = listBundledPluginPackArtifacts({ env: dockerEnv });
+    const baselineEntries = listBundledPluginBuildEntries({ cwd: repoDir, env: baselineEnv });
+    const entries = listBundledPluginBuildEntries({ cwd: repoDir, env: dockerEnv });
+    const baselineArtifacts = listBundledPluginPackArtifacts({ cwd: repoDir, env: baselineEnv });
+    const artifacts = listBundledPluginPackArtifacts({ cwd: repoDir, env: dockerEnv });
     const reorderedEntries = listBundledPluginBuildEntries({
-      env: {
-        ...baselineEnv,
-        [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "duckduckgo discord",
-      },
+      cwd: repoDir,
+      env: { ...baselineEnv, [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "ext-b ext-a" },
     });
     const entryKeys = Object.keys(entries);
 
-    expect(entries["extensions/discord/index"]).toBe("extensions/discord/index.ts");
-    expect(entries["extensions/discord/setup-entry"]).toBe("extensions/discord/setup-entry.ts");
-    expect(entries["extensions/duckduckgo/index"]).toBe("extensions/duckduckgo/index.ts");
-    expect(entryKeys.findIndex((entry) => entry.startsWith("extensions/discord/"))).toBeLessThan(
-      entryKeys.findIndex((entry) => entry.startsWith("extensions/duckduckgo/")),
+    expectNoPrefixMatches(Object.keys(baselineEntries), "extensions/ext-a/");
+    expect(entries["extensions/ext-a/index"]).toBe("extensions/ext-a/index.ts");
+    expect(entries["extensions/ext-a/setup-entry"]).toBe("extensions/ext-a/setup-entry.ts");
+    expect(entries["extensions/ext-b/index"]).toBe("extensions/ext-b/index.ts");
+    expect(entryKeys.findIndex((entry) => entry.startsWith("extensions/ext-a/"))).toBeLessThan(
+      entryKeys.findIndex((entry) => entry.startsWith("extensions/ext-b/")),
     );
     expect(Object.keys(reorderedEntries)).toEqual(entryKeys);
     expect(artifacts).toEqual(baselineArtifacts);
-    expectNoPrefixMatches(artifacts, "dist/extensions/discord/");
-    expectNoPrefixMatches(artifacts, "dist/extensions/duckduckgo/");
+    expectSomePrefixMatch(artifacts, "dist/extensions/plain/");
+    expectNoPrefixMatches(artifacts, "dist/extensions/ext-a/");
+    expectNoPrefixMatches(artifacts, "dist/extensions/ext-b/");
   });
 
   it("sorts Docker-selected build entries without git metadata", () => {
@@ -421,14 +450,6 @@ describe("bundled plugin build entries", () => {
 
     expectNoPrefixMatches(Object.keys(entries), "extensions/synthetic/");
     expectNoPrefixMatches(artifacts, "dist/extensions/synthetic/");
-  });
-
-  it("excludes the externalized DuckDuckGo plugin from bundled artifacts", () => {
-    const artifacts = listBundledPluginPackArtifacts();
-
-    expect(artifacts).not.toContain("dist/extensions/duckduckgo/index.js");
-    expect(artifacts).not.toContain("dist/extensions/duckduckgo/openclaw.plugin.json");
-    expect(artifacts).not.toContain("dist/extensions/duckduckgo/package.json");
   });
 
   it("excludes the externalized Voyage provider from bundled artifacts", () => {

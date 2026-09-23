@@ -1298,10 +1298,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       expect(explicitPlan.requiredPrepublishPluginPackages).toEqual([]);
     }
     if (scenario === "recovery-cleanup") {
-      expect(explicitPlan.requiredPrepublishPluginPackages).toEqual([
-        "@openclaw/codex",
-        "@openclaw/discord",
-      ]);
+      expect(explicitPlan.requiredPrepublishPluginPackages).toEqual(["@openclaw/codex"]);
     }
 
     for (const aggregateScenario of ["reported-issues", "far-reaching"]) {
@@ -2223,10 +2220,8 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       "update-migration",
     ]) {
       const plan = planFor({ selectedLaneNames: [laneName] });
-      expect(plan.requiredPrepublishPluginPackages).toEqual([
-        "@openclaw/codex",
-        "@openclaw/discord",
-      ]);
+      // Configured channels add no companion: every kept channel ships bundled.
+      expect(plan.requiredPrepublishPluginPackages).toEqual(["@openclaw/codex"]);
       expect(plan.needs.prepublishPluginRegistry).toBe(true);
     }
 
@@ -2238,7 +2233,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
   it.each([
     {
       baseline: "2026.4.23",
-      packages: ["@openclaw/acpx", "@openclaw/codex", "@openclaw/discord"],
+      packages: ["@openclaw/acpx", "@openclaw/codex"],
     },
     { baseline: "2026.4.15", packages: [] },
   ])(

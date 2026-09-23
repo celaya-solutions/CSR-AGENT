@@ -101,7 +101,6 @@ describe("test runtime prerequisites", () => {
     ["native source checkout SDK", ["src/plugins/source-checkout-runtime.test.ts"], "runtime"],
     ["models.list native catalog", ["test/plugins/codex-model-catalog.gateway.test.ts"], "runtime"],
     ["native package setup SDK", ["test/plugin-npm-runtime-build.test.ts"], "runtime"],
-    ["native Linux node SDK", ["src/node-host/linux-node-plugin.integration.test.ts"], "runtime"],
     [
       "native catalog worker SDK",
       ["src/agents/prepared-model-catalog-worker.integration.test.ts"],
@@ -173,7 +172,6 @@ describe("test runtime prerequisites", () => {
       ["src/commands/doctor-config-preflight.pristine.process.test.ts"],
       undefined,
     ],
-    ["Active Memory Gateway", ["src/gateway/gateway-active-memory.test.ts"], "runtime"],
     ["concurrent Gateway streams", ["src/gateway/gateway-concurrent-streams.test.ts"], "runtime"],
     ["Gateway sidecar lifecycle", ["src/gateway/server-sidecar-retention.test.ts"], "runtime"],
     [

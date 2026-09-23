@@ -296,18 +296,33 @@ describe("buildOfficialChannelCatalog", () => {
     expect(entries.some((entry) => entry.openclaw?.channel?.id === "local-only")).toBe(false);
   });
 
-  it("preserves manifest-owned metadata without duplicating channel schemas", () => {
-    const entries = buildOfficialChannelCatalog({ repoRoot: process.cwd() }).entries;
-    const discord = findCatalogEntry(
-      entries,
-      (entry) => entry.openclaw?.channel?.id === "discord",
+  it("preserves manifest-owned contracts and channel config metadata", () => {
+    const repoRoot = makeRepoRoot("openclaw-official-channel-catalog-manifest-");
+    const pluginDir = path.join(repoRoot, "extensions", "fixture-chat");
+    writeJson(path.join(pluginDir, "package.json"), {
+      name: "@openclaw/fixture-chat",
+      openclaw: {
+        channel: { id: "fixture-chat", label: "Fixture Chat" },
+        install: { npmSpec: "@openclaw/fixture-chat" },
+        release: { publishToNpm: true },
+      },
+    });
+    writeJson(path.join(pluginDir, "openclaw.plugin.json"), {
+      id: "fixture-chat",
+      contracts: { transcriptSourceProviders: ["fixture-chat-voice"] },
+      channelConfigs: { "fixture-chat": { label: "Fixture Chat" } },
+      configSchema: { type: "object", properties: {} },
+    });
+
+    const entry = findCatalogEntry(
+      buildOfficialChannelCatalog({ repoRoot }).entries,
+      (candidate) => candidate.openclaw?.channel?.id === "fixture-chat",
     );
 
-    // Channel schemas are single-sourced from the zod-derived generated bundled
-    // channel metadata (compiled into core by channelId); manifest and catalog
-    // copies drifted and silently overrode it in validation (see #131292).
-    expect(discord.openclaw.channelConfigs?.discord?.schema).toBeUndefined();
-    expect(discord.openclaw.contracts).toEqual({ transcriptSourceProviders: ["discord-voice"] });
+    expect(entry.openclaw.channelConfigs?.["fixture-chat"]).toEqual({ label: "Fixture Chat" });
+    expect(entry.openclaw.contracts).toEqual({
+      transcriptSourceProviders: ["fixture-chat-voice"],
+    });
   });
 
   it("rejects duplicate channel ids from repository packages", () => {

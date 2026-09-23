@@ -18,7 +18,7 @@ type Mode = "runtime" | "private-qa" | undefined;
 function setGroups(groups: Array<[string, Mode, number]>) {
   const config = (mode: Mode) =>
     mode === "private-qa"
-      ? "test/vitest/vitest.extension-qa.config.ts"
+      ? "test/vitest/vitest.contracts-channel-registry.config.ts"
       : mode === "runtime"
         ? "test/vitest/vitest.gateway-server.config.ts"
         : "test/vitest/vitest.unit-support.config.ts";

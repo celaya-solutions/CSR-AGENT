@@ -2181,7 +2181,6 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
       "src/infra/update-managed-service-handoff-lifecycle.test.ts",
       ...doctorRuntimeTargets,
       "src/commands/doctor-plugin-install-config.process.test.ts",
-      "src/gateway/gateway-active-memory.test.ts",
       "src/gateway/gateway-concurrent-streams.test.ts",
       "src/gateway/gateway-cron-process-identity.windows.test.ts",
       "src/gateway/gateway-route-model-reuse.test.ts",
@@ -3306,7 +3305,6 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
         shardName: "agentic-gateway-core-runtime",
         configs: gatewayCoreConfigs,
         includePatterns: [
-          "src/gateway/gateway-active-memory.test.ts",
           "src/gateway/gateway-auth-recovery.test.ts",
           "src/gateway/gateway-concurrent-streams.test.ts",
           "src/gateway/gateway-cron-process-identity.windows.test.ts",

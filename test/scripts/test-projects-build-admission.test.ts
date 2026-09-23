@@ -291,17 +291,6 @@ syncFixtureBuiltinExports();\n`,
       "runtime",
     ],
     [
-      "Gateway active memory",
-      "scripts/run-vitest.mts",
-      [
-        "run",
-        "--config",
-        "test/vitest/vitest.gateway-core.config.ts",
-        "gateway-active-memory.test.ts",
-      ],
-      "runtime",
-    ],
-    [
       "Windows cron process identity",
       "scripts/run-vitest.mts",
       [

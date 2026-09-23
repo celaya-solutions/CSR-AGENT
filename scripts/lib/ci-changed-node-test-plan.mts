@@ -658,14 +658,11 @@ export function createChangedNodeTestShards(
     return null;
   }
 
-  const targetPlans = resolvePreciseChangedTargets(regularLivePaths, cwd, [
-    ...[...policyTargetsByPath.values()].flat(),
-    // Plugin changes normally select only extension suites. This host-owned
-    // proof also exercises the real Copilot entrypoint and manifest discovery.
-    ...(livePaths.some((changedPath) => changedPath.startsWith("extensions/copilot/"))
-      ? ["src/agents/prepared-model-runtime.copilot.integration.test.ts"]
-      : []),
-  ]);
+  const targetPlans = resolvePreciseChangedTargets(
+    regularLivePaths,
+    cwd,
+    [...policyTargetsByPath.values()].flat(),
+  );
   if (targetPlans === null) {
     return null;
   }

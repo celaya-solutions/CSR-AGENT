@@ -9,7 +9,6 @@ import {
 } from "../../scripts/build-external-plugin-local-dist.mts";
 import { copyBundledPluginMetadata } from "../../scripts/copy-bundled-plugin-metadata.mts";
 import {
-  collectRootPackageExcludedExtensionDirs,
   collectSourceCheckoutPluginBuildEntries,
   DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV,
 } from "../../scripts/lib/bundled-plugin-build-entries.mjs";
@@ -449,24 +448,6 @@ describe("external plugin local dist build", () => {
     },
   );
 
-  it("selects every externalized first-party plugin behind a package exclusion", () => {
-    const packageDirs = listExternalPluginLocalDistPackageDirs();
-    const excludedPluginIds = collectRootPackageExcludedExtensionDirs();
-
-    expect(packageDirs).toEqual(
-      expect.arrayContaining([
-        "extensions/acpx",
-        "extensions/codex",
-        "extensions/discord",
-        "extensions/duckduckgo",
-        "extensions/llama-cpp",
-      ]),
-    );
-    expect(
-      packageDirs.every((packageDir) => excludedPluginIds.has(packageDir.split("/").at(-1) ?? "")),
-    ).toBe(true);
-  });
-
   it("leaves Docker-selected external plugin compilation on the unified build path", () => {
     expect(
       listExternalPluginLocalDistPackageDirs({
@@ -479,17 +460,51 @@ describe("external plugin local dist build", () => {
   });
 
   it("retains released optional outputs and respects bounded selectors", () => {
-    const env = { OPENCLAW_INCLUDE_OPTIONAL_BUNDLED: "0" };
-    const selected = collectSourceCheckoutPluginBuildEntries({ env });
-    expect(selected.find(({ id }) => id === "discord")).toMatchObject({
+    const repoRoot = fs.realpathSync(tempDirs.make("openclaw-optional-plugin-selection-"));
+    fs.writeFileSync(
+      path.join(repoRoot, "package.json"),
+      JSON.stringify({ version: "1.0.0", files: ["dist/**", "!dist/extensions/acpx/**"] }),
+    );
+    // acpx and diffs are optional clusters; only the one with a released install spec survives.
+    const plugins = [
+      { id: "acpx", released: true },
+      { id: "diffs", released: false },
+      { id: "plain", released: false },
+    ];
+    for (const { id, released } of plugins) {
+      const pluginRoot = path.join(repoRoot, "extensions", id);
+      fs.mkdirSync(pluginRoot, { recursive: true });
+      fs.writeFileSync(path.join(pluginRoot, "openclaw.plugin.json"), JSON.stringify({ id }));
+      fs.writeFileSync(path.join(pluginRoot, "index.ts"), "export default {};\n");
+      fs.writeFileSync(
+        path.join(pluginRoot, "package.json"),
+        JSON.stringify({
+          name: `@openclaw/${id}`,
+          openclaw: {
+            extensions: ["./index.ts"],
+            ...(released
+              ? { install: { npmSpec: `@openclaw/${id}` }, release: { publishToNpm: true } }
+              : {}),
+          },
+        }),
+      );
+    }
+
+    const selected = collectSourceCheckoutPluginBuildEntries({
+      cwd: repoRoot,
+      env: { OPENCLAW_INCLUDE_OPTIONAL_BUNDLED: "0" },
+    });
+    expect(selected.map(({ id }) => id).toSorted()).toEqual(["acpx", "plain"]);
+    expect(selected.find(({ id }) => id === "acpx")).toMatchObject({
       isolated: true,
       runtimeExtension: ".js",
     });
     expect(
       collectSourceCheckoutPluginBuildEntries({
-        env: { OPENCLAW_BUNDLED_PLUGIN_BUILD_IDS: "telegram" },
+        cwd: repoRoot,
+        env: { OPENCLAW_BUNDLED_PLUGIN_BUILD_IDS: "plain" },
       }).map(({ id }) => id),
-    ).toEqual(["telegram"]);
+    ).toEqual(["plain"]);
   });
 
   it("agrees on Docker compiler, metadata, and readiness outputs without unselected excluded plugins", () => {

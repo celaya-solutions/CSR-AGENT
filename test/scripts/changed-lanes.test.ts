@@ -2450,9 +2450,9 @@ describe("scripts/changed-lanes", () => {
       ]),
     ).toBe(true);
 
-    const result = detectChangedLanes(["extensions/discord/package.json"]);
+    const result = detectChangedLanes(["packages/gateway-client/package.json"]);
     const plan = createChangedCheckPlan(result);
-    const npmLockGuard = createNpmLockGuardCommand(["extensions/discord/package.json"]);
+    const npmLockGuard = createNpmLockGuardCommand(["packages/gateway-client/package.json"]);
 
     expect(npmLockGuard?.args.slice(0, 3)).toEqual([
       "--import",
@@ -2460,7 +2460,9 @@ describe("scripts/changed-lanes", () => {
       "scripts/generate-npm-package-lock.mts",
     ]);
     expect(
-      npmLockGuard?.args.some((arg) => arg.replaceAll("\\", "/").endsWith("extensions/discord")),
+      npmLockGuard?.args.some((arg) =>
+        arg.replaceAll("\\", "/").endsWith("packages/gateway-client"),
+      ),
     ).toBe(true);
     expect(plan.commands.map((command) => command.name)).toContain("npm package-lock guard");
     expect(plan.commands.map((command) => command.args[0])).not.toContain("deps:npm-lock:check");
@@ -2632,7 +2634,6 @@ describe("scripts/changed-lanes", () => {
   });
 
   it.each([
-    ["src/agents/prepared-model-runtime.copilot.integration.test.ts", true],
     ["src/plugins/loader.ts", true],
     ["src/gateway/gateway-acp-bind.live.test.ts", true],
     ["packages/normalization-core/src/result.ts", true],

@@ -14,6 +14,7 @@ import {
   disableDependencyShrinkwrapOverrideConflictSources,
   exactOverrideRulesFromOverrides,
   exactVersionFromOverrideSpec,
+  listManagedNpmLockPackageDirs,
   normalizeNpmVersionDrift,
   normalizeOverrides,
   packageJsonForNpmLock,
@@ -765,21 +766,39 @@ describe("generate-npm-package-lock", () => {
     });
   });
 
-  it("targets changed publishable plugin manifests", () => {
+  it("manages npm locks only for npm-published plugin and package manifests", () => {
+    const root = tempDirs.make("openclaw-npm-managed-locks-");
+    const writeManifest = (packageDir: string, manifest: unknown) => {
+      mkdirSync(path.join(root, packageDir), { recursive: true });
+      writeFileSync(path.join(root, packageDir, "package.json"), JSON.stringify(manifest));
+    };
+    writeManifest("extensions/published", { openclaw: { release: { publishToNpm: true } } });
+    writeManifest("extensions/clawhub-only", { openclaw: { release: { publishToClawHub: true } } });
+    writeManifest("extensions/bundled", { openclaw: { extensions: ["./index.ts"] } });
+    writeManifest("packages/client", { openclaw: { release: { publishToNpm: true } } });
+    mkdirSync(path.join(root, "packages", "no-manifest"), { recursive: true });
+
+    expect(listManagedNpmLockPackageDirs(root)).toEqual([
+      "extensions/published",
+      "packages/client",
+    ]);
+  });
+
+  it("ignores changed manifests of plugins that are not published to npm", () => {
     expect(
       npmLockPackageDirsForChangedPaths([
         "extensions/acpx/package.json",
         "extensions/acpx/deps/local-runtime/package.json",
-      ]).map(repoRelativePath),
-    ).toEqual(["extensions/acpx"]);
+      ]),
+    ).toEqual([]);
   });
 
   it("does not normalize raw Git filename boundaries into package manifests", () => {
     expect(
       npmLockPackageDirsForChangedPaths([
-        " extensions/acpx/package.json",
-        "extensions/acpx/package.json ",
-        String.raw`extensions\acpx\package.json`,
+        " packages/gateway-client/package.json",
+        "packages/gateway-client/package.json ",
+        String.raw`packages\gateway-client\package.json`,
       ]),
     ).toEqual([]);
   });
@@ -806,7 +825,6 @@ describe("generate-npm-package-lock", () => {
     expect(packageDirs).toContain("");
     expect(packageDirs).toContain("packages/gateway-client");
     expect(packageDirs).toContain("packages/gateway-protocol");
-    expect(packageDirs).toContain("extensions/acpx");
   });
 
   it("falls back to every npm lock when mixed lockfile changes do not map to packages", () => {
@@ -816,7 +834,7 @@ describe("generate-npm-package-lock", () => {
     ]).map(repoRelativePath);
 
     expect(packageDirs).toContain("");
-    expect(packageDirs).toContain("extensions/acpx");
+    expect(packageDirs).toContain("packages/gateway-client");
     expect(packageDirs.length).toBeGreaterThan(1);
   });
 });

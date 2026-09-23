@@ -200,12 +200,35 @@ describe("plugin npm runtime build planning", () => {
   });
 
   it("plans package-local runtime entries for every publishable plugin package", () => {
-    const packageDirs = listPublishablePluginPackageDirs({ repoRoot });
-    expect(packageDirs.length).toBeGreaterThan(0);
+    const fixtureRoot = tempDirs.make("openclaw-plugin-runtime-publishable-");
+    const writePlugin = (dirName: string, release: Record<string, boolean> | undefined) => {
+      const pluginDir = path.join(fixtureRoot, "extensions", dirName);
+      mkdirSync(pluginDir, { recursive: true });
+      writeFileSync(path.join(pluginDir, "index.ts"), "export default {};\n");
+      writeFileSync(
+        path.join(pluginDir, "package.json"),
+        JSON.stringify({
+          name: `@openclaw/${dirName}`,
+          version: "1.0.0",
+          type: "module",
+          openclaw: {
+            extensions: ["./index.ts"],
+            compat: { pluginApi: ">=1.0.0" },
+            ...(release ? { release } : {}),
+          },
+        }),
+      );
+    };
+    writePlugin("npm-fixture", { publishToNpm: true });
+    writePlugin("clawhub-fixture", { publishToClawHub: true });
+    writePlugin("bundled-fixture", undefined);
+
+    const packageDirs = listPublishablePluginPackageDirs({ repoRoot: fixtureRoot });
+    expect(packageDirs).toEqual(["extensions/clawhub-fixture", "extensions/npm-fixture"]);
 
     const plans = packageDirs.map((packageDir) =>
       resolvePluginNpmRuntimeBuildPlan({
-        repoRoot,
+        repoRoot: fixtureRoot,
         packageDir,
       }),
     );
@@ -215,12 +238,10 @@ describe("plugin npm runtime build planning", () => {
     );
     for (const plan of resolvedPlans) {
       expect(plan.outDir).toBe(path.join(plan.packageDir, "dist"));
-      expectDistRelativePaths(plan.runtimeExtensions);
+      expect(plan.runtimeExtensions).toEqual(["./dist/index.js"]);
       expectDistRelativePaths(plan.runtimeBuildOutputs);
       expect(plan.packageFiles).toContain("dist/**");
-      expect(plan.packagePeerMetadata.peerDependencies.openclaw).toBe(
-        plan.packageJson.openclaw?.compat?.pluginApi,
-      );
+      expect(plan.packagePeerMetadata.peerDependencies.openclaw).toBe(">=1.0.0");
       expect(plan.packagePeerMetadata.peerDependenciesMeta.openclaw.optional).toBe(true);
     }
   });

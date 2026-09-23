@@ -452,12 +452,7 @@ describe("detectChangedScope", () => {
     ["scripts/npm-runner.mts", true, false],
     ["scripts/lib/format-generated-module.mts", true, false],
     ["test/scripts/format-generated-module.test.ts", true, false],
-    [".github/workflows/openclaw-cross-os-release-checks-reusable.yml", true, false],
-    [".github/workflows/windows-testbox-probe.yml", true, false],
-    ["scripts/github/run-openclaw-cross-os-release-checks.sh", true, false],
-    ["scripts/openclaw-cross-os-release-checks.ts", true, false],
     ["scripts/lib/cross-os-release-checks/runtime.ts", true, false],
-    ["test/scripts/openclaw-cross-os-release-workflow.test.ts", true, false],
     ["scripts/install.ps1", true, false],
   ])(
     "runs Windows only for Windows-relevant changes (%s)",

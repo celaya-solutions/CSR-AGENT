@@ -40,12 +40,6 @@ const runtimeConsumers = [
     mode: "runtime" as const,
     dir: "",
   })),
-  {
-    file: "src/node-host/linux-node-plugin.integration.test.ts",
-    configs: ["test/vitest/vitest.unit.config.ts", "test/vitest/vitest.unit-src.config.ts"],
-    mode: "runtime",
-    dir: "",
-  },
   ...[
     "test/plugin-npm-runtime-build.test.ts",
     "test/scripts/plugin-inventory-module-refs.test.ts",
@@ -187,7 +181,6 @@ const runtimeConsumers = [
     dir: "src/gateway",
   })),
   ...[
-    "src/gateway/gateway-active-memory.test.ts",
     "src/gateway/gateway-auth-recovery.test.ts",
     "src/gateway/gateway-concurrent-streams.test.ts",
     "src/gateway/gateway-cron-process-identity.windows.test.ts",
