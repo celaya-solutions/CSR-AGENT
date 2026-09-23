@@ -40,17 +40,9 @@ export function formatChannelPrimerLine(meta: ChannelMeta): string {
 }
 
 /**
- * Formats a docs-aware channel selection line for interactive setup prompts.
+ * Formats a channel selection line for interactive setup prompts.
  */
-export function formatChannelSelectionLine(
-  meta: ChannelMeta,
-  docsLink: (path: string, label?: string) => string,
-): string {
-  const docsPrefix = meta.selectionDocsPrefix ?? "Docs:";
-  const docsLabel = meta.docsLabel ?? meta.id;
-  const docs = meta.selectionDocsOmitLabel
-    ? docsLink(meta.docsPath)
-    : docsLink(meta.docsPath, docsLabel);
+export function formatChannelSelectionLine(meta: ChannelMeta): string {
   const extras = (meta.selectionExtras ?? []).filter(Boolean).join(" ");
-  return `${meta.label} — ${meta.blurb} ${docsPrefix ? `${docsPrefix} ` : ""}${docs}${extras ? ` ${extras}` : ""}`;
+  return `${meta.label} — ${meta.blurb}${extras ? ` ${extras}` : ""}`;
 }

@@ -13,7 +13,6 @@ import {
   patchChannelConfigForAccount,
   setSetupChannelEnabled,
 } from "openclaw/plugin-sdk/setup-runtime";
-import { formatDocsLink } from "openclaw/plugin-sdk/setup-tools";
 import { normalizeOptionalString } from "openclaw/plugin-sdk/string-coerce-runtime";
 import {
   inspectDiscordSetupAccount,
@@ -27,7 +26,6 @@ const DISCORD_TOKEN_HELP_LINES = [
   t("wizard.discord.tokenHelpCopyToken"),
   t("wizard.discord.tokenHelpInviteBot"),
   t("wizard.discord.tokenHelpMessageContentIntent"),
-  t("wizard.channels.docs", { link: formatDocsLink("/discord", "discord") }),
 ];
 
 type DiscordGuildChannelAllowlistEntry = {
@@ -206,7 +204,6 @@ export function createDiscordSetupWizardBase(handlers: {
         "- @alice",
         "- alice#1234",
         t("wizard.discord.multipleEntries"),
-        t("wizard.channels.docs", { link: formatDocsLink("/discord", "discord") }),
       ],
       message: t("wizard.discord.allowFromPrompt"),
       placeholder: "@alice, 123456789012345678",

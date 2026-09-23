@@ -665,11 +665,7 @@ describe("runConfigureWizard", () => {
     expect(mocks.resolveControlUiLinks).not.toHaveBeenCalled();
     expect(mocks.probeGatewayReachable).not.toHaveBeenCalled();
     expect(mocks.note).toHaveBeenCalledWith(
-      [
-        "Remote Gateway:",
-        "wss://gateway.example.test",
-        "Docs: https://docs.openclaw.ai/gateway/remote",
-      ].join("\n"),
+      ["Remote Gateway:", "wss://gateway.example.test"].join("\n"),
       "Gateway",
     );
   });

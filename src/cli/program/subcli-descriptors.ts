@@ -172,11 +172,6 @@ const subCliCommandDescriptors = [
     hasSubcommands: true,
   },
   {
-    name: "docs",
-    description: "Search the live OpenAgent docs",
-    hasSubcommands: false,
-  },
-  {
     name: "qa",
     description: "Run QA scenarios and launch the private QA debugger UI",
     hasSubcommands: true,

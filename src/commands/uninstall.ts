@@ -248,7 +248,9 @@ export async function uninstallCommand(runtime: RuntimeEnv, opts: UninstallOptio
   }
 
   if (!failed) {
-    runtime.log("CLI removal instructions: https://docs.openclaw.ai/install/uninstall");
+    runtime.log(
+      "To remove the CLI itself, uninstall the openclaw package with the package manager you installed it with.",
+    );
   }
 
   if (scopes.has("state") && !scopes.has("workspace") && cleanupPlan) {

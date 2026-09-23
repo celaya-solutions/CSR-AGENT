@@ -92,8 +92,6 @@ describe("security audit cross-agent session access", () => {
         "tools.agentToAgent.allow",
         "requester and target ids",
         "tools.agentToAgent.enabled: false",
-        "https://docs.openclaw.ai/gateway/config-tools#tools-agenttoagent",
-        "https://docs.openclaw.ai/gateway/security#scope-one-trust-boundary-per-gateway",
       ]) {
         expect(finding.remediation).toContain(remediation);
       }

@@ -11,17 +11,8 @@
     "openai",
     "streaming"
   ],
-  "homepage": "https://github.com/openclaw/openclaw#readme",
-  "bugs": {
-    "url": "https://github.com/openclaw/openclaw/issues"
-  },
   "license": "MIT",
   "author": "Celaya Solutions (https://openclaw.org)",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/openclaw/openclaw.git",
-    "directory": "packages/ai"
-  },
   "files": [
     "dist",
     "LICENSE",

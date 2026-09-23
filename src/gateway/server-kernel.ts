@@ -123,7 +123,6 @@ function formatRuntimeGatewayAuthTokenWarning(): string {
   return [
     base,
     "In Nix mode, set gateway.auth.token in your Nix-managed OpenAgent config and rebuild.",
-    "For the first-party Nix flow, see https://github.com/openclaw/nix-openclaw#quick-start and https://docs.openclaw.ai/install/nix.",
   ].join(" ");
 }
 

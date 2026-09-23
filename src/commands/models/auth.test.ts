@@ -541,7 +541,7 @@ describe("modelsAuthLoginCommand", () => {
       "Default model available: openai/gpt-5.5 (current default unchanged; run openclaw models set openai/gpt-5.5 to apply)",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Tip: Codex-capable models can use native Codex web search. Configure the `web_search` tool with `openclaw configure --section web`. Docs: https://docs.openclaw.ai/tools/web",
+      "Tip: Codex-capable models can use native Codex web search. Configure the `web_search` tool with `openclaw configure --section web`.",
     );
     expect(mocks.callGateway).toHaveBeenCalledWith(
       expect.objectContaining({

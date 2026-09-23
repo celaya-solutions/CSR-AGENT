@@ -28,7 +28,7 @@ fi
 unset OPENCLAW_INSTALLER_REEXEC_FILE
 
 # OpenAgent CLI installer (non-interactive, no onboarding)
-# Usage: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install-cli.sh | bash -s -- [--json] [--prefix <path>] [--version <ver>] [--node-version <ver>] [--onboard]
+# Usage: bash scripts/install-cli.sh [--json] [--prefix <path>] [--version <ver>] [--node-version <ver>] [--onboard]
 
 ensure_home_env() {
   if [[ -n "${HOME:-}" && "${HOME}" != "/" && -d "${HOME}" ]]; then

@@ -14,7 +14,6 @@ import {
 } from "./commands-private-route.js";
 import type { HandleCommandsParams } from "./commands-types.js";
 
-const EXPORT_TRAJECTORY_DOCS_URL = "https://docs.openclaw.ai/tools/trajectory";
 const EXPORT_TRAJECTORY_EXEC_SCOPE_KEY = "chat:export-trajectory";
 const MAX_TRAJECTORY_EXPORT_ENCODED_REQUEST_CHARS = 8192;
 const EXPORT_TRAJECTORY_PRIVATE_ROUTE_UNAVAILABLE =
@@ -85,7 +84,7 @@ async function buildExportTrajectoryApprovalReply(
   return {
     text: [
       "Trajectory exports can include prompts, model messages, tool schemas, tool results, runtime events, and local paths.",
-      `Treat trajectory bundles like secrets and review them before sharing: ${EXPORT_TRAJECTORY_DOCS_URL}`,
+      "Treat trajectory bundles like secrets and review them before sharing.",
       "",
       formatTrajectoryExportRequestDetails(request.request),
       "",

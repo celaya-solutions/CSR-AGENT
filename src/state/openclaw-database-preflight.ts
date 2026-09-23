@@ -99,8 +99,6 @@ export type {
   OpenClawDatabaseSchemaPreflight,
 } from "./openclaw-database-preflight.types.js";
 
-export { OPENCLAW_DATABASE_SCHEMA_DOCS_URL } from "./openclaw-state-db.js";
-
 type AgentRegistryDatabase = Pick<OpenClawStateKyselyDatabase, "agent_databases">;
 
 /** Fatal refusal when persisted schemas were written by a newer build. */

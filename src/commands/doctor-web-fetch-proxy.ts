@@ -7,7 +7,8 @@ import { resolveGatewayService, type GatewayService } from "../daemon/service.js
 import { hasEnvHttpProxyConfigured } from "../infra/net/proxy-env.js";
 import { shouldManageGatewayService } from "./doctor-service-repair-policy.js";
 
-const DIRECT_PROBE_HOST = "docs.openclaw.ai";
+// Any stable public HTTPS host works; the npm registry is already a dependency of updates and plugin installs.
+const DIRECT_PROBE_HOST = "registry.npmjs.org";
 const DIRECT_PROBE_PORT = 443;
 const DIRECT_PROBE_TIMEOUT_MS = 3_000;
 const HTTP_PROXY_ENV_KEYS = ["HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy"] as const;

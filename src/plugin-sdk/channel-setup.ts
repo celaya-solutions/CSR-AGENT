@@ -28,7 +28,7 @@ type OptionalChannelSetupParams = {
   label: string;
   /** Package spec operators should install to enable the optional channel. */
   npmSpec?: string;
-  /** Docs path linked from setup validation and wizard hints. */
+  /** @deprecated Ignored: setup guidance no longer links to hosted docs. */
   docsPath?: string;
 };
 

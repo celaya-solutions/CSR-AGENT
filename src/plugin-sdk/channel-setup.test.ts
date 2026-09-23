@@ -47,12 +47,10 @@ describe("createOptionalChannelSetupSurface", () => {
         accountId: "default",
         input: {},
       }),
-    ).toBe(
-      "Example setup requires @openclaw/example to be installed. Docs: https://docs.openclaw.ai/channels/example",
-    );
+    ).toBe("Example setup requires @openclaw/example to be installed.");
     expect(setup.setupWizard.channel).toBe("example");
     expect(setup.setupWizard.status.unconfiguredHint).toBe(
-      "Example setup requires @openclaw/example to be installed. Docs: https://docs.openclaw.ai/channels/example",
+      "Example setup requires @openclaw/example to be installed.",
     );
     await expect(
       runSetupWizardFinalize({

@@ -11,7 +11,6 @@ import {
   type OpenClawConfig,
   type WizardPrompter,
 } from "openclaw/plugin-sdk/setup-runtime";
-import { formatDocsLink } from "openclaw/plugin-sdk/setup-tools";
 import { resolveDiscordAccountAllowFrom } from "./accounts.js";
 import { resolveDiscordChannelAllowlist } from "./resolve-channels.js";
 import { resolveDiscordUserAllowlist } from "./resolve-users.js";
@@ -54,7 +53,6 @@ async function promptDiscordAllowFrom(params: {
       "- @alice",
       "- alice#1234",
       t("wizard.discord.multipleEntries"),
-      t("wizard.channels.docs", { link: formatDocsLink("/discord", "discord") }),
     ].join("\n"),
     noteTitle,
   );

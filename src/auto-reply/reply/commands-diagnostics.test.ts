@@ -329,7 +329,7 @@ describe("diagnostics command", () => {
       "Diagnostics can include sensitive local logs and host-level runtime metadata.",
     );
     expect(execCall.defaults.approvalWarningText).toContain(
-      "https://docs.openclaw.ai/gateway/diagnostics",
+      "Treat diagnostics bundles like secrets and review what they contain before sharing.",
     );
     expect(execCall.params.ask).toBe("always");
     const command = execCall.params.command ?? "";
@@ -399,7 +399,7 @@ describe("diagnostics command", () => {
     expect(result?.reply?.text).toContain(
       "Diagnostics can include sensitive local logs and host-level runtime metadata.",
     );
-    expect(result?.reply?.text).toContain("https://docs.openclaw.ai/gateway/diagnostics");
+    expect(result?.reply?.text).toContain("Treat diagnostics bundles like secrets");
     expect(result?.reply?.text).toContain("no interactive approval client");
     expect(execCalls).toHaveLength(1);
   });

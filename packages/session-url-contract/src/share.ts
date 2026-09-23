@@ -10,7 +10,6 @@ export const CONTROL_UI_RESERVED_ROUTE_SEGMENTS: readonly string[] = Object.free
   "ai-agents",
   "appearance",
   "approve",
-  "apps",
   "ask",
   "automation",
   "automations",

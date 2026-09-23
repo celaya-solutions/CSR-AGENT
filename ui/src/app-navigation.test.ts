@@ -96,7 +96,6 @@ describe("navigationIconForRoute", () => {
       custodian: "lobster",
       activity: "activity",
       meetings: "book",
-      apps: "layoutGrid",
       portals: "monitor",
       approvals: "badgeCheck",
       workboard: "kanban",
@@ -202,7 +201,6 @@ describe("titleForRoute", () => {
       custodian: "OpenAgent",
       activity: "Activity",
       meetings: "Meetings",
-      apps: "Apps",
       portals: "Portals",
       approvals: "Approvals",
       workboard: "Workboard",
@@ -258,7 +256,6 @@ describe("subtitleForRoute", () => {
       custodian: "System setup and care.",
       activity: "Recent sessions across people using this gateway.",
       meetings: "Meeting notes and transcripts across this gateway.",
-      apps: "Companion apps for phone, watch, desktop, and browser.",
       portals: "Live previews from agent-run applications.",
       approvals: "Recent exec, plugin, and system-agent approvals.",
       workboard: "Agent work queue and session handoff.",
@@ -312,7 +309,6 @@ describe("pathForRoute", () => {
     expect(pathForRoute("chat")).toBe("/chat");
     expect(pathForRoute("agents-home")).toBe("/agents");
     expect(pathForRoute("agents")).toBe("/settings/agents");
-    expect(pathForRoute("apps")).toBe("/apps");
     expect(pathForRoute("dashboards")).toBe("/dashboards");
     expect(pathForRoute("custodian")).toBe("/custodian");
     expect(pathForRoute("connection")).toBe("/settings/connection");
@@ -354,7 +350,6 @@ describe("routeIdFromPath", () => {
     expect(routeIdFromPath("/settings/connection")).toBe("connection");
     expect(routeIdFromPath("/connection")).toBeNull();
     expect(routeIdFromPath("/activity")).toBe("activity");
-    expect(routeIdFromPath("/apps")).toBe("apps");
     expect(routeIdFromPath("/dashboards")).toBe("dashboards");
     expect(routeIdFromPath("/sessions")).toBe("sessions");
     expect(routeIdFromPath("/debug")).toBe("debug");
@@ -618,7 +613,6 @@ describe("SIDEBAR_NAV_ROUTES", () => {
       "activity",
       "meetings",
       "plugins",
-      "apps",
       "portals",
     ]);
   });

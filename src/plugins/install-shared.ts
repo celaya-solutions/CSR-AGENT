@@ -50,7 +50,7 @@ export function formatUnresolvedOpenClawPeerLinkError(packageName: string): stri
 }
 
 const MISSING_EXTENSIONS_ERROR =
-  'package.json missing openclaw.extensions; update the plugin package to include openclaw.extensions (for example ["./dist/index.js"]). See https://docs.openclaw.ai/help/troubleshooting#plugin-install-fails-with-missing-openclaw-extensions';
+  'package.json missing openclaw.extensions; update the plugin package to include openclaw.extensions (for example ["./dist/index.js"]).';
 function validateOpenClawPackageCompatibility(params: {
   pluginId: string;
   currentHostVersion: string;

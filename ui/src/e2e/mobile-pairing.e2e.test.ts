@@ -199,32 +199,7 @@ suite.define(() => {
         expect(dialogBox?.width).toBeLessThanOrEqual(390);
         await captureUiProof(page, "01-mobile-access-selection.png");
 
-        const helpDocumentUrl = "https://docs.openclaw.ai/channels/pairing";
-        const helpUrl = `${helpDocumentUrl}#pair-from-the-control-ui-recommended`;
-        // This mocked scenario owns navigation, not docs-site availability. Context
-        // routing also covers the popup's first request, which page routing misses.
-        await page.context().route(helpDocumentUrl, (route) =>
-          route.fulfill({
-            contentType: "text/html",
-            body: "<!doctype html><title>Pairing help</title>",
-          }),
-        );
-        const help = page.getByRole("link", { name: "Pairing help (opens in a new tab)" });
-        expect(await help.getAttribute("href")).toBe(helpUrl);
-        expect(await help.getAttribute("target")).toBe("_blank");
-        expect((await help.getAttribute("rel"))?.split(" ")).toEqual(
-          expect.arrayContaining(["noopener", "noreferrer"]),
-        );
-        expect(await help.locator("svg").count()).toBe(1);
-        await help.focus();
-        expect(await help.evaluate((element) => element === document.activeElement)).toBe(true);
-        await help.hover();
-        await captureUiProof(page, "10-mobile-pairing-help-focus-hover.png");
-        const [helpPopup] = await Promise.all([page.waitForEvent("popup"), help.click()]);
-        await helpPopup.waitForURL(helpUrl);
-        expect(helpPopup.url()).toBe(helpUrl);
-        expect(await helpPopup.title()).toBe("Pairing help");
-        await helpPopup.close();
+        expect(await page.locator(".device-pair-setup__footer a").count()).toBe(0);
 
         await gateway.deferNext("device.pair.setupCode");
         await page.getByRole("button", { name: "Create setup code" }).click();

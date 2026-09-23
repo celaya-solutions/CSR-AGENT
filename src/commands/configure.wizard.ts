@@ -189,11 +189,7 @@ async function runGatewayHealthCheck(params: {
       params.runtime.error(formatHealthCheckFailure(err));
     }
     note(
-      [
-        "Docs:",
-        "https://docs.openclaw.ai/gateway/health",
-        "https://docs.openclaw.ai/gateway/troubleshooting",
-      ].join("\n"),
+      [formatCliCommand("openclaw doctor"), formatCliCommand("openclaw logs --follow")].join("\n"),
       "Health check help",
     );
     return "failed";
@@ -266,7 +262,6 @@ async function promptWebToolsConfig(
       "Web search lets your agent look things up online using the `web_search` tool.",
       "Codex-capable models can use native Codex web search.",
       "Other models use a separate web search provider, which you can configure here.",
-      "Docs: https://docs.openclaw.ai/tools/web",
     ].join("\n"),
     "Web search",
   );
@@ -371,7 +366,6 @@ async function promptWebToolsConfig(
           [
             "No web search providers are currently available under this plugin policy.",
             "Enable plugins or remove deny rules, then rerun configure.",
-            "Docs: https://docs.openclaw.ai/tools/web",
           ].join("\n"),
           "Web search",
         );
@@ -465,11 +459,7 @@ export async function runConfigureWizard(
       note(summarizeExistingConfig(baseConfig), title);
       if (!snapshot.valid && snapshot.issues.length > 0) {
         note(
-          [
-            ...snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`),
-            "",
-            "Docs: https://docs.openclaw.ai/gateway/configuration",
-          ].join("\n"),
+          snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`).join("\n"),
           "Config issues",
         );
       }
@@ -864,12 +854,7 @@ export async function runConfigureWizard(
     if (shouldSkipGatewaySummary) {
       const remoteUrl = normalizeOptionalString(nextConfig.gateway?.remote?.url);
       if (remoteUrl) {
-        note(
-          ["Remote Gateway:", remoteUrl, "Docs: https://docs.openclaw.ai/gateway/remote"].join(
-            "\n",
-          ),
-          "Gateway",
-        );
+        note(["Remote Gateway:", remoteUrl].join("\n"), "Gateway");
       }
       outro(completionMessage);
       return;
@@ -940,7 +925,6 @@ export async function runConfigureWizard(
         `Gateway WS: ${displayLinks.wsUrl}`,
         gatewayStatusLine,
         ...windowsFirewallLines,
-        "Docs: https://docs.openclaw.ai/web/control-ui",
       ].join("\n"),
       "Control UI",
     );

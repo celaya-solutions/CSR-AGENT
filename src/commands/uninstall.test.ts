@@ -75,7 +75,7 @@ describe("uninstallCommand", () => {
     expect(removeStateAndLinkedPaths).not.toHaveBeenCalled();
     expect(removeWorkspaceDirs).not.toHaveBeenCalled();
     expect(cleanupCommandLogMessages(runtime)).not.toContain(
-      "CLI removal instructions: https://docs.openclaw.ai/install/uninstall",
+      "To remove the CLI itself, uninstall the openclaw package with the package manager you installed it with.",
     );
   });
 

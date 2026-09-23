@@ -70,7 +70,13 @@ function stateOptions() {
   return { path: join(directory, "openclaw.sqlite") };
 }
 
+// Smallest valid lossless 1x1 WebP; the repo no longer ships a WebP asset to borrow.
+const WEBP_1X1_BASE64 = "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==";
+
 function fixtureImage(path: string): Buffer {
+  if (path === "inline:webp-1x1") {
+    return Buffer.from(WEBP_1X1_BASE64, "base64");
+  }
   return readFileSync(join(process.cwd(), path));
 }
 
@@ -834,7 +840,7 @@ describe("user profiles", () => {
   it.each([
     ["image/png", "ui/public/favicon-32.png"],
     ["image/jpeg", "docs/whatsapp-openclaw.jpg"],
-    ["image/webp", "ui/public/app-art/android.webp"],
+    ["image/webp", "inline:webp-1x1"],
   ])("adopts a bounded %s Tailscale avatar", async (mime, path) => {
     const options = stateOptions();
     const bytes = fixtureImage(path);

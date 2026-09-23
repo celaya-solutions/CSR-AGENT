@@ -740,10 +740,6 @@ openclaw-session-owner-chip {
   color: var(--muted);
 }
 
-.login-gate__failure-docs {
-  flex: 0 0 auto;
-}
-
 /* ── First-run help (no failure yet) ── */
 
 .login-gate__help {
@@ -771,11 +767,6 @@ openclaw-session-owner-chip {
 
 .login-gate__steps li:last-child {
   margin-bottom: 0;
-}
-
-.login-gate__docs {
-  margin-top: 10px;
-  font-size: 12px;
 }
 
 /* Phones (matches the layout.mobile.css breakpoint). The gate renders outside
@@ -5374,32 +5365,6 @@ td.data-table-key-col {
   line-height: 1.5;
 }
 
-.device-pair-setup__header p.device-pair-setup__get-apps {
-  margin-top: 2px;
-  font-size: 13px;
-}
-
-.device-pair-setup__get-apps button {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--text);
-  font: inherit;
-  cursor: var(--cursor-action);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.device-pair-setup__get-apps button:hover {
-  color: var(--text-strong);
-}
-
-.device-pair-setup__get-apps button:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-  border-radius: 4px;
-}
-
 .device-pair-setup__phone {
   display: grid;
   width: 44px;
@@ -5700,40 +5665,11 @@ td.data-table-key-col {
 .device-pair-setup__footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 14px 20px;
   border-top: 1px solid var(--border);
   background: color-mix(in srgb, var(--bg-elevated) 45%, transparent);
   font-size: 13px;
-}
-
-.device-pair-setup__footer a {
-  display: inline-flex;
-  min-height: 40px;
-  align-items: center;
-  gap: 4px;
-  border-radius: 4px;
-  color: var(--muted);
-  text-underline-offset: 2px;
-}
-
-.device-pair-setup__footer a:hover {
-  color: var(--text);
-}
-
-.device-pair-setup__footer a:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-  color: var(--text);
-}
-
-.device-pair-setup__external-icon {
-  display: inline-flex;
-}
-
-.device-pair-setup__external-icon svg {
-  width: 14px;
-  height: 14px;
 }
 
 @media (max-width: 640px) {
@@ -5756,10 +5692,6 @@ td.data-table-key-col {
 
   .device-pair-setup__access {
     grid-template-columns: 1fr;
-  }
-
-  .device-pair-setup__footer a {
-    min-height: 44px;
   }
 }
 

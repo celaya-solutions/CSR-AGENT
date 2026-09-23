@@ -155,7 +155,7 @@ describe("security audit trust model findings", () => {
             'channels.discord.groupPolicy="allowlist" with configured group targets',
           );
           expect(finding.detail).toContain("personal-assistant");
-          expect(finding.detail).toContain("https://docs.openclaw.ai/gateway/multi-tenant-hosting");
+          expect(finding.detail).toContain("run one isolated Gateway cell per tenant.");
           expect(finding.remediation).toContain('agents.defaults.sandbox.mode="all"');
         },
       },
@@ -194,7 +194,7 @@ describe("security audit trust model findings", () => {
           expect(finding.detail).toContain('session.groupScope="main"');
           expect(finding.detail).toContain("all group/channel rooms");
           expect(finding.remediation).toContain(
-            "https://docs.openclaw.ai/channels/groups#session-keys",
+            'reserve "main" for rooms whose members you trust.',
           );
         },
       },

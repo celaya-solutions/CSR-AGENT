@@ -126,7 +126,6 @@ export const cliCommandCatalog: readonly CliCommandCatalogEntry[] = [
     policy: { ownsProtocolStdout: true, hideBanner: true },
   },
   { commandPath: ["message"], policy: { loadPlugins: "never" } },
-  { commandPath: ["docs"], policy: { configGuard: "skip" } },
   // Destructive maintenance owns a validity-aware, non-observing config read.
   // Startup migrations would mutate the SQLite state these commands may refuse to remove.
   { commandPath: ["reset"], policy: { configGuard: "skip" } },

@@ -61,7 +61,7 @@ type AuditLogMigrationResult = Pick<MigrationMessages, "changes" | "warnings"> &
 };
 
 const AUDIT_SKIP_RECOVERY_GUIDANCE =
-  "Preserve the legacy source and any sanitized companion for recovery; see https://docs.openclaw.ai/cli/update/repair-and-recovery#skipped-legacy-audit-recovery. Other repairs can continue; this warning repeats until the archive is resolved.";
+  "Preserve the legacy source and any sanitized companion for recovery. Other repairs can continue; this warning repeats until the archive is resolved.";
 
 type AuditArchiveRelativePaths = {
   sanitized: string;

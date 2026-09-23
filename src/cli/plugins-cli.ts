@@ -1,7 +1,5 @@
 // Commander registration for plugin list/search/inspect/install/update/authoring commands.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
 import type { PluginInspectOptions } from "./plugins-inspect-command.js";
 import type { PluginsListOptions } from "./plugins-list-command.js";
 import { parseStrictPositiveIntOption } from "./program/helpers.js";
@@ -85,14 +83,7 @@ const loadPluginsAuthoringCommands = createModuleLoader(
 );
 
 export function registerPluginsCli(program: Command) {
-  const plugins = program
-    .command("plugins")
-    .description("Manage OpenAgent plugins and extensions")
-    .addHelpText(
-      "after",
-      () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/plugins", "docs.openclaw.ai/cli/plugins")}\n`,
-    );
+  const plugins = program.command("plugins").description("Manage OpenAgent plugins and extensions");
 
   plugins
     .command("list")

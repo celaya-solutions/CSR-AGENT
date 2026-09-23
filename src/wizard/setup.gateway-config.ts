@@ -161,10 +161,6 @@ export async function configureGatewayForSetup(
     }
   }
 
-  if (tailscaleMode !== "off" && flow !== "quickstart") {
-    await prompter.note(t("wizard.gatewayTailscale.docsNote"), "Tailscale");
-  }
-
   // Safety + constraints:
   // - Tailscale wants bind=loopback so we never expose a non-loopback server + tailscale serve/funnel at once.
   // - Funnel requires password auth.

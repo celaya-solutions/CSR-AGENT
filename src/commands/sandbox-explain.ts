@@ -9,7 +9,6 @@ import {
   normalizeOptionalLowercaseString,
   normalizeStringifiedEntries,
 } from "@openclaw/normalization-core/string-coerce";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
 import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.js";
 import {
   resolveAgentConfig,
@@ -49,8 +48,6 @@ type SandboxExplainOptions = {
   agent?: string;
   json: boolean;
 };
-
-const SANDBOX_DOCS_URL = "https://docs.openclaw.ai/sandbox";
 
 function normalizeExplainSessionKey(params: {
   cfg: OpenClawConfig;
@@ -327,7 +324,6 @@ export async function sandboxExplainCommand(
   }
 
   const payload = {
-    docsUrl: SANDBOX_DOCS_URL,
     agentId: resolvedAgentId,
     sessionKey,
     mainSessionKey,
@@ -449,8 +445,6 @@ export async function sandboxExplainCommand(
   for (const keyLocal of payload.fixIt) {
     lines.push(`  - ${keyLocal}`);
   }
-  lines.push("");
-  lines.push(`${key("Docs:")} ${formatDocsLink("/sandbox", "docs.openclaw.ai/sandbox")}`);
 
   runtime.log(`${lines.join("\n")}\n`);
 }

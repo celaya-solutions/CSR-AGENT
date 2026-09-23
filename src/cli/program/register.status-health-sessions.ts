@@ -1,7 +1,6 @@
 // Status, health, sessions, and task/flow command registration.
 import { parseStrictPositiveInteger } from "@openclaw/normalization-core/number-coercion";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
 import { theme } from "../../../packages/terminal-core/src/theme.js";
 import { setVerbose } from "../../globals.js";
 import { defaultRuntime } from "../../runtime.js";
@@ -240,11 +239,6 @@ export function registerStatusHealthSessionsCommands(program: Command) {
           ["openclaw status --deep --timeout 5000", "Tighten probe timeout."],
         ])}`,
     )
-    .addHelpText(
-      "after",
-      () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/status", "docs.openclaw.ai/cli/status")}\n`,
-    )
     .action(async (opts) => {
       await runWithVerboseAndTimeout(opts, async ({ verbose, timeoutMs }) => {
         const { statusCommand } = await import("../../commands/status.js");
@@ -270,11 +264,6 @@ export function registerStatusHealthSessionsCommands(program: Command) {
     .option("--timeout <ms>", "Connection timeout in milliseconds", "10000")
     .option("--verbose", "Verbose logging", false)
     .option("--debug", "Alias for --verbose", false)
-    .addHelpText(
-      "after",
-      () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/health", "docs.openclaw.ai/cli/health")}\n`,
-    )
     .action(async (opts) => {
       await runWithVerboseAndTimeout(opts, async ({ verbose, timeoutMs }) => {
         const { healthCommand } = await import("../../commands/health.js");
@@ -306,11 +295,6 @@ export function registerStatusHealthSessionsCommands(program: Command) {
         ])}\n\n${theme.muted(
           "Shows token usage per session when the agent reports it; set the model entry's contextTokens to cap the window and show %.",
         )}`,
-    )
-    .addHelpText(
-      "after",
-      () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sessions", "docs.openclaw.ai/cli/sessions")}\n`,
     )
     .action(async (opts) => {
       await runSessionsListCli(opts as SessionsListCliOptions);

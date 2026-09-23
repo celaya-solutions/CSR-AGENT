@@ -1,6 +1,5 @@
 // Backup command registration for local state archive creation and verification.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
 import { theme } from "../../../packages/terminal-core/src/theme.js";
 import {
   backupGitCreateCommand,
@@ -29,12 +28,7 @@ import { parseStrictPositiveIntOption } from "./helpers.js";
 export function registerBackupCommand(program: Command) {
   const backup = program
     .command("backup")
-    .description("Create, verify, and restore backup archives and SQLite snapshots")
-    .addHelpText(
-      "after",
-      () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/backup", "docs.openclaw.ai/cli/backup")}\n`,
-    );
+    .description("Create, verify, and restore backup archives and SQLite snapshots");
 
   backup
     .command("create")

@@ -31,7 +31,6 @@ import type { CommandHandler, HandleCommandsParams } from "./commands-types.js";
 
 const DIAGNOSTICS_COMMAND = "/diagnostics";
 const CODEX_DIAGNOSTICS_COMMAND = "/codex diagnostics";
-const DIAGNOSTICS_DOCS_URL = "https://docs.openclaw.ai/gateway/diagnostics";
 const GATEWAY_DIAGNOSTICS_EXPORT_JSON_LABEL = "openclaw gateway diagnostics export --json";
 const DIAGNOSTICS_EXEC_SCOPE_KEY = "chat:diagnostics";
 const DIAGNOSTICS_PRIVATE_ROUTE_UNAVAILABLE =
@@ -191,7 +190,7 @@ function parseDiagnosticsArgs(commandBody: string): string | undefined {
 function buildDiagnosticsPreamble(): string[] {
   return [
     "Diagnostics can include sensitive local logs and host-level runtime metadata.",
-    `Treat diagnostics bundles like secrets and review what they contain before sharing: ${DIAGNOSTICS_DOCS_URL}`,
+    "Treat diagnostics bundles like secrets and review what they contain before sharing.",
   ];
 }
 

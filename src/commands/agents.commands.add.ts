@@ -482,13 +482,7 @@ export async function agentsAddCommand(
           );
         }
       } else {
-        await prompter.note(
-          [
-            "Routing unchanged. Add bindings when you're ready.",
-            "Docs: https://docs.openclaw.ai/concepts/multi-agent",
-          ].join("\n"),
-          "Routing",
-        );
+        await prompter.note("Routing unchanged. Add bindings when you're ready.", "Routing");
       }
     }
 

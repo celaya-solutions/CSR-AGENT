@@ -31,7 +31,6 @@ suite.define(() => {
           valid: true,
         };
         const gateway = await installMockGateway(page, {
-          communityInvite: false,
           agentModel: "openai/gpt-5.6-luna",
           models: [{ id: "gpt-5.6-luna", name: "GPT-5.6 Luna", provider: "openai" }],
           updateAvailable: {
@@ -183,7 +182,6 @@ suite.define(() => {
         // A fresh page has no in-memory run ID and must discover the last run from status.
         const freshPage = await context.newPage();
         const freshGateway = await installMockGateway(freshPage, {
-          communityInvite: false,
           agentModel: "openai/gpt-5.6-luna",
           models: [{ id: "gpt-5.6-luna", name: "GPT-5.6 Luna", provider: "openai" }],
           methodResponses: {

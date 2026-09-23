@@ -5,8 +5,8 @@ Gateway WebSocket protocol.
 
 The current wire protocol is version 4. General clients must use v4; authenticated
 node clients and lightweight probes may use the N-1 window during rolling upgrades.
-See the [Gateway protocol specification](https://docs.openclaw.ai/gateway/protocol)
-for transport, authentication, roles, scopes, and complete frame examples.
+The Gateway protocol specification (`docs/gateway/protocol.md` in the OpenAgent
+repository) covers transport, authentication, roles, scopes, and complete frame examples.
 
 ## Versioning
 
@@ -29,9 +29,8 @@ Use the verified stable release with an exact pin:
 npm install --save-exact @openclaw/gateway-protocol@2026.8.1
 ```
 
-This release declares Node.js `>=22.19.0`. See the canonical
-[installation guide](https://docs.openclaw.ai/gateway/clients#install-the-packages)
-for the matching client package, package/wire-version rules, and recovery from
+This release declares Node.js `>=22.19.0`. The Gateway clients guide
+(`docs/gateway/clients.md` in the OpenAgent repository) covers the matching client package, package/wire-version rules, and recovery from
 reserved `0.0.0` artifacts. Test it with the Gateway version you deploy; the root
 `openclaw` CLI has its own package versions and dist-tags.
 

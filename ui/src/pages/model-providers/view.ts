@@ -14,7 +14,6 @@ import { icons } from "../../components/icons.ts";
 import { renderProviderBrandIcon } from "../../components/provider-icon.ts";
 import { renderProviderUsageDetails } from "../../components/provider-usage.ts";
 import {
-  renderLearnMoreLink,
   renderSettingsEmpty,
   renderSettingsGroup,
   renderSettingsLoadingSkeleton,
@@ -663,8 +662,7 @@ export function renderModelProvidersPageShell(props: {
   return html`
     ${renderSettingsPageHeader({
       title: titleForRoute("model-providers"),
-      subtitle: html`${t("modelProviders.subtitle")}
-      ${renderLearnMoreLink("https://docs.openclaw.ai/concepts/model-providers")}`,
+      subtitle: html`${t("modelProviders.subtitle")} `,
       actions: html`
         ${renderAgentScopeControl({
           agents: props.agents,

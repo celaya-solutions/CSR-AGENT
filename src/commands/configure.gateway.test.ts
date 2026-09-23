@@ -336,7 +336,7 @@ describe("promptGatewayConfig", () => {
       const refusalMessage = mocks.note.mock.calls.at(-1)?.[0];
       expect(refusalMessage).toContain(refusal);
       expect(refusalMessage).toContain("trusted_proxy_loopback_source");
-      expect(refusalMessage).toContain("https://docs.openclaw.ai/gateway/trusted-proxy-auth");
+      expect(refusalMessage).not.toContain("docs.openclaw.ai");
       expect(await authorizeConfiguredProxy(result.config)).toMatchObject({
         ok: false,
         reason: "trusted_proxy_loopback_source",

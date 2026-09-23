@@ -395,7 +395,7 @@ describe("handleModelsCommand", () => {
 
       expect(result?.reply?.text).toContain(`custom-route: ${label}.`);
       expect(result?.reply?.text).toContain(
-        "Set up this connection with the custom-provider guide: https://docs.openclaw.ai/concepts/model-providers/custom-providers",
+        "Set up this connection with `openclaw configure --section model`, or add it under models.providers in your config.",
       );
       expect(result?.reply?.text).not.toContain("/login custom-route");
     },
@@ -417,7 +417,7 @@ describe("handleModelsCommand", () => {
       );
 
       expect(result?.reply?.text).toContain(
-        enabled ? "Connect with /login xai." : "custom-provider guide",
+        enabled ? "Connect with /login xai." : "add it under models.providers in your config",
       );
       if (!enabled) {
         expect(result?.reply?.text).not.toContain("/login xai");

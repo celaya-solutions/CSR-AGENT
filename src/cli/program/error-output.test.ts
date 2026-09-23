@@ -522,7 +522,7 @@ describe("formatCliParseErrorOutput", () => {
 
     expect(error.message).toBe('OpenAgent does not know the command "pairng".');
     expect(error.humanOutput).toBe(
-      'OpenAgent does not know the command "pairng".\nDid you mean this?\n  openclaw pairing\nTry: openclaw --help\nPlugin command? openclaw plugins list\nDocs: https://docs.openclaw.ai/cli\n',
+      'OpenAgent does not know the command "pairng".\nDid you mean this?\n  openclaw pairing\nTry: openclaw --help\nPlugin command? openclaw plugins list\n',
     );
   });
 
@@ -544,7 +544,7 @@ describe("formatCliParseErrorOutput", () => {
     });
 
     expect(output).toBe(
-      'OpenAgent does not know the command "wat".\nTry: openclaw --help\nPlugin command? openclaw plugins list\nDocs: https://docs.openclaw.ai/cli\n',
+      'OpenAgent does not know the command "wat".\nTry: openclaw --help\nPlugin command? openclaw plugins list\n',
     );
   });
 
@@ -555,7 +555,7 @@ describe("formatCliParseErrorOutput", () => {
     });
 
     expect(output).toBe(
-      'OpenAgent webhooks has no command "list".\nTry: openclaw webhooks --help\nDocs: https://docs.openclaw.ai/cli\n',
+      'OpenAgent webhooks has no command "list".\nTry: openclaw webhooks --help\n',
     );
   });
 
@@ -567,7 +567,7 @@ describe("formatCliParseErrorOutput", () => {
     });
 
     expect(output).toBe(
-      'OpenAgent webhooks has no command "gmial".\nDid you mean this?\n  openclaw webhooks gmail\nTry: openclaw webhooks --help\nDocs: https://docs.openclaw.ai/cli\n',
+      'OpenAgent webhooks has no command "gmial".\nDid you mean this?\n  openclaw webhooks gmail\nTry: openclaw webhooks --help\n',
     );
   });
 
@@ -580,7 +580,7 @@ describe("formatCliParseErrorOutput", () => {
 
     expect(error.code).toBe("commander.unknownCommand");
     expect(output).toBe(
-      'OpenAgent sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\nDocs: https://docs.openclaw.ai/cli\n',
+      'OpenAgent sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\n',
     );
   });
 
@@ -593,7 +593,7 @@ describe("formatCliParseErrorOutput", () => {
 
     expect(error.code).toBe("commander.unknownCommand");
     expect(output).toBe(
-      'OpenAgent config has no command "gett".\nDid you mean this?\n  openclaw config get\nTry: openclaw config --help\nDocs: https://docs.openclaw.ai/cli\n',
+      'OpenAgent config has no command "gett".\nDid you mean this?\n  openclaw config get\nTry: openclaw config --help\n',
     );
   });
 
@@ -608,7 +608,7 @@ describe("formatCliParseErrorOutput", () => {
     expect(error.exitCode).toBe(1);
     expect(stdout).toBe("");
     expect(output).toBe(
-      'OpenAgent sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\nDocs: https://docs.openclaw.ai/cli\n',
+      'OpenAgent sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\n',
     );
   });
 
@@ -655,7 +655,7 @@ describe("formatCliParseErrorOutput", () => {
     });
 
     expect(output).toBe(
-      'OpenAgent does not know the command "upate".\nDid you mean this?\n  openclaw update\nTry: openclaw --help\nPlugin command? openclaw plugins list\nDocs: https://docs.openclaw.ai/cli\n',
+      'OpenAgent does not know the command "upate".\nDid you mean this?\n  openclaw update\nTry: openclaw --help\nPlugin command? openclaw plugins list\n',
     );
   });
 

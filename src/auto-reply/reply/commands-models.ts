@@ -62,7 +62,7 @@ const PAGE_SIZE_MAX = 100;
 const MODELS_ADD_DEPRECATED_TEXT =
   "⚠️ /models add is deprecated. Use /models to browse providers and /model to switch models.";
 const CUSTOM_MODEL_SETUP_GUIDANCE =
-  "Set up this connection with the custom-provider guide: https://docs.openclaw.ai/concepts/model-providers/custom-providers";
+  "Set up this connection with `openclaw configure --section model`, or add it under models.providers in your config.";
 export const MODEL_PICKER_CHANGED_MESSAGE =
   "Available models changed. Open /models and choose again.";
 

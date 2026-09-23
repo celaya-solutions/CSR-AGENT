@@ -5,7 +5,6 @@ import type {
   IndeterminateOpenClawDatabase,
   OpenClawDatabaseSchemaPreflightOperation,
 } from "./openclaw-database-preflight.types.js";
-import { OPENCLAW_DATABASE_SCHEMA_DOCS_URL } from "./openclaw-state-db-contract.js";
 import type { StateSchemaPublicationBlocker } from "./openclaw-state-schema-publication.js";
 
 function formatDoctorIncompatibleDatabase(database: IncompatibleOpenClawDatabase): string {
@@ -30,7 +29,7 @@ export function formatIncompatibleDatabaseSchemas(
       : "";
   return (
     `${prefix} because ${incompatibleDatabases.length} OpenAgent database schema(s) are newer than this build. ` +
-    `Refused by ${describeRunningOpenClawBuild()}.${doctorGuidance} See ${OPENCLAW_DATABASE_SCHEMA_DOCS_URL}.`
+    `Refused by ${describeRunningOpenClawBuild()}.${doctorGuidance}`
   );
 }
 

@@ -254,7 +254,6 @@ describe("resolveHookManifestMetadata", () => {
     const content = `---
 name: session-memory
 description: "Save session context to memory when a session is reset"
-homepage: https://docs.openclaw.ai/automation/hooks#session-memory
 metadata:
   {
     "openclaw":

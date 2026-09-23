@@ -9,11 +9,4 @@ export const cliCompactionBackendEntrypoints = [
     sourceWorkerName: "../../../extensions/anthropic/setup-api",
     distWorkerPath: "extensions/anthropic/setup-api.js",
   },
-  {
-    provider: "google-gemini-cli",
-    pluginId: "google",
-    currentModuleUrl,
-    sourceWorkerName: "../../../extensions/google/setup-api",
-    distWorkerPath: "extensions/google/setup-api.js",
-  },
 ] as const;

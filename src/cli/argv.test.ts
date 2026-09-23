@@ -34,8 +34,8 @@ describe("argv helpers", () => {
     ],
     [
       "leaf positional help remains untouched",
-      ["node", "openclaw", "docs", "help", "--help"],
-      ["node", "openclaw", "docs", "help", "--help"],
+      ["node", "openclaw", "logs", "help", "--help"],
+      ["node", "openclaw", "logs", "help", "--help"],
     ],
     [
       "known command group help target",
@@ -229,7 +229,7 @@ describe("argv helpers", () => {
     ["root help command with target", ["node", "openclaw", "help", "matrix"], true],
     ["nested help command", ["node", "openclaw", "matrix", "encryption", "help"], true],
     ["known subcommand root help command", ["node", "openclaw", "config", "help"], true],
-    ["known leaf command positional help", ["node", "openclaw", "docs", "help"], false],
+    ["known leaf command positional help", ["node", "openclaw", "logs", "help"], false],
     [
       "known subcommand leaf positional help",
       ["node", "openclaw", "config", "set", "some.path", "help"],

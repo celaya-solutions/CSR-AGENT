@@ -28,7 +28,7 @@ fi
 unset OPENCLAW_INSTALLER_REEXEC_FILE
 
 # OpenAgent Installer for macOS and Linux
-# Usage: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash
+# Usage: bash scripts/install.sh [options]   (run with --help for options)
 
 BOLD='\033[1m'
 ACCENT='\033[38;2;255;77;77m'       # coral-bright  #ff4d4d
@@ -448,7 +448,7 @@ detect_os_or_die() {
     if [[ "$OS" == "unknown" ]]; then
         ui_error "Unsupported operating system"
         echo "This installer supports macOS and Linux (including WSL)."
-        echo "For Windows, use: iwr -useb https://openclaw.ai/install.ps1 | iex"
+        echo "For Windows, run scripts/install.ps1 from PowerShell instead."
         exit 1
     fi
 
@@ -568,14 +568,14 @@ show_install_plan() {
 }
 
 show_footer_links() {
-    local faq_url="https://docs.openclaw.ai/start/faq"
+    local help_hint="openclaw doctor"
     if [[ -n "$GUM" ]]; then
         local content
-        content="$(printf '%s\n%s' "Need help?" "FAQ: ${faq_url}")"
+        content="$(printf '%s\n%s' "Need help?" "Run: ${help_hint}")"
         ui_panel "$content"
     else
         echo ""
-        echo -e "FAQ: ${INFO}${faq_url}${NC}"
+        echo -e "Need help? Run: ${INFO}${help_hint}${NC}"
     fi
 }
 
@@ -1451,7 +1451,7 @@ print_usage() {
 OpenAgent installer (macOS + Linux)
 
 Usage:
-  curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- [options]
+  bash scripts/install.sh [options]
 
 Options:
   --install-method, --method npm|git   Install via npm (default) or from a git checkout
@@ -1481,11 +1481,11 @@ Environment variables:
   OPENCLAW_VERBOSE=1
   OPENCLAW_NPM_LOGLEVEL=error|warn|notice  Default: error (hide npm deprecation noise)
 Examples:
-  curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash
-  curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --no-onboard
-  curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --no-onboard --verify
-  curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git --version main
-  curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method git --no-onboard
+  bash scripts/install.sh
+  bash scripts/install.sh --no-onboard
+  bash scripts/install.sh --no-onboard --verify
+  bash scripts/install.sh --install-method git --version main
+  bash scripts/install.sh --install-method git --no-onboard
 EOF
 }
 
@@ -1689,8 +1689,7 @@ print_homebrew_admin_fix() {
     echo "  1) Use an Administrator account and re-run the installer."
     echo "  2) Ask an Administrator to grant admin rights, then sign out/in:"
     echo "     sudo dseditgroup -o edit -a ${current_user} -t user admin"
-    echo "Then retry:"
-    echo "  curl -fsSL https://openclaw.ai/install.sh | bash"
+    echo "Then re-run this installer."
 }
 
 install_homebrew() {
@@ -3491,7 +3490,7 @@ set -euo pipefail
 exec ${node_bin_quoted} ${entry_path_quoted} "\$@"
 EOF
     ui_success "OpenAgent wrapper installed to \$HOME/.local/bin/openclaw"
-    ui_info "Manual builds need the checkout-pinned pnpm launcher; installer bootstrap is temporary: https://docs.openclaw.ai/install/installer#source-build-toolchain"
+    ui_info "Manual builds need the checkout-pinned pnpm launcher; the installer's pnpm bootstrap is temporary."
 }
 
 # Install OpenAgent
@@ -4175,7 +4174,7 @@ main() {
         ui_kv "Checkout" "$final_git_dir"
         ui_kv "Wrapper" "$HOME/.local/bin/openclaw"
         ui_kv "Update command" "${user_claw} update"
-        ui_kv "Switch to npm" "curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --install-method npm"
+        ui_kv "Switch to npm" "re-run this installer with --install-method npm"
     fi
 
     if [[ "$config_present" != "true" ]]; then

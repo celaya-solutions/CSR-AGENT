@@ -183,7 +183,7 @@ describe("renderMemoryOverview", () => {
     expect(phaseRows.every((row) => !row.textContent?.includes("next "))).toBe(true);
   });
 
-  it("explains the phases in sweep order and links to the dreaming guide", () => {
+  it("explains the phases in sweep order without an external guide link", () => {
     const container = renderOverview({ kind: "ready", payload: fixturePayload() });
     const phaseRows = [...container.querySelectorAll(".settings-row")].filter((row) =>
       /Light phase|REM phase|Deep phase/.test(row.textContent ?? ""),
@@ -203,12 +203,7 @@ describe("renderMemoryOverview", () => {
     );
     expect(phaseRows.every((row) => row.textContent?.includes("0 3 * * *"))).toBe(true);
 
-    const docs = container.querySelector<HTMLAnchorElement>(
-      'a[href="https://docs.openclaw.ai/concepts/dreaming"]',
-    );
-    expect(docs?.textContent).toContain("Open dreaming guide");
-    expect(docs?.target).toBe("_blank");
-    expect(docs?.rel).toBe("noreferrer noopener");
+    expect(container.querySelector('a[target="_blank"]')).toBeNull();
   });
 
   it("reports an enabled phase without its managed cron as not scheduled", () => {

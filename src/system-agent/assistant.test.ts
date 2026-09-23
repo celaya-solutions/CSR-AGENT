@@ -31,10 +31,7 @@ function overview(overrides: Partial<SystemAgentOverview["tools"]> = {}): System
       source: "local loopback",
       reachable: false,
     },
-    references: {
-      docsUrl: "https://docs.openclaw.ai",
-      sourceUrl: "https://github.com/openclaw/openclaw",
-    },
+    references: {},
   };
 }
 
@@ -124,9 +121,7 @@ describe("OpenAgent assistant", () => {
         defaultModel: "openai/gpt-5.5",
         references: {
           docsPath: "/tmp/openclaw/docs",
-          docsUrl: "https://docs.openclaw.ai",
           sourcePath: "/tmp/openclaw",
-          sourceUrl: "https://github.com/openclaw/openclaw",
         },
       },
     });

@@ -1,6 +1,5 @@
 // Config-only channel status formatter used when the gateway is unreachable.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
 import { theme } from "../../../packages/terminal-core/src/theme.js";
 import {
   hasConfiguredUnavailableCredentialStatus,
@@ -13,6 +12,7 @@ import {
   buildReadOnlySourceChannelAccountSnapshot,
 } from "../../channels/plugins/status.js";
 import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.js";
+import { formatCliCommand } from "../../cli/command-format.js";
 import type { OpenClawConfig } from "../../config/config.js";
 import { listExplicitConfiguredChannelIdsForConfig } from "../../plugins/channel-plugin-ids.js";
 import { resolveMissingOfficialExternalChannelPluginRepairHints } from "../../plugins/official-external-plugin-repair-hints.js";
@@ -135,7 +135,7 @@ export async function formatConfigChannelsStatusLines(
 
   lines.push("");
   lines.push(
-    `Tip: ${formatDocsLink("/cli/status", "status --deep")} adds gateway health probes to status output (requires a reachable gateway).`,
+    `Tip: ${formatCliCommand("openclaw status --deep")} adds gateway health probes to status output (requires a reachable gateway).`,
   );
   return lines;
 }

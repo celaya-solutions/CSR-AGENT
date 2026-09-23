@@ -5,8 +5,6 @@ import {
   type LegacyConfigMigrationSpec,
 } from "../../../config/legacy.shared.js";
 
-const CLI_BACKENDS_PLUGIN_GUIDE = "https://docs.openclaw.ai/plugins/cli-backend-plugins";
-
 export const LEGACY_CONFIG_MIGRATIONS_RUNTIME_CLI_BACKENDS: LegacyConfigMigrationSpec[] = [
   defineLegacyConfigMigration({
     id: "agents.defaults.cliBackends-plugin-registration",
@@ -14,7 +12,7 @@ export const LEGACY_CONFIG_MIGRATIONS_RUNTIME_CLI_BACKENDS: LegacyConfigMigratio
     legacyRules: [
       {
         path: ["agents", "defaults", "cliBackends"],
-        message: `CLI backend adapters now register through plugins; see ${CLI_BACKENDS_PLUGIN_GUIDE}`,
+        message: "CLI backend adapters now register through plugins.",
       },
     ],
     apply: (raw, changes) => {
@@ -26,7 +24,7 @@ export const LEGACY_CONFIG_MIGRATIONS_RUNTIME_CLI_BACKENDS: LegacyConfigMigratio
       // Arbitrary launch policy cannot be safely synthesized into executable plugin code.
       delete defaults.cliBackends;
       changes.push(
-        `Removed agents.defaults.cliBackends; CLI backend adapters now register through plugins (${CLI_BACKENDS_PLUGIN_GUIDE}).`,
+        "Removed agents.defaults.cliBackends; CLI backend adapters now register through plugins.",
       );
     },
   }),
