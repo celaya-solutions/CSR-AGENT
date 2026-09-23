@@ -139,14 +139,9 @@ describe("resolveAnnounceOrigin threaded route targets", () => {
 });
 
 describe("resolveSubagentCompletionOrigin", () => {
-  beforeEach(async () => {
-    const { slackPlugin } = await loadBundledPluginFacade<{ slackPlugin: ChannelPlugin }>({
-      pluginId: "slack",
-      artifactBasename: "api.js",
-    });
+  beforeEach(() => {
     setActivePluginRegistry(
       createTestRegistry([
-        { pluginId: "slack", source: "test", plugin: slackPlugin },
         {
           pluginId: "discord",
           source: "test",
@@ -171,7 +166,7 @@ describe("resolveSubagentCompletionOrigin", () => {
   });
 
   it.each([
-    ...["slack", "folded-chat"].map((channel) => ({
+    ...["folded-chat"].map((channel) => ({
       name: `preserves a thread for case-folded ${channel} bound targets`,
       bindings: [
         {
@@ -192,7 +187,7 @@ describe("resolveSubagentCompletionOrigin", () => {
       expected: {
         channel,
         accountId: "acct-1",
-        to: channel === "slack" ? "channel:c123" : "channel:C123",
+        to: "channel:C123",
         threadId: "reply-1",
       },
       spawnMode: "session" as const,
@@ -502,29 +497,6 @@ describe("completion delivery route fallback", () => {
         scenario,
       ),
     ),
-    ...["same", "different-port", "shorter"].map((destination) => {
-      const opaqueOrigin = {
-        channel: "matrix",
-        to: "room:!example:topic:100",
-        threadId: "$reply",
-      };
-      const to =
-        destination === "same"
-          ? opaqueOrigin.to
-          : destination === "shorter"
-            ? "room:!example"
-            : "room:!example:topic:101";
-      return {
-        name: `an opaque Matrix room with ${destination} identity`,
-        requesterSessionOrigin: opaqueOrigin,
-        directOrigin: opaqueOrigin,
-        completionDirectOrigin: {
-          to,
-        },
-        expected: destination === "same" ? opaqueOrigin : { channel: "matrix", to },
-        expectedChatType: "direct" as const,
-      };
-    }),
     ...[false, true].map((retargeted) => {
       const scopedOrigin = {
         channel: "scoped-chat",

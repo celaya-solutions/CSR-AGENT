@@ -96,7 +96,7 @@ function createDeferredPathSuccessFixture(source: string): string {
     "function Check-Node { return $true }",
     "function Check-ExistingOpenClaw { return $false }",
     "function Add-ToPath { param([string]$Path) }",
-    "function Install-OpenAgent { return $true }",
+    "function Install-OpenClaw { return $true }",
     "function Ensure-OpenClawOnPath { return $false }",
     "$NoOnboard = $true",
     "",
@@ -182,7 +182,7 @@ $script:Scenario = ''
 $script:Extractions = 0
 function Check-ExistingOpenClaw { throw 'unexpected OpenAgent lookup' }
 function Install-Node { throw 'unexpected package-manager install' }
-function Install-OpenAgent { throw 'unexpected OpenAgent install' }
+function Install-OpenClaw { throw 'unexpected OpenAgent install' }
 function Ensure-OpenClawOnPath { throw 'unexpected OpenAgent PATH update' }
 function Add-ToProcessPath { throw 'unexpected process PATH update' }
 function Add-ToUserPath { throw 'unexpected user PATH update' }
@@ -929,7 +929,7 @@ try {
           "function Check-Node { return $true }",
           "function Check-ExistingOpenClaw { return $false }",
           "function Add-ToPath { param([string]$Path) }",
-          "function Install-OpenAgent { Write-Output 'npm stdout'; return $true }",
+          "function Install-OpenClaw { Write-Output 'npm stdout'; return $true }",
           "function Ensure-OpenClawOnPath { return $true }",
           "function Refresh-GatewayServiceIfLoaded { }",
           "function Invoke-OpenClawCommand { return 'OpenAgent test-version' }",
@@ -950,7 +950,7 @@ try {
           "function Check-Node { return $true }",
           "function Check-ExistingOpenClaw { return $false }",
           "function Add-ToPath { param([string]$Path) }",
-          "function Install-OpenAgent {",
+          "function Install-OpenClaw {",
           "  Write-Output 'native chatter'",
           "  return $true",
           "}",
@@ -1620,7 +1620,7 @@ try {
   });
 
   it("runs npm install through the resolved command with quiet CI defaults", () => {
-    const npmInstallBody = extractFunctionBody(source, "Install-OpenAgent");
+    const npmInstallBody = extractFunctionBody(source, "Install-OpenClaw");
     expect(npmInstallBody).toContain(
       "$npmOutput = Invoke-NpmCommand -CommandPath $npmCommand -WorkingDirectory $npmCwd -Arguments",
     );
@@ -1651,7 +1651,7 @@ try {
 
   it("does not force npm or pnpm lifecycle scripts through cmd.exe", () => {
     const ensurePnpmBody = extractFunctionBody(source, "Ensure-Pnpm");
-    const npmInstallBody = extractFunctionBody(source, "Install-OpenAgent");
+    const npmInstallBody = extractFunctionBody(source, "Install-OpenClaw");
     const gitInstallBody = extractFunctionBody(source, "Install-OpenClawFromGit");
 
     expect(ensurePnpmBody).not.toContain("NPM_CONFIG_SCRIPT_SHELL");
@@ -1731,7 +1731,7 @@ try {
   });
 
   it("rejects OpenAgent GitHub source targets for npm installs", () => {
-    const npmInstallBody = extractFunctionBody(source, "Install-OpenAgent");
+    const npmInstallBody = extractFunctionBody(source, "Install-OpenClaw");
     const sourceTargetBody = extractFunctionBody(source, "Test-OpenClawSourcePackageInstallSpec");
     expect(sourceTargetBody).toContain('$normalizedTag -eq "main"');
     expect(sourceTargetBody).toContain("^github:openclaw/openclaw");
@@ -1747,7 +1747,7 @@ try {
   });
 
   it("preserves the min-release-age probe status before raw npmrc detection", () => {
-    const npmInstallBody = extractFunctionBody(source, "Install-OpenAgent");
+    const npmInstallBody = extractFunctionBody(source, "Install-OpenClaw");
     const probeStatusCapture = npmInstallBody.indexOf("$minReleaseAgeStatus = $LASTEXITCODE");
     const rawKeyProbe = npmInstallBody.indexOf("Test-NpmConfigRawKey -Key");
     expect(probeStatusCapture).toBeGreaterThan(-1);
@@ -1928,7 +1928,7 @@ try {
     );
     expect(mainBody).toContain("$gitInstallResults = @(Install-OpenClawFromGit");
     expect(mainBody).toContain("Test-BooleanSuccessResult -Results $gitInstallResults");
-    expect(mainBody).toContain("$npmInstallResults = @(Install-OpenAgent)");
+    expect(mainBody).toContain("$npmInstallResults = @(Install-OpenClaw)");
     expect(mainBody).toContain("Test-BooleanSuccessResult -Results $npmInstallResults");
     expect(gitInstallBody).toContain("Push-Location -LiteralPath $RepoDir");
     expect(gitInstallBody).toContain('$sourceInstallArgs = @("install")');
@@ -2028,7 +2028,7 @@ try {
             "  if ($Arguments[0] -eq 'config' -and $Arguments[2] -eq 'prefix') { Write-Output $env:USERPROFILE; $global:LASTEXITCODE = 0; return }",
             "  throw 'unexpected npm command'",
             "}",
-            "function Install-OpenAgent { return $true }",
+            "function Install-OpenClaw { return $true }",
             "function Ensure-OpenClawOnPath { return $true }",
             "function Add-ToUserPath { param([string]$Path) }",
             "function Get-OpenClawCommandPath { return 'cmd.exe' }",

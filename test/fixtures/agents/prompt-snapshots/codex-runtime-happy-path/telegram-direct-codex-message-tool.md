@@ -234,7 +234,7 @@ This is the deterministic model-bound layer stack OpenAgent can snapshot for the
 ```json
 {
   "additionalContext": {
-    "chars": 882,
+    "chars": 883,
     "roughTokens": 221
   },
   "codexCollaborationModeDeveloperInstructions": {
@@ -258,24 +258,24 @@ This is the deterministic model-bound layer stack OpenAgent can snapshot for the
     "roughTokens": 14803
   },
   "openClawDeveloperInstructions": {
-    "chars": 2629,
-    "roughTokens": 658
+    "chars": 2638,
+    "roughTokens": 660
   },
   "openClawParentLocalInstructions": {
-    "chars": 507,
-    "roughTokens": 127
+    "chars": 509,
+    "roughTokens": 128
   },
   "totalTextOnly": {
-    "chars": 26463,
-    "roughTokens": 6616
+    "chars": 26479,
+    "roughTokens": 6620
   },
   "totalWithDynamicToolsJson": {
-    "chars": 85676,
-    "roughTokens": 21419
+    "chars": 85692,
+    "roughTokens": 21423
   },
   "userInputText": {
-    "chars": 793,
-    "roughTokens": 199
+    "chars": 797,
+    "roughTokens": 200
   }
 }
 ```

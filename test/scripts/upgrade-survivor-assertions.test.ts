@@ -855,6 +855,9 @@ function assertCompanionPluginRecords(
         resolvedVersion: version,
         integrity: npmIntegrity,
         installPath: codexInstallPath,
+        // No official catalog ships with this build, so Codex is an ordinary
+        // npm companion and carries its own recorded consent.
+        ...(capabilityConsentSupported ? consent(npmIntegrity) : {}),
         ...(recoveryPluginIds
           ? {
               sourcePath: join(root, "unverified-plugin.tgz"),

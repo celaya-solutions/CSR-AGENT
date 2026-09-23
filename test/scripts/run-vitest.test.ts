@@ -239,18 +239,18 @@ registerHooks({resolve(specifier, context, nextResolve) {
   });
 
   it("isolates mixed explicit directory targets across Vitest projects", () => {
-    expect(resolveImplicitVitestArgs(["extensions/canvas", "src/node-host"])).toEqual([
-      "extensions/canvas",
+    expect(resolveImplicitVitestArgs(["extensions/browser", "src/node-host"])).toEqual([
+      "extensions/browser",
       "src/node-host",
       "--isolate",
     ]);
     expect(resolveImplicitVitestArgs(["src/node-host"])).toEqual(["src/node-host"]);
     expect(
-      resolveImplicitVitestArgs(["extensions/canvas", "src/node-host", "--no-isolate"]),
-    ).toEqual(["extensions/canvas", "src/node-host", "--no-isolate"]);
+      resolveImplicitVitestArgs(["extensions/browser", "src/node-host", "--no-isolate"]),
+    ).toEqual(["extensions/browser", "src/node-host", "--no-isolate"]);
     expect(
-      resolveImplicitVitestArgs(["extensions/canvas", "src/node-host", "--", "--no-isolate"]),
-    ).toEqual(["extensions/canvas", "src/node-host", "--isolate", "--", "--no-isolate"]);
+      resolveImplicitVitestArgs(["extensions/browser", "src/node-host", "--", "--no-isolate"]),
+    ).toEqual(["extensions/browser", "src/node-host", "--isolate", "--", "--no-isolate"]);
   });
 
   it("bounds config-only Gateway server runs in fresh worker processes", () => {

@@ -401,21 +401,6 @@ An opt-in live channel command-surface smoke checks `/openclaw status` plus a pe
 pnpm test:live:system-agent-rescue-channel
 ```
 
-Inference-gated packaged one-shot setup is covered by:
-
-```bash
-pnpm test:docker:system-agent-first-run
-```
-
-That packaged-CLI lane starts with an empty state dir and proves OpenAgent
-fails closed without inference. It then tests and activates fake Claude through
-the packaged activation module. Only afterward does a fuzzy request reach the
-planner and resolve to typed setup, followed by one-shot commands that create an
-additional agent, configure Discord through a plugin enablement plus token
-SecretRef, validate config, and check the audit log. This lane is supporting
-gate/operation evidence; it does not exercise interactive onboarding or the
-OpenAgent agent/tool/approval conversation.
-
 ## Related
 
 - [CLI reference](/cli)

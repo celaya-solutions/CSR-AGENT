@@ -14,7 +14,7 @@ const steps = [
   ...expectDefined(workflow.jobs["network-runtime-boundary"], "network CodeQL job").steps,
 ];
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
-const qaOwner = "extensions/qa-lab/src/gateway-child-setup.ts";
+const netOwner = "src/infra/ssh-tunnel.ts";
 const codexTransport = "extensions/codex/src/app-server/transport-websocket.ts";
 
 function runStep(name: string, root: string, env: Record<string, string>) {
@@ -96,17 +96,17 @@ describe("network CodeQL PR routing", () => {
   });
 
   it.each([
-    ["ordinary network change", qaOwner, "+const ready = true;", false],
+    ["ordinary network change", netOwner, "+const ready = true;", false],
     ["unrelated source", "src/example.ts", '+import net from "node:net";', false],
     [
       "test-only import",
-      "extensions/qa-lab/src/example.e2e.test.tsx",
+      "src/proxy-capture/example.e2e.test.tsx",
       '+import net from "node:net";',
       false,
     ],
-    ["removed import", qaOwner, '-import net from "node:net";', false],
-    ["net import", qaOwner, '+import net from "node:net";', true],
-    ["tls require", "extensions/irc/src/client.ts", '+const tls = require("tls");', true],
+    ["removed import", netOwner, '-import net from "node:net";', false],
+    ["net import", netOwner, '+import net from "node:net";', true],
+    ["tls require", "src/infra/gateway-lock.ts", '+const tls = require("tls");', true],
     ["http2 import", "src/infra/push-apns-http2.ts", '+import http2 from "node:http2";', true],
     ["raw connection", "src/infra/net/client.ts", "+net.createConnection(options);", true],
     ["socket constructor", "src/infra/jsonl-socket.ts", "+new Socket();", true],
@@ -137,10 +137,10 @@ describe("network CodeQL PR routing", () => {
 
   it.each([undefined, null])("routes unavailable patches (%s) by source scope", (patch) => {
     for (const [filename, fullCodeql] of [
-      [qaOwner, true],
+      [netOwner, true],
       ["packages/net-policy/src/client.ts", true],
       ["src/infra/net/client.ts", true],
-      ["extensions/qa-lab/src/example.e2e.test.tsx", false],
+      ["src/proxy-capture/example.e2e.test.tsx", false],
       ["src/infra/net/client.test.ts", false],
       ["src/example.ts", false],
     ] as const) {
@@ -151,7 +151,7 @@ describe("network CodeQL PR routing", () => {
   });
 
   it.each(["network-diff-scan", "detect"])("consumes one paginated snapshot in %s", (step) => {
-    const response = `${JSON.stringify([{ filename: "src/example.ts", patch: "+const ok = true;" }])}\n${JSON.stringify([{ filename: qaOwner, patch: null }])}`;
+    const response = `${JSON.stringify([{ filename: "src/example.ts", patch: "+const ok = true;" }])}\n${JSON.stringify([{ filename: netOwner, patch: null }])}`;
     const { result, output, calls } = scan([], 0, response, step);
     expect(result.status, result.stderr).toBe(0);
     expect(calls).toBe(1);
@@ -198,7 +198,7 @@ describe("network CodeQL PR routing", () => {
     "fails closed when GitHub metadata fails in %s",
     (step) => {
       const { result, output } = scan(
-        [{ filename: qaOwner, patch: "+const ready = true;" }],
+        [{ filename: netOwner, patch: "+const ready = true;" }],
         1,
         undefined,
         step,

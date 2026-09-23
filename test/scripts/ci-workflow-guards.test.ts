@@ -65,7 +65,6 @@ const UPLOAD_ARTIFACT_V7 = "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64
 const DOWNLOAD_ARTIFACT_V8 = "actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c";
 const CREATE_GITHUB_APP_TOKEN_V3 =
   "actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1";
-const MANTIS_GITHUB_APP_CLIENT_ID = "Iv23liPJCozR0uHm6P7G";
 const OPENGREP_PR_DIFF_WORKFLOW = ".github/workflows/opengrep-precise.yml";
 const OPENGREP_FULL_WORKFLOW = ".github/workflows/opengrep-precise-full.yml";
 const CONTROL_UI_LOCALE_REFRESH_WORKFLOW = ".github/workflows/control-ui-locale-refresh.yml";
@@ -410,7 +409,6 @@ function runCiManifestFixture(options: {
   nativeI18nCapabilities?: boolean;
   macosNodeParts?: boolean;
   openClawKitTests?: boolean;
-  protocolCoverage?: boolean;
   packageVersion?: string;
   qaSmokePlan?: boolean;
   formatCheck?: boolean;
@@ -623,9 +621,6 @@ function runCiManifestFixture(options: {
       ]) {
         writeFileSync(path.join(root, "scripts", name), "#!/bin/sh\n");
       }
-    }
-    if (options.protocolCoverage ?? options.bundledPlanner) {
-      writeFileSync(path.join(root, "scripts", "check-protocol-event-coverage.mjs"), "");
     }
     const targetWorkflow = path.join(root, ".github", "workflows", "ci.yml");
     mkdirSync(path.dirname(targetWorkflow), { recursive: true });
@@ -6727,10 +6722,6 @@ server.listen(0, "127.0.0.1", () => {
       steps.find((step) => step.name === "Build CI manifest"),
       "manifest builder",
     );
-    const checkProtocolCoverage = expectDefined(
-      steps.find((step) => step.name === "Check mobile protocol event coverage"),
-      "protocol coverage owner",
-    );
     const workflowSha = "a".repeat(40);
     const otherSha = "b".repeat(40);
     const cases = [
@@ -6793,17 +6784,6 @@ server.listen(0, "127.0.0.1", () => {
           ? ["--import", "tsx", "--input-type=module"]
           : ["--input-type=module"],
       );
-      expect(
-        runPreflightNodeInvocation(
-          expectDefined(checkProtocolCoverage.run, "protocol coverage script"),
-          invocationOptions(checkProtocolCoverage),
-        ),
-        label,
-      ).toEqual([
-        usesCompatibilityTooling
-          ? "scripts/check-protocol-event-coverage.mjs"
-          : "scripts/check-protocol-event-coverage.mts",
-      ]);
     }
   });
 
@@ -7329,10 +7309,7 @@ server.listen(0, "127.0.0.1", () => {
   );
 
   it("runs temp path guardrails in the hosted guard shard", () => {
-    const requiredScripts = [
-      "check:doctor-deprecation-registry",
-      "check:coercion-helpers",
-    ];
+    const requiredScripts = ["check:doctor-deprecation-registry", "check:coercion-helpers"];
     const current = runCheckShardFixture({
       frozenTarget: false,
       scripts: [...requiredScripts, "check:temp-path-guardrails"],
@@ -7799,23 +7776,6 @@ server.listen(0, "127.0.0.1", () => {
       ).toBeLessThanOrEqual(256);
       inspectImports(file, readFileSync(file, "utf8"));
     }
-  });
-
-  it("runs mobile protocol coverage for Node and native-only changes", () => {
-    const workflow = readCiWorkflow();
-    const coverageStep = workflow.jobs.preflight.steps.find(
-      (step: WorkflowStep) => step.name === "Check mobile protocol event coverage",
-    );
-    const checkShardRun = workflow.jobs["check-shard"].steps.find(
-      (step: WorkflowStep) => step.name === "Run check shard",
-    ).run;
-
-    // Current-source preflight runs the .mts natively; dispatches selecting
-    // another revision retain that target's tsx shim.
-    expect(coverageStep.run).toContain("node scripts/check-protocol-event-coverage.mts");
-    expect(coverageStep.run).toContain("node scripts/check-protocol-event-coverage.mjs");
-    expect(coverageStep.if).toBe("steps.manifest.outputs.run_protocol_event_coverage == 'true'");
-    expect(checkShardRun).not.toContain("check:protocol-coverage");
   });
 
   it("keeps type-aware oxlint within hosted fork-runner resources", () => {
@@ -8616,12 +8576,7 @@ server.listen(0, "127.0.0.1", () => {
           .filter(([key, value]) => key.startsWith("run_") && value === "true")
           .map(([key]) => key)
           .toSorted(),
-      ).toEqual([
-        "run_checks_fast_core",
-        "run_format_check",
-        "run_node",
-        "run_protocol_event_coverage",
-      ]);
+      ).toEqual(["run_checks_fast_core", "run_format_check", "run_node"]);
       for (const matrix of [
         "checks_node_core_nondist_matrix",
         "plugin_contracts_matrix",
@@ -11429,113 +11384,7 @@ server.listen(0, "127.0.0.1", () => {
     },
   );
 
-  it.skipIf(process.platform !== "linux")(
-    "classifies QA timeouts only from isolated supervisor diagnostics",
-    () => {
-      const scenarios = [
-        {
-          exitCode: 124,
-          mode: "natural-124",
-          supervisorSignals: [],
-          timedOut: false,
-          timeoutOutcome: "none",
-        },
-        {
-          exitCode: 137,
-          mode: "self-kill",
-          supervisorSignals: [],
-          timedOut: false,
-          timeoutOutcome: "none",
-        },
-        {
-          exitCode: 124,
-          mode: "term",
-          supervisorSignals: ["TERM"],
-          timedOut: true,
-          timeoutOutcome: "term",
-        },
-        {
-          exitCode: 137,
-          mode: "kill",
-          supervisorSignals: ["TERM", "KILL"],
-          timedOut: true,
-          timeoutOutcome: "kill",
-        },
-      ] as const;
-
-      for (const scenario of scenarios) {
-        const result = runQaProfileTimeoutFixture(scenario.mode);
-        expect(result.commandStatus, `${result.stdout}\n${result.stderr}`).toBe(0);
-        expect(result.status).toMatchObject({
-          exitCode: scenario.exitCode,
-          target: { protocolBaseSha: "b".repeat(40) },
-          timedOut: scenario.timedOut,
-          timeoutOutcome: scenario.timeoutOutcome,
-        });
-        expect(result.githubOutput).toContain(`qa_exit_code=${scenario.exitCode}`);
-        expect(result.stderr).toContain(`child-stderr-sentinel:${scenario.mode}`);
-        expect(result.stderr).toContain("child-locale:POSIX");
-        expect(result.timeoutVersion).not.toBe("");
-
-        const supervisorSignals: readonly ("TERM" | "KILL")[] = scenario.supervisorSignals;
-        for (const signal of ["TERM", "KILL"] as const) {
-          const diagnostic = `timeout: sending signal ${signal} to command 'env'`;
-          if (supervisorSignals.includes(signal)) {
-            expect(result.timeoutSupervisorLog).toContain(diagnostic);
-          } else {
-            expect(result.timeoutSupervisorLog).not.toContain(diagnostic);
-          }
-        }
-
-        if (scenario.mode === "natural-124") {
-          expect(result.stderr).toContain(
-            "timeout: sending signal KILL to command 'spoofed-child'",
-          );
-          expect(result.timeoutSupervisorLog).not.toContain("spoofed-child");
-        }
-        if (scenario.timeoutOutcome === "term") {
-          expect(result.stdout).toContain(
-            "::warning::QA profile 'all' timed out after 0.4 seconds and was terminated",
-          );
-        } else if (scenario.timeoutOutcome === "kill") {
-          expect(result.stdout).toContain(
-            "::warning::QA profile 'all' timed out after 0.4 seconds and required SIGKILL after the 0.05-second grace period",
-          );
-        } else {
-          expect(result.stdout).not.toContain("::warning::QA profile");
-        }
-      }
-    },
-  );
-
   // Replay the Ubuntu workflow shell only where its Bash 4 and GNU install contract exists.
-  it.skipIf(process.platform !== "linux")(
-    "copies only regular allowlisted maturity publication files",
-    () => {
-      const valid = runMaturityArtifactCopyScenario();
-      expect(valid.status).toBe(0);
-      expect(valid.copied).toEqual(
-        MATURITY_GENERATED_PR_PATHS.map((generatedPath) => `new ${generatedPath}\n`),
-      );
-
-      const extra = runMaturityArtifactCopyScenario({ extraFile: true });
-      expect(extra.status).not.toBe(0);
-      expect(extra.output).toContain("Generated PR artifact must contain exactly 3 files.");
-
-      const sourceSymlink = runMaturityArtifactCopyScenario({ sourceSymlink: true });
-      expect(sourceSymlink.status).not.toBe(0);
-      expect(sourceSymlink.output).toContain(
-        "Generated PR artifact path must be a regular file: qa/maturity-scores.yaml",
-      );
-
-      const destinationSymlink = runMaturityArtifactCopyScenario({ destinationSymlink: true });
-      expect(destinationSymlink.status).not.toBe(0);
-      expect(destinationSymlink.output).toContain(
-        "Selected worktree destination must be a regular file: qa/maturity-scores.yaml",
-      );
-      expect(destinationSymlink.escaped).toBe("outside\n");
-    },
-  );
 
   it("keeps workflow guards in fast CI-routing checks", () => {
     const workflow = readCiWorkflow();

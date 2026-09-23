@@ -319,7 +319,7 @@ export function workerProbe(
           expect(archiveUrl.href.endsWith(sourceMode ? '.ts' : '.js')).toBe(true);
           if (!sourceMode) expect(fileURLToPath(archiveUrl).startsWith(fileURLToPath(new URL('../', generation)))).toBe(true);
           expect(tuiUrls).toHaveLength(4);
-          expect(setupUrls).toHaveLength(2);
+          expect(setupUrls).toHaveLength(1);
           for (const url of [...tuiUrls,...setupUrls]) {
             expect(url.endsWith(sourceMode ? '.ts' : '.js')).toBe(true);
             if (!sourceMode) expect(fileURLToPath(url).startsWith(fileURLToPath(new URL('../', generation)))).toBe(true);

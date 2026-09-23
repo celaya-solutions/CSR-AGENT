@@ -408,7 +408,8 @@ export function resolveLiveShardPreparation(files: string[]): LiveShardPreparati
   // Build before Vitest; direct CLI launches cannot bootstrap a cold checkout.
   if (
     files.some(isSourceGatewayLiveTest) ||
-    files.some((file) => file.startsWith("test/e2e/qa-lab/runtime/")) ||
+    // Root live tests start Gateways or copy dist (gateway-widget-restart, agent-exec-code-mode).
+    files.some((file) => file.startsWith("test/")) ||
     files.includes("src/infra/heartbeat-runner.live.test.ts") ||
     files.includes("src/agents/tools/image-tool.providers.live.test.ts") ||
     files.includes("extensions/openai/openai.live.test.ts")

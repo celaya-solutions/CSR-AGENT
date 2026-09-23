@@ -15,7 +15,7 @@ const providers = [
 ].flatMap((value) => value.split(/[\s,]+/u).map((ref) => ref.split("/")[0]));
 
 // Gateway/CLI fixtures also require these plugin artifacts.
-const selection = `matrix,acpx,anthropic,${process.argv[3] ?? ""}`;
+const selection = `acpx,anthropic,${process.argv[3] ?? ""}`;
 const selected = resolveDockerPluginSelection({
   extensionsRoot: path.join(process.argv[2] ?? process.cwd(), "extensions"),
   selection,

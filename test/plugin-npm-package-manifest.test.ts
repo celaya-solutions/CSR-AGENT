@@ -2,7 +2,6 @@
 import { execFile, spawnSync, type SpawnSyncOptions } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
-  chmodSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -403,14 +402,6 @@ function writePatchedRuntimeFixture(bundling = "default") {
 }
 
 describe("plugin npm package manifest staging", () => {
-  it("keeps msteams runtime dependencies registry-installed", () => {
-    const packageJson = JSON.parse(
-      readFileSync(join(process.cwd(), "extensions", "msteams", "package.json"), "utf8"),
-    ) as { openclaw?: { release?: { bundleRuntimeDependencies?: boolean } } };
-
-    expect(packageJson.openclaw?.release?.bundleRuntimeDependencies).toBe(false);
-  });
-
   it("wraps Windows npm.cmd staging through cmd.exe without shell mode", () => {
     const nodeDir = "C:\\Program Files\\nodejs";
     const npmCmdPath = win32.resolve(nodeDir, "npm.cmd");
@@ -1066,7 +1057,6 @@ process.stdout.write("PACKED_PLUGIN_CHANNEL_STATE_OK\\n");
     "isolated-short",
     "partial",
     "all",
-    "clawhub",
     "optional-direct",
     "nested-other",
     "nested-same",
@@ -1140,88 +1130,45 @@ process.stdout.write("PACKED_PLUGIN_CHANNEL_STATE_OK\\n");
       npm_config_cache: join(repoDir, "npm-cache"),
     };
     try {
-      let packResult: NpmPackResult;
-      if (bundling === "clawhub") {
-        const cli = join(repoDir, "clawhub.cjs");
-        const metadata = join(consumerDir, "pack-metadata.json");
-        writeFileText(
-          cli,
-          `#!${process.execPath}
-const { execFileSync } = require("node:child_process");
-const fs = require("node:fs");
-const path = require("node:path");
-const args = process.argv.slice(2);
-const source = args[args.indexOf("pack") + 1];
-const destination = args[args.indexOf("--pack-destination") + 1];
-const stdout = execFileSync("npm", ["pack", source, "--json", "--ignore-scripts", "--pack-destination", destination], { encoding: "utf8" });
-fs.writeFileSync(${JSON.stringify(metadata)}, stdout);
-const output = JSON.parse(stdout);
-const [packed] = Array.isArray(output) ? output : Object.values(output);
-console.log(JSON.stringify({ path: path.join(destination, packed.filename) }));
-`,
-        );
-        chmodSync(cli, 0o700);
-        const env: NodeJS.ProcessEnv = {
-          ...registryEnv,
-          SOURCE_COMMIT: "1".repeat(40),
-          SOURCE_REF: "fixture",
-          OPENCLAW_PLUGIN_NPM_RUNTIME_BUILD: "0",
-          OPENCLAW_CLAWHUB_CLI: cli,
-          OPENCLAW_CLAWHUB_PACK_OUTPUT_DIR: consumerDir,
-        };
-        delete env.OPENCLAW_NPM_PACKAGE_LOCK_REPO_ROOT;
-        await execFileAsync(
-          "bash",
-          [
-            fileURLToPath(new URL("../scripts/plugin-clawhub-publish.sh", import.meta.url)),
-            "--pack",
-          ],
-          { cwd: repoDir, encoding: "utf8", env },
-        );
-        packResult = parseNpmPackResult(readFileSync(metadata, "utf8"));
-      } else {
-        const packing = execFileAsync(
-          process.execPath,
-          [
-            "--import",
-            tsxImport,
-            fileURLToPath(
-              new URL("../scripts/lib/plugin-npm-package-manifest.mts", import.meta.url),
-            ),
-            "--run",
-            packageDir,
-            "--",
-            ...(["range-policy", "locked-optional"].includes(bundling)
-              ? [
-                  process.execPath,
-                  "--input-type=module",
-                  "-e",
-                  'const m = await import("./dist/index.js"); console.log(JSON.stringify([m.default, m.sibling]));',
-                ]
-              : ["npm", "pack", "--json", "--ignore-scripts", "--pack-destination", consumerDir]),
-          ],
-          {
-            cwd: repoDir,
-            encoding: "utf8",
-            env: {
-              ...registryEnv,
-              OPENCLAW_NPM_PACKAGE_LOCK_REPO_ROOT: repoDir,
-              OPENCLAW_PLUGIN_NPM_BUNDLE_DEPENDENCIES:
-                bundling === "all" || bundling.startsWith("nested-") ? "1" : "0",
-            },
+      const packing = execFileAsync(
+        process.execPath,
+        [
+          "--import",
+          tsxImport,
+          fileURLToPath(new URL("../scripts/lib/plugin-npm-package-manifest.mts", import.meta.url)),
+          "--run",
+          packageDir,
+          "--",
+          ...(["range-policy", "locked-optional"].includes(bundling)
+            ? [
+                process.execPath,
+                "--input-type=module",
+                "-e",
+                'const m = await import("./dist/index.js"); console.log(JSON.stringify([m.default, m.sibling]));',
+              ]
+            : ["npm", "pack", "--json", "--ignore-scripts", "--pack-destination", consumerDir]),
+        ],
+        {
+          cwd: repoDir,
+          encoding: "utf8",
+          env: {
+            ...registryEnv,
+            OPENCLAW_NPM_PACKAGE_LOCK_REPO_ROOT: repoDir,
+            OPENCLAW_PLUGIN_NPM_BUNDLE_DEPENDENCIES:
+              bundling === "all" || bundling.startsWith("nested-") ? "1" : "0",
           },
-        );
-        if (bundling === "skipped-optional") {
-          await expect(packing).rejects.toThrow("patched runtime dependency was not installed");
-          return;
-        }
-        const packed = await packing;
-        if (["range-policy", "locked-optional"].includes(bundling)) {
-          expect(JSON.parse(packed.stdout)).toEqual([2, 3]);
-          return;
-        }
-        packResult = parseNpmPackResult(packed.stdout);
+        },
+      );
+      if (bundling === "skipped-optional") {
+        await expect(packing).rejects.toThrow("patched runtime dependency was not installed");
+        return;
       }
+      const packed = await packing;
+      if (["range-policy", "locked-optional"].includes(bundling)) {
+        expect(JSON.parse(packed.stdout)).toEqual([2, 3]);
+        return;
+      }
+      const packResult = parseNpmPackResult(packed.stdout);
       const extracted = spawnSync(
         "tar",
         ["-xzf", join(consumerDir, packResult.filename), "-C", consumerDir],

@@ -222,6 +222,9 @@ repair_fixture_plugin_consent
       OPENCLAW_UPGRADE_SURVIVOR_STATE_HOME_ROOT: accountHome,
       OPENCLAW_UPGRADE_SURVIVOR_SUMMARY_JSON: path.join(root, "artifacts", "summary.json"),
       OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_DIR: "",
+      // The test environment configures a placeholder registry; this bootstrap
+      // proof runs without one, so the ClawHub request audit stays off.
+      OPENCLAW_CLAWHUB_URL: "",
       OPENCLAW_GATEWAY_TOKEN: "fixture-override-must-be-cleared",
       OPENCLAW_GATEWAY_PASSWORD: "fixture-override-must-be-cleared",
       FIXTURE_ROOT: root,

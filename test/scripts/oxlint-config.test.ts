@@ -401,8 +401,6 @@ describe("oxlint config", () => {
       ".agents/skills/autoreview/tests/fixtures/**",
       "test/fixtures/oxlint-boundary-guards/**",
       "**/a2ui.bundle.js",
-      "extensions/diffs/assets/viewer-runtime.js",
-      "extensions/diffs-language-pack/assets/viewer-runtime.js",
       "node_modules/",
       "patches/",
       "pnpm-lock.yaml",

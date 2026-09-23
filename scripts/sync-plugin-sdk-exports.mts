@@ -140,11 +140,7 @@ function syncFacadePackageExports(facadeSubpaths: string[]) {
   writeOrCheckJson("packages/plugin-sdk/package.json", facadePackageJson);
 }
 
-function syncPrivateDeclarationAliases(
-  relativePath: string,
-  prefix: string,
-  omitted: readonly string[] = [],
-) {
+function syncPrivateDeclarationAliases(relativePath: string, prefix: string) {
   const config: { compilerOptions: { paths: Record<string, string[]> } } = JSON.parse(
     fs.readFileSync(path.join(repoRoot, relativePath), "utf8"),
   );
@@ -166,12 +162,7 @@ function syncPrivateDeclarationAliases(
     }
   }
   for (const entry of privateEntries) {
-    const key = `openclaw/plugin-sdk/${entry}`;
-    if (omitted.includes(entry)) {
-      delete nextPaths[key];
-    } else {
-      nextPaths[key] = [`${declarationRoot}${entry}.d.ts`];
-    }
+    nextPaths[`openclaw/plugin-sdk/${entry}`] = [`${declarationRoot}${entry}.d.ts`];
   }
   if (JSON.stringify(currentPaths) === JSON.stringify(nextPaths)) {
     return;
@@ -187,12 +178,6 @@ if (facadeSubpaths === null) {
 syncRootPackageMetadata();
 syncFacadePackageExports(facadeSubpaths);
 syncPrivateDeclarationAliases("extensions/tsconfig.package-boundary.paths.json", "../");
-// XAI's independent package boundary contract intentionally excludes these two
-// private aliases; its remaining custom paths are not registration projections.
-syncPrivateDeclarationAliases("extensions/xai/tsconfig.json", "../../", [
-  "channel-secret-owner-runtime",
-  "channel-secret-tts-runtime",
-]);
 if (failed) {
   process.exit(1);
 }

@@ -15,12 +15,6 @@ const WORKFLOWS: {
   convertToDraft?: true;
 }[] = [
   {
-  },
-  {
-  },
-  {
-  },
-  {
     file: ".github/workflows/opengrep-precise.yml",
     prGroup: "opengrep-pr-diff-OpenGrep — PR Diff-123",
     manual: { mode: "absent" },

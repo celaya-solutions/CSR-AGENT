@@ -455,19 +455,11 @@ describe("external plugin local dist build", () => {
 
     expect(packageDirs).toEqual(
       expect.arrayContaining([
-        "extensions/diffs",
-        "extensions/diffs-language-pack",
-        "extensions/discord",
-        "extensions/feishu",
-        "extensions/matrix",
-        "extensions/slack",
-        "extensions/sms",
-        "extensions/mxc",
-        "extensions/whatsapp",
+        "extensions/acpx",
         "extensions/codex",
-        "extensions/diagnostics-otel",
-        "extensions/msteams",
-        "extensions/visitor-access",
+        "extensions/discord",
+        "extensions/duckduckgo",
+        "extensions/llama-cpp",
       ]),
     );
     expect(
@@ -480,25 +472,17 @@ describe("external plugin local dist build", () => {
       listExternalPluginLocalDistPackageDirs({
         env: {
           ...process.env,
-          [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "slack,whatsapp",
+          [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "codex,discord",
         },
       }),
     ).toEqual([]);
   });
 
-  it("retains released optional outputs and respects private QA and bounded selectors", () => {
+  it("retains released optional outputs and respects bounded selectors", () => {
     const env = { OPENCLAW_INCLUDE_OPTIONAL_BUNDLED: "0" };
     const selected = collectSourceCheckoutPluginBuildEntries({ env });
-    expect(selected.some(({ id }) => id === "qa-lab")).toBe(false);
-    expect(selected.find(({ id }) => id === "msteams")).toMatchObject({
+    expect(selected.find(({ id }) => id === "discord")).toMatchObject({
       isolated: true,
-      runtimeExtension: ".cjs",
-    });
-    const privateQa = collectSourceCheckoutPluginBuildEntries({
-      env: { ...env, OPENCLAW_BUILD_PRIVATE_QA: "1" },
-    });
-    expect(privateQa.find(({ id }) => id === "qa-lab")).toMatchObject({
-      isolated: false,
       runtimeExtension: ".js",
     });
     expect(
@@ -635,7 +619,7 @@ describe("external plugin local dist build", () => {
       buildExternalPluginLocalDist({
         env: {
           ...process.env,
-          [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "slack,whatsapp",
+          [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "codex,discord",
         },
         logLevel: "silent",
       }),

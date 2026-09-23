@@ -671,7 +671,7 @@ ${script}`,
     expect(script).toContain("Select-String -Path $script:gatewayLogPath -SimpleMatch");
     expect(script).toContain("$script:gatewayRestartCount = 1");
     expect(script).not.toContain("$attempt -eq 4");
-    expect(script).not.toContain("Invoke-OpenAgent gateway restart");
+    expect(script).not.toContain("Invoke-OpenClaw gateway restart");
   });
 
   it("keeps POSIX provider secrets out of executable command lines", () => {
@@ -1496,13 +1496,13 @@ exit 7
       updateTarget: "2026.5.3-beta.2",
     });
 
-    const updateIndex = script.indexOf("Invoke-OpenAgent update --tag");
+    const updateIndex = script.indexOf("Invoke-OpenClaw update --tag");
     const scopedIndex = script.indexOf(
       "Invoke-WithScopedEnv @{ OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS",
     );
-    const versionIndex = script.indexOf("Invoke-OpenAgent --version", scopedIndex);
+    const versionIndex = script.indexOf("Invoke-OpenClaw --version", scopedIndex);
     const startIndex = script.indexOf("\nStart-OpenClawGateway\n", updateIndex);
-    const agentIndex = script.indexOf("Invoke-OpenAgent agent --local");
+    const agentIndex = script.indexOf("Invoke-OpenClaw agent --local");
 
     expect(updateIndex).toBeGreaterThanOrEqual(0);
     expect(scopedIndex).toBeGreaterThanOrEqual(0);

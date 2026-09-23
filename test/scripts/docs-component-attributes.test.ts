@@ -1,8 +1,11 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { markerPrefix, parseAttrs, parseDocsDocument } from "../../scripts/lib/docs-markdown.mjs";
+import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
+
+const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 
 function componentPayload(source: string, kind: string) {
   const document = parseDocsDocument(source);
@@ -59,8 +62,13 @@ describe("docs component attribute boundaries", () => {
   });
 
   it("expands snippets with quoted angle brackets before the file attribute", () => {
-    const root = path.resolve(import.meta.dirname, "../../docs");
-    const file = "snippets/plugin-publish/minimal-package.json";
+    const root = tempDirs.make("docs-snippet-root-");
+    const file = "snippets/example/minimal-package.json";
+    fs.mkdirSync(path.join(root, "snippets", "example"), { recursive: true });
+    fs.writeFileSync(
+      path.join(root, file),
+      '```json\n{\n  "name": "@example/plugin",\n  "type": "module"\n}\n```\n',
+    );
     const document = parseDocsDocument(`<Snippet title="Use <key>" file="${file}" />`, undefined, {
       sourceFile: path.join(root, "index.md"),
       root,

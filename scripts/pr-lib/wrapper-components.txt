@@ -85,7 +85,6 @@ scripts/lib/direct-run.mjs
 scripts/lib/tsx-cli-shim.mjs
 scripts/lib/local-check-runtime.mts
 scripts/tsx.mjs
-scripts/crabbox-untrusted-bootstrap.sh
 scripts/pr-crabbox-gate-publisher.mjs
 scripts/verify-pr-hosted-gates.mjs
 scripts/verify-pr-hosted-gates.mts

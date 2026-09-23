@@ -413,12 +413,7 @@ describe("scripts/test-docker-all scheduler", () => {
       candidateVersion: "2026.8.1",
       outputDir: path.join(root, "prepublish-plugin-registry"),
       repoRoot: process.cwd(),
-      requiredPackages: [
-        "@openclaw/codex",
-        "@openclaw/discord",
-        "@openclaw/matrix",
-        "@openclaw/whatsapp",
-      ],
+      requiredPackages: ["@openclaw/codex", "@openclaw/discord"],
       sourceSha: "a".repeat(40),
     });
     expect(registry).toEqual({

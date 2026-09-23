@@ -1301,7 +1301,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       expect(explicitPlan.requiredPrepublishPluginPackages).toEqual([
         "@openclaw/codex",
         "@openclaw/discord",
-        "@openclaw/whatsapp",
       ]);
     }
 
@@ -2172,13 +2171,11 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         "agents-delete-shared-workspace",
         "browser-cdp-snapshot",
         "doctor-switch",
-        "openai-image-auth",
         "openai-web-search-minimal",
         "mcp-channels",
         "mcp-code-mode-gateway",
         "cron-mcp-cleanup",
         "agent-bundle-mcp-tools",
-        "system-agent-first-run",
         "system-agent-rescue",
         "config-reload",
         "plugin-update",
@@ -2199,13 +2196,11 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       { name: "agents-delete-shared-workspace", stateScenario: "empty" },
       { name: "browser-cdp-snapshot", stateScenario: "empty" },
       { name: "doctor-switch", stateScenario: "empty" },
-      { name: "openai-image-auth", stateScenario: "empty" },
       { name: "openai-web-search-minimal", stateScenario: "empty" },
       { name: "mcp-channels", stateScenario: "empty" },
       { name: "mcp-code-mode-gateway", stateScenario: "empty" },
       { name: "cron-mcp-cleanup", stateScenario: "empty" },
       { name: "agent-bundle-mcp-tools", stateScenario: "empty" },
-      { name: "system-agent-first-run", stateScenario: "empty" },
       { name: "system-agent-rescue", stateScenario: "empty" },
       { name: "config-reload", stateScenario: "empty" },
       { name: "plugin-update", stateScenario: "empty" },
@@ -2231,32 +2226,10 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       expect(plan.requiredPrepublishPluginPackages).toEqual([
         "@openclaw/codex",
         "@openclaw/discord",
-        "@openclaw/whatsapp",
       ]);
       expect(plan.needs.prepublishPluginRegistry).toBe(true);
     }
 
-    const feishuPlan = planFor({
-      selectedLaneNames: ["published-upgrade-survivor"],
-      upgradeSurvivorBaselines: "2026.7.2",
-      upgradeSurvivorScenarios: "base feishu-channel",
-    });
-    expect(feishuPlan.requiredPrepublishPluginPackages).toEqual([
-      "@openclaw/codex",
-      "@openclaw/discord",
-      "@openclaw/feishu",
-      "@openclaw/whatsapp",
-    ]);
-    const legacyFeishuPlan = planFor({
-      selectedLaneNames: ["published-upgrade-survivor"],
-      upgradeSurvivorBaselines: "2026.3.13",
-      upgradeSurvivorScenarios: "feishu-channel",
-    });
-    expect(legacyFeishuPlan.requiredPrepublishPluginPackages).toEqual([
-      "@openclaw/codex",
-      "@openclaw/discord",
-      "@openclaw/whatsapp",
-    ]);
     const selfUpgradeLane = findLaneByName("update-run-package-self-upgrade");
     expect(selfUpgradeLane).toBeDefined();
     expect(requiredPrepublishPluginPackagesForLanes([selfUpgradeLane!])).toEqual([]);
@@ -2265,7 +2238,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
   it.each([
     {
       baseline: "2026.4.23",
-      packages: ["@openclaw/acpx", "@openclaw/codex", "@openclaw/discord", "@openclaw/whatsapp"],
+      packages: ["@openclaw/acpx", "@openclaw/codex", "@openclaw/discord"],
     },
     { baseline: "2026.4.15", packages: [] },
   ])(

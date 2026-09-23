@@ -5,10 +5,7 @@ import { createRequire, isBuiltin } from "node:module";
 import path from "node:path";
 import { build } from "tsdown";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import {
-  collectRootPackageExcludedExtensionDirs,
-  DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV,
-} from "../../scripts/lib/bundled-plugin-build-entries.mjs";
+import { collectRootPackageExcludedExtensionDirs } from "../../scripts/lib/bundled-plugin-build-entries.mjs";
 import { publicPluginSdkEntrypoints } from "../../scripts/lib/plugin-sdk-entries.mts";
 import {
   TSDOWN_PACKAGE_CONFIG_GROUP,
@@ -16,7 +13,6 @@ import {
   TSDOWN_UNIFIED_DTS_CONFIG_GROUPS,
 } from "../../scripts/lib/tsdown-config-groups.mts";
 import { WORKER_DEPLOY_OPTIONAL_NATIVE_MODULE_ID } from "../../scripts/lib/worker-deploy-build-plugin.mts";
-import { importFreshModule } from "../../src/plugin-sdk/test-helpers/import-fresh.js";
 import buildConfigs from "../../tsdown.config.ts";
 import { copyFsSafePackageFixture } from "./fs-safe-package.test-support.js";
 import { createScriptTestHarness } from "./test-helpers.js";
@@ -191,114 +187,6 @@ describe("tsdown config", () => {
     },
   );
 
-  it.each([false, true])(
-    "runs the Docker-selected memory store with only production dependencies (verbose=%s)",
-    async (verbose) => {
-      vi.stubEnv("OPENCLAW_BUILD_VERBOSE", verbose ? "1" : "0");
-      const entryName = "extensions/memory-lancedb/lancedb-store";
-      const defaultConfig = configs.find((config) => config.name === TSDOWN_UNIFIED_CONFIG_GROUP);
-      expect(defaultConfig?.entry).not.toHaveProperty(entryName);
-      vi.stubEnv(DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV, "memory-lancedb");
-      // Selection is captured during config evaluation; keep the default graph untouched.
-      const { default: selectedConfigs } = await importFreshModule<
-        typeof import("../../tsdown.config.ts")
-      >(import.meta.url, `../../tsdown.config.ts?docker-memory-lancedb=${verbose}`);
-      const selected = selectedConfigs.find(
-        (config) => config.name === TSDOWN_UNIFIED_CONFIG_GROUP,
-      );
-      const source = (selected?.entry as Record<string, string> | undefined)?.[entryName];
-      expect(source).toBeDefined();
-      const root = fs.realpathSync(createTempDir("openclaw-tsdown-memory-"));
-      const manifest = JSON.parse(
-        fs.readFileSync("extensions/memory-lancedb/package.json", "utf8"),
-      ) as {
-        dependencies: Record<string, string>;
-        optionalDependencies: Record<string, string>;
-      };
-      fs.writeFileSync(path.join(root, "package.json"), '{"type":"module"}');
-      for (const name of Object.keys({
-        ...manifest.dependencies,
-        ...manifest.optionalDependencies,
-      })) {
-        const installed = path.resolve("extensions/memory-lancedb/node_modules", name);
-        if (!fs.existsSync(installed)) {
-          continue;
-        }
-        const destination = path.join(root, "node_modules", name);
-        fs.mkdirSync(path.dirname(destination), { recursive: true });
-        fs.symlinkSync(fs.realpathSync(installed), destination, "dir");
-      }
-      const { bundles } = await build({
-        ...selected,
-        config: false,
-        entry: { [entryName]: source! },
-        outDir: path.join(root, "dist"),
-        dts: false,
-        logLevel: "silent",
-      });
-      try {
-        const script = `
-          import assert from "node:assert/strict";
-          import { registerHooks } from "node:module";
-          import path from "node:path";
-          import { pathToFileURL } from "node:url";
-          const [root, entry, bindingsJson] = process.argv.slice(1);
-          const bindings = new Set(JSON.parse(bindingsJson));
-          const loadedBindings = new Set();
-          registerHooks({ resolve(specifier, context, nextResolve) {
-            assert(!["@lancedb/lancedb", "@huggingface/transformers", "sharp"].includes(specifier),
-              "Unexpected runtime dependency: " + specifier);
-            if (bindings.has(specifier)) loadedBindings.add(specifier);
-            return nextResolve(specifier, context);
-          } });
-          const { MemoryDB } = await import(pathToFileURL(entry).href);
-          const dbPath = path.join(root, "memory-db");
-          let db = new MemoryDB(dbPath, 2);
-          try {
-            const stored = await db.store("alpha", {
-              text: "Bundled memory proof", vector: [1, 0], importance: 0.8, category: "fact"
-            });
-            assert.equal((await db.search("alpha", [1, 0], 1, 0))[0].entry.id, stored.id);
-            assert.deepEqual(await db.search("beta", [1, 0], 1, 0), []);
-            db.close();
-            db = new MemoryDB(dbPath, 2);
-            assert.equal((await db.search("alpha", [1, 0], 1, 0))[0].entry.id, stored.id);
-            assert.equal(await db.count("alpha"), 1);
-            assert(loadedBindings.size > 0, "Expected a declared native binding");
-          } finally {
-            db.close();
-          }
-          console.log("bundled memory store persists and recalls without image dependencies");
-        `;
-        const result = await new Promise<{ error: Error | null; stdout: string; stderr: string }>(
-          (resolve) => {
-            execFile(
-              process.execPath,
-              [
-                "--input-type=module",
-                "-e",
-                script,
-                root,
-                path.join(root, "dist", `${entryName}.js`),
-                JSON.stringify(Object.keys(manifest.optionalDependencies)),
-              ],
-              { cwd: root, timeout: 30_000 },
-              (error, stdout, stderr) => resolve({ error, stdout, stderr }),
-            );
-          },
-        );
-        expect(result.error, result.stderr).toBeNull();
-        expect(result.stdout.trim()).toBe(
-          "bundled memory store persists and recalls without image dependencies",
-        );
-      } finally {
-        for (const bundle of bundles) {
-          await bundle[Symbol.asyncDispose]();
-        }
-      }
-    },
-  );
-
   it("builds retained config repairs without plugin runtime or state migration closures", async () => {
     const selected = configs.find((config) => config.outDir === "dist/config-doctor");
     expect(selected?.name).toBe(TSDOWN_UNIFIED_CONFIG_GROUP);
@@ -382,9 +270,7 @@ describe("tsdown config", () => {
         const modules = {};
         for (const name of JSON.parse(entriesJson)) {
           const mod = await import(pathToFileURL(path.join(root, name + ".js")).href);
-          assert.deepEqual(Object.keys(mod).sort(), name === "clickclack"
-            ? ["normalizeCompatibilityConfig"]
-            : ["legacyConfigRules", "normalizeCompatibilityConfig"]);
+          assert.deepEqual(Object.keys(mod).sort(), ["legacyConfigRules", "normalizeCompatibilityConfig"]);
           modules[name] = mod;
         }
         const cfg = { channels: { discord: { dm: { enabled: true, policy: "allowlist", allowFrom: ["123"] }, accounts: { work: { dm: { policy: "disabled", allowFrom: ["456"] } } } } }, plugins: { allow: [] } };
@@ -397,11 +283,6 @@ describe("tsdown config", () => {
         assert.equal(migrated.channels.discord.accounts.work.dmPolicy, "disabled");
         assert.deepEqual(migrated.channels.discord.accounts.work.allowFrom, ["456"]);
         assert.deepEqual(migrated.plugins, { allow: [] });
-        for (const name of ["imessage", "msteams"]) {
-          const result = modules[name].normalizeCompatibilityConfig({ cfg: { channels: { [name]: { blockStreaming: false } } } });
-          assert.equal(result.config.channels[name].streaming.block.enabled, false);
-          assert.equal(Object.hasOwn(result.config.channels[name], "blockStreaming"), false);
-        }
         console.log("retained config APIs migrate without plugin installation or capability grants");
       `;
       const result = await new Promise<{ error: Error | null; stdout: string; stderr: string }>(
@@ -600,7 +481,6 @@ describe("tsdown config", () => {
         "@slack/bolt",
         "@slack/web-api",
         "@discordjs/voice",
-        "@lancedb/lancedb",
         "@larksuiteoapi/node-sdk",
         "@matrix-org/matrix-sdk-crypto-nodejs",
         "@openclaw/ai",
@@ -613,10 +493,6 @@ describe("tsdown config", () => {
         "typescript",
         "vitest",
         "zod",
-        ...Object.keys(
-          JSON.parse(fs.readFileSync("extensions/memory-lancedb/package.json", "utf8"))
-            .optionalDependencies,
-        ),
       ];
       // No manifest dependencies: only phantom/transitive copies are resolvable.
       // Automatic manifest externalization must not hide a missing build boundary.
@@ -652,7 +528,6 @@ describe("tsdown config", () => {
           if (
             !bundleAll &&
             packageName === name &&
-            name !== "@lancedb/lancedb" &&
             name !== "@openclaw/crabline" &&
             (name !== "zod" || declarations)
           ) {
@@ -773,12 +648,6 @@ describe("tsdown config", () => {
       "src/plugin-sdk/codex-session-transcript-runtime.ts",
     );
     expect(entries["plugins/public-surface-runtime"]).toBe("src/plugins/public-surface-runtime.ts");
-    expect(Object.values(entries)).toEqual(
-      expect.arrayContaining([
-        "extensions/vault/vault-secret-id.js",
-        "extensions/vault/vault-secret-ref-resolver.js",
-      ]),
-    );
   });
 
   it("emits bounded public declarations without private runtime roots", () => {
