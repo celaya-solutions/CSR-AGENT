@@ -668,7 +668,7 @@ export function registerManagedHandoffOwnerTests(
         await runManagedServiceManagerBoundary("systemd", {
           requester: {
             channel:
-              owner === "internal" ? "webchat" : owner === "channel-less" ? undefined : "slack",
+              owner === "internal" ? "webchat" : owner === "channel-less" ? undefined : "telegram",
             accountId: "primary",
             senderId: "owner",
           },

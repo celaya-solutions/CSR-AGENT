@@ -2408,7 +2408,8 @@ describe("message tool secret scoping", () => {
     );
     expect(firstRunMessageActionInput()?.broadcastAccountPlan).toEqual({
       accountId: "shared",
-      candidateChannels: ["slack", "telegram"],
+      // Bundled channels (telegram) order ahead of test-registered ones (slack).
+      candidateChannels: ["telegram", "slack"],
       secretChannels: ["slack"],
     });
   });

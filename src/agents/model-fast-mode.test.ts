@@ -40,8 +40,14 @@ describe("private selected Fast metadata", () => {
         api: "openai-responses",
         baseUrl: "https://api.openai.com/v1",
       },
-      { id: "grok-3", name: "Grok 3", provider: "xai", api: "openai-responses" },
-      { id: "MiniMax-M2.7", name: "MiniMax M2.7", provider: "minimax", api: "anthropic-messages" },
+      {
+        id: "speed-fixture-default",
+        name: "Speed fixture default",
+        provider: "openai",
+        api: "openai-responses",
+        baseUrl: "https://api.openai.com/v1",
+      },
+      opus,
     ];
     const resolve = createModelFastModeResolver({
       cfg: {
@@ -54,11 +60,22 @@ describe("private selected Fast metadata", () => {
       agentId: "main",
       catalog,
       metadataSnapshot: createPluginMetadataSnapshotFixture({
-        plugins: ["openai", "xai", "minimax"].map((id) => ({
-          id,
-          providers: [id],
-          rootDir: path.resolve(import.meta.dirname, "../../extensions", id),
-        })),
+        plugins: [
+          {
+            id: "openai",
+            providers: ["openai"],
+            rootDir: path.resolve(import.meta.dirname, "../../extensions/openai"),
+          },
+          {
+            id: "anthropic",
+            providers: ["anthropic"],
+            rootDir: path.resolve(import.meta.dirname, "../../extensions/anthropic"),
+            providerEndpoints: [
+              { endpointClass: "anthropic-public", hosts: ["api.anthropic.com"] },
+            ],
+            providerRequest: { providers: { anthropic: { family: "anthropic" } } },
+          },
+        ],
       }),
     });
     const evaluation = { availability: true, routeResolution: null, selectedAuthMode: "api_key" };

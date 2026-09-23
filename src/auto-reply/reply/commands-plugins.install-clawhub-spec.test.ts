@@ -257,22 +257,22 @@ describe("chat plugin install release stream", () => {
         resolveNpmSpecMetadataMock.mockResolvedValueOnce({
           ok: true,
           metadata: {
-            name: "@openclaw/brave-plugin",
+            name: "@openclaw/discord",
             version,
-            resolvedSpec: `@openclaw/brave-plugin@${version}`,
+            resolvedSpec: `@openclaw/discord@${version}`,
           },
         });
       }
       installPluginFromNpmSpecMock.mockResolvedValue({
         ok: true,
-        pluginId: "brave",
-        targetDir: "/tmp/brave",
+        pluginId: "discord",
+        targetDir: "/tmp/discord",
         version: selected,
         extensions: ["index.js"],
         npmResolution: {
-          name: "@openclaw/brave-plugin",
+          name: "@openclaw/discord",
           version: selected,
-          resolvedSpec: `@openclaw/brave-plugin@${selected}`,
+          resolvedSpec: `@openclaw/discord@${selected}`,
         },
       });
       persistPluginInstallMock.mockResolvedValue({});
@@ -285,7 +285,7 @@ describe("chat plugin install release stream", () => {
         );
         const workspaceDir = await workspaceHarness.createWorkspace();
         const params = buildPluginsCommandParams({
-          commandBodyNormalized: `/plugins install npm:@openclaw/brave-plugin${acceptCapabilities ? " --accept-capabilities" : ""}`,
+          commandBodyNormalized: `/plugins install npm:@openclaw/discord${acceptCapabilities ? " --accept-capabilities" : ""}`,
           cfg,
           workspaceDir,
           gatewayClientScopes: ["operator.admin", "operator.write", "operator.pairing"],
@@ -294,14 +294,14 @@ describe("chat plugin install release stream", () => {
         const result = await handlePluginsCommand(params, true);
 
         expect(mockFirstObjectArg(installPluginFromNpmSpecMock).spec).toBe(
-          `@openclaw/brave-plugin@${selected}`,
+          `@openclaw/discord@${selected}`,
         );
         expect(installPluginFromNpmSpecMock).toHaveBeenCalledOnce();
         if (acceptCapabilities) {
           expect(persistPluginInstallMock).toHaveBeenCalledWith(
             expect.objectContaining({
               install: expect.objectContaining({
-                spec: "@openclaw/brave-plugin",
+                spec: "@openclaw/discord",
                 version: selected,
                 acceptedSurfaceHash: expect.any(String),
               }),
@@ -309,7 +309,7 @@ describe("chat plugin install release stream", () => {
           );
         } else {
           expect(result?.reply?.text).toContain("Plugin capabilities require approval");
-          expect(result?.reply?.text).toContain(`@openclaw/brave-plugin@${selected}`);
+          expect(result?.reply?.text).toContain(`@openclaw/discord@${selected}`);
           expect(persistPluginInstallMock).not.toHaveBeenCalled();
         }
       });

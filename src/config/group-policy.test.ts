@@ -381,20 +381,6 @@ describe("resolveToolsBySender", () => {
     ).toEqual({ allow: ["exec"] });
   });
 
-  it("matches channel-scoped sender IDs through canonical channel aliases", () => {
-    expect(
-      resolveToolsBySender({
-        toolsBySender: {
-          "channel:msteams:user:alice": { allow: ["exec"] },
-          "id:user:alice": { deny: ["exec"] },
-          "*": { deny: ["write"] },
-        },
-        messageProvider: "teams",
-        senderId: "user:alice",
-      }),
-    ).toEqual({ allow: ["exec"] });
-  });
-
   it("keeps legacy colon sender IDs as sender IDs, not channel keys", () => {
     const warningSpy = vi.spyOn(process, "emitWarning").mockImplementation(() => undefined);
 

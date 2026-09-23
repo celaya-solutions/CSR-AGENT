@@ -52,12 +52,12 @@ describe("security fix", () => {
     return { res, cfg };
   };
 
-  const createWhatsAppConfigFixTestPlugin = (storeAllowFrom: string[]): ChannelPlugin => ({
-    id: "whatsapp",
+  const createTelegramConfigFixTestPlugin = (storeAllowFrom: string[]): ChannelPlugin => ({
+    id: "telegram",
     meta: {
-      id: "whatsapp",
-      label: "WhatsApp",
-      selectionLabel: "WhatsApp",
+      id: "telegram",
+      label: "Telegram",
+      selectionLabel: "Telegram",
       docsPath: "/docs/testing",
       blurb: "test stub",
     },
@@ -77,8 +77,8 @@ describe("security fix", () => {
           return { config: cfg, changes: [] };
         }
         const next = structuredClone(cfg ?? {});
-        const whatsapp = next.channels?.whatsapp as Record<string, unknown> | undefined;
-        if (!whatsapp || typeof whatsapp !== "object") {
+        const telegram = next.channels?.telegram as Record<string, unknown> | undefined;
+        if (!telegram || typeof telegram !== "object") {
           return { config: cfg, changes: [] };
         }
         const changes: string[] = [];
@@ -97,15 +97,15 @@ describe("security fix", () => {
           changed = true;
         };
 
-        maybeApply("channels.whatsapp.", whatsapp);
-        const accounts = whatsapp.accounts;
+        maybeApply("channels.telegram.", telegram);
+        const accounts = telegram.accounts;
         if (accounts && typeof accounts === "object") {
           for (const [accountId, value] of Object.entries(accounts)) {
             if (!value || typeof value !== "object") {
               continue;
             }
             maybeApply(
-              `channels.whatsapp.accounts.${accountId}.`,
+              `channels.telegram.accounts.${accountId}.`,
               value as Record<string, unknown>,
             );
           }
@@ -124,42 +124,42 @@ describe("security fix", () => {
     expectPerms(configMode, 0o600);
   };
 
-  const expectWhatsAppGroupPolicy = (
+  const expectTelegramGroupPolicy = (
     channels: Record<string, Record<string, unknown>>,
     expectedPolicy = "allowlist",
   ) => {
-    expect(expectDefined(channels.whatsapp, "channels.whatsapp test invariant").groupPolicy).toBe(
+    expect(expectDefined(channels.telegram, "channels.telegram test invariant").groupPolicy).toBe(
       expectedPolicy,
     );
   };
 
-  const expectWhatsAppAccountGroupPolicy = (
+  const expectTelegramAccountGroupPolicy = (
     channels: Record<string, Record<string, unknown>>,
     accountId: string,
     expectedPolicy = "allowlist",
   ) => {
-    const whatsapp = expectDefined(channels.whatsapp, "channels.whatsapp test invariant");
-    const accounts = whatsapp.accounts as Record<string, Record<string, unknown>>;
+    const telegram = expectDefined(channels.telegram, "channels.telegram test invariant");
+    const accounts = telegram.accounts as Record<string, Record<string, unknown>>;
     const account = accounts[accountId];
     if (!account) {
-      throw new Error(`Expected WhatsApp account ${accountId}`);
+      throw new Error(`Expected Telegram account ${accountId}`);
     }
     expect(account.groupPolicy).toBe(expectedPolicy);
     return accounts;
   };
 
-  const fixWhatsAppConfigScenario = async (params: {
-    whatsapp: Record<string, unknown>;
+  const fixTelegramConfigScenario = async (params: {
+    telegram: Record<string, unknown>;
     allowFromStore: string[];
   }) => {
     const fixed = await runConfigFixScenario({
-      prefix: "whatsapp-config",
+      prefix: "telegram-config",
       cfg: {
         channels: {
-          whatsapp: params.whatsapp,
+          telegram: params.telegram,
         },
       } satisfies OpenClawConfig,
-      channelPlugins: [createWhatsAppConfigFixTestPlugin(params.allowFromStore)],
+      channelPlugins: [createTelegramConfigFixTestPlugin(params.allowFromStore)],
     });
     return {
       res: fixed.res,
@@ -181,81 +181,66 @@ describe("security fix", () => {
     const cfg = {
       channels: {
         telegram: { groupPolicy: "open" },
-        whatsapp: { groupPolicy: "open" },
         discord: { groupPolicy: "open" },
-        signal: { groupPolicy: "open" },
-        imessage: { groupPolicy: "open" },
       },
     } satisfies OpenClawConfig;
     const fixed = await runConfigFixScenario({
       prefix: "group-policy",
       cfg,
-      channelPlugins: [createWhatsAppConfigFixTestPlugin(["+15551234567"])],
+      channelPlugins: [createTelegramConfigFixTestPlugin(["123456789"])],
     });
     expect(fixed.res.changes).toEqual([
       "channels.telegram.groupPolicy=open -> allowlist",
-      "channels.whatsapp.groupPolicy=open -> allowlist",
       "channels.discord.groupPolicy=open -> allowlist",
-      "channels.signal.groupPolicy=open -> allowlist",
-      "channels.imessage.groupPolicy=open -> allowlist",
-      "channels.whatsapp.groupAllowFrom=pairing-store",
+      "channels.telegram.groupAllowFrom=pairing-store",
     ]);
 
     const channels = fixed.cfg.channels as Record<string, Record<string, unknown>>;
     expect(expectDefined(channels.telegram, "channels.telegram test invariant").groupPolicy).toBe(
       "allowlist",
     );
-    expect(expectDefined(channels.whatsapp, "channels.whatsapp test invariant").groupPolicy).toBe(
-      "allowlist",
-    );
     expect(expectDefined(channels.discord, "channels.discord test invariant").groupPolicy).toBe(
-      "allowlist",
-    );
-    expect(expectDefined(channels.signal, "channels.signal test invariant").groupPolicy).toBe(
-      "allowlist",
-    );
-    expect(expectDefined(channels.imessage, "channels.imessage test invariant").groupPolicy).toBe(
       "allowlist",
     );
 
     expect(
-      expectDefined(channels.whatsapp, "channels.whatsapp test invariant").groupAllowFrom,
-    ).toEqual(["+15551234567"]);
+      expectDefined(channels.telegram, "channels.telegram test invariant").groupAllowFrom,
+    ).toEqual(["123456789"]);
   });
 
-  it("applies allowlist per-account and seeds WhatsApp groupAllowFrom from store", async () => {
-    const { res, channels } = await fixWhatsAppConfigScenario({
-      whatsapp: {
+  it("applies allowlist per-account and seeds Telegram groupAllowFrom from store", async () => {
+    const { res, channels } = await fixTelegramConfigScenario({
+      telegram: {
         accounts: {
           a1: { groupPolicy: "open" },
         },
       },
-      allowFromStore: ["+15550001111"],
+      allowFromStore: ["111111111"],
     });
     expect(res.ok).toBe(true);
-    const accounts = expectWhatsAppAccountGroupPolicy(channels, "a1");
+    const accounts = expectTelegramAccountGroupPolicy(channels, "a1");
     expect(expectDefined(accounts.a1, "accounts.a1 test invariant").groupAllowFrom).toEqual([
-      "+15550001111",
+      "111111111",
     ]);
   });
 
-  it("does not seed WhatsApp accounts that were already allowlisted", async () => {
-    const { res, channels } = await fixWhatsAppConfigScenario({
-      whatsapp: {
+  it("does not seed Telegram accounts that were already allowlisted", async () => {
+    const { res, channels } = await fixTelegramConfigScenario({
+      telegram: {
         groupPolicy: "allowlist",
         accounts: {
           default: { groupPolicy: "allowlist" },
           work: { groupPolicy: "allowlist" },
         },
       },
-      allowFromStore: ["+15550001111"],
+      allowFromStore: ["111111111"],
     });
 
     expect(res.configWritten).toBe(false);
     expect(res.changes).toEqual([]);
-    const whatsapp = expectDefined(channels.whatsapp, "channels.whatsapp test invariant");
-    expect(whatsapp.groupAllowFrom).toBeUndefined();
-    const accounts = whatsapp.accounts as Record<string, Record<string, unknown>>;
+    const telegram = expectDefined(channels.telegram, "channels.telegram test invariant");
+    expect(telegram.groupAllowFrom).toBeUndefined();
+    const accounts = telegram.accounts as Record<string, Record<string, unknown>>;
     expect(
       expectDefined(accounts.default, "accounts.default test invariant").groupAllowFrom,
     ).toBeUndefined();
@@ -264,18 +249,18 @@ describe("security fix", () => {
     ).toBeUndefined();
   });
 
-  it("does not seed WhatsApp groupAllowFrom if allowFrom is set", async () => {
-    const { res, channels } = await fixWhatsAppConfigScenario({
-      whatsapp: {
+  it("does not seed Telegram groupAllowFrom if allowFrom is set", async () => {
+    const { res, channels } = await fixTelegramConfigScenario({
+      telegram: {
         groupPolicy: "open",
-        allowFrom: ["+15552223333"],
+        allowFrom: ["222222222"],
       },
-      allowFromStore: ["+15550001111"],
+      allowFromStore: ["111111111"],
     });
     expect(res.ok).toBe(true);
-    expectWhatsAppGroupPolicy(channels);
+    expectTelegramGroupPolicy(channels);
     expect(
-      expectDefined(channels.whatsapp, "channels.whatsapp test invariant").groupAllowFrom,
+      expectDefined(channels.telegram, "channels.telegram test invariant").groupAllowFrom,
     ).toBeUndefined();
   });
 

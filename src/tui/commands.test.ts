@@ -40,7 +40,7 @@ describe("parseCommand", () => {
 describe("getSlashCommands", () => {
   beforeAll(() => {
     // Provider thinking policies are process-stable; warm the fallback before timing assertions.
-    getSlashCommands({ provider: "minimax", model: "MiniMax-M3", thinkingLevels: [] });
+    getSlashCommands({ provider: "anthropic", model: "claude-opus-4-7", thinkingLevels: [] });
   });
 
   it("provides level completions for built-in toggles", () => {
@@ -152,8 +152,8 @@ describe("getSlashCommands", () => {
 
   it("falls back to provider-resolved levels when thinkingLevels is empty (#76482)", () => {
     const commands = getSlashCommands({
-      provider: "minimax",
-      model: "MiniMax-M3",
+      provider: "anthropic",
+      model: "claude-opus-4-7",
       thinkingLevels: [], // empty from lightweight session row
     });
     const think = commands.find((command) => command.name === "think");
@@ -163,10 +163,16 @@ describe("getSlashCommands", () => {
     if (!Array.isArray(completions)) {
       throw new Error("expected synchronous thinking-level completions");
     }
-    expect(completions).toEqual([
-      { value: "off", label: "off" },
-      { value: "adaptive", label: "adaptive" },
-      { value: "default", label: "default" },
+    expect(completions.map((completion) => completion.value)).toEqual([
+      "off",
+      "minimal",
+      "low",
+      "medium",
+      "adaptive",
+      "high",
+      "xhigh",
+      "max",
+      "default",
     ]);
   });
 
@@ -241,7 +247,7 @@ describe("helpText", () => {
   );
 
   it("uses session-supported thinking levels in help before the provider fallback", () => {
-    const model = { provider: "minimax", model: "MiniMax-M3" };
+    const model = { provider: "anthropic", model: "claude-opus-4-7" };
 
     expect(
       helpText({
@@ -252,7 +258,9 @@ describe("helpText", () => {
         ],
       }),
     ).toContain("/think <off|max|default>");
-    expect(helpText({ ...model, thinkingLevels: [] })).toContain("/think <off|adaptive|default>");
+    expect(helpText({ ...model, thinkingLevels: [] })).toContain(
+      "/think <off|minimal|low|medium|adaptive|high|xhigh|max|default>",
+    );
   });
 
   it("documents default reset values for model, thinking, and fast mode", () => {

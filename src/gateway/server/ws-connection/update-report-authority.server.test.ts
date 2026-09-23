@@ -210,7 +210,7 @@ describe("update report live authority boundary", () => {
         commitIssueCreate?.();
         return {
           status: "created",
-          url: "https://github.com/openclaw/openclaw/issues/999999",
+          url: "https://github.com/celaya-solutions/CSR-AGENT/issues/999999",
         };
       },
     );
@@ -244,7 +244,7 @@ describe("update report live authority boundary", () => {
         ok: true,
         payload: {
           status: "created",
-          url: "https://github.com/openclaw/openclaw/issues/999999",
+          url: "https://github.com/celaya-solutions/CSR-AGENT/issues/999999",
         },
       });
     },
@@ -297,7 +297,7 @@ describe("update report live authority boundary", () => {
           started: true,
           status: 0,
           stdout: Buffer.from(
-            "HTTP/2.0 201 Created\nhttps://github.com/openclaw/openclaw/issues/999999\n",
+            "HTTP/2.0 201 Created\nhttps://github.com/celaya-solutions/CSR-AGENT/issues/999999\n",
           ),
         };
       });
@@ -349,7 +349,7 @@ describe("update report live authority boundary", () => {
             ok: true,
             payload: {
               status: "created",
-              url: "https://github.com/openclaw/openclaw/issues/999999",
+              url: "https://github.com/celaya-solutions/CSR-AGENT/issues/999999",
             },
           });
           expect(harness.close).not.toHaveBeenCalled();
@@ -478,7 +478,7 @@ describe("update report live authority boundary", () => {
           issueCreateCalls += 1;
           return {
             status: "created",
-            url: "https://github.com/openclaw/openclaw/issues/999999",
+            url: "https://github.com/celaya-solutions/CSR-AGENT/issues/999999",
           };
         },
       );

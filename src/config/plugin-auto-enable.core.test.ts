@@ -35,9 +35,6 @@ vi.mock("../channels/plugins/package-state-probes.js", async (importOriginal) =>
       if (params.channelId === "cache-channel") {
         return Boolean(params.env?.CACHE_CHANNEL_TOKEN?.trim());
       }
-      if (params.channelId === "irc") {
-        return Boolean(params.env?.IRC_HOST?.trim() && params.env?.IRC_NICK?.trim());
-      }
       if (params.channelId === "slack") {
         return ["SLACK_APP_TOKEN", "SLACK_BOT_TOKEN", "SLACK_USER_TOKEN"].some((key) =>
           Boolean(params.env?.[key]?.trim()),
@@ -130,16 +127,16 @@ describe("applyPluginAutoEnable core", () => {
   it("detects typed channel-configured candidates", () => {
     const candidates = detectPluginAutoEnableCandidates({
       config: {
-        channels: { slack: { botToken: "x" } },
+        channels: { telegram: { botToken: "x" } },
       },
       env,
     });
 
     expect(candidates).toEqual([
       {
-        pluginId: "slack",
+        pluginId: "telegram",
         kind: "channel-configured",
-        channelId: "slack",
+        channelId: "telegram",
       },
     ]);
   });
@@ -357,37 +354,37 @@ describe("applyPluginAutoEnable core", () => {
   it("auto-enables built-in channels and preserves them in restrictive plugins.allow", () => {
     const result = applyPluginAutoEnable({
       config: {
-        channels: { slack: { botToken: "x" } },
-        plugins: { allow: ["telegram"] },
+        channels: { telegram: { botToken: "x" } },
+        plugins: { allow: ["discord"] },
       },
       env,
     });
 
-    expect(result.config.channels?.slack?.enabled).toBe(true);
-    expect(result.config.plugins?.entries?.slack).toBeUndefined();
-    expect(result.config.plugins?.allow).toEqual(["telegram", "slack"]);
+    expect(result.config.channels?.telegram?.enabled).toBe(true);
+    expect(result.config.plugins?.entries?.telegram).toBeUndefined();
+    expect(result.config.plugins?.allow).toEqual(["discord", "telegram"]);
     expect(result.autoEnabledReasons).toEqual({
-      slack: ["slack configured"],
+      telegram: ["telegram configured"],
     });
-    expect(result.changes.join("\n")).toContain("Slack configured, enabled automatically.");
+    expect(result.changes.join("\n")).toContain("Telegram configured, enabled automatically.");
   });
 
   it("does not create plugins.allow when allowlist is unset", () => {
     const result = applyPluginAutoEnable({
       config: {
-        channels: { slack: { botToken: "x" } },
+        channels: { telegram: { botToken: "x" } },
       },
       env,
     });
 
-    expect(result.config.channels?.slack?.enabled).toBe(true);
+    expect(result.config.channels?.telegram?.enabled).toBe(true);
     expect(result.config.plugins?.allow).toBeUndefined();
   });
 
   it("preserves an empty plugins.allow as nonrestrictive during auto-enable", () => {
     const result = applyPluginAutoEnable({
       config: {
-        channels: { slack: { botToken: "x" } },
+        channels: { telegram: { botToken: "x" } },
         plugins: {
           allow: [],
         },
@@ -395,9 +392,9 @@ describe("applyPluginAutoEnable core", () => {
       env,
     });
 
-    expect(result.config.channels?.slack?.enabled).toBe(true);
+    expect(result.config.channels?.telegram?.enabled).toBe(true);
     expect(result.config.plugins?.allow).toEqual([]);
-    expect(result.changes.join("\n")).toContain("Slack configured, enabled automatically.");
+    expect(result.changes.join("\n")).toContain("Telegram configured, enabled automatically.");
   });
 
   it("does not auto-enable Slack from unrelated Slack-prefixed env vars", () => {
@@ -416,7 +413,7 @@ describe("applyPluginAutoEnable core", () => {
   it("stores auto-enable reasons in a null-prototype dictionary", () => {
     const result = applyPluginAutoEnable({
       config: {
-        channels: { slack: { botToken: "x" } },
+        channels: { telegram: { botToken: "x" } },
       },
       env,
     });
@@ -582,30 +579,6 @@ describe("applyPluginAutoEnable core", () => {
     expect(result.config.plugins?.entries?.["evil-plugin"]).toBeUndefined();
     expect(result.config.plugins?.allow).toEqual(["telegram"]);
     expect(result.changes).toStrictEqual([]);
-  });
-
-  it("auto-enables bundled firecrawl when plugin-owned webFetch config exists", () => {
-    const result = applyPluginAutoEnable({
-      config: {
-        plugins: {
-          allow: ["telegram"],
-          entries: {
-            firecrawl: {
-              config: {
-                webFetch: {
-                  apiKey: "firecrawl-key",
-                },
-              },
-            },
-          },
-        },
-      },
-      env,
-    });
-
-    expect(result.config.plugins?.entries?.firecrawl?.enabled).toBe(true);
-    expect(result.config.plugins?.allow).toEqual(["telegram", "firecrawl"]);
-    expect(result.changes).toContain("firecrawl web fetch configured, enabled automatically.");
   });
 
   it("auto-enables provider plugins referenced by media generation model fallbacks", () => {
@@ -1009,39 +982,41 @@ describe("applyPluginAutoEnable core", () => {
     expect(result.changes).toStrictEqual([]);
   });
 
-  it("keeps auto-enabled WhatsApp config schema-valid", () => {
+  it("keeps auto-enabled Telegram config schema-valid", () => {
     const result = applyPluginAutoEnable({
       config: {
         channels: {
-          whatsapp: {
-            allowFrom: ["+15555550123"],
+          telegram: {
+            botToken: "123456:telegram-token",
+            allowFrom: ["123456789"],
           },
         },
       },
       env,
     });
 
-    expect(result.config.channels?.whatsapp?.enabled).toBe(true);
+    expect(result.config.channels?.telegram?.enabled).toBe(true);
     expect(validateConfigObject(result.config).ok).toBe(true);
   });
 
-  it("appends built-in WhatsApp to restrictive plugins.allow during auto-enable", () => {
+  it("appends built-in Telegram to restrictive plugins.allow during auto-enable", () => {
     const result = applyPluginAutoEnable({
       config: {
         channels: {
-          whatsapp: {
-            allowFrom: ["+15555550123"],
+          telegram: {
+            botToken: "123456:telegram-token",
+            allowFrom: ["123456789"],
           },
         },
         plugins: {
-          allow: ["telegram"],
+          allow: ["discord"],
         },
       },
       env,
     });
 
-    expect(result.config.channels?.whatsapp?.enabled).toBe(true);
-    expect(result.config.plugins?.allow).toEqual(["telegram", "whatsapp"]);
+    expect(result.config.channels?.telegram?.enabled).toBe(true);
+    expect(result.config.plugins?.allow).toEqual(["discord", "telegram"]);
     expect(validateConfigObject(result.config).ok).toBe(true);
   });
 
@@ -1093,25 +1068,6 @@ describe("applyPluginAutoEnable core", () => {
     expect(result.changes).toContain("discord plugin config present, added to plugin allowlist.");
   });
 
-  it("preserves official external plugin entries before installation", () => {
-    const result = materializePluginAutoEnableCandidates({
-      config: {
-        plugins: {
-          allow: ["glueclaw"],
-          entries: {
-            codex: { enabled: true },
-          },
-        },
-      },
-      candidates: [],
-      env,
-      manifestRegistry: makeRegistry([]),
-    });
-
-    expect(result.config.plugins?.allow).toEqual(["glueclaw", "codex"]);
-    expect(result.changes).toContain("codex plugin config present, added to plugin allowlist.");
-  });
-
   it("does not preserve stale configured plugin entries in restrictive plugins.allow", () => {
     const result = materializePluginAutoEnableCandidates({
       config: {
@@ -1139,12 +1095,13 @@ describe("applyPluginAutoEnable core", () => {
     const first = applyPluginAutoEnable({
       config: {
         channels: {
-          whatsapp: {
-            allowFrom: ["+15555550123"],
+          telegram: {
+            botToken: "123456:telegram-token",
+            allowFrom: ["123456789"],
           },
         },
         plugins: {
-          allow: ["telegram"],
+          allow: ["discord"],
         },
       },
       env,
@@ -1491,18 +1448,17 @@ describe("applyPluginAutoEnable core", () => {
     expect(result.changes).toStrictEqual([]);
   });
 
-  it("auto-enables irc when configured via env", () => {
+  it("auto-enables telegram when configured via env", () => {
     const result = applyPluginAutoEnable({
       config: {},
       env: {
         ...makeIsolatedEnv(),
-        IRC_HOST: "irc.libera.chat",
-        IRC_NICK: "openclaw-bot",
+        TELEGRAM_BOT_TOKEN: "123456:telegram-token",
       },
     });
 
-    expect(result.config.channels?.irc?.enabled).toBe(true);
-    expect(result.changes.join("\n")).toContain("IRC configured, enabled automatically.");
+    expect(result.config.channels?.telegram?.enabled).toBe(true);
+    expect(result.changes.join("\n")).toContain("Telegram configured, enabled automatically.");
   });
 
   it("uses the provided manifest registry for plugin channel ids", () => {

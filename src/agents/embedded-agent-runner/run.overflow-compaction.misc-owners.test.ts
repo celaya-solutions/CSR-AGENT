@@ -217,15 +217,15 @@ describe("reportEmbeddedRunSuccessfulAuthBinding", () => {
 });
 
 describe("overflow loop owner policies", () => {
-  it("uses provider policy for a configless MiniMax-M3 run", () => {
+  it("uses provider policy for a configless OpenRouter DeepSeek V4 run", () => {
     expect(
       resolveInitialThinkLevel({
         config: undefined,
-        provider: "minimax",
-        modelId: "MiniMax-M3",
+        provider: "openrouter",
+        modelId: "deepseek/deepseek-v4-pro",
         model: { reasoning: true },
       }),
-    ).toBe("adaptive");
+    ).toBe("high");
   });
 
   it("retains bounded ordered delivery facts and source finality across generations", () => {

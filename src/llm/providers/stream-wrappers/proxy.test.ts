@@ -54,7 +54,7 @@ describe("proxy stream wrappers", () => {
     expect(calls).toEqual([
       {
         headers: {
-          "HTTP-Referer": "https://openclaw.ai",
+          "HTTP-Referer": "https://celayasolutions.com",
           "X-OpenRouter-Title": "OpenAgent",
           "X-OpenRouter-Categories":
             "cli-agent,cloud-agent,programming-app,creative-writing,writing-assistant,general-chat,personal-agent",
@@ -87,7 +87,7 @@ describe("proxy stream wrappers", () => {
       {},
     );
 
-    expect(calls[0]?.headers?.["HTTP-Referer"]).toBe("https://openclaw.ai");
+    expect(calls[0]?.headers?.["HTTP-Referer"]).toBe("https://celayasolutions.com");
     expect(calls[0]?.headers?.["X-OpenRouter-Cache"]).toBe("true");
     expect(calls[0]?.headers?.["X-OpenRouter-Cache-TTL"]).toBe("900");
   });

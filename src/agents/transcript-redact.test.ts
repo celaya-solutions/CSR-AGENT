@@ -30,21 +30,6 @@ function cfg(_mode: "tools" | "off", patterns?: string[]): OpenClawConfig {
   } satisfies OpenClawConfig;
 }
 
-function googleCompatCfg(): OpenClawConfig {
-  return {
-    ...cfg("tools"),
-    models: {
-      providers: {
-        "google-compatible-proxy": {
-          api: "openai-completions",
-          baseUrl: "https://generativelanguage.googleapis.com/v1beta/openai",
-          models: [],
-        },
-      },
-    },
-  } satisfies OpenClawConfig;
-}
-
 const EMAIL_PATTERN = String.raw`([\w]|[-.])+@([\w]|[-.])+\.\w+`;
 const IMAGE_BASE64_WITH_SECRET_TOKEN_SUBSTRING =
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAARcnVOZAAAAKIDABCDEFGHIJKLMNOP8JJRuAAAAABJRU5ErkJggg==";
@@ -1271,21 +1256,6 @@ describe("redactTranscriptMessage", () => {
         },
       ],
     });
-    const googleOpenAICompletionsMsg = castAgentMessage({
-      role: "assistant",
-      api: "openclaw-openai-completions-transport",
-      model: "gemini-3.1-pro",
-      provider: "google-compatible-proxy",
-      content: [
-        {
-          type: "toolCall",
-          id: "call_2",
-          name: "send_request",
-          arguments: {},
-          thoughtSignature: OPENAI_COMPAT_OPAQUE_COLLISION,
-        },
-      ],
-    });
     const veniceGeminiMsg = castAgentMessage({
       role: "assistant",
       api: "openai-completions",
@@ -1356,18 +1326,6 @@ describe("redactTranscriptMessage", () => {
     expect(
       expectDefined(completionsBlocks[1], "completionsBlocks[1] test invariant").thoughtSignature,
     ).not.toBe(githubToken);
-
-    const googleCompletionsBlock = expectDefined(
-      (
-        msgContent(
-          redactTranscriptMessage(googleOpenAICompletionsMsg, googleCompatCfg()),
-        ) as Array<{
-          thoughtSignature: string;
-        }>
-      )[0],
-      "( msgContent(redactTranscriptMessage(googleOpenAICompletionsMsg, goog... test invariant",
-    );
-    expect(googleCompletionsBlock.thoughtSignature).toBe(OPENAI_COMPAT_OPAQUE_COLLISION);
 
     const veniceGeminiBlock = expectDefined(
       (

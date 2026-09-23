@@ -10,6 +10,9 @@ import { resolveModelPricing, resolveModelPricingContext } from "./pricing.js";
 import { setRemoteModelCatalogOverlaySourcesForTest } from "./remote-overlay.test-support.js";
 
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
+// Hosted pricing applies only when the stored catalog came from the configured URL.
+const CATALOG_URL = "https://catalog.example.test/models/v1/catalog.json";
+const catalogRefresh = { url: CATALOG_URL };
 let hostedPricing: Record<string, RemoteModelCatalogPricing>;
 
 beforeEach(() => {
@@ -22,7 +25,7 @@ beforeEach(() => {
     bundledGeneratedAt: () => 100,
     readStoredCatalog: () => ({
       id: 1,
-      source_url: "https://catalog.openclaw.ai/models/v1/catalog.json",
+      source_url: CATALOG_URL,
       bundle_json: JSON.stringify({
         schemaVersion: 1,
         generatedAt: 200,
@@ -61,7 +64,7 @@ describe("OpenRouter routing shortcut estimates", () => {
         maxTokens: 8192,
       };
       const configWith = (baseUrl: string, modelEntry = entry): OpenClawConfig => ({
-        models: { providers: { openrouter: { baseUrl, models: [modelEntry] } } },
+        models: { catalogRefresh, providers: { openrouter: { baseUrl, models: [modelEntry] } } },
       });
       const resolve = (config: OpenClawConfig) => {
         const context = resolveModelPricingContext(config);
@@ -71,6 +74,7 @@ describe("OpenRouter routing shortcut estimates", () => {
       expect(
         resolve({
           models: {
+            catalogRefresh,
             providers: {
               openrouter: {
                 baseUrl: "https://openrouter.ai/api/v1",
@@ -112,6 +116,7 @@ describe("OpenRouter routing shortcut estimates", () => {
     hostedPricing["openrouter/openai/gpt-catalog:free"] = { input: 3, output: 4 };
     const config: OpenClawConfig = {
       models: {
+        catalogRefresh,
         providers: { openrouter: { baseUrl: "https://openrouter.ai/api/v1", models: [] } },
       },
     };
@@ -147,6 +152,7 @@ describe("OpenRouter routing shortcut estimates", () => {
   it("does not use a routing shortcut to revive disabled external pricing", () => {
     const agentDir = tempDirs.make("openclaw-routing-policy-");
     const config: OpenClawConfig = {
+      models: { catalogRefresh },
       plugins: { allow: ["openrouter"], entries: { openrouter: { enabled: true } } },
     };
     const snapshot = pluginMetadata.resolvePluginMetadataSnapshot({ config, env: process.env });

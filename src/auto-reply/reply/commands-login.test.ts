@@ -646,7 +646,7 @@ describe("handleLoginCommand", () => {
     });
     expect(patchSessionEntryMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        sessionKey: "agent:main:slack:channel:C123",
+        sessionKey: "agent:main:telegram:channel:C123",
         storePath: "/tmp/openclaw-login-sessions.json",
         requireWriteSuccess: true,
       }),

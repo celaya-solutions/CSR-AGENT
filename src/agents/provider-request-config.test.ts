@@ -543,30 +543,10 @@ describe("provider request config", () => {
     });
 
     expect(resolved).toEqual({
-      "HTTP-Referer": "https://openclaw.ai",
+      "HTTP-Referer": "https://celayasolutions.com",
       "X-OpenRouter-Title": "OpenAgent",
       "X-OpenRouter-Categories":
         "cli-agent,cloud-agent,programming-app,creative-writing,writing-assistant,general-chat,personal-agent",
-      "X-Custom": "1",
-    });
-  });
-
-  it("protects NVIDIA billing invoke origin on official NIM routes", () => {
-    const resolved = resolveProviderRequestHeaders({
-      provider: "custom-nim",
-      api: "openai-completions",
-      baseUrl: "https://integrate.api.nvidia.com/v1",
-      capability: "llm",
-      transport: "stream",
-      callerHeaders: {
-        "X-BILLING-INVOKE-ORIGIN": "spoofed",
-        "X-Custom": "1",
-      },
-      precedence: "caller-wins",
-    });
-
-    expect(resolved).toEqual({
-      "X-BILLING-INVOKE-ORIGIN": "OpenAgent",
       "X-Custom": "1",
     });
   });
@@ -595,13 +575,6 @@ describe("provider request config", () => {
       provider: "openai",
       api: "openai-responses" as const,
       baseUrl: "https://api.openai.com/v1",
-      expectedUserAgent: /^openclaw\//,
-    },
-    {
-      label: "native OpenCode Go",
-      provider: "opencode-go",
-      api: "openai-completions" as const,
-      baseUrl: "https://opencode.ai/zen/go/v1",
       expectedUserAgent: /^openclaw\//,
     },
     {

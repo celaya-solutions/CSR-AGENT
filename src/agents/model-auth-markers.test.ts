@@ -76,7 +76,7 @@ describe("model auth markers", () => {
       expect(isNonSecretApiKeyMarker("secretref-env:OPENAI_API_KEY")).toBe(true);
       expect(isNonSecretApiKeyMarker(resolveOAuthApiKeyMarker("chutes"))).toBe(true);
       expect(isNonSecretApiKeyMarker("ollama-local")).toBe(true);
-      expect(isNonSecretApiKeyMarker("lmstudio-local")).toBe(true);
+      expect(isNonSecretApiKeyMarker("llama-cpp-local")).toBe(true);
       expect(isNonSecretApiKeyMarker(CODEX_APP_SERVER_AUTH_MARKER)).toBe(true);
       expect(isNonSecretApiKeyMarker(GCP_VERTEX_CREDENTIALS_MARKER)).toBe(true);
     });
@@ -95,8 +95,7 @@ describe("model auth markers", () => {
       expect(isNonSecretApiKeyMarker("codex-app-server")).toBe(true);
       expect(isNonSecretApiKeyMarker(["openclaw", "claude-cli-native-auth"].join(":"))).toBe(true);
       expect(isNonSecretApiKeyMarker("gcp-vertex-credentials")).toBe(true);
-      expect(isNonSecretApiKeyMarker("lmstudio-local")).toBe(true);
-      expect(isNonSecretApiKeyMarker("minimax-oauth")).toBe(true);
+      expect(isNonSecretApiKeyMarker("llama-cpp-local")).toBe(true);
       expect(isNonSecretApiKeyMarker("ollama-local")).toBe(true);
     });
   });

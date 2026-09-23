@@ -281,9 +281,11 @@ function applyMetadataHints(
   const paths = ["agents.defaults.heartbeat.target", "agents.entries.*.heartbeat.target"];
   for (const path of paths) {
     const current = next[path] ?? {};
+    // Recompute on every merge: base hints already carry the bundled-only list, so keeping
+    // an existing help string would drop channels contributed by the merged metadata.
     next[path] = {
       ...current,
-      help: current.help ?? help,
+      help,
       placeholder: current.placeholder ?? "owner",
     };
   }

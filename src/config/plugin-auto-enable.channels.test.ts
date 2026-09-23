@@ -397,7 +397,7 @@ describe("applyPluginAutoEnable channels", () => {
 
       expect(result.config.plugins?.entries?.mattermost?.enabled).toBe(true);
       expect(result.config.channels?.mattermost?.enabled).toBeUndefined();
-      expect(result.changes).toContain("Mattermost configured, enabled automatically.");
+      expect(result.changes).toContain("mattermost configured, enabled automatically.");
     });
 
     it("activates repaired external channel plugins under plugins.entries", () => {
@@ -758,18 +758,6 @@ describe("applyPluginAutoEnable channels", () => {
       expect(result.changes.join("\n")).not.toContain(
         "secondary configured, enabled automatically.",
       );
-    });
-
-    it("auto-enables imessage when only imessage is configured", () => {
-      const result = applyPluginAutoEnable({
-        config: {
-          channels: { imessage: { cliPath: "/usr/local/bin/imsg" } },
-        },
-        env: makeIsolatedEnv(),
-      });
-
-      expect(result.config.channels?.imessage?.enabled).toBe(true);
-      expect(result.changes.join("\n")).toContain("iMessage configured, enabled automatically.");
     });
   });
 });

@@ -150,7 +150,7 @@ describe("anonymous telemetry", () => {
     expect(payload.features.sessionsLast24h).toBeGreaterThanOrEqual(0);
   });
 
-  it("counts loaded default plugins instead of unloaded config entries and accepts official provider families", () => {
+  it("counts loaded default plugins instead of unloaded config entries and reports only known provider families", () => {
     installPluginRegistry(
       { id: "whatsapp", origin: "bundled", channelIds: ["whatsapp"] },
       { id: "diagnostics-otel", origin: "bundled" },
@@ -176,7 +176,7 @@ describe("anonymous telemetry", () => {
 
     expect(payload.features).toMatchObject({
       channels: ["whatsapp"],
-      providerFamilies: ["anthropic", "cohere", "google", "openai"],
+      providerFamilies: ["anthropic", "google", "openai"],
       plugins: ["diagnostics-otel", "whatsapp"],
       pluginsEnabled: 2,
     });

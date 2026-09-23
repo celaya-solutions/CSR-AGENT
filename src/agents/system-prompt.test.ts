@@ -1670,7 +1670,13 @@ describe("buildAgentSystemPrompt", () => {
       workspaceDir: "/tmp/openclaw",
       toolNames: ["message"],
     });
-    const channelOptions = listDeliverableMessageChannels().join("|");
+    // Built-in ids keep catalog order; registered external channels are sorted.
+    const channelOptions = [
+      ...CHANNEL_IDS,
+      ...listDeliverableMessageChannels()
+        .filter((channelId) => !CHANNEL_IDS.includes(channelId))
+        .toSorted(),
+    ].join("|");
 
     expect(prompt).toContain("message: Message/channel actions");
     expect(prompt).toContain("### message tool");

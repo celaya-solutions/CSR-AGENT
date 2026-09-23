@@ -314,40 +314,6 @@ describe("gateway server agent", () => {
     expect(stored?.claudeCliSessionId).toBe("cli-session-123");
   });
 
-  test("agent accepts built-in channel alias (imsg)", async () => {
-    const registry = createRegistry([
-      {
-        pluginId: "imessage",
-        source: "test",
-        plugin: createStubChannelPlugin({ id: "imessage", label: "iMessage" }),
-      },
-      {
-        pluginId: "msteams",
-        source: "test",
-        plugin: createMSTeamsPlugin({ aliases: ["teams"] }),
-      },
-    ]);
-    setRegistry(registry);
-    await writeMainSessionEntry({
-      sessionId: "sess-alias",
-      lastChannel: "imessage",
-      lastTo: "chat_id:123",
-    });
-    const resIMessage = await rpcReq(ws, "agent", {
-      message: "hi",
-      sessionKey: "main",
-      channel: "imsg",
-      deliver: true,
-      idempotencyKey: "idem-agent-imsg",
-    });
-    expect(resIMessage.ok).toBe(true);
-    await expectAgentRoutingCall({
-      channel: "imessage",
-      deliver: true,
-      runId: "idem-agent-imsg",
-    });
-  });
-
   test("agent accepts plugin channel alias (teams)", async () => {
     const registry = createRegistry([
       {

@@ -79,7 +79,7 @@ describe("update failure report receipt recovery", () => {
         { attemptId: `attempt-${status}-lost-ack`, result: failedUpdate() },
         { stateDir },
       );
-      const issueUrl = "https://github.com/openclaw/openclaw/issues/123";
+      const issueUrl = "https://github.com/celaya-solutions/CSR-AGENT/issues/123";
       const createIssue =
         status === "created" ? mockCreatedIssue(issueUrl) : mockFallbackIssue(prepared.url);
       const finalizeReceipt = vi.fn(
@@ -123,7 +123,7 @@ describe("update failure report receipt recovery", () => {
       { attemptId: "attempt-created-persistence-outage", result: failedUpdate() },
       { stateDir },
     );
-    const issueUrl = "https://github.com/openclaw/openclaw/issues/123";
+    const issueUrl = "https://github.com/celaya-solutions/CSR-AGENT/issues/123";
     const createIssue = mockCreatedIssue(issueUrl);
 
     const first = await submitUpdateFailureReport(prepared, prepared.previewDigest, {
@@ -192,7 +192,9 @@ describe("update failure report receipt recovery", () => {
     expect(first).toMatchObject({ status: "retryable" });
     await expect(fs.readFile(first.savedReportPath, "utf8")).resolves.toBe(prepared.body);
 
-    const secondCreateIssue = mockCreatedIssue("https://github.com/openclaw/openclaw/issues/123");
+    const secondCreateIssue = mockCreatedIssue(
+      "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
+    );
     const second = await submitUpdateFailureReport(prepared, prepared.previewDigest, {
       createIssue: secondCreateIssue,
       stateDir,
@@ -200,7 +202,7 @@ describe("update failure report receipt recovery", () => {
 
     expect(second).toMatchObject({
       status: "created",
-      url: "https://github.com/openclaw/openclaw/issues/123",
+      url: "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
     });
     expect(second.savedReportPath).not.toBe(first.savedReportPath);
     expect(firstCreateIssue).toHaveBeenCalledOnce();
@@ -219,7 +221,9 @@ describe("update failure report receipt recovery", () => {
       createIssue: mockRetryableNoStartIssue(),
       stateDir,
     });
-    const secondCreateIssue = mockCreatedIssue("https://github.com/openclaw/openclaw/issues/123");
+    const secondCreateIssue = mockCreatedIssue(
+      "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
+    );
     const rm = vi
       .spyOn(fs, "rm")
       .mockRejectedValueOnce(new Error("simulated retryable cleanup interruption"));
@@ -250,7 +254,7 @@ describe("update failure report receipt recovery", () => {
 
     expect(third).toMatchObject({
       status: "created",
-      url: "https://github.com/openclaw/openclaw/issues/123",
+      url: "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
     });
     expect(secondCreateIssue).toHaveBeenCalledOnce();
     await expect(fs.stat(first.savedReportPath)).rejects.toMatchObject({ code: "ENOENT" });
@@ -266,7 +270,9 @@ describe("update failure report receipt recovery", () => {
       createIssue: mockRetryableNoStartIssue(),
       stateDir,
     });
-    const staleCreateIssue = mockCreatedIssue("https://github.com/openclaw/openclaw/issues/123");
+    const staleCreateIssue = mockCreatedIssue(
+      "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
+    );
 
     const stale = await submitUpdateFailureReport(prepared, prepared.previewDigest, {
       createIssue: staleCreateIssue,
@@ -307,7 +313,7 @@ describe("update failure report receipt recovery", () => {
     let result: Awaited<ReturnType<typeof submitUpdateFailureReport>>;
     try {
       result = await submitUpdateFailureReport(prepared, prepared.previewDigest, {
-        createIssue: mockCreatedIssue("https://github.com/openclaw/openclaw/issues/123"),
+        createIssue: mockCreatedIssue("https://github.com/celaya-solutions/CSR-AGENT/issues/123"),
         stateDir,
       });
     } finally {
@@ -340,7 +346,9 @@ describe("update failure report receipt recovery", () => {
     await fs.mkdir(path.dirname(expiredReportPath), { recursive: true });
     await fs.writeFile(expiredReportPath, prepared.body, { mode: 0o600 });
     nowMs += 10 * 60_000;
-    const createIssue = mockCreatedIssue("https://github.com/openclaw/openclaw/issues/123");
+    const createIssue = mockCreatedIssue(
+      "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
+    );
     const rm = vi
       .spyOn(fs, "rm")
       .mockRejectedValueOnce(new Error("simulated expired cleanup interruption"));
@@ -404,7 +412,7 @@ describe("update failure report receipt recovery", () => {
     }
 
     const created = await submitUpdateFailureReport(prepared, prepared.previewDigest, {
-      createIssue: mockCreatedIssue("https://github.com/openclaw/openclaw/issues/123"),
+      createIssue: mockCreatedIssue("https://github.com/celaya-solutions/CSR-AGENT/issues/123"),
       stateDir,
     });
     now.mockRestore();
@@ -426,7 +434,7 @@ describe("update failure report receipt recovery", () => {
       { attemptId: "attempt-created-reconcile-restart", result: failedUpdate() },
       { stateDir },
     );
-    const issueUrl = "https://github.com/openclaw/openclaw/issues/123";
+    const issueUrl = "https://github.com/celaya-solutions/CSR-AGENT/issues/123";
     const createIssue = mockCreatedIssue(issueUrl);
 
     const submitted = await submitUpdateFailureReport(prepared, prepared.previewDigest, {
@@ -459,7 +467,9 @@ describe("update failure report receipt recovery", () => {
       { attemptId: "attempt-created-reconcile-miss", result: failedUpdate() },
       { stateDir },
     );
-    const createIssue = mockCreatedIssue("https://github.com/openclaw/openclaw/issues/123");
+    const createIssue = mockCreatedIssue(
+      "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
+    );
 
     await submitUpdateFailureReport(prepared, prepared.previewDigest, {
       createIssue,
@@ -483,7 +493,9 @@ describe("update failure report receipt recovery", () => {
       { attemptId: "attempt-created-reconcile-revoked", result: failedUpdate() },
       { stateDir },
     );
-    const createIssue = mockCreatedIssue("https://github.com/openclaw/openclaw/issues/123");
+    const createIssue = mockCreatedIssue(
+      "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
+    );
 
     await submitUpdateFailureReport(prepared, prepared.previewDigest, {
       createIssue,
@@ -499,7 +511,7 @@ describe("update failure report receipt recovery", () => {
         lookupCalls += 1;
         return {
           status: "created" as const,
-          url: "https://github.com/openclaw/openclaw/issues/123",
+          url: "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
         };
       },
     );
@@ -526,7 +538,7 @@ describe("update failure report receipt recovery", () => {
       { attemptId: "attempt-created-read-outage", result: failedUpdate() },
       { stateDir },
     );
-    const issueUrl = "https://github.com/openclaw/openclaw/issues/123";
+    const issueUrl = "https://github.com/celaya-solutions/CSR-AGENT/issues/123";
     const createIssue = mockCreatedIssue(issueUrl);
     const readReceipt = vi
       .fn(readUpdateFailureReportReceipt)
@@ -557,7 +569,7 @@ describe("update failure report receipt recovery", () => {
       { attemptId: "attempt-created-cleanup-reconnect", result: failedUpdate() },
       { stateDir },
     );
-    const issueUrl = "https://github.com/openclaw/openclaw/issues/123";
+    const issueUrl = "https://github.com/celaya-solutions/CSR-AGENT/issues/123";
     const createIssue = mockCreatedIssue(issueUrl);
     const realRm = fs.rm.bind(fs);
     let observedReceipt: ReturnType<typeof readUpdateFailureReportReceipt> | undefined;
@@ -684,7 +696,7 @@ describe("update failure report receipt recovery", () => {
   it.each([
     { cleanup: "pending" as const, reservationId: "owner", status: "created" as const },
     {
-      fallbackUrl: "https://evil.example/openclaw/openclaw/issues/new",
+      fallbackUrl: "https://evil.example/celaya-solutions/CSR-AGENT/issues/new",
       reservationId: "owner",
       status: "fallback" as const,
     },
@@ -762,7 +774,7 @@ describe("update failure report receipt recovery", () => {
     const legacyReceipt = {
       reservationId: "legacy-owner",
       status: "created",
-      url: "https://github.com/openclaw/openclaw/issues/123",
+      url: "https://github.com/celaya-solutions/CSR-AGENT/issues/123",
     };
     executeSqliteQuerySync(
       db,
@@ -780,7 +792,9 @@ describe("update failure report receipt recovery", () => {
         })
         .where("sentinel_key", "=", key),
     );
-    const createIssue = mockCreatedIssue("https://github.com/openclaw/openclaw/issues/124");
+    const createIssue = mockCreatedIssue(
+      "https://github.com/celaya-solutions/CSR-AGENT/issues/124",
+    );
 
     const result = await submitUpdateFailureReport(prepared, prepared.previewDigest, {
       createIssue,

@@ -169,7 +169,7 @@ describe("legacy state migration caller mode", () => {
       target: expect.arrayContaining([{ kind: "owner", id: "plugin:candidate-only:doctor-state" }]),
     });
     expect(pluginStep?.source).not.toContainEqual(
-      expect.objectContaining({ id: expect.stringContaining("plugin:matrix:") }),
+      expect.objectContaining({ id: expect.stringContaining("plugin:telegram:") }),
     );
   });
 
@@ -236,11 +236,11 @@ describe("legacy state migration caller mode", () => {
     expect(plan.steps.find((step) => step.id === "legacy-main-session-keys")).toBeUndefined();
     expect(plan.steps.find((step) => step.id === "plugin-doctor-state")).toMatchObject({
       source: expect.arrayContaining([
-        { kind: "owner", id: "plugin:matrix:matrix-inbound-dedupe-to-claimable-dedupe" },
+        { kind: "owner", id: "plugin:telegram:telegram-legacy-state" },
         { kind: "owner", id: "plugin:candidate-plugin:state-migrations" },
       ]),
       target: expect.arrayContaining([
-        { kind: "owner", id: "plugin:matrix:doctor-state" },
+        { kind: "owner", id: "plugin:telegram:doctor-state" },
         { kind: "owner", id: "plugin:candidate-plugin:doctor-state" },
       ]),
       requiredness: "conditional",

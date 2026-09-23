@@ -31,6 +31,9 @@ import { createOpenClawTools } from "./openclaw-tools.js";
 import { prepareOwnedPluginLoadContext } from "./prepared-model-runtime.plugin-context.js";
 import { jsonResult } from "./tools/common.js";
 
+const ONE_PIXEL_PNG_BASE64 =
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
+
 const hoisted = vi.hoisted(() => ({
   resolvePluginTools: vi.fn(),
 }));
@@ -166,7 +169,7 @@ describe("createOpenClawTools browser plugin integration", () => {
     const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-plugin-delivery-"));
     const mediaUrl = path.join(workspaceDir, "photo.png");
     const outsideMediaUrl = `${workspaceDir}-outside.png`;
-    await fs.copyFile(path.join(process.cwd()), mediaUrl);
+    await fs.writeFile(mediaUrl, Buffer.from(ONE_PIXEL_PNG_BASE64, "base64"));
     await fs.copyFile(mediaUrl, outsideMediaUrl);
     const platformSendMedia = vi.fn(async () => ({ channel: "telegram", messageId: "sent-1" }));
     const transportDispatchStarted = createDeferred();

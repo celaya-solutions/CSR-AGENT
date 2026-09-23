@@ -193,7 +193,7 @@ describe("legacy state migration caller execution", () => {
     const pluginReceipt = result.stepReceipts.find((step) => step.id === "plugin-doctor-state");
     expect(pluginPlan?.source).toContainEqual({
       kind: "owner",
-      id: "plugin:matrix:matrix-inbound-dedupe-to-claimable-dedupe",
+      id: "plugin:telegram:telegram-legacy-state",
     });
     expect(pluginReceipt?.source).toEqual(pluginPlan?.source);
     expect(pluginReceipt?.target).toEqual(pluginPlan?.target);

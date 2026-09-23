@@ -232,13 +232,13 @@ describe("validateBindMounts", () => {
   it("compares Windows allowed roots case-insensitively", () => {
     expect(
       validateBindMounts(["d:/DATA/OpenAgent/src:/src:ro"], {
-        allowedSourceRoots: ["D:/data/openclaw"],
+        allowedSourceRoots: ["D:/data/openagent"],
       }),
     ).toBeUndefined();
 
     expect(() =>
       validateBindMounts(["D:/other/project:/src:ro"], {
-        allowedSourceRoots: ["d:/data/openclaw"],
+        allowedSourceRoots: ["d:/data/openagent"],
       }),
     ).toThrow(/outside allowed roots/);
   });

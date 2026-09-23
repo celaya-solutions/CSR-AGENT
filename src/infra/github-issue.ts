@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 /** Prepares and submits bounded issue content to this build's source repository. */
 import { createHash } from "node:crypto";
 import { truncateUtf8Prefix } from "../utils/utf8-truncate.js";
-import { SOURCE_REPOSITORY_SLUG } from "./source-repository.js";
+import { SOURCE_REPOSITORY_ISSUE_PATHNAME, SOURCE_REPOSITORY_SLUG } from "./source-repository.js";
 
 export type PreparedGithubIssue = {
   body: string;
@@ -178,7 +178,7 @@ function createdIssueUrl(value: unknown): string | undefined {
       url.origin === "https://github.com" &&
       !url.search &&
       !url.hash &&
-      /^\/openclaw\/openclaw\/issues\/\d+$/u.test(url.pathname)
+      SOURCE_REPOSITORY_ISSUE_PATHNAME.test(url.pathname)
     ) {
       return url.toString();
     }

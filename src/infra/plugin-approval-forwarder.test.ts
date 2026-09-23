@@ -17,7 +17,7 @@ afterEach(async () => {
 });
 
 const emptyRegistry = createTestRegistry([]);
-type SlackAdapterPlugin = Pick<ChannelPlugin, "id" | "meta" | "capabilities" | "config"> &
+type DiscordAdapterPlugin = Pick<ChannelPlugin, "id" | "meta" | "capabilities" | "config"> &
   Partial<Pick<ChannelPlugin, "approvalCapability" | "outbound">>;
 
 const PLUGIN_TARGETS_CFG = {
@@ -25,7 +25,7 @@ const PLUGIN_TARGETS_CFG = {
     plugin: {
       enabled: true,
       mode: "targets",
-      targets: [{ channel: "slack", to: "U123" }],
+      targets: [{ channel: "discord", to: "U123" }],
     },
   },
 } as OpenClawConfig;
@@ -93,14 +93,16 @@ function firstDeliveredPayload(deliver: ReturnType<typeof vi.fn>) {
   return deliveryArgs(deliver)?.payloads?.at(0);
 }
 
-function registerSlackAdapterPlugin(plugin: SlackAdapterPlugin): void {
-  const registry = createTestRegistry([{ pluginId: "slack", plugin, source: "test" }]);
+function registerDiscordAdapterPlugin(plugin: DiscordAdapterPlugin): void {
+  const registry = createTestRegistry([{ pluginId: "discord", plugin, source: "test" }]);
   setActivePluginRegistry(registry);
 }
 
-function createSlackAdapterPlugin(overrides: Partial<SlackAdapterPlugin>): SlackAdapterPlugin {
+function createDiscordAdapterPlugin(
+  overrides: Partial<DiscordAdapterPlugin>,
+): DiscordAdapterPlugin {
   return {
-    ...createChannelTestPluginBase({ id: "slack" as ChannelPlugin["id"] }),
+    ...createChannelTestPluginBase({ id: "discord" as ChannelPlugin["id"] }),
     ...overrides,
   };
 }
@@ -320,7 +322,7 @@ describe("plugin approval forwarding", () => {
     it("returns false when exec enabled but plugin disabled", async () => {
       const cfg = {
         approvals: {
-          exec: { enabled: true, mode: "targets", targets: [{ channel: "slack", to: "U123" }] },
+          exec: { enabled: true, mode: "targets", targets: [{ channel: "discord", to: "U123" }] },
           plugin: { enabled: false },
         },
       } as OpenClawConfig;
@@ -336,7 +338,7 @@ describe("plugin approval forwarding", () => {
           plugin: {
             enabled: true,
             mode: "targets",
-            targets: [{ channel: "slack", to: "U123" }],
+            targets: [{ channel: "discord", to: "U123" }],
           },
         },
       } as OpenClawConfig;
@@ -359,8 +361,8 @@ describe("plugin approval forwarding", () => {
   describe("channel adapter hooks", () => {
     it("uses buildPluginPendingPayload from channel adapter when available", async () => {
       const mockPayload = { text: "custom adapter payload" };
-      registerSlackAdapterPlugin(
-        createSlackAdapterPlugin({
+      registerDiscordAdapterPlugin(
+        createDiscordAdapterPlugin({
           approvalCapability: {
             render: {
               plugin: {
@@ -381,8 +383,8 @@ describe("plugin approval forwarding", () => {
 
     it("calls outbound beforeDeliverPayload before plugin approval delivery", async () => {
       const beforeDeliverPayload = vi.fn();
-      registerSlackAdapterPlugin(
-        createSlackAdapterPlugin({
+      registerDiscordAdapterPlugin(
+        createDiscordAdapterPlugin({
           outbound: {
             deliveryMode: "direct",
             beforeDeliverPayload,
@@ -400,8 +402,8 @@ describe("plugin approval forwarding", () => {
 
     it("uses buildPluginResolvedPayload from channel adapter for resolved messages", async () => {
       const mockPayload = { text: "custom resolved payload" };
-      registerSlackAdapterPlugin(
-        createSlackAdapterPlugin({
+      registerDiscordAdapterPlugin(
+        createDiscordAdapterPlugin({
           approvalCapability: {
             render: {
               plugin: {

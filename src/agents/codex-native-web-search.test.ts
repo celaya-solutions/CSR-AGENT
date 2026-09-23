@@ -201,11 +201,11 @@ describe("resolveCodexNativeSearchActivation", () => {
         tools: {
           ...baseConfig.tools,
           toolsBySender: {
-            "channel:msteams:alice": { deny: ["web_search"] },
+            "channel:telegram:alice": { deny: ["web_search"] },
           },
         },
       },
-      messageProvider: "teams",
+      messageProvider: "telegram",
       senderId: "alice",
       modelProvider: "gateway",
       modelApi: "openai-chatgpt-responses",

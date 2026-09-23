@@ -641,12 +641,12 @@ describe("createCodexNativeWebSearchWrapper", () => {
       return createAssistantMessageEventStream();
     };
     const wrapped = createCodexNativeWebSearchWrapper(baseStreamFn, {
-      messageProvider: "teams",
+      messageProvider: "telegram",
       senderId: "alice",
       config: {
         tools: {
           toolsBySender: {
-            "channel:msteams:alice": { deny: ["web_search"] },
+            "channel:telegram:alice": { deny: ["web_search"] },
           },
           web: {
             search: {

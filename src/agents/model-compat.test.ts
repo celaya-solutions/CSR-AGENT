@@ -79,15 +79,6 @@ function expectSupportsStrictModeForcedOff(overrides?: Partial<Model>): void {
   expect(supportsStrictMode(normalized)).toBe(false);
 }
 
-function expectNativeStreamingSupported(overrides: Partial<Model>): void {
-  const model = { ...baseModel(), ...overrides };
-  delete (model as { compat?: unknown }).compat;
-  const normalized = normalizeModelCompat(model as Model);
-  expect(supportsDeveloperRole(normalized)).toBe(false);
-  expect(supportsUsageInStreaming(normalized)).toBe(true);
-  expect(supportsStrictMode(normalized)).toBe(false);
-}
-
 beforeEach(() => {
   // Endpoint capabilities come from manifests. Keep source tests independent
   // from partial dist output left by an earlier build in the same checkout.
@@ -198,32 +189,6 @@ describe("normalizeModelCompat", () => {
     "forces supportsDeveloperRole off for %s",
     (_name, overrides) => {
       expectSupportsDeveloperRoleForcedOff(overrides);
-    },
-  );
-
-  it.each([
-    [
-      "native Qwen endpoints",
-      {
-        provider: "qwen",
-        baseUrl: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
-      },
-    ],
-    [
-      "DashScope-compatible endpoints regardless of provider id",
-      {
-        provider: "custom-qwen",
-        baseUrl: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
-      },
-    ],
-    [
-      "Moonshot-native endpoints regardless of provider id",
-      { provider: "custom-kimi", baseUrl: "https://api.moonshot.ai/v1" },
-    ],
-  ] satisfies Array<[string, Partial<Model>]>)(
-    "keeps supportsUsageInStreaming on for %s",
-    (_name, overrides) => {
-      expectNativeStreamingSupported(overrides);
     },
   );
 

@@ -18,19 +18,28 @@ afterEach(async () => {
 });
 
 it.each([
-  { name: "canonical default", model: "kimi-for-coding" },
-  { name: "canonical K3 default", model: "k3" },
-  { name: "explicit summary override", model: "k3", override: true },
+  { name: "canonical default", model: "claude-haiku-4-5" },
+  { name: "canonical Opus default", model: "claude-opus-4-8" },
+  { name: "explicit summary override", model: "claude-opus-4-8", override: true },
   {
     name: "disabled plugin",
-    model: "k3",
-    plugins: { entries: { kimi: { enabled: false } } },
+    model: "claude-opus-4-8",
+    plugins: { entries: { anthropic: { enabled: false } } },
     rejected: true,
   },
-  { name: "disabled plugins", model: "k3", plugins: { enabled: false }, rejected: true },
-  { name: "denied plugin", model: "k3", plugins: { deny: ["kimi"] }, rejected: true },
-  { name: "omitted allowlist owner", model: "k3", plugins: { allow: ["google"] }, rejected: true },
-  { name: "unknown model", model: "not-a-real-kimi-model", rejected: true },
+  {
+    name: "disabled plugins",
+    model: "claude-opus-4-8",
+    plugins: { enabled: false },
+    rejected: true,
+  },
+  {
+    name: "denied plugin",
+    model: "claude-opus-4-8",
+    plugins: { deny: ["anthropic"] },
+    rejected: true,
+  },
+  { name: "unknown model", model: "not-a-real-claude-model", rejected: true },
 ] satisfies Array<{
   name: string;
   model: string;
@@ -46,8 +55,8 @@ it.each([
         env: {
           OPENCLAW_DISABLE_BUNDLED_PLUGINS: undefined,
           OPENCLAW_BUNDLED_PLUGINS_DIR: path.resolve("extensions"),
-          KIMI_API_KEY: undefined,
-          KIMICODE_API_KEY: undefined,
+          ANTHROPIC_API_KEY: undefined,
+          ANTHROPIC_OAUTH_TOKEN: undefined,
         },
       },
       async (state) => {
@@ -66,7 +75,7 @@ it.each([
               {
                 type: "message_start",
                 message: {
-                  id: "kimi-summary",
+                  id: "anthropic-summary",
                   type: "message",
                   role: "assistant",
                   model,
@@ -107,12 +116,12 @@ it.each([
         try {
           const address = server.address();
           if (!address || typeof address === "string") {
-            throw new Error("Kimi summary fixture did not expose a TCP port");
+            throw new Error("Anthropic summary fixture did not expose a TCP port");
           }
           const nativeFetch = globalThis.fetch;
           vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => {
             const request = new Request(input, init);
-            expect(request.url).toBe("https://api.kimi.com/coding/v1/messages");
+            expect(request.url).toBe("https://api.anthropic.com/v1/messages");
             return nativeFetch(`http://127.0.0.1:${address.port}/v1/messages`, {
               method: request.method,
               headers: request.headers,
@@ -124,23 +133,27 @@ it.each([
             agents: {
               defaults: {
                 workspace: state.workspaceDir,
-                model: `kimi/${override ? "kimi-for-coding" : expectedModel}`,
+                model: `anthropic/${override ? "claude-haiku-4-5" : expectedModel}`,
               },
               entries: { main: {} },
             },
             plugins: {
-              allow: ["kimi"],
-              entries: { kimi: { enabled: true } },
+              allow: ["anthropic"],
+              entries: { anthropic: { enabled: true } },
               slots: { memory: "none" },
               ...plugins,
             },
-            ...(override ? { tts: { summaryModel: `kimi/${expectedModel}` } } : {}),
+            ...(override ? { tts: { summaryModel: `anthropic/${expectedModel}` } } : {}),
           };
           await state.writeConfig(cfg);
           await state.writeAuthProfiles({
             version: 1,
             profiles: {
-              "kimi:summary-test": { type: "api_key", provider: "kimi", key: "synthetic-kimi-key" },
+              "anthropic:summary-test": {
+                type: "api_key",
+                provider: "anthropic",
+                key: "synthetic-anthropic-key",
+              },
             },
           });
 
@@ -153,15 +166,15 @@ it.each([
             timeoutMs: 10_000,
           });
           if (rejected) {
-            await expect(pending).rejects.toThrow(`Unknown model: kimi/${expectedModel}`);
+            await expect(pending).rejects.toThrow(`Unknown model: anthropic/${expectedModel}`);
             expect(requests).toEqual([]);
             return;
           }
           expect((await pending).summary).toBe(`Summary from ${expectedModel}.`);
           expect(requests).toEqual([expectedModel]);
           expect(resolveDefaultModelForAgent({ cfg, allowPluginNormalization: false })).toEqual({
-            provider: "kimi",
-            model: override ? "kimi-for-coding" : expectedModel,
+            provider: "anthropic",
+            model: override ? "claude-haiku-4-5" : expectedModel,
           });
         } finally {
           server.closeAllConnections();

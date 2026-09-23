@@ -51,13 +51,13 @@ export function buildLoginParams(
     commandBody,
     {
       commands: { text: true, ownerAllowFrom: ["owner"] },
-      channels: { slack: { allowFrom: ["owner"] } },
+      channels: { telegram: { allowFrom: ["owner"] } },
       session: { mainKey: "main" },
     } as OpenClawConfig,
     {
-      Provider: "slack",
-      Surface: "slack",
-      OriginatingChannel: "slack",
+      Provider: "telegram",
+      Surface: "telegram",
+      OriginatingChannel: "telegram",
       OriginatingTo: "direct:owner",
       AccountId: "workspace-a",
       ChatType: "direct",
@@ -66,18 +66,18 @@ export function buildLoginParams(
     },
     { workspaceDir: "/tmp/openclaw-login-test" },
   );
-  params.sessionKey = overrides.sessionKey ?? "agent:main:slack:channel:C123";
+  params.sessionKey = overrides.sessionKey ?? "agent:main:telegram:channel:C123";
   params.agentId = overrides.agentId ?? params.agentId;
   params.provider = overrides.provider ?? "openai";
   params.command = {
     ...params.command,
-    channel: "slack",
-    channelId: "slack",
+    channel: "telegram",
+    channelId: "telegram",
     accountId: "workspace-a",
     senderId: "owner",
     senderIsOwner: true,
     isAuthorizedSender: true,
-    from: "slack:owner",
+    from: "telegram:owner",
     to: "direct:owner",
     ...overrides.command,
   };

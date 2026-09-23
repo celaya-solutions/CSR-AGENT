@@ -255,7 +255,11 @@ describe("outbound cfg-threading guard", () => {
       const extensionFiles = listExtensionFiles();
 
       expect(coreAdapterFiles.length).toBeGreaterThan(0);
-      expect(extensionFiles.adapterEntrypoints.length).toBeGreaterThan(0);
+      // The kept bundled channels declare outbound inline in channel.ts; none
+      // ships a separate src/outbound.ts adapter today.
+      expect(
+        extensionFiles.adapterEntrypoints.length + extensionFiles.inlineChannelEntrypoints.length,
+      ).toBeGreaterThan(0);
       expect(
         coreAdapterFiles.every(
           (file) => file.startsWith("src/channels/plugins/outbound/") && file.endsWith(".ts"),
