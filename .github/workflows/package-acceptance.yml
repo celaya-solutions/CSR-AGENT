@@ -1223,99 +1223,6 @@ jobs:
           }
           node scripts/check-openclaw-package-tarball.mjs "$package"
 
-  npm_12_install_sh:
-    name: npm 12 install.sh acceptance
-    needs: [resolve_package, package_integrity]
-    if: inputs.suite_profile != 'telegram'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    permissions:
-      actions: read
-      contents: read
-    steps:
-      - name: Checkout package workflow ref
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ needs.resolve_package.outputs.tooling_sha }}
-          fetch-depth: 1
-          persist-credentials: false
-
-      - name: Setup Node 24
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: 24
-
-      - name: Download package-under-test artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          artifact-ids: ${{ needs.resolve_package.outputs.package_artifact_id }}
-          path: .artifacts/docker-e2e-package
-          run-id: ${{ needs.resolve_package.outputs.package_artifact_run_id }}
-          github-token: ${{ github.token }}
-
-      - name: Validate prerelease plugin registry artifact identity
-        if: needs.resolve_package.outputs.prepublish_plugin_registry_json != ''
-        env:
-          ARTIFACT_DIGEST: ${{ fromJSON(needs.resolve_package.outputs.prepublish_plugin_registry_json || '{}').prepublishPluginRegistryArtifactDigest || '' }}
-          ARTIFACT_ID: ${{ fromJSON(needs.resolve_package.outputs.prepublish_plugin_registry_json || '{}').prepublishPluginRegistryArtifactId || '' }}
-          ARTIFACT_NAME: ${{ fromJSON(needs.resolve_package.outputs.prepublish_plugin_registry_json || '{}').prepublishPluginRegistryArtifactName || '' }}
-          ARTIFACT_RUN_ATTEMPT: ${{ fromJSON(needs.resolve_package.outputs.prepublish_plugin_registry_json || '{}').prepublishPluginRegistryArtifactRunAttempt || '' }}
-          ARTIFACT_RUN_ID: ${{ fromJSON(needs.resolve_package.outputs.prepublish_plugin_registry_json || '{}').prepublishPluginRegistryArtifactRunId || '' }}
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          bash scripts/docker/shared-image-artifact.sh \
-            verify-upload "Prerelease plugin registry" \
-            "$ARTIFACT_ID" "$ARTIFACT_NAME" "$ARTIFACT_DIGEST" \
-            "$ARTIFACT_RUN_ID" "$ARTIFACT_RUN_ATTEMPT"
-
-      - name: Download prerelease plugin registry artifact
-        if: needs.resolve_package.outputs.prepublish_plugin_registry_json != ''
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          artifact-ids: ${{ fromJSON(needs.resolve_package.outputs.prepublish_plugin_registry_json || '{}').prepublishPluginRegistryArtifactId || '' }}
-          path: .artifacts/prepublish-plugin-registry
-          run-id: ${{ fromJSON(needs.resolve_package.outputs.prepublish_plugin_registry_json || '{}').prepublishPluginRegistryArtifactRunId || '' }}
-          github-token: ${{ github.token }}
-
-      - name: Run install.sh with npm 12
-        env:
-          EXPECTED_PACKAGE_SHA256: ${{ needs.resolve_package.outputs.package_sha256 }}
-          EXPECTED_PACKAGE_VERSION: ${{ needs.resolve_package.outputs.package_version }}
-          OPENCLAW_DOCKER_E2E_SELECTED_SHA: ${{ needs.resolve_package.outputs.package_source_sha }}
-          OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_CANDIDATE_VERSION: ${{ needs.resolve_package.outputs.package_version }}
-          OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_DIR: ${{ needs.resolve_package.outputs.prepublish_plugin_registry_json != '' && format('{0}/.artifacts/prepublish-plugin-registry', github.workspace) || '' }}
-          OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_MANIFEST_SHA256: ${{ fromJSON(needs.resolve_package.outputs.prepublish_plugin_registry_json || '{}').prepublishPluginRegistryManifestSha256 || '' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          package="$PWD/.artifacts/docker-e2e-package/openclaw-current.tgz"
-          [[ "$(sha256sum "$package" | awk '{print $1}')" == "$EXPECTED_PACKAGE_SHA256" ]]
-          npm_tool="$RUNNER_TEMP/openclaw-npm12-tool"
-          install_home="$RUNNER_TEMP/openclaw-npm12-home"
-          install_prefix="$RUNNER_TEMP/openclaw-npm12-prefix"
-          mkdir -p "$install_home" "$install_prefix"
-          npm install -g --prefix "$npm_tool" npm@12.0.2
-          export PATH="$npm_tool/bin:$install_prefix/bin:$PATH"
-          [[ "$(npm --version)" == "12.0.2" ]]
-          HOME="$install_home" \
-            NPM_CONFIG_CACHE="$RUNNER_TEMP/openclaw-npm12-cache" \
-            NPM_CONFIG_PREFIX="$install_prefix" \
-            OPENCLAW_VERSION="$package" \
-            bash scripts/e2e/lib/prepublish-plugin-registry.sh \
-              bash scripts/install.sh --install-method npm --no-prompt --no-onboard
-          source scripts/docker/install-sh-common/version-parse.sh
-          installed_version="$(extract_openclaw_semver "$("$install_prefix/bin/openclaw" --version)")"
-          [[ "$installed_version" == "$EXPECTED_PACKAGE_VERSION" ]] || {
-            echo "Installed OpenAgent version $installed_version differs from expected $EXPECTED_PACKAGE_VERSION." >&2
-            exit 1
-          }
-          pending="$install_prefix/lib/node_modules/openclaw/.openclaw-lifecycle-pending"
-          legacy_guard="$install_prefix/lib/node_modules/openclaw/dist/openclaw-install-guard"
-          [[ ! -e "$pending" ]]
-          [[ ! -e "$legacy_guard" ]]
-
   docker_acceptance:
     name: Docker product acceptance (artifact-only)
     needs: [resolve_package, package_integrity]
@@ -1465,7 +1372,6 @@ jobs:
       [
         resolve_package,
         package_integrity,
-        npm_12_install_sh,
         docker_acceptance,
         docker_acceptance_registry,
         package_telegram,
@@ -1480,7 +1386,6 @@ jobs:
           DOCKER_ARTIFACT_RESULT: ${{ needs.docker_acceptance.result }}
           DOCKER_REGISTRY_RESULT: ${{ needs.docker_acceptance_registry.result }}
           PACKAGE_INTEGRITY_RESULT: ${{ needs.package_integrity.result }}
-          NPM_12_INSTALL_RESULT: ${{ needs.npm_12_install_sh.result }}
           PACKAGE_TELEGRAM_RESULT: ${{ needs.package_telegram.result }}
           RESOLVE_RESULT: ${{ needs.resolve_package.result }}
           SUITE_PROFILE: ${{ inputs.suite_profile }}
@@ -1494,10 +1399,6 @@ jobs:
             docker_result="$DOCKER_REGISTRY_RESULT"
           fi
           if [[ "$SUITE_PROFILE" == "telegram" ]]; then
-            if [[ "$NPM_12_INSTALL_RESULT" != "skipped" ]]; then
-              echo "::error::npm_12_install_sh ran for suite_profile=telegram; expected skipped."
-              exit 1
-            fi
             if [[ "$DOCKER_ARTIFACT_RESULT" != "skipped" ||
                   "$DOCKER_REGISTRY_RESULT" != "skipped" ]]; then
               echo "::error::Docker acceptance ran for suite_profile=telegram; expected both transports skipped."
@@ -1517,7 +1418,6 @@ jobs:
           for item in \
             "resolve_package=${RESOLVE_RESULT}" \
             "package_integrity=${PACKAGE_INTEGRITY_RESULT}" \
-            "npm_12_install_sh=${NPM_12_INSTALL_RESULT}" \
             "docker_acceptance=${docker_result}" \
             "package_telegram=${PACKAGE_TELEGRAM_RESULT}"
           do

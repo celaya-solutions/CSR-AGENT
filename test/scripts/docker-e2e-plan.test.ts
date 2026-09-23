@@ -573,22 +573,12 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     },
   );
 
-  it("plans package-backed installer, Compose, and package artifact proofs", () => {
+  it("plans package-backed Compose and package artifact proofs", () => {
     const plan = planFor({
-      selectedLaneNames: ["cli-installer-distribution", "compose-setup", "docker-package-install"],
+      selectedLaneNames: ["compose-setup", "docker-package-install"],
     });
 
     expect(plan.lanes.map(summarizeLane)).toEqual([
-      {
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:cli-installer-distribution",
-        imageKind: "bare",
-        live: false,
-        name: "cli-installer-distribution",
-        resources: ["docker", "npm"],
-        stateScenario: "empty",
-        timeoutMs: 1_800_000,
-        weight: 3,
-      },
       {
         command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:compose-setup",
         imageKind: "functional",
@@ -611,7 +601,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       },
     ]);
     expect(plan.needs).toEqual({
-      bareImage: true,
+      bareImage: false,
       e2eImage: true,
       functionalImage: true,
       liveImage: false,
@@ -642,11 +632,9 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       prepublishPluginRegistry: true,
     });
     expect(plan.credentials).toEqual(["anthropic-api-key", "openai"]);
-    expect(plan.lanes.map((lane) => lane.name)).not.toContain("install-e2e-openai");
     expect(plan.lanes.map((lane) => lane.name)).toContain("openai-chat-tools");
     expect(plan.lanes.map((lane) => lane.name)).toContain("live-codex-npm-plugin");
     expect(plan.lanes.map((lane) => lane.name)).toContain("codex-on-demand");
-    expect(plan.lanes.map((lane) => lane.name)).not.toContain("install-e2e-anthropic");
     expect(plan.lanes.map((lane) => lane.name)).toContain("mcp-channels");
     expect(plan.lanes.map((lane) => lane.name)).toContain("plugin-binding-command-escape");
     expect(plan.lanes.map((lane) => lane.name)).toContain("live-plugin-tool");
@@ -654,7 +642,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     expect(plan.lanes.map((lane) => lane.name)).toContain("bundled-plugin-install-uninstall-23");
     const countLane = (name: string) =>
       plan.lanes.reduce((count, lane) => count + (lane.name === name ? 1 : 0), 0);
-    expect(countLane("install-e2e-openai")).toBe(0);
     expect(countLane("bundled-plugin-install-uninstall-0")).toBe(1);
     expect(plan.lanes.map((lane) => lane.name)).not.toContain("bundled-plugin-install-uninstall");
     expect(plan.lanes.map((lane) => lane.name)).not.toContain("bundled-channel-deps");
@@ -748,11 +735,9 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
 
     const laneNames = plan.lanes.map((lane) => lane.name);
     expect(plan.releaseProfile).toBe("beta");
-    expect(laneNames).not.toContain("install-e2e-openai");
     expect(laneNames).toContain("openai-chat-tools");
     expect(laneNames).toContain("live-codex-npm-plugin");
     expect(laneNames).toContain("release-typed-onboarding");
-    expect(laneNames).not.toContain("install-e2e-anthropic");
     expect(laneNames).toContain("update-channel-switch");
     expect(laneNames).not.toContain("plugins");
     expect(laneNames).not.toContain("live-plugin-tool");
@@ -771,7 +756,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     expect(plan.lanes.map((lane) => lane.name)).toEqual(["live-plugin-tool"]);
   });
 
-  it("keeps provider-backed install E2E lanes out of non-live package chunks", () => {
+  it("keeps provider-backed lanes out of non-live package chunks", () => {
     const plan = planFor({
       includeOpenWebUI: true,
       liveMode: "skip",
@@ -780,10 +765,8 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     });
 
     const laneNames = plan.lanes.map((lane) => lane.name);
-    expect(laneNames).not.toContain("install-e2e-openai");
     expect(laneNames).not.toContain("openai-chat-tools");
     expect(laneNames).not.toContain("live-codex-npm-plugin");
-    expect(laneNames).not.toContain("install-e2e-anthropic");
     expect(laneNames).toContain("codex-on-demand");
     expect(laneNames).toContain("release-typed-onboarding");
     expect(laneNames).toContain("update-channel-switch");
@@ -2320,40 +2303,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     const plan = planFor({ selectedLaneNames: ["doctor-switch"] });
     expect(plan.requiredPrepublishPluginPackages).toEqual([]);
     expect(plan.needs.prepublishPluginRegistry).toBe(false);
-  });
-
-  it("maps installer E2E to provider-specific package install lanes", () => {
-    const selectedLaneNames = parseLaneSelection("install-e2e");
-    const plan = planFor({ selectedLaneNames });
-
-    expect(selectedLaneNames).toEqual(["install-e2e-openai", "install-e2e-anthropic"]);
-    expect(
-      plan.lanes.map((lane) => ({
-        imageKind: lane.imageKind,
-        live: lane.live,
-        name: lane.name,
-        resources: lane.resources,
-        timeoutMs: lane.timeoutMs,
-        weight: lane.weight,
-      })),
-    ).toEqual([
-      {
-        imageKind: "bare",
-        live: true,
-        name: "install-e2e-openai",
-        resources: ["docker", "live", "live:openai", "npm", "service"],
-        timeoutMs: 900_000,
-        weight: 3,
-      },
-      {
-        imageKind: "bare",
-        live: true,
-        name: "install-e2e-anthropic",
-        resources: ["docker", "live", "live:claude", "npm", "service"],
-        weight: 3,
-      },
-    ]);
-    expect(plan.credentials).toEqual(["anthropic", "openai"]);
   });
 
   it("maps bundled plugin install/uninstall to package-backed shards", () => {

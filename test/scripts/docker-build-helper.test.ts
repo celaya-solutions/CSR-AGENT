@@ -77,7 +77,6 @@ const DOCKER_E2E_IMAGE_HELPER_PATH = "scripts/lib/docker-e2e-image.sh";
 const DOCKER_E2E_SCENARIOS_PATH = "scripts/lib/docker-e2e-scenarios.mts";
 const OPENCLAW_E2E_INSTANCE_HELPER_PATH = "scripts/lib/openclaw-e2e-instance.sh";
 const COMPOSE_SETUP_E2E_PATH = "scripts/e2e/compose-setup.sh";
-const CLI_INSTALLER_DISTRIBUTION_E2E_PATH = "scripts/e2e/cli-installer-distribution-docker.sh";
 const DOCKER_PACKAGE_INSTALL_E2E_PATH = "scripts/e2e/docker-package-install.sh";
 // Preserve the published 2026.8.1 query; the systemd fixture tests use the current reader.
 const SURVIVOR_SERVICE_SHOW_ARGS = [
@@ -87,9 +86,7 @@ const SURVIVOR_SERVICE_SHOW_ARGS = [
   "--property",
   "Id,ActiveState,SubState,Result,NRestarts,StartLimitBurst,MainPID,ExecMainStatus,ExecMainCode,KillMode,TasksCurrent,MemoryCurrent",
 ];
-const INSTALL_E2E_RUNNER_PATH = "scripts/docker/install-sh-e2e/run.sh";
 const CLEANUP_DOCKER_SMOKE_PATH = "scripts/test-cleanup-docker.sh";
-const INSTALL_E2E_DOCKER_SMOKE_PATH = "scripts/test-install-sh-e2e-docker.sh";
 const LIVE_CLI_BACKEND_DOCKER_PATH = "scripts/test-live-cli-backend-docker.sh";
 const LIVE_BUILD_DOCKER_PATH = "scripts/test-live-build-docker.sh";
 const OPENAI_WEB_SEARCH_MINIMAL_E2E_PATH = "scripts/e2e/openai-web-search-minimal-docker.sh";
@@ -197,8 +194,6 @@ const CENTRALIZED_BUILD_SCRIPTS = [
   "scripts/sandbox-common-setup.sh",
   "scripts/sandbox-setup.sh",
   "scripts/test-cleanup-docker.sh",
-  "scripts/test-install-sh-docker.sh",
-  "scripts/test-install-sh-e2e-docker.sh",
   "scripts/test-live-build-docker.sh",
 ] as const;
 
@@ -808,7 +803,6 @@ fi
 
   it("routes standalone Docker smoke runs through the timeout-aware helper", () => {
     const cleanupSmoke = readFileSync(CLEANUP_DOCKER_SMOKE_PATH, "utf8");
-    const installE2eSmoke = readFileSync(INSTALL_E2E_DOCKER_SMOKE_PATH, "utf8");
 
     expect(cleanupSmoke).toContain('source "$ROOT_DIR/scripts/lib/docker-e2e-container.sh"');
     expect(cleanupSmoke).toContain(
@@ -818,13 +812,6 @@ fi
       'docker_e2e_docker_run_cmd run --rm --platform "$PLATFORM" -t "$IMAGE_NAME"',
     );
     expect(cleanupSmoke).not.toContain('docker run --rm --platform "$PLATFORM" -t "$IMAGE_NAME"');
-
-    expect(installE2eSmoke).toContain('source "$ROOT_DIR/scripts/lib/docker-e2e-container.sh"');
-    expect(installE2eSmoke).toContain(
-      'DOCKER_COMMAND_TIMEOUT="${DOCKER_COMMAND_TIMEOUT:-${OPENCLAW_INSTALL_E2E_DOCKER_TIMEOUT:-2700s}}"',
-    );
-    expect(installE2eSmoke).toContain("docker_e2e_docker_run_cmd run --rm \\");
-    expect(installE2eSmoke).not.toContain("docker run --rm \\");
   });
 
   it("runs the sandbox browser sidecar proof from the package-installed image", () => {
@@ -7695,7 +7682,6 @@ fs.appendFileSync(process.env.FIXTURE_DOCKER_CAPTURE, JSON.stringify({ args, sta
   });
 
   it("executes each CLI distribution boundary instead of promoting metadata", () => {
-    const installerRunner = readFileSync(CLI_INSTALLER_DISTRIBUTION_E2E_PATH, "utf8");
     const packageRunner = readFileSync(DOCKER_PACKAGE_INSTALL_E2E_PATH, "utf8");
     const updateRunner = readFileSync(UPDATE_CHANNEL_SWITCH_DOCKER_E2E_PATH, "utf8");
 
@@ -7722,31 +7708,6 @@ fs.appendFileSync(process.env.FIXTURE_DOCKER_CAPTURE, JSON.stringify({ args, sta
       '--container "bun=$BUN_PROOF_CONTAINER"',
     ]);
     expect(packageRunner).not.toContain('-v "$ROOT_DIR:/repo:ro"');
-    expectTextToIncludeAll(installerRunner, [
-      "bash /tmp/install.sh",
-      "--version file:/tmp/openclaw-current.tgz",
-      'source "$HOME/.bashrc"',
-      "hash -r",
-      "bash /tmp/openclaw-source/scripts/install-cli.sh",
-      "--install-method git",
-      "--prefix /tmp/openclaw-prefix",
-      "--node-version 24.19.0",
-      "apt-get install -y --no-install-recommends curl",
-      "command -v curl >/dev/null",
-      'chmod 0555 "$SOURCE_PROOF_SCRIPT"',
-      'SOURCE_MEMORY="${OPENCLAW_CLI_INSTALLER_SOURCE_MEMORY:-16g}"',
-      '--memory "$SOURCE_MEMORY"',
-      "runuser -u appuser",
-      'test -r "$0"',
-      'test -x "$0"',
-      'grep -Fq "/tmp/openclaw-source/dist/entry.js" "$prefix_cli"',
-      "openclaw update status --json",
-      "expected git install kind",
-    ]);
-    expect(installerRunner.match(/--memory "\$SOURCE_MEMORY"/gu)).toHaveLength(1);
-    expect(installerRunner.indexOf('--memory "$SOURCE_MEMORY"')).toBeGreaterThan(
-      installerRunner.indexOf('echo "==> install-cli.sh dedicated-prefix source-checkout proof"'),
-    );
     expectTextToIncludeAll(updateRunner, [
       "openclaw update --channel beta",
       'OPENCLAW_NPM_REGISTRY_DIST_TAGS="latest=0.0.0,beta=$package_version"',
@@ -7987,18 +7948,10 @@ done
     );
   });
 
-  it("runs release installer E2E against the npm beta tag", () => {
+  it("runs the Open WebUI release lane in chat mode", () => {
     const scenarios = readFileSync(DOCKER_E2E_SCENARIOS_PATH, "utf8");
     const openWebUiRunner = readFileSync(OPENWEBUI_DOCKER_E2E_PATH, "utf8");
 
-    expect(scenarios).toContain(
-      '"OPENCLAW_INSTALL_TAG=beta OPENCLAW_E2E_MODELS=openai OPENCLAW_INSTALL_E2E_IMAGE=openclaw-install-e2e-openai:local OPENCLAW_INSTALL_E2E_AGENT_TOOL_SMOKE=0 OPENCLAW_INSTALL_E2E_OPENAI_MODEL=openai/gpt-5.4-mini OPENCLAW_INSTALL_E2E_AGENT_TURN_TIMEOUT_SECONDS=120 OPENCLAW_INSTALL_E2E_OPENAI_PROVIDER_TIMEOUT_SECONDS=120"',
-    );
-    expect(scenarios).toContain(
-      '"OPENCLAW_INSTALL_TAG=beta OPENCLAW_E2E_MODELS=anthropic OPENCLAW_INSTALL_E2E_IMAGE=openclaw-install-e2e-anthropic:local"',
-    );
-    expect(scenarios).toContain('"test-install-sh-e2e-docker.sh"');
-    expect(scenarios).not.toContain("pnpm test:install:e2e");
     expect(scenarios).toContain(
       '"OPENCLAW_OPENWEBUI_MODEL=openai/gpt-5.4-mini OPENCLAW_OPENWEBUI_PROVIDER_TIMEOUT_SECONDS=300 OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:openwebui"',
     );
@@ -8007,48 +7960,6 @@ done
       'SMOKE_MODE="${OPENWEBUI_SMOKE_MODE:-${OPENCLAW_OPENWEBUI_SMOKE_MODE:-chat}}"',
     );
     expect(openWebUiRunner).toContain('-e "OPENWEBUI_SMOKE_MODE=$SMOKE_MODE"');
-  });
-
-  it("times and parallelizes release installer E2E agent turns after gateway startup", () => {
-    const runner = readFileSync(INSTALL_E2E_RUNNER_PATH, "utf8");
-    const wrapper = readFileSync("scripts/test-install-sh-e2e-docker.sh", "utf8");
-
-    expectTextToIncludeAll(runner, [
-      'AGENT_TURNS_PARALLEL="$(read_boolean_env OPENCLAW_INSTALL_E2E_AGENT_TURNS_PARALLEL 1)"',
-      'AGENT_TOOL_SMOKE="$(read_boolean_env OPENCLAW_INSTALL_E2E_AGENT_TOOL_SMOKE 1)"',
-      "time_phase",
-      "phase_mark_start",
-      "run_agent_turn_bg",
-      "wait_agent_turn_batch",
-      "agent_turn_outputs_include_billing_drift",
-      "SKIP: Anthropic billing drift during installer agent tool smoke",
-      'run_agent_turn_bg "image write"',
-      'run_agent_turn_logged_or_skip_profile "read proof copy"',
-      "OPENCLAW_INSTALL_E2E_OPENAI_MODEL",
-      "OPENCLAW_INSTALL_E2E_OPENAI_PROVIDER_TIMEOUT_SECONDS",
-      'AGENT_TURN_TIMEOUT_SECONDS="$(read_positive_int_env OPENCLAW_INSTALL_E2E_AGENT_TURN_TIMEOUT_SECONDS 300)"',
-    ]);
-
-    expect(runner).not.toContain('run_agent_turn_bg "read proof"');
-
-    expectTextToIncludeAll(wrapper, [
-      "OPENCLAW_INSTALL_E2E_AGENT_TURNS_PARALLEL",
-      "OPENCLAW_INSTALL_E2E_AGENT_TOOL_SMOKE",
-      "OPENCLAW_INSTALL_E2E_OPENAI_MODEL",
-      "OPENCLAW_INSTALL_E2E_OPENAI_PROVIDER_TIMEOUT_SECONDS",
-      "docker_e2e_read_positive_int_env OPENCLAW_INSTALL_E2E_AGENT_TURN_TIMEOUT_SECONDS 300",
-      'docker_e2e_read_positive_int_env OPENCLAW_INSTALL_E2E_OPENAI_PROVIDER_TIMEOUT_SECONDS "$AGENT_TURN_TIMEOUT_SECONDS"',
-      '-e OPENCLAW_INSTALL_E2E_AGENT_TURN_TIMEOUT_SECONDS="$AGENT_TURN_TIMEOUT_SECONDS"',
-      "OPENCLAW_INSTALL_E2E_PROFILE_FILE",
-      "OPENCLAW_PROFILE_FILE",
-      "OPENCLAW_TESTBOX_PROFILE_FILE",
-      "read_profile_env_value",
-      'source "$PROFILE_FILE"',
-      'export "$key"',
-      "Profile file: $PROFILE_STATUS",
-    ]);
-
-    expect(wrapper).not.toContain("set -a");
   });
 
   it("keeps package acceptance plugin coverage offline-capable", () => {
@@ -8827,87 +8738,6 @@ bash "$ROOT_DIR/scripts/e2e/doctor-install-switch-docker.sh"
       expect(result.stderr).not.toContain("Docker image not found");
     },
   );
-
-  it("passes installer tag env to bash, not curl", () => {
-    const runner = readFileSync(INSTALL_E2E_RUNNER_PATH, "utf8");
-    expect(runner).toContain('OPENCLAW_BETA=1 bash "$installer"');
-    expect(runner).toContain('OPENCLAW_VERSION="$INSTALL_TAG" bash "$installer"');
-    expect(runner).not.toContain('OPENCLAW_BETA=1 curl -fsSL "$INSTALL_URL" | bash');
-    expect(runner).not.toContain(
-      'OPENCLAW_VERSION="$INSTALL_TAG" curl -fsSL "$INSTALL_URL" | bash',
-    );
-  });
-
-  it("keeps installer E2E agent turns out of the interactive bootstrap ritual", () => {
-    const runner = readFileSync(INSTALL_E2E_RUNNER_PATH, "utf8");
-    expect(runner).toContain('rm -f "$workspace/BOOTSTRAP.md"');
-    expect(runner.indexOf('rm -f "$workspace/BOOTSTRAP.md"')).toBeLessThan(
-      runner.indexOf('phase_mark_start "Agent turns ($profile)"'),
-    );
-  });
-
-  it("keeps installer E2E tool smokes in isolated sessions", () => {
-    const runner = readFileSync(INSTALL_E2E_RUNNER_PATH, "utf8");
-    expectTextToIncludeAll(runner, [
-      'SESSION_ID_PREFIX="e2e-tools-${profile}"',
-      'TURN2B_SESSION_ID="${SESSION_ID_PREFIX}-read-copy"',
-      'TURN3_SESSION_ID="${SESSION_ID_PREFIX}-exec-hostname"',
-      'TURN4_SESSION_ID="${SESSION_ID_PREFIX}-image-write"',
-    ]);
-  });
-
-  it("bounds installer E2E session transcript tool scans", () => {
-    const runner = readFileSync(INSTALL_E2E_RUNNER_PATH, "utf8");
-    const start = runner.indexOf("assert_session_used_tools() {");
-    const end = runner.indexOf("\nsession_jsonl_path()", start);
-    const helper = runner.slice(start, end);
-
-    expect(start).toBeGreaterThanOrEqual(0);
-    expect(end).toBeGreaterThan(start);
-    expectTextToIncludeAll(helper, [
-      "OPENCLAW_INSTALL_E2E_SESSION_SCAN_BYTES",
-      "OPENCLAW_INSTALL_E2E_SESSION_LINE_BYTES",
-      "OPENCLAW_INSTALL_E2E_SESSION_SCAN_DEPTH",
-      "OPENCLAW_INSTALL_E2E_SESSION_SCAN_NODES",
-      "fs.createReadStream",
-      "Buffer.concat",
-      "skippedOversizedLines",
-    ]);
-
-    expect(helper).not.toContain('require("node:readline")');
-    expect(helper).not.toContain("fs.readFileSync");
-    expect(helper).not.toContain('.split("\\n")');
-  });
-
-  it("accepts the image compatibility alias in installer E2E transcripts", () => {
-    const runner = readFileSync(INSTALL_E2E_RUNNER_PATH, "utf8");
-    const start = runner.indexOf("assert_session_used_tools() {");
-    const end = runner.indexOf("\nsession_jsonl_path()", start);
-    const helper = runner.slice(start, end);
-
-    expect(helper).toContain('spec.split("|").filter(Boolean)');
-    expect(helper).toContain("group.some((tool) => seen.has(tool))");
-    expect(runner).toContain(
-      'assert_session_used_tools "$profile" "$TURN4_SESSION_ID" "image|view_image" write',
-    );
-  });
-
-  it("exports SQLite-backed installer E2E sessions before scanning tools", () => {
-    const runner = readFileSync(INSTALL_E2E_RUNNER_PATH, "utf8");
-    const start = runner.indexOf("assert_session_used_tools() {");
-    const end = runner.indexOf("\nsession_jsonl_path()", start);
-    const helper = runner.slice(start, end);
-
-    expectTextToIncludeAll(helper, [
-      'jsonl="$(session_jsonl_path "$profile" "$session_id")"',
-      'if [[ ! -f "$jsonl" ]]',
-      'openclaw --profile "$profile" sessions export-trajectory',
-      '--session-key "agent:main:explicit:${session_id}"',
-      '--workspace "$export_workspace"',
-      'jsonl="$export_workspace/.openclaw/trajectory-exports/scan/events.jsonl"',
-      'rm -rf "$export_workspace"',
-    ]);
-  });
 
   it("keeps OpenAI web search smoke on one gateway agent connection", () => {
     const runner = readFileSync(OPENAI_WEB_SEARCH_MINIMAL_E2E_PATH, "utf8");

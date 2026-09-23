@@ -138,7 +138,7 @@ describe("detectChangedScope", () => {
     }
 
     expect(shouldRunNativeI18n(["src/config/defaults.ts"])).toBe(false);
-    expect(shouldRunNativeI18n(["scripts/install.sh"])).toBe(false);
+    expect(shouldRunNativeI18n(["scripts/install-cli.sh"])).toBe(false);
   });
 
   it("fails safe when no paths are provided", () => {
@@ -458,7 +458,7 @@ describe("detectChangedScope", () => {
     ["scripts/openclaw-cross-os-release-checks.ts", true, false],
     ["scripts/lib/cross-os-release-checks/runtime.ts", true, false],
     ["test/scripts/openclaw-cross-os-release-workflow.test.ts", true, false],
-    ["scripts/install.ps1", true, true],
+    ["scripts/install.ps1", true, false],
   ])(
     "runs Windows only for Windows-relevant changes (%s)",
     (changedPath, runWindows, runChangedSmoke) => {
@@ -478,10 +478,7 @@ describe("detectChangedScope", () => {
   );
 
   it("runs changed-smoke for install and packaging surfaces", () => {
-    expect(detectChangedScope(["scripts/install.sh"])).toEqual(expectedNodeAndChangedSmokeScope);
-    expect(detectChangedScope(["scripts/install-cli.sh"])).toEqual(
-      expectedNodeAndChangedSmokeScope,
-    );
+    expect(detectChangedScope(["scripts/install-cli.sh"])).toEqual(expectedNodeOnlyScope);
     expect(detectChangedScope([bundledPluginFile("matrix", "package.json")])).toEqual(
       expectedNodeAndChangedSmokeScope,
     );
@@ -539,17 +536,13 @@ describe("detectChangedScope", () => {
       runFastInstallSmoke: false,
       runFullInstallSmoke: false,
     });
-    expect(detectInstallSmokeScope(["scripts/install.sh"])).toEqual({
-      runFastInstallSmoke: true,
-      runFullInstallSmoke: true,
-    });
     expect(detectInstallSmokeScope(["scripts/install-cli.sh"])).toEqual({
-      runFastInstallSmoke: true,
-      runFullInstallSmoke: true,
+      runFastInstallSmoke: false,
+      runFullInstallSmoke: false,
     });
     expect(detectInstallSmokeScope(["scripts/install.ps1"])).toEqual({
-      runFastInstallSmoke: true,
-      runFullInstallSmoke: true,
+      runFastInstallSmoke: false,
+      runFullInstallSmoke: false,
     });
     expect(detectInstallSmokeScope(["Dockerfile"])).toEqual({
       runFastInstallSmoke: true,

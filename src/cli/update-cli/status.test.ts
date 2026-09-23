@@ -226,7 +226,7 @@ describe("update status Node runtime findings", () => {
               source,
               message: expect.stringContaining(version),
               requirement: expect.stringContaining(">=24.16.0 <25, or >=26.1.0"),
-              fixHint: expect.stringContaining("https://openclaw.ai/install.sh"),
+              fixHint: expect.stringContaining("pnpm install && pnpm build"),
             }),
           ],
         }),

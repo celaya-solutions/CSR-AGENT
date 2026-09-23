@@ -32,27 +32,20 @@ function createTarball(archivePath: string, sourceDir: string, entries: string[]
 }
 
 function createFixture(
-  options: { symlinkInstaller?: boolean; symlinkPackage?: boolean } = {},
+  options: { symlinkPackage?: boolean } = {},
   root = tempDirs.make("install-smoke-candidate-payload-"),
 ) {
   const archiveRoot = path.join(root, "candidate-root");
-  const scriptsDir = path.join(archiveRoot, "scripts");
   const packageRoot = path.join(root, "package-root");
   const packageContents = path.join(packageRoot, "package");
   const packageDir = path.join(root, "package-output");
   const payloadDir = path.join(root, "payload");
-  mkdirSync(scriptsDir, { recursive: true });
+  mkdirSync(archiveRoot, { recursive: true });
   mkdirSync(packageContents, { recursive: true });
   mkdirSync(packageDir, { recursive: true });
   mkdirSync(payloadDir, { recursive: true });
 
-  writeFileSync(path.join(scriptsDir, "install-target.sh"), "#!/bin/sh\necho install\n");
-  if (options.symlinkInstaller) {
-    symlinkSync("install-target.sh", path.join(scriptsDir, "install.sh"));
-  } else {
-    writeFileSync(path.join(scriptsDir, "install.sh"), "#!/bin/sh\necho install\n");
-  }
-  writeFileSync(path.join(scriptsDir, "install-cli.sh"), "#!/bin/sh\necho cli\n");
+  writeFileSync(path.join(archiveRoot, "package.json"), "{}\n");
   const archivePath = path.join(root, "candidate.tar.gz");
   createTarball(archivePath, root, ["candidate-root"]);
 
@@ -70,10 +63,7 @@ function createFixture(
   return { archivePath, packageDir, packagePath, packageContents, payloadDir, root };
 }
 
-async function sealFixture(
-  options: { symlinkInstaller?: boolean; symlinkPackage?: boolean } = {},
-  root?: string,
-) {
+async function sealFixture(options: { symlinkPackage?: boolean } = {}, root?: string) {
   const fixture = createFixture(options, root);
   const manifest = await sealInstallSmokeCandidatePayload({
     ...IDENTITY,
@@ -101,7 +91,7 @@ function verifyOptions(payloadDir: string, manifestSha256: string, sourceArchive
 }
 
 describe("install smoke candidate payload", () => {
-  it("seals source installers and package bytes into a fully bound payload", async () => {
+  it("seals package bytes into a fully bound payload", async () => {
     const fixture = await sealFixture();
     const verified = await verifyInstallSmokeCandidatePayload(
       verifyOptions(
@@ -121,8 +111,6 @@ describe("install smoke candidate payload", () => {
     expect(verified.files.map(({ name, role }) => ({ name, role }))).toEqual([
       { name: "candidate.tgz", role: "package" },
       { name: "candidate-pack.json", role: "package-metadata" },
-      { name: "install.sh", role: "installer" },
-      { name: "install-cli.sh", role: "cli-installer" },
     ]);
     expect(
       JSON.parse(readFileSync(path.join(fixture.payloadDir, "candidate-pack.json"), "utf8")),
@@ -138,9 +126,6 @@ describe("install smoke candidate payload", () => {
         version: PACKAGE_VERSION,
       },
     ]);
-    expect(readFileSync(path.join(fixture.payloadDir, "install.sh"), "utf8")).toContain(
-      "echo install",
-    );
   });
 
   describe("sealed payload corruption", () => {
@@ -151,7 +136,7 @@ describe("install smoke candidate payload", () => {
       fixture = await sealFixture({}, sharedTempDirs.make("install-smoke-sealed-payload-"));
     });
 
-    it.each(["candidate.tgz", "candidate-pack.json", "install.sh", "install-cli.sh"])(
+    it.each(["candidate.tgz", "candidate-pack.json"])(
       "rejects tampering with %s after sealing",
       async (filename) => {
         const filePath = path.join(fixture.payloadDir, filename);
@@ -226,17 +211,7 @@ describe("install smoke candidate payload", () => {
     ).rejects.toThrow("candidate payload contains missing or unexpected files");
   });
 
-  it("rejects symlinked candidate inputs before sealing", async () => {
-    const installerFixture = createFixture({ symlinkInstaller: true });
-    await expect(
-      sealInstallSmokeCandidatePayload({
-        ...IDENTITY,
-        archivePath: installerFixture.archivePath,
-        outputDir: installerFixture.payloadDir,
-        packageDir: installerFixture.packageDir,
-      }),
-    ).rejects.toThrow("scripts/install.sh must be a regular file");
-
+  it("rejects a symlinked candidate package before sealing", async () => {
     const packageFixture = createFixture({ symlinkPackage: true });
     await expect(
       sealInstallSmokeCandidatePayload({

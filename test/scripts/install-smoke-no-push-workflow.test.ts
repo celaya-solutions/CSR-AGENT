@@ -72,8 +72,8 @@ describe("install smoke no-push root image transport", () => {
     expect(workflow.on?.schedule).toBeDefined();
     expect(workflow.on?.workflow_dispatch?.inputs).toMatchObject({
       run_bun_global_install_smoke: { default: false, type: "boolean" },
-      update_baseline_version: { default: "latest", type: "string" },
     });
+    expect(workflow.on?.workflow_dispatch?.inputs?.update_baseline_version).toBeUndefined();
     expect(workflow.on?.workflow_call).toBeUndefined();
     expect(workflow.permissions).toEqual({
       actions: "read",
@@ -93,7 +93,6 @@ describe("install smoke no-push root image transport", () => {
       ref: "${{ github.sha }}",
       run_bun_global_install_smoke:
         "${{ github.event_name == 'schedule' || inputs.run_bun_global_install_smoke }}",
-      update_baseline_version: "${{ inputs.update_baseline_version || 'latest' }}",
     });
     expect(readFileSync(INSTALL_SMOKE, "utf8")).not.toContain("packages: write");
   });
@@ -198,18 +197,14 @@ describe("install smoke no-push root image transport", () => {
     expect(trustedJobs.toSorted()).toEqual(
       [
         "bun_global_install_smoke",
-        "installer_smoke_candidate_payload",
-        "installer_smoke_nonroot",
-        "installer_smoke_nonroot_image",
-        "installer_smoke_update",
-        "installer_smoke_update_image",
+        "candidate_payload",
         "root_dockerfile_image",
         "root_dockerfile_smokes",
       ].toSorted(),
     );
 
     const candidateResolver = step(
-      job(workflow, "installer_smoke_candidate_payload"),
+      job(workflow, "candidate_payload"),
       "Restore exact trusted workflow revision",
     );
     const runResolver = (workflowRepository: string, workflowSha: string) =>
@@ -543,161 +538,27 @@ describe("install smoke no-push root image transport", () => {
     },
   );
 
-  it("binds independent installer producer-consumer pairs to immutable artifact tuples", () => {
+  it("binds the Bun smoke consumer to the immutable candidate payload tuple", () => {
     const workflow = readWorkflow(INSTALL_SMOKE_REUSABLE);
-    const pairs = [
-      {
-        artifactKind: "install-smoke-update",
-        artifactPrefix: "install-smoke-update-image",
-        buildName: "Build installer smoke image",
-        consumerName: "installer_smoke_update",
-        downloadName: "Download installer update image artifact",
-        group: "update",
-        loadName: "Verify and load installer update image artifact",
-        packName: "Pack installer smoke image artifact",
-        producerName: "installer_smoke_update_image",
-        testName: "Run installer update docker tests",
-        uploadName: "Upload installer smoke image artifact",
-        validateName: "Validate installer update image artifact binding",
-      },
-      {
-        artifactKind: "install-smoke-nonroot",
-        artifactPrefix: "install-smoke-nonroot-image",
-        buildName: "Build installer non-root image",
-        consumerName: "installer_smoke_nonroot",
-        downloadName: "Download installer non-root image artifact",
-        group: "nonroot",
-        loadName: "Verify and load installer non-root image artifact",
-        packName: "Pack installer non-root image artifact",
-        producerName: "installer_smoke_nonroot_image",
-        testName: "Run installer non-root docker tests",
-        uploadName: "Upload installer non-root image artifact",
-        validateName: "Validate installer non-root image artifact binding",
-      },
-    ] as const;
-
-    for (const pair of pairs) {
-      const producer = job(workflow, pair.producerName);
-      expect(producer.needs, pair.producerName).toEqual(["preflight"]);
-      expect(producer["timeout-minutes"], pair.producerName).toBe(45);
-      expect(producer.outputs, pair.producerName).toEqual({
-        archive_sha256: "${{ steps.image_artifact.outputs.archive_sha256 }}",
-        artifact_digest: "${{ steps.image_artifact_upload.outputs.artifact-digest }}",
-        artifact_id: "${{ steps.image_artifact_upload.outputs.artifact-id }}",
-        artifact_name: "${{ steps.image_artifact.outputs.artifact_name }}",
-        artifact_run_attempt: "${{ steps.image_artifact.outputs.run_attempt }}",
-        artifact_run_id: "${{ steps.image_artifact.outputs.run_id }}",
-        target_sha: "${{ steps.image_artifact.outputs.target_sha }}",
-        workflow_sha: "${{ steps.image_artifact.outputs.workflow_sha }}",
-      });
-      expect(step(producer, pair.buildName).run, pair.producerName).toContain("--load");
-
-      const pack = step(producer, pair.packName);
-      expect(pack.run, pair.producerName).toContain(
-        `artifact_name="${pair.artifactPrefix}-\${TARGET_SHA}-\${GITHUB_RUN_ID}-\${GITHUB_RUN_ATTEMPT}"`,
-      );
-      expect(pack.run, pair.producerName).toContain(
-        `pack "$artifact_dir" ${pair.artifactKind} "$TARGET_SHA" "$WORKFLOW_SHA" "$IMAGE_REF"`,
-      );
-      expect(pack.run, pair.producerName).toContain('echo "archive_sha256=$archive_sha256"');
-      expect(pack.run, pair.producerName).toContain('echo "run_attempt=$GITHUB_RUN_ATTEMPT"');
-      expect(pack.run, pair.producerName).toContain('echo "run_id=$GITHUB_RUN_ID"');
-      expect(pack.run, pair.producerName).toContain('echo "target_sha=$TARGET_SHA"');
-      expect(pack.run, pair.producerName).toContain('echo "workflow_sha=$WORKFLOW_SHA"');
-      expect(step(producer, pair.uploadName).with, pair.producerName).toMatchObject({
-        "compression-level": 0,
-        "if-no-files-found": "error",
-        name: "${{ steps.image_artifact.outputs.artifact_name }}",
-      });
-
-      const consumer = job(workflow, pair.consumerName);
-      const expectedNeeds = ["preflight", "installer_smoke_candidate_payload", pair.producerName];
-      expect(consumer.needs, pair.consumerName).toEqual(expectedNeeds);
-      expect(consumer["timeout-minutes"], pair.consumerName).toBe(
-        pair.group === "update" ? 120 : 60,
-      );
-
-      const binding = step(consumer, pair.validateName);
-      expect(binding.env, pair.consumerName).toMatchObject({
-        ARCHIVE_SHA256: `\${{ needs.${pair.producerName}.outputs.archive_sha256 }}`,
-        ARTIFACT_DIGEST: `\${{ needs.${pair.producerName}.outputs.artifact_digest }}`,
-        ARTIFACT_ID: `\${{ needs.${pair.producerName}.outputs.artifact_id }}`,
-        ARTIFACT_NAME: `\${{ needs.${pair.producerName}.outputs.artifact_name }}`,
-        ARTIFACT_RUN_ATTEMPT: `\${{ needs.${pair.producerName}.outputs.artifact_run_attempt }}`,
-        ARTIFACT_RUN_ID: `\${{ needs.${pair.producerName}.outputs.artifact_run_id }}`,
-        ARTIFACT_TARGET_SHA: `\${{ needs.${pair.producerName}.outputs.target_sha }}`,
-        ARTIFACT_WORKFLOW_SHA: `\${{ needs.${pair.producerName}.outputs.workflow_sha }}`,
-        TARGET_SHA: "${{ needs.preflight.outputs.target_sha }}",
-        WORKFLOW_SHA: "${{ steps.workflow.outputs.sha }}",
-      });
-      expect(binding.run, pair.consumerName).toContain('[[ "$ARTIFACT_ID" =~ ^[1-9][0-9]*$ ]]');
-      expect(binding.run, pair.consumerName).toContain(
-        '[[ "$ARTIFACT_DIGEST" =~ ^[a-f0-9]{64}$ ]]',
-      );
-      expect(binding.run, pair.consumerName).toContain('[[ "$ARCHIVE_SHA256" =~ ^[a-f0-9]{64}$ ]]');
-      expect(binding.run, pair.consumerName).toContain(
-        '[[ "$ARTIFACT_TARGET_SHA" == "$TARGET_SHA" ]]',
-      );
-      expect(binding.run, pair.consumerName).toContain(
-        '[[ "$ARTIFACT_WORKFLOW_SHA" == "$WORKFLOW_SHA" ]]',
-      );
-      expect(binding.run, pair.consumerName).toContain(
-        `expected_artifact_name="${pair.artifactPrefix}-\${TARGET_SHA}-\${ARTIFACT_RUN_ID}-\${ARTIFACT_RUN_ATTEMPT}"`,
-      );
-      expect(binding.run, pair.consumerName).toContain("verify-upload");
-
-      const download = step(consumer, pair.downloadName);
-      expect(download.with, pair.consumerName).toMatchObject({
-        "artifact-ids": `\${{ needs.${pair.producerName}.outputs.artifact_id }}`,
-        "github-token": "${{ github.token }}",
-        "run-id": `\${{ needs.${pair.producerName}.outputs.artifact_run_id }}`,
-      });
-      expect(download.with?.name, pair.consumerName).toBeUndefined();
-
-      const load = step(consumer, pair.loadName);
-      expect(load.env, pair.consumerName).toMatchObject({
-        OPENCLAW_SHARED_IMAGE_ARCHIVE_SHA256: `\${{ needs.${pair.producerName}.outputs.archive_sha256 }}`,
-        OPENCLAW_SHARED_IMAGE_RUN_ATTEMPT: `\${{ needs.${pair.producerName}.outputs.artifact_run_attempt }}`,
-        OPENCLAW_SHARED_IMAGE_RUN_ID: `\${{ needs.${pair.producerName}.outputs.artifact_run_id }}`,
-        TARGET_SHA: `\${{ needs.${pair.producerName}.outputs.target_sha }}`,
-        WORKFLOW_SHA: `\${{ needs.${pair.producerName}.outputs.workflow_sha }}`,
-      });
-      expect(load.run, pair.consumerName).toContain(
-        `load "\${RUNNER_TEMP}/${pair.artifactPrefix}" ${pair.artifactKind}`,
-      );
-
-      expect(
-        consumer.steps?.some((candidate) =>
-          candidate.uses?.includes("./.github/actions/setup-node-env"),
-        ),
-      ).toBe(false);
-      expect(step(consumer, pair.testName).env).toMatchObject({
-        OPENCLAW_INSTALL_SMOKE_FROZEN_PAYLOAD_DIR:
-          "${{ runner.temp }}/install-smoke-candidate-payload",
-        OPENCLAW_INSTALL_SMOKE_NODE_VERSION: "${{ env.NODE_VERSION }}",
-        OPENCLAW_INSTALL_SMOKE_GROUP: pair.group,
-      });
-    }
-
+    expect(Object.keys(workflow.jobs).filter((name) => name.startsWith("installer_"))).toEqual([]);
     const bunConsumer = job(workflow, "bun_global_install_smoke");
-    expect(bunConsumer.needs).toEqual(["preflight", "installer_smoke_candidate_payload"]);
+    expect(bunConsumer.needs).toEqual(["preflight", "candidate_payload"]);
     const bunBinding = step(bunConsumer, "Validate candidate payload artifact binding");
     expect(bunBinding.env).toMatchObject({
-      ARTIFACT_DIGEST: "${{ needs.installer_smoke_candidate_payload.outputs.artifact_digest }}",
-      ARTIFACT_ID: "${{ needs.installer_smoke_candidate_payload.outputs.artifact_id }}",
-      ARTIFACT_RUN_ATTEMPT:
-        "${{ needs.installer_smoke_candidate_payload.outputs.artifact_run_attempt }}",
-      ARTIFACT_RUN_ID: "${{ needs.installer_smoke_candidate_payload.outputs.artifact_run_id }}",
-      ARTIFACT_HARNESS_SHA: "${{ needs.installer_smoke_candidate_payload.outputs.harness_sha }}",
-      ARTIFACT_TARGET_SHA: "${{ needs.installer_smoke_candidate_payload.outputs.target_sha }}",
+      ARTIFACT_DIGEST: "${{ needs.candidate_payload.outputs.artifact_digest }}",
+      ARTIFACT_ID: "${{ needs.candidate_payload.outputs.artifact_id }}",
+      ARTIFACT_RUN_ATTEMPT: "${{ needs.candidate_payload.outputs.artifact_run_attempt }}",
+      ARTIFACT_RUN_ID: "${{ needs.candidate_payload.outputs.artifact_run_id }}",
+      ARTIFACT_HARNESS_SHA: "${{ needs.candidate_payload.outputs.harness_sha }}",
+      ARTIFACT_TARGET_SHA: "${{ needs.candidate_payload.outputs.target_sha }}",
       HARNESS_SHA: "${{ steps.workflow.outputs.sha }}",
       TARGET_SHA: "${{ needs.preflight.outputs.target_sha }}",
     });
     expect(bunBinding.run).toContain('[[ "$ARTIFACT_HARNESS_SHA" == "$HARNESS_SHA" ]]');
     expect(bunBinding.run).toContain("verify-upload");
     expect(step(bunConsumer, "Download candidate payload artifact").with).toMatchObject({
-      "artifact-ids": "${{ needs.installer_smoke_candidate_payload.outputs.artifact_id }}",
-      "run-id": "${{ needs.installer_smoke_candidate_payload.outputs.artifact_run_id }}",
+      "artifact-ids": "${{ needs.candidate_payload.outputs.artifact_id }}",
+      "run-id": "${{ needs.candidate_payload.outputs.artifact_run_id }}",
     });
     expect(step(bunConsumer, "Setup trusted release harness for Bun smoke")).toMatchObject({
       uses: "./.release-harness/.github/actions/setup-release-harness",
@@ -705,13 +566,11 @@ describe("install smoke no-push root image transport", () => {
     });
     const bunVerify = step(bunConsumer, "Verify candidate payload contents");
     expect(bunVerify.env).toMatchObject({
-      MANIFEST_SHA256: "${{ needs.installer_smoke_candidate_payload.outputs.manifest_sha256 }}",
-      PACKAGE_VERSION: "${{ needs.installer_smoke_candidate_payload.outputs.package_version }}",
-      PRODUCER_RUN_ATTEMPT:
-        "${{ needs.installer_smoke_candidate_payload.outputs.artifact_run_attempt }}",
-      PRODUCER_RUN_ID: "${{ needs.installer_smoke_candidate_payload.outputs.artifact_run_id }}",
-      SOURCE_ARCHIVE_SHA256:
-        "${{ needs.installer_smoke_candidate_payload.outputs.source_archive_sha256 }}",
+      MANIFEST_SHA256: "${{ needs.candidate_payload.outputs.manifest_sha256 }}",
+      PACKAGE_VERSION: "${{ needs.candidate_payload.outputs.package_version }}",
+      PRODUCER_RUN_ATTEMPT: "${{ needs.candidate_payload.outputs.artifact_run_attempt }}",
+      PRODUCER_RUN_ID: "${{ needs.candidate_payload.outputs.artifact_run_id }}",
+      SOURCE_ARCHIVE_SHA256: "${{ needs.candidate_payload.outputs.source_archive_sha256 }}",
     });
     expect(bunVerify.run).toContain("install-smoke-candidate-payload.mts verify");
     expect(bunVerify.run).toContain('--run-id "$PRODUCER_RUN_ID"');
@@ -735,7 +594,7 @@ describe("install smoke no-push root image transport", () => {
 
   it("packages candidate code only in an isolated image and verifies the sealed payload", () => {
     const workflow = readWorkflow(INSTALL_SMOKE_REUSABLE);
-    const producer = job(workflow, "installer_smoke_candidate_payload");
+    const producer = job(workflow, "candidate_payload");
     expect(producer.needs).toEqual(["preflight"]);
     expect(producer["timeout-minutes"]).toBe(75);
     expect(producer.outputs).toMatchObject({
@@ -755,7 +614,7 @@ describe("install smoke no-push root image transport", () => {
       "fetch-depth": 1,
       "persist-credentials": false,
     });
-    expect(step(producer, "Require exact trusted installer harness").run).toContain(
+    expect(step(producer, "Require exact trusted packaging harness").run).toContain(
       '[[ "$(git -C .release-harness rev-parse HEAD)" == "$EXPECTED_SHA" ]]',
     );
     const download = step(producer, "Download exact candidate source archive");
@@ -774,89 +633,12 @@ describe("install smoke no-push root image transport", () => {
     expect(seal.run).not.toContain('chmod 0777 "$payload_dir"');
     expect(seal.run).toContain("install-smoke-candidate-payload.mts seal");
     expect(seal.run).toContain("--harness-sha");
-
-    for (const consumerName of ["installer_smoke_update", "installer_smoke_nonroot"]) {
-      const consumer = job(workflow, consumerName);
-      expect(consumer.steps?.find((candidate) => candidate.name === "Checkout candidate CLI")).toBe(
-        undefined,
-      );
-      const binding = step(consumer, "Validate candidate payload artifact binding");
-      expect(binding.run).toContain('verify-upload "Candidate payload"');
-      expect(binding.run).toContain(
-        'expected_artifact_name="install-smoke-candidate-payload-${TARGET_SHA}-${ARTIFACT_RUN_ID}-${ARTIFACT_RUN_ATTEMPT}"',
-      );
-      const verify = step(consumer, "Verify candidate payload contents");
-      expect(verify.env).toMatchObject({
-        MANIFEST_SHA256: "${{ needs.installer_smoke_candidate_payload.outputs.manifest_sha256 }}",
-        PACKAGE_VERSION: "${{ needs.installer_smoke_candidate_payload.outputs.package_version }}",
-        SOURCE_ARCHIVE_SHA256:
-          "${{ needs.installer_smoke_candidate_payload.outputs.source_archive_sha256 }}",
-      });
-      expect(verify.run).toContain("--manifest-sha256");
-      expect(verify.run).toContain("--source-archive-sha256");
-    }
-  });
-
-  it("drains every independent producer and consumer without sibling failure suppression", () => {
-    const workflow = readWorkflow(INSTALL_SMOKE_REUSABLE);
-    const update = job(workflow, "installer_smoke_update");
-    const nonroot = job(workflow, "installer_smoke_nonroot");
-    const aggregate = job(workflow, "installer_smoke");
-
-    expect(update.needs).toEqual([
-      "preflight",
-      "installer_smoke_candidate_payload",
-      "installer_smoke_update_image",
-    ]);
-    expect(update.needs).not.toContain("installer_smoke_nonroot_image");
-    expect(nonroot.needs).toEqual([
-      "preflight",
-      "installer_smoke_candidate_payload",
-      "installer_smoke_nonroot_image",
-    ]);
-    expect(nonroot.needs).not.toContain("root_dockerfile_image");
-    expect(nonroot.needs).not.toContain("root_dockerfile_image_ready");
-    expect(nonroot.needs).not.toContain("installer_smoke_update_image");
-
-    expect(aggregate.if).toContain("always()");
-    expect(aggregate.needs).toEqual([
-      "preflight",
-      "root_dockerfile_image",
-      "root_dockerfile_image_ready",
-      "installer_smoke_candidate_payload",
-      "installer_smoke_update_image",
-      "installer_smoke_update",
-      "installer_smoke_nonroot_image",
-      "installer_smoke_nonroot",
-    ]);
-    expect(aggregate["timeout-minutes"]).toBe(5);
-    const verify = step(aggregate, "Verify installer smoke groups");
-    expect(verify.env).toEqual({
-      CANDIDATE_PAYLOAD_RESULT: "${{ needs.installer_smoke_candidate_payload.result }}",
-      NONROOT_CONSUMER_RESULT: "${{ needs.installer_smoke_nonroot.result }}",
-      NONROOT_PRODUCER_RESULT: "${{ needs.installer_smoke_nonroot_image.result }}",
-      ROOT_IMAGE_READY_RESULT: "${{ needs.root_dockerfile_image_ready.result }}",
-      ROOT_IMAGE_RESULT: "${{ needs.root_dockerfile_image.result }}",
-      UPDATE_CONSUMER_RESULT: "${{ needs.installer_smoke_update.result }}",
-      UPDATE_PRODUCER_RESULT: "${{ needs.installer_smoke_update_image.result }}",
-    });
-    for (const result of [
-      "ROOT_IMAGE_RESULT",
-      "ROOT_IMAGE_READY_RESULT",
-      "CANDIDATE_PAYLOAD_RESULT",
-      "UPDATE_PRODUCER_RESULT",
-      "UPDATE_CONSUMER_RESULT",
-      "NONROOT_PRODUCER_RESULT",
-      "NONROOT_CONSUMER_RESULT",
-    ]) {
-      expect(verify.run).toContain(`"$${result}"`);
-    }
   });
 
   it("passes package changelog intent only to the candidate packager", () => {
     const workflow = readWorkflow(INSTALL_SMOKE_REUSABLE);
     const packageCandidate = step(
-      job(workflow, "installer_smoke_candidate_payload"),
+      job(workflow, "candidate_payload"),
       "Package candidate only inside pinned harness",
     );
     expect(packageCandidate.env).toMatchObject({

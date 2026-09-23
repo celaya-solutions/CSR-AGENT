@@ -638,7 +638,7 @@ describe("package source preflight", () => {
     const workflow = readWorkflow(".github/workflows/install-smoke-reusable.yml");
     const packageCandidate = workflowStep(
       workflow,
-      "installer_smoke_candidate_payload",
+      "candidate_payload",
       "Package candidate only inside pinned harness",
     );
     expect(packageCandidate.run).toContain('-v "$PWD/.release-harness:/harness:ro"');

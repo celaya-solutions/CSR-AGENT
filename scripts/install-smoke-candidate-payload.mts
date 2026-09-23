@@ -10,8 +10,6 @@ const SCHEMA = "openclaw.install-smoke-candidate-payload/v1";
 const PAYLOAD_FILES = [
   { name: "candidate.tgz", role: "package" },
   { name: "candidate-pack.json", role: "package-metadata" },
-  { name: "install.sh", role: "installer" },
-  { name: "install-cli.sh", role: "cli-installer" },
 ] as const;
 
 type PayloadIdentity = {
@@ -142,24 +140,9 @@ with tarfile.open(archive_path, "r:gz") as archive:
             "unpackedSize": sum(member.size for member in files),
         }))
         sys.exit(0)
-    if mode == "repo-file":
-        requested_name = member_name
-        roots = {
-            member.name.split("/", 1)[0]
-            for member in members
-            if (
-                member.name
-                and not member.name.startswith("/")
-                and not member.name.split("/", 1)[0].startswith("._")
-            )
-        }
-        if len(roots) != 1:
-            raise RuntimeError("candidate archive must contain one repository root")
-        member_name = next(iter(roots)) + "/" + member_name
     member = archive.getmember(member_name)
     if not member.isfile():
-        label = requested_name if mode == "repo-file" else member_name
-        raise RuntimeError(label + " must be a regular file in the candidate archive")
+        raise RuntimeError(member_name + " must be a regular file in the candidate archive")
     extracted = archive.extractfile(member)
     if extracted is None:
         raise RuntimeError("failed to read " + member_name)
@@ -237,18 +220,6 @@ export async function sealInstallSmokeCandidatePayload(
   const packageMetadata = readPackageTarballMetadata(sourceTarballPath);
   const packageSize = (await fs.stat(sourceTarballPath)).size;
 
-  // Re-read installers from the immutable source archive after candidate execution. Candidate
-  // build hooks never get a writable handle to the sealed scripts consumed by privileged jobs.
-  const installScript = runPythonTarReader([
-    "repo-file",
-    options.archivePath,
-    "scripts/install.sh",
-  ]);
-  const cliInstallScript = runPythonTarReader([
-    "repo-file",
-    options.archivePath,
-    "scripts/install-cli.sh",
-  ]);
   await fs.copyFile(sourceTarballPath, path.join(options.outputDir, "candidate.tgz"));
   await writeExclusive(
     path.join(options.outputDir, "candidate-pack.json"),
@@ -267,8 +238,6 @@ export async function sealInstallSmokeCandidatePayload(
       2,
     )}\n`,
   );
-  await writeExclusive(path.join(options.outputDir, "install.sh"), installScript);
-  await writeExclusive(path.join(options.outputDir, "install-cli.sh"), cliInstallScript);
 
   const files = await Promise.all(
     PAYLOAD_FILES.map((descriptor) =>
