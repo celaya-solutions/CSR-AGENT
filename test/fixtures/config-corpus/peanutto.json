@@ -182,7 +182,7 @@
     },
     "web": {
       "search": {
-        "provider": "grok"
+        "provider": "duckduckgo"
       }
     }
   },

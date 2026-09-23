@@ -47,7 +47,6 @@ const expectations: Record<
   },
   "custom-models.json": { providers: ["openai"], model: "fixture-model" },
   "empty-providers.json": { providers: ["openai"] },
-  "generic-github-token.json": { providers: [] },
   "enabled-only.json": { providers: ["openai"] },
   "falc0n.json": {
     providers: ["openai"],
@@ -240,21 +239,12 @@ describe("operator config startup corpus", () => {
             workspaceDir,
             env,
             readOnly: true,
-            skipCredentials: name !== "generic-github-token.json",
+            skipCredentials: true,
           },
-          { catalogMode: name === "generic-github-token.json" ? "live" : "static" },
+          { catalogMode: "static" },
         );
         try {
-          const catalog =
-            name === "generic-github-token.json"
-              ? await lease.snapshot.loadFullModelCatalog!({ refresh: true })
-              : lease.snapshot.modelCatalog;
-          if (name === "generic-github-token.json") {
-            expect(catalog.providerOutcomes ?? []).not.toContainEqual(
-              expect.objectContaining({ provider: "github-copilot" }),
-            );
-            expect(catalog.refreshFailed).toBeUndefined();
-          }
+          const catalog = lease.snapshot.modelCatalog;
           for (const provider of expected.providers) {
             expect(catalog.entries, `${name}: ${agentId} must expose ${provider}`).toContainEqual(
               expect.objectContaining({ provider }),

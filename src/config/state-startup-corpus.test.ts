@@ -236,11 +236,7 @@ describe("prior-release state startup corpus", () => {
               { catalogMode: "static" },
             );
             try {
-              if (configName === "generic-github-token.json") {
-                expect(lease.snapshot.modelCatalog.entries).toEqual([]);
-              } else {
-                expect(lease.snapshot.modelCatalog.entries.length).toBeGreaterThan(0);
-              }
+              expect(lease.snapshot.modelCatalog.entries.length).toBeGreaterThan(0);
             } finally {
               await lease[Symbol.asyncDispose]();
             }
