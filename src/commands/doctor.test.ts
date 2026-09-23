@@ -664,7 +664,7 @@ describe("doctorCommand", () => {
     ).rejects.toThrow("exit:0");
 
     expect(mocks.promptYesNo).toHaveBeenCalledWith(
-      "Create a GitHub issue in openclaw/openclaw with the sanitized recovery report?",
+      "Create a GitHub issue in celaya-solutions/CSR-AGENT with the sanitized recovery report?",
       false,
     );
     expect(mocks.submitGithubIssue).not.toHaveBeenCalled();

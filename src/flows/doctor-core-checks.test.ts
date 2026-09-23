@@ -995,12 +995,10 @@ describe("CORE_HEALTH_CHECKS", () => {
               primary: "openai-codex/gpt-5.6-sol",
               fallbacks: [
                 "codex-cli/gpt-5.6-sol",
-                "groq/llama3-70b-8192",
-                "groq/llama-3.3-70b-versatile",
+                "openai/gpt-4o-mini",
+                "openai/gpt-5.4-mini",
                 "openai/not-in-the-local-catalog",
-                "google/gemini-2.5-flash",
-                "google/gemini-3.8-flash",
-                "google-gemini-cli/gemini-2.5-pro",
+                "anthropic/claude-not-in-the-local-catalog",
               ],
             },
             imageModel: { primary: "no-such-provider/no-such-model" },
@@ -1012,8 +1010,7 @@ describe("CORE_HEALTH_CHECKS", () => {
     for (const [source, target, severity] of [
       ["openai-codex/gpt-5.6-sol", "openai/gpt-5.6-sol", "warning"],
       ["codex-cli/gpt-5.6-sol", "openai/gpt-5.6-sol", "warning"],
-      ["groq/llama3-70b-8192", "groq/llama-3.3-70b-versatile", "info"],
-      ["google-gemini-cli/gemini-2.5-pro", "google/gemini-2.5-pro", "info"],
+      ["openai/gpt-4o-mini", "openai/gpt-5.4-mini", "info"],
     ] as const) {
       expect(findings).toContainEqual(
         expect.objectContaining({
@@ -1034,7 +1031,7 @@ describe("CORE_HEALTH_CHECKS", () => {
         }),
         expect.objectContaining({
           severity: "info",
-          target: "google/gemini-3.8-flash",
+          target: "anthropic/claude-not-in-the-local-catalog",
           fixHint:
             "Verify the model id with the provider, or rerun with --severity-min info after refreshing the local catalog.",
         }),
@@ -1046,11 +1043,6 @@ describe("CORE_HEALTH_CHECKS", () => {
         }),
       ]),
     );
-    expect(findings).not.toContainEqual(
-      expect.objectContaining({ target: "groq/llama-3.3-70b-versatile" }),
-    );
-    expect(findings).not.toContainEqual(
-      expect.objectContaining({ target: "google/gemini-2.5-flash" }),
-    );
+    expect(findings).not.toContainEqual(expect.objectContaining({ target: "openai/gpt-5.4-mini" }));
   });
 });

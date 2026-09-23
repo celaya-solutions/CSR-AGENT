@@ -116,29 +116,29 @@ describe("parseSystemAgentOperation", () => {
     });
     expect(
       parseSystemAgentOperation(
-        'config set channels.synology-chat.accounts["prod.guild"].webhookUrl "secret"',
+        'config set channels.telegram.accounts["prod.guild"].webhookUrl "secret"',
       ),
     ).toEqual({
       kind: "config-set",
-      path: 'channels.synology-chat.accounts["prod.guild"].webhookUrl',
+      path: 'channels.telegram.accounts["prod.guild"].webhookUrl',
       value: '"secret"',
     });
     expect(
       parseSystemAgentOperation(
-        String.raw`config set channels.synology-chat.accounts.prod\ guild.webhookUrl "secret"`,
+        String.raw`config set channels.telegram.accounts.prod\ guild.webhookUrl "secret"`,
       ),
     ).toEqual({
       kind: "config-set",
-      path: String.raw`channels.synology-chat.accounts.prod\ guild.webhookUrl`,
+      path: String.raw`channels.telegram.accounts.prod\ guild.webhookUrl`,
       value: '"secret"',
     });
     expect(
       parseSystemAgentOperation(
-        'config set channels.synology-chat.accounts["prod=us"].webhookUrl "secret"',
+        'config set channels.telegram.accounts["prod=us"].webhookUrl "secret"',
       ),
     ).toEqual({
       kind: "config-set",
-      path: 'channels.synology-chat.accounts["prod=us"].webhookUrl',
+      path: 'channels.telegram.accounts["prod=us"].webhookUrl',
       value: '"secret"',
     });
     expect(
@@ -152,11 +152,11 @@ describe("parseSystemAgentOperation", () => {
     });
     expect(
       parseSystemAgentOperation(
-        'config set channels.synology-chat.accounts["token=prod"].webhookUrl "secret"',
+        'config set channels.telegram.accounts["token=prod"].webhookUrl "secret"',
       ),
     ).toEqual({
       kind: "config-set",
-      path: 'channels.synology-chat.accounts["token=prod"].webhookUrl',
+      path: 'channels.telegram.accounts["token=prod"].webhookUrl',
       value: '"secret"',
     });
     expect(
@@ -170,29 +170,29 @@ describe("parseSystemAgentOperation", () => {
     });
     expect(
       parseSystemAgentOperation(
-        String.raw`config set channels.synology-chat.accounts.token\=prod.webhookUrl "secret"`,
+        String.raw`config set channels.telegram.accounts.token\=prod.webhookUrl "secret"`,
       ),
     ).toEqual({
       kind: "config-set",
-      path: String.raw`channels.synology-chat.accounts.token\=prod.webhookUrl`,
+      path: String.raw`channels.telegram.accounts.token\=prod.webhookUrl`,
       value: '"secret"',
     });
     expect(
       parseSystemAgentOperation(
-        'config set channels.synology-chat.accounts["token=prod"].webhookPath "/hook"',
+        'config set channels.telegram.accounts["token=prod"].webhookPath "/hook"',
       ),
     ).toEqual({
       kind: "config-set",
-      path: 'channels.synology-chat.accounts["token=prod"].webhookPath',
+      path: 'channels.telegram.accounts["token=prod"].webhookPath',
       value: '"/hook"',
     });
     expect(
       parseSystemAgentOperation(
-        String.raw`config set channels.synology-chat.accounts.token\=prod.webhookPath "/hook"`,
+        String.raw`config set channels.telegram.accounts.token\=prod.webhookPath "/hook"`,
       ),
     ).toEqual({
       kind: "config-set",
-      path: String.raw`channels.synology-chat.accounts.token\=prod.webhookPath`,
+      path: String.raw`channels.telegram.accounts.token\=prod.webhookPath`,
       value: '"/hook"',
     });
     expect(
@@ -247,7 +247,7 @@ describe("parseSystemAgentOperation", () => {
       message: "Invalid config path. Check its quoting or escaping and try again.",
     });
     expect(
-      parseSystemAgentOperation('config set channels.synology-chat["webhookUrl=abcDEF123"] please'),
+      parseSystemAgentOperation('config set channels.telegram["webhookSecret=abcDEF123"] please'),
     ).toEqual({
       kind: "none",
       message: "Invalid config path. Check its quoting or escaping and try again.",

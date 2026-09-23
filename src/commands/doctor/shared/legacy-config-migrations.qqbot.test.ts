@@ -2,7 +2,17 @@ import { describe, expect, it, vi } from "vitest";
 import { widenOfficialExternalChannelSecretSchema } from "../../../config/official-external-channel-secret-schema.js";
 import { validateJsonSchemaValue } from "../../../plugins/schema-validator.js";
 import { LEGACY_CONFIG_MIGRATIONS_QQBOT } from "./legacy-config-migrations.qqbot.js";
-import { maybeRepairOpenPolicyAllowFrom } from "./open-policy-allowfrom.js";
+
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
+// The shared runtime setup preloads the channel catalog reader against the shipped (empty)
+// official catalog; reload the graph so QQBot doctor capabilities come from the injected fixture.
+vi.resetModules();
+const { maybeRepairOpenPolicyAllowFrom } = await import("./open-policy-allowfrom.js");
 
 function migrate(raw: Record<string, unknown>) {
   const config = structuredClone(raw);

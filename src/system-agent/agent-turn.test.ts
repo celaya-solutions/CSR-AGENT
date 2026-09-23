@@ -360,10 +360,10 @@ describe("runSystemAgentTurn", () => {
     cliBackendsTesting.setDepsForTest({
       resolveRuntimeCliBackends: () => [
         {
-          id: "google-gemini-cli",
-          pluginId: "google",
-          modelProvider: "google",
-          config: { command: "gemini" },
+          id: "claude-cli",
+          pluginId: "anthropic",
+          modelProvider: "anthropic",
+          config: { command: "claude" },
           nativeToolMode: "always-on",
         },
       ],
@@ -371,7 +371,7 @@ describe("runSystemAgentTurn", () => {
     const config = {
       agents: {
         defaults: {
-          model: "google-gemini-cli/gemini-3.1-pro-preview",
+          model: "claude-cli/claude-opus-4-8",
         },
       },
     } as OpenClawConfig;
@@ -384,7 +384,7 @@ describe("runSystemAgentTurn", () => {
       await runSystemAgentTurnWithDeps(
         {
           input: "set up my workspace",
-          overview: { defaultModel: "google-gemini-cli/gemini-3.1-pro-preview" } as never,
+          overview: { defaultModel: "claude-cli/claude-opus-4-8" } as never,
           surface: "gateway",
           approvalArmed: false,
           session,
@@ -404,7 +404,7 @@ describe("runSystemAgentTurn", () => {
     expect((failure as SystemAgentInferenceUnavailableError).failures).toEqual([
       expect.objectContaining({
         message: expect.stringContaining(
-          "CLI backend google-gemini-cli cannot enforce OpenAgent's exact tool availability",
+          "CLI backend claude-cli cannot enforce OpenAgent's exact tool availability",
         ),
       }),
     ]);

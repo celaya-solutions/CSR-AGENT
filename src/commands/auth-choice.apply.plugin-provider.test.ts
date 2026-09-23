@@ -16,6 +16,12 @@ import type { ProviderPlugin, ProviderAuthMethod } from "../plugins/types.js";
 import { withTestDir } from "../test-helpers/temp-dir.js";
 import type { ApplyAuthChoiceParams } from "./auth-choice.apply.types.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 type ResolveProviderInstallCatalogEntry =
   typeof import("../plugins/provider-install-catalog.js").resolveProviderInstallCatalogEntry;
 type EnsureOnboardingPluginInstalled =

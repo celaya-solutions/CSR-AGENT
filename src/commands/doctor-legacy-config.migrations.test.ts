@@ -18,6 +18,12 @@ import { LEGACY_CONFIG_MIGRATIONS } from "./doctor/shared/legacy-config-migratio
 import { collectBlockedLegacyOpenAICodexProviderPlan } from "./doctor/shared/legacy-config-migrations.runtime.models.js";
 import { repairStaleAgentModelRefs } from "./doctor/shared/stale-agent-model-ref-repair.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 vi.mock("../plugins/setup-registry.js", () => ({
   resolvePluginSetupCliBackend: () => undefined,
   resolvePluginSetupRegistry: () => ({

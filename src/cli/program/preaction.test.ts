@@ -12,6 +12,12 @@ import {
   registerNativeExecutorPreActionTests,
 } from "./preaction.test-helpers.js";
 
+vi.mock("../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const DISCORD_REPO_INSTALL_SPEC = repoInstallSpec("discord");
 
 const setVerboseMock = vi.fn();

@@ -33,6 +33,12 @@ import {
   repairMissingPluginInstallsForIds,
 } from "./doctor/shared/missing-configured-plugin-install.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 vi.mock("../../packages/terminal-core/src/note.js", () => ({
   note: vi.fn(),
 }));

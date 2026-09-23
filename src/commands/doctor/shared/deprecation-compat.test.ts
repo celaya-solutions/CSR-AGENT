@@ -50,7 +50,7 @@ describe("doctor deprecation compatibility inventory", () => {
     const records = listDoctorDeprecationCompatRecords();
     const renewedRecords = records.filter((record) => record.renewedAt !== undefined);
 
-    expect(renewedRecords).toHaveLength(44);
+    expect(renewedRecords).toHaveLength(43);
     expect(
       renewedRecords.some(
         (record) => record.code === "doctor-webchat-channel-config" && record.status === "removed",

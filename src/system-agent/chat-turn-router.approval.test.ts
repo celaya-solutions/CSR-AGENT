@@ -549,17 +549,17 @@ describe("SystemAgentChatEngine approval", () => {
   });
 
   it.each([
-    "channels.synology-chat.webhookUrl",
-    "channels.synology-chat[webhookUrl]",
-    "channels.synology-chat.accounts[work].webhookUrl",
-    'channels.synology-chat.accounts["prod.guild"].webhookUrl',
-    'channels.synology-chat.accounts["prod=us"].webhookUrl',
-    String.raw`channels.synology-chat.accounts.prod\ guild.webhookUrl`,
-    "channels.synology-chat.incomingUrl",
-    "channels.synology-chat.accounts[work].incomingUrl",
+    "channels.telegram.webhookSecret",
+    "channels.telegram[webhookSecret]",
+    "channels.telegram.accounts[work].webhookSecret",
+    'channels.telegram.accounts["prod.guild"].webhookSecret',
+    'channels.telegram.accounts["prod=us"].webhookSecret',
+    String.raw`channels.telegram.accounts.prod\ guild.webhookSecret`,
+    "channels.telegram.botToken",
+    "channels.telegram.accounts[work].botToken",
     "plugins.entries.codex.config.appServer.headers",
     "plugins.entries.codex.config.appServer.headers.Authorization",
-    "channels.synology-chat",
+    "channels.telegram",
   ])("keeps hint-sensitive config set %s away from every model path", async (path) => {
     useTempStateDir();
     const runAgentTurn = vi.fn(async () => ({ text: "should never run" }));
@@ -570,9 +570,9 @@ describe("SystemAgentChatEngine approval", () => {
     });
 
     const value =
-      path === "channels.synology-chat"
-        ? '{ webhookUrl: "https://gateway.example/webhook/synology?access_token=very-secret" }'
-        : "https://gateway.example/webhook/synology?access_token=very-secret";
+      path === "channels.telegram"
+        ? '{ webhookSecret: "https://gateway.example/webhook/telegram?access_token=very-secret" }'
+        : "https://gateway.example/webhook/telegram?access_token=very-secret";
     const proposed = await engine.handle(`config set ${path} ${value}`);
 
     expect(runAgentTurn).not.toHaveBeenCalled();
@@ -726,7 +726,7 @@ describe("SystemAgentChatEngine approval", () => {
     "config set gateway.auth.token$abcDEF123 please",
     "config set plugins.entries.codex.config.appServer.headersabcDEF123 please",
     "config set plugins.entries.codex.config.appServer.headers.Authorization=Bearer-abc please",
-    'config set channels.synology-chat["webhookUrl=abcDEF123"] please',
+    'config set channels.telegram["webhookSecret=abcDEF123"] please',
     'config set channels.buzz.groups["gateway.auth.token=abcDEF123"].enabled true',
     'config set hooks.mappings["token=abcDEF123"].agentId main',
     "config set-ref gateway.auth.tokenabcDEF123 env GATEWAY_TOKEN",
@@ -775,7 +775,7 @@ describe("SystemAgentChatEngine approval", () => {
     'config set channels.missing["opaque=very-secret"].nested please',
     "config set plugins.entries.missing.config.opaque=very-secret please",
     'config set plugins.entries.missing.config["opaque=very-secret"].nested please',
-    'config set channels.synology-chat.accounts["prod.guild"].webhookUrl.abcDEF123 please',
+    'config set channels.telegram.accounts["prod.guild"].webhookSecret.abcDEF123 please',
   ])("redacts malformed config write %s from conversation history", async (command) => {
     const engine = new SystemAgentChatEngine({
       runAgentTurn: async () => ({ text: "noted" }),
@@ -800,7 +800,7 @@ describe("SystemAgentChatEngine approval", () => {
     "config set plugins.entries.codex.config.opaque=abcDEF123 please",
     "config set channels.telegram.opaque=abcDEF123 please",
     "config set gateway.auth.token.abcDEF123 please",
-    'config set channels.synology-chat.accounts["prod.guild"].webhookUrl.abcDEF123 please',
+    'config set channels.telegram.accounts["prod.guild"].webhookSecret.abcDEF123 please',
   ])(
     "keeps sensitive dynamic or unknown-owner path %s out of model paths, responses, and history",
     async (command) => {
@@ -826,16 +826,15 @@ describe("SystemAgentChatEngine approval", () => {
 
   it.each([
     "channels.telegram.botToken",
-    "channels.synology-chat[webhookUrl]",
-    "channels.synology-chat.accounts[work].webhookUrl",
-    'channels.synology-chat.accounts["prod.guild"].webhookUrl',
-    String.raw`channels.synology-chat.accounts.prod\ guild.webhookUrl`,
+    "channels.telegram[webhookSecret]",
+    "channels.telegram.accounts[work].webhookSecret",
+    'channels.telegram.accounts["prod.guild"].webhookSecret',
+    String.raw`channels.telegram.accounts.prod\ guild.webhookSecret`,
     "gateway.auth..token",
-    "channels.synology-chat.incomingUrl",
-    "channels.synology-chat.accounts[work].incomingUrl",
+    "channels.telegram.accounts[work].botToken",
     "plugins.entries.codex.config.appServer.headers",
     "plugins.entries.codex.config.appServer.headers.Authorization",
-    "channels.synology-chat",
+    "channels.telegram",
   ])("redacts config-set value at %s from conversation history", async (path) => {
     const engine = new SystemAgentChatEngine({
       runAgentTurn: async () => ({ text: "noted" }),
@@ -844,8 +843,8 @@ describe("SystemAgentChatEngine approval", () => {
     });
 
     const value =
-      path === "channels.synology-chat"
-        ? '{ webhookUrl: "https://gateway.example/webhook/synology?access_token=very-secret" }'
+      path === "channels.telegram"
+        ? '{ webhookSecret: "https://gateway.example/webhook/telegram?access_token=very-secret" }'
         : "123:very-secret";
     await engine.handle(`config set ${path} ${value}`);
     await engine.handle("did that work?");

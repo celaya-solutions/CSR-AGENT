@@ -150,8 +150,8 @@ function expectResetCall(params: { scope: string; runtime: RuntimeEnv; workspace
 }
 
 const localResetProviderCases = [
-  { providerId: "ollama", methodId: "local" },
-  { providerId: "lmstudio", methodId: "custom" },
+  { authChoice: "ollama", providerId: "ollama", methodId: "local" },
+  { authChoice: "llama-cpp-existing-server", providerId: "llama-cpp", methodId: "existing-server" },
 ] as const;
 
 function mockLocalResetPreflight(params: {
@@ -173,7 +173,7 @@ function mockLocalResetPreflight(params: {
   mocks.resolvePluginProviders.mockReturnValueOnce([
     {
       id: params.providerId,
-      label: params.providerId === "ollama" ? "Ollama" : "LM Studio",
+      label: params.providerId === "ollama" ? "Ollama" : "llama.cpp",
       auth: [
         {
           id: params.methodId,
@@ -821,20 +821,21 @@ describe("setupWizardCommand", () => {
 
   it.each(
     [true, false].flatMap((validationResult) =>
-      localResetProviderCases.map(({ providerId, methodId }) => ({
+      localResetProviderCases.map(({ authChoice, providerId, methodId }) => ({
+        authChoice,
         providerId,
         methodId,
         validationResult,
       })),
     ),
   )(
-    "preflights $providerId before reset and setup (accepted: $validationResult)",
+    "preflights $authChoice before reset and setup (accepted: $validationResult)",
     async (params) => {
-      const { providerId, validationResult } = params;
+      const { authChoice, validationResult } = params;
       const runtime = makeRuntime();
       const { runNonInteractive, validateNonInteractive } = mockLocalResetPreflight(params);
       await setupWizardCommand(
-        { reset: true, nonInteractive: true, acceptRisk: true, authChoice: providerId },
+        { reset: true, nonInteractive: true, acceptRisk: true, authChoice },
         runtime,
       );
       expect(runNonInteractive).not.toHaveBeenCalled();
@@ -848,7 +849,7 @@ describe("setupWizardCommand", () => {
       }
       expect(validateNonInteractive).toHaveBeenCalledExactlyOnceWith(
         expect.objectContaining({
-          authChoice: providerId,
+          authChoice,
           config: {},
           baseConfig: {},
           opts: expect.objectContaining({ reset: true, nonInteractive: true }),
@@ -886,7 +887,7 @@ describe("setupWizardCommand", () => {
 
   it("rejects ambiguous interactive provider flags before reset", async () => {
     const runtime = makeRuntime();
-    await setupWizardCommand({ reset: true, nvidiaApiKey: "n", openaiApiKey: "o" }, runtime);
+    await setupWizardCommand({ reset: true, openrouterApiKey: "r", openaiApiKey: "o" }, runtime);
     expect(mocks.handleReset).not.toHaveBeenCalled();
   });
 

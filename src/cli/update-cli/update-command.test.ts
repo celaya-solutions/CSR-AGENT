@@ -30,6 +30,12 @@ import {
 } from "./update-command-service.js";
 import { testing as updateCommandServiceTesting } from "./update-command-service.test-support.js";
 
+vi.mock("../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const tempDirs = createTempDirTracker();
 afterEach(() => {
   closeOpenClawStateDatabaseForTest();

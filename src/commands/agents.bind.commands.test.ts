@@ -15,6 +15,10 @@ const pluginRegistryMocks = vi.hoisted(() => ({
   listPluginContributionIds: vi.fn(() => ["external-chat"]),
 }));
 
+// Per-test replacements for the bundled channel setup stubs, so a kept bundled channel
+// id can carry the binding shape a case exercises.
+const channelSetupOverrides = vi.hoisted(() => new Map<string, unknown>());
+
 vi.mock("../agents/agent-scope.js", () => ({
   listAgentEntries: (
     cfg: {
@@ -98,31 +102,14 @@ vi.mock("../channels/plugins/bundled.js", () => {
       }),
     ],
     [
-      "signal",
-      createBindingResolverTestPlugin({
-        id: "signal",
-        config: { listAccountIds: () => [] },
-        resolveBindingAccountId: ({ agentId }) => agentId.toLowerCase(),
-        contractOnly: true,
-      }),
-    ],
-    [
       "telegram",
       createBindingResolverTestPlugin({ id: "telegram", config: { listAccountIds: () => [] } }),
-    ],
-    [
-      "whatsapp",
-      createBindingResolverTestPlugin({
-        id: "whatsapp",
-        config: { listAccountIds: () => ["default", "biz"] },
-        forceAccountBinding: true,
-      }),
     ],
   ]);
   return {
     getBundledChannelSetupPlugin: (channel: string) => {
       const normalized = channel.trim().toLowerCase();
-      return knownChannels.get(normalized);
+      return channelSetupOverrides.get(normalized) ?? knownChannels.get(normalized);
     },
   };
 });
@@ -153,6 +140,7 @@ describe("agents bind/unbind commands", () => {
   });
 
   beforeEach(() => {
+    channelSetupOverrides.clear();
     resetAgentsBindTestHarness();
     pluginRegistryMocks.listPluginContributionIds.mockClear();
   });
@@ -334,12 +322,21 @@ describe("agents bind/unbind commands", () => {
       config: {},
     });
 
-    await agentsBindCommand({ bind: ["whatsapp"] }, runtime);
+    channelSetupOverrides.set(
+      "discord",
+      createBindingResolverTestPlugin({
+        id: "discord",
+        config: { listAccountIds: () => ["default", "biz"] },
+        forceAccountBinding: true,
+      }),
+    );
+
+    await agentsBindCommand({ bind: ["discord"] }, runtime);
 
     expect(writeConfigFileMock).toHaveBeenCalledTimes(1);
     const writtenConfig = firstWrittenConfig();
     expect(writtenConfig?.bindings).toStrictEqual([
-      { type: "route", agentId: "main", match: { channel: "whatsapp", accountId: "*" } },
+      { type: "route", agentId: "main", match: { channel: "discord", accountId: "*" } },
     ]);
     expect(runtime.exit).not.toHaveBeenCalled();
   });
@@ -350,10 +347,20 @@ describe("agents bind/unbind commands", () => {
       config: {},
     });
 
-    await agentsBindCommand({ bind: ["signal"] }, runtime);
+    channelSetupOverrides.set(
+      "discord",
+      createBindingResolverTestPlugin({
+        id: "discord",
+        config: { listAccountIds: () => [] },
+        resolveBindingAccountId: ({ agentId }) => agentId.toLowerCase(),
+        contractOnly: true,
+      }),
+    );
+
+    await agentsBindCommand({ bind: ["discord"] }, runtime);
 
     expect(firstWrittenConfig().bindings).toStrictEqual([
-      { type: "route", agentId: "main", match: { channel: "signal", accountId: "main" } },
+      { type: "route", agentId: "main", match: { channel: "discord", accountId: "main" } },
     ]);
     expect(runtime.exit).not.toHaveBeenCalled();
   });

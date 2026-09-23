@@ -9,6 +9,12 @@ import { createNonExitingRuntime } from "../runtime.js";
 import { withEnvAsync } from "../test-utils/env.js";
 import { runSearchSetupFlow } from "./search-setup.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const authMocks = vi.hoisted(() => ({
   hasAuthProfileForProvider: vi.fn((_params: { provider: string; type?: string }) => false),
 }));

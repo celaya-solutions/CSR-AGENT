@@ -17,9 +17,9 @@ describe("createModelCatalogProviderAliasCanonicalizer", () => {
       cfg: {
         agents: {
           defaults: {
-            model: { primary: "z.ai/glm-4.7" },
+            model: { primary: "azure-openai-responses/gpt-5.4" },
             models: {
-              "z.ai/glm-4.7": { alias: "GLM" },
+              "azure-openai-responses/gpt-5.4": { alias: "Azure" },
             },
           },
         },
@@ -27,9 +27,9 @@ describe("createModelCatalogProviderAliasCanonicalizer", () => {
       },
     });
 
-    expect(canonicalizer.ref({ provider: "z.ai", model: "glm-4.7" })).toEqual({
-      provider: "zai",
-      model: "glm-4.7",
+    expect(canonicalizer.ref({ provider: "azure-openai-responses", model: "gpt-5.4" })).toEqual({
+      provider: "openai",
+      model: "gpt-5.4",
     });
   });
 

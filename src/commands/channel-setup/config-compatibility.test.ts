@@ -1,5 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { normalizeExternalChannelSetupConfig } from "./config-compatibility.js";
+
+vi.mock("../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
 
 describe("normalizeExternalChannelSetupConfig", () => {
   it("normalizes Tencent 2.0 setup defaults through the host compatibility migration", () => {

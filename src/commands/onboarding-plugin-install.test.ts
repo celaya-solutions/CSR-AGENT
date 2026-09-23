@@ -14,6 +14,12 @@ import { VERSION } from "../version.js";
 import { WizardNavigationError } from "../wizard/prompts.js";
 import { WizardSession } from "../wizard/session.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 // Stable setup is the default fixture, independent of the checkout's release version.
 const coreVersion = vi.hoisted(() => ({ value: "2026.8.1" }));
 vi.mock("../version.js", async (importOriginal) => ({

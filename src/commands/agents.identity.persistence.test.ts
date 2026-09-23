@@ -9,7 +9,7 @@ import { agentsSetIdentityCommand } from "./agents.commands.identity.js";
 import { createThrowingTestRuntime } from "./test-runtime-config-helpers.js";
 
 async function avatarConfig(home: string): Promise<OpenClawConfig> {
-  const image = await fs.readFile(path.resolve("extensions/nextcloud-talk/assets/icon.png"));
+  const image = await fs.readFile(path.resolve("extensions/telegram/assets/icon.png"));
   return {
     meta: { lastTouchedVersion: VERSION, migrations: { modelPolicyAllowlist: true } },
     gateway: { mode: "local" },

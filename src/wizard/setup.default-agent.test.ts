@@ -140,6 +140,8 @@ const prompter = {
 describe("runSetupWizard default-agent ownership", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // Consent is only requested when an operator configured a telemetry endpoint.
+    vi.stubEnv("OPENCLAW_TELEMETRY_ENDPOINT", "https://telemetry.example.test/api/latest-version");
     const config = {
       wizard: { securityAcknowledgedAt: "2026-07-01T00:00:00.000Z" },
       agents: {

@@ -1,10 +1,5 @@
 // Doctor cron delivery-target advisory tests cover concrete-vs-pseudo channel detection.
 import { afterEach, describe, expect, it, vi } from "vitest";
-import {
-  collectLegacyWhatsAppCrontabHealthWarning,
-  noteCronDeliveryTargetAdvisory,
-  noteCronModelOverrides,
-} from "./warnings.js";
 
 const mocks = vi.hoisted(() => ({
   listReadOnlyChannelPluginsForConfig: vi.fn(),
@@ -17,6 +12,20 @@ vi.mock("../../../channels/plugins/read-only.js", () => ({
 }));
 vi.mock("../../../../packages/terminal-core/src/note.js", () => ({ note: mocks.note }));
 vi.mock("../../../process/exec.js", () => ({ runExec: mocks.runExec }));
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
+// The shared runtime setup preloads the channel catalog reader against the shipped (empty)
+// official catalog; reload the graph so channel alias lookups read the injected catalog fixture.
+vi.resetModules();
+const {
+  collectLegacyWhatsAppCrontabHealthWarning,
+  noteCronDeliveryTargetAdvisory,
+  noteCronModelOverrides,
+} = await import("./warnings.js");
 
 afterEach(() => {
   vi.clearAllMocks();

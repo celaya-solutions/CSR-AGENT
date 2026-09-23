@@ -53,6 +53,12 @@ import {
   createTestRuntime,
 } from "./test-runtime-config-helpers.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 let channelsAddCommand: typeof import("./channels/add.js").channelsAddCommand;
 let runChannelsSetupWizard: typeof import("./channels/add-wizard.js").runChannelsSetupWizard;
 

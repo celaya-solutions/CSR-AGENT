@@ -1,4 +1,7 @@
 // Covers `models auth order get/set/clear`: read targeting, store writes, and gateway refresh.
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AuthProfileStore } from "../../agents/auth-profiles.js";
 import type { OpenClawConfig } from "../../config/types.openclaw.js";
@@ -107,27 +110,46 @@ describe("models auth order", () => {
   });
 
   it("accepts alias-provider profiles and reports the canonical stored order", async () => {
-    mocks.ensureAuthProfileStore.mockReturnValue({
-      version: 1,
-      profiles: {
-        "xai:a": { type: "oauth", provider: "xai", access: "tok" },
-      },
-    });
-    mocks.setAuthProfileOrder.mockResolvedValue({
-      version: 1,
-      profiles: {},
-      order: { xai: ["xai:a"] },
-    });
-    const runtime = createRuntime();
+    // A config-loaded plugin manifest owns the auth alias, as a provider plugin would.
+    const pluginDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-auth-alias-plugin-"));
+    try {
+      fs.writeFileSync(
+        path.join(pluginDir, "openclaw.plugin.json"),
+        JSON.stringify({
+          id: "acme-provider",
+          configSchema: { type: "object" },
+          providers: ["acme"],
+          providerAuthAliases: { "acme-ai": "acme" },
+        }),
+      );
+      fs.writeFileSync(path.join(pluginDir, "index.js"), "export default {};\n");
+      mocks.loadModelsConfig.mockResolvedValue({
+        plugins: { load: { paths: [pluginDir] } },
+      } as OpenClawConfig);
+      mocks.ensureAuthProfileStore.mockReturnValue({
+        version: 1,
+        profiles: {
+          "acme:a": { type: "oauth", provider: "acme", access: "tok" },
+        },
+      });
+      mocks.setAuthProfileOrder.mockResolvedValue({
+        version: 1,
+        profiles: {},
+        order: { acme: ["acme:a"] },
+      });
+      const runtime = createRuntime();
 
-    await modelsAuthOrderSetCommand({ provider: "x-ai", order: ["xai:a"] }, runtime);
+      await modelsAuthOrderSetCommand({ provider: "acme-ai", order: ["acme:a"] }, runtime);
 
-    expect(mocks.setAuthProfileOrder).toHaveBeenCalledWith({
-      agentDir: "/tmp/agent-main",
-      provider: "xai",
-      order: ["xai:a"],
-    });
-    expect(runtime.logs).toContain("Auth profile order override: xai:a");
+      expect(mocks.setAuthProfileOrder).toHaveBeenCalledWith({
+        agentDir: "/tmp/agent-main",
+        provider: "acme",
+        order: ["acme:a"],
+      });
+      expect(runtime.logs).toContain("Auth profile order override: acme:a");
+    } finally {
+      fs.rmSync(pluginDir, { recursive: true, force: true });
+    }
   });
 
   it("clear removes the store order and refreshes a running gateway", async () => {

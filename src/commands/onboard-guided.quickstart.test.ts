@@ -175,6 +175,8 @@ describe("runGuidedOnboarding quick start", () => {
   });
 
   it("custom setup keeps telemetry, first-agent, access, and provider choices in order", async () => {
+    // The telemetry question only appears once an operator configured an endpoint.
+    vi.stubEnv("OPENCLAW_TELEMETRY_ENDPOINT", "https://telemetry.example.test/api/latest-version");
     const prompter = createWizardPrompter(
       { text: vi.fn(async () => "helper"), confirm: vi.fn(async () => true) },
       { selectValues: ["custom", "one", "full"] },

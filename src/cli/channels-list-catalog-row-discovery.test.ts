@@ -7,6 +7,12 @@ import { afterAll, beforeEach, expect, it, vi } from "vitest";
 import type { ChannelPluginCatalogEntry } from "../channels/plugins/catalog.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const testState = vi.hoisted(() => ({
   config: {} as OpenClawConfig,
   json: [] as unknown[],

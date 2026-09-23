@@ -81,7 +81,7 @@ function prompter(): WizardPrompter {
     outro: vi.fn(async () => {}),
     note: vi.fn(async () => {}),
     confirm: vi.fn(async () => true),
-    select: vi.fn(async () => "claude") as WizardPrompter["select"],
+    select: vi.fn(async () => "codex") as WizardPrompter["select"],
     multiselect: vi.fn(async () => []) as WizardPrompter["multiselect"],
     text: vi.fn(async () => "") as WizardPrompter["text"],
     progress: vi.fn(() => ({ stop: vi.fn(), update: vi.fn() })),
@@ -101,8 +101,8 @@ function provider(params: {
   ) => Promise<"already-satisfied" | "error" | "migrated">;
 }): MigrationProviderPlugin {
   return {
-    id: "claude",
-    label: "Claude",
+    id: "codex",
+    label: "Codex",
     ...(params.deferred && params.retrySafeDeferred !== false
       ? { deferredApply: { retrySafe: true as const } }
       : {}),
@@ -134,7 +134,7 @@ function provider(params: {
         }
       }
       return {
-        providerId: "claude",
+        providerId: "codex",
         source: params.source,
         target: workspace,
         items,
@@ -218,7 +218,7 @@ async function runImport(params: {
     opts: {
       importSource: params.source,
       workspace,
-      ...(params.interactivePrompter ? {} : { importFrom: "claude", nonInteractive: true }),
+      ...(params.interactivePrompter ? {} : { importFrom: "codex", nonInteractive: true }),
     },
     baseConfig: {},
     detections: [],
@@ -317,7 +317,7 @@ describe("transactional setup migration import", () => {
     await expect(fs.access(path.join(root, "workspace", "MEMORY.md"))).rejects.toThrow();
   });
 
-  it("promotes a Claude import with no model and returns no imported inference", async () => {
+  it("promotes a Codex import with no model and returns no imported inference", async () => {
     const root = tempRoots.make("openclaw-migration-transaction-");
     const source = path.join(root, "source-memory.md");
     await fs.writeFile(source, "remember this\n", "utf8");
@@ -363,7 +363,7 @@ describe("transactional setup migration import", () => {
       kind: "no-imported-inference",
     });
 
-    const reportRoot = path.join(root, "openclaw-state", "migration", "claude");
+    const reportRoot = path.join(root, "openclaw-state", "migration", "codex");
     const [reportDir] = await fs.readdir(reportRoot);
     const report = JSON.parse(
       await fs.readFile(path.join(reportRoot, reportDir!, "report.json"), "utf8"),
@@ -620,7 +620,7 @@ describe("transactional setup migration import", () => {
     });
 
     expect(deferredCalls).toBe(1);
-    const reportRoot = path.join(root, "openclaw-state", "migration", "claude");
+    const reportRoot = path.join(root, "openclaw-state", "migration", "codex");
     const [reportDir] = await fs.readdir(reportRoot);
     const report = JSON.parse(
       await fs.readFile(path.join(reportRoot, reportDir!, "report.json"), "utf8"),
@@ -628,7 +628,7 @@ describe("transactional setup migration import", () => {
     expect(report.items.filter((item) => item.id === "plugin:calendar")).toHaveLength(1);
     expect(report.items.find((item) => item.id === "plugin:calendar")?.status).toBe("warning");
     expect(report.warnings?.join("\n")).toContain(
-      "Retry only those steps with openclaw onboard --flow import --import-from claude",
+      "Retry only those steps with openclaw onboard --flow import --import-from codex",
     );
     expect(JSON.stringify(report)).not.toContain(".openclaw-migration-");
   });
@@ -693,7 +693,7 @@ describe("transactional setup migration import", () => {
     expect(await fs.readFile(path.join(root, "workspace", "MEMORY.md"), "utf8")).toBe(
       "remember this\n",
     );
-    const reportRoot = path.join(root, "openclaw-state", "migration", "claude");
+    const reportRoot = path.join(root, "openclaw-state", "migration", "codex");
     const [reportDir] = await fs.readdir(reportRoot);
     const report = JSON.parse(
       await fs.readFile(path.join(reportRoot, reportDir!, "report.json"), "utf8"),
@@ -734,7 +734,7 @@ describe("transactional setup migration import", () => {
     await runImport({ root, source, currentConfig });
 
     expect(activationCalls).toEqual(["plugin:calendar", "plugin:drive", "plugin:drive"]);
-    const reportRoot = path.join(root, "openclaw-state", "migration", "claude");
+    const reportRoot = path.join(root, "openclaw-state", "migration", "codex");
     const [reportDir] = await fs.readdir(reportRoot);
     const report = JSON.parse(
       await fs.readFile(path.join(reportRoot, reportDir!, "report.json"), "utf8"),

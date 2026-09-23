@@ -59,6 +59,12 @@ import type { TempHomeEnv } from "../test-utils/temp-home.js";
 import { VERSION } from "../version.js";
 import { createCliRuntimeCapture, getMockCallOutput } from "./test-runtime-capture.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const commandTransport = vi.hoisted(() => ({
   run: vi.fn<typeof import("../process/exec.js").runCommandWithTimeout>(),
   hostEnv: { ...process.env, NODE_OPTIONS: "", NODE_PATH: "" },
@@ -12347,27 +12353,22 @@ describe("update-cli", () => {
   it("does not repair legacy config during a dry run", async () => {
     await mockPackageInstallAtCaseDir();
     const legacyConfig = {
-      channels: {
-        slack: {
-          streaming: "partial",
-          nativeStreaming: false,
-        },
-      },
-    } as OpenClawConfig;
+      gateway: { mode: "local", bind: "localhost" },
+    } as unknown as OpenClawConfig;
     vi.mocked(readConfigFileSnapshot).mockResolvedValueOnce(
       configSnapshot(legacyConfig, {
         valid: false,
         hash: "legacy-hash",
         issues: [
           {
-            path: "channels.slack.streaming",
-            message: "Invalid input: expected object, received string",
+            path: "gateway.bind",
+            message: "Invalid option",
           },
         ],
         legacyIssues: [
           {
-            path: "channels.slack",
-            message: "legacy slack streaming keys",
+            path: "gateway.bind",
+            message: "legacy gateway bind host alias",
           },
         ],
       }),
