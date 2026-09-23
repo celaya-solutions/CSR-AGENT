@@ -1056,8 +1056,6 @@ function readWorkflowSanityWorkflow() {
   return parse(readFileSync(".github/workflows/workflow-sanity.yml", "utf8"));
 }
 
-}
-
 function readCriticalQualityWorkflow() {
   return readFileSync(".github/workflows/codeql-critical-quality.yml", "utf8");
 }
@@ -1676,10 +1674,6 @@ describe("ci workflow guards", () => {
     expect(readCiWorkflow()).toEqual(expected);
   });
 
-    );
-
-  });
-
   it("preserves module heredocs and cleans child temporary artifacts", () => {
     const parentTempDir = tmpdir();
     const run = runWorkflowShellScript(
@@ -1862,12 +1856,6 @@ NODE
       workflow.jobs["macos-node"]["runs-on"],
       "macOS Node retries must escape stalled Blacksmith capacity",
     ).toContain("github.run_attempt > 1");
-  });
-
-
-  });
-
-
   });
 
   it("pins every external GitHub Action reference to a full commit SHA", () => {
@@ -2973,8 +2961,6 @@ require("node:fs").writeFileSync("scheduler-baseline", process.env.OPENCLAW_UPGR
     expect(setupStep.run).toContain("sha256sum --check -");
   });
 
-  describe("Android validation tiers", () => {});
-
   describe("CI workflow admission", () => {
     type EventContext = Parameters<typeof evaluateWorkflowExpression>[1];
     type AdmissionRun = {
@@ -3489,13 +3475,6 @@ setImmediate(() => {
   it.each(
     [
       {
-        jobs: [
-        ],
-      },
-      {
-        runner: "blacksmith-32vcpu-ubuntu-2404",
-      },
-      {
         file: "openclaw-live-and-e2e-checks-reusable.yml",
         runner: "blacksmith-32vcpu-ubuntu-2404",
         jobs: ["validate_docker_openwebui"],
@@ -3756,7 +3735,6 @@ setImmediate(() => {
       "pnpm-store-warmup": "ubuntu-24.04",
       preflight: "ubuntu-24.04",
       "security-fast": "ubuntu-24.04",
-      "qa-smoke-ci-profile": "ubuntu-24.04",
       "skills-python": "ubuntu-24.04",
       "check-test-types-hosted-core-shard": "ubuntu-24.04",
       "checks-windows": "windows-2025",
@@ -3769,7 +3747,6 @@ setImmediate(() => {
       "checks-ui-e2e": "blacksmith-8vcpu-ubuntu-2404",
       "checks-ui-e2e-real-gateway": "blacksmith-32vcpu-ubuntu-2404",
       "docker-seed-e2e": "blacksmith-32vcpu-ubuntu-2404",
-      "qa-smoke-ci-profile": "blacksmith-16vcpu-ubuntu-2404",
       "check-test-types-hosted-core-shard": "blacksmith-32vcpu-ubuntu-2404",
       "checks-ui": "blacksmith-8vcpu-ubuntu-2404",
       "checks-windows": "blacksmith-8vcpu-windows-2025",
@@ -4171,19 +4148,13 @@ setImmediate(() => {
         caller.mode === "read-write" ||
         (typeof caller.mode === "string" && caller.mode.includes("'read-write'")),
     );
-    expect(writeAuthorizedCallers).toHaveLength(2);
-    expect(writeAuthorizedCallers).toEqual(
-      expect.arrayContaining([
-        {
-          step: expect.objectContaining({ name: "Setup Node environment" }),
-        },
-        {
-          file: ".github/workflows/vitest-cache-warm.yml",
-          mode: "read-write",
-          step: expect.objectContaining({ name: "Setup Node environment" }),
-        },
-      ]),
-    );
+    expect(writeAuthorizedCallers).toEqual([
+      {
+        file: ".github/workflows/vitest-cache-warm.yml",
+        mode: "read-write",
+        step: expect.objectContaining({ name: "Setup Node environment" }),
+      },
+    ]);
 
     const nodeCachePathPattern =
       /(?:^|\n)\s*(?:\.artifacts\/build-all-cache|dist\/|dist-runtime\/|packages\/\*\/dist\/|extensions\/\*\/dist\/|~\/\.cache\/ms-playwright|~\/\.local\/share\/pnpm|~\/\.cache\/pnpm|node_modules)(?:\n|$)/u;
@@ -4364,7 +4335,6 @@ setImmediate(() => {
       "control-ui-i18n",
       "control-ui-performance",
       "docker-seed-e2e",
-      "qa-smoke-ci-profile",
     ]);
     for (const { jobName, step: consumer } of consumers) {
       const needs = workflow.jobs[jobName].needs;
@@ -6714,21 +6684,6 @@ server.listen(0, "127.0.0.1", () => {
     );
   });
 
-    const owner = {
-      name: "Prepare Git owner",
-      uses: "openclaw/openclaw/.github/actions/git-owner@dd4528b6393e7d00063067a080ca7241b48ce475",
-    };
-    ] as const) {
-      );
-      );
-    }
-  });
-
-      );
-
-    }
-  });
-
   it("checks the generated Git owner in the workflow guard lane", () => {
     const check = spawnSync(process.execPath, ["scripts/generate-ci-git-owner.mts", "--check"], {
       encoding: "utf8",
@@ -7228,34 +7183,6 @@ server.listen(0, "127.0.0.1", () => {
       "cache-mode": "${{ needs.preflight.outputs.cache_mode }}",
       "install-bun": "false",
     });
-  });
-
-
-    );
-    );
-
-    );
-
-
-
-      writeFileSync(
-fi
-`,
-      );
-
-
-  });
-
-
-    });
-    );
-    );
-    );
-    );
-    );
-    );
-    );
-    );
   });
 
   it("runs dependency policy guards in PR CI preflight", () => {
@@ -9122,10 +9049,6 @@ fi
         "--",
         ":(glob)ui/src/**/*.e2e.test.ts",
         ":(glob)extensions/*/browser/**/*.e2e.test.ts",
-        "extensions/qa-lab/src/control-ui-media-transcript.real-gateway.e2e.test.ts",
-        "extensions/qa-lab/src/session-host-command-state.real-gateway.e2e.test.ts",
-        "extensions/qa-lab/src/control-ui-openclaw-delegation.real-gateway.e2e.test.ts",
-        "extensions/qa-lab/src/control-ui-automation-management.real-gateway.e2e.test.ts",
       ],
       { encoding: "utf8" },
     )
@@ -9254,10 +9177,6 @@ fi
     expect(config.test?.include).toEqual([
       "ui/src/**/*.e2e.test.ts",
       "extensions/*/browser/**/*.e2e.test.ts",
-      "extensions/qa-lab/src/control-ui-media-transcript.real-gateway.e2e.test.ts",
-      "extensions/qa-lab/src/session-host-command-state.real-gateway.e2e.test.ts",
-      "extensions/qa-lab/src/control-ui-openclaw-delegation.real-gateway.e2e.test.ts",
-      "extensions/qa-lab/src/control-ui-automation-management.real-gateway.e2e.test.ts",
     ]);
     expect(projects.map((project) => project.test.name)).toEqual([
       "ui-e2e-bundled",
@@ -10227,35 +10146,10 @@ fi
     const firstReader = verifierStep.run.indexOf(
       'run_verifier "doctor-plugin-index" run_doctor_plugin_index',
     );
-    const parallelDiscord = verifierStep.run.indexOf(
-      'if [ "$RUN_CHANNELS" = "true" ] && [ "$PARALLEL_BUILT_VERIFIERS" = "true" ]; then',
-    );
-    const readerWaveBarrier = verifierStep.run.indexOf("\nwait_checks\n", parallelDiscord);
-    const hostedDiscord = verifierStep.run.indexOf(
-      'if [ "$RUN_CHANNELS" = "true" ] && [ "$PARALLEL_BUILT_VERIFIERS" != "true" ]; then',
-    );
     expect(pluginWriterBarrier).toBeGreaterThan(pluginSingleton);
     expect(parallelGatewayWatch).toBeGreaterThan(pluginWriterBarrier);
     expect(gatewayWriterBarrier).toBeGreaterThan(parallelGatewayWatch);
     expect(firstReader).toBeGreaterThan(gatewayWriterBarrier);
-    expect(parallelDiscord).toBeGreaterThan(firstReader);
-    expect(readerWaveBarrier).toBeGreaterThan(parallelDiscord);
-    expect(hostedDiscord).toBeGreaterThan(readerWaveBarrier);
-    expect(verifierStep.run.slice(parallelDiscord, readerWaveBarrier)).toContain(
-      'start_check "discord-component-attachments" run_discord_component_attachments',
-    );
-    expect(verifierStep.run.slice(hostedDiscord)).toContain(
-      'start_check "discord-component-attachments" run_discord_component_attachments',
-    );
-    expect(verifierStep.run).toContain('["discord-component-attachments"]="skipped"');
-    expect(verifierStep.run).toContain("OPENCLAW_E2E_USE_PREBUILT_DIST=1 OPENCLAW_E2E_WORKERS=1");
-    expect(verifierStep.run).toContain("OPENCLAW_E2E_VERBOSE=1 OPENCLAW_VITEST_MAX_WORKERS=1");
-    const upload = steps.find(
-      (entry: WorkflowStep) => entry.name === "Upload Discord component attachment proof",
-    );
-    expect(upload.if).toBe("always() && needs.preflight.outputs.run_checks == 'true'");
-    expect(upload.with.path).toContain("${{ runner.temp }}/discord-component-attachments.json");
-    expect(upload.with.path).toContain("${{ runner.temp }}/discord-component-attachments.log");
     // Every verifier reports through the shared results map so a failure can
     // never be swallowed by the wave.
     for (const name of [
@@ -10268,59 +10162,8 @@ fi
       expect(verifierStep.run).toContain(`["${name}"]="skipped"`);
     }
     expect(verifierStep.run).toContain(
-      "for name in channels core-support-boundary discord-component-attachments doctor-plugin-index gateway-watch plugin-singleton sqlite-session-lifecycle startup-memory tui-pty; do",
+      "for name in channels core-support-boundary doctor-plugin-index gateway-watch plugin-singleton sqlite-session-lifecycle startup-memory tui-pty; do",
     );
-  });
-
-  it.each([
-    { label: "one passing named case", state: "passed", frozen: false, expected: 0 },
-    { label: "a passing frozen case", state: "passed", frozen: true, expected: 0 },
-    { label: "a failed named case", state: "failed", frozen: false, expected: 1 },
-    { label: "a skipped current case", state: "skipped", frozen: false, expected: 1 },
-    { label: "a skipped frozen case", state: "skipped", frozen: true, expected: 1 },
-    { label: "a missing current case", state: "absent", frozen: false, expected: 1 },
-    { label: "an unavailable historical case", state: "absent", frozen: true, expected: 0 },
-    { label: "a failed suite", state: "suite-failed", frozen: false, expected: 1 },
-    { label: "malformed JSON", state: "malformed", frozen: true, expected: 1 },
-  ])("validates Discord built proof with $label", ({ state, frozen, expected }) => {
-    const steps = readCiWorkflow().jobs["build-artifacts"].steps;
-    const step = steps.find((entry: WorkflowStep) => entry.name === "Run built artifact checks");
-    const validator = expectDefined(
-      step.run.match(
-        /node --input-type=module <<'DISCORD_PROOF_REPORT'\n([\s\S]*?)\nDISCORD_PROOF_REPORT/u,
-      )?.[1],
-      "Discord proof report validator",
-    );
-    const scratch = tempDirs.make("openclaw-discord-proof-report-");
-    const fullName =
-      "Discord show_widget contextual presenter process proof preserves component attachment filenames through the public Gateway message action";
-    const report = {
-      success: true,
-      numFailedTestSuites: state === "suite-failed" ? 1 : 0,
-      numFailedTests: state === "failed" ? 1 : 0,
-      numPassedTests: state === "passed" ? 1 : 0,
-      testResults: [
-        {
-          name: path.resolve(
-            "test/e2e/qa-lab/plugins/discord-show-widget-contextual-presenter.e2e.test.ts",
-          ),
-          status: "passed",
-          assertionResults: state === "absent" ? [] : [{ fullName, status: state }],
-        },
-      ],
-    };
-    writeFileSync(
-      path.join(scratch, "discord-component-attachments.json"),
-      state === "malformed" ? "{" : JSON.stringify(report),
-    );
-    const result = spawnSync(process.execPath, ["--input-type=module", "-e", validator], {
-      encoding: "utf8",
-      env: { ...process.env, RUNNER_TEMP: scratch, FROZEN_TARGET: String(frozen) },
-    });
-    expect(result.status, result.stderr).toBe(expected);
-    if (state === "absent" && frozen) {
-      expect(result.stdout).toContain("[skip] Frozen target predates the named Discord");
-    }
   });
 
   it.each([
@@ -10601,21 +10444,11 @@ fi
     );
     const tuiPty = run.indexOf('if [ "$RUN_TUI_PTY" = "true" ]; then');
     const hostedGatewayWait = run.indexOf("\n  wait_checks\n", hostedGatewayWatch);
-    const parallelDiscord = run.indexOf(
-      'if [ "$RUN_CHANNELS" = "true" ] && [ "$PARALLEL_BUILT_VERIFIERS" = "true" ]; then',
-    );
-    const hostedDiscord = run.indexOf(
-      'if [ "$RUN_CHANNELS" = "true" ] && [ "$PARALLEL_BUILT_VERIFIERS" != "true" ]; then',
-    );
-    const hostedDiscordWait = run.indexOf("\n  wait_checks\n", hostedDiscord);
     const tuiPtyWait = run.indexOf("\n  wait_checks\n", tuiPty);
     expect(firstWait).toBeGreaterThan(run.indexOf('start_check "core-support-boundary"'));
     expect(hostedGatewayWatch).toBeGreaterThan(firstWait);
     expect(hostedGatewayWait).toBeGreaterThan(hostedGatewayWatch);
-    expect(parallelDiscord).toBeLessThan(firstWait);
-    expect(hostedDiscord).toBeGreaterThan(hostedGatewayWait);
-    expect(hostedDiscordWait).toBeGreaterThan(hostedDiscord);
-    expect(tuiPty).toBeGreaterThan(hostedDiscordWait);
+    expect(tuiPty).toBeGreaterThan(hostedGatewayWait);
     expect(tuiPtyWait).toBeGreaterThan(tuiPty);
     expect(run.slice(tuiPty, tuiPtyWait)).toContain("src/tui/tui-pty-local.e2e.test.ts");
     expect(run.slice(tuiPty, tuiPtyWait)).toContain("--testNamePattern");
@@ -10625,7 +10458,7 @@ fi
     expect(run).toContain("wait_checks()");
     // Startup memory, artifact writers, and TUI retain explicit barriers;
     // hosted runners also serialize the remaining verifiers inside run_verifier.
-    expect(run.match(/wait_checks$/gmu)).toHaveLength(8);
+    expect(run.match(/wait_checks$/gmu)).toHaveLength(7);
   });
 
   it("keeps docs i18n CI on the workflow-owned Go toolchain", () => {
@@ -11120,9 +10953,6 @@ fi
     const buildChecks = workflow.jobs["build-artifacts"].steps.find(
       (step: WorkflowStep) => step.name === "Run built artifact checks",
     );
-    const qaBuild = workflow.jobs["qa-smoke-ci-profile"].steps.find(
-      (step: WorkflowStep) => step.name === "Build QA smoke runtime",
-    );
     const additionalChecks = workflow.jobs["check-additional-shard"].steps.find(
       (step: WorkflowStep) => step.name === "Run additional check shard",
     );
@@ -11135,8 +10965,6 @@ fi
     expect(buildChecks.run).toContain(
       "startup_builder=(node scripts/ensure-cli-startup-build.mjs)",
     );
-    expect(qaBuild.run.match(/pnpm build qaRuntime/gu)).toHaveLength(1);
-    expect(qaBuild.run).not.toContain("package-openclaw-for-docker");
     expect(additionalChecks.run).toContain(
       "boundary_runner=(node --import tsx scripts/run-additional-boundary-checks.mts)",
     );
@@ -11215,7 +11043,6 @@ fi
       "checks-ui-e2e-real-gateway",
       "control-ui-i18n",
       "checks-fast-core",
-      "qa-smoke-ci-profile",
       "checks-fast-plugin-contracts-shard",
       "checks-fast-channel-contracts-shard",
       "checks-node-compat",
@@ -11603,48 +11430,113 @@ fi
     },
   );
 
-    );
-    );
-    );
+  it.skipIf(process.platform !== "linux")(
+    "classifies QA timeouts only from isolated supervisor diagnostics",
+    () => {
+      const scenarios = [
+        {
+          exitCode: 124,
+          mode: "natural-124",
+          supervisorSignals: [],
+          timedOut: false,
+          timeoutOutcome: "none",
+        },
+        {
+          exitCode: 137,
+          mode: "self-kill",
+          supervisorSignals: [],
+          timedOut: false,
+          timeoutOutcome: "none",
+        },
+        {
+          exitCode: 124,
+          mode: "term",
+          supervisorSignals: ["TERM"],
+          timedOut: true,
+          timeoutOutcome: "term",
+        },
+        {
+          exitCode: 137,
+          mode: "kill",
+          supervisorSignals: ["TERM", "KILL"],
+          timedOut: true,
+          timeoutOutcome: "kill",
+        },
+      ] as const;
 
-    });
-      required: false,
-    });
-      required: false,
-    });
-    );
-    );
+      for (const scenario of scenarios) {
+        const result = runQaProfileTimeoutFixture(scenario.mode);
+        expect(result.commandStatus, `${result.stdout}\n${result.stderr}`).toBe(0);
+        expect(result.status).toMatchObject({
+          exitCode: scenario.exitCode,
+          target: { protocolBaseSha: "b".repeat(40) },
+          timedOut: scenario.timedOut,
+          timeoutOutcome: scenario.timeoutOutcome,
+        });
+        expect(result.githubOutput).toContain(`qa_exit_code=${scenario.exitCode}`);
+        expect(result.stderr).toContain(`child-stderr-sentinel:${scenario.mode}`);
+        expect(result.stderr).toContain("child-locale:POSIX");
+        expect(result.timeoutVersion).not.toBe("");
+
+        const supervisorSignals: readonly ("TERM" | "KILL")[] = scenario.supervisorSignals;
+        for (const signal of ["TERM", "KILL"] as const) {
+          const diagnostic = `timeout: sending signal ${signal} to command 'env'`;
+          if (supervisorSignals.includes(signal)) {
+            expect(result.timeoutSupervisorLog).toContain(diagnostic);
+          } else {
+            expect(result.timeoutSupervisorLog).not.toContain(diagnostic);
+          }
+        }
+
+        if (scenario.mode === "natural-124") {
+          expect(result.stderr).toContain(
+            "timeout: sending signal KILL to command 'spoofed-child'",
+          );
+          expect(result.timeoutSupervisorLog).not.toContain("spoofed-child");
+        }
+        if (scenario.timeoutOutcome === "term") {
+          expect(result.stdout).toContain(
+            "::warning::QA profile 'all' timed out after 0.4 seconds and was terminated",
+          );
+        } else if (scenario.timeoutOutcome === "kill") {
+          expect(result.stdout).toContain(
+            "::warning::QA profile 'all' timed out after 0.4 seconds and required SIGKILL after the 0.05-second grace period",
+          );
+        } else {
+          expect(result.stdout).not.toContain("::warning::QA profile");
+        }
+      }
+    },
+  );
+
+  // Replay the Ubuntu workflow shell only where its Bash 4 and GNU install contract exists.
+  it.skipIf(process.platform !== "linux")(
+    "copies only regular allowlisted maturity publication files",
+    () => {
+      const valid = runMaturityArtifactCopyScenario();
+      expect(valid.status).toBe(0);
+      expect(valid.copied).toEqual(
+        MATURITY_GENERATED_PR_PATHS.map((generatedPath) => `new ${generatedPath}\n`),
       );
-    }
-    );
-    );
-    );
-    );
-    );
-    );
-    );
-    );
-    );
-    );
-    );
-    );
 
-    });
+      const extra = runMaturityArtifactCopyScenario({ extraFile: true });
+      expect(extra.status).not.toBe(0);
+      expect(extra.output).toContain("Generated PR artifact must contain exactly 3 files.");
 
-    );
-    );
-    });
-    );
-    );
-    );
-    });
-      OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}",
-      OPENCLAW_QA_CONVEX_SECRET_CI: "${{ secrets.OPENCLAW_QA_CONVEX_SECRET_CI }}",
-      OPENCLAW_QA_CONVEX_SITE_URL: "${{ secrets.OPENCLAW_QA_CONVEX_SITE_URL }}",
-    });
-    );
-    );
-  });
+      const sourceSymlink = runMaturityArtifactCopyScenario({ sourceSymlink: true });
+      expect(sourceSymlink.status).not.toBe(0);
+      expect(sourceSymlink.output).toContain(
+        "Generated PR artifact path must be a regular file: qa/maturity-scores.yaml",
+      );
+
+      const destinationSymlink = runMaturityArtifactCopyScenario({ destinationSymlink: true });
+      expect(destinationSymlink.status).not.toBe(0);
+      expect(destinationSymlink.output).toContain(
+        "Selected worktree destination must be a regular file: qa/maturity-scores.yaml",
+      );
+      expect(destinationSymlink.escaped).toBe("outside\n");
+    },
+  );
 
   it("keeps workflow guards in fast CI-routing checks", () => {
     const workflow = readCiWorkflow();
@@ -11655,19 +11547,6 @@ fi
     const runStep = fastCoreJob.steps.find(
       (step: WorkflowStep) => step.name === "Run ${{ matrix.task }} (${{ matrix.runtime }})",
     );
-    const smokeProfileJob = workflow.jobs["qa-smoke-ci-profile"];
-    const smokeBuildStep = smokeProfileJob.steps.find(
-      (step: WorkflowStep) => step.name === "Build QA smoke runtime",
-    );
-    const smokeDockerCacheStep = smokeProfileJob.steps.find(
-      (step: WorkflowStep) => step.name === "Set up Blacksmith Docker layer cache",
-    );
-    const smokeRunStep = smokeProfileJob.steps.find(
-      (step: WorkflowStep) => step.name === "Run smoke profile part",
-    );
-    const smokeUploadStep = smokeProfileJob.steps.find(
-      (step: WorkflowStep) => step.name === "Upload QA smoke profile evidence",
-    );
 
     expect(preflightStep.run).not.toContain("qa-smoke-profile");
     expect(preflightStep.run).not.toContain("qa_category");
@@ -11676,239 +11555,10 @@ fi
     expect(runStep.run).toContain("contracts-plugins-ci-routing)");
     expect(runStep.run).toContain("ci-routing)");
     expect(fastCoreJob["runs-on"]).toContain("matrix.runner");
-    expect(smokeProfileJob.name).toBe("QA Smoke CI (${{ matrix.name }})");
-    // Leak invariant: dist must never be packed after the private overlay
-    // build. Today that holds vacuously — the smoke set has no docker-lane
-    // scenario, so the step performs exactly one private build and no pack;
-    // the run step fails closed if a docker-lane scenario returns.
-    expect(smokeBuildStep.run).toContain("OPENCLAW_BUILD_PRIVATE_QA=1 pnpm build qaRuntime");
-    expect(smokeBuildStep.run.match(/pnpm build qaRuntime/g)).toHaveLength(1);
-    expect(smokeBuildStep.run).not.toContain("package-openclaw-for-docker");
-    expect(smokeBuildStep.run).not.toContain("npm pack");
-    expect(smokeBuildStep.env).not.toHaveProperty("OPENCLAW_BUILD_PRIVATE_QA");
-    const smokePlanRunStep = smokeProfileJob.steps.find(
-      (step: WorkflowStep) => step.name === "Run smoke profile part",
-    );
-    expect(smokePlanRunStep.run).toContain("restore the public pack step in ci.yml");
-    expect(smokePlanRunStep.run).not.toContain("OPENCLAW_CURRENT_PACKAGE_TGZ");
+    // The QA lab was removed from this build, so no QA smoke lane may return.
+    expect(workflow.jobs["qa-smoke-ci-profile"]).toBeUndefined();
     expect(workflow.jobs["qa-smoke-ci-artifacts"]).toBeUndefined();
     expect(workflow.jobs["qa-smoke-ci"]).toBeUndefined();
-    expect(smokeProfileJob.needs).toEqual(["preflight"]);
-    expect(smokeProfileJob.strategy["max-parallel"]).toBe(
-      "${{ (needs.preflight.outputs.runner_profile == 'github' || needs.preflight.outputs.runner_profile == 'hybrid') && 6 || 4 }}",
-    );
-    expect(smokeProfileJob.strategy.matrix).toBe(
-      "${{ fromJson(needs.preflight.outputs.qa_smoke_ci_matrix) }}",
-    );
-    for (const [label, options, partCount] of [
-      ["Blacksmith push", { runnerBackend: "blacksmith" }, 4],
-      ["GitHub push", { runnerBackend: "github" }, 6],
-      ["hybrid push", { runnerBackend: "hybrid" }, 4],
-      ["hybrid PR", { runnerBackend: "hybrid", eventName: "pull_request" }, 4],
-      ["hybrid retry", { runnerBackend: "hybrid", scopeEnv: { GITHUB_RUN_ATTEMPT: "2" } }, 6],
-      ["missing attempt", { runnerBackend: "hybrid", scopeEnv: { GITHUB_RUN_ATTEMPT: "" } }, 6],
-      ["other repository", { runnerBackend: "hybrid", repository: "example/openclaw" }, 6],
-      [
-        "current hybrid dispatch",
-        {
-          runnerBackend: "hybrid",
-          eventName: "workflow_dispatch",
-          scopeEnv: { OPENCLAW_CI_CHECKOUT_REVISION: "b".repeat(40) },
-        },
-        6,
-      ],
-      [
-        "frozen hybrid dispatch",
-        { runnerBackend: "hybrid", eventName: "workflow_dispatch", historicalCompatibility: true },
-        6,
-      ],
-      [
-        "frozen Blacksmith dispatch",
-        {
-          runnerBackend: "blacksmith",
-          eventName: "workflow_dispatch",
-          historicalCompatibility: true,
-        },
-        4,
-      ],
-    ] as const) {
-      const manifest = runCiManifestFixture({
-        bundledPlanner: true,
-        changedPaths: [".github/workflows/ci.yml"],
-        eventName: "push",
-        historicalCompatibility: false,
-        ...options,
-      });
-      expect(manifest.status, `${label}: ${manifest.output}`).toBe(0);
-      const matrix = JSON.parse(
-        expectDefined(manifest.outputs.qa_smoke_ci_matrix, `${label} QA smoke matrix`),
-      );
-      expect(matrix.include, label).toEqual(
-        Array.from({ length: partCount }, (_, index) => ({
-          name: `profile ${index + 1}/${partCount}`,
-          lane: `profile-${index + 1}`,
-          slug: `profile-${index + 1}-of-${partCount}`,
-          part_count: partCount,
-        })),
-      );
-    }
-    for (const [runnerBackend, expected] of [
-      ["blacksmith", 4],
-      ["github", 6],
-      ["hybrid", 6],
-    ] as const) {
-      expect(
-        evaluateWorkflowExpression(smokeProfileJob.strategy["max-parallel"], {
-          eventName: "push",
-          repository: "openclaw/openclaw",
-          runnerBackend,
-          runAttempt: 1,
-        }),
-      ).toBe(expected);
-    }
-    expect(smokeProfileJob["runs-on"]).toContain("blacksmith-16vcpu-ubuntu-2404");
-    expect(smokeDockerCacheStep).toBeUndefined();
-    expect(smokeRunStep.run).toContain("createQaSmokeCiPart");
-    expect(smokeRunStep.run).toContain("createQaSmokeCiPart(partId, partCount)");
-    expect(smokeRunStep.env.PROFILE_PART_COUNT).toBe("${{ matrix.part_count }}");
-    expect(smokeRunStep.run).toContain("createQaSmokeCiMatrix");
-    expect(smokeRunStep.run).toContain("readQaScenarioPack");
-    expect(smokeRunStep.run).toContain("isolate each scenario");
-    expect(smokeRunStep.run).toContain("scenario_ids: [scenarioId]");
-    expect(smokeRunStep.run).not.toContain("scenarioIdsByKind");
-    const compatibilityScenarioBlock = smokeRunStep.run.match(
-      /const compatibilityScenarioIds = new Set\(\[([\s\S]*?)\]\);/u,
-    )?.[1];
-    expect(compatibilityScenarioBlock?.match(/^\s+"[^"]+",$/gmu)).toHaveLength(10);
-    expect(compatibilityScenarioBlock).not.toContain('"dreaming-shadow-trial-report"');
-    expect(compatibilityScenarioBlock).not.toContain('"control-ui-chat-flow-playwright"');
-    expect(compatibilityScenarioBlock).toContain('"gateway-smoke"');
-    expect(compatibilityScenarioBlock).toContain('"matrix-restart-resume"');
-    expect(smokeRunStep.run).toContain(
-      "console.error(`[skip] ${partId} is not declared by this checkout's smoke plan`)",
-    );
-    expect(smokeRunStep.run).not.toContain(
-      "console.log(`[skip] ${partId} is not declared by this checkout's smoke plan`)",
-    );
-    expect(smokeRunStep.run).toContain("No QA smoke runs assigned");
-    expect(smokeRunStep.run).toContain("node openclaw.mjs qa run");
-    expect(smokeRunStep.run).not.toContain("pnpm openclaw qa run");
-    expect(smokeRunStep.run).toContain(
-      "timeout --signal=TERM --kill-after=15s 10m node openclaw.mjs qa run",
-    );
-    expect(smokeRunStep.run).toContain("--qa-profile smoke-ci");
-    expect(smokeRunStep.run).toContain("--concurrency 10");
-    expect(smokeRunStep.env.OPENCLAW_QA_SUITE_WORKER_START_STAGGER_MS).toBe(
-      "${{ needs.preflight.outputs.runner_profile == 'blacksmith' && '0' || '1500' }}",
-    );
-    expect(smokeRunStep.env.OPENCLAW_QA_SUITE_WORKER_START_STAGGER_MS).toContain("'0'");
-    expect(smokeRunStep.env.OPENCLAW_QA_SUITE_WORKER_START_STAGGER_MS).toContain("'1500'");
-    expect(smokeRunStep.run).toContain('scenario_args+=(--scenario "$scenario_id")');
-    expect(smokeRunStep.run).toContain('done <<< "$PROFILE_RUNS_TSV"');
-    expect(smokeRunStep.run).not.toContain('pids+=("$!")');
-    expect(smokeRunStep.run).not.toContain('wait "${pids[$index]}"');
-    expect(smokeRunStep.run).not.toContain("--category");
-    expect(smokeRunStep.run).not.toContain("--allow-failures");
-    expect(smokeRunStep.run).toContain("qa_exit_code=0");
-    expect(smokeRunStep.run).toContain('exit "$qa_exit_code"');
-    expect(smokeRunStep.run).toContain("--max-old-space-size=16384");
-    expect(smokeRunStep.run).not.toContain("scripts/build-all.mts qaRuntime");
-    expect(smokeRunStep.run).not.toContain("OPENAI_API_KEY");
-    expect(smokeUploadStep.if).toBe("always()");
-    expect(smokeUploadStep.with).toMatchObject({
-      path: ".artifacts/qa-e2e/smoke-ci-profile-${{ matrix.slug }}/",
-      "if-no-files-found": "warn",
-    });
-    expect(runStep.run.match(/src\/scripts\/ci-changed-scope\*\.test\.ts/g)).toHaveLength(2);
-    expect(runStep.run.match(/test\/scripts\/ci-workflow-guards\.test\.ts/g)?.length).toBe(2);
-    expect(runStep.run.match(/test\/scripts\/ci-changed-node-test-plan\.test\.ts/g)?.length).toBe(
-      2,
-    );
-  });
-
-  it("keeps push docs validation ClawHub-backed", () => {
-    const workflow = readFileSync(".github/workflows/docs.yml", "utf8");
-
-    expect(workflow).toContain("repository: openclaw/clawhub");
-    expect(workflow).toContain("path: clawhub-source");
-    expect(workflow).toContain(
-      "OPENCLAW_DOCS_SYNC_CLAWHUB_REPO: ${{ github.workspace }}/clawhub-source",
-    );
-  });
-
-  it("skips generated-asset validation only when a frozen candidate lacks the contract", () => {
-    const workflow = readCiWorkflow();
-    const buildArtifactsJob = workflow.jobs["build-artifacts"];
-    const assetCheckStep = buildArtifactsJob.steps.find(
-      (step: WorkflowStep) => step.name === "Check bundled plugin generated assets",
-    );
-
-    expect(assetCheckStep.run).toContain('packageJson.scripts?.["plugins:assets:check"]');
-    expect(assetCheckStep.run).toContain("pnpm plugins:assets:check");
-    expect(assetCheckStep.run).toContain("predates plugins:assets:check");
-  });
-
-  it("keeps network CodeQL off unrelated source-only refactors", () => {
-    const workflow = readCriticalQualityWorkflow();
-    const networkConfig = readFileSync(
-      ".github/codeql/codeql-network-runtime-boundary-critical-quality.yml",
-      "utf8",
-    );
-    const rawSocketQuery = readFileSync(
-      ".github/codeql/openclaw-boundary/queries/raw-socket-callsite-classification.ql",
-      "utf8",
-    );
-    const networkSelector = workflow.slice(
-      workflow.indexOf(".github/codeql/codeql-network-runtime-boundary-critical-quality.yml"),
-      workflow.indexOf("network-runtime-boundary:"),
-    );
-    const broadCodeqlSelector = workflow.slice(
-      workflow.indexOf(".github/codeql/*|.github/workflows/codeql-critical-quality.yml"),
-      workflow.indexOf("src/**/*.test.ts|src/**/*.test.tsx"),
-    );
-
-    expect(broadCodeqlSelector).not.toContain("network_runtime=true");
-    expect(networkSelector).toContain(
-      ".github/codeql/codeql-network-runtime-boundary-critical-quality.yml",
-    );
-    expect(networkSelector).not.toContain("src/*.ts|src/**/*.ts");
-    expect(networkSelector).not.toContain("extensions/*.ts|extensions/**/*.ts");
-    expect(networkSelector).toContain("src/infra/net/*");
-    expect(networkSelector).toContain("src/infra/ssh-tunnel.ts");
-    expect(networkSelector).toContain("packages/net-policy/src/*");
-    expect(networkConfig).not.toContain("\n  - src\n");
-    expect(networkConfig).not.toContain("\n  - extensions\n");
-    expect(networkConfig).toContain("\n  - src/infra/net\n");
-    expect(networkConfig).toContain("\n  - packages/net-policy/src\n");
-    expect(workflow).toContain("Fast PR network boundary diff scan");
-    expect(workflow).toContain(
-      '| select(.filename | test("(^|/)[^/]+\\\\.(?:e2e\\\\.)?test\\\\.tsx?$") | not)',
-    );
-    expect(workflow).toContain("Network runtime boundary-sensitive added lines");
-    expect(workflow).toContain(
-      'codex_transport="extensions/codex/src/app-server/transport-websocket.ts"',
-    );
-    expect(workflow).toContain(
-      "network_codeql_contract_pattern='^\\.github/codeql/(codeql-network-runtime-boundary-critical-quality\\.yml|openclaw-boundary/queries/(raw-socket-callsite-classification|managed-proxy-runtime-mutation)\\.ql)$'",
-    );
-    expect(workflow).toContain(
-      'if grep -Eq "$network_codeql_contract_pattern" "$changed_files" ||',
-    );
-    expect(workflow).not.toContain('grep -Fv "$codex_transport: " "$added_lines"');
-    expect(workflow).toContain("packages/net-policy/src/");
-    expect(workflow).toContain(
-      "grep -En 'HTTP_PROXY|HTTPS_PROXY|NO_PROXY|GLOBAL_AGENT_|OPENCLAW_PROXY_' \"$added_lines\"",
-    );
-    expect(workflow).toContain('echo "full_codeql=true" >> "$GITHUB_OUTPUT"');
-    expect(workflow).toContain(
-      "if: ${{ github.event_name != 'pull_request' || steps.network-diff-scan.outputs.full_codeql == 'true' }}",
-    );
-    expect(rawSocketQuery).toMatch(
-      /allowedOwnerScope\(\s*call\s*,\s*"extensions\/codex\/src\/app-server\/transport-websocket\.ts"\s*,\s*"connectCodexAppServerUnixSocket"\s*\)/,
-    );
-    expect(rawSocketQuery).not.toContain(
-      'call.getFile().getRelativePath() = "extensions/codex/src/app-server/transport-websocket.ts"',
-    );
   });
 
   it("keeps the Crabbox gate publisher on protected main with minimal permissions", () => {
@@ -12006,24 +11656,11 @@ it("pins generated publisher owners before credentials and selected checkout", (
   }
 });
 
-  ] as const;
-    }
-    );
-      );
-    }
-  }
-  ]);
-  });
-});
-
 describe("frozen CI compatibility contracts", () => {
   it("skips current-only launcher and QA contracts for frozen targets", () => {
     const source = readFileSync(".github/workflows/ci.yml", "utf8");
     expect(source).toContain(
       `if: \${{ needs.preflight.outputs.frozen_target != 'true' }}\n        run: |\n          bun openclaw.mjs --help`,
-    );
-    expect(source).toContain(
-      "[skip] ${partId} is not declared by this checkout's legacy smoke plan",
     );
     expect(source).not.toContain('"control-ui-chat-flow-playwright",');
     expect(source).toContain("if (!source.includes(marker)) process.exit(0);");

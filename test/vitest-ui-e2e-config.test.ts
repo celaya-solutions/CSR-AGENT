@@ -101,7 +101,6 @@ const standaloneFile = "ui/src/e2e/board-fixture.e2e.test.ts";
 const bundledFile = "ui/src/e2e/mount-fallback.e2e.test.ts";
 const serialBundledFile = "ui/src/e2e/chat-stream-runtime-budgets.e2e.test.ts";
 const privateFile = "ui/src/e2e/approval-bootstrap.e2e.test.ts";
-const qaLabFiles = [] as const;
 const realGatewayFiles = [
   "agent-file-lifecycle.real-gateway",
   "chat-agent-avatar.real-gateway",
@@ -128,9 +127,7 @@ const realGatewayFiles = [
   "session-progress-hovercard.real-gateway",
   "usage-sessions-owner-attribution",
   "worker-initial-setup.real-gateway",
-]
-  .map((name) => `ui/src/e2e/${name}.e2e.test.ts`)
-  .concat(qaLabFiles);
+].map((name) => `ui/src/e2e/${name}.e2e.test.ts`);
 const mcpFile = "ui/src/e2e/mcp-app-conformance.e2e.test.ts";
 const builtGatewayFile = "ui/src/e2e/chat-widget-sandbox.real-gateway.e2e.test.ts";
 
@@ -365,13 +362,6 @@ describe("Control UI E2E resource ownership", () => {
       files: [builtGatewayFile],
       leases: 0,
     },
-    {
-      prebuilt: true,
-      include: [mcpFile, qaLabFiles[0]],
-      cli: ["--exclude", mcpFile],
-      files: [qaLabFiles[0]],
-      leases: 1,
-    },
   ])(
     "scopes setup and leases to selection $filters / $include / $available",
     ({ files, leases, ...options }) => {
@@ -457,9 +447,7 @@ describe("Control UI E2E resource ownership", () => {
       false,
     ]);
     const result = probeOwnership();
-    const inventory = fs
-      .globSync(["ui/src/**/*.e2e.test.ts", ...qaLabFiles], { cwd: repoRoot })
-      .toSorted();
+    const inventory = fs.globSync(["ui/src/**/*.e2e.test.ts"], { cwd: repoRoot }).toSorted();
     expect(result.files.map((entry) => entry.file).toSorted()).toEqual(inventory);
     expect(result.setupError).toBeUndefined();
     expect(result.rootWorkers).toBeGreaterThan(0);
@@ -639,7 +627,7 @@ describe("Control UI E2E resource ownership", () => {
         },
       ]);
       const parallel = result.files.filter((entry) => entry.phase === 2);
-      expect(parallel).toHaveLength(13);
+      expect(parallel).toHaveLength(9);
       expect(parallel.every((entry) => entry.fileParallelism)).toBe(true);
       expect(parallel.every((entry) => entry.workers === result.rootWorkers)).toBe(true);
       for (const entry of parallel) {
@@ -655,36 +643,6 @@ describe("Control UI E2E resource ownership", () => {
       expect(result.leases).toEqual([{ outDir: expect.any(String), closed: true, removed: true }]);
     },
   );
-
-  it("keeps prebuilt preview acquisition lazy across native project initialization", () => {
-    const result = probeOwnership({
-      prebuilt: true,
-      initialize: [[builtGatewayFile], [mcpFile], [qaLabFiles[0]], [qaLabFiles[1]]],
-    });
-    expect(result.setupError).toBeUndefined();
-    expect(result.steps).toEqual([
-      { builds: 0, closes: 0 },
-      { builds: 0, closes: 0 },
-      { builds: 1, closes: 0 },
-      { builds: 1, closes: 0 },
-    ]);
-    expect(result.admissions).toHaveLength(3);
-    expect(new Set(result.admissions).size).toBe(3);
-    expect(result.leases).toEqual([{ outDir: expect.any(String), closed: true, removed: true }]);
-  });
-
-  it("propagates prebuilt admission failure before acquiring the preview", () => {
-    const result = probeOwnership({
-      prebuilt: true,
-      filters: [qaLabFiles[0]],
-      failure: "admission",
-    });
-    expect(result.setupError).toBe("fixture admission failed");
-    expect(result.admissions).toEqual(["ui-e2e-real-gateway"]);
-    expect(result.steps).toEqual([{ builds: 0, closes: 0 }]);
-    expect(result.leases).toEqual([]);
-    expect(result.contexts.every((context) => context.url === undefined)).toBe(true);
-  });
 });
 
 describe("Control UI E2E Vitest sharding", () => {
@@ -795,7 +753,7 @@ describe("Control UI E2E Vitest sharding", () => {
 
   it("assigns every discovered file once with committed timings, ignoring stale keys", async () => {
     const committed = fs.readFileSync(timingPath, "utf8");
-    const discovered = fs.globSync(["ui/src/**/*.e2e.test.ts", ...qaLabFiles], { cwd: repoRoot });
+    const discovered = fs.globSync(["ui/src/**/*.e2e.test.ts"], { cwd: repoRoot });
     const { uiE2eSerialTestFiles } = await import("./vitest/vitest.ui-e2e.config.ts");
     const serial = new Set(uiE2eSerialTestFiles);
     const files = [
@@ -836,7 +794,7 @@ describe("Control UI E2E Vitest sharding", () => {
   ])("preserves the no-file partition with %s", async (_name, contents) => {
     const files = specifications(
       fs
-        .globSync(["ui/src/**/*.e2e.test.ts", ...qaLabFiles], { cwd: repoRoot })
+        .globSync(["ui/src/**/*.e2e.test.ts"], { cwd: repoRoot })
         .map((file) => path.join(repoRoot, file)),
     );
     useTimings(null);
