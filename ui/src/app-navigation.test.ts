@@ -42,7 +42,6 @@ const ALL_ROUTES: RouteId[] = Array.from(
     "memory-import",
     "ai-agents",
     "model-setup",
-    "lobsterdex",
     ...visibleSettingsNavigationGroups(true).flatMap((group) => group.routes),
   ]),
 );
@@ -57,7 +56,6 @@ const SETTINGS_ROUTE_PATHS = [
     alias: "/communications",
   },
   { routeId: "appearance", path: "/settings/appearance", alias: "/appearance" },
-  { routeId: "lobsterdex", path: "/settings/lobsterdex", alias: "/lobsterdex" },
   { routeId: "automation", path: "/settings/automation", alias: "/automation" },
   { routeId: "mcp", path: "/settings/mcp", alias: "/mcp" },
   {
@@ -93,7 +91,7 @@ describe("navigationIconForRoute", () => {
       Object.fromEntries(ALL_ROUTES.map((routeId) => [routeId, navigationIconForRoute(routeId)])),
     ).toEqual({
       chat: "messageSquare",
-      custodian: "lobster",
+      custodian: "brandMark",
       activity: "activity",
       meetings: "book",
       apps: "layoutGrid",
@@ -120,7 +118,6 @@ describe("navigationIconForRoute", () => {
       profile: "circleUser",
       communications: "send",
       appearance: "palette",
-      lobsterdex: "bug",
       automation: "terminal",
       mcp: "wrench",
       memory: "book",
@@ -226,7 +223,6 @@ describe("titleForRoute", () => {
       profile: "Profile",
       communications: "Communications",
       appearance: "Appearance",
-      lobsterdex: "Lobsterdex",
       automation: "Automation",
       mcp: "MCP",
       memory: "Memory",
@@ -283,7 +279,6 @@ describe("subtitleForRoute", () => {
       profile: "Your display name, avatar, and identity on this gateway.",
       communications: "Messages, text-to-speech, and meeting capture settings.",
       appearance: "Theme and UI settings.",
-      lobsterdex: "Every lobster palette that has visited this browser.",
       automation: "Commands, hooks, automations, and plugins.",
       mcp: "MCP servers, auth, tools, and diagnostics.",
       memory: "Memory engine, search, and dreaming.",

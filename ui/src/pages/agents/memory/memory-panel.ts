@@ -409,7 +409,6 @@ class AgentMemoryPanel extends OpenClawLightDomElement {
     const loading = dreaming.dreamingStatusLoading || dreaming.dreamingModeSaving;
     const canUpdateConfig = canCallDreamingMethod(dreaming, "config.patch", "operator.admin");
     const refreshLoading = dreaming.dreamingStatusLoading || dreaming.dreamDiaryLoading;
-    const selectedAgentId = dreaming.selectedAgentId ?? "";
 
     return html`
       <section class="content-header content-header--page agent-memory-panel__header">
@@ -478,7 +477,6 @@ class AgentMemoryPanel extends OpenClawLightDomElement {
         },
         viewState: this.viewState,
         active: dreamingOn,
-        selectedAgentId,
         shortTermCount: dreamingStatus?.shortTermCount ?? 0,
         promotedCount: dreamingStatus?.promotedToday ?? 0,
         phases: dreamingStatus?.phases ?? undefined,

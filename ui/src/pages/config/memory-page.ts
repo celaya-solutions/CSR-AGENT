@@ -679,7 +679,6 @@ class MemorySettingsPage extends OpenClawLightDomElement {
       agents: this.agentOptions(),
       onAgentChange: (next) => this.context.agentSelection.set(next),
       overview: renderMemoryOverview({
-        agentId,
         engineSelection,
         engineDisabled: this.engineState(engineSelection) === "disabled",
         status: agentError ? { kind: "error", message: agentError } : this.overviewStatus,
