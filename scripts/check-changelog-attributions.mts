@@ -138,6 +138,10 @@ export async function main(argv = process.argv.slice(2)) {
 
   const changelogPath = argv[0] ?? "CHANGELOG.md";
   const absolutePath = path.resolve(process.cwd(), changelogPath);
+  // This source-only build ships no root changelog; nothing to check without one.
+  if (argv[0] === undefined && !fs.existsSync(absolutePath)) {
+    return;
+  }
   const paths = [absolutePath];
   const root = path.dirname(absolutePath);
   const artifacts = path.join(root, "CHANGELOG");

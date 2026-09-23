@@ -10,7 +10,7 @@ Update instructions at their owner instead of adding competing rules here.
 ## Design priorities
 
 - **One owner per responsibility.** An owner makes a decision or changes authoritative state. Callers consume its operations and recorded facts. Adapters translate contracts; caches and projections derive from the owner with an explicit invalidation lifecycle. Different transports can need different adapters, but not competing owners for the same responsibility.
-- **Small core, capable plugins.** Model-facing core additions have an ongoing context cost. Optional capability belongs at the edges; core supplies generic contracts. A feature needing a new integration is not, by itself, a reason to add another core tool or manager. [VISION.md](VISION.md) owns product scope.
+- **Small core, capable plugins.** Model-facing core additions have an ongoing context cost. Optional capability belongs at the edges; core supplies generic contracts. A feature needing a new integration is not, by itself, a reason to add another core tool or manager.
 - **Stable conversation context.** Rebuilding past context defeats prompt-prefix reuse. Keep generated prompt/tool/context additions bounded and deterministic, preserve transcript bytes, and serve required instructions whole. Only compaction rewrites history. Defer changes to stable prompt state until the next session unless its owner defines explicit invalidation; preserve existing skill, tool, and memory refresh contracts.
 
 ## Working agreement
@@ -104,7 +104,6 @@ not authorize local execution or a broader test plan.
 Read matching guides in full and follow their narrower task-specific pointers.
 Commands and implementation detail stay with these owners.
 
-- **Product/design:** [VISION.md](VISION.md).
 - **Plugins/discovery/SDK:** [plugins](extensions/AGENTS.md), [loader](src/plugins/AGENTS.md), [SDK](src/plugin-sdk/AGENTS.md). The SDK guide owns public boundary expansion, including callers outside these trees.
 - **Channels/message actions:** [channel boundary](src/channels/AGENTS.md) and [channel responsibilities](docs/plugins/sdk-channel-plugins.md).
 - **Agent tools, prompts, admission, or lifecycle:** [agents](src/agents/AGENTS.md) and [Gateway](src/gateway/AGENTS.md).
@@ -114,7 +113,7 @@ Commands and implementation detail stay with these owners.
 - **Audit/identity/receipts:** [audit doctrine](docs/gateway/audit.md). Diagnostic provenance is opt-in and never authorization; changes to collection, reader scope, retained fields, bounds, or contracts require approval.
 - **Codex-backed behavior:** personally inspect the exact sibling `../codex` source before implementation or verdict and cite it; wrappers, schemas, and another agent's report do not replace this check. Auth/runtime/catalog routes use `openai`; legacy `openai-codex` input belongs only in migration. Harness upgrades refresh [the harness guide](docs/plugins/codex-harness.md) from `model/list`.
 - **Validation commands:** [test suites](docs/help/testing/suites.md) is a command reference; this file and the chosen workflow own check selection. Test authoring also uses [writing tests](docs/help/testing/writing-tests.md) and the owning scoped guide.
-- **GitHub:** [contribution rules](CONTRIBUTING.md) and the current PR template. The authorized maintainer workflow owns landing; native `scripts/pr` gates, recovery, and cleanup require [scripts guide](scripts/AGENTS.md).
+- **GitHub:** the current PR template. The authorized maintainer workflow owns landing; native `scripts/pr` gates, recovery, and cleanup require [scripts guide](scripts/AGENTS.md).
 - **Docs/public links:** [docs guide](docs/AGENTS.md). Update docs with behavior; normal fix notes belong in PRs because `CHANGELOG.md` is release-owned.
 - **Releases:** this build ships from source only; there is no npm, Docker, or native app publication. Preserve the selected release cut and identity when tagging.
 - **Secrets/advisories:** [secret semantics](docs/gateway/secrets.md), [auth semantics](docs/auth-credential-semantics.md), and [security reporting](SECURITY.md) for the affected branch.

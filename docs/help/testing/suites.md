@@ -127,7 +127,6 @@ Native dependency policy:
     - `pnpm changed:lanes` shows which architectural lanes a diff triggers.
     - The pre-commit hook formats and restages files. When private rules are
       configured, it also scans staged content before and after formatting.
-      See "Local commit hook" in `CONTRIBUTING.md`.
       It does not run lint, typecheck, or tests.
     - Run `pnpm check:changed` explicitly before handoff or push when you
       need the smart local check gate.

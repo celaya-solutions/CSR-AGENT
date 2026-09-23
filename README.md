@@ -101,13 +101,11 @@ reach your Gateway or expose it to the internet.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md).
+See [AGENTS.md](AGENTS.md).
 
 ## License
 
-[MIT](LICENSE) © Celaya Solutions. See
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for incorporated or adapted
-code.
+[MIT](LICENSE) © Celaya Solutions.
 
 OpenAgent is a derivative of OpenClaw and is not endorsed by the OpenClaw
-Foundation. See [NOTICE.md](NOTICE.md).
+Foundation.
