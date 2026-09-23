@@ -77,7 +77,11 @@ describe("pruneDockerPluginDist", () => {
       env: { OPENCLAW_EXTENSIONS: "diagnostics-otel" } as NodeJS.ProcessEnv,
     });
 
-    expect(removed).toEqual(["dist-runtime/extensions/feishu"]);
+    expect(removed).toEqual([
+      "extensions/feishu",
+      "dist/extensions/feishu",
+      "dist-runtime/extensions/feishu",
+    ]);
     expect(fs.existsSync(path.join(repoRoot, "extensions", "diagnostics-otel"))).toBe(true);
     expect(fs.existsSync(path.join(repoRoot, "extensions", "feishu"))).toBe(false);
     expect(fs.existsSync(path.join(repoRoot, "extensions", "telegram"))).toBe(true);

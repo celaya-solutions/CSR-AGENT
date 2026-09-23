@@ -1,0 +1,953 @@
+{
+  "entries": [
+    {
+      "name": "@openclaw/discord",
+      "version": "2026.9.4",
+      "description": "OpenAgent Discord channel plugin for channels, DMs, commands, and app events.",
+      "source": "official",
+      "kind": "channel",
+      "openclaw": {
+        "contracts": {
+          "transcriptSourceProviders": [
+            "discord-voice"
+          ]
+        },
+        "channel": {
+          "id": "discord",
+          "configuredState": {
+            "env": {
+              "anyOf": [
+                "DISCORD_BOT_TOKEN"
+              ]
+            }
+          },
+          "approvalFlags": [
+            "native"
+          ],
+          "label": "Discord",
+          "selectionLabel": "Discord (Bot API)",
+          "detailLabel": "Discord Bot",
+          "docsPath": "/channels/discord",
+          "docsLabel": "discord",
+          "blurb": "very well supported right now.",
+          "systemImage": "bubble.left.and.bubble.right",
+          "markdownCapable": true,
+          "preferSessionLookupForAnnounceTarget": true,
+          "setup": {
+            "fields": [
+              {
+                "key": "token",
+                "kind": "string",
+                "sensitive": true,
+                "cli": {
+                  "flags": "--token <token>",
+                  "description": "Discord bot token"
+                }
+              },
+              {
+                "key": "useEnv",
+                "kind": "boolean",
+                "cli": {
+                  "flags": "--use-env",
+                  "description": "Use DISCORD_BOT_TOKEN"
+                },
+                "envVars": [
+                  "DISCORD_BOT_TOKEN"
+                ]
+              }
+            ]
+          },
+          "commands": {
+            "nativeCommandsAutoEnabled": true,
+            "nativeSkillsAutoEnabled": true
+          },
+          "doctorCapabilities": {
+            "dmAllowFromMode": "topOnly",
+            "groupModel": "route",
+            "groupAllowFromFallbackToAllowFrom": false,
+            "warnOnEmptyGroupSenderAllowlist": false
+          }
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/discord",
+          "npmSpec": "@openclaw/discord",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.5.26",
+          "allowInvalidConfigRecovery": true
+        }
+      }
+    },
+    {
+      "name": "@openclaw/feishu",
+      "version": "2026.9.4",
+      "description": "OpenAgent Feishu/Lark channel plugin for chats and workplace tools (community maintained by @m1heng).",
+      "source": "official",
+      "kind": "channel",
+      "openclaw": {
+        "contracts": {
+          "tools": [
+            "feishu_app_scopes",
+            "feishu_bitable_create_app",
+            "feishu_bitable_create_field",
+            "feishu_bitable_create_record",
+            "feishu_bitable_get_meta",
+            "feishu_bitable_get_record",
+            "feishu_bitable_list_fields",
+            "feishu_bitable_list_records",
+            "feishu_bitable_update_record",
+            "feishu_chat",
+            "feishu_doc",
+            "feishu_drive",
+            "feishu_perm",
+            "feishu_wiki"
+          ]
+        },
+        "channel": {
+          "id": "feishu",
+          "configuredState": {
+            "env": {
+              "anyOf": [
+                "FEISHU_APP_ID",
+                "FEISHU_APP_SECRET",
+                "FEISHU_VERIFICATION_TOKEN",
+                "FEISHU_ENCRYPT_KEY"
+              ]
+            },
+            "specifier": "./configured-state",
+            "exportName": "hasConfiguredFeishuChannelState"
+          },
+          "label": "Feishu",
+          "selectionLabel": "Feishu/Lark (飞书)",
+          "docsPath": "/channels/feishu",
+          "docsLabel": "feishu",
+          "blurb": "飞书/Lark enterprise messaging with doc/wiki/drive tools.",
+          "aliases": [
+            "lark"
+          ],
+          "order": 35,
+          "quickstartAllowFrom": true,
+          "setup": {
+            "fields": []
+          }
+        },
+        "install": {
+          "npmSpec": "@openclaw/feishu",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.5.29"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/matrix",
+      "version": "2026.9.4",
+      "description": "OpenAgent Matrix channel plugin for rooms and direct messages.",
+      "source": "official",
+      "kind": "channel",
+      "openclaw": {
+        "channel": {
+          "id": "matrix",
+          "configuredState": {
+            "env": {
+              "anyOf": [
+                "MATRIX_HOMESERVER",
+                "MATRIX_USER_ID",
+                "MATRIX_ACCESS_TOKEN",
+                "MATRIX_PASSWORD",
+                "MATRIX_DEVICE_ID",
+                "MATRIX_DEVICE_NAME",
+                "MATRIX_OPS_HOMESERVER",
+                "MATRIX_OPS_ACCESS_TOKEN",
+                "MATRIX_OPS_DEVICE_ID",
+                "MATRIX_OPS_DEVICE_NAME"
+              ]
+            }
+          },
+          "approvalFlags": [
+            "native"
+          ],
+          "label": "Matrix",
+          "selectionLabel": "Matrix (plugin)",
+          "docsPath": "/channels/matrix",
+          "docsLabel": "matrix",
+          "blurb": "open protocol; install the plugin to enable.",
+          "order": 70,
+          "markdownCapable": true,
+          "quickstartAllowFrom": true,
+          "doctorCapabilities": {
+            "dmAllowFromMode": "nestedOnly",
+            "groupModel": "sender",
+            "groupAllowFromFallbackToAllowFrom": false,
+            "warnOnEmptyGroupSenderAllowlist": true
+          },
+          "setup": {
+            "fields": [
+              {
+                "key": "homeserver",
+                "kind": "string",
+                "cli": {
+                  "flags": "--homeserver <url>",
+                  "description": "Matrix homeserver URL"
+                }
+              },
+              {
+                "key": "userId",
+                "kind": "string",
+                "cli": {
+                  "flags": "--user-id <id>",
+                  "description": "Matrix user id"
+                }
+              },
+              {
+                "key": "accessToken",
+                "kind": "string",
+                "sensitive": true,
+                "cli": {
+                  "flags": "--access-token <token>",
+                  "description": "Matrix access token"
+                }
+              },
+              {
+                "key": "password",
+                "kind": "string",
+                "sensitive": true,
+                "cli": {
+                  "flags": "--password <password>",
+                  "description": "Matrix password"
+                }
+              },
+              {
+                "key": "deviceName",
+                "kind": "string",
+                "cli": {
+                  "flags": "--device-name <name>",
+                  "description": "Matrix device name"
+                }
+              },
+              {
+                "key": "avatarUrl",
+                "kind": "string",
+                "cli": {
+                  "flags": "--avatar-url <url>",
+                  "description": "Matrix avatar URL"
+                }
+              },
+              {
+                "key": "initialSyncLimit",
+                "kind": "integer",
+                "cli": {
+                  "flags": "--initial-sync-limit <n>",
+                  "description": "Matrix initial sync room limit"
+                }
+              },
+              {
+                "key": "proxy",
+                "kind": "string",
+                "cli": {
+                  "flags": "--proxy <url>",
+                  "description": "Matrix proxy URL"
+                }
+              },
+              {
+                "key": "dangerouslyAllowPrivateNetwork",
+                "kind": "boolean",
+                "cli": {
+                  "flags": "--dangerously-allow-private-network",
+                  "description": "Allow private-network Matrix homeservers"
+                }
+              },
+              {
+                "key": "useEnv",
+                "kind": "boolean",
+                "cli": {
+                  "flags": "--use-env",
+                  "description": "Use Matrix environment credentials"
+                }
+              }
+            ]
+          },
+          "persistedAuthState": {
+            "specifier": "./auth-presence",
+            "exportName": "hasAnyMatrixAuth"
+          }
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/matrix",
+          "npmSpec": "@openclaw/matrix",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.10",
+          "allowInvalidConfigRecovery": true
+        }
+      }
+    },
+    {
+      "name": "@openclaw/msteams",
+      "version": "2026.9.4",
+      "description": "OpenAgent Microsoft Teams channel plugin for bot conversations.",
+      "source": "official",
+      "kind": "channel",
+      "openclaw": {
+        "channel": {
+          "id": "msteams",
+          "configuredState": {
+            "env": {
+              "anyOf": [
+                "MSTEAMS_APP_ID",
+                "MSTEAMS_APP_PASSWORD",
+                "MSTEAMS_TENANT_ID"
+              ]
+            },
+            "specifier": "./configured-state",
+            "exportName": "hasConfiguredMSTeamsChannelState"
+          },
+          "label": "Microsoft Teams",
+          "selectionLabel": "Microsoft Teams (Teams SDK)",
+          "docsPath": "/channels/msteams",
+          "docsLabel": "msteams",
+          "blurb": "Teams SDK; enterprise support.",
+          "aliases": [
+            "teams"
+          ],
+          "order": 60,
+          "doctorCapabilities": {
+            "dmAllowFromMode": "topOnly",
+            "groupModel": "hybrid",
+            "groupAllowFromFallbackToAllowFrom": true,
+            "warnOnEmptyGroupSenderAllowlist": true
+          },
+          "setup": {
+            "fields": []
+          }
+        },
+        "install": {
+          "npmSpec": "@openclaw/msteams",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.10"
+        }
+      }
+    },
+    {
+      "name": "@tencent-connect/openclaw-qqbot",
+      "description": "OpenAgent QQ Bot channel plugin by the Tencent Connect team.",
+      "source": "external",
+      "kind": "channel",
+      "openclaw": {
+        "plugin": {
+          "id": "openclaw-qqbot",
+          "label": "QQ Bot"
+        },
+        "setupFeatures": {
+          "configPromotion": "preserve-root"
+        },
+        "legacyNpmPackageNames": [
+          "@openclaw/qqbot"
+        ],
+        "contracts": {
+          "tools": [
+            "qqbot_platform_api",
+            "qqbot_remind"
+          ]
+        },
+        "channel": {
+          "id": "qqbot",
+          "label": "QQ Bot",
+          "selectionLabel": "QQ Bot (Official API)",
+          "detailLabel": "QQ Bot",
+          "docsPath": "/channels/qqbot",
+          "docsLabel": "qqbot",
+          "blurb": "connect to QQ via official QQ Bot API with group chat and direct message support.",
+          "envVars": [
+            "QQBOT_APP_ID",
+            "QQBOT_CLIENT_SECRET"
+          ],
+          "approvalFlags": [
+            "native"
+          ],
+          "doctorCapabilities": {
+            "openDmRequiresAllowFromWildcard": false
+          },
+          "systemImage": "bubble.left.and.bubble.right"
+        },
+        "channelSecrets": {
+          "fields": [
+            {
+              "field": "clientSecret",
+              "activationField": "appId",
+              "activationEnv": "QQBOT_APP_ID"
+            }
+          ]
+        },
+        "channelHostConfig": {
+          "docsSource": "official",
+          "compatibilityMigration": "qqbot.tencent-2.0-compatibility",
+          "schemaAllOf": [
+            {
+              "not": {
+                "required": [
+                  "defaultAccount"
+                ]
+              },
+              "properties": {
+                "allowFrom": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "allOf": [
+                      {
+                        "not": {
+                          "const": "*"
+                        }
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "const": "openclaw:approval-disabled"
+                          },
+                          {
+                            "type": "string",
+                            "pattern": "^[^a-z]*$"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "accounts": {
+                  "type": "object",
+                  "not": {
+                    "required": [
+                      "default"
+                    ]
+                  },
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "allowFrom": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "allOf": [
+                            {
+                              "not": {
+                                "const": "*"
+                              }
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "const": "openclaw:approval-disabled"
+                                },
+                                {
+                                  "type": "string",
+                                  "pattern": "^[^a-z]*$"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "allowFrom"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "allowFrom"
+              ]
+            }
+          ]
+        },
+        "channelConfigs": {
+          "qqbot": {
+            "label": "QQ Bot",
+            "description": "QQ Bot API conversation channel.",
+            "preferOver": [
+              "qqbot"
+            ],
+            "schema": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "appId": {
+                  "type": "string"
+                },
+                "clientSecret": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "install": {
+          "npmSpec": "@tencent-connect/openclaw-qqbot@2.0.3",
+          "defaultChoice": "npm",
+          "expectedIntegrity": "sha512-yngu/2cPeZjJfIfHWCXWB2/6KlDHrb9vpOUjKLdQxePLSp6wCn3CFOALcBIVq/9o6jlYz9WTU9idW6nfX1xpFA=="
+        }
+      }
+    },
+    {
+      "name": "@openclaw/whatsapp",
+      "version": "2026.9.4",
+      "description": "OpenAgent WhatsApp channel plugin for WhatsApp Web chats.",
+      "source": "official",
+      "kind": "channel",
+      "openclaw": {
+        "contracts": {
+          "tools": [
+            "whatsapp_call",
+            "whatsapp_login"
+          ]
+        },
+        "channel": {
+          "id": "whatsapp",
+          "approvalFlags": [
+            "native"
+          ],
+          "label": "WhatsApp",
+          "selectionLabel": "WhatsApp (QR link)",
+          "detailLabel": "WhatsApp Web",
+          "docsPath": "/channels/whatsapp",
+          "docsLabel": "whatsapp",
+          "blurb": "works with your own number; recommend a separate phone + eSIM.",
+          "systemImage": "message",
+          "persistedAuthState": {
+            "specifier": "./auth-presence",
+            "exportName": "hasAnyWhatsAppAuth"
+          },
+          "setup": {
+            "fields": [
+              {
+                "key": "authDir",
+                "kind": "string",
+                "cli": {
+                  "flags": "--auth-dir <path>",
+                  "description": "WhatsApp auth directory override"
+                }
+              }
+            ]
+          }
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/whatsapp",
+          "npmSpec": "@openclaw/whatsapp",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.25"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/comfy-provider",
+      "description": "OpenAgent ComfyUI provider plugin.",
+      "source": "official",
+      "kind": "provider",
+      "openclaw": {
+        "plugin": {
+          "id": "comfy",
+          "label": "ComfyUI"
+        },
+        "providers": [
+          {
+            "id": "comfy",
+            "name": "ComfyUI",
+            "docs": "/providers/comfy",
+            "categories": [
+              "local",
+              "cloud",
+              "media"
+            ],
+            "envVars": [
+              "COMFY_API_KEY",
+              "COMFY_CLOUD_API_KEY"
+            ],
+            "authChoices": [
+              {
+                "method": "cloud-api-key",
+                "choiceId": "comfy-cloud-api-key",
+                "choiceLabel": "Comfy Cloud API key",
+                "choiceHint": "Required for cloud workflows",
+                "groupId": "comfy",
+                "groupLabel": "ComfyUI",
+                "groupHint": "Local or cloud workflows",
+                "optionKey": "comfyApiKey",
+                "cliFlag": "--comfy-api-key",
+                "cliOption": "--comfy-api-key <key>",
+                "cliDescription": "Comfy Cloud API key",
+                "onboardingScopes": [
+                  "image-generation"
+                ]
+              }
+            ]
+          }
+        ],
+        "contracts": {
+          "imageGenerationProviders": [
+            "comfy"
+          ],
+          "musicGenerationProviders": [
+            "comfy"
+          ],
+          "videoGenerationProviders": [
+            "comfy"
+          ]
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/comfy-provider",
+          "npmSpec": "@openclaw/comfy-provider",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.7.2"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/opencode-provider",
+      "description": "OpenAgent OpenCode Zen provider plugin",
+      "source": "official",
+      "kind": "provider",
+      "openclaw": {
+        "plugin": {
+          "id": "opencode",
+          "label": "OpenCode Zen"
+        },
+        "providerEndpoints": [
+          {
+            "endpointClass": "opencode-native",
+            "baseUrls": [
+              "https://opencode.ai/zen",
+              "https://opencode.ai/zen/v1"
+            ]
+          }
+        ],
+        "providers": [
+          {
+            "id": "opencode",
+            "name": "OpenCode Zen",
+            "docs": "/providers/opencode",
+            "categories": [
+              "cloud",
+              "llm"
+            ],
+            "envVars": [
+              "OPENCODE_API_KEY",
+              "OPENCODE_ZEN_API_KEY"
+            ],
+            "authChoices": [
+              {
+                "method": "api-key",
+                "choiceId": "opencode-zen",
+                "choiceLabel": "OpenCode Zen catalog",
+                "groupId": "opencode",
+                "groupLabel": "OpenCode",
+                "groupHint": "Shared API key for Zen + Go catalogs",
+                "optionKey": "opencodeZenApiKey",
+                "cliFlag": "--opencode-zen-api-key",
+                "cliOption": "--opencode-zen-api-key <key>",
+                "cliDescription": "OpenCode API key (Zen catalog)",
+                "onboardingScopes": [
+                  "text-inference"
+                ]
+              }
+            ]
+          }
+        ],
+        "contracts": {
+          "mediaUnderstandingProviders": [
+            "opencode"
+          ]
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/opencode-provider",
+          "npmSpec": "@openclaw/opencode-provider",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.7.2"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/acpx",
+      "description": "OpenAgent ACP runtime backend",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "acpx",
+          "label": "ACPX Runtime"
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/acpx",
+          "npmSpec": "@openclaw/acpx",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.25"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/brave-plugin",
+      "description": "OpenAgent Brave plugin",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "brave",
+          "label": "Brave"
+        },
+        "webSearchProviders": [
+          {
+            "id": "brave",
+            "label": "Brave Search",
+            "hint": "Brave Search web results.",
+            "onboardingScopes": [
+              "text-inference"
+            ],
+            "credentialLabel": "Brave Search API key",
+            "envVars": [
+              "BRAVE_API_KEY"
+            ],
+            "placeholder": "BSA...",
+            "signupUrl": "https://api-dashboard.search.brave.com/app/keys",
+            "docsUrl": "https://docs.example.test/tools/brave-search",
+            "credentialPath": "plugins.entries.brave.config.webSearch.apiKey",
+            "autoDetectOrder": 10
+          }
+        ],
+        "install": {
+          "npmSpec": "@openclaw/brave-plugin",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.10",
+          "allowInvalidConfigRecovery": true
+        }
+      }
+    },
+    {
+      "name": "@openclaw/codex",
+      "description": "OpenAgent Codex app-server harness and native session catalog",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "codex",
+          "label": "Codex"
+        },
+        "contracts": {
+          "migrationProviders": [
+            "codex"
+          ]
+        },
+        "install": {
+          "npmSpec": "@openclaw/codex",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.5.1-beta.1"
+        },
+        "setup": {
+          "nativeSessionCatalog": {
+            "label": "Codex",
+            "legacyDefaultEnabled": true,
+            "description": "Existing native Codex conversations on this Gateway and eligible paired nodes.",
+            "nodeCommands": [
+              "codex.appServer.threads.list.v1",
+              "codex.appServer.thread.turns.list.v1",
+              "codex.sessionCatalog.transcript.read.v1",
+              "codex.terminal.resume.v1",
+              "codex.cli.sessions.list"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "@openclaw/copilot",
+      "description": "OpenAgent GitHub Copilot agent runtime plugin",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "copilot",
+          "label": "GitHub Copilot agent runtime"
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/copilot",
+          "npmSpec": "@openclaw/copilot",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.5.28"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/diagnostics-otel",
+      "description": "OpenAgent diagnostics OpenTelemetry exporter",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "diagnostics-otel",
+          "label": "Diagnostics OpenTelemetry"
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/diagnostics-otel",
+          "npmSpec": "@openclaw/diagnostics-otel",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.25"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/diagnostics-prometheus",
+      "description": "OpenAgent diagnostics Prometheus exporter",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "diagnostics-prometheus",
+          "label": "Diagnostics Prometheus"
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/diagnostics-prometheus",
+          "npmSpec": "@openclaw/diagnostics-prometheus",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.25"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/diffs",
+      "description": "OpenAgent diff viewer plugin",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "diffs",
+          "label": "Diffs"
+        },
+        "catalog": {
+          "featured": true,
+          "order": 40
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/diffs",
+          "npmSpec": "@openclaw/diffs",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.30"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/firecrawl-plugin",
+      "description": "OpenAgent Firecrawl plugin.",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "firecrawl",
+          "label": "Firecrawl"
+        },
+        "contracts": {
+          "webFetchProviders": [
+            "firecrawl"
+          ],
+          "webSearchProviders": [
+            "firecrawl",
+            "firecrawl-free"
+          ],
+          "tools": [
+            "firecrawl_search",
+            "firecrawl_scrape"
+          ]
+        },
+        "webSearchProviders": [
+          {
+            "id": "firecrawl",
+            "label": "Firecrawl Search",
+            "hint": "Structured results with optional result scraping",
+            "onboardingScopes": [
+              "text-inference"
+            ],
+            "credentialLabel": "Firecrawl API key",
+            "envVars": [
+              "FIRECRAWL_API_KEY"
+            ],
+            "placeholder": "fc-...",
+            "signupUrl": "https://www.firecrawl.dev/",
+            "docsUrl": "https://docs.example.test/tools/firecrawl",
+            "credentialPath": "plugins.entries.firecrawl.config.webSearch.apiKey",
+            "autoDetectOrder": 60
+          },
+          {
+            "id": "firecrawl-free",
+            "label": "Firecrawl Search (Free)",
+            "hint": "Free web search via Firecrawl's hosted starter tier — no API key required",
+            "onboardingScopes": [
+              "text-inference"
+            ],
+            "requiresCredential": false,
+            "envVars": [],
+            "placeholder": "(no key needed)",
+            "signupUrl": "https://www.firecrawl.dev/",
+            "docsUrl": "https://docs.example.test/tools/firecrawl",
+            "credentialPath": ""
+          }
+        ],
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/firecrawl-plugin",
+          "npmSpec": "@openclaw/firecrawl-plugin",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.6.8"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/fish-audio-speech",
+      "description": "OpenAgent Fish Audio speech plugin.",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "legacyPluginIds": [
+          "fish-audio"
+        ],
+        "plugin": {
+          "id": "fish-audio-speech",
+          "label": "Fish Audio Speech"
+        },
+        "install": {
+          "clawhubSpec": "clawhub:@openclaw/fish-audio-speech",
+          "npmSpec": "@openclaw/fish-audio-speech",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.7.2"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/google-meet",
+      "description": "OpenAgent Google Meet participant plugin",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "google-meet",
+          "label": "Google Meet"
+        },
+        "install": {
+          "npmSpec": "@openclaw/google-meet",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.20"
+        }
+      }
+    },
+    {
+      "name": "@openclaw/voice-call",
+      "description": "OpenAgent voice-call plugin",
+      "source": "official",
+      "kind": "plugin",
+      "openclaw": {
+        "plugin": {
+          "id": "voice-call",
+          "label": "Voice Call"
+        },
+        "install": {
+          "npmSpec": "@openclaw/voice-call",
+          "defaultChoice": "npm",
+          "minHostVersion": ">=2026.4.10"
+        }
+      }
+    }
+  ]
+}

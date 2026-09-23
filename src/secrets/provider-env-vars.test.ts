@@ -11,13 +11,10 @@ describe("provider env vars", () => {
   it("keeps provider credentials in auth and secret inventories", () => {
     const sharedSecretNames = [
       "ANTHROPIC_OAUTH_TOKEN",
-      "BRAVE_API_KEY",
-      "DEEPGRAM_API_KEY",
-      "FIRECRAWL_API_KEY",
-      "GROQ_API_KEY",
-      "PERPLEXITY_API_KEY",
+      "LLAMA_SERVER_API_KEY",
+      "OLLAMA_API_KEY",
+      "OPENAI_API_KEY",
       "OPENROUTER_API_KEY",
-      "TAVILY_API_KEY",
     ];
     const providerAuthNames = listKnownProviderAuthEnvVarNames();
     const secretNames = listKnownSecretEnvVarNames();
@@ -25,8 +22,6 @@ describe("provider env vars", () => {
       expect(providerAuthNames).toContain(name);
       expect(secretNames).toContain(name);
     }
-    expect(providerAuthNames).toContain("MINIMAX_CODE_PLAN_KEY");
-    expect(providerAuthNames).toContain("MINIMAX_CODING_API_KEY");
     expect(providerAuthNames).toContain("OPENAI_ADMIN_KEY");
     expect(providerAuthNames).toContain("ANTHROPIC_ADMIN_KEY");
     expect(providerAuthNames).toContain("ANTHROPIC_ADMIN_API_KEY");
@@ -62,6 +57,6 @@ describe("provider env vars", () => {
     expect(getProviderEnvVars("constructor")).toStrictEqual([]);
     expect(getProviderEnvVars("openai")).toEqual(["CODEX_API_KEY", "OPENAI_API_KEY"]);
     expect(getProviderEnvVars("anthropic")).toEqual(["ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY"]);
-    expect(getProviderEnvVars("fal")).toEqual(["FAL_KEY", "FAL_API_KEY"]);
+    expect(getProviderEnvVars("openrouter")).toEqual(["OPENROUTER_API_KEY"]);
   });
 });

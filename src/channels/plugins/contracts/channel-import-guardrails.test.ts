@@ -31,28 +31,7 @@ const bundledPluginRoots = new Map(
 const BUNDLED_EXTENSION_IDS = [...bundledPluginRoots.keys()].toSorted(
   (left, right) => right.length - left.length,
 );
-const GUARDED_CHANNEL_EXTENSIONS = new Set([
-  "discord",
-  "feishu",
-  "googlechat",
-  "imessage",
-  "irc",
-  "line",
-  "matrix",
-  "mattermost",
-  "msteams",
-  "nostr",
-  "nextcloud-talk",
-  "signal",
-  "slack",
-  "synology-chat",
-  "telegram",
-  "tlon",
-  "twitch",
-  "whatsapp",
-  "zalo",
-  "zalouser",
-]);
+const GUARDED_CHANNEL_EXTENSIONS = new Set(["discord", "telegram"]);
 
 function resolveBundledPluginSourceRoot(rootDir: string): string {
   const sourceRoot = resolve(REPO_ROOT, BUNDLED_PLUGIN_ROOT_DIR, basename(rootDir));
@@ -81,16 +60,12 @@ function createGuardedSource(
 }
 
 const SAME_CHANNEL_SDK_GUARDS: GuardedSource[] = [
-  ...["discord", "slack", "telegram", "imessage", "whatsapp", "signal"].flatMap((pluginId) => {
-    const relativePaths =
-      pluginId === "signal" ? ["src/shared.ts", "runtime-api.ts"] : ["src/shared.ts"];
-    return relativePaths.map((relativePath) =>
-      createGuardedSource(pluginId, relativePath, [
-        new RegExp(`["']openclaw/plugin-sdk/${pluginId}["']`),
-        new RegExp(`plugin-sdk-internal/${pluginId}`),
-      ]),
-    );
-  }),
+  ...["discord", "telegram"].map((pluginId) =>
+    createGuardedSource(pluginId, "src/shared.ts", [
+      new RegExp(`["']openclaw/plugin-sdk/${pluginId}["']`),
+      new RegExp(`plugin-sdk-internal/${pluginId}`),
+    ]),
+  ),
   ...["src/account-inspect.ts", "src/accounts.ts", "src/token.ts"].map((relativePath) =>
     createGuardedSource("telegram", relativePath, [
       /["']openclaw\/plugin-sdk\/account-resolution["']/,
@@ -112,84 +87,26 @@ const SAME_CHANNEL_SDK_GUARDS: GuardedSource[] = [
 ];
 
 const SETUP_BARREL_GUARDS: GuardedSource[] = [
-  createGuardedSource("signal", "src/setup-core.ts", [
+  ...["src/setup-core.ts", "src/setup-surface.ts"].map((relativePath) =>
+    createGuardedSource("discord", relativePath, [/\bformatDocsLink\b/]),
+  ),
+  createGuardedSource("telegram", "src/setup-core.ts", [
     /\bformatCliCommand\b/,
     /\bformatDocsLink\b/,
   ]),
-  createGuardedSource("signal", "src/setup-surface.ts", [
-    /\bdetectBinary\b/,
-    /\bformatCliCommand\b/,
-    /\bformatDocsLink\b/,
-  ]),
-  ...["slack", "discord"].flatMap((pluginId) =>
-    ["src/setup-core.ts", "src/setup-surface.ts"].map((relativePath) =>
-      createGuardedSource(pluginId, relativePath, [/\bformatDocsLink\b/]),
-    ),
-  ),
-  createGuardedSource("imessage", "src/setup-core.ts", [/\bformatDocsLink\b/]),
-  createGuardedSource("imessage", "src/setup-surface.ts", [
-    /\bdetectBinary\b/,
-    /\bformatDocsLink\b/,
-  ]),
-  ...[
-    { pluginId: "telegram", relativePath: "src/setup-core.ts" },
-    { pluginId: "whatsapp", relativePath: "src/setup-surface.ts" },
-  ].map(({ pluginId, relativePath }) =>
-    createGuardedSource(pluginId, relativePath, [/\bformatCliCommand\b/, /\bformatDocsLink\b/]),
-  ),
 ];
 
-const CHANNEL_CONFIG_SCHEMA_GUARDS: GuardedSource[] = [
-  {
-    path: bundledPluginFile("tlon", "src/config-schema.ts"),
-    forbiddenPatterns: [/["']openclaw\/plugin-sdk\/core["']/],
-  },
-];
+const CHANNEL_CONFIG_SCHEMA_GUARDS: GuardedSource[] = ["discord", "telegram"].map((pluginId) =>
+  createGuardedSource(pluginId, "src/config-schema.ts", [/["']openclaw\/plugin-sdk\/core["']/]),
+);
 
 const LOCAL_EXTENSION_API_BARREL_GUARDS = [
   "acpx",
   "device-pair",
-  "diagnostics-otel",
-  "diagnostics-prometheus",
   "discord",
-  "diffs",
-  "feishu",
-  "google",
-  "imessage",
-  "irc",
   "llm-task",
-  "line",
-  "lobster",
-  "matrix",
-  "mattermost",
-  "memory-lancedb",
-  "msteams",
-  "nextcloud-talk",
-  "nostr",
   "ollama",
-  "copilot-proxy",
-  "sglang",
-  "zai",
-  "signal",
-  "synology-chat",
-  "talk-voice",
   "telegram",
-  "tlon",
-  "voice-call",
-  "vllm",
-  "whatsapp",
-  "twitch",
-  "xai",
-  "zalo",
-  "zalouser",
-] as const;
-
-const LOCAL_EXTENSION_API_BARREL_EXCEPTIONS = [
-  // Direct import avoids a circular init path:
-  // accounts.ts -> runtime-api.ts -> plugin api barrel -> accounts.ts
-  bundledPluginFile("matrix", "src/matrix/accounts.ts"),
-  // Config schema stays on the public SDK seam and is covered by dedicated config guardrails.
-  bundledPluginFile("msteams", "src/config-schema.ts"),
 ] as const;
 
 const sourceTextCache = new Map<string, string>();
@@ -691,7 +608,6 @@ describe("channel import guardrails", () => {
       for (const file of collectExtensionFiles(extensionId)) {
         const normalized = file.replaceAll("\\", "/");
         if (
-          LOCAL_EXTENSION_API_BARREL_EXCEPTIONS.some((suffix) => normalized.endsWith(suffix)) ||
           normalized.endsWith("/api.ts") ||
           normalized.endsWith("/test-runtime.ts") ||
           normalized.includes(".test.") ||

@@ -21,56 +21,22 @@ const BUNDLED_TYPED_HOOK_REGISTRATION_FILES = [
 ] as const;
 const BUNDLED_TYPED_HOOK_REGISTRATION_GUARDS = {
   "extensions/acpx/index.ts": ["reply_dispatch"],
-  "extensions/active-memory/index.ts": ["agent_end", "before_prompt_build"],
-  "extensions/clickclack/src/discussions/register.ts": ["before_tool_call"],
   "extensions/codex/index.ts": ["inbound_claim", "session_end"],
-  "extensions/diffs/src/plugin.ts": ["before_prompt_build"],
   "extensions/discord/subagent-hooks-api.ts": ["subagent_delivery_target", "subagent_ended"],
-  "extensions/feishu/subagent-hooks-api.ts": ["subagent_delivery_target", "subagent_ended"],
-  "extensions/matrix/subagent-hooks-api.ts": ["subagent_delivery_target", "subagent_ended"],
   "extensions/memory-core/src/dreaming.ts": ["before_agent_reply", "gateway_start"],
   "extensions/memory-core/index.ts": ["before_agent_reply", "before_prompt_build"],
-  "extensions/memory-lancedb/index.ts": ["agent_end", "before_prompt_build", "session_end"],
-  "extensions/onepassword/index.ts": ["before_tool_call", "tool_result_persist"],
-  "extensions/visitor-access/index.ts": ["gateway_start"],
-  "extensions/workboard/index.ts": ["agent_end", "gateway_start", "gateway_stop", "subagent_ended"],
 } as const satisfies Record<
   (typeof BUNDLED_TYPED_HOOK_REGISTRATION_FILES)[number],
   readonly string[]
 >;
 const BUNDLED_LIVE_CONFIG_HOOK_GUARDS = {
-  "extensions/active-memory/index.ts": ["resolveLivePluginConfigObject(", '"active-memory"'],
   "extensions/codex/index.ts": ["resolveLivePluginConfigObject(", '"codex"'],
-  "extensions/diffs/src/plugin.ts": [
-    "resolveLivePluginConfigObject(",
-    '"diffs"',
-    "api.runtime.config?.current?.() ?? api.config",
-  ],
   "extensions/memory-core/src/dreaming.ts": [
     "resolveMemoryDreamingPluginConfig(startupCfg)",
     "api.runtime.config?.current?.() ?? api.config",
   ],
-  "extensions/memory-lancedb/index.ts": ["resolveLivePluginConfigObject(", '"memory-lancedb"'],
-  "extensions/onepassword/index.ts": [
-    "resolveLivePluginConfigObject(",
-    "resolveEffectiveEnableState(",
-    '"onepassword"',
-    "api.runtime.config?.current",
-  ],
 } as const satisfies Record<string, readonly string[]>;
 const BUNDLED_LIVE_CONFIG_PROVIDER_GUARDS = {
-  "extensions/amazon-bedrock/register.sync.runtime.ts": [
-    "resolvePluginConfigObject(",
-    "const startupPluginConfig = (api.pluginConfig ?? {})",
-    "const currentPluginConfig = resolveCurrentPluginConfig(ctx.config);",
-    "const currentPluginConfig = resolveCurrentPluginConfig(config);",
-    "const currentGuardrail = currentPluginConfig?.guardrail;",
-  ],
-  "extensions/amazon-bedrock-mantle/register.sync.runtime.ts": [
-    "resolvePluginConfigObject(",
-    "const startupPluginConfig = (api.pluginConfig ?? {})",
-    "const currentPluginConfig = resolveCurrentPluginConfig(ctx.config);",
-  ],
   "extensions/ollama/index.ts": [
     "resolvePluginConfigObject(",
     'const runtimePluginConfig = resolvePluginConfigObject(config, "ollama");',
@@ -82,9 +48,6 @@ const BUNDLED_LIVE_CONFIG_PROVIDER_GUARDS = {
     "runtimePluginConfig ??",
     "ctx.config ? undefined : (api.pluginConfig as Record<string, unknown>)",
   ],
-} as const satisfies Record<string, readonly string[]>;
-const BUNDLED_STARTUP_GATED_HOOK_FORBIDDEN_SNIPPETS = {
-  "extensions/memory-lancedb/index.ts": ["if (cfg.autoRecall)", "if (cfg.autoCapture)"],
 } as const satisfies Record<string, readonly string[]>;
 
 type FileFilter = {
@@ -404,17 +367,5 @@ describe("plugin contract boundary invariants", () => {
       },
     );
     expect(missingGuards).toStrictEqual([]);
-  });
-
-  it("keeps long-lived bundled hook handlers off startup-only registration gates", () => {
-    const offenders = Object.entries(BUNDLED_STARTUP_GATED_HOOK_FORBIDDEN_SNIPPETS).flatMap(
-      ([file, forbiddenSnippets]) => {
-        const source = readRepoSource(file);
-        return forbiddenSnippets
-          .filter((snippet) => source.includes(snippet))
-          .map((snippet) => `${file}: ${snippet}`);
-      },
-    );
-    expect(offenders).toStrictEqual([]);
   });
 });

@@ -133,7 +133,7 @@ describe("openrouter image generation provider", () => {
       allowPrivateNetwork: false,
       defaultHeaders: {
         Authorization: "Bearer openrouter-key",
-        "HTTP-Referer": "https://openclaw.ai",
+        "HTTP-Referer": "https://celayasolutions.com",
         "X-OpenRouter-Title": "OpenAgent",
       },
       request: undefined,
@@ -146,7 +146,7 @@ describe("openrouter image generation provider", () => {
     const headers = requireHeaders(request.headers);
     expect(Object.fromEntries(headers.entries())).toEqual({
       authorization: "Bearer openrouter-key",
-      "http-referer": "https://openclaw.ai",
+      "http-referer": "https://celayasolutions.com",
       "x-openrouter-title": "OpenAgent",
     });
     expect(request).toEqual({

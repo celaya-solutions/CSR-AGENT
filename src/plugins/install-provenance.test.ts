@@ -19,8 +19,6 @@ describe("plugin install provenance", () => {
     "@openclaw/discord",
     "npm:@openclaw/discord",
     "/opt/openclaw/extensions/discord",
-    "brave",
-    "npm:@openclaw/brave-plugin",
     "clawhub:openclaw-demo",
   ])("trusts OpenAgent-owned install source %s", (spec) => {
     expect(isOpenClawTrustedPluginInstallSpec(spec, bundledSources)).toBe(true);

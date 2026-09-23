@@ -3,22 +3,17 @@ import { describe, expect, it } from "vitest";
 import { findChatChannelLabel, normalizeChatChannelId } from "./ids.js";
 
 describe("channel ids", () => {
-  it("normalizes built-in aliases + trims whitespace", () => {
-    expect(normalizeChatChannelId(" imsg ")).toBe("imessage");
-    expect(normalizeChatChannelId("gchat")).toBe("googlechat");
-    expect(normalizeChatChannelId("google-chat")).toBe("googlechat");
-    expect(normalizeChatChannelId("internet-relay-chat")).toBe("irc");
+  it("normalizes built-in ids + trims whitespace", () => {
+    expect(normalizeChatChannelId(" Discord ")).toBe("discord");
     expect(normalizeChatChannelId("telegram")).toBe("telegram");
     expect(normalizeChatChannelId("web")).toBeNull();
     expect(normalizeChatChannelId("nope")).toBeNull();
   });
 
   it.each([
-    ["whatsapp", "WhatsApp"],
-    ["imessage", "iMessage"],
-    ["googlechat", "Google Chat"],
-    [" imsg ", "iMessage"],
-    ["GOOGLE-CHAT", "Google Chat"],
+    ["telegram", "Telegram"],
+    ["discord", "Discord"],
+    [" TELEGRAM ", "Telegram"],
   ])("finds the exact generated label for %s", (channel, label) => {
     expect(findChatChannelLabel(channel)).toBe(label);
   });

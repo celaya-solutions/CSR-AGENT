@@ -51,14 +51,7 @@ import {
 
 const { prepareSecretsRuntimeSnapshot } = setupSecretsRuntimeSnapshotTestHooks();
 
-const EXTERNALIZED_CHANNEL_IDS = [
-  "discord",
-  "feishu",
-  "googlechat",
-  "msteams",
-  "nextcloud-talk",
-  "zalo",
-] as const;
+const EXTERNALIZED_CHANNEL_IDS = ["discord", "googlechat"] as const;
 
 type ExternalizedChannelId = (typeof EXTERNALIZED_CHANNEL_IDS)[number];
 
@@ -281,25 +274,6 @@ describe("secrets runtime externalized channel SecretRef audit", () => {
               },
             },
           },
-          feishu: {
-            connectionMode: "webhook",
-            appSecret: ref("FEISHU_APP_SECRET"),
-            encryptKey: ref("FEISHU_ENCRYPT_KEY"),
-            verificationToken: ref("FEISHU_VERIFICATION_TOKEN"),
-            accounts: {
-              inherited: {
-                enabled: true,
-                connectionMode: "webhook",
-              },
-              work: {
-                enabled: true,
-                connectionMode: "webhook",
-                appSecret: ref("FEISHU_WORK_APP_SECRET"),
-                encryptKey: ref("FEISHU_WORK_ENCRYPT_KEY"),
-                verificationToken: ref("FEISHU_WORK_VERIFICATION_TOKEN"),
-              },
-            },
-          },
           googlechat: {
             serviceAccount: ref("GOOGLECHAT_SERVICE_ACCOUNT"),
             accounts: {
@@ -309,39 +283,6 @@ describe("secrets runtime externalized channel SecretRef audit", () => {
               work: {
                 enabled: true,
                 serviceAccount: ref("GOOGLECHAT_WORK_SERVICE_ACCOUNT"),
-              },
-            },
-          },
-          msteams: {
-            appPassword: ref("MSTEAMS_APP_PASSWORD"),
-          },
-          "nextcloud-talk": {
-            botSecret: ref("NEXTCLOUD_TALK_BOT_SECRET"),
-            apiPassword: ref("NEXTCLOUD_TALK_API_PASSWORD"),
-            accounts: {
-              inherited: {
-                enabled: true,
-              },
-              work: {
-                enabled: true,
-                botSecret: ref("NEXTCLOUD_TALK_WORK_BOT_SECRET"),
-                apiPassword: ref("NEXTCLOUD_TALK_WORK_API_PASSWORD"),
-              },
-            },
-          },
-          zalo: {
-            webhookUrl: "https://example.test/zalo",
-            botToken: ref("ZALO_BOT_TOKEN"),
-            webhookSecret: ref("ZALO_WEBHOOK_SECRET"),
-            accounts: {
-              inherited: {
-                enabled: true,
-              },
-              work: {
-                enabled: true,
-                webhookUrl: "https://example.test/zalo-work",
-                botToken: ref("ZALO_WORK_BOT_TOKEN"),
-                webhookSecret: ref("ZALO_WORK_WEBHOOK_SECRET"),
               },
             },
           },
@@ -363,23 +304,8 @@ describe("secrets runtime externalized channel SecretRef audit", () => {
           DISCORD_WORK_PLURALKIT_TOKEN: "discord-work-pluralkit-token",
           DISCORD_WORK_VOICE_REALTIME_API_KEY: "discord-work-voice-realtime-api-key",
           DISCORD_WORK_VOICE_TTS_API_KEY: "discord-work-voice-tts-api-key",
-          FEISHU_APP_SECRET: "feishu-app-secret",
-          FEISHU_ENCRYPT_KEY: "feishu-encrypt-key",
-          FEISHU_VERIFICATION_TOKEN: "feishu-verification-token",
-          FEISHU_WORK_APP_SECRET: "feishu-work-app-secret",
-          FEISHU_WORK_ENCRYPT_KEY: "feishu-work-encrypt-key",
-          FEISHU_WORK_VERIFICATION_TOKEN: "feishu-work-verification-token",
           GOOGLECHAT_SERVICE_ACCOUNT: "googlechat-service-account",
           GOOGLECHAT_WORK_SERVICE_ACCOUNT: "googlechat-work-service-account",
-          MSTEAMS_APP_PASSWORD: "msteams-app-password",
-          NEXTCLOUD_TALK_BOT_SECRET: "nextcloud-talk-bot-secret",
-          NEXTCLOUD_TALK_API_PASSWORD: "nextcloud-talk-api-password",
-          NEXTCLOUD_TALK_WORK_BOT_SECRET: "nextcloud-talk-work-bot-secret",
-          NEXTCLOUD_TALK_WORK_API_PASSWORD: "nextcloud-talk-work-api-password",
-          ZALO_BOT_TOKEN: "zalo-bot-token",
-          ZALO_WEBHOOK_SECRET: "zalo-webhook-secret",
-          ZALO_WORK_BOT_TOKEN: "zalo-work-bot-token",
-          ZALO_WORK_WEBHOOK_SECRET: "zalo-work-webhook-secret",
         },
         includeAuthStoreRefs: false,
         loadablePluginOrigins: externalChannelOrigins(records),
@@ -396,23 +322,8 @@ describe("secrets runtime externalized channel SecretRef audit", () => {
           "discord-work-voice-realtime-api-key",
         "channels.discord.accounts.work.voice.tts.providers.openai.apiKey":
           "discord-work-voice-tts-api-key",
-        "channels.feishu.appSecret": "feishu-app-secret",
-        "channels.feishu.encryptKey": "feishu-encrypt-key",
-        "channels.feishu.verificationToken": "feishu-verification-token",
-        "channels.feishu.accounts.work.appSecret": "feishu-work-app-secret",
-        "channels.feishu.accounts.work.encryptKey": "feishu-work-encrypt-key",
-        "channels.feishu.accounts.work.verificationToken": "feishu-work-verification-token",
         "channels.googlechat.serviceAccount": "googlechat-service-account",
         "channels.googlechat.accounts.work.serviceAccount": "googlechat-work-service-account",
-        "channels.msteams.appPassword": "msteams-app-password",
-        "channels.nextcloud-talk.botSecret": "nextcloud-talk-bot-secret",
-        "channels.nextcloud-talk.apiPassword": "nextcloud-talk-api-password",
-        "channels.nextcloud-talk.accounts.work.botSecret": "nextcloud-talk-work-bot-secret",
-        "channels.nextcloud-talk.accounts.work.apiPassword": "nextcloud-talk-work-api-password",
-        "channels.zalo.botToken": "zalo-bot-token",
-        "channels.zalo.webhookSecret": "zalo-webhook-secret",
-        "channels.zalo.accounts.work.botToken": "zalo-work-bot-token",
-        "channels.zalo.accounts.work.webhookSecret": "zalo-work-webhook-secret",
       };
       expectResolvedPaths(
         snapshot.config,
@@ -469,22 +380,6 @@ describe("secrets runtime externalized channel SecretRef audit", () => {
             },
           },
         },
-        feishu: {
-          enabled: false,
-          connectionMode: "webhook",
-          appSecret: inactiveExecRef("FEISHU_DISABLED_APP_SECRET"),
-          encryptKey: inactiveExecRef("FEISHU_DISABLED_ENCRYPT_KEY"),
-          verificationToken: inactiveExecRef("FEISHU_DISABLED_VERIFICATION_TOKEN"),
-          accounts: {
-            disabled: {
-              enabled: false,
-              connectionMode: "webhook",
-              appSecret: inactiveExecRef("FEISHU_DISABLED_ACCOUNT_APP_SECRET"),
-              encryptKey: inactiveExecRef("FEISHU_DISABLED_ACCOUNT_ENCRYPT_KEY"),
-              verificationToken: inactiveExecRef("FEISHU_DISABLED_ACCOUNT_VERIFICATION_TOKEN"),
-            },
-          },
-        },
         googlechat: {
           enabled: false,
           serviceAccount: inactiveExecRef("GOOGLECHAT_DISABLED_SERVICE_ACCOUNT"),
@@ -492,36 +387,6 @@ describe("secrets runtime externalized channel SecretRef audit", () => {
             disabled: {
               enabled: false,
               serviceAccount: inactiveExecRef("GOOGLECHAT_DISABLED_ACCOUNT_SERVICE_ACCOUNT"),
-            },
-          },
-        },
-        msteams: {
-          enabled: false,
-          appPassword: inactiveExecRef("MSTEAMS_DISABLED_APP_PASSWORD"),
-        },
-        "nextcloud-talk": {
-          enabled: false,
-          botSecret: inactiveExecRef("NEXTCLOUD_TALK_DISABLED_BOT_SECRET"),
-          apiPassword: inactiveExecRef("NEXTCLOUD_TALK_DISABLED_API_PASSWORD"),
-          accounts: {
-            disabled: {
-              enabled: false,
-              botSecret: inactiveExecRef("NEXTCLOUD_TALK_DISABLED_ACCOUNT_BOT_SECRET"),
-              apiPassword: inactiveExecRef("NEXTCLOUD_TALK_DISABLED_ACCOUNT_API_PASSWORD"),
-            },
-          },
-        },
-        zalo: {
-          enabled: false,
-          webhookUrl: "https://example.test/zalo-disabled",
-          botToken: inactiveExecRef("ZALO_DISABLED_BOT_TOKEN"),
-          webhookSecret: inactiveExecRef("ZALO_DISABLED_WEBHOOK_SECRET"),
-          accounts: {
-            disabled: {
-              enabled: false,
-              webhookUrl: "https://example.test/zalo-account-disabled",
-              botToken: inactiveExecRef("ZALO_DISABLED_ACCOUNT_BOT_TOKEN"),
-              webhookSecret: inactiveExecRef("ZALO_DISABLED_ACCOUNT_WEBHOOK_SECRET"),
             },
           },
         },
@@ -540,8 +405,14 @@ describe("secrets runtime externalized channel SecretRef audit", () => {
       inactiveExecRef("DISCORD_DISABLED_TOKEN"),
     );
     expect(
-      getPath(snapshot.config, ["channels", "zalo", "accounts", "disabled", "botToken"]),
-    ).toEqual(inactiveExecRef("ZALO_DISABLED_ACCOUNT_BOT_TOKEN"));
+      getPath(snapshot.config, [
+        "channels",
+        "googlechat",
+        "accounts",
+        "disabled",
+        "serviceAccount",
+      ]),
+    ).toEqual(inactiveExecRef("GOOGLECHAT_DISABLED_ACCOUNT_SERVICE_ACCOUNT"));
     expect(snapshot.warnings.map((warning) => warning.path)).toStrictEqual([
       "channels.discord.token",
       "channels.discord.accounts.disabled.token",
@@ -549,57 +420,10 @@ describe("secrets runtime externalized channel SecretRef audit", () => {
       "channels.discord.accounts.disabled.pluralkit.token",
       "channels.discord.voice.tts.providers.openai.apiKey",
       "channels.discord.accounts.disabled.voice.tts.providers.openai.apiKey",
-      "channels.feishu.appSecret",
-      "channels.feishu.accounts.disabled.appSecret",
-      "channels.feishu.encryptKey",
-      "channels.feishu.accounts.disabled.encryptKey",
-      "channels.feishu.verificationToken",
-      "channels.feishu.accounts.disabled.verificationToken",
       "channels.googlechat.serviceAccount",
       "channels.googlechat.accounts.disabled.serviceAccount",
-      "channels.msteams.appPassword",
-      "channels.nextcloud-talk.botSecret",
-      "channels.nextcloud-talk.accounts.disabled.botSecret",
-      "channels.nextcloud-talk.apiPassword",
-      "channels.nextcloud-talk.accounts.disabled.apiPassword",
-      "channels.zalo.botToken",
-      "channels.zalo.accounts.disabled.botToken",
-      "channels.zalo.webhookSecret",
-      "channels.zalo.accounts.disabled.webhookSecret",
     ]);
     expectMetadataBackedContractsWereUsed();
-  });
-
-  it("resolves Feishu top-level appSecret SecretRef for the implicit default account", async () => {
-    const records = configureExternalChannelRecords(["feishu"]);
-    const snapshot = await prepareSecretsRuntimeSnapshot({
-      config: asConfig({
-        channels: {
-          feishu: {
-            enabled: true,
-            appId: "cli_default",
-            appSecret: ref("FEISHU_APP_SECRET"),
-            accounts: {
-              "resource-shrimp": {
-                enabled: true,
-                appId: "cli_resource",
-                appSecret: "inline-secret-here", // pragma: allowlist secret
-              },
-            },
-          },
-        },
-      }),
-      env: { FEISHU_APP_SECRET: "default-secret" },
-      includeAuthStoreRefs: false,
-      loadablePluginOrigins: externalChannelOrigins(records),
-    });
-
-    expectResolvedPaths(snapshot.config, {
-      "channels.feishu.appSecret": "default-secret",
-      "channels.feishu.accounts.resource-shrimp.appSecret": "inline-secret-here",
-    });
-    expect(snapshot.warnings).toStrictEqual([]);
-    expectMetadataBackedContractsWereUsed(["feishu"]);
   });
 
   it("publishes an unavailable Discord realtime provider owner as a typed redacted error", async () => {

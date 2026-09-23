@@ -24,6 +24,13 @@ import {
   mkdirSafeDir,
 } from "./test-helpers/fs-fixtures.js";
 
+// This distribution ships empty official catalogs; trust cases read catalog identity from a fixture.
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 vi.mock("./bundled-dir.js", async (importOriginal) => {
   const actual = await importOriginal<typeof import("./bundled-dir.js")>();
   return {

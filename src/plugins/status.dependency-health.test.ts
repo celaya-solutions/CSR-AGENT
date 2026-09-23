@@ -20,6 +20,13 @@ const loaderState = vi.hoisted(() => ({
     | undefined,
 }));
 
+// This distribution ships empty official catalogs; official identity comes from a fixture.
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 vi.mock("./loader.js", async (importOriginal) => ({
   ...(await importOriginal<typeof import("./loader.js")>()),
   loadOpenClawPlugins: () => loaderState.registry,

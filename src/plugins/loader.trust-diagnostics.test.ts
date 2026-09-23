@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { afterAll, afterEach, describe, expect, it } from "vitest";
+import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { maybeRepairPluginRegistryState } from "../commands/doctor-plugin-registry.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import { resetPluginStateStoreForTests } from "../plugin-state/plugin-state-store.js";
@@ -16,6 +16,13 @@ import {
   writePluginMetadata,
 } from "./loader.test-fixtures.js";
 import { buildPluginInspectReport, buildPluginSnapshotReport } from "./status.js";
+
+// This distribution ships empty official catalogs; official identity comes from a fixture.
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
 
 const pluginId = "diagnostics-otel";
 const packageName = `@openclaw/${pluginId}`;

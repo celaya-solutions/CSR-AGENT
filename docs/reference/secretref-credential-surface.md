@@ -32,12 +32,6 @@ Source generation fails if a present channel secret-contract artifact cannot loa
 
 #### `channels`
 
-- `channels.buzz.accounts.*.authTag`
-- `channels.buzz.accounts.*.privateKey`
-- `channels.buzz.authTag`
-- `channels.buzz.privateKey`
-- `channels.clickclack.accounts.*.token`
-- `channels.clickclack.token`
 - `channels.discord.accounts.*.pluralkit.token`
 - `channels.discord.accounts.*.token`
 - `channels.discord.accounts.*.voice.realtime.providers.*.apiKey`
@@ -48,52 +42,10 @@ Source generation fails if a present channel secret-contract artifact cannot loa
 - `channels.discord.voice.realtime.providers.*.apiKey`
 - `channels.discord.voice.tts.personas.*.providers.*.apiKey`
 - `channels.discord.voice.tts.providers.*.apiKey`
-- `channels.feishu.accounts.*.appSecret`
-- `channels.feishu.accounts.*.encryptKey`
-- `channels.feishu.accounts.*.verificationToken`
-- `channels.feishu.appSecret`
-- `channels.feishu.encryptKey`
-- `channels.feishu.verificationToken`
-- `channels.googlechat.accounts.*.serviceAccount`
-- `channels.googlechat.serviceAccount`
-- `channels.irc.accounts.*.nickserv.password`
-- `channels.irc.accounts.*.password`
-- `channels.irc.nickserv.password`
-- `channels.irc.password`
-- `channels.matrix.accessToken`
-- `channels.matrix.accounts.*.accessToken`
-- `channels.matrix.accounts.*.password`
-- `channels.matrix.password`
-- `channels.mattermost.accounts.*.botToken`
-- `channels.mattermost.botToken`
-- `channels.msteams.appPassword`
-- `channels.nextcloud-talk.accounts.*.apiPassword`
-- `channels.nextcloud-talk.accounts.*.botSecret`
-- `channels.nextcloud-talk.apiPassword`
-- `channels.nextcloud-talk.botSecret`
-- `channels.nostr.privateKey`
-- `channels.qqbot.accounts.*.clientSecret`
-- `channels.qqbot.clientSecret`
-- `channels.slack.accounts.*.appToken`
-- `channels.slack.accounts.*.botToken`
-- `channels.slack.accounts.*.relay.authToken`
-- `channels.slack.accounts.*.signingSecret`
-- `channels.slack.accounts.*.userToken`
-- `channels.slack.appToken`
-- `channels.slack.botToken`
-- `channels.slack.relay.authToken`
-- `channels.slack.signingSecret`
-- `channels.slack.userToken`
-- `channels.sms.accounts.*.authToken`
-- `channels.sms.authToken`
 - `channels.telegram.accounts.*.botToken`
 - `channels.telegram.accounts.*.webhookSecret`
 - `channels.telegram.botToken`
 - `channels.telegram.webhookSecret`
-- `channels.zalo.accounts.*.botToken`
-- `channels.zalo.accounts.*.webhookSecret`
-- `channels.zalo.botToken`
-- `channels.zalo.webhookSecret`
 
 #### `cron`
 
@@ -129,30 +81,8 @@ Source generation fails if a present channel secret-contract artifact cannot loa
 #### `plugins`
 
 - `plugins.entries.acpx.config.mcpServers.*.env.*`
-- `plugins.entries.brave.config.webSearch.apiKey`
 - `plugins.entries.codex.config.appServer.authToken`
 - `plugins.entries.codex.config.appServer.headers.*`
-- `plugins.entries.comfy.config.headers.*`
-- `plugins.entries.exa.config.webSearch.apiKey`
-- `plugins.entries.firecrawl.config.webFetch.apiKey`
-- `plugins.entries.firecrawl.config.webSearch.apiKey`
-- `plugins.entries.google-meet.config.realtime.providers.*.apiKey`
-- `plugins.entries.google.config.webSearch.apiKey`
-- `plugins.entries.google.config.webSearch.headers.*`
-- `plugins.entries.imap.config.accounts.*.password`
-- `plugins.entries.minimax.config.webSearch.apiKey`
-- `plugins.entries.moonshot.config.webSearch.apiKey`
-- `plugins.entries.parallel.config.webSearch.apiKey`
-- `plugins.entries.perplexity.config.webSearch.apiKey`
-- `plugins.entries.tavily.config.webSearch.apiKey`
-- `plugins.entries.team-reports.config.discord.token`
-- `plugins.entries.team-reports.config.github.token`
-- `plugins.entries.voice-call.config.realtime.providers.*.apiKey`
-- `plugins.entries.voice-call.config.streaming.providers.*.apiKey`
-- `plugins.entries.voice-call.config.tts.providers.*.apiKey`
-- `plugins.entries.voice-call.config.twilio.authToken`
-- `plugins.entries.webhooks.config.routes.*.secret`
-- `plugins.entries.xai.config.webSearch.apiKey`
 
 #### `skills`
 
@@ -211,8 +141,6 @@ These credentials are minted, rotated, session-bearing, or OAuth-durable classes
 - `auth-profiles.oauth.*`
 - `channels.discord.accounts.*.threadBindings.webhookToken`
 - `channels.discord.threadBindings.webhookToken`
-- `channels.whatsapp.accounts.*.creds.json`
-- `channels.whatsapp.creds.json`
 
 [//]: # "secretref-unsupported-list-end"
 

@@ -32,8 +32,8 @@ describe("secrets configure plan helpers", () => {
         telegram: {
           botToken: "token", // pragma: allowlist secret
         },
-        nostr: {
-          privateKey: "nostr-private-key", // pragma: allowlist secret
+        discord: {
+          token: "discord-token", // pragma: allowlist secret
         },
       },
     } as OpenClawConfig;
@@ -42,10 +42,10 @@ describe("secrets configure plan helpers", () => {
     const paths = candidates.map((entry) => entry.path);
     expect(paths).toContain(TALK_TEST_PROVIDER_API_KEY_PATH);
     expect(paths).toContain("channels.telegram.botToken");
-    expect(paths).toContain("channels.nostr.privateKey");
-    expect(resolveConfigSecretTargetByPath(["channels", "nostr", "privateKey"])).toMatchObject({
+    expect(paths).toContain("channels.discord.token");
+    expect(resolveConfigSecretTargetByPath(["channels", "discord", "token"])).toMatchObject({
       entry: {
-        id: "channels.nostr.privateKey",
+        id: "channels.discord.token",
         includeInPlan: true,
         includeInConfigure: true,
         includeInAudit: true,

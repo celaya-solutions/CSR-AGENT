@@ -16,15 +16,29 @@ describe("listBundledChannelCatalogEntries discovery failures", () => {
     vi.doMock("../plugins/bundled-dir.js", () => ({
       resolveBundledPluginsDir: () => undefined,
     }));
+    // The shipped official external catalogs are empty in this distribution, so seed one
+    // synthetic channel row to prove the fallback path still surfaces it.
+    vi.doMock("../plugins/official-external-plugin-bundled-catalogs.js", () => ({
+      BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: [
+        {
+          name: "@example/fallback-chat",
+          openclaw: {
+            channel: { id: "fallback-chat", label: "Fallback Chat", approvalFlags: ["native"] },
+          },
+        },
+      ],
+    }));
 
     const catalog = await importFreshModule<typeof import("./bundled-channel-catalog-read.js")>(
       import.meta.url,
       "./bundled-channel-catalog-read.js?scope=discovery-fail-soft",
     );
 
-    expect(catalog.listBundledChannelCatalogEntries().map((entry) => entry.id)).toContain("qqbot");
-    expect(catalog.findBundledChannelCatalogMetadata("qqbot")?.approvalFlags).toStrictEqual([
-      "native",
-    ]);
+    expect(catalog.listBundledChannelCatalogEntries().map((entry) => entry.id)).toContain(
+      "fallback-chat",
+    );
+    expect(catalog.findBundledChannelCatalogMetadata("fallback-chat")?.approvalFlags).toStrictEqual(
+      ["native"],
+    );
   });
 });

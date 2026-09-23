@@ -7,24 +7,24 @@ describe("source checkout bundled plugin runtime", () => {
   it("loads enabled bundled plugins from source checkout", () => {
     const registry = loadOpenClawPlugins({
       cache: false,
-      onlyPluginIds: ["tokenjuice"],
+      onlyPluginIds: ["llm-task"],
       config: {
         plugins: {
           entries: {
-            tokenjuice: { enabled: true },
+            "llm-task": { enabled: true },
           },
         },
       },
     });
 
-    const tokenjuice = registry.plugins.find((plugin) => plugin.id === "tokenjuice");
-    expect(tokenjuice?.status, tokenjuice?.error).toBe("loaded");
-    expect(tokenjuice?.origin).toBe("bundled");
+    const llmTask = registry.plugins.find((plugin) => plugin.id === "llm-task");
+    expect(llmTask?.status, llmTask?.error).toBe("loaded");
+    expect(llmTask?.origin).toBe("bundled");
 
-    const expectedRuntime = `${path.sep}extensions${path.sep}tokenjuice${path.sep}index.ts`;
-    const expectedRoot = `${path.sep}extensions${path.sep}tokenjuice`;
+    const expectedRuntime = `${path.sep}extensions${path.sep}llm-task${path.sep}index.ts`;
+    const expectedRoot = `${path.sep}extensions${path.sep}llm-task`;
 
-    expect(tokenjuice?.source).toContain(expectedRuntime);
-    expect(tokenjuice?.rootDir).toContain(expectedRoot);
+    expect(llmTask?.source).toContain(expectedRuntime);
+    expect(llmTask?.rootDir).toContain(expectedRoot);
   });
 });

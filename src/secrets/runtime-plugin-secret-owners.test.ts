@@ -10,12 +10,30 @@ import {
 } from "./runtime-state.js";
 import { asConfig, setupSecretsRuntimeSnapshotTestHooks } from "./runtime.test-support.js";
 
-const BUNDLED_TAVILY_PLUGIN_ORIGINS = new Map([["tavily", "bundled" as const]]);
-const TAVILY_TOOL_KEY_PATH = "plugins.entries.tavily.config.webSearch.apiKey";
-const TAVILY_TOOL_KEY_REF = {
+// A synthetic config-origin plugin declares a capability-owned SecretInput; no
+// kept bundled plugin ships one, but the owner contract is public SDK surface.
+const TOOL_PLUGIN_ID = "acme-tools";
+const TOOL_PLUGIN_ORIGINS = new Map([[TOOL_PLUGIN_ID, "config" as const]]);
+const TOOL_MANIFEST_REGISTRY = {
+  plugins: [
+    {
+      id: TOOL_PLUGIN_ID,
+      origin: "config",
+      configContracts: {
+        secretInputs: {
+          paths: [{ path: "service.apiKey", expected: "string", ownerKind: "capability" }],
+        },
+      },
+    },
+  ],
+} as unknown as NonNullable<
+  Parameters<typeof prepareSecretsRuntimeSnapshot>[0]["manifestRegistry"]
+>;
+const TOOL_KEY_PATH = `plugins.entries.${TOOL_PLUGIN_ID}.config.service.apiKey`;
+const TOOL_KEY_REF = {
   source: "exec",
-  provider: "tavily-vault",
-  id: "tavily/api-key",
+  provider: "tool-vault",
+  id: "tool/api-key",
 } as const;
 const { prepareSecretsRuntimeSnapshot } = setupSecretsRuntimeSnapshotTestHooks();
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
@@ -24,21 +42,20 @@ afterEach(() => {
   clearSecretsRuntimeSnapshotState();
 });
 
-function tavilyToolSecretConfig(commandPath: string) {
+function toolSecretConfig(commandPath: string) {
   return asConfig({
     agents: { list: [{ id: "main", default: true }] },
-    tools: { web: { search: { enabled: false } } },
     plugins: {
       entries: {
-        tavily: {
+        [TOOL_PLUGIN_ID]: {
           enabled: true,
-          config: { webSearch: { apiKey: TAVILY_TOOL_KEY_REF } },
+          config: { service: { apiKey: TOOL_KEY_REF } },
         },
       },
     },
     secrets: {
       providers: {
-        "tavily-vault": {
+        "tool-vault": {
           source: "exec",
           command: commandPath,
           passEnv: ["PATH"],
@@ -50,110 +67,111 @@ function tavilyToolSecretConfig(commandPath: string) {
   });
 }
 
-async function writeTavilyExecProvider(commandPath: string, available: boolean): Promise<void> {
+async function writeToolExecProvider(commandPath: string, available: boolean): Promise<void> {
   const script = available
     ? [
         "#!/bin/sh",
         "cat >/dev/null",
         `printf '%s' '${JSON.stringify({
           protocolVersion: 1,
-          values: { [TAVILY_TOOL_KEY_REF.id]: "resolved-tavily-key" },
+          values: { [TOOL_KEY_REF.id]: "resolved-tool-key" },
         })}'`,
       ].join("\n")
     : "#!/bin/sh\nexit 1\n";
   await fs.writeFile(commandPath, script, { encoding: "utf8", mode: 0o700 });
 }
 
-function expectTavilyCold(
-  snapshot: Awaited<ReturnType<typeof prepareSecretsRuntimeSnapshot>>,
-): void {
-  expect(snapshot.config.plugins?.entries?.tavily?.config).toMatchObject({
-    webSearch: { apiKey: TAVILY_TOOL_KEY_REF },
+function expectToolCold(snapshot: Awaited<ReturnType<typeof prepareSecretsRuntimeSnapshot>>): void {
+  expect(snapshot.config.plugins?.entries?.[TOOL_PLUGIN_ID]?.config).toMatchObject({
+    service: { apiKey: TOOL_KEY_REF },
   });
   expect(snapshot.degradedOwners).toMatchObject([
     {
       ownerKind: "capability",
-      ownerId: TAVILY_TOOL_KEY_PATH,
+      ownerId: TOOL_KEY_PATH,
       degradationState: "cold",
     },
   ]);
 }
 
-function expectTavilyUnavailable(): void {
-  expect(() => assertPluginCapabilitySecretAvailable(TAVILY_TOOL_KEY_PATH)).toThrow(
+function expectToolUnavailable(): void {
+  expect(() => assertPluginCapabilitySecretAvailable(TOOL_KEY_PATH)).toThrow(
     expect.objectContaining({
       name: "SecretSurfaceUnavailableError",
       ownerKind: "capability",
-      ownerId: TAVILY_TOOL_KEY_PATH,
+      ownerId: TOOL_KEY_PATH,
     }),
   );
 }
 
 describe("plugin secret owners", () => {
-  it("isolates Tavily tools when their exec provider fails at cold start", async () => {
+  it("isolates capability-owned plugin tools when their exec provider fails at cold start", async () => {
     if (process.platform === "win32") {
       return;
     }
-    const root = tempDirs.make("openclaw-tavily-secret-cold-");
+    const root = tempDirs.make("openclaw-tool-secret-cold-");
     const commandPath = path.join(root, "provider.sh");
-    await writeTavilyExecProvider(commandPath, false);
+    await writeToolExecProvider(commandPath, false);
 
     const snapshot = await prepareSecretsRuntimeSnapshot({
-      config: tavilyToolSecretConfig(commandPath),
-      env: { PATH: process.env.PATH ?? "", TAVILY_API_KEY: "ambient-must-not-be-used" },
+      config: toolSecretConfig(commandPath),
+      env: { PATH: process.env.PATH ?? "" },
       includeAuthStoreRefs: false,
       allowUnavailableSecretOwners: true,
-      loadablePluginOrigins: BUNDLED_TAVILY_PLUGIN_ORIGINS,
+      loadablePluginOrigins: TOOL_PLUGIN_ORIGINS,
+      manifestRegistry: TOOL_MANIFEST_REGISTRY,
     });
 
-    expectTavilyCold(snapshot);
+    expectToolCold(snapshot);
     activateSecretsRuntimeSnapshotState({
       snapshot,
       refreshContext: null,
       refreshHandler: null,
     });
-    expectTavilyUnavailable();
+    expectToolUnavailable();
   });
 
-  it("does not retain a stale Tavily key when its exec provider fails on reload", async () => {
+  it("does not retain a stale capability key when its exec provider fails on reload", async () => {
     if (process.platform === "win32") {
       return;
     }
-    const root = tempDirs.make("openclaw-tavily-secret-reload-");
+    const root = tempDirs.make("openclaw-tool-secret-reload-");
     const commandPath = path.join(root, "provider.sh");
-    const config = tavilyToolSecretConfig(commandPath);
-    const env = { PATH: process.env.PATH ?? "", TAVILY_API_KEY: "ambient-must-not-be-used" };
-    await writeTavilyExecProvider(commandPath, true);
+    const config = toolSecretConfig(commandPath);
+    const env = { PATH: process.env.PATH ?? "" };
+    await writeToolExecProvider(commandPath, true);
     const active = await prepareSecretsRuntimeSnapshot({
       config,
       env,
       includeAuthStoreRefs: false,
-      loadablePluginOrigins: BUNDLED_TAVILY_PLUGIN_ORIGINS,
+      loadablePluginOrigins: TOOL_PLUGIN_ORIGINS,
+      manifestRegistry: TOOL_MANIFEST_REGISTRY,
     });
     activateSecretsRuntimeSnapshotState({
       snapshot: active,
       refreshContext: null,
       refreshHandler: null,
     });
-    expect(active.config.plugins?.entries?.tavily?.config).toMatchObject({
-      webSearch: { apiKey: "resolved-tavily-key" },
+    expect(active.config.plugins?.entries?.[TOOL_PLUGIN_ID]?.config).toMatchObject({
+      service: { apiKey: "resolved-tool-key" },
     });
 
-    await writeTavilyExecProvider(commandPath, false);
+    await writeToolExecProvider(commandPath, false);
     const candidate = await prepareSecretsRuntimeSnapshot({
       config,
       env,
       includeAuthStoreRefs: false,
       allowUnavailableSecretOwners: true,
-      loadablePluginOrigins: BUNDLED_TAVILY_PLUGIN_ORIGINS,
+      loadablePluginOrigins: TOOL_PLUGIN_ORIGINS,
+      manifestRegistry: TOOL_MANIFEST_REGISTRY,
     });
 
-    expectTavilyCold(candidate);
+    expectToolCold(candidate);
     activateSecretsRuntimeSnapshotState({
       snapshot: candidate,
       refreshContext: null,
       refreshHandler: null,
     });
-    expectTavilyUnavailable();
+    expectToolUnavailable();
   });
 });

@@ -31,7 +31,7 @@ export const PLUGIN_COMPAT_RECORDS = [
     diagnostics: [
       "TypeScript @deprecated annotations and migration documentation; no runtime warnings",
     ],
-    tests: ["src/infra/sqlite-worker-task-runtime.test.ts", "extensions/webhooks/index.test.ts"],
+    tests: ["src/infra/sqlite-worker-task-runtime.test.ts"],
     releaseNote:
       "Plugins can opt into worker-backed task and flow reads plus managed-flow writes through tasks.async while synchronous methods remain available for external compatibility. Cold registry and configuration preparation remains synchronous.",
   },
