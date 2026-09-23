@@ -3099,7 +3099,7 @@ describe("agents.delete", () => {
     await promise;
 
     expectRespondErrorContaining(respond, "owns the legacy shared auth store");
-    expectRespondErrorContaining(respond, "openclaw doctor --fix");
+    expectRespondErrorContaining(respond, "openagent doctor --fix");
     expect(mocks.writeConfigFile).not.toHaveBeenCalled();
   });
 

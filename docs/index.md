@@ -22,7 +22,7 @@ title: "OpenAgent"
     Install OpenAgent and bring up the Gateway in minutes.
   </Card>
   <Card title="Run Onboarding" href="/start/wizard" icon="list-checks">
-    Guided setup with `openclaw onboard` and pairing flows.
+    Guided setup with `openagent onboard` and pairing flows.
   </Card>
   <Card title="Connect a Channel" href="/channels" icon="message-circle">
     Link Discord or Telegram to chat from anywhere.
@@ -137,7 +137,7 @@ The Gateway is the single source of truth for sessions, routing, and channel con
     git clone https://github.com/celaya-solutions/CSR-AGENT.git
     cd CSR-AGENT
     pnpm install && pnpm build && pnpm ui:build
-    pnpm openclaw onboard
+    pnpm openagent onboard
     ```
 
     OpenAgent installs from source only. Docker, Podman, and the optional
@@ -148,7 +148,7 @@ The Gateway is the single source of truth for sessions, routing, and channel con
     Onboarding offers **Quick start** and **Custom setup**. Quick start reuses
     detected AI access, verifies it with a real completion, and opens the web
     dashboard with a Gateway in the foreground. Custom setup walks the full
-    guided flow. `openclaw onboard --classic` opens the classic step-by-step
+    guided flow. `openagent onboard --classic` opens the classic step-by-step
     wizard instead.
 
   </Step>
@@ -157,7 +157,7 @@ The Gateway is the single source of truth for sessions, routing, and channel con
     install the background service:
 
     ```bash
-    openclaw gateway install
+    openagent gateway install
     ```
 
   </Step>
@@ -165,7 +165,7 @@ The Gateway is the single source of truth for sessions, routing, and channel con
     Open the Control UI in your browser and send a message:
 
     ```bash
-    openclaw dashboard
+    openagent dashboard
     ```
 
     Or connect a channel ([Telegram](/channels/telegram) is fastest) and chat from your phone.

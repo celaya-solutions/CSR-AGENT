@@ -99,5 +99,5 @@ Verify current state before retrying an unsafe failed turn.
 The former `appServer.turnCompletionIdleTimeoutMs`,
 `appServer.turnAssistantCompletionIdleTimeoutMs`, and
 `appServer.postToolRawAssistantCompletionIdleTimeoutMs` settings are retired.
-Run `openclaw doctor --fix` to remove them. Doctor preserves unrelated settings
+Run `openagent doctor --fix` to remove them. Doctor preserves unrelated settings
 and does not translate idle windows into an elapsed run budget.

@@ -123,7 +123,7 @@ Primary reference: [Configuration reference - Discord](/gateway/config-channels#
 - gateway: `proxy`
 - reply/history: `replyToMode`, `historyLimit`, `dmHistoryLimit`, `dms.*.historyLimit`
 - delivery: `textChunkLimit` (default `2000`), `maxLinesPerMessage` (default `17`)
-- streaming: `streaming.mode`, `streaming.chunkMode`, `streaming.preview.*`, `streaming.progress.*`, `streaming.block.*` (legacy flat `streamMode`, `draftChunk`, `blockStreaming`, `blockStreamingCoalesce`, `chunkMode` keys are migrated into `streaming.*` by `openclaw doctor --fix`)
+- streaming: `streaming.mode`, `streaming.chunkMode`, `streaming.preview.*`, `streaming.progress.*`, `streaming.block.*` (legacy flat `streamMode`, `draftChunk`, `blockStreaming`, `blockStreamingCoalesce`, `chunkMode` keys are migrated into `streaming.*` by `openagent doctor --fix`)
 - media: `mediaMaxMb` (caps outbound Discord uploads, default `100`)
 - actions: `actions.*`
 - presence: `activity`, `status`, `activityType`, `activityUrl`, `autoPresence.*`
@@ -148,7 +148,7 @@ Set `channels.discord.activities` to let the core `show_widget` tool post self-c
   and Discord voice transport is unavailable with the override. Set it in the Gateway process
   environment or global runtime dotenv, not a workspace `.env`.
 - Grant least-privilege Discord permissions.
-- If command deploy/state is stale, restart the gateway and re-check with `openclaw channels status --probe`.
+- If command deploy/state is stale, restart the gateway and re-check with `openagent channels status --probe`.
 
 ## Related
 

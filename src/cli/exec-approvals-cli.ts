@@ -602,7 +602,7 @@ function renderStandingGrants(grants: StandingGrantCliEntry[]): void {
       })),
     }),
   );
-  defaultRuntime.log(theme.muted("Revoke with: openclaw approvals grants revoke <grant-id>"));
+  defaultRuntime.log(theme.muted("Revoke with: openagent approvals grants revoke <grant-id>"));
 }
 
 function renderPendingApprovals(entries: PendingApprovalCliEntry[]): void {
@@ -1400,16 +1400,16 @@ export function registerExecApprovalsCli(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatExample(
-          'openclaw approvals allowlist add "~/Projects/**/bin/rg"',
+          'openagent approvals allowlist add "~/Projects/**/bin/rg"',
           "Allowlist a local binary pattern for the main agent.",
         )}\n${formatExample(
-          'openclaw approvals allowlist add --agent main --node <id|name|ip> "/usr/bin/uptime"',
+          'openagent approvals allowlist add --agent main --node <id|name|ip> "/usr/bin/uptime"',
           "Allowlist on a specific node/agent.",
         )}\n${formatExample(
-          'openclaw approvals allowlist add --agent "*" "/usr/bin/uname"',
+          'openagent approvals allowlist add --agent "*" "/usr/bin/uname"',
           "Allowlist for all agents (wildcard).",
         )}\n${formatExample(
-          'openclaw approvals allowlist remove "~/Projects/**/bin/rg"',
+          'openagent approvals allowlist remove "~/Projects/**/bin/rg"',
           "Remove an allowlist pattern.",
         )}\n`,
     );

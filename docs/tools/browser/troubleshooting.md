@@ -32,9 +32,9 @@ Common examples:
 Use this minimal sequence to separate the two:
 
 ```bash
-openclaw browser --browser-profile openclaw start
-openclaw browser --browser-profile openclaw tabs
-openclaw browser --browser-profile openclaw open https://example.com
+openagent browser --browser-profile openclaw start
+openagent browser --browser-profile openclaw tabs
+openagent browser --browser-profile openclaw open https://example.com
 ```
 
 How to read the results:

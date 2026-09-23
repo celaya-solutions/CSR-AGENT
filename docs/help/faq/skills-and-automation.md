@@ -89,7 +89,7 @@ read_when:
     - Invalid or stale targets can also force queue fallback or final delivery failure.
     - If the child's last visible assistant reply is exactly `NO_REPLY` / `no_reply` or `ANNOUNCE_SKIP`, OpenAgent intentionally suppresses the announce instead of posting stale earlier progress.
 
-    Debug: `openclaw tasks show <lookup>` where `<lookup>` is a task id, run id, or session key.
+    Debug: `openagent tasks show <lookup>` where `<lookup>` is a task id, run id, or session key.
 
     Docs: [Sub-agents](/tools/subagents), [Background Tasks](/automation/tasks), [Session Tools](/concepts/session-tool).
 
@@ -104,8 +104,8 @@ read_when:
 
     Debug:
     ```bash
-    openclaw automations run <jobId>
-    openclaw automations runs <jobId> --limit 50
+    openagent automations run <jobId>
+    openagent automations runs <jobId> --limit 50
     ```
 
     Docs: [Cron jobs](/automation/cron-jobs), [Automation](/automation).
@@ -124,8 +124,8 @@ read_when:
 
     Debug:
     ```bash
-    openclaw automations runs <jobId> --limit 50
-    openclaw tasks show <lookup>
+    openagent automations runs <jobId> --limit 50
+    openagent tasks show <lookup>
     ```
 
     Docs: [Cron jobs](/automation/cron-jobs), [Background Tasks](/automation/tasks).
@@ -141,7 +141,7 @@ read_when:
 
     Debug:
     ```bash
-    openclaw automations runs <jobId> --limit 50
+    openagent automations runs <jobId> --limit 50
     ```
 
     Docs: [Cron jobs](/automation/cron-jobs), [cron CLI](/cli/cron).
@@ -149,22 +149,22 @@ read_when:
   </Accordion>
 
   <Accordion title="How do I install skills on Linux?">
-    Drop skills into your workspace, or use native `openclaw skills` commands against a registry you configured with `OPENCLAW_CLAWHUB_URL` (there is no default registry).
+    Drop skills into your workspace, or use native `openagent skills` commands against a registry you configured with `OPENCLAW_CLAWHUB_URL` (there is no default registry).
 
     ```bash
-    openclaw skills search "calendar"
-    openclaw skills search --limit 20
-    openclaw skills install @owner/<skill-slug>
-    openclaw skills install @owner/<skill-slug> --version <version>
-    openclaw skills install @owner/<skill-slug> --force
-    openclaw skills install @owner/<skill-slug> --global
-    openclaw skills update --all
-    openclaw skills update --all --global
-    openclaw skills list --eligible
-    openclaw skills check
+    openagent skills search "calendar"
+    openagent skills search --limit 20
+    openagent skills install @owner/<skill-slug>
+    openagent skills install @owner/<skill-slug> --version <version>
+    openagent skills install @owner/<skill-slug> --force
+    openagent skills install @owner/<skill-slug> --global
+    openagent skills update --all
+    openagent skills update --all --global
+    openagent skills list --eligible
+    openagent skills check
     ```
 
-    Native `openclaw skills install` writes into the active workspace `skills/` directory by default. Add `--global` to install into the shared managed skills directory for all local agents. Use `agents.defaults.skills` or `agents.entries.*.skills` to narrow which agents see shared skills.
+    Native `openagent skills install` writes into the active workspace `skills/` directory by default. Add `--global` to install into the shared managed skills directory for all local agents. Use `agents.defaults.skills` or `agents.entries.*.skills` to narrow which agents see shared skills.
 
   </Accordion>
 
@@ -220,8 +220,8 @@ read_when:
     For a native integration, open a feature request or build a skill against those APIs.
 
     ```bash
-    openclaw skills install @owner/<skill-slug>
-    openclaw skills update --all
+    openagent skills install @owner/<skill-slug>
+    openagent skills update --all
     ```
 
     Native installs land in the active workspace `skills/` directory; use `--global` for all local agents, or configure `agents.defaults.skills` / `agents.entries.*.skills` to limit visibility. Some skills expect Homebrew-installed binaries; on Linux that means Linuxbrew.
@@ -234,15 +234,15 @@ read_when:
     Use the built-in `user` browser profile, which attaches through Chrome DevTools MCP:
 
     ```bash
-    openclaw browser --browser-profile user tabs
-    openclaw browser --browser-profile user snapshot
+    openagent browser --browser-profile user tabs
+    openagent browser --browser-profile user snapshot
     ```
 
     For a custom name, create an explicit MCP profile:
 
     ```bash
-    openclaw browser create-profile --name chrome-live --driver existing-session
-    openclaw browser --browser-profile chrome-live tabs
+    openagent browser create-profile --name chrome-live --driver existing-session
+    openagent browser --browser-profile chrome-live tabs
     ```
 
     This can use the local host browser or a connected browser node. If the Gateway runs elsewhere, run a node host on the browser machine, or use remote CDP instead.

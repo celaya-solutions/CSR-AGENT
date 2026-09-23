@@ -56,8 +56,8 @@ needed.
 Enable and load it:
 
 ```bash
-openclaw hooks info reset-greeting
-openclaw hooks enable reset-greeting
+openagent hooks info reset-greeting
+openagent hooks enable reset-greeting
 ```
 
 Send `/new` in a disposable conversation on a configured chat channel that can
@@ -75,7 +75,7 @@ can still show that a reset event ran. See
 Disable the example when finished:
 
 ```bash
-openclaw hooks disable reset-greeting
+openagent hooks disable reset-greeting
 ```
 
 Disabling leaves the files in place. To use a workspace directory instead, put

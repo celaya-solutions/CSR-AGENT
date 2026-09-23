@@ -1,23 +1,23 @@
 ---
 summary: "Contract for `secrets apply` plans: target validation, path matching, and SQLite auth-profile target scope"
 read_when:
-  - Generating or reviewing `openclaw secrets apply` plans
+  - Generating or reviewing `openagent secrets apply` plans
   - Debugging `Invalid plan target path` errors
   - Understanding target type and path validation behavior
 title: "Secrets apply plan contract"
 ---
 
-This page defines the strict contract enforced by `openclaw secrets apply`. If a target does not match these rules, apply fails before mutating any file.
+This page defines the strict contract enforced by `openagent secrets apply`. If a target does not match these rules, apply fails before mutating any file.
 
 ## Plan file requirements
 
-`openclaw secrets apply --from <plan.json>` accepts regular files up to 16 MiB (16,777,216 bytes). The limit applies to the complete serialized file, including whitespace. Directories, FIFOs, device files, and files larger than the limit are rejected before JSON parsing or target validation.
+`openagent secrets apply --from <plan.json>` accepts regular files up to 16 MiB (16,777,216 bytes). The limit applies to the complete serialized file, including whitespace. Directories, FIFOs, device files, and files larger than the limit are rejected before JSON parsing or target validation.
 
-`openclaw secrets configure --plan-out <plan.json>` enforces the same limit on the UTF-8 serialized output before creating the file. Hand-written plans and external plan generators must also keep the serialized file within this boundary.
+`openagent secrets configure --plan-out <plan.json>` enforces the same limit on the UTF-8 serialized output before creating the file. Hand-written plans and external plan generators must also keep the serialized file within this boundary.
 
 ## Plan file shape
 
-`openclaw secrets apply --from <plan.json>` expects a `targets` array of plan targets:
+`openagent secrets apply --from <plan.json>` expects a `targets` array of plan targets:
 
 ```json5
 {
@@ -42,7 +42,7 @@ This page defines the strict contract enforced by `openclaw secrets apply`. If a
 }
 ```
 
-`openclaw secrets configure` generates plans in this shape. You can also hand-write or edit one.
+`openagent secrets configure` generates plans in this shape. You can also hand-write or edit one.
 
 ## Provider upserts and deletes
 
@@ -138,17 +138,17 @@ No writes are committed for an invalid plan: target resolution and path validati
 
 ```bash
 # Validate plan without writes
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run
 
 # Then apply for real
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json
 
 # For exec-containing plans, opt in explicitly in both modes
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run --allow-exec
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --allow-exec
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run --allow-exec
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json --allow-exec
 ```
 
-If apply fails with an invalid target path message, regenerate the plan with `openclaw secrets configure` or fix the target path to a supported shape above.
+If apply fails with an invalid target path message, regenerate the plan with `openagent secrets configure` or fix the target path to a supported shape above.
 
 ## Related docs
 

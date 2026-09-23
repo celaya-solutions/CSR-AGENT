@@ -11,7 +11,7 @@ title: "Scripts"
 ## Conventions
 
 - Scripts are **optional** unless referenced in docs or release checklists.
-- Prefer CLI surfaces when they exist (example: `openclaw models status --check`).
+- Prefer CLI surfaces when they exist (example: `openagent models status --check`).
 - Assume scripts are host-specific. Read them before running on a new machine.
 
 ## Auth monitoring scripts

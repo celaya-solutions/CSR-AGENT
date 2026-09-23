@@ -233,7 +233,7 @@ On macOS, enable **System Settings → General → Sharing → Screen Sharing**.
 Modern Screen Sharing uses ARD account authentication, so the Gateway performs
 that handshake and gives the browser an already-authenticated no-auth RFB
 stream. The macOS account password is not returned in the observe result, URL,
-or logs. `openclaw doctor` can offer an explicitly confirmed `sudo launchctl`
+or logs. `openagent doctor` can offer an explicitly confirmed `sudo launchctl`
 repair when Screen Sharing is off; enabling the macOS system service may expose
 it on other network interfaces according to macOS Sharing settings.
 
@@ -278,8 +278,8 @@ On the Gateway, explicitly arm the dangerous command:
 ```
 
 The node reconnect advertises `desktop.stream` as a pairing-surface upgrade.
-Inspect `openclaw nodes pending`, then approve the new request with
-`openclaw nodes approve <requestId>`. The node appears in the Desktop picker
+Inspect `openagent nodes pending`, then approve the new request with
+`openagent nodes approve <requestId>`. The node appears in the Desktop picker
 only while it is connected and the effective approved command remains allowed.
 
 The visible picker updates as nodes connect or disconnect. A desktop opened
@@ -307,7 +307,7 @@ nodes without a Gateway restart or node reconnect.
 If the node is missing from the picker, verify all four gates: the node-local
 desktop config, the loopback RFB listener, the approved pairing update, and the
 Gateway allow/deny policy. Restart the node host after changing its desktop
-config, then check `openclaw nodes pending` for a widened declaration. Gateway
+config, then check `openagent nodes pending` for a widened declaration. Gateway
 policy changes apply within the existing pairing approval.
 
 ---

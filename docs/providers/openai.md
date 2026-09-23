@@ -22,7 +22,7 @@ implicitly. The `openai/*` prefix alone does not select a runtime.
   through `OPENAI_API_KEY` or an `openai` API-key auth profile.
 - **Legacy config** - `codex/*` and `openai-codex/*` refs are repaired to
   `openai/*` plus model-scoped `agentRuntime.id: "codex"` by
-  `openclaw doctor --fix`.
+  `openagent doctor --fix`.
 
 OpenAI explicitly supports subscription OAuth usage in external tools and
 workflows like OpenAgent.

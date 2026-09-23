@@ -17,7 +17,7 @@ including build outputs, fast-forwards `main` (or rebases a local server branch
 onto `origin/main`), installs dependencies with a frozen lockfile, builds clean,
 and restarts the gateway only after the build succeeds.
 
-Like `openclaw update`, the script builds runtime JavaScript, plugin assets, and
+Like `openagent update`, the script builds runtime JavaScript, plugin assets, and
 the Control UI without generating TypeScript declarations by default. Set
 `OPENCLAW_RUN_NODE_SKIP_DTS_BUILD=0` when invoking the script if this checkout
 also needs fresh declarations for plugin development.
@@ -66,7 +66,7 @@ OPENCLAW_UPDATE_RESTART_CMD='systemctl --user restart openclaw-gateway.service' 
 OPENCLAW_UPDATE_RESTART_CMD='' scripts/update-gateway.sh
 ```
 
-For a plain single-user source install, prefer `openclaw update`
+For a plain single-user source install, prefer `openagent update`
 instead — it manages the checkout, build, and gateway restart for you.
 
 ## Related

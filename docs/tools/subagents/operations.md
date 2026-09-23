@@ -56,8 +56,8 @@ Automatic restart recovery is bounded per child session. If the same
 sub-agent child is accepted for orphan recovery repeatedly inside the
 rapid re-wedge window, OpenAgent persists a recovery tombstone on that
 session and stops auto-resuming it on later restarts. Run
-`openclaw tasks maintenance --apply` to reconcile the task record, or
-`openclaw doctor --fix` to clear stale aborted recovery flags on
+`openagent tasks maintenance --apply` to reconcile the task record, or
+`openagent doctor --fix` to clear stale aborted recovery flags on
 tombstoned sessions.
 
 <Note>

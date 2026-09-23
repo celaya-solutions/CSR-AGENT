@@ -103,7 +103,7 @@ async function readPlanFile(pathname: string): Promise<SecretsApplyPlan> {
   }
   if (!isSecretsApplyPlan(parsed)) {
     throw new Error(
-      `Invalid secrets plan file: ${pathname}. Generate a fresh plan with ${formatCliCommand("openclaw secrets configure --plan-out <path>")}.`,
+      `Invalid secrets plan file: ${pathname}. Generate a fresh plan with ${formatCliCommand("openagent secrets configure --plan-out <path>")}.`,
     );
   }
   return parsed;
@@ -133,7 +133,7 @@ export function registerSecretsCli(program: Command): void {
             formatGatewayCommandFailure({
               action: "reload secrets",
               error: err,
-              inspectCommand: "openclaw gateway status --deep",
+              inspectCommand: "openagent gateway status --deep",
             }),
           ),
         );
@@ -180,7 +180,7 @@ export function registerSecretsCli(program: Command): void {
         (err) => {
           defaultRuntime.error(
             danger(
-              `Secrets audit failed: ${formatErrorMessage(err)}. Run ${formatCliCommand("openclaw doctor")} to inspect config and credential state.`,
+              `Secrets audit failed: ${formatErrorMessage(err)}. Run ${formatCliCommand("openagent doctor")} to inspect config and credential state.`,
             ),
           );
         },
@@ -325,7 +325,7 @@ export function registerSecretsCli(program: Command): void {
         (err) => {
           defaultRuntime.error(
             danger(
-              `Secrets configure failed: ${formatErrorMessage(err)}. Re-run ${formatCliCommand("openclaw secrets audit")} before applying changes.`,
+              `Secrets configure failed: ${formatErrorMessage(err)}. Re-run ${formatCliCommand("openagent secrets audit")} before applying changes.`,
             ),
           );
         },
@@ -361,7 +361,7 @@ export function registerSecretsCli(program: Command): void {
             err instanceof SecretsPlanFileNotFoundError ? err.message : formatErrorMessage(err);
           defaultRuntime.error(
             danger(
-              `Secrets apply failed: ${message}. Re-run ${formatCliCommand("openclaw secrets apply --from <path> --dry-run")} to inspect the plan without writing.`,
+              `Secrets apply failed: ${message}. Re-run ${formatCliCommand("openagent secrets apply --from <path> --dry-run")} to inspect the plan without writing.`,
             ),
           );
         },

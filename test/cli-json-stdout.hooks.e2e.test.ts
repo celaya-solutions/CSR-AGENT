@@ -104,7 +104,7 @@ describe("cli json stdout contract", () => {
     {
       name: "missing hook in human mode",
       args: ["hooks", "info", "missing-hook"],
-      message: 'Hook "missing-hook" not found. Run `openclaw hooks list` to see available hooks.',
+      message: 'Hook "missing-hook" not found. Run `openagent hooks list` to see available hooks.',
       missingHook: true,
       human: true,
     },
@@ -169,7 +169,7 @@ describe("cli json stdout contract", () => {
                 "Fix: set gateway.remote.url, or set gateway.mode=local.",
               ].join("\n")
             : (testCase.message ??
-              'Unknown agent id "retired". Run openclaw agents list to see configured agents.');
+              'Unknown agent id "retired". Run openagent agents list to see configured agents.');
 
         expect(result.status, result.stderr).toBe(1);
         expect(result.stdout, result.stderr).not.toMatch(/[\u001B\u0007]/u);

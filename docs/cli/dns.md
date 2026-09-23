@@ -1,14 +1,14 @@
 ---
-summary: "CLI reference for `openclaw dns` (wide-area discovery helpers)"
+summary: "CLI reference for `openagent dns` (wide-area discovery helpers)"
 read_when:
   - You want wide-area discovery (DNS-SD) via Tailscale + CoreDNS
   - You're setting up split DNS for a custom discovery domain (example: openclaw.internal)
 title: "DNS"
 ---
 
-# `openclaw dns`
+# `openagent dns`
 
-DNS helpers for wide-area discovery (Tailscale + CoreDNS). `openclaw dns setup` prints its plan on any platform; applying that plan with `--apply` requires macOS with Homebrew CoreDNS.
+DNS helpers for wide-area discovery (Tailscale + CoreDNS). `openagent dns setup` prints its plan on any platform; applying that plan with `--apply` requires macOS with Homebrew CoreDNS.
 
 Related:
 
@@ -20,9 +20,9 @@ Related:
 Plan or apply CoreDNS setup for unicast DNS-SD discovery.
 
 ```bash
-openclaw dns setup
-openclaw dns setup --domain openclaw.internal
-openclaw dns setup --apply
+openagent dns setup
+openagent dns setup --domain openclaw.internal
+openagent dns setup --apply
 ```
 
 | Option              | Effect                                                                              |

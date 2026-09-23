@@ -208,7 +208,7 @@ ${ACPX_CMD} codex sessions close oc-codex-<conversationId>
 
 Defaults are:
 
-- `openclaw -> openclaw acp`
+- `openclaw -> openagent acp`
 - `claude -> bundled @agentclientprotocol/claude-agent-acp@0.75.1`
 - `codex -> bundled @agentclientprotocol/codex-acp@1.10.0 through OpenAgent's isolated CODEX_HOME wrapper`
 - `copilot -> copilot --acp --stdio`

@@ -32,16 +32,16 @@ runtime.
 - Install guide: [Getting Started](/start/getting-started)
 - Gateway runbook: [Gateway](/gateway)
 - Gateway configuration: [Configuration](/gateway/configuration)
-- Service status: `openclaw gateway status`
+- Service status: `openagent gateway status`
 
 ## Gateway service install (CLI)
 
 Use one of these (all supported):
 
-- Wizard (recommended): `openclaw onboard --install-daemon`
-- Direct: `openclaw gateway install`
-- Configure flow: `openclaw configure` → select **Gateway service**
-- Repair/migrate: `openclaw doctor` (offers to install or fix the service)
+- Wizard (recommended): `openagent onboard --install-daemon`
+- Direct: `openagent gateway install`
+- Configure flow: `openagent configure` → select **Gateway service**
+- Repair/migrate: `openagent doctor` (offers to install or fix the service)
 
 The service target depends on OS:
 

@@ -192,7 +192,7 @@ function formatLegacyClawdBrowserProfileResidueNote(
   return [
     `- Legacy managed browser profile residue was found at ${residue.legacyProfileDir}.`,
     `- The canonical OpenAgent-managed browser profile is ${residue.canonicalUserDataDir}.`,
-    `- If no browser is using the legacy profile, run ${formatCliCommand("openclaw doctor --fix")} to archive it safely instead of deleting it in place.`,
+    `- If no browser is using the legacy profile, run ${formatCliCommand("openagent doctor --fix")} to archive it safely instead of deleting it in place.`,
   ].join("\n");
 }
 
@@ -241,8 +241,8 @@ export async function noteChromeMcpBrowserReadiness(
     noteFn(
       [
         "- Chrome extension native bootstrap was not inspected; registration status is unavailable in Doctor.",
-        `- Run ${formatCliCommand("openclaw browser extension status --json")} to inspect it explicitly; this may request browser profile access.`,
-        `- Run ${formatCliCommand("openclaw browser extension install")} if setup or repair is needed.`,
+        `- Run ${formatCliCommand("openagent browser extension status --json")} to inspect it explicitly; this may request browser profile access.`,
+        `- Run ${formatCliCommand("openagent browser extension install")} if setup or repair is needed.`,
       ].join("\n"),
       "Browser extension bootstrap",
     );
@@ -396,7 +396,7 @@ export async function maybeRepairOwnedChromeExtensionNativeHosts(): Promise<{
     reason: "Doctor does not inspect personal browser profiles",
     changes: [],
     warnings: [
-      `Chrome extension native-host repair skipped: Doctor does not inspect personal browser profiles. Run ${formatCliCommand("openclaw browser extension install")} to repair explicitly.`,
+      `Chrome extension native-host repair skipped: Doctor does not inspect personal browser profiles. Run ${formatCliCommand("openagent browser extension install")} to repair explicitly.`,
     ],
   };
 }

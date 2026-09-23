@@ -58,7 +58,7 @@ async function fetchLivePromotion(slug: string): Promise<ClawHubPromotion> {
   } catch (error) {
     if (error instanceof ClawHubRequestError && error.status === 404) {
       throw new Error(
-        `Promotion "${slug}" was not found or is not live. See ${formatCliCommand("openclaw promos list")}.`,
+        `Promotion "${slug}" was not found or is not live. See ${formatCliCommand("openagent promos list")}.`,
         { cause: error },
       );
     }
@@ -105,7 +105,7 @@ function requireUnchangedClaimContract(
     return;
   }
   throw new Error(
-    `Promotion "${initial.slug}" changed while the claim was in progress; no promotional models were added. Any provider credentials you just configured were kept. Run ${formatCliCommand("openclaw promos list")} and retry.`,
+    `Promotion "${initial.slug}" changed while the claim was in progress; no promotional models were added. Any provider credentials you just configured were kept. Run ${formatCliCommand("openagent promos list")} and retry.`,
   );
 }
 
@@ -243,7 +243,7 @@ async function ensureProviderAuth(params: {
   }
   if (!catalogEntry) {
     throw new Error(
-      `No credentials configured for provider "${provider}". Add one with ${formatCliCommand("openclaw models auth add")} and retry.`,
+      `No credentials configured for provider "${provider}". Add one with ${formatCliCommand("openagent models auth add")} and retry.`,
     );
   }
   if (promotion.signupUrl) {
@@ -434,11 +434,11 @@ export async function promosClaimCommand(
   if (makeDefault && suggested) {
     runtime.log(`  Default model set to ${sanitizeTerminalText(suggested.modelRef)}.`);
     runtime.log(
-      `  Revert anytime with ${formatCliCommand("openclaw models set <previous-model>")}.`,
+      `  Revert anytime with ${formatCliCommand("openagent models set <previous-model>")}.`,
     );
   } else if (suggested) {
     runtime.log(
-      `  Try it: ${formatCliCommand(`openclaw models set ${suggested.modelRef}`)} (promotion ends ${new Date(promotion.endsAt).toLocaleDateString()}).`,
+      `  Try it: ${formatCliCommand(`openagent models set ${suggested.modelRef}`)} (promotion ends ${new Date(promotion.endsAt).toLocaleDateString()}).`,
     );
   }
 }

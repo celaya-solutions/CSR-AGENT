@@ -67,10 +67,10 @@ describe("status cache formatting", () => {
 
 describe("status config diagnostic formatting", () => {
   it.each([
-    ["default", undefined, undefined, "openclaw doctor --fix"],
-    ["profile", "work", undefined, "openclaw --profile work doctor --fix"],
-    ["container", undefined, "staging", "openclaw --container staging doctor --fix"],
-    ["container over profile", "work", "staging", "openclaw --container staging doctor --fix"],
+    ["default", undefined, undefined, "openagent doctor --fix"],
+    ["profile", "work", undefined, "openagent --profile work doctor --fix"],
+    ["container", undefined, "staging", "openagent --container staging doctor --fix"],
+    ["container over profile", "work", "staging", "openagent --container staging doctor --fix"],
   ])("keeps the %s target in its repair command", (_context, profile, container, command) => {
     const entries = withEnv({ OPENCLAW_PROFILE: profile, OPENCLAW_CONTAINER_HINT: container }, () =>
       formatStatusConfigDiagnosticEntries({

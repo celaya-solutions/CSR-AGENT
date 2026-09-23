@@ -70,7 +70,7 @@ The embedded runner selects and applies transcript policy:
 - Sanitization/repair application: `sanitizeSessionHistory` in
   `src/agents/embedded-agent-runner/replay-history.ts`
 
-Legacy JSONL validation and import belong to `openclaw doctor --fix`; the
+Legacy JSONL validation and import belong to `openagent doctor --fix`; the
 embedded runner does not repair or reopen file-backed runtime transcripts.
 
 ---

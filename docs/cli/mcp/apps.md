@@ -13,7 +13,7 @@ OpenAgent can render tools that implement the stable [MCP Apps extension](https:
 Enable the host bridge:
 
 ```bash
-openclaw config set mcp.apps.enabled true --strict-json
+openagent config set mcp.apps.enabled true --strict-json
 ```
 
 Restart the Gateway after changing this setting. When enabled, OpenAgent starts a sandbox-only HTTP(S) listener on the Gateway port plus one (for the default Gateway, `18790`). The Control UI loads Apps from that separate origin; the listener never serves Control UI, authenticated Gateway routes, or user data.
@@ -66,4 +66,4 @@ Behavior and security boundaries:
 - When an App requests teardown, existing calls and authorized cleanup calls can finish until the App acknowledges shutdown or the one-second grace period expires. Closing or navigating away from the window cancels immediately.
 - Returning to a standalone App restored from the browser's back/forward cache reloads and revalidates the view instead of reviving its torn-down connection. This resets transient App state and does not automatically retry interrupted operations. If the launch ticket has expired, open a fresh App link.
 - If no published origin or ticket capacity is available, the view or ticket has expired, or the transport cannot render native controls, the original assistant text remains available. The Control UI keeps its existing inline App canvas and does not receive a duplicate launch action.
-- `openclaw security audit` warns while the bridge is enabled. Disable it with `openclaw config set mcp.apps.enabled false --strict-json` when it is not needed.
+- `openagent security audit` warns while the bridge is enabled. Disable it with `openagent config set mcp.apps.enabled false --strict-json` when it is not needed.

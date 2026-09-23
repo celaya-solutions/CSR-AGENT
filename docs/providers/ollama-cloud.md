@@ -21,7 +21,7 @@ embeddings, and custom host details, see [Ollama](/providers/ollama).
 Follow [Ollama's API key instructions](https://docs.ollama.com/api/authentication#api-keys), then run:
 
 ```bash
-openclaw onboard --auth-choice ollama-cloud
+openagent onboard --auth-choice ollama-cloud
 ```
 
 Or set:
@@ -33,7 +33,7 @@ export OLLAMA_API_KEY="<your-ollama-cloud-api-key>" # pragma: allowlist secret
 Non-interactive onboarding accepts the key directly:
 
 ```bash
-openclaw onboard --auth-choice ollama-cloud --ollama-cloud-api-key "<key>"
+openagent onboard --auth-choice ollama-cloud --ollama-cloud-api-key "<key>"
 ```
 
 Onboarding sets the default model to `ollama-cloud/minimax-m2.7`.
@@ -66,8 +66,8 @@ The provider requires an API key; without one it stays inactive. With a key,
 OpenAgent discovers Ollama Cloud models live from the hosted catalog:
 
 ```bash
-openclaw models list --provider ollama-cloud
-openclaw models set ollama-cloud/kimi-k2.6
+openagent models list --provider ollama-cloud
+openagent models set ollama-cloud/kimi-k2.6
 ```
 
 Hosted ids in the live catalog include `deepseek-v4-flash`, `glm-5.2`,
@@ -108,7 +108,7 @@ authorize `/api/embed`; force them with `OPENCLAW_LIVE_OLLAMA_EMBEDDINGS=1`.
 - `Ollama Cloud requires an API key` / `Set OLLAMA_API_KEY` errors: provide a
   real cloud API key. The local `ollama-local` marker is only for local or
   private Ollama hosts.
-- Unknown model errors: run `openclaw models list --provider ollama-cloud` and
+- Unknown model errors: run `openagent models list --provider ollama-cloud` and
   copy the hosted model id exactly.
 - Tool-call or raw JSON issues on custom Ollama hosts: check whether you are
   accidentally using an OpenAI-compatible `/v1` URL. Ollama routes should use

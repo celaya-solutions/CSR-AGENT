@@ -23,18 +23,18 @@ where to run the Gateway see
     pnpm install
     pnpm build
     pnpm ui:build
-    pnpm openclaw onboard
+    pnpm openagent onboard
     ```
 
     When onboarding finishes, press **Ctrl+C** to stop the foreground Gateway
     and install the background service:
 
     ```bash
-    pnpm openclaw gateway install
+    pnpm openagent gateway install
     ```
 
     Prefer the classic step-by-step wizard and a service install in one
-    command? Run `pnpm openclaw onboard --install-daemon` instead. That flag
+    command? Run `pnpm openagent onboard --install-daemon` instead. That flag
     selects the classic flow, so you do not see the guided **Quick start** and
     **Custom setup** choice.
 
@@ -63,13 +63,13 @@ where to run the Gateway see
 
     | Command | Shows |
     | --- | --- |
-    | `openclaw status` | Gateway/agent health + basic config snapshot |
-    | `openclaw status --all` | Full read-only diagnosis, pasteable |
-    | `openclaw models status` | Provider auth + model availability |
-    | `openclaw doctor` | Validates and repairs common config/state issues |
-    | `openclaw logs --follow` | Live log tail |
-    | `openclaw gateway status --deep` | Deep gateway/config/plugin health check |
-    | `openclaw health --verbose` | Detailed health report |
+    | `openagent status` | Gateway/agent health + basic config snapshot |
+    | `openagent status --all` | Full read-only diagnosis, pasteable |
+    | `openagent models status` | Provider auth + model availability |
+    | `openagent doctor` | Validates and repairs common config/state issues |
+    | `openagent logs --follow` | Live log tail |
+    | `openagent gateway status --deep` | Deep gateway/config/plugin health check |
+    | `openagent health --verbose` | Detailed health report |
 
     Quick debug loop: [First 60 seconds if something is broken](/help/faq#first-60-seconds-if-something-is-broken).
     Install docs: [Install](/install), [Updating](/install/updating).
@@ -89,11 +89,11 @@ where to run the Gateway see
     - If it asks for shared-secret auth, paste the configured token or password into Control UI settings.
     - Token source: `gateway.auth.token` (or `OPENCLAW_GATEWAY_TOKEN`).
     - Password source: `gateway.auth.password` (or `OPENCLAW_GATEWAY_PASSWORD`).
-    - No shared secret configured yet? Run `openclaw doctor --generate-gateway-token` (or `openclaw doctor --fix --generate-gateway-token`).
+    - No shared secret configured yet? Run `openagent doctor --generate-gateway-token` (or `openagent doctor --fix --generate-gateway-token`).
 
     **Not on localhost:**
 
-    - **Tailscale Serve** (recommended): keep bind loopback, run `openclaw gateway --tailscale serve`, open `https://<magicdns>/`. With `gateway.auth.allowTailscale: true`, identity headers satisfy Control UI/WebSocket auth (no pasted shared secret, assumes a trusted gateway host); HTTP APIs still need shared-secret auth unless you deliberately use private-ingress `none` or trusted-proxy HTTP auth.
+    - **Tailscale Serve** (recommended): keep bind loopback, run `openagent gateway --tailscale serve`, open `https://<magicdns>/`. With `gateway.auth.allowTailscale: true`, identity headers satisfy Control UI/WebSocket auth (no pasted shared secret, assumes a trusted gateway host); HTTP APIs still need shared-secret auth unless you deliberately use private-ingress `none` or trusted-proxy HTTP auth.
       Concurrent bad-auth Serve attempts from the same client are serialized before the failed-auth limiter records them, so a second bad retry can already show `retry later`.
     - **Identity-aware reverse proxy**: keep the Gateway behind a trusted proxy, set `gateway.auth.mode: "trusted-proxy"`, open the proxy URL. Same-host loopback proxies need explicit `gateway.auth.trustedProxy.allowLoopback: true`.
     - **SSH tunnel**: `ssh -N -L 18789:127.0.0.1:18789 user@gateway-host`, then open `http://127.0.0.1:18789/`. Shared-secret auth still applies over the tunnel; paste the configured token or password if prompted.
@@ -109,7 +109,7 @@ where to run the Gateway see
     | `empty-heartbeat-file` | Heartbeat monitor scratch exists but only has blank, comment, header, fence, or empty-checklist scaffolding |
     | `alerts-disabled` | All heartbeat visibility is off (`showOk`, `showAlerts`, and `useIndicator` all disabled) |
 
-    Older heartbeat `tasks:` blocks migrate to independently scheduled cron jobs with `openclaw doctor --fix`.
+    Older heartbeat `tasks:` blocks migrate to independently scheduled cron jobs with `openagent doctor --fix`.
 
     Docs: [Heartbeat](/gateway/heartbeat), [Automation](/automation).
 
@@ -179,28 +179,28 @@ where to run the Gateway see
     That screen depends on the Gateway being reachable and authenticated. The TUI also sends
     "Wake up, my friend!" automatically on first hatch when a model provider is configured. If
     you skipped model/auth setup, onboarding shows a "Model auth missing" note and opens the
-    TUI without sending anything — add a provider by running `openclaw onboard` again.
+    TUI without sending anything — add a provider by running `openagent onboard` again.
     That is the one command for changing the model provider or its authentication.
     If you see the wake-up line with **no reply** and tokens stay at 0, the agent never ran.
 
     1. Restart the Gateway:
 
     ```bash
-    openclaw gateway restart
+    openagent gateway restart
     ```
 
     2. Check status + auth:
 
     ```bash
-    openclaw status
-    openclaw models status
-    openclaw logs --follow
+    openagent status
+    openagent models status
+    openagent logs --follow
     ```
 
     3. Still hanging? Run:
 
     ```bash
-    openclaw doctor
+    openagent doctor
     ```
 
     If the Gateway is remote, confirm the tunnel/Tailscale connection is up and the UI
@@ -214,7 +214,7 @@ where to run the Gateway see
     1. Install OpenAgent on the new machine.
     2. Copy `$OPENCLAW_STATE_DIR` (default: `~/.openclaw`) from the old machine.
     3. Copy your workspace (default: `~/.openclaw/workspace`).
-    4. Run `openclaw doctor` and restart the Gateway service.
+    4. Run `openagent doctor` and restart the Gateway service.
 
     This preserves config, auth profiles, channel credentials, sessions, and memory - it keeps
     your bot exactly the same, as long as you copy **both** locations. In remote mode, the
@@ -239,7 +239,7 @@ where to run the Gateway see
     Pull and rebuild your checkout, or let the updater do it:
 
     ```bash
-    openclaw update
+    openagent update
     ```
 
     Docs: [Update](/cli/update), [Updating](/install/updating).
@@ -254,7 +254,7 @@ where to run the Gateway see
     - **Advanced/full onboarding:** longer when provider sign-in, channel pairing, daemon install, network downloads, or skills need extra setup.
 
     The wizard shows this timeline up front. Skip optional steps and return later with
-    `openclaw configure`.
+    `openagent configure`.
 
     Hanging? See [I am stuck](#i-am-stuck) above.
 
@@ -270,7 +270,7 @@ where to run the Gateway see
 
     **2) openclaw is not recognized after install**
 
-    - Run `pnpm openclaw ...` from inside the checkout, or link a global command
+    - Run `pnpm openagent ...` from inside the checkout, or link a global command
       with `pnpm add --global "openclaw@link:$PWD"`.
     - If the linked command is still missing, run `pnpm setup` so pnpm's global
       bin folder is on PATH, then close and reopen PowerShell.
@@ -297,7 +297,7 @@ where to run the Gateway see
     Then restart the Gateway and retry:
 
     ```powershell
-    openclaw gateway restart
+    openagent gateway restart
     ```
 
   </Accordion>
@@ -345,16 +345,16 @@ where to run the Gateway see
     Safer to run updates from a shell as the operator.
 
     ```bash
-    openclaw update
-    openclaw update status
-    openclaw update --no-restart
+    openagent update
+    openagent update status
+    openagent update --no-restart
     ```
 
     Automating from an agent:
 
     ```bash
-    openclaw update --yes --no-restart
-    openclaw gateway restart
+    openagent update --yes --no-restart
+    openagent gateway restart
     ```
 
     Docs: [Update](/cli/update), [Updating](/install/updating).
@@ -362,7 +362,7 @@ where to run the Gateway see
   </Accordion>
 
   <Accordion title="What does onboarding actually do?">
-    `openclaw onboard` is the recommended setup path. On a fresh local install it
+    `openagent onboard` is the recommended setup path. On a fresh local install it
     offers two lanes after a one-line pointer to the [security guide](/gateway/security):
 
     - **Quick start** detects the AI access you already have, waits for you to
@@ -379,7 +379,7 @@ where to run the Gateway see
     provider installation, model selection, or credential write.
 
     The classic step-by-step wizard is still available. Run
-    `openclaw onboard --classic` for its Workspace, Model/Auth, Gateway,
+    `openagent onboard --classic` for its Workspace, Model/Auth, Gateway,
     Channels, Web search, Skills, Daemon, and Health check steps. The step list
     is in [Onboarding (CLI)](/start/wizard#what-classic-onboarding-configures).
 

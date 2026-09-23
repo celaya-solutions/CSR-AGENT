@@ -38,7 +38,7 @@ pnpm test:live src/agents/embedded-agent-runner-extraparams.live.test.ts
 ## Manual testing
 
 - Run the Gateway in dev mode (skips channel connections via `OPENCLAW_SKIP_CHANNELS=1`): `pnpm gateway:dev`
-- Trigger one agent turn through the Gateway: `pnpm openclaw agent --message "Hello" --thinking low`
+- Trigger one agent turn through the Gateway: `pnpm openagent agent --message "Hello" --thinking low`
 - Use the TUI for interactive debugging: `pnpm tui`
 
 For tool call behavior, prompt for a `read` or `exec` action so you can watch
@@ -61,11 +61,11 @@ State lives in the OpenAgent state directory: `~/.openclaw` by default, or
 
 Delete those paths for a full reset. Narrower resets:
 
-- Sessions only: do not delete `agents/<agentId>/agent/openclaw-agent.sqlite`; session rows live there alongside other per-agent state. Use `/new` or `/reset` to start a fresh session for one chat, and `openclaw sessions cleanup` for session maintenance.
+- Sessions only: do not delete `agents/<agentId>/agent/openclaw-agent.sqlite`; session rows live there alongside other per-agent state. Use `/new` or `/reset` to start a fresh session for one chat, and `openagent sessions cleanup` for session maintenance.
 - Keep auth: leave `agents/<agentId>/agent/openclaw-agent.sqlite` and `credentials/` in place.
 
 Legacy `auth-profiles.json` files are no longer read at runtime;
-`openclaw doctor --fix` imports them into the SQLite store.
+`openagent doctor --fix` imports them into the SQLite store.
 
 <a id="references" />
 

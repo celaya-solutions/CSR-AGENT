@@ -33,7 +33,7 @@ works for you.
 Run this command before or after changing your preference:
 
 ```bash
-openclaw telemetry show
+openagent telemetry show
 ```
 
 Add `--json` to get the same state and payload as one machine-readable
@@ -85,7 +85,7 @@ Anonymous feature statistics are **off by default**. When an endpoint is configu
 opt-in with **No thanks** selected by default; guided Quick Start skips that
 prompt. OpenAgent records a prompt response so setup does not ask again.
 Non-interactive and scripted installations do not opt in automatically, but
-operators can explicitly enable anonymous feature statistics with `openclaw telemetry on` or
+operators can explicitly enable anonymous feature statistics with `openagent telemetry on` or
 `telemetry.enabled: true`. The enabled setting, not the presence of a prompt
 response, controls whether anonymous feature statistics are included.
 
@@ -137,7 +137,7 @@ The session count depends on locally recorded creation events that remain in
 the bounded event store. Missing or unreadable state produces zero. It is not
 a count of active sessions, messages, or all sessions that existed that day.
 
-The sender and `openclaw telemetry show` use the same payload builder, but their
+The sender and `openagent telemetry show` use the same payload builder, but their
 plugin registry, configuration, and collection time can differ. The CLI preview
 is not a guarantee of the exact next Gateway payload.
 
@@ -164,8 +164,8 @@ on the service you configure.
 Enable or disable anonymous feature statistics at any time:
 
 ```bash
-openclaw telemetry on
-openclaw telemetry off
+openagent telemetry on
+openagent telemetry off
 ```
 
 You can also configure the same preference directly:

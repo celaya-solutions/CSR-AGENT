@@ -2,7 +2,7 @@
 summary: "Task Flow orchestration layer above background tasks"
 read_when:
   - You want to understand how Task Flow relates to background tasks
-  - You encounter Task Flow or openclaw tasks flow in release notes or docs
+  - You encounter Task Flow or openagent tasks flow in release notes or docs
   - You want to inspect or manage durable flow state
 title: "Task flow"
 ---
@@ -61,7 +61,7 @@ with a blocked outcome.
 
 ## Durable state and revision tracking
 
-Flow records persist in the shared SQLite state database (`~/.openclaw/state/openclaw.sqlite`, `flow_runs` table) alongside task records, so progress survives gateway restarts. Each write bumps the flow's `revision`; concurrent writers that pass a stale expected revision get a conflict and must re-read. WAL growth is bounded by SQLite autocheckpointing plus periodic passive checkpoints, with truncate checkpoints on shutdown. The shared database replaced the `flows/registry.sqlite` sidecar in `v2026.5.30-beta.1`, stable from `v2026.6.1`. If that sidecar is still present under the state root, `openclaw doctor` imports it into the shared database.
+Flow records persist in the shared SQLite state database (`~/.openclaw/state/openclaw.sqlite`, `flow_runs` table) alongside task records, so progress survives gateway restarts. Each write bumps the flow's `revision`; concurrent writers that pass a stale expected revision get a conflict and must re-read. WAL growth is bounded by SQLite autocheckpointing plus periodic passive checkpoints, with truncate checkpoints on shutdown. The shared database replaced the `flows/registry.sqlite` sidecar in `v2026.5.30-beta.1`, stable from `v2026.6.1`. If that sidecar is still present under the state root, `openagent doctor` imports it into the shared database.
 
 Durability covers records, not a JavaScript call stack or automatic scheduling. After restart, the owning controller reloads the flow, checks cancellation and terminal state, reconciles any child outcome, and explicitly resumes from the latest revision. Waiting metadata alone does not register a timer or event listener. Use an automation or controller-owned event handler for wakeups; never blindly replay side effects after a revision conflict.
 
@@ -71,28 +71,28 @@ retained regardless of age.
 
 ## Cancel behavior
 
-`openclaw tasks flow cancel` sets a sticky cancel intent on the flow, cancels its active child tasks, and refuses new managed child tasks. Once no child task remains active, the flow finalizes as `cancelled` - immediately, or via the maintenance sweep if children take longer to settle. The intent is persisted, so a cancelled flow stays cancelled even if the gateway restarts before all child tasks have terminated.
+`openagent tasks flow cancel` sets a sticky cancel intent on the flow, cancels its active child tasks, and refuses new managed child tasks. Once no child task remains active, the flow finalizes as `cancelled` - immediately, or via the maintenance sweep if children take longer to settle. The intent is persisted, so a cancelled flow stays cancelled even if the gateway restarts before all child tasks have terminated.
 
 ## CLI commands
 
 ```bash
 # List active and recent flows
-openclaw tasks flow list [--status <status>] [--json]
+openagent tasks flow list [--status <status>] [--json]
 
 # Show details for a specific flow
-openclaw tasks flow show <lookup> [--json]
+openagent tasks flow show <lookup> [--json]
 
 # Cancel a running flow and its active tasks
-openclaw tasks flow cancel <lookup>
+openagent tasks flow cancel <lookup>
 ```
 
-| Command                           | Description                                                             |
-| --------------------------------- | ----------------------------------------------------------------------- |
-| `openclaw tasks flow list`        | Tracked flows with sync mode, status, revision, controller, task counts |
-| `openclaw tasks flow show <id>`   | Inspect one flow by flow id or owner key, including linked tasks        |
-| `openclaw tasks flow cancel <id>` | Cancel a running flow and its active tasks                              |
+| Command                            | Description                                                             |
+| ---------------------------------- | ----------------------------------------------------------------------- |
+| `openagent tasks flow list`        | Tracked flows with sync mode, status, revision, controller, task counts |
+| `openagent tasks flow show <id>`   | Inspect one flow by flow id or owner key, including linked tasks        |
+| `openagent tasks flow cancel <id>` | Cancel a running flow and its active tasks                              |
 
-Flows are also covered by `openclaw tasks audit` (stale or broken flow findings) and `openclaw tasks maintenance` (finalizes stuck cancels, prunes terminal flows after 7 days).
+Flows are also covered by `openagent tasks audit` (stale or broken flow findings) and `openagent tasks maintenance` (finalizes stuck cancels, prunes terminal flows after 7 days).
 
 ## Reliable scheduled workflow pattern
 
@@ -102,10 +102,10 @@ For recurring workflows such as market intelligence briefings, treat the schedul
 2. Use a persistent automation session when the workflow should build on prior context.
 3. Use Task Flow to track the multi-step run across child tasks, waits, retries, and gateway restarts.
 
-Example automation job (`openclaw automations`; `openclaw cron` remains an alias):
+Example automation job (`openagent automations`; `openagent cron` remains an alias):
 
 ```bash
-openclaw automations add \
+openagent automations add \
   --name "Market intelligence brief" \
   --cron "0 7 * * 1-5" \
   --tz "America/New_York" \
@@ -148,12 +148,12 @@ For reusable team or community workflows, package the CLI and any setup notes as
 
 ## How flows relate to tasks
 
-Flows coordinate tasks, not replace them. A single flow may drive multiple background tasks over its lifetime. Use `openclaw tasks` to inspect individual task records and `openclaw tasks flow` to inspect the orchestrating flow.
+Flows coordinate tasks, not replace them. A single flow may drive multiple background tasks over its lifetime. Use `openagent tasks` to inspect individual task records and `openagent tasks flow` to inspect the orchestrating flow.
 
 ## Related
 
 - [Background Tasks](/automation/tasks) - the detached work ledger that flows coordinate
-- [CLI: tasks](/cli/tasks) - CLI command reference for `openclaw tasks flow`
+- [CLI: tasks](/cli/tasks) - CLI command reference for `openagent tasks flow`
 - [Automation Overview](/automation) - all automation mechanisms at a glance
 - [Automations](/automation/cron-jobs) - scheduled jobs that may feed into flows
 - [Goal](/tools/goal) - durable per-session objectives and the `/goal` controls

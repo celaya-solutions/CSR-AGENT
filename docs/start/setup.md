@@ -16,7 +16,7 @@ For onboarding details, see [Onboarding (CLI)](/start/wizard).
 Pick a setup workflow based on how often you want updates and whether you want to run the Gateway yourself:
 
 - **Tailoring lives outside the repo:** keep your config and workspace in `~/.openclaw/openclaw.json` and `~/.openclaw/workspace/` so repo updates don't touch them.
-- **Stable workflow (recommended for most):** build the checkout and install the Gateway service with `pnpm openclaw onboard --install-daemon`.
+- **Stable workflow (recommended for most):** build the checkout and install the Gateway service with `pnpm openagent onboard --install-daemon`.
 - **Bleeding edge workflow (dev):** run the Gateway yourself via `pnpm gateway:watch` for hot reload.
 
 ## Prereqs (from source)
@@ -50,16 +50,16 @@ If you want "100% tailored to me" _and_ easy updates, keep your customization in
 Bootstrap the config/workspace folders once, without running the full onboarding wizard:
 
 ```bash
-openclaw setup --baseline
+openagent setup --baseline
 ```
 
 No global install yet? Run it from this repo instead:
 
 ```bash
-pnpm openclaw setup --baseline
+pnpm openagent setup --baseline
 ```
 
-(Bare `openclaw setup`, without `--baseline`, opens an interactive OpenAgent chat on a configured system and falls through to guided onboarding on a fresh one. See [Setup CLI](/cli/setup) for the full routing order.)
+(Bare `openagent setup`, without `--baseline`, opens an interactive OpenAgent chat on a configured system and falls through to guided onboarding on a fresh one. See [Setup CLI](/cli/setup) for the full routing order.)
 
 ## Run the Gateway from this repo
 
@@ -78,7 +78,7 @@ Goal: work on the TypeScript Gateway and get hot reload.
 ```bash
 pnpm install
 # First run only (or after resetting local OpenAgent config/workspace)
-pnpm openclaw setup
+pnpm openagent setup
 pnpm gateway:watch
 ```
 
@@ -93,20 +93,20 @@ What `gateway:watch` does:
 - It stops the active profile's installed Gateway service before it takes over
   that service's configured or default port. This prevents the service
   supervisor from replacing the source process. The service stays installed.
-  Run `pnpm openclaw gateway start` when you finish watching.
+  Run `pnpm openagent gateway start` when you finish watching.
 - The tmux pane remains available after a startup failure, so another terminal
   or agent can attach to it or capture its logs.
 - It reloads on relevant source, config, and bundled-plugin metadata changes.
 - If the watched Gateway exits during startup, `gateway:watch` runs
-  `openclaw doctor --fix --non-interactive` once and retries. Set
+  `openagent doctor --fix --non-interactive` once and retries. Set
   `OPENCLAW_GATEWAY_WATCH_AUTO_DOCTOR=0` to disable that dev-only repair pass.
 
-TypeScript rebuilds triggered by `pnpm openclaw ...` or `pnpm gateway:watch` preserve existing `dist/control-ui` assets. When the Gateway starts, it rebuilds missing, incomplete, or stale bundled UI assets before serving them. Headless commands do not rebuild the UI. Run `pnpm ui:build` after `ui/` changes, or use `pnpm ui:dev` while developing the Control UI.
+TypeScript rebuilds triggered by `pnpm openagent ...` or `pnpm gateway:watch` preserve existing `dist/control-ui` assets. When the Gateway starts, it rebuilds missing, incomplete, or stale bundled UI assets before serving them. Headless commands do not rebuild the UI. Run `pnpm ui:build` after `ui/` changes, or use `pnpm ui:dev` while developing the Control UI.
 
 ### 2) Verify
 
 ```bash
-openclaw health
+openagent health
 ```
 
 ### Common footguns

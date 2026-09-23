@@ -158,7 +158,7 @@ Session-backed music generation runs as a background task:
   `music_generate` calls in the same session return task status instead of
   starting another generation. Use `action: "status"` to check explicitly.
   A recently completed matching request is also deduplicated for 2 minutes.
-- **Status lookup:** `openclaw tasks list` or `openclaw tasks show <taskId>`
+- **Status lookup:** `openagent tasks list` or `openagent tasks show <taskId>`
   inspects queued, running, and terminal status.
 - **Completion wake:** OpenAgent injects an internal completion event back
   into the same session so the model can write the user-facing follow-up
@@ -186,9 +186,9 @@ move through:
 Check status from the CLI:
 
 ```bash
-openclaw tasks list
-openclaw tasks show <taskId>
-openclaw tasks cancel <taskId>
+openagent tasks list
+openagent tasks show <taskId>
+openagent tasks cancel <taskId>
 ```
 
 ## Configuration

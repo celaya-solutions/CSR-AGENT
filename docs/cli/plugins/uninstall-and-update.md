@@ -19,10 +19,10 @@ installation sources and Gateway-host path requirements.
 ## Uninstall
 
 ```bash
-openclaw plugins uninstall <id>
-openclaw plugins uninstall <id> --dry-run
-openclaw plugins uninstall <id> --keep-files
-openclaw plugins uninstall <id> --force
+openagent plugins uninstall <id>
+openagent plugins uninstall <id> --dry-run
+openagent plugins uninstall <id> --keep-files
+openagent plugins uninstall <id> --force
 ```
 
 `uninstall` removes plugin settings from `plugins.entries`, the persisted plugin index, plugin allow/deny list entries, and any `plugins.load.paths` entry that exactly resolves to the recorded install path. It leaves only an exact `enabled: false` entry for each removed plugin id. This marker records the explicit uninstall choice so remaining model, provider, or channel selections do not automatically reinstall the package during startup repair. Reinstalling does not silently re-enable it; enabling the plugin again replaces the marker. For a package with multiple child entries, any child id resolves to the package owner; uninstall removes every sibling's policy and slot/channel references, the one package install record, and the managed directory once. Linked path installs also remove an exact entry for their recorded source path. Parent directories, child paths, prefix matches, and unrelated load paths are preserved. Unless `--keep-files` is set, uninstall also removes the tracked managed install directory, but only when it resolves inside OpenAgent's plugin extensions root. If the plugin currently owns the `memory` or `contextEngine` slot, that slot resets to its default (`memory-core` for memory, `legacy` for context engine).
@@ -33,7 +33,7 @@ Matching load-path references are removed before package files so symlink aliase
 
 If a tracked package has no discovered plugin entries, uninstall can remove its exact install record and same-owner policy, including owner-keyed channel config that no other discovered plugin claims. This recovery is allowed only when no other install record shares its package path and no discovered plugin matches its id or recorded paths. Unrelated policy remains unchanged. Registry refresh rebuilds discovery metadata; it does not remove these orphan install records.
 
-Discovered packages with missing, ambiguous, or conflicting ownership still fail closed without changing package files, config, or the installed index. Run `openclaw plugins registry --refresh`, inspect `openclaw plugins doctor`, and use `openclaw doctor --fix` for repairable legacy index state. If ownership is still ambiguous, reinstall the package before retrying update or uninstall.
+Discovered packages with missing, ambiguous, or conflicting ownership still fail closed without changing package files, config, or the installed index. Run `openagent plugins registry --refresh`, inspect `openagent plugins doctor`, and use `openagent doctor --fix` for repairable legacy index state. If ownership is still ambiguous, reinstall the package before retrying update or uninstall.
 
 <Note>
 `--keep-config` is supported as a deprecated alias for `--keep-files`.
@@ -42,11 +42,11 @@ Discovered packages with missing, ambiguous, or conflicting ownership still fail
 ## Update
 
 ```bash
-openclaw plugins update <id-or-npm-spec>
-openclaw plugins update --all
-openclaw plugins update <id-or-npm-spec> --dry-run
-openclaw plugins update @acme/demo
-openclaw plugins update openclaw-codex-app-server --acknowledge-install-policy-warning
+openagent plugins update <id-or-npm-spec>
+openagent plugins update --all
+openagent plugins update <id-or-npm-spec> --dry-run
+openagent plugins update @acme/demo
+openagent plugins update openclaw-codex-app-server --acknowledge-install-policy-warning
 ```
 
 Updates apply to tracked plugin installs in the managed plugin index and tracked hook-pack installs in shared SQLite state. They reuse the source that the user already chose when installing the plugin, so they do not require a second source acknowledgement.
@@ -55,7 +55,7 @@ If update finalization fails, the error reports the original cause first and ret
 
 On source installations, a selected plugin built with the host stays in use. Named updates, `--all`, and stable/beta core updates report why the registry copy was not admitted and leave its dormant install record unchanged. Package ownership checks still apply to plugins being updated; explicit plugin paths retain their selection priority.
 
-`update --all` reports and skips orphaned path-source install records so remaining plugins can update. Remove an orphan record with `openclaw plugins uninstall <id>` when its files are no longer needed.
+`update --all` reports and skips orphaned path-source install records so remaining plugins can update. Remove an orphan record with `openagent plugins uninstall <id>` when its files are no longer needed.
 
 <AccordionGroup>
   <Accordion title="Resolving plugin id vs npm spec">
@@ -67,7 +67,7 @@ On source installations, a selected plugin built with the host stays in use. Nam
 
     An explicit npm version or tag supplied in the current command remains authoritative. Newer release pins, independently versioned packages, third-party packages, local, Git, marketplace, and custom ClawHub sources keep their existing selectors. An npm registry mirror stays in use while eligible official npm packages receive recovery. If a retained pin has a newer available release, OpenAgent prints an explicit replacement command. ClawHub selector replacement uses `plugins install clawhub:<package> --force` because `plugins update` accepts explicit selector overrides only for npm records.
 
-    Older official-plugin syncs could save an exact version without a user request. Those records do not distinguish automatic pins from manual ones, so qualifying older OpenAgent release pins resume automatic updates in both cases. The same recovery applies to targeted updates, `--all`, `openclaw update`, and `openclaw update repair`. A failed replacement keeps the previous install record for retry.
+    Older official-plugin syncs could save an exact version without a user request. Those records do not distinguish automatic pins from manual ones, so qualifying older OpenAgent release pins resume automatic updates in both cases. The same recovery applies to targeted updates, `--all`, `openagent update`, and `openagent update repair`. A failed replacement keeps the previous install record for retry.
 
     For npm installs, you can also pass an explicit npm package spec with a dist-tag or exact version. OpenAgent resolves that package name back to the tracked plugin record, updates that installed plugin, and records the new npm spec for future id-based updates.
 
@@ -75,18 +75,18 @@ On source installations, a selected plugin built with the host stays in use. Nam
 
   </Accordion>
   <Accordion title="Beta channel updates">
-    Targeted `openclaw plugins update <id-or-npm-spec>` uses the configured update channel when present. Otherwise, recognized official plugins inherit OpenAgent's registry channel. Bulk `openclaw plugins update --all` uses the same registry-channel resolver for official plugins. Moving selectors remain moving even when the downloaded artifact has an exact version; recovered OpenAgent release pins follow that same policy.
+    Targeted `openagent plugins update <id-or-npm-spec>` uses the configured update channel when present. Otherwise, recognized official plugins inherit OpenAgent's registry channel. Bulk `openagent plugins update --all` uses the same registry-channel resolver for official plugins. Moving selectors remain moving even when the downloaded artifact has an exact version; recovered OpenAgent release pins follow that same policy.
 
-    `openclaw update` resolves plugin targets from the newly installed core. npm updates on the beta channel select the newer of the package's `beta` and `latest` releases; ClawHub default-line updates try `@beta` and can fall back to the recorded default/latest selector when that release is unavailable. Integrity, compatibility, trust, install-policy, and capability-consent failures do not trigger source fallback. An unavailable plugin update leaves a notice without failing an otherwise successful core update. Explicit selectors retain their meaning, with the managed OpenAgent release-pin recovery described above.
+    `openagent update` resolves plugin targets from the newly installed core. npm updates on the beta channel select the newer of the package's `beta` and `latest` releases; ClawHub default-line updates try `@beta` and can fall back to the recorded default/latest selector when that release is unavailable. Integrity, compatibility, trust, install-policy, and capability-consent failures do not trigger source fallback. An unavailable plugin update leaves a notice without failing an otherwise successful core update. Explicit selectors retain their meaning, with the managed OpenAgent release-pin recovery described above.
 
   </Accordion>
   <Accordion title="Existing plugin source choices">
-    Updates retain the recorded npm or ClawHub source. Older install records do not distinguish automatic ClawHub selection from an explicit `clawhub:` request, so OpenAgent does not silently switch those records to npm. To change an existing plugin deliberately, review and run `openclaw plugins install npm:<package> --force`. Automatic externalization of an image-owned bundled plugin uses npm first and its declared ClawHub source second.
+    Updates retain the recorded npm or ClawHub source. Older install records do not distinguish automatic ClawHub selection from an explicit `clawhub:` request, so OpenAgent does not silently switch those records to npm. To change an existing plugin deliberately, review and run `openagent plugins install npm:<package> --force`. Automatic externalization of an image-owned bundled plugin uses npm first and its declared ClawHub source second.
   </Accordion>
   <Accordion title="Version checks and integrity drift">
     Before a live npm update, OpenAgent checks the installed package version against the npm registry metadata. If the installed version and recorded artifact identity already match the resolved target, it avoids downloading or reinstalling. A requested selector change or managed release-pin recovery can still update the plugin index without rewriting `openclaw.json`.
 
-    When a stored integrity hash exists and the fetched artifact hash changes, OpenAgent treats that as npm artifact drift. The interactive `openclaw plugins update` command prints the expected and actual hashes and asks for confirmation before proceeding. Non-interactive update helpers fail closed unless the caller supplies an explicit continuation policy.
+    When a stored integrity hash exists and the fetched artifact hash changes, OpenAgent treats that as npm artifact drift. The interactive `openagent plugins update` command prints the expected and actual hashes and asks for confirmation before proceeding. Non-interactive update helpers fail closed unless the caller supplies an explicit continuation policy.
 
   </Accordion>
   <Accordion title="--acknowledge-install-policy-warning on update">
@@ -100,8 +100,8 @@ On source installations, a selected plugin built with the host stays in use. Nam
 ## Reload
 
 ```bash
-openclaw plugins reload <plugin-id>
-openclaw plugins reload <plugin-id> --json
+openagent plugins reload <plugin-id>
+openagent plugins reload <plugin-id> --json
 ```
 
 Reload a discovered plugin after editing its TypeScript source, imported helpers,

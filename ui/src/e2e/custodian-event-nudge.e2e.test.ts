@@ -179,7 +179,7 @@ suite.define(() => {
         await gateway.rejectDeferred("openclaw.chat", {
           code: "UNAVAILABLE",
           message:
-            "OpenAgent requires working inference: No agent model is configured. Run `openclaw onboard` first.",
+            "OpenAgent requires working inference: No agent model is configured. Run `openagent onboard` first.",
           retryable: true,
         });
 

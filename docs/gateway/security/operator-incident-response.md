@@ -12,7 +12,7 @@ sidebarTitle: "Incident response"
 
 ### Contain
 
-1. Stop it: stop the Gateway service (`openclaw gateway stop`) or terminate your `openclaw gateway` process.
+1. Stop it: stop the Gateway service (`openagent gateway stop`) or terminate your `openagent gateway` process.
 2. Close exposure: set `gateway.bind: "loopback"` (or disable Tailscale Funnel/Serve) until you understand what happened.
 3. Freeze access: switch risky DMs/groups to `dmPolicy: "disabled"` / require mentions, and remove any `"*"` allow-all entries.
 
@@ -24,10 +24,10 @@ sidebarTitle: "Incident response"
 
 ### Audit
 
-1. Check Gateway logs with `openclaw logs` (or `openclaw --profile <profile> logs` for a named profile). The default path is `/tmp/openclaw/openclaw-YYYY-MM-DD.log`; named profiles use `/tmp/openclaw/openclaw-<profile>-YYYY-MM-DD.log`, unless `logging.file` overrides it.
+1. Check Gateway logs with `openagent logs` (or `openagent --profile <profile> logs` for a named profile). The default path is `/tmp/openclaw/openclaw-YYYY-MM-DD.log`; named profiles use `/tmp/openclaw/openclaw-<profile>-YYYY-MM-DD.log`, unless `logging.file` overrides it.
 2. Review the relevant transcript(s): `~/.openclaw/agents/<agentId>/sessions/*.jsonl`.
 3. Review recent config changes that could have widened access: `gateway.bind`, `gateway.auth`, DM/group policies, `tools.elevated`, plugin changes.
-4. Re-run `openclaw security audit --deep` and confirm critical findings are resolved.
+4. Re-run `openagent security audit --deep` and confirm critical findings are resolved.
 
 ### Collect for a report
 

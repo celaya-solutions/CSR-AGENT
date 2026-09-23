@@ -72,7 +72,7 @@ The `models` root also owns global model-catalog behavior.
   always wins.
 
 Pricing updates ship in the same hosted catalog file as model metadata. The
-retired `models.pricing` toggle is removed automatically by `openclaw doctor
+retired `models.pricing` toggle is removed automatically by `openagent doctor
 --fix`; use `models.catalogRefresh.enabled: false` when OpenAgent must avoid all
 hosted catalog traffic.
 
@@ -108,7 +108,7 @@ hosted catalog traffic.
 
 Setting `discovery.wideArea.domain` enables wide-area discovery and writes a unicast DNS-SD zone under `~/.openclaw/dns/`. For cross-network discovery, pair with a DNS server (CoreDNS recommended) + Tailscale split DNS.
 
-Setup: `openclaw dns setup --apply`.
+Setup: `openagent dns setup --apply`.
 
 ---
 
@@ -193,7 +193,7 @@ Behavior and metadata for CLI guided setup flows (`onboard`, `configure`, `docto
 
 ## Bridge (legacy, removed)
 
-Current builds no longer include the TCP bridge. Nodes connect over the Gateway WebSocket. `bridge.*` keys are no longer part of the config schema (validation fails until removed; `openclaw doctor --fix` can strip unknown keys).
+Current builds no longer include the TCP bridge. Nodes connect over the Gateway WebSocket. `bridge.*` keys are no longer part of the config schema (validation fails until removed; `openagent doctor --fix` can strip unknown keys).
 
 <Accordion title="Legacy bridge config (historical reference)">
 

@@ -1,14 +1,14 @@
 ---
-summary: "CLI reference for `openclaw tasks` (background task ledger and Task Flow state)"
+summary: "CLI reference for `openagent tasks` (background task ledger and Task Flow state)"
 read_when:
   - You want to inspect, audit, or cancel background task records
-  - You are documenting Task Flow commands under `openclaw tasks flow`
+  - You are documenting Task Flow commands under `openagent tasks flow`
 title: "Tasks"
 doc-schema-version: 1
 ---
 
 Inspect durable background tasks and Task Flow state. With no subcommand,
-`openclaw tasks` is equivalent to `openclaw tasks list`.
+`openagent tasks` is equivalent to `openagent tasks list`.
 
 See [Background Tasks](/automation/tasks) for the lifecycle and delivery
 model, and its `tasks audit` section for full finding descriptions.
@@ -16,22 +16,22 @@ model, and its `tasks audit` section for full finding descriptions.
 ## Usage
 
 ```bash
-openclaw tasks
-openclaw tasks list
-openclaw tasks list --runtime acp
-openclaw tasks list --status running
-openclaw tasks list --status blocked
-openclaw tasks show <lookup>
-openclaw tasks notify <lookup> state_changes
-openclaw tasks cancel <lookup>
-openclaw tasks retry <lookup> [lookup...]
-openclaw tasks dismiss <lookup> [lookup...]
-openclaw tasks audit
-openclaw tasks maintenance
-openclaw tasks maintenance --apply
-openclaw tasks flow list
-openclaw tasks flow show <lookup>
-openclaw tasks flow cancel <lookup>
+openagent tasks
+openagent tasks list
+openagent tasks list --runtime acp
+openagent tasks list --status running
+openagent tasks list --status blocked
+openagent tasks show <lookup>
+openagent tasks notify <lookup> state_changes
+openagent tasks cancel <lookup>
+openagent tasks retry <lookup> [lookup...]
+openagent tasks dismiss <lookup> [lookup...]
+openagent tasks audit
+openagent tasks maintenance
+openagent tasks maintenance --apply
+openagent tasks flow list
+openagent tasks flow show <lookup>
+openagent tasks flow cancel <lookup>
 ```
 
 ## Root Options
@@ -47,7 +47,7 @@ openclaw tasks flow cancel <lookup>
 ### `list`
 
 ```bash
-openclaw tasks list [--runtime <name>] [--status <name>] [--json]
+openagent tasks list [--runtime <name>] [--status <name>] [--json]
 ```
 
 Lists tracked background tasks newest first.
@@ -60,7 +60,7 @@ These tasks retain their stored `succeeded` status and also remain included in
 ### `show`
 
 ```bash
-openclaw tasks show <lookup> [--json]
+openagent tasks show <lookup> [--json]
 ```
 
 Shows one task by task ID, run ID, or session key.
@@ -68,7 +68,7 @@ Shows one task by task ID, run ID, or session key.
 ### `notify`
 
 ```bash
-openclaw tasks notify <lookup> <done_only|state_changes|silent>
+openagent tasks notify <lookup> <done_only|state_changes|silent>
 ```
 
 Changes the notification policy for a running task.
@@ -76,7 +76,7 @@ Changes the notification policy for a running task.
 ### `cancel`
 
 ```bash
-openclaw tasks cancel <lookup>
+openagent tasks cancel <lookup>
 ```
 
 Cancels a running background task.
@@ -84,7 +84,7 @@ Cancels a running background task.
 ### `retry`
 
 ```bash
-openclaw tasks retry <lookup> [lookup...]
+openagent tasks retry <lookup> [lookup...]
 ```
 
 Retries 1-10 blocked subagent completion deliveries. The child execution stays
@@ -102,7 +102,7 @@ cannot be recovered by guessing from a shared session.
 ### `dismiss`
 
 ```bash
-openclaw tasks dismiss <lookup> [lookup...]
+openagent tasks dismiss <lookup> [lookup...]
 ```
 
 Records intentional non-delivery for 1-10 blocked subagent completions. The task
@@ -112,7 +112,7 @@ continues to show a blocked terminal outcome and retains its result until the
 ### `audit`
 
 ```bash
-openclaw tasks audit [--severity <warn|error>] [--code <name>] [--limit <n>] [--json]
+openagent tasks audit [--severity <warn|error>] [--code <name>] [--limit <n>] [--json]
 ```
 
 Surfaces stale, lost, delivery-failed, or otherwise inconsistent task and
@@ -129,7 +129,7 @@ code.
 ### `maintenance`
 
 ```bash
-openclaw tasks maintenance [--apply] [--json]
+openagent tasks maintenance [--apply] [--json]
 ```
 
 Previews or applies task and Task Flow reconciliation, cleanup stamping,
@@ -151,9 +151,9 @@ jobs and leaving non-cron session rows untouched.
 ### `flow`
 
 ```bash
-openclaw tasks flow list [--status <name>] [--json]
-openclaw tasks flow show <lookup> [--json]
-openclaw tasks flow cancel <lookup>
+openagent tasks flow list [--status <name>] [--json]
+openagent tasks flow show <lookup> [--json]
+openagent tasks flow cancel <lookup>
 ```
 
 Inspects or cancels durable Task Flow state under the task ledger. There is no

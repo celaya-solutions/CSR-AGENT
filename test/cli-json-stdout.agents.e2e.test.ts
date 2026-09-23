@@ -10,45 +10,45 @@ describe("cli json stdout contract", () => {
       name: "add without an interactive terminal in human mode",
       args: ["agents", "add", "work"],
       message:
-        "Agent creation needs an interactive TTY. Use `openclaw agents add <id> --non-interactive --workspace <dir>` for automation.",
+        "Agent creation needs an interactive TTY. Use `openagent agents add <id> --non-interactive --workspace <dir>` for automation.",
       human: true,
     },
     {
       name: "add without an interactive terminal in JSON wizard mode",
       args: ["agents", "add", "work", "--json"],
       message:
-        "Agent creation needs an interactive TTY. Use `openclaw agents add <id> --non-interactive --workspace <dir>` for automation.",
+        "Agent creation needs an interactive TTY. Use `openagent agents add <id> --non-interactive --workspace <dir>` for automation.",
     },
     {
       name: "add without a workspace in human mode",
       args: ["agents", "add", "work", "--non-interactive"],
       message:
-        "Non-interactive agent creation requires --workspace. Re-run openclaw agents add <id> --workspace <path> or omit flags to use the wizard.",
+        "Non-interactive agent creation requires --workspace. Re-run openagent agents add <id> --workspace <path> or omit flags to use the wizard.",
       human: true,
     },
     {
       name: "add without a workspace in explicit non-interactive mode",
       args: ["agents", "add", "work", "--non-interactive", "--json"],
       message:
-        "Non-interactive agent creation requires --workspace. Re-run openclaw agents add <id> --workspace <path> or omit flags to use the wizard.",
+        "Non-interactive agent creation requires --workspace. Re-run openagent agents add <id> --workspace <path> or omit flags to use the wizard.",
     },
     {
       name: "add without a workspace when a model selects automation",
       args: ["agents", "add", "work", "--model", "openai/gpt-5.6-luna", "--json"],
       message:
-        "Non-interactive agent creation requires --workspace. Re-run openclaw agents add <id> --workspace <path> or omit flags to use the wizard.",
+        "Non-interactive agent creation requires --workspace. Re-run openagent agents add <id> --workspace <path> or omit flags to use the wizard.",
     },
     {
       name: "add without a workspace before its missing name",
       args: ["agents", "add", "--non-interactive", "--json"],
       message:
-        "Non-interactive agent creation requires --workspace. Re-run openclaw agents add <id> --workspace <path> or omit flags to use the wizard.",
+        "Non-interactive agent creation requires --workspace. Re-run openagent agents add <id> --workspace <path> or omit flags to use the wizard.",
     },
     {
       name: "add without a name after a valid workspace",
       args: ["agents", "add", "--workspace", "$WORKSPACE", "--json"],
       message:
-        "Agent name is required in non-interactive mode. Run openclaw agents add <id> --workspace <path>.",
+        "Agent name is required in non-interactive mode. Run openagent agents add <id> --workspace <path>.",
     },
     {
       name: "add with an invalid agent id",
@@ -59,7 +59,7 @@ describe("cli json stdout contract", () => {
     ...["openclaw", "crestodian"].map((agentId) => ({
       name: `add with reserved system-agent id ${agentId}`,
       args: ["agents", "add", agentId, "--workspace", "$WORKSPACE", "--json"],
-      message: `"${agentId}" is reserved. Choose another name, or run openclaw agents list to inspect configured agents.`,
+      message: `"${agentId}" is reserved. Choose another name, or run openagent agents list to inspect configured agents.`,
     })),
     {
       name: "add with an already-configured agent",
@@ -104,7 +104,7 @@ describe("cli json stdout contract", () => {
         "--json",
       ],
       message:
-        'Unknown channel "definitely-not-a-channel". Run `openclaw channels list --all` to see configured and installable channels.',
+        'Unknown channel "definitely-not-a-channel". Run `openagent channels list --all` to see configured and installable channels.',
     },
     {
       name: "add with a normalized id before a malformed binding",
@@ -116,7 +116,7 @@ describe("cli json stdout contract", () => {
       name: "add without a workspace through dual-TTY finalization",
       args: ["agents", "add", "work", "--non-interactive", "--json"],
       message:
-        "Non-interactive agent creation requires --workspace. Re-run openclaw agents add <id> --workspace <path> or omit flags to use the wizard.",
+        "Non-interactive agent creation requires --workspace. Re-run openagent agents add <id> --workspace <path> or omit flags to use the wizard.",
       tty: true,
     },
     {
@@ -129,22 +129,22 @@ describe("cli json stdout contract", () => {
     {
       name: "bindings with an invalid agent",
       args: ["agents", "bindings", "--agent", "агент✨", "--json"],
-      message: 'Agent "агент✨" not found. Run openclaw agents list to see configured agents.',
+      message: 'Agent "агент✨" not found. Run openagent agents list to see configured agents.',
     },
     {
       name: "bindings with an unknown agent",
       args: ["agents", "bindings", "--json", "--agent", "ghost"],
-      message: 'Agent "ghost" not found. Run openclaw agents list to see configured agents.',
+      message: 'Agent "ghost" not found. Run openagent agents list to see configured agents.',
     },
     {
       name: "bind with an invalid agent",
       args: ["agents", "bind", "--agent", "агент✨", "--bind", "telegram", "--json"],
-      message: 'Agent "агент✨" not found. Run openclaw agents list to see configured agents.',
+      message: 'Agent "агент✨" not found. Run openagent agents list to see configured agents.',
     },
     {
       name: "bind with an unknown agent before missing bindings",
       args: ["agents", "bind", "--json", "--agent", "ghost"],
-      message: 'Agent "ghost" not found. Run openclaw agents list to see configured agents.',
+      message: 'Agent "ghost" not found. Run openagent agents list to see configured agents.',
     },
     {
       name: "bind without bindings",
@@ -168,17 +168,17 @@ describe("cli json stdout contract", () => {
       name: "bind with an unknown channel",
       args: ["agents", "bind", "--json", "--bind", "definitely-not-a-channel"],
       message:
-        'Unknown channel "definitely-not-a-channel". Run `openclaw channels list --all` to see configured and installable channels.',
+        'Unknown channel "definitely-not-a-channel". Run `openagent channels list --all` to see configured and installable channels.',
     },
     {
       name: "unbind with an invalid agent",
       args: ["agents", "unbind", "--agent", "агент✨", "--all", "--json"],
-      message: 'Agent "агент✨" not found. Run openclaw agents list to see configured agents.',
+      message: 'Agent "агент✨" not found. Run openagent agents list to see configured agents.',
     },
     {
       name: "unbind with an unknown agent before incompatible options",
       args: ["agents", "unbind", "--agent", "ghost", "--all", "--bind", "telegram", "--json"],
-      message: 'Agent "ghost" not found. Run openclaw agents list to see configured agents.',
+      message: 'Agent "ghost" not found. Run openagent agents list to see configured agents.',
     },
     {
       name: "unbind without bindings",
@@ -211,18 +211,18 @@ describe("cli json stdout contract", () => {
     {
       name: "set-identity with an unknown agent in human mode",
       args: ["agents", "set-identity", "--agent", "ghost", "--name", "Ghost"],
-      message: 'Agent "ghost" not found. Create it with `openclaw agents add`.',
+      message: 'Agent "ghost" not found. Create it with `openagent agents add`.',
       human: true,
     },
     {
       name: "set-identity with an unknown agent in JSON mode",
       args: ["agents", "set-identity", "--agent", "ghost", "--name", "Ghost", "--json"],
-      message: 'Agent "ghost" not found. Create it with `openclaw agents add`.',
+      message: 'Agent "ghost" not found. Create it with `openagent agents add`.',
     },
     {
       name: "set-identity with an invalid agent before identity-file resolution",
       args: ["agents", "set-identity", "--agent", "агент✨", "--from-identity", "--json"],
-      message: 'Agent "агент✨" not found. Create it with `openclaw agents add`.',
+      message: 'Agent "агент✨" not found. Create it with `openagent agents add`.',
     },
     {
       name: "set-identity with an unmatched workspace",
@@ -259,7 +259,7 @@ describe("cli json stdout contract", () => {
     {
       name: "set-identity with an unknown agent through dual-TTY finalization",
       args: ["agents", "set-identity", "--agent", "ghost", "--name", "Ghost", "--json"],
-      message: 'Agent "ghost" not found. Create it with `openclaw agents add`.',
+      message: 'Agent "ghost" not found. Create it with `openagent agents add`.',
       tty: true,
     },
   ])("renders agent management $name through the canonical failure owner", async (testCase) => {
@@ -329,7 +329,7 @@ describe("cli json stdout contract", () => {
           ok: false,
           error: {
             type: "cli_error",
-            message: 'Agent "ghost" not found. Create it with `openclaw agents add`.',
+            message: 'Agent "ghost" not found. Create it with `openagent agents add`.',
           },
         });
         await expect(fs.readFile(configPath, "utf8")).resolves.toBe(originalConfig);

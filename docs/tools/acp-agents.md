@@ -25,17 +25,17 @@ and `sessions_spawn({ runtime: "acp" })` sessions.
 
 To let Codex or Claude Code connect as an external MCP client directly to
 existing OpenAgent channel conversations, use
-[`openclaw mcp serve`](/cli/mcp) instead of ACP.
+[`openagent mcp serve`](/cli/mcp) instead of ACP.
 </Note>
 
 ## Which page do I want?
 
-| You want to...                                                                                       | Use this                              | Notes                                                                                                                                                                       |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Bind or control Codex in the current conversation                                                    | `/codex bind`, `/codex threads`       | Native Codex app-server path when the `codex` plugin is enabled: bound chat replies, image forwarding, model/fast/permissions, stop, and steer. ACP is an explicit fallback |
+| You want to...                                                                                   | Use this                              | Notes                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Bind or control Codex in the current conversation                                                | `/codex bind`, `/codex threads`       | Native Codex app-server path when the `codex` plugin is enabled: bound chat replies, image forwarding, model/fast/permissions, stop, and steer. ACP is an explicit fallback |
 | Run Claude Code, Gemini CLI, explicit Codex ACP, or another external harness _through_ OpenAgent | This page                             | Chat-bound sessions, `/acp spawn`, `sessions_spawn({ runtime: "acp" })`, background tasks, runtime controls                                                                 |
-| Expose an OpenAgent Gateway session _as_ an ACP server for an editor or client                    | [`openclaw acp`](/cli/acp)            | Bridge mode: an IDE/client speaks ACP to OpenAgent over stdio/WebSocket                                                                                                 |
-| Reuse a local AI CLI as a text-only fallback model                                                   | [CLI Backends](/gateway/cli-backends) | Not ACP: no OpenAgent tools, no ACP controls, no harness runtime                                                                                                        |
+| Expose an OpenAgent Gateway session _as_ an ACP server for an editor or client                   | [`openagent acp`](/cli/acp)           | Bridge mode: an IDE/client speaks ACP to OpenAgent over stdio/WebSocket                                                                                                     |
+| Reuse a local AI CLI as a text-only fallback model                                               | [CLI Backends](/gateway/cli-backends) | Not ACP: no OpenAgent tools, no ACP controls, no harness runtime                                                                                                            |
 
 ## ACP agents documentation pages
 
@@ -58,12 +58,12 @@ Use ACP when you want an external harness runtime. Use **native Codex
 app-server** for Codex conversation binding/control when the `codex` plugin
 is enabled. Use **sub-agents** when you want OpenAgent-native delegated runs.
 
-| Area          | ACP session                           | Sub-agent run                          |
-| ------------- | ------------------------------------- | -------------------------------------- |
+| Area          | ACP session                           | Sub-agent run                      |
+| ------------- | ------------------------------------- | ---------------------------------- |
 | Runtime       | ACP backend plugin (for example acpx) | OpenAgent native sub-agent runtime |
-| Session key   | `agent:<agentId>:acp:<uuid>`          | `agent:<agentId>:subagent:<uuid>`      |
-| Main commands | `/acp ...`                            | `/subagents ...`                       |
-| Spawn tool    | `sessions_spawn` with `runtime:"acp"` | `sessions_spawn` (default runtime)     |
+| Session key   | `agent:<agentId>:acp:<uuid>`          | `agent:<agentId>:subagent:<uuid>`  |
+| Main commands | `/acp ...`                            | `/subagents ...`                   |
+| Spawn tool    | `sessions_spawn` with `runtime:"acp"` | `sessions_spawn` (default runtime) |
 
 See also [Sub-agents](/tools/subagents).
 
@@ -172,6 +172,6 @@ still resolves. Each entry points at the page that now holds the content.
 - [Codex harness](/plugins/codex-harness)
 - [Codex harness runtime](/plugins/codex-harness-runtime)
 - [Multi-agent sandbox tools](/tools/multi-agent-sandbox-tools)
-- [`openclaw acp` (bridge mode)](/cli/acp)
+- [`openagent acp` (bridge mode)](/cli/acp)
 - [Sub-agents](/tools/subagents)
 - [Steer](/tools/steer) — redirect a running agent mid-task

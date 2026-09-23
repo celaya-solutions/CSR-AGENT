@@ -244,8 +244,8 @@ export async function executeSystemAgentOperation(
       runtime.log(
         [
           `Connecting ${operation.channel} needs an interactive session.`,
-          "Run `openclaw setup` and say `connect " + operation.channel + "`,",
-          "or run `openclaw channels add` for the terminal wizard.",
+          "Run `openagent setup` and say `connect " + operation.channel + "`,",
+          "or run `openagent channels add` for the terminal wizard.",
         ].join("\n"),
       );
       return { applied: false };
@@ -253,8 +253,8 @@ export async function executeSystemAgentOperation(
       runtime.log(
         [
           "Skills setup needs an interactive session.",
-          "Run `openclaw setup` and say `configure skills`,",
-          "or run `openclaw configure --section skills` for the terminal wizard.",
+          "Run `openagent setup` and say `configure skills`,",
+          "or run `openagent configure --section skills` for the terminal wizard.",
         ].join("\n"),
       );
       return { applied: false };
@@ -262,8 +262,8 @@ export async function executeSystemAgentOperation(
       runtime.log(
         [
           "Web search setup needs an interactive session.",
-          "Run `openclaw setup` and say `configure search`,",
-          "or run `openclaw configure --section web` for the masked terminal wizard.",
+          "Run `openagent setup` and say `configure search`,",
+          "or run `openagent configure --section web` for the masked terminal wizard.",
         ].join("\n"),
       );
       return { applied: false };
@@ -271,8 +271,8 @@ export async function executeSystemAgentOperation(
       runtime.log(
         [
           "Gateway configuration needs an interactive session.",
-          "Run `openclaw setup` and say `configure gateway`,",
-          "or run `openclaw configure --section gateway` for the masked terminal wizard.",
+          "Run `openagent setup` and say `configure gateway`,",
+          "or run `openagent configure --section gateway` for the masked terminal wizard.",
         ].join("\n"),
       );
       return { applied: false };
@@ -281,7 +281,7 @@ export async function executeSystemAgentOperation(
         [
           "Memory import needs an interactive session.",
           "Open the Memory page in the Control UI,",
-          "or run `openclaw onboard` for the terminal wizard.",
+          "or run `openagent onboard` for the terminal wizard.",
         ].join("\n"),
       );
       return { applied: false };
@@ -289,26 +289,26 @@ export async function executeSystemAgentOperation(
       runtime.log(
         [
           "Changing model providers must happen outside the inference session that powers OpenAgent.",
-          "Stop the OpenAgent host through whatever started it. Run `openclaw onboard` on the machine running OpenAgent: it stages credentials, live-tests the candidate route, and saves only a passing setup. Then restart the host.",
+          "Stop the OpenAgent host through whatever started it. Run `openagent onboard` on the machine running OpenAgent: it stages credentials, live-tests the candidate route, and saves only a passing setup. Then restart the host.",
         ].join("\n"),
       );
       return { applied: false };
     case "model-accounts":
       runtime.log(
-        "Manage your personal accounts in Settings → Profile → Connected accounts, or run `openclaw models accounts list` / `openclaw models accounts login <provider>`. Check the Gateway, person, and Personal scope before signing in. Nothing has changed. Enter credentials only in the protected sign-in controls, never in chat.",
+        "Manage your personal accounts in Settings → Profile → Connected accounts, or run `openagent models accounts list` / `openagent models accounts login <provider>`. Check the Gateway, person, and Personal scope before signing in. Nothing has changed. Enter credentials only in the protected sign-in controls, never in chat.",
       );
       return { applied: false };
     case "open-setup": {
       const command =
         operation.target === "guided"
-          ? "openclaw onboard"
+          ? "openagent onboard"
           : operation.target === "classic"
-            ? "openclaw onboard --classic"
+            ? "openagent onboard --classic"
             : operation.target === "channels"
-              ? `openclaw channels add${operation.channel ? ` --channel ${operation.channel}` : ""}`
+              ? `openagent channels add${operation.channel ? ` --channel ${operation.channel}` : ""}`
               : operation.target === "search"
-                ? "openclaw configure --section web"
-                : "openclaw configure --section gateway";
+                ? "openagent configure --section web"
+                : "openagent configure --section gateway";
       runtime.log(
         `This session cannot host an interactive wizard. Run \`${command}\` on the machine running OpenAgent.`,
       );
@@ -357,7 +357,7 @@ export async function executeSystemAgentOperation(
       if (await isPluginBackingDefaultInferenceRoute(operation.pluginId)) {
         const message = [
           `Uninstalling ${operation.pluginId} could remove the provider behind OpenAgent's own active inference route.`,
-          `Removing it has to happen with OpenAgent stopped: run \`openclaw plugins uninstall ${operation.pluginId}\` on the machine running it.`,
+          `Removing it has to happen with OpenAgent stopped: run \`openagent plugins uninstall ${operation.pluginId}\` on the machine running it.`,
         ].join("\n");
         runtime.log(message);
         return { applied: false, message };
@@ -384,7 +384,7 @@ export async function executeSystemAgentOperation(
           // command's asynchronous preparation starts.
           if (await isPluginBackingDefaultInferenceRoute(operation.pluginId)) {
             throw new Error(
-              `Uninstall aborted: ${operation.pluginId} now backs the active inference route. Removing it has to happen with OpenAgent stopped: run \`openclaw plugins uninstall ${operation.pluginId}\` on the machine running it.`,
+              `Uninstall aborted: ${operation.pluginId} now backs the active inference route. Removing it has to happen with OpenAgent stopped: run \`openagent plugins uninstall ${operation.pluginId}\` on the machine running it.`,
             );
           }
           await ctx.commit(() =>
@@ -511,7 +511,7 @@ export async function executeSystemAgentOperation(
     }
     case "doctor-fix":
       runtime.log(
-        "Doctor repairs can change the inference route that powers this session, so they run with OpenAgent stopped: `openclaw doctor --fix` on the machine running it.",
+        "Doctor repairs can change the inference route that powers this session, so they run with OpenAgent stopped: `openagent doctor --fix` on the machine running it.",
       );
       return { applied: false };
     case "status": {

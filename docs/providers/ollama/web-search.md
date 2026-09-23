@@ -17,7 +17,7 @@ OpenAgent bundles **Ollama Web Search** as a `web_search` provider.
 | Auth        | Key-free for a signed-in local host; `OLLAMA_API_KEY` or configured provider auth for direct `https://ollama.com` search or auth-protected hosts           |
 | Requirement | Local/self-hosted hosts must be running and signed in with `ollama signin`; direct hosted search needs `baseUrl: "https://ollama.com"` plus a real API key |
 
-Choose it during `openclaw onboard` or `openclaw configure --section web`, or set:
+Choose it during `openagent onboard` or `openagent configure --section web`, or set:
 
 ```json5
 {

@@ -168,7 +168,7 @@ export async function resolveAuthForTarget(
   };
 }
 
-/** Extracts the config fields displayed by `openclaw gateway status --deep`. */
+/** Extracts the config fields displayed by `openagent gateway status --deep`. */
 export function extractConfigSummary(snapshotUnknown: unknown) {
   const snap = snapshotUnknown as Partial<ConfigFileSnapshot> | null;
   const path = typeof snap?.path === "string" ? snap.path : null;

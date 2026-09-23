@@ -29,9 +29,9 @@ OpenAgent locates the Tailscale CLI automatically. It checks `tailscale` on `PAT
 Run these commands on the Gateway host:
 
 ```bash
-openclaw config set gateway.bind loopback
-openclaw config set gateway.tailscale.mode serve
-openclaw gateway restart
+openagent config set gateway.bind loopback
+openagent config set gateway.tailscale.mode serve
+openagent gateway restart
 ```
 
 The equivalent configuration is:
@@ -54,7 +54,7 @@ OpenAgent configures Tailscale to serve HTTPS on port `443` and proxy to a priva
 To explicitly allow Tailscale identity headers for Control UI WebSocket auth:
 
 ```bash
-openclaw config set gateway.auth.allowTailscale true
+openagent config set gateway.auth.allowTailscale true
 ```
 
 For Serve with token auth, OpenAgent enables this behavior by default unless you set it to `false`. Password and trusted-proxy modes keep their explicit auth boundary unless you opt in.

@@ -675,7 +675,7 @@ async function admitTriageScope() {
         readProcessStartIdentity(params.parentPid) !== params.parentStartIdentity)
   ) {
     throw new Error(
-      "automatic triage primary ownership changed before native admission; run openclaw triage manually",
+      "automatic triage primary ownership changed before native admission; run openagent triage manually",
     );
   }
   const scope = await inspectTriageScope();
@@ -726,7 +726,7 @@ async function enterTriageAfterUpdate(continuation) {
     params.serviceRecovery?.kind !== "systemd" ||
     typeof process.execve !== "function"
   ) {
-    appendLog("automatic triage continuation unavailable; run openclaw triage manually");
+    appendLog("automatic triage continuation unavailable; run openagent triage manually");
     return;
   }
   const primary = await inspectSystemdService(params.serviceRecovery.unit);
@@ -738,7 +738,7 @@ async function enterTriageAfterUpdate(continuation) {
     !ownsManagedUpdateLease()
   ) {
     appendLog(
-      "automatic triage could not verify the installed service after update restoration; run openclaw triage manually",
+      "automatic triage could not verify the installed service after update restoration; run openagent triage manually",
     );
     return;
   }
@@ -754,11 +754,11 @@ async function enterTriageAfterUpdate(continuation) {
   try {
     retargeted = leaseStore.retarget(managedUpdateLease, continuation.failure.installationRoot, action);
   } catch (error) {
-    appendLog("automatic triage destination admission failed: " + String(error) + "; run openclaw triage manually");
+    appendLog("automatic triage destination admission failed: " + String(error) + "; run openagent triage manually");
     return;
   }
   if (!retargeted) {
-    appendLog("automatic triage lost its completed update owner; run openclaw triage manually");
+    appendLog("automatic triage lost its completed update owner; run openagent triage manually");
     return;
   }
   if (retargeted.kind === "busy") {
@@ -777,7 +777,7 @@ async function enterTriageAfterUpdate(continuation) {
     triageTransition: true,
     failure: continuation.failure,
     commandArgv: continuation.commandArgv,
-    commandLabel: "openclaw triage (automatic)",
+    commandLabel: "openagent triage (automatic)",
     scopeUnit,
     primaryFragment: primary.FragmentPath,
   });
@@ -1472,7 +1472,7 @@ async function runOwnedUpdateCommand(phase, commandArgv, timeoutMs, cwd = params
       });
       if (params.action === "triage") {
         admissionDeadline = setTimeout(() => {
-          appendLog("installed candidate did not admit triage; run openclaw triage manually");
+          appendLog("installed candidate did not admit triage; run openagent triage manually");
           stopTriageScope();
         }, 30000);
         leaseWatch = setInterval(() => {
@@ -1532,7 +1532,7 @@ async function runOwnedUpdateCommand(phase, commandArgv, timeoutMs, cwd = params
     );
     if (params.action === "triage" && !triageAdmitted) {
       appendLog(
-        "installed candidate cannot accept automatic triage; run openclaw triage manually",
+        "installed candidate cannot accept automatic triage; run openagent triage manually",
       );
       process.exitCode = 1;
     }
@@ -2164,7 +2164,7 @@ async function spawnManagedServiceUpdateHandoff(
         argv1: params.argv1 ?? process.argv[1],
       });
   const commandLabel = params.action
-    ? "openclaw triage (automatic)"
+    ? "openagent triage (automatic)"
     : formatManagedServiceUpdateCommand(
         {
           timeoutMs: params.timeoutMs,
@@ -2297,7 +2297,7 @@ async function spawnManagedServiceUpdateHandoff(
     ),
     // This hint becomes a model/channel notice; host paths remain in the helper log.
     triageHint:
-      "Update triage runs after service recovery; see the managed update helper log for the outcome and the installation-specific openclaw triage command.",
+      "Update triage runs after service recovery; see the managed update helper log for the outcome and the installation-specific openagent triage command.",
     commandLabel,
     handoffId: params.handoffId,
     nonFailureSkippedReasons: Object.keys(SKIPPED_UPDATE_OUTCOMES),
@@ -2438,7 +2438,7 @@ export async function startManagedServiceUpdateHandoff(
 ): Promise<ManagedServiceUpdateHandoffResult> {
   if (params.action && params.supervisor !== "systemd") {
     throw new Error(
-      "Automatic managed triage requires a Linux user-systemd scope; run openclaw triage manually.",
+      "Automatic managed triage requires a Linux user-systemd scope; run openagent triage manually.",
     );
   }
   if (

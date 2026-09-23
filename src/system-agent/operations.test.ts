@@ -477,7 +477,7 @@ describe("system agent operations", () => {
       status: "error" as const,
       reason: "legacy-session-migration-required" as const,
       agentId: "main",
-      message: "Run openclaw doctor --fix before creating main.",
+      message: "Run openagent doctor --fix before creating main.",
     }));
 
     await expect(
@@ -486,7 +486,7 @@ describe("system agent operations", () => {
         runtime,
         { approved: true, deps: { createAgent } },
       ),
-    ).rejects.toThrow("Run openclaw doctor --fix before creating main.");
+    ).rejects.toThrow("Run openagent doctor --fix before creating main.");
 
     expect(createAgent).toHaveBeenCalledWith({
       name: "main",
@@ -865,7 +865,7 @@ describe("system agent operations", () => {
         runtime,
         { approved: true, deps: { runConfigSet } },
       ),
-    ).rejects.toThrow("openclaw onboard");
+    ).rejects.toThrow("openagent onboard");
     expect(runConfigSet).not.toHaveBeenCalled();
 
     // The same routing field on a non-default agent is an approved write.
@@ -904,7 +904,7 @@ describe("system agent operations", () => {
         runtime,
         { approved: true, deps: { runConfigSet } },
       ),
-    ).rejects.toThrow("openclaw onboard");
+    ).rejects.toThrow("openagent onboard");
     expect(runConfigSet).not.toHaveBeenCalled();
 
     const result = await executeSystemAgentOperation(
@@ -1085,6 +1085,6 @@ describe("system agent operations", () => {
     });
     expect(runPluginUninstall).not.toHaveBeenCalled();
     expect(lines.join("\n")).toContain("could remove the provider behind");
-    expect(lines.join("\n")).toContain("openclaw plugins uninstall openclaw-demo");
+    expect(lines.join("\n")).toContain("openagent plugins uninstall openclaw-demo");
   });
 });

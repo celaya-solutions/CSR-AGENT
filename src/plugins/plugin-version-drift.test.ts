@@ -376,7 +376,7 @@ describe("resolvePluginVersionDriftTargets", () => {
       resolvePluginVersionDriftUpdateCommand(
         expectDefined(report.drifts[0], "detected plugin drift"),
       ),
-    ).toBe("openclaw plugins update @openclaw/brave-plugin@2026.7.1");
+    ).toBe("openagent plugins update @openclaw/brave-plugin@2026.7.1");
   });
 
   it.each([
@@ -420,7 +420,7 @@ describe("resolvePluginVersionDriftTargets", () => {
       resolvePluginVersionDriftUpdateCommand(
         expectDefined(floating.drifts[0], "floating plugin drift"),
       ),
-    ).toBe("openclaw plugins update brave");
+    ).toBe("openagent plugins update brave");
     expect(fetchNpmPackageTargetStatus).not.toHaveBeenCalled();
   });
 });
@@ -437,7 +437,7 @@ describe("resolvePluginVersionDriftUpdateCommand", () => {
         spec: "@openclaw/brave-plugin@2026.7.0",
         ...resolvedNpmTarget("@openclaw/brave-plugin", "2026.7.1"),
       }),
-    ).toBe("openclaw plugins update @openclaw/brave-plugin@2026.7.1");
+    ).toBe("openagent plugins update @openclaw/brave-plugin@2026.7.1");
   });
 
   it("uses an exact npm package target when the drifted install is pinned", () => {
@@ -451,7 +451,7 @@ describe("resolvePluginVersionDriftUpdateCommand", () => {
         spec: "@openclaw/brave-plugin@2026.6.9",
         ...resolvedNpmTarget("@openclaw/brave-plugin", "2026.6.10-beta.1"),
       }),
-    ).toBe("openclaw plugins update @openclaw/brave-plugin@2026.6.10-beta.1");
+    ).toBe("openagent plugins update @openclaw/brave-plugin@2026.6.10-beta.1");
   });
 
   it("parses the package name from exact npm specs when drift metadata is sparse", () => {
@@ -464,7 +464,7 @@ describe("resolvePluginVersionDriftUpdateCommand", () => {
         spec: "@openclaw/brave-plugin@2026.6.9",
         ...resolvedNpmTarget("@openclaw/brave-plugin", "2026.6.10-beta.1"),
       }),
-    ).toBe("openclaw plugins update @openclaw/brave-plugin@2026.6.10-beta.1");
+    ).toBe("openagent plugins update @openclaw/brave-plugin@2026.6.10-beta.1");
   });
 
   it("prefers the parsed exact npm spec package over inconsistent drift metadata", () => {
@@ -478,7 +478,7 @@ describe("resolvePluginVersionDriftUpdateCommand", () => {
         spec: "@openclaw/brave-plugin@2026.6.9",
         ...resolvedNpmTarget("@openclaw/brave-plugin", "2026.6.10-beta.1"),
       }),
-    ).toBe("openclaw plugins update @openclaw/brave-plugin@2026.6.10-beta.1");
+    ).toBe("openagent plugins update @openclaw/brave-plugin@2026.6.10-beta.1");
   });
 
   it.each([
@@ -504,7 +504,7 @@ describe("resolvePluginVersionDriftUpdateCommand", () => {
         packageName: entry.packageName,
         spec: entry.spec,
       }),
-    ).toBe(`openclaw plugins update ${entry.pluginId}`);
+    ).toBe(`openagent plugins update ${entry.pluginId}`);
   });
 
   it("does not fabricate a command when an exact npm target was not resolved", () => {

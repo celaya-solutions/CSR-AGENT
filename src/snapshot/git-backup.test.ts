@@ -639,7 +639,7 @@ describe("Git-backed SQLite snapshots", () => {
       "commit",
       "--allow-empty",
       "-m",
-      "openclaw backup fixture",
+      "openagent backup fixture",
     ]);
     await requireGit(repositoryPath, ["checkout", "--detach", "HEAD"]);
     mocks.logDiagnostic = {
@@ -695,7 +695,7 @@ describe("Git-backed SQLite snapshots", () => {
         "commit-tree",
         tree,
       ],
-      { input: `openclaw backup ${"x".repeat(17 * 1024 * 1024)} ${remote}\n` },
+      { input: `openagent backup ${"x".repeat(17 * 1024 * 1024)} ${remote}\n` },
     );
     await fs.writeFile(path.join(repositoryPath, ".git", "HEAD"), `${commit}\n`);
 

@@ -197,7 +197,7 @@ describe("Doctor deferred model retirement", () => {
               "Gateway is bound to loopback.",
             ].entries()) {
               recordUpdateRunStep(f.runId, {
-                step: `warning:openclaw doctor:${index + 1}`,
+                step: `warning:openagent doctor:${index + 1}`,
                 status: "completed",
                 detail,
               });

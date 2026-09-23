@@ -83,15 +83,15 @@ function formatNoAuthNonLoopbackInstallBlock(params: {
   const hints: string[] = [`${bindReason}, but gateway.auth.mode=none disables Gateway auth.`];
   if (normalizeOptionalString(auth.token)) {
     hints.push(
-      `This config already has gateway.auth.token; run ${formatCliCommand("openclaw config set gateway.auth.mode token")} and then rerun ${formatCliCommand("openclaw gateway install --force")}.`,
+      `This config already has gateway.auth.token; run ${formatCliCommand("openagent config set gateway.auth.mode token")} and then rerun ${formatCliCommand("openagent gateway install --force")}.`,
     );
   } else if (normalizeOptionalString(auth.password)) {
     hints.push(
-      `This config already has gateway.auth.password; run ${formatCliCommand("openclaw config set gateway.auth.mode password")} and then rerun ${formatCliCommand("openclaw gateway install --force")}.`,
+      `This config already has gateway.auth.password; run ${formatCliCommand("openagent config set gateway.auth.mode password")} and then rerun ${formatCliCommand("openagent gateway install --force")}.`,
     );
   } else {
     hints.push(
-      `Configure token/password auth, use trusted-proxy auth, or set ${formatCliCommand("openclaw config set gateway.bind loopback")} before installing the managed service.`,
+      `Configure token/password auth, use trusted-proxy auth, or set ${formatCliCommand("openagent config set gateway.bind loopback")} before installing the managed service.`,
     );
   }
   return hints.join(" ");
@@ -318,7 +318,7 @@ export async function runDaemonInstall(opts: DaemonInstallOptions) {
         });
         if (!runtimePath) {
           fail(
-            `No supported Node runtime is available. Install Node ${SUPPORTED_NODE_VERSIONS}, then rerun openclaw gateway install.`,
+            `No supported Node runtime is available. Install Node ${SUPPORTED_NODE_VERSIONS}, then rerun openagent gateway install.`,
           );
           return;
         }
@@ -329,7 +329,7 @@ export async function runDaemonInstall(opts: DaemonInstallOptions) {
       autoRefreshMessage = `Replacing ${replacement} with ${runtimePath}; refreshing the install.`;
     } else if (recordedRuntime.status === "probe-failed" && !opts.force) {
       fail(
-        `${recordedRuntime.error.message} Reinstall with: ${formatCliCommand("openclaw gateway install --force")}.`,
+        `${recordedRuntime.error.message} Reinstall with: ${formatCliCommand("openagent gateway install --force")}.`,
       );
       return;
     }
@@ -399,7 +399,9 @@ export async function runDaemonInstall(opts: DaemonInstallOptions) {
     });
     if (!json) {
       defaultRuntime.log(`Gateway service already ${service.loadedText}.`);
-      defaultRuntime.log(`Reinstall with: ${formatCliCommand("openclaw gateway install --force")}`);
+      defaultRuntime.log(
+        `Reinstall with: ${formatCliCommand("openagent gateway install --force")}`,
+      );
     }
     return;
   }

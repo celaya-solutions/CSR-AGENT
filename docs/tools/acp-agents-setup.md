@@ -44,7 +44,7 @@ Built-in acpx harness aliases (from the pinned `acpx` dependency):
 | `kiro`       | [Kiro CLI](https://kiro.dev)                                                                           |
 | `mux`        | [Mux](https://mux.coder.com)                                                                           |
 | `opencode`   | [OpenCode](https://opencode.ai)                                                                        |
-| `openclaw`   | OpenAgent ACP bridge (native `openclaw acp`)                                                       |
+| `openclaw`   | OpenAgent ACP bridge (native `openagent acp`)                                                          |
 | `pi`         | [Pi Coding Agent](https://github.com/earendil-works/pi)                                                |
 | `qoder`      | [Qoder CLI](https://docs.qoder.com/cli/acp)                                                            |
 | `qwen`       | [Qwen Code](https://github.com/QwenLM/qwen-code)                                                       |
@@ -123,7 +123,7 @@ See [Configuration Reference](/gateway/configuration-reference).
 
 ACPX isolates bare session names by OpenAgent owner. If a session reports
 `SESSION_OWNER_MIGRATION_REQUIRED`, stop the Gateway and run
-`openclaw doctor --fix`, then restart. Doctor uses the same service workspace
+`openagent doctor --fix`, then restart. Doctor uses the same service workspace
 as the Gateway; ACPX's default state directory is `<service workspace>/state`.
 
 The repair requires one current, unambiguous canonical owner claim with matching
@@ -145,8 +145,8 @@ Packaged installs use the official `@openclaw/acpx` runtime plugin for ACP.
 Install and enable it before using ACP harness sessions:
 
 ```bash
-openclaw plugins install @openclaw/acpx
-openclaw config set plugins.entries.acpx.enabled true
+openagent plugins install @openclaw/acpx
+openagent config set plugins.entries.acpx.enabled true
 ```
 
 Source checkouts can also use the local workspace plugin after `pnpm install`.
@@ -161,14 +161,14 @@ If you disabled `acpx`, denied it via `plugins.allow` / `plugins.deny`, or want
 to switch back to the packaged plugin, use the explicit package path:
 
 ```bash
-openclaw plugins install @openclaw/acpx
-openclaw config set plugins.entries.acpx.enabled true
+openagent plugins install @openclaw/acpx
+openagent config set plugins.entries.acpx.enabled true
 ```
 
 Local workspace install during development:
 
 ```bash
-openclaw plugins install ./path/to/local/acpx-plugin
+openagent plugins install ./path/to/local/acpx-plugin
 ```
 
 Then verify backend health:
@@ -238,7 +238,7 @@ If you want ACP agents such as Codex or Claude Code to call installed
 OpenAgent plugin tools such as memory recall/store, enable the dedicated bridge:
 
 ```bash
-openclaw config set plugins.entries.acpx.config.pluginToolsMcpBridge true
+openagent config set plugins.entries.acpx.config.pluginToolsMcpBridge true
 ```
 
 What this does:
@@ -269,7 +269,7 @@ MCP. Enable the separate core-tools bridge when an ACP agent needs selected
 built-in tools such as `cron`:
 
 ```bash
-openclaw config set plugins.entries.acpx.config.openClawToolsMcpBridge true
+openagent config set plugins.entries.acpx.config.openClawToolsMcpBridge true
 ```
 
 What this does:
@@ -287,7 +287,7 @@ to complete ACP startup and initialization. Override it if your host needs a
 different operation limit:
 
 ```bash
-openclaw config set plugins.entries.acpx.config.timeoutSeconds 180
+openagent config set plugins.entries.acpx.config.timeoutSeconds 180
 ```
 
 Runtime turns use OpenAgent agent/run timeouts, including `/acp timeout`.
@@ -304,7 +304,7 @@ the first allowed agent; otherwise it defaults to `codex`. If your deployment
 needs a different ACP agent for health checks, set the probe agent explicitly:
 
 ```bash
-openclaw config set plugins.entries.acpx.config.probeAgent claude
+openagent config set plugins.entries.acpx.config.probeAgent claude
 ```
 
 With the default hybrid reload mode, this change automatically reloads the plugin.
@@ -347,8 +347,8 @@ Controls what happens when a permission prompt would be shown but no interactive
 Set via plugin config:
 
 ```bash
-openclaw config set plugins.entries.acpx.config.permissionMode approve-all
-openclaw config set plugins.entries.acpx.config.nonInteractivePermissions fail
+openagent config set plugins.entries.acpx.config.permissionMode approve-all
+openagent config set plugins.entries.acpx.config.nonInteractivePermissions fail
 ```
 
 With the default hybrid reload mode, these changes automatically reload the plugin.

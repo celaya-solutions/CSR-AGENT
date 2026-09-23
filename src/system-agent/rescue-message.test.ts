@@ -284,7 +284,7 @@ describe("OpenAgent rescue message", () => {
     const cfg: OpenClawConfig = {};
     const reply = await runRescue("/openclaw configure model provider", cfg);
     expect(reply).toContain("cannot host model-provider credential setup");
-    expect(reply).toContain("openclaw onboard");
+    expect(reply).toContain("openagent onboard");
   });
 
   it("refuses doctor repairs without creating a pending approval", async () => {
@@ -299,7 +299,7 @@ describe("OpenAgent rescue message", () => {
       const reply = await runRescue("/openclaw doctor fix", cfg, commandContext(), deps);
       expect(reply).toContain("machine running OpenAgent");
       expect(reply).toContain("with OpenAgent stopped");
-      expect(reply).toContain("run `openclaw doctor --fix`");
+      expect(reply).toContain("run `openagent doctor --fix`");
       await expect(runRescue("/openclaw yes", cfg, commandContext(), deps)).resolves.toBe(
         "No pending OpenAgent rescue change is waiting for approval.",
       );

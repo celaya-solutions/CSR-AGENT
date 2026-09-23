@@ -90,7 +90,7 @@ export const en = {
       tailscaleExposure: "Tailscale exposure",
       tokenPrompt: "Gateway token",
       tokenStoreProvisioned:
-        "Generated a Gateway secret and stored it in the OpenAgent secret store as {name}. Config keeps only a reference; inspect it with `openclaw secrets store list`.",
+        "Generated a Gateway secret and stored it in the OpenAgent secret store as {name}. Config keeps only a reference; inspect it with `openagent secrets store list`.",
       trustedProxyAllowLoopback: "Allow loopback trusted-proxy authentication?",
       trustedProxyLoopbackTitle: "Loopback proxy security warning",
       trustedProxyLoopbackWarning:
@@ -124,7 +124,7 @@ export const en = {
       apply: "Apply this migration now?",
       appliedTitle: "Migration applied",
       cancelled: "migration cancelled",
-      complete: "Migration complete. Run `openclaw doctor` next.",
+      complete: "Migration complete. Run `openagent doctor` next.",
       continuing: "Migration complete. Continuing setup.",
       importFrom: "Import from {source}",
       importFromAnotherAgent: "Import from another agent",
@@ -207,7 +207,7 @@ export const en = {
       arrayPromptSuffix: " (comma-separated, empty to clear)",
       arrayPlaceholder: "value1, value2",
       sensitiveField:
-        '"{label}" is sensitive. Set it via:\n  openclaw config set plugins.entries.{plugin}.config.{field} <value>\nor use the Web UI Settings page.',
+        '"{label}" is sensitive. Set it via:\n  openagent config set plugins.entries.{plugin}.config.{field} <value>\nor use the Web UI Settings page.',
       sensitiveTitle: "Sensitive field",
       skipConfigHint: "Continue without configuring plugins",
       useLocalPluginPath: "Use local plugin path",
@@ -282,13 +282,13 @@ export const en = {
       quickstartDashboard: "Dashboard: {url}",
       quickstartForeground: "Gateway is running in the foreground. Press Ctrl+C to stop.",
       quickstartBackground:
-        "To keep the Gateway running in the background later: openclaw gateway install",
+        "To keep the Gateway running in the background later: openagent gateway install",
       quickstartReopen:
-        "Run openclaw to open the TUI, or openclaw dashboard to reopen the web dashboard.",
+        "Run openagent to open the TUI, or openagent dashboard to reopen the web dashboard.",
       quickstartBrowserUnavailable:
         "The browser handoff did not finish. The Gateway is still running; open the dashboard when you are ready.",
       quickstartGatewayPending:
-        "The Gateway is not reachable yet. Keep this terminal open and run openclaw gateway status to check startup.",
+        "The Gateway is not reachable yet. Keep this terminal open and run openagent gateway status to check startup.",
       accessFullHint:
         "I find AI apps and keys on this machine; you choose which connection to test.",
       accessFullLabel: "Full access — find everything automatically",
@@ -311,7 +311,7 @@ export const en = {
       controlUiPreparing: "Preparing the Control UI…",
       custodianIntro: "Hi — I'm OpenAgent. I keep this system running. Let's get you set up.",
       findMeLater:
-        "You can always find me later — run `openclaw` in a terminal, or open Settings in the dashboard.",
+        "You can always find me later — run `openagent` in a terminal, or open Settings in the dashboard.",
       hatchingNow: "Hatching your agent now…",
       lookAroundManual: "No — I'll configure it manually",
       lookAroundQuestion: "May I look around to find your AI access?",
@@ -328,7 +328,7 @@ export const en = {
       detecting: "Looking for AI you already use…",
       existingModelKept:
         "Your configured default model was kept unchanged. Choose how to continue below — retry it, connect another provider, or exit. The check runs outside your workspace, so a workspace-plugin model can fail here while still working in the agent.",
-      escapeHatches: "For the full step-by-step wizard, run `openclaw onboard --classic`.",
+      escapeHatches: "For the full step-by-step wizard, run `openagent onboard --classic`.",
       failureAuth: "Authentication failed. Sign in again or check the key.",
       failureBilling: "Billing is not active for this model or account.",
       failureFormat: "The model did not return a usable reply.",
@@ -346,9 +346,9 @@ export const en = {
       invalidConfigUnknown: "- The config could not be parsed.",
       manualChoice: "How would you like to connect AI?",
       nextSteps:
-        "Workspace: {workspace}\nAdd a channel: `openclaw channels add`\nPrefer chatting? Run `openclaw setup` and say `connect telegram` (or `connect slack`).\nOpen the dashboard: `openclaw dashboard`\nChat later: `openclaw`",
+        "Workspace: {workspace}\nAdd a channel: `openagent channels add`\nPrefer chatting? Run `openagent setup` and say `connect telegram` (or `connect slack`).\nOpen the dashboard: `openagent dashboard`\nChat later: `openagent`",
       nextStepsWithoutAi:
-        "Workspace: {workspace}\nAdd AI later: re-run `openclaw onboard`\nAfter AI connects, add a channel: `openclaw channels add`\nOpen the dashboard: `openclaw dashboard`",
+        "Workspace: {workspace}\nAdd AI later: re-run `openagent onboard`\nAfter AI connects, add a channel: `openagent channels add`\nOpen the dashboard: `openagent dashboard`",
       nextStepsTitle: "Next steps",
       noInferenceOptions:
         "No inference option is available yet. Sign in to Claude Code or Codex, or configure an API-key provider, then run onboarding again.",
@@ -362,7 +362,7 @@ export const en = {
       unavailableCandidate: "{label} — {detail}. {reason}",
       tryCandidate: "Try {label} ({detail})",
       ttyRequired:
-        "Onboarding needs an interactive TTY. Use `openclaw onboard --non-interactive --accept-risk ...` for automation.",
+        "Onboarding needs an interactive TTY. Use `openagent onboard --non-interactive --accept-risk ...` for automation.",
       welcomeTitle: "Setup choices",
       workspaceConflictClassic:
         "This verification run kept the configured workspace. Run `{command}` to review and explicitly approve moving the existing agent fleet.",
@@ -466,7 +466,7 @@ export const en = {
       accept: "Yes, share feature stats",
       decline: "No thanks",
       description:
-        "Share which features you use (channels, providers, plugin count) as part of the daily update check. Never messages, never identifiers. See exactly what is sent: `openclaw telemetry show`. Change anytime: `openclaw telemetry on|off`.",
+        "Share which features you use (channels, providers, plugin count) as part of the daily update check. Never messages, never identifiers. See exactly what is sent: `openagent telemetry show`. Change anytime: `openagent telemetry on|off`.",
       title: "Help make OpenAgent better?",
     },
     skills: {
@@ -487,7 +487,7 @@ export const en = {
       installedWithWarnings: "Installed {name} (with warnings)",
       installing: "Installing {name}...",
       manualPrereqsDoctorHint:
-        "Install those tools first, then run `openclaw doctor` to review skills + requirements.",
+        "Install those tools first, then run `openagent doctor` to review skills + requirements.",
       manualPrereqsIntro: "Skipped optional skill installs that need local tools first:",
       manualPrereqsTitle: "Manual skill prerequisites",
       nodeManager: "Preferred node manager for skill installs",
@@ -889,7 +889,7 @@ export const en = {
       helpRecommendedTls: "Recommended: TLS on port 6697.",
       multipleEntries: "Multiple entries: comma-separated.",
       nextRestartGateway: "Next: restart gateway and verify status.",
-      nextStatusCommand: "Command: openclaw channels status --probe",
+      nextStatusCommand: "Command: openagent channels status --probe",
       nextStepsTitle: "IRC next steps",
       nickPrompt: "IRC nick",
       nickServConfigurePrompt: "Configure NickServ identify/register?",
@@ -1101,7 +1101,7 @@ export const en = {
       credentialRequired: "{label} required",
       chooseProvider: "Choose a provider. Some providers need an API key, and some work key-free.",
       configured: "configured",
-      configureLaterHint: "Configure later with openclaw configure --section web",
+      configureLaterHint: "Configure later with openagent configure --section web",
       intro: "Web search lets your agent look things up online.",
       keyFree: "key-free",
       noProvidersAction: "Enable plugins or remove deny rules, then run setup again.",
@@ -1187,7 +1187,7 @@ export const en = {
       containerSystemdUnavailable:
         "Systemd user services are not available inside this container. OpenAgent is skipping only the background service install; run the Gateway in the foreground or use your container supervisor.",
       securityReminder:
-        "Running agents on your computer is risky. Run openclaw security audit --deep to review your setup.",
+        "Running agents on your computer is risky. Run openagent security audit --deep to review your setup.",
       secretRefAuthFailed: "Could not resolve {field} SecretRef for setup auth.",
       skipHealthNextTime: "Or skip this probe next time: {command}",
       skipControlUi: "Skipping Control UI/TUI prompts.",

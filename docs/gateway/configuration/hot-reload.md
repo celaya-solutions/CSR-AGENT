@@ -19,17 +19,17 @@ writes use the same schema gate before writing (see [Strict validation](/gateway
 for the clobber/rollback rules that apply to every write).
 
 If you see `config reload skipped (invalid config)` or startup reports `Invalid
-config`, inspect the config, run `openclaw config validate`, then run `openclaw
+config`, inspect the config, run `openagent config validate`, then run `openclaw
 doctor --fix` for repair. See [Gateway troubleshooting](/gateway/troubleshooting#gateway-rejected-invalid-config)
 for the checklist.
 
 A live change that selects a workspace with retired setup state is also rejected,
-with an `openclaw doctor --fix` hint. The Gateway keeps its last-good runtime.
+with an `openagent doctor --fix` hint. The Gateway keeps its last-good runtime.
 Gateway-managed writes, including `config.set`, reject the candidate before
 persistence; hand edits and writes from a separate CLI process can remain on disk
 even though the watcher refuses to activate them. Stop the Gateway and, if the
 write was rejected before persistence, save the intended workspace path while
-it is stopped. Then run [`openclaw doctor --fix`](/cli/doctor) and restart.
+it is stopped. Then run [`openagent doctor --fix`](/cli/doctor) and restart.
 Reload never migrates workspace state.
 
 ### Reload modes
@@ -47,7 +47,7 @@ Reload never migrates workspace state.
 }
 ```
 
-The earlier `hot` and `restart` modes are retired; [`openclaw doctor --fix`](/cli/doctor) maps both to `hybrid`. Reload debounce is no longer configurable and runs behind a built-in default.
+The earlier `hot` and `restart` modes are retired; [`openagent doctor --fix`](/cli/doctor) maps both to `hybrid`. Reload debounce is no longer configurable and runs behind a built-in default.
 
 ### What hot-applies vs what needs a restart
 
@@ -202,7 +202,7 @@ The Gateway accepts its configured secret whether the client sends it as a token
 Local onboarding generates a Gateway secret by default (`gateway.auth.mode: "token"`)
 without asking you to choose an auth mechanism. Existing password-mode configs
 are preserved. To choose your own password explicitly, use
-`openclaw onboard --gateway-password <value>` or `--gateway-auth password`.
+`openagent onboard --gateway-password <value>` or `--gateway-auth password`.
 Remote onboarding asks for one Gateway secret and stores it as `gateway.remote.token`.
 See [Onboard](/cli/onboard) for storage choices and connecting without a shared secret.
 
@@ -232,7 +232,7 @@ snapshots. A plugin's narrower reload policy can retain an instance or require a
 Plugin install, update, enable, disable, uninstall, and metadata refresh apply
 through the running Gateway's plugin lifecycle without a Gateway restart.
 Explicit plugin actions also work when passive reload is `off`. Source or
-manifest edits need `openclaw plugins reload <id>`. Changing an agent workspace
+manifest edits need `openagent plugins reload <id>`. Changing an agent workspace
 alone does not refresh plugin discovery; use an explicit metadata refresh. See
 [Apply changes and inspect](/plugins/manage-plugins#apply-changes-and-inspect)
 and [Plugin metadata snapshots](/plugins/architecture#plugin-metadata-snapshot-and-lookup-table).

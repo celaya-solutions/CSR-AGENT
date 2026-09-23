@@ -79,7 +79,7 @@ describe("Doctor derived artifact cleanup", () => {
     expect(receipt.warnings.join("\n")).toContain(removalError.message);
     expect(() => throwIfDoctorStateMigrationRefused([receipt])).not.toThrow();
     expect(receipt.outcome).toBe("warning");
-    expect(receipt.warnings.join("\n")).toContain("openclaw doctor --fix");
+    expect(receipt.warnings.join("\n")).toContain("openagent doctor --fix");
 
     vi.restoreAllMocks();
     expect((await migration.migrateLegacyState(params)).warnings).toEqual([]);

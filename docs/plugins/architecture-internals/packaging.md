@@ -90,7 +90,7 @@ Security guardrail: every `openclaw.extensions` entry must stay inside the plugi
 directory after symlink resolution. Entries that escape the package directory are
 rejected.
 
-Security note: `openclaw plugins install` installs plugin dependencies with a
+Security note: `openagent plugins install` installs plugin dependencies with a
 project-local `npm install --omit=dev --ignore-scripts` (no lifecycle scripts,
 no dev dependencies at runtime), ignoring inherited global npm install settings.
 Keep plugin dependency trees "pure JS/TS" and avoid packages that require

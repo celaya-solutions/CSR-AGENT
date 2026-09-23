@@ -403,7 +403,7 @@ suite.define(() => {
           includeQr: false,
         });
         await page
-          .getByText('openclaw node run --pair "oc-pair://Node_AbC123"', { exact: true })
+          .getByText('openagent node run --pair "oc-pair://Node_AbC123"', { exact: true })
           .waitFor();
         expect(await qr.count()).toBe(0);
         await page.getByRole("button", { name: "Manage devices" }).click();

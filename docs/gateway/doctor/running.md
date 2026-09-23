@@ -6,13 +6,13 @@ read_when:
   - You need a read-only health report for CI or preflight automation
 ---
 
-Run `openclaw doctor` to repair and migrate an OpenAgent install. This page covers the
+Run `openagent doctor` to repair and migrate an OpenAgent install. This page covers the
 command, its automation flags, and the read-only lint mode.
 
 ## Quick start
 
 ```bash
-openclaw doctor
+openagent doctor
 ```
 
 ### Headless and automation modes
@@ -20,7 +20,7 @@ openclaw doctor
 <Tabs>
   <Tab title="--yes">
     ```bash
-    openclaw doctor --yes
+    openagent doctor --yes
     ```
 
     Accept default non-service repairs without prompting and enter maintenance while preserving the installed gateway service definition.
@@ -28,7 +28,7 @@ openclaw doctor
   </Tab>
   <Tab title="--fix">
     ```bash
-    openclaw doctor --fix
+    openagent doctor --fix
     ```
 
     Apply recommended non-service repairs without prompting (`--repair` is an alias) and enter maintenance while preserving the installed gateway service definition.
@@ -36,8 +36,8 @@ openclaw doctor
   </Tab>
   <Tab title="--lint">
     ```bash
-    openclaw doctor --lint
-    openclaw doctor --lint --json
+    openagent doctor --lint
+    openagent doctor --lint --json
     ```
 
     Run structured health checks for CI or preflight automation. Read-only: no
@@ -46,15 +46,15 @@ openclaw doctor
   </Tab>
   <Tab title="--fix --force">
     ```bash
-    openclaw doctor --fix --force
+    openagent doctor --fix --force
     ```
 
-    Apply aggressive config/state repairs too. Repair maintenance preserves the installed service definition; use `openclaw gateway install --force` from the intended installation to replace its launcher and managed environment.
+    Apply aggressive config/state repairs too. Repair maintenance preserves the installed service definition; use `openagent gateway install --force` from the intended installation to replace its launcher and managed environment.
 
   </Tab>
   <Tab title="--non-interactive">
     ```bash
-    openclaw doctor --non-interactive
+    openagent doctor --non-interactive
     ```
 
     Run without prompts, applying only safe migrations (config normalization +
@@ -69,7 +69,7 @@ openclaw doctor
   </Tab>
   <Tab title="--deep">
     ```bash
-    openclaw doctor --deep
+    openagent doctor --deep
     ```
 
     Scan system services for extra gateway installs (launchd/systemd/schtasks).
@@ -85,16 +85,16 @@ cat ~/.openclaw/openclaw.json
 
 ## Read-only lint mode
 
-`openclaw doctor --lint` is the automation-friendly sibling of
-`openclaw doctor --fix`. They share the same Doctor rule registry, but they do
+`openagent doctor --lint` is the automation-friendly sibling of
+`openagent doctor --fix`. They share the same Doctor rule registry, but they do
 not select or act on rules in the same way:
 
-| Mode                     | Prompts   | Writes config/state                        | Output                 | Use it for                       |
-| ------------------------ | --------- | ------------------------------------------ | ---------------------- | -------------------------------- |
-| `openclaw doctor`        | yes       | yes, safe migrations and confirmed repairs | friendly health report | guided checks and repairs        |
-| `openclaw doctor --json` | no        | no                                         | JSON advisory report   | machine-readable operator checks |
-| `openclaw doctor --fix`  | sometimes | yes, with repair policy                    | friendly repair log    | applying approved repairs        |
-| `openclaw doctor --lint` | no        | no                                         | structured findings    | CI, preflight, and review gates  |
+| Mode                      | Prompts   | Writes config/state                        | Output                 | Use it for                       |
+| ------------------------- | --------- | ------------------------------------------ | ---------------------- | -------------------------------- |
+| `openagent doctor`        | yes       | yes, safe migrations and confirmed repairs | friendly health report | guided checks and repairs        |
+| `openagent doctor --json` | no        | no                                         | JSON advisory report   | machine-readable operator checks |
+| `openagent doctor --fix`  | sometimes | yes, with repair policy                    | friendly repair log    | applying approved repairs        |
+| `openagent doctor --lint` | no        | no                                         | structured findings    | CI, preflight, and review gates  |
 
 Default `doctor --lint` runs the broad-safe automation profile: checks that are
 static, local, and useful in CI or preflight output. It skips opt-in checks that
@@ -119,11 +119,11 @@ finding (`info`, `warning`, or `error`); default selection is not a severity
 level.
 
 ```bash
-openclaw doctor --lint
-openclaw doctor --lint --severity-min warning
-openclaw doctor --lint --json
-openclaw doctor --lint --all
-openclaw doctor --lint --only core/doctor/gateway-config --json
+openagent doctor --lint
+openagent doctor --lint --severity-min warning
+openagent doctor --lint --json
+openagent doctor --lint --all
+openagent doctor --lint --only core/doctor/gateway-config --json
 ```
 
 JSON output fields:
@@ -140,7 +140,7 @@ Exit codes:
 | `1`  | one or more findings met the selected threshold          |
 | `2`  | command/runtime failure before findings could be emitted |
 
-These threshold-based exit codes belong to explicit `--lint` mode, with or without `--json`. Bare `openclaw doctor --json` preserves ordinary Doctor's advisory exit `0` after producing its payload; machine consumers should read `ok` and `findings`. Fatal errors before output remain nonzero.
+These threshold-based exit codes belong to explicit `--lint` mode, with or without `--json`. Bare `openagent doctor --json` preserves ordinary Doctor's advisory exit `0` after producing its payload; machine consumers should read `ok` and `findings`. Fatal errors before output remain nonzero.
 
 Flags:
 

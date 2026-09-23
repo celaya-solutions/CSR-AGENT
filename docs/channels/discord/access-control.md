@@ -31,7 +31,7 @@ Who may reach the bot, which guild channels it answers in, and which Discord act
     - Named accounts inherit `channels.discord.allowFrom` when their own `allowFrom` and legacy `dm.allowFrom` are unset.
     - Named accounts do not inherit `channels.discord.accounts.default.allowFrom`.
 
-    Legacy `channels.discord.dm.policy` and `channels.discord.dm.allowFrom` are still read for compatibility. `openclaw doctor --fix` migrates them to `dmPolicy` and `allowFrom` when it can do so without changing access.
+    Legacy `channels.discord.dm.policy` and `channels.discord.dm.allowFrom` are still read for compatibility. `openagent doctor --fix` migrates them to `dmPolicy` and `allowFrom` when it can do so without changing access.
 
     DM target format for delivery:
 
@@ -131,7 +131,7 @@ Who may reach the bot, which guild channels it answers in, and which Discord act
     - guild must match `channels.discord.guilds` (`id` preferred, slug accepted)
     - optional sender allowlists: `users` (stable IDs recommended) and `roles` (role IDs only); if either is configured, senders are allowed when they match `users` OR `roles`
     - direct name/tag matching is disabled by default; enable `channels.discord.dangerouslyAllowNameMatching: true` only as break-glass compatibility mode
-    - names/tags are supported for `users`, but IDs are safer; `openclaw security audit` warns when name/tag entries are used
+    - names/tags are supported for `users`, but IDs are safer; `openagent security audit` warns when name/tag entries are used
     - if a guild has `channels` configured, non-listed channels are denied
     - if a guild has no `channels` block, all channels in that allowlisted guild are allowed
 
@@ -159,7 +159,7 @@ Who may reach the bot, which guild channels it answers in, and which Discord act
 }
 ```
 
-    The legacy per-channel `allow` key is migrated to `enabled` by `openclaw doctor --fix`.
+    The legacy per-channel `allow` key is migrated to `enabled` by `openagent doctor --fix`.
 
     Without a `channels.discord` block, the Gateway does not auto-start Discord from `DISCORD_BOT_TOKEN`. Once the block exists, `DISCORD_BOT_TOKEN` remains the default-account token fallback. Passing `--ambient-channels` opts into env-only auto-configuration; that path uses `groupPolicy="allowlist"` and logs a warning, even if `channels.defaults.groupPolicy` is `open`.
 

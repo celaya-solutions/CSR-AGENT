@@ -286,7 +286,7 @@ export async function finishUpdate(params: FinishUpdateParams): Promise<UpdateRu
         ...finalResult.steps,
         {
           name: "Windows task autostart recovery",
-          command: "openclaw update",
+          command: "openagent update",
           cwd: finalResult.root ?? params.root,
           durationMs: 0,
           exitCode: 1,
@@ -707,7 +707,7 @@ export async function finishUpdate(params: FinishUpdateParams): Promise<UpdateRu
         ...params.result.steps,
         {
           name: "post-update verification",
-          command: "openclaw update",
+          command: "openagent update",
           cwd: params.result.root ?? params.root,
           durationMs: Math.max(0, Date.now() - params.startedAt),
           exitCode: 1,

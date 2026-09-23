@@ -2468,7 +2468,7 @@ describe("buildCachedChatItems", () => {
   it("coalesces adjacent tool calls and results into one activity item", () => {
     const groups = messageGroups({
       messages: [
-        toolUseMessage("call-shell", "bash", { command: "run openclaw doctor" }, 1000),
+        toolUseMessage("call-shell", "bash", { command: "run openagent doctor" }, 1000),
         toolResultMessage(
           "call-shell",
           "bash",

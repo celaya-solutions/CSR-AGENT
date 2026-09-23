@@ -28,7 +28,7 @@ import {
 const STARTUP_REFUSAL =
   "OpenAgent startup migrations did not complete cleanly; refusing to report the gateway ready.";
 const STARTUP_RECOVERY =
-  'Run "openclaw doctor --fix" against the same state/config, then restart the gateway.';
+  'Run "openagent doctor --fix" against the same state/config, then restart the gateway.';
 const tempDirs = useAutoCleanupTempDirTracker(afterAll);
 function seedPluginStateConflict(stateDir: string): void {
   const sharedPath = path.join(stateDir, "state", "openclaw.sqlite");
@@ -439,7 +439,7 @@ describe("gateway startup-migration refusal", () => {
         const status = await instance.cli(["gateway", "call", "status", "--json"]);
         expect(status.code, status.stdout + "\n" + status.stderr).toBe(0);
         expect(JSON.parse(status.stdout).startupMigrationWarning).toBe(
-          'Startup migrations need attention. Run "openclaw doctor --fix" against the same state/config, then restart the gateway.',
+          'Startup migrations need attention. Run "openagent doctor --fix" against the same state/config, then restart the gateway.',
         );
         expect(fs.existsSync(path.join(stateDir, "plugin-state", "state.sqlite"))).toBe(true);
       } finally {

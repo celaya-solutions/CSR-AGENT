@@ -175,7 +175,7 @@ function collectExecPolicyConflictWarnings(
         `Host: ${hostParts.join(", ")}`,
         `Effective host exec stays security="${snapshot.security.effective}" ask="${snapshot.ask.effective}" because the stricter side wins.`,
         "Headless runs like isolated cron cannot answer approval prompts; align both files, or keep the Control UI or a macOS/iOS/Android app connected so gateway automation runs can raise approval cards.",
-        `Inspect with: ${formatCliCommand("openclaw approvals get --gateway")}`,
+        `Inspect with: ${formatCliCommand("openagent approvals get --gateway")}`,
       ].join("\n"),
     });
   };
@@ -210,7 +210,7 @@ function collectDurableExecApprovalWarnings(approvals: ExecApprovalsFile): Secur
       title: "Exec approvals need renewal",
       detail: `${count} older generated ${count === 1 ? "approval is" : "approvals are"} inactive because they are not tied to a working directory.`,
       remediation: [
-        `Run ${formatCliCommand("openclaw doctor --fix")} to remove the inactive entries.`,
+        `Run ${formatCliCommand("openagent doctor --fix")} to remove the inactive entries.`,
         'Then rerun affected workflows and choose "Always allow here" when prompted.',
         "Manual allowlist rules are unchanged.",
       ].join("\n"),
@@ -279,7 +279,7 @@ function collectPlaintextConfigSecretWarnings(cfg: OpenClawConfig): SecurityAudi
       remediation: [
         `Paths: ${pathLine}`,
         "Agents or workspace tools that can read config files may see these API keys/tokens.",
-        `Migrate them to SecretRefs with ${formatCliCommand("openclaw secrets configure")} or ${formatCliCommand("openclaw secrets apply")}, then verify with ${formatCliCommand("openclaw secrets audit --check")}.`,
+        `Migrate them to SecretRefs with ${formatCliCommand("openagent secrets configure")} or ${formatCliCommand("openagent secrets apply")}, then verify with ${formatCliCommand("openagent secrets audit --check")}.`,
       ].join("\n"),
     },
   ];
@@ -300,7 +300,7 @@ export async function collectSecurityWarnings(
       detail: "approvals.exec.enabled=false disables approval forwarding only.",
       remediation: [
         `Host exec gating still comes from ${resolveExecApprovalsDisplayPath()}.`,
-        `Check local policy with: ${formatCliCommand("openclaw approvals get --gateway")}`,
+        `Check local policy with: ${formatCliCommand("openagent approvals get --gateway")}`,
       ].join("\n"),
     });
   }
@@ -365,13 +365,13 @@ export async function collectSecurityWarnings(
       const authFixLines =
         resolvedAuth.mode === "password"
           ? [
-              `Fix: ${formatCliCommand("openclaw configure")} to set a password`,
-              `Or switch to token: ${formatCliCommand("openclaw config set gateway.auth.mode token")}`,
+              `Fix: ${formatCliCommand("openagent configure")} to set a password`,
+              `Or switch to token: ${formatCliCommand("openagent config set gateway.auth.mode token")}`,
             ]
           : [
-              `Fix: ${formatCliCommand("openclaw doctor --fix")} to generate a token`,
+              `Fix: ${formatCliCommand("openagent doctor --fix")} to generate a token`,
               `Or set token directly: ${formatCliCommand(
-                "openclaw config set gateway.auth.mode token",
+                "openagent config set gateway.auth.mode token",
               )}`,
             ];
       findings.push({
@@ -383,7 +383,7 @@ export async function collectSecurityWarnings(
           "Anyone on your network (or internet if port-forwarded) can fully control your agent.",
         ].join("\n"),
         remediation: [
-          `Fix: ${formatCliCommand("openclaw config set gateway.bind loopback")}`,
+          `Fix: ${formatCliCommand("openagent config set gateway.bind loopback")}`,
           ...saferRemoteAccessLines,
           ...authFixLines,
         ].join("\n"),
@@ -442,7 +442,7 @@ export async function noteSecurityWarnings(cfg: OpenClawConfig) {
   const findings = await collectSecurityWarnings(cfg);
   if (findings.length > 0) {
     const lines = findings.flatMap(renderSecurityFindingLines);
-    lines.push(`- Run: ${formatCliCommand("openclaw security audit --deep")}`);
+    lines.push(`- Run: ${formatCliCommand("openagent security audit --deep")}`);
     note(lines.join("\n"), "Security");
   }
   return findings;

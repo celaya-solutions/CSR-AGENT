@@ -1,16 +1,16 @@
 ---
-summary: "CLI reference for `openclaw directory` (self, peers, groups)"
+summary: "CLI reference for `openagent directory` (self, peers, groups)"
 read_when:
   - You want to look up contacts/groups/self ids for a channel
   - You are developing a channel directory adapter
 title: "Directory"
 ---
 
-# `openclaw directory`
+# `openagent directory`
 
 Directory lookups for channels that support them: contacts/peers, groups, and "me" (self).
 
-Results are meant to be pasted into other commands, especially `openclaw message send --target ...`.
+Results are meant to be pasted into other commands, especially `openagent message send --target ...`.
 
 ## Common flags
 
@@ -39,8 +39,8 @@ JSON mode.
 ## Using results with `message send`
 
 ```bash
-openclaw directory peers list --channel discord --query "jane"
-openclaw message send --channel discord --target user:123456789012345678 --message "hello"
+openagent directory peers list --channel discord --query "jane"
+openagent message send --channel discord --target user:123456789012345678 --message "hello"
 ```
 
 ## ID formats by channel
@@ -53,7 +53,7 @@ openclaw message send --channel discord --target user:123456789012345678 --messa
 ## Self ("me")
 
 ```bash
-openclaw directory self --channel discord
+openagent directory self --channel discord
 ```
 
 A channel may legitimately return no self identity. This is a successful empty result (exit code
@@ -85,17 +85,17 @@ that case by its reason:
 ## Peers (contacts/users)
 
 ```bash
-openclaw directory peers list --channel discord
-openclaw directory peers list --channel discord --query "name"
-openclaw directory peers list --channel discord --limit 50
+openagent directory peers list --channel discord
+openagent directory peers list --channel discord --query "name"
+openagent directory peers list --channel discord --limit 50
 ```
 
 ## Groups
 
 ```bash
-openclaw directory groups list --channel discord
-openclaw directory groups list --channel discord --query "work"
-openclaw directory groups members --channel discord --group-id <id>
+openagent directory groups list --channel discord
+openagent directory groups list --channel discord --query "work"
+openagent directory groups members --channel discord --group-id <id>
 ```
 
 `groups members` requires a non-blank `--group-id`. Empty or whitespace-only IDs fail before plugin setup or lookup.

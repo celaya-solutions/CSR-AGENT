@@ -448,7 +448,7 @@ export async function startExtensionRelayServer(params: {
         if (!bridge.extensionConnected) {
           writeJson(res, 503, {
             error:
-              "OpenAgent Chrome extension is not connected. Install the extension and pair it with `openclaw browser extension pair`.",
+              "OpenAgent Chrome extension is not connected. Install the extension and pair it with `openagent browser extension pair`.",
           });
           return;
         }

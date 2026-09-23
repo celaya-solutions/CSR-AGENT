@@ -711,7 +711,7 @@ export async function runDoctorConfigPreflight(
           persistedIdentity.pluginDoctorConfigFingerprint
       ) {
         throw new Error(
-          'OpenAgent config identity changed while persisting the refreshed plugin registry; refusing to write the migration checkpoint. Run "openclaw doctor --fix" and retry.',
+          'OpenAgent config identity changed while persisting the refreshed plugin registry; refusing to write the migration checkpoint. Run "openagent doctor --fix" and retry.',
         );
       }
       // The durable reread supplies the accepted inventory. Replace both the

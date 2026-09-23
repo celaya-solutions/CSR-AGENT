@@ -38,9 +38,9 @@ Ask once for permission to run read-only checks. Then run relevant commands.
 Common:
 
 ```bash
-openclaw security audit --deep
-openclaw gateway status --deep
-openclaw doctor --lint
+openagent security audit --deep
+openagent gateway status --deep
+openagent doctor --lint
 ```
 
 `doctor --lint` can exit `1` for findings: read the report and continue the remaining checks. Ordinary `doctor` and `doctor --non-interactive` can copy legacy config and migrate state without `--fix`; reserve repairs for explicit approval. Read-only checks exclude config/service repairs and state migrations, but may produce incidental logs or cache bookkeeping.
@@ -102,6 +102,6 @@ Offer only relevant items:
 - Enable disk encryption.
 - Verify backups and restore path.
 - Disable password SSH or require keys/MFA where appropriate.
-- Add scheduled `openclaw security audit --deep`.
+- Add scheduled `openagent security audit --deep`.
 
 Confirm exact action before applying.

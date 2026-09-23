@@ -20,8 +20,8 @@ export const NODE_WORKER_CAPACITY_MAX = 1_024;
 export const NODE_RUNNER_UPDATE_REQUIRED_ISSUE = {
   code: "update-required",
   action: "update-and-reconnect",
-  updateCommand: "openclaw update",
-  headlessReconnectCommand: "openclaw node restart",
+  updateCommand: "openagent update",
+  headlessReconnectCommand: "openagent node restart",
 } as const;
 
 export type NodeRunnerInventoryIssue = typeof NODE_RUNNER_UPDATE_REQUIRED_ISSUE;

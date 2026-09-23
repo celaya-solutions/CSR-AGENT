@@ -337,18 +337,18 @@ export function buildOAuthRefreshFailureLoginCommand(
     const claudeLoginCommand = formatCliCommand("claude auth login");
     const openclawLoginCommand = formatCliCommand(
       sanitizedProfileId
-        ? `openclaw models auth login --provider anthropic --method cli --profile-id ${quoteShellArg(sanitizedProfileId)}`
-        : "openclaw models auth login --provider anthropic --method cli",
+        ? `openagent models auth login --provider anthropic --method cli --profile-id ${quoteShellArg(sanitizedProfileId)}`
+        : "openagent models auth login --provider anthropic --method cli",
     );
     return `${claudeLoginCommand} && ${openclawLoginCommand}`;
   }
   return sanitizedProvider
     ? formatCliCommand(
         sanitizedProfileId
-          ? `openclaw models auth login --provider ${sanitizedProvider} --profile-id ${quoteShellArg(sanitizedProfileId)}`
-          : `openclaw models auth login --provider ${sanitizedProvider}`,
+          ? `openagent models auth login --provider ${sanitizedProvider} --profile-id ${quoteShellArg(sanitizedProfileId)}`
+          : `openagent models auth login --provider ${sanitizedProvider}`,
       )
-    : formatCliCommand("openclaw models auth login");
+    : formatCliCommand("openagent models auth login");
 }
 
 /** Build operator guidance for an active profile cooldown or disable window. */
@@ -366,7 +366,7 @@ export function buildAuthProfileUnusableHint(params: {
     if (params.provider === "google-gemini-cli") {
       // The legacy runtime has no auth method of its own. Recovery creates a
       // supported Google API-key profile and then selects it for that runtime.
-      const command = formatCliCommand("openclaw models auth login --provider google");
+      const command = formatCliCommand("openagent models auth login --provider google");
       return `Gemini CLI OAuth cannot be repaired by OpenAgent. Connect Google with an AI Studio API key using ${formatOAuthRefreshFailureLoginCommandMarkdown(command)}, then select that Google profile for the Gemini CLI runtime.`;
     }
     const command = buildOAuthRefreshFailureLoginCommand(params.provider, {

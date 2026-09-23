@@ -173,8 +173,8 @@ function renderSecretRefApplyCommands(
   const render = (shell: CommandShell, indent = "") => {
     const quotedPlanPath = quoteSecretRefCliArg(planPath, shell);
     return [
-      `${indent}openclaw secrets apply --from ${quotedPlanPath} --dry-run --allow-exec`,
-      `${indent}openclaw secrets apply --from ${quotedPlanPath} --allow-exec`,
+      `${indent}openagent secrets apply --from ${quotedPlanPath} --dry-run --allow-exec`,
+      `${indent}openagent secrets apply --from ${quotedPlanPath} --allow-exec`,
     ];
   };
   if (platform !== "win32") {
@@ -386,8 +386,8 @@ export function createPluginSecretRefSetupCli(params: PluginSecretRefSetupCliPar
     for (const command of applyCommands) {
       writeSecretRefCliLine(`  ${command}`);
     }
-    writeSecretRefCliLine("  openclaw secrets audit --check --allow-exec");
-    writeSecretRefCliLine("  openclaw secrets reload");
+    writeSecretRefCliLine("  openagent secrets audit --check --allow-exec");
+    writeSecretRefCliLine("  openagent secrets reload");
   };
 
   const registerSetupCommand = (command: SecretRefSetupCommand): void => {

@@ -28,17 +28,17 @@ Enable the hook in the config used by that Gateway, then reload its handlers by
 restarting the Gateway:
 
 ```bash
-openclaw hooks info command-logger
+openagent hooks info command-logger
 ```
 
 ```bash
-openclaw hooks enable command-logger
+openagent hooks enable command-logger
 ```
 
 For an installed Gateway service:
 
 ```bash
-openclaw gateway restart
+openagent gateway restart
 ```
 
 For a foreground development Gateway, stop and restart the process you own. Do

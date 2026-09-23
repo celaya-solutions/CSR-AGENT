@@ -36,7 +36,7 @@ node scripts/watch-node.mjs gateway --force
 Before watching the configured/default port, the tmux wrapper stops the active profile's installed Gateway service. This hands the port to the source watcher without launchd, systemd, or Scheduled Task respawning and replacing it. The service stays installed. Restore it after the watch session with:
 
 ```bash
-pnpm openclaw gateway start
+pnpm openagent gateway start
 ```
 
 An explicit `--port` or `OPENCLAW_GATEWAY_PORT` can differ from the installed service's effective port. In that case the wrapper leaves the service running, so both Gateways can run side by side.
@@ -49,7 +49,7 @@ pnpm gateway:watch:raw
 OPENCLAW_GATEWAY_WATCH_TMUX=0 pnpm gateway:watch
 ```
 
-Raw mode does not manage the installed service. Run `pnpm openclaw gateway stop` first when it uses the same port.
+Raw mode does not manage the installed service. Run `pnpm openagent gateway stop` first when it uses the same port.
 
 Keep tmux management but disable auto-attach:
 
@@ -76,7 +76,7 @@ Benchmark mode suppresses sync-I/O trace spam by default. Set `OPENCLAW_TRACE_SY
 
 The tmux wrapper carries common non-secret runtime selectors into the pane, including `OPENCLAW_PROFILE`, `OPENCLAW_CONFIG_PATH`, `OPENCLAW_STATE_DIR`, `OPENCLAW_GATEWAY_PORT`, and `OPENCLAW_SKIP_CHANNELS`. Put provider credentials in your normal profile/config, or use raw foreground mode for one-off ephemeral secrets.
 
-If the watched Gateway returns a startup error, the watcher runs `openclaw doctor --fix --non-interactive` once and restarts the Gateway child. Set `OPENCLAW_GATEWAY_WATCH_AUTO_DOCTOR=0` to see the original startup failure without the dev-only repair pass.
+If the watched Gateway returns a startup error, the watcher runs `openagent doctor --fix --non-interactive` once and restarts the Gateway child. Set `OPENCLAW_GATEWAY_WATCH_AUTO_DOCTOR=0` to see the original startup failure without the dev-only repair pass.
 
 On Unix, if a native runner is terminated by a signal, the foreground command
 preserves that signal and stops instead of running doctor or restarting. This also applies
@@ -99,7 +99,7 @@ Add gateway CLI flags after `gateway:watch` and they pass through on each restar
 
 ## Dev profile + dev gateway (--dev)
 
-When you run `pnpm openclaw`, `pnpm dev`, or a Gateway development runner from
+When you run `pnpm openagent`, `pnpm dev`, or a Gateway development runner from
 a checkout, the runner selects that checkout's plugins ahead of tracked global
 copies with the same id. Built plugin output remains preferred when available,
 including for separately published checkout plugins, Doctor contracts, and Doctor's
@@ -117,7 +117,7 @@ The runners supply the existing `OPENCLAW_DEV_SOURCE_ROOT` selector unless you
 set it explicitly. When launching `node dist/entry.js` directly for debugging,
 set it to the running checkout root for the same duplicate-selection behavior.
 It does not add an unrelated checkout to trusted bundled discovery. Use
-`pnpm openclaw plugins inspect <id> --json` to check the selected source and origin.
+`pnpm openagent plugins inspect <id> --json` to check the selected source and origin.
 
 Two **separate** `--dev` flags:
 
@@ -128,10 +128,10 @@ Recommended flow (dev profile + dev bootstrap):
 
 ```bash
 pnpm gateway:dev
-OPENCLAW_PROFILE=dev openclaw tui
+OPENCLAW_PROFILE=dev openagent tui
 ```
 
-Without a global install, run the CLI via `pnpm openclaw ...`.
+Without a global install, run the CLI via `pnpm openagent ...`.
 
 What this does:
 
@@ -160,7 +160,7 @@ pnpm gateway:dev:reset
 `--dev` is a **global** profile flag and gets eaten by some runners. If you need to spell it out, use the env var form:
 
 ```bash
-OPENCLAW_PROFILE=dev openclaw gateway --dev --reset
+OPENCLAW_PROFILE=dev openagent gateway --dev --reset
 ```
 
 </Note>
@@ -171,7 +171,7 @@ OPENCLAW_PROFILE=dev openclaw gateway --dev --reset
 If a non-dev gateway is already running (launchd or systemd), stop it first:
 
 ```bash
-openclaw gateway stop
+openagent gateway stop
 ```
 
 </Tip>
@@ -220,7 +220,7 @@ pnpm tsx scripts/bench-cli-startup.ts --preset real --cpu-prof-dir .artifacts/cl
 For one-off profiling through the normal source runner, set `OPENCLAW_RUN_NODE_CPU_PROF_DIR`:
 
 ```bash
-OPENCLAW_RUN_NODE_CPU_PROF_DIR=.artifacts/cli-cpu pnpm openclaw status
+OPENCLAW_RUN_NODE_CPU_PROF_DIR=.artifacts/cli-cpu pnpm openagent status
 ```
 
 The source runner adds Node CPU profile flags and writes a `.cpuprofile` for the command. Use this before adding temporary instrumentation to command code.
@@ -228,7 +228,7 @@ The source runner adds Node CPU profile flags and writes a `.cpuprofile` for the
 Some startup stalls look like synchronous filesystem or module-loader work. For those stalls, add Node's sync I/O trace flag through the source runner:
 
 ```bash
-OPENCLAW_TRACE_SYNC_IO=1 pnpm openclaw gateway --force
+OPENCLAW_TRACE_SYNC_IO=1 pnpm openagent gateway --force
 ```
 
 `pnpm gateway:watch` leaves this flag disabled by default for the watched Gateway child. Set `OPENCLAW_TRACE_SYNC_IO=1` when you want sync I/O trace output in watch mode too.
@@ -239,7 +239,7 @@ Set `OPENCLAW_PLUGIN_LIFECYCLE_TRACE=1` for a phase-by-phase breakdown of plugin
 Plugin load failures include their stack trace while this trace is enabled.
 
 ```bash
-OPENCLAW_PLUGIN_LIFECYCLE_TRACE=1 openclaw plugins install tokenjuice --force
+OPENCLAW_PLUGIN_LIFECYCLE_TRACE=1 openagent plugins install tokenjuice --force
 ```
 
 ```text
@@ -248,12 +248,12 @@ OPENCLAW_PLUGIN_LIFECYCLE_TRACE=1 openclaw plugins install tokenjuice --force
 [plugins:lifecycle] phase="registry refresh" ms=51.56 status=ok command="install" reason="source-changed"
 ```
 
-Use this before reaching for a CPU profiler. From a source checkout, measure the built runtime with `node dist/entry.js ...` after `pnpm build`. The `pnpm openclaw ...` command also measures source-runner overhead.
+Use this before reaching for a CPU profiler. From a source checkout, measure the built runtime with `node dist/entry.js ...` after `pnpm build`. The `pnpm openagent ...` command also measures source-runner overhead.
 
 For synchronous module-load timings, use the shared diagnostics surface instead of a separate plugin-only environment switch:
 
 ```bash
-OPENCLAW_DIAGNOSTICS=plugin.load-profile openclaw plugins list
+OPENCLAW_DIAGNOSTICS=plugin.load-profile openagent plugins list
 ```
 
 ## Node and tsx startup errors
@@ -263,7 +263,7 @@ If a source-run command fails with `TypeError: __name is not a function`, captur
 Check that Node is a [supported version](/install/node).
 
 From a trusted source checkout, run `pnpm build` before comparing the failure with
-the built runtime through `pnpm openclaw <command>`. The repository's typecheck
+the built runtime through `pnpm openagent <command>`. The repository's typecheck
 does not emit build output. Keep the failing command and version evidence in a
 bug report rather than applying a workaround from an old investigation.
 

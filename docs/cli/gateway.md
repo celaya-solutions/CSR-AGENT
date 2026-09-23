@@ -1,5 +1,5 @@
 ---
-summary: "OpenAgent Gateway CLI (`openclaw gateway`) — run, query, and discover gateways"
+summary: "OpenAgent Gateway CLI (`openagent gateway`) — run, query, and discover gateways"
 read_when:
   - Running the Gateway from the CLI (dev or servers)
   - Debugging Gateway auth, bind modes, and connectivity
@@ -9,9 +9,9 @@ title: "Gateway"
 sidebarTitle: "Gateway"
 ---
 
-The Gateway is OpenAgent's WebSocket server (channels, nodes, sessions, hooks). All subcommands on the pages listed here live under `openclaw gateway ...`.
+The Gateway is OpenAgent's WebSocket server (channels, nodes, sessions, hooks). All subcommands on the pages listed here live under `openagent gateway ...`.
 
-`openclaw daemon ...` is a legacy alias for the service-control subcommands; see [`openclaw daemon`](/cli/daemon).
+`openagent daemon ...` is a legacy alias for the service-control subcommands; see [`openagent daemon`](/cli/daemon).
 
 <CardGroup cols={3}>
   <Card title="Discovery overview" href="/gateway/discovery">
@@ -24,7 +24,7 @@ The Gateway is OpenAgent's WebSocket server (channels, nodes, sessions, hooks). 
 
 ## Gateway CLI pages
 
-This page is an index. Five pages document `openclaw gateway`, one per reader
+This page is an index. Five pages document `openagent gateway`, one per reader
 job. Open the page that matches your task.
 
 | Page                                                            | Read it when                                                                       |
@@ -35,7 +35,7 @@ job. Open the page that matches your task.
 | [Manage the Gateway service](/cli/gateway/service)              | You are installing, starting, stopping, or repairing the native service.           |
 | [Discover gateways](/cli/gateway/discovery)                     | You are looking for gateways over wide-area DNS-SD.                                |
 
-`openclaw gateway install` installs and starts the service. `--force` reinstalls an existing install and may restart a running Gateway. Finish offline configuration and runtime repairs before installation.
+`openagent gateway install` installs and starts the service. `--force` reinstalls an existing install and may restart a running Gateway. Finish offline configuration and runtime repairs before installation.
 
 ## Where each section moved
 

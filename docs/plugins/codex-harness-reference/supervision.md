@@ -138,6 +138,6 @@ falling back to the agent-home harness. The default connection shares stored
 sessions with native Codex clients, not their process-local activity state.
 
 Legacy `plugins.entries.codex-supervisor` settings are retired. Run
-`openclaw doctor --fix` to migrate the old entry, endpoint definitions, policy
+`openagent doctor --fix` to migrate the old entry, endpoint definitions, policy
 flags, and plugin allow/deny references into this block. Explicit canonical
 `codex.config.supervision` values win conflicts.

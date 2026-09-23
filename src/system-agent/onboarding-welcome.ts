@@ -135,7 +135,7 @@ export async function buildOnboardingWelcome(params: {
   }
   if (!defaultModel) {
     throw new Error(
-      "OpenAgent onboarding requires working inference first. Run `openclaw onboard` on the machine running OpenAgent to configure and verify a default model.",
+      "OpenAgent onboarding requires working inference first. Run `openagent onboard` on the machine running OpenAgent to configure and verify a default model.",
     );
   }
 
@@ -162,7 +162,7 @@ export async function buildOnboardingWelcome(params: {
     "",
     "Say **yes** and I'll set all of that up now.",
     "",
-    "Heads up: your agent gets real access to this machine. Run `openclaw security audit` any time to review your setup.",
+    "Heads up: your agent gets real access to this machine. Run `openagent security audit` any time to review your setup.",
     "Afterwards: `talk to agent` to meet your agent right here. Channels are optional: use `connect discord`, `connect slack`, `connect telegram`, `connect whatsapp` (or `channels` for the full list) if you want to chat from another service.",
   ].join("\n");
   params.engine.noteAssistantMessage(welcome);

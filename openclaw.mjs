@@ -44,7 +44,7 @@ const ensureSupportedRuntimeVersion = async () => {
       return false;
     }
     process.stderr.write(
-      "openclaw: this Bun runtime is unsupported because it does not provide node:sqlite.\n" +
+      "openagent: this Bun runtime is unsupported because it does not provide node:sqlite.\n" +
         `Use Node.js ${SUPPORTED_NODE_RANGE}; Bun remains supported for installs and package scripts.\n`,
     );
     return process.exit(1);
@@ -65,7 +65,7 @@ const ensureSupportedRuntimeVersion = async () => {
     allowInstall: !diagnosticExemption,
   });
   if (!diagnosticExemption) {
-    process.stderr.write(`openclaw: ${failure}\n`);
+    process.stderr.write(`openagent: ${failure}\n`);
   }
   if (diagnosticExemption) {
     return false;
@@ -250,7 +250,7 @@ const exists = async (specifier) => {
 };
 
 const buildMissingEntryErrorMessage = async () => {
-  const lines = ["openclaw: missing dist/entry.(m)js (build output)."];
+  const lines = ["openagent: missing dist/entry.(m)js (build output)."];
   if (!(await exists("./src/entry.ts"))) {
     return lines.join("\n");
   }
@@ -259,10 +259,6 @@ const buildMissingEntryErrorMessage = async () => {
   lines.push(
     "Build locally with `pnpm install && pnpm build`, or install a built package instead.",
   );
-  lines.push(
-    "For pinned GitHub installs, use `npm install -g github:openclaw/openclaw#<ref>` instead of a raw `/archive/<ref>.tar.gz` URL.",
-  );
-  lines.push("For releases, use `npm install -g openclaw@latest`.");
   return lines.join("\n");
 };
 
@@ -643,7 +639,7 @@ if (!waitingForNodeUpdateRespawn) {
       });
     } catch (error) {
       process.stderr.write(
-        `openclaw: package lifecycle is incomplete. Reinstall with package scripts enabled, then retry. ${error instanceof Error ? error.message : String(error)}\n`,
+        `openagent: package lifecycle is incomplete. Reinstall with package scripts enabled, then retry. ${error instanceof Error ? error.message : String(error)}\n`,
       );
       process.exit(1);
     }

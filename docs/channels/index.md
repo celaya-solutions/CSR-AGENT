@@ -21,15 +21,15 @@ Start with **Telegram**. It needs only a bot token, so it is the fastest
 channel to get working.
 
 ```bash
-openclaw channels add --channel telegram --token <bot-token>
+openagent channels add --channel telegram --token <bot-token>
 ```
 
-Run `openclaw channels add` with no flags to pick a channel from a list
+Run `openagent channels add` with no flags to pick a channel from a list
 instead. With the default [hot reload](/gateway/configuration/hot-reload),
 the running Gateway applies the new account configuration. Check
-`openclaw channels status --probe`; start the Gateway if it is offline.
+`openagent channels status --probe`; start the Gateway if it is offline.
 Full walkthrough: [Telegram](/channels/telegram). Command reference:
-[`openclaw channels`](/cli/channels).
+[`openagent channels`](/cli/channels).
 
 ## Supported channels
 

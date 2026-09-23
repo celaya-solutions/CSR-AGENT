@@ -1,4 +1,4 @@
-/** Human-readable formatter for `openclaw message` action results. */
+/** Human-readable formatter for `openagent message` action results. */
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
 import {
   getTerminalTableWidth,

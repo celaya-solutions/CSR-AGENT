@@ -1,4 +1,4 @@
-// `openclaw update status`: combines install metadata, configured channel, and remote update checks.
+// `openagent update status`: combines install metadata, configured channel, and remote update checks.
 import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.js";
 import { theme } from "../../../packages/terminal-core/src/theme.js";
 import { collectNodeRuntimeFindings } from "../../commands/node-runtime-diagnostics.js";
@@ -147,7 +147,7 @@ export async function updateStatusCommand(opts: UpdateStatusOptions): Promise<vo
       }
       if (abandonedRun) {
         defaultRuntime.log(
-          "Abandoned update detected; the Gateway will reconcile its recorded outcome. Run openclaw update repair to reconcile it now.",
+          "Abandoned update detected; the Gateway will reconcile its recorded outcome. Run openagent update repair to reconcile it now.",
         );
       }
       const report = renderUpdateRunReport(run);

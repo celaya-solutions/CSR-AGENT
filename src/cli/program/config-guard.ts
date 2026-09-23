@@ -415,11 +415,11 @@ export async function ensureConfigReady(
         ? (await import("../../config/config-write-guard.js")).createConfigMutationError({
             configPath: snapshot.path,
           }).message
-        : commandText(formatCliCommand("openclaw doctor --fix"));
+        : commandText(formatCliCommand("openagent doctor --fix"));
     params.runtime.error(`${muted("Fix:")} ${fixHint}`);
   }
   params.runtime.error(
-    `${muted("Inspect:")} ${commandText(formatCliCommand("openclaw config validate"))}`,
+    `${muted("Inspect:")} ${commandText(formatCliCommand("openagent config validate"))}`,
   );
   params.runtime.error(
     muted(

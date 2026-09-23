@@ -10,20 +10,20 @@ sidebarTitle: "Models"
 
 ## Quick choice
 
-| Goal                                                   | Use                                                                | Notes                                                                |
-| ------------------------------------------------------ | ------------------------------------------------------------------ | -------------------------------------------------------------------- |
-| ChatGPT/Codex subscription, native Codex runtime       | `openai/gpt-6-astra`                                               | Fresh subscription setup; sign in with Codex auth.                   |
-| Direct API-key billing for agent turns                 | `openai/gpt-6-astra` plus an ordered API-key auth profile          | Fresh API-key setup uses Astra.                                      |
-| Choose an exact GPT-5.6 tier                           | `openai/gpt-5.6-sol`, `-terra`, or `-luna`                         | Check `models list` for the tiers available to this account.         |
-| Account without GPT-5.6 access                         | `openai/gpt-5.5`                                                   | Explicit recovery choice; OpenAgent does not silently downgrade. |
-| Direct API-key billing, explicit OpenAgent runtime | `openai/gpt-5.6` plus provider/model `agentRuntime.id: "openclaw"` | Select a normal `openai` API-key profile.                            |
-| Latest ChatGPT Instant model alias                     | `openai/chat-latest`                                               | Direct API-key only; moving alias, not the stable default.           |
-| Image generation or editing                            | `openai/gpt-image-2`                                               | Works with `OPENAI_API_KEY` or Codex OAuth.                          |
-| Transparent-background images                          | `openai/gpt-image-1.5`                                             | Set `outputFormat` to `png` or `webp` and `background=transparent`.  |
+| Goal                                               | Use                                                                | Notes                                                               |
+| -------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| ChatGPT/Codex subscription, native Codex runtime   | `openai/gpt-6-astra`                                               | Fresh subscription setup; sign in with Codex auth.                  |
+| Direct API-key billing for agent turns             | `openai/gpt-6-astra` plus an ordered API-key auth profile          | Fresh API-key setup uses Astra.                                     |
+| Choose an exact GPT-5.6 tier                       | `openai/gpt-5.6-sol`, `-terra`, or `-luna`                         | Check `models list` for the tiers available to this account.        |
+| Account without GPT-5.6 access                     | `openai/gpt-5.5`                                                   | Explicit recovery choice; OpenAgent does not silently downgrade.    |
+| Direct API-key billing, explicit OpenAgent runtime | `openai/gpt-5.6` plus provider/model `agentRuntime.id: "openclaw"` | Select a normal `openai` API-key profile.                           |
+| Latest ChatGPT Instant model alias                 | `openai/chat-latest`                                               | Direct API-key only; moving alias, not the stable default.          |
+| Image generation or editing                        | `openai/gpt-image-2`                                               | Works with `OPENAI_API_KEY` or Codex OAuth.                         |
+| Transparent-background images                      | `openai/gpt-image-1.5`                                             | Set `outputFormat` to `png` or `webp` and `background=transparent`. |
 
 ### Retired subscription model references
 
-GPT-5.4 and GPT-5.4 Mini are retired from the ChatGPT-account Codex route. Run `openclaw doctor --fix` to replace persisted subscription references with their documented successors: `openai/gpt-5.6-terra` and `openai/gpt-5.6-luna`, respectively. This includes defaults, per-agent model selections, automation overrides, and unlocked session overrides whose selected route is known. The Platform API-key route is unaffected. Doctor retains pinned overrides when their successor is outside the agent's model policy, or when clearing an override would keep the same retired model and account. It reports the model or policy change needed, along with unresolved or conflicting account routes. Review the repair output, restart the Gateway, and re-enable any automation that was disabled after repeated failures.
+GPT-5.4 and GPT-5.4 Mini are retired from the ChatGPT-account Codex route. Run `openagent doctor --fix` to replace persisted subscription references with their documented successors: `openai/gpt-5.6-terra` and `openai/gpt-5.6-luna`, respectively. This includes defaults, per-agent model selections, automation overrides, and unlocked session overrides whose selected route is known. The Platform API-key route is unaffected. Doctor retains pinned overrides when their successor is outside the agent's model policy, or when clearing an override would keep the same retired model and account. It reports the model or policy change needed, along with unresolved or conflicting account routes. Review the repair output, restart the Gateway, and re-enable any automation that was disabled after repeated failures.
 
 ## GPT-6 Astra
 
@@ -35,7 +35,7 @@ If ChatGPT/Codex catalog discovery is unavailable, the offline fallback list
 omits Astra until account discovery succeeds.
 
 ```bash
-openclaw models set openai/gpt-6-astra
+openagent models set openai/gpt-6-astra
 ```
 
 Astra uses the Responses API for agent tool calls. It supports text and image
@@ -139,19 +139,19 @@ OpenAI's [GPT-5.6 Sol model page](https://developers.openai.com/api/docs/models/
 documents the bare `openai/gpt-5.6` id as a supported alias for Sol. Fresh
 API-key and ChatGPT/Codex OAuth setup use `openai/gpt-6-astra`. Existing
 GPT-5.6 selections retain their canonical Sol identity. Run
-`openclaw doctor --fix` to rewrite persisted bare OpenAI refs to that canonical
+`openagent doctor --fix` to rewrite persisted bare OpenAI refs to that canonical
 identity. The native Codex catalog can show the exact Sol, Terra, and Luna ids depending on
 workspace access. Check the current account with:
 
 ```bash
-openclaw models list --provider openai
+openagent models list --provider openai
 ```
 
 API organization and Codex workspace access can differ. If GPT-5.6 is not
 available, select GPT-5.5 explicitly:
 
 ```bash
-openclaw models set openai/gpt-5.5
+openagent models set openai/gpt-5.5
 ```
 
 OpenAgent surfaces the upstream access error and does not silently replace a
@@ -162,7 +162,7 @@ Eligible exact official HTTPS routes may select the bundled Codex app-server
 plugin when runtime policy is unset or `auto`; authored Completions routes,
 custom endpoints, and request-transport overrides remain on OpenAgent. Plaintext
 official HTTP endpoints are rejected. Explicit provider/model runtime config remains
-authoritative. Run `openclaw doctor --fix` to repair stale legacy Codex model
+authoritative. Run `openagent doctor --fix` to repair stale legacy Codex model
 refs, `codex-cli/*` refs, or old runtime session pins that were not set by
 explicit runtime config.
 </Note>

@@ -33,7 +33,8 @@ function setProcessTitleForCommand(actionCommand: Command) {
   if (!name || name === CLI_NAME) {
     return;
   }
-  process.title = `${CLI_NAME}-${name}`;
+  // Process titles keep the `openclaw-` prefix that service inspection matches.
+  process.title = `openclaw-${name}`;
 }
 
 function shouldAllowInvalidConfigForAction(actionCommand: Command, commandPath: string[]): boolean {

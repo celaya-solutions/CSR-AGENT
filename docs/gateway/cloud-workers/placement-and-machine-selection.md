@@ -30,7 +30,7 @@ Choose the device in the Control UI **Place** picker or dispatch a
 managed-worktree session with an authorized operator connection:
 
 ```bash
-openclaw gateway call sessions.dispatch \
+openagent gateway call sessions.dispatch \
   --timeout 1500000 \
   --params '{"key":"agent:main:device-work","deviceId":"<paired-device-id>"}'
 ```
@@ -57,10 +57,10 @@ For cloud-profile placement, the equivalent RPC flow is:
 Create a repository session, dispatch it, then send its first message. Profile dispatch requires `operator.admin` and is available only while at least one worker profile is configured:
 
 ```bash
-openclaw gateway call sessions.create \
+openagent gateway call sessions.create \
   --params '{"key":"agent:main:big-refactor","repository":{"url":"https://github.com/example/project.git","ref":"main"}}'
 
-openclaw gateway call sessions.dispatch \
+openagent gateway call sessions.dispatch \
   --timeout 1500000 \
   --params '{"key":"agent:main:big-refactor","profileId":"aws"}'
 ```
@@ -86,7 +86,7 @@ A worker profile's `settings.target` and `settings.class` remain its defaults; a
 The selected profile row shows its operating system and machine in muted text beside the profile name; the closed picker shows only the profile name. To override the operating system or size for one new placement over RPC, pass `os` and/or `machineClass` with `profileId`:
 
 ```bash
-openclaw gateway call sessions.dispatch \
+openagent gateway call sessions.dispatch \
   --timeout 1500000 \
   --params '{"key":"agent:main:big-refactor","profileId":"aws","os":"linux","machineClass":"tiny"}'
 ```

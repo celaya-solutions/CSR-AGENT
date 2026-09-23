@@ -127,7 +127,7 @@ it.each([
     ? "this plugin bundles an incompatible OpenAgent SDK; update it or contact its author"
     : pluginId
       ? "update this plugin or contact its author"
-      : "run `openclaw plugins update whatsapp`";
+      : "run `openagent plugins update whatsapp`";
   for (const text of [
     record.error,
     formatPluginLine(record),

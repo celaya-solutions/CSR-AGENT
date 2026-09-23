@@ -105,7 +105,7 @@ The hook automatically:
 To disable this hook:
 
 ```bash
-openclaw hooks disable session-memory
+openagent hooks disable session-memory
 ```
 
 Or explicitly disable its config entry, then restart the Gateway:

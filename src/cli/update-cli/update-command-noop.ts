@@ -155,7 +155,7 @@ export async function finishAlreadyCurrentUpdate(
         "managed-service-preflight",
         formatUpdateAncestryBlockMessage(
           stopState.blockMessage ??
-            "Run openclaw update from a terminal outside the Gateway service before changing installed plugins.",
+            "Run openagent update from a terminal outside the Gateway service before changing installed plugins.",
         ),
         { failureFacts: collectServiceInspectionFailureFacts(stopState.serviceUpdateVerdict) },
       );

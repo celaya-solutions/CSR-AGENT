@@ -17,16 +17,16 @@ Before a significant update, [create a verified backup](#before-updating-create-
 Automatic config copies and migration recovery originals are not a full-state
 backup.
 
-## Recommended: `openclaw update`
+## Recommended: `openagent update`
 
 OpenAgent installs from source, so an update moves your git checkout to newer
-commits and rebuilds it. `openclaw update` detects the git checkout, fetches
+commits and rebuilds it. `openagent update` detects the git checkout, fetches
 from the branch's upstream remote (usually `origin`), rebuilds, validates the
 candidate while the old Gateway serves, then activates and verifies the update.
 
 ```bash
-openclaw update
-openclaw update --dry-run   # preview without applying
+openagent update
+openagent update --dry-run   # preview without applying
 ```
 
 An already-current target still runs plugin maintenance and restarts a running
@@ -55,9 +55,9 @@ The activated Gateway retains your normal listener settings.
 On source installs, Doctor and plugin updates keep bundled plugins built with
 the host checkout.
 
-`openclaw update` has no `--verbose` flag. For diagnostics use `--dry-run` to
+`openagent update` has no `--verbose` flag. For diagnostics use `--dry-run` to
 preview planned actions, `--json` for structured results, or
-`openclaw update status --json` to inspect state.
+`openagent update status --json` to inspect state.
 
 ### Manual source update
 
@@ -65,13 +65,13 @@ To update the checkout by hand, stop the Gateway from a shell outside it, then
 pull, rebuild, and run Doctor:
 
 ```bash
-openclaw gateway stop
+openagent gateway stop
 git pull
 pnpm install
 pnpm build
 pnpm ui:build
-openclaw doctor --fix
-openclaw gateway start
+openagent doctor --fix
+openagent gateway start
 ```
 
 Run each command only after the previous one succeeds.
@@ -132,7 +132,7 @@ owner permission requires owner setup, and an externally supervised installation
 uses its deployment owner's update workflow.
 
 Chat, CLI, Control UI, and automatic updates share a durable run ID. Use
-`openclaw update status` to read the active or latest report, including after a
+`openagent update status` to read the active or latest report, including after a
 restart; `--json` exposes the `activeRun` and `lastRun` records. See
 [Run history and reports](/cli/update#run-history-and-reports) for Gateway history
 queries.
@@ -162,13 +162,13 @@ If update status stays in progress while the Gateway is healthy, check that no
 update is still running. On the updated installation, run:
 
 ```bash
-openclaw update repair
-openclaw update status
+openagent update repair
+openagent update status
 ```
 
 For an inactive legacy row older than 30 minutes, repair verifies that the
 running Gateway matches the installed version and build, then clears the stale
-run without maintenance or a service restart. A new explicit `openclaw update`
+run without maintenance or a service restart. A new explicit `openagent update`
 can also supersede a single stale identityless row. Recent rows and recorded
 live drivers are protected. Identityless rows outside the legacy-expiry shape
 require explicit recovery; the Control UI's configuration-write suspension clears
@@ -188,14 +188,14 @@ Once you have verified the update and your conversations, preview retained
 migration originals:
 
 ```bash
-openclaw update cleanup --dry-run
+openagent update cleanup --dry-run
 ```
 
 Use the same profile and state/config overrides as the update, and check the
 state directory printed in the report. The metadata-only preview can run while
 the Gateway is active. To apply, stop that Gateway yourself, wait for other
 SQLite maintenance to finish, and stop database readers such as session-listing
-watchers. Keep them stopped until `openclaw update cleanup` exits; read-only
+watchers. Keep them stopped until `openagent update cleanup` exits; read-only
 connections can change WAL/SHM sidecars and invalidate verification. Cleanup never
 stops or restarts the Gateway. Confirmation defaults to **No**; automation must
 explicitly pass `--yes`, including when using `--json`.
@@ -212,7 +212,7 @@ history does not block cleanup of otherwise eligible migration archives.
 
 ## After updating
 
-Successful managed `openclaw update` runs already restart and verify the Gateway.
+Successful managed `openagent update` runs already restart and verify the Gateway.
 Use these steps after a manual installation or when checking a reported problem.
 
 <Steps>
@@ -220,7 +220,7 @@ Use these steps after a manual installation or when checking a reported problem.
 ### Run doctor
 
 ```bash
-openclaw doctor
+openagent doctor
 ```
 
 Migrates config, audits DM policies, and checks gateway health. Doctor also compares active plugins with the OpenAgent build the managed service will load after restart. Resolve any plugin restart-readiness warning before continuing. Details: [Doctor](/gateway/doctor)
@@ -228,13 +228,13 @@ Migrates config, audits DM policies, and checks gateway health. Doctor also comp
 ### Restart the gateway
 
 ```bash
-openclaw gateway restart
+openagent gateway restart
 ```
 
 ### Verify
 
 ```bash
-openclaw health
+openagent health
 ```
 
 </Steps>

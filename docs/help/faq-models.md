@@ -51,8 +51,8 @@ troubleshooting, see the main [FAQ](/help/faq).
     - `/model <model> -s` in chat (current session only)
     - owner/admin `/model <model> -a` (current session and agent default)
     - owner/admin `/model <model> -g` (current session and global default)
-    - `openclaw models set ...` (updates just model config)
-    - `openclaw configure --section model` (interactive)
+    - `openagent models set ...` (updates just model config)
+    - `openagent configure --section model` (interactive)
     - edit `agents.defaults.model` in `~/.openclaw/openclaw.json` directly
 
     Bare `/model <model>` changes only the current session, including for owners/admins,
@@ -61,7 +61,7 @@ troubleshooting, see the main [FAQ](/help/faq).
     For RPC edits, inspect with `config.schema.lookup` first (normalized
     path, shallow schema docs, child summaries), then prefer `config.patch`
     over `config.apply` with a partial object. If you did overwrite config,
-    restore from backup or run `openclaw doctor` to repair.
+    restore from backup or run `openagent doctor` to repair.
 
     Docs: [Models](/concepts/models), [Configure](/cli/configure),
     [Config](/cli/config), [Doctor](/gateway/doctor).
@@ -74,11 +74,11 @@ troubleshooting, see the main [FAQ](/help/faq).
     1. Install Ollama from `https://ollama.com/download`
     2. Pull a local model, e.g. `ollama pull gemma4`
     3. For cloud models too, run `ollama signin`
-    4. Run `openclaw onboard`, choose `Ollama`, then `Local` or `Cloud + Local`
+    4. Run `openagent onboard`, choose `Ollama`, then `Local` or `Cloud + Local`
 
     `Cloud + Local` gives you cloud models plus your local Ollama models;
     cloud models need no local pull. To switch
-    manually: `openclaw models list`, then `openclaw models set ollama/<model>`.
+    manually: `openagent models list`, then `openagent models set ollama/<model>`.
 
     Smaller/heavily quantized models are more vulnerable to prompt injection.
     Use large models for any bot with tool access; if you use small models
@@ -137,7 +137,7 @@ troubleshooting, see the main [FAQ](/help/faq).
     Yes — model choice and runtime choice are separate:
 
     - **Native Codex coding agent:** set `agents.defaults.model.primary` to
-      `openai/gpt-5.5`. Sign in with `openclaw models auth login --provider
+      `openai/gpt-5.5`. Sign in with `openagent models auth login --provider
       openai` for ChatGPT/Codex subscription auth.
     - **Direct OpenAI API tasks outside the agent loop:** configure
       `OPENAI_API_KEY` for images, embeddings, speech, realtime, and other
@@ -272,9 +272,9 @@ troubleshooting, see the main [FAQ](/help/faq).
     and override the shared read-through base. See
     [Auth credential semantics](/auth-credential-semantics#agent-copy-portability).
 
-    Fix: run `openclaw models auth login --provider <providerId> --agent <agentId>`
+    Fix: run `openagent models auth login --provider <providerId> --agent <agentId>`
     on the Gateway host when the agent needs its own credentials. You can also
-    configure auth when creating an agent with `openclaw agents add <id>`.
+    configure auth when creating an agent with `openagent agents add <id>`.
     For OAuth, sign in separately when the agent needs its own account.
     See [Multi-Agent Routing](/concepts/multi-agent) for the
     full `agentDir` reuse and credential-sharing rules — never reuse
@@ -336,14 +336,14 @@ troubleshooting, see the main [FAQ](/help/faq).
     **Fix checklist:**
 
     - Confirm where profiles live: shared and agent-local SQLite auth stores.
-      Run `openclaw doctor --fix` if an older install still has
+      Run `openagent doctor --fix` if an older install still has
       `auth-profiles.json`; it is a migration source, not the runtime store.
     - Confirm the Gateway loads your env var. `ANTHROPIC_API_KEY` set only in
       your shell won't reach a Gateway run via systemd/launchd — put it in
       `~/.openclaw/.env` or enable `env.shellEnv`.
     - Confirm you're configuring the right agent — use `--agent <agentId>`
-      with `openclaw models auth login` to select its local store.
-    - Run `openclaw models status --agent <agentId>` for that agent's model
+      with `openagent models auth login` to select its local store.
+    - Run `openagent models status --agent <agentId>` for that agent's model
       routes and auth state. A stored profile alone does not prove readiness;
       see [Read status correctly](/cli/models#read-status-correctly).
 
@@ -351,14 +351,14 @@ troubleshooting, see the main [FAQ](/help/faq).
 
     The run is pinned to an Anthropic profile the Gateway can't find.
 
-    - Use Claude CLI: run `openclaw models auth login --provider anthropic
+    - Use Claude CLI: run `openagent models auth login --provider anthropic
       --method cli --set-default` on the gateway host.
     - Prefer an API key instead: put `ANTHROPIC_API_KEY` in
       `~/.openclaw/.env` on the gateway host, then clear any pinned order
       that forces the missing profile:
 
       ```bash
-      openclaw models auth order clear --provider anthropic
+      openagent models auth order clear --provider anthropic
       ```
 
     - Remote mode: auth profiles live on the gateway machine, not your
@@ -379,9 +379,9 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
     `~/.openclaw/agents/<agentId>/agent/openclaw-agent.sqlite` override the
     shared read-through base in `~/.openclaw/state/openclaw.sqlite`.
     Older installs keep the shared store in the main agent's database until
-    `openclaw doctor --fix` relocates it.
+    `openagent doctor --fix` relocates it.
 
-    Inspect saved profiles without dumping secrets: `openclaw models auth
+    Inspect saved profiles without dumping secrets: `openagent models auth
     list` (optionally `--provider <id>` or `--json`). See
     [Models CLI](/cli/models#auth-profiles).
 
@@ -400,7 +400,7 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
 
     OpenAgent may skip a profile in a short **cooldown** (rate limits,
     timeouts, auth failures) or a longer **disabled** state
-    (billing/insufficient credits). Inspect with `openclaw models status
+    (billing/insufficient credits). Inspect with `openagent models status
     --json` and check `auth.unusableProfiles`. Rate-limit cooldowns can be
     model-scoped — a profile cooling down for one model can still serve a
     sibling model on the same provider; billing/disabled windows block the
@@ -411,22 +411,22 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
 
     ```bash
     # Defaults to the configured default agent (omit --agent)
-    openclaw models auth order get --provider anthropic
+    openagent models auth order get --provider anthropic
 
     # Lock rotation to a single profile
-    openclaw models auth order set --provider anthropic anthropic:default
+    openagent models auth order set --provider anthropic anthropic:default
 
     # Or set an explicit order (fallback within provider)
-    openclaw models auth order set --provider anthropic anthropic:work anthropic:default
+    openagent models auth order set --provider anthropic anthropic:work anthropic:default
 
     # Clear override (fall back to config auth.order / round-robin)
-    openclaw models auth order clear --provider anthropic
+    openagent models auth order clear --provider anthropic
 
     # Target a specific agent
-    openclaw models auth order set --provider anthropic --agent main anthropic:default
+    openagent models auth order set --provider anthropic --agent main anthropic:default
     ```
 
-    Verify what will actually be tried: `openclaw models status --probe`. A
+    Verify what will actually be tried: `openagent models status --probe`. A
     stored profile omitted from an explicit order reports
     `excluded_by_auth_order` instead of being tried silently.
 

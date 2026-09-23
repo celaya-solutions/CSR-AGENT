@@ -1,5 +1,5 @@
 ---
-summary: "CLI reference for `openclaw transcripts` (list, show, and export stored transcripts)"
+summary: "CLI reference for `openagent transcripts` (list, show, and export stored transcripts)"
 read_when:
   - You want to read stored transcript summaries from the terminal
   - You need the path to a transcripts markdown summary
@@ -9,7 +9,7 @@ read_when:
 title: "Transcripts CLI"
 ---
 
-# `openclaw transcripts`
+# `openagent transcripts`
 
 Inspector and export command for durable meeting transcripts.
 Discord voice channels can capture notes automatically;
@@ -65,8 +65,8 @@ generate a missing summary.
 **Download JSONL** exports the reader's public utterance projection, excluding
 provider-private metadata and local filesystem paths. Local CLI exports retain
 their existing raw format. Browser exports larger than 4 MiB fail visibly
-without a partial file; use `openclaw transcripts path <session> --transcript`
-or `openclaw transcripts path <session> --dir` on the Gateway host for larger
+without a partial file; use `openagent transcripts path <session> --transcript`
+or `openagent transcripts path <session> --dir` on the Gateway host for larger
 exports.
 
 Archive reads require `operator.read` or its write/admin implication and
@@ -77,17 +77,17 @@ requires `operator.admin`.
 ## Commands
 
 ```bash
-openclaw transcripts list
-openclaw transcripts show <session>
-openclaw transcripts show YYYY-MM-DD/<session>
-openclaw transcripts path <session>
-openclaw transcripts path YYYY-MM-DD/<session>
-openclaw transcripts path <session> --dir
-openclaw transcripts path <session> --metadata
-openclaw transcripts path <session> --transcript
-openclaw transcripts list --json
-openclaw transcripts show <session> --json
-openclaw transcripts path <session> --json
+openagent transcripts list
+openagent transcripts show <session>
+openagent transcripts show YYYY-MM-DD/<session>
+openagent transcripts path <session>
+openagent transcripts path YYYY-MM-DD/<session>
+openagent transcripts path <session> --dir
+openagent transcripts path <session> --metadata
+openagent transcripts path <session> --transcript
+openagent transcripts list --json
+openagent transcripts show <session> --json
+openagent transcripts path <session> --json
 ```
 
 | Command                       | Description                                          |
@@ -106,7 +106,7 @@ Otherwise, `show` and `path` accept `YYYY-MM-DD/<raw-session-id>`, keeping the
 entire suffix literal, including punctuation and slashes. For example:
 
 ```bash
-openclaw transcripts show '2026-05-22/notes: room/one'
+openagent transcripts show '2026-05-22/notes: room/one'
 ```
 
 If neither qualified form finds a capture, the complete input is matched as a
@@ -121,7 +121,7 @@ to a prefix plus a deterministic SHA-256 hash of the complete original session
 ID. Only the derived export name and its selector change; the raw session ID,
 provider stop handle, and stored notes stay intact. Names that already fit
 remain unchanged. Use the selector printed by `list` for the shortened name.
-For existing sessions with oversized stored names, run `openclaw doctor --fix`
+For existing sessions with oversized stored names, run `openagent doctor --fix`
 to repair their derived selectors without changing stored notes.
 
 ## Output
@@ -161,7 +161,7 @@ accepts integers from 1 to 50. The text is bounded; structured results are in
 
 `show` returns the stored notes Markdown and session details. Its text is capped
 at 12,000 characters; a truncation marker points to
-`openclaw transcripts show <selector>` for the full notes. A capture without a
+`openagent transcripts show <selector>` for the full notes. A capture without a
 summary reports that notes are not available yet, including whether it is active.
 Reading notes does not regenerate the summary or export artifacts.
 
@@ -189,7 +189,7 @@ raw ID.
 Legacy `sessionId` input considers qualified and raw/slug meanings together. If
 they identify different captures, the tool reports ambiguity without listing
 candidate details. This stays ambiguous after a capture ends. Use a selector
-returned by start, import, or authorized list/status, or inspect `openclaw transcripts
+returned by start, import, or authorized list/status, or inspect `openagent transcripts
 list` locally and pass the desired value in the `selector` field. Both sides of
 a raw-ID/selector collision remain addressable by their own canonical selector.
 
@@ -264,7 +264,7 @@ heading. JSONL contains the public
 utterance projection: sequence, utterance ID, full text, speaker identity, source
 timestamps, and finality when available. It excludes private provider metadata
 and filesystem paths; the local CLI export retains its raw utterance format.
-Use `openclaw transcripts path <session> --transcript` on the Gateway host for
+Use `openagent transcripts path <session> --transcript` on the Gateway host for
 larger exports.
 
 Status reports registered subscriptions, not confirmed recording. `armed`,
@@ -353,7 +353,7 @@ Summaries are saved in SQLite before optional artifact export. If export fails,
 the saved summary remains available even when `summary.md` is missing. Configured
 auto-start captures log warnings during shutdown for failed exports or provider
 stop errors. Correct the export destination problem, then run
-`openclaw transcripts path <session>` or `openclaw transcripts show <session>`
+`openagent transcripts path <session>` or `openagent transcripts show <session>`
 to retry the export; an intended path in a warning is not proof of an exported file.
 
 Historical sessions without complete account-owner metadata remain on a local
@@ -364,7 +364,7 @@ providers, partial owner metadata, and accountless historical sources also stay
 on this local recovery path.
 
 ```bash
-openclaw agent --agent <owning-agent-or-main> --local --message \
+openagent agent --agent <owning-agent-or-main> --local --message \
   "Use transcripts summarize for session <session>."
 ```
 
@@ -374,7 +374,7 @@ OpenAgent releases that predate the SQLite store wrote canonical runtime state
 directly beneath `$OPENCLAW_STATE_DIR/transcripts/`. Run:
 
 ```bash
-openclaw doctor --fix
+openagent doctor --fix
 ```
 
 Doctor imports the complete legacy tree into SQLite, verifies row counts and

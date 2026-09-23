@@ -45,8 +45,8 @@ the high-risk node command:
 The paired node must enable session hosting and advertise the `codex.exec-server`
 capability and `codex.exec-server.stdio.v1` command. If enabling the plugin
 changes an existing node's command surface, reconnect the node, inspect
-`openclaw nodes pending`, and approve the updated pairing with
-`openclaw nodes approve <requestId>`. The persistent command allowlist does not
+`openagent nodes pending`, and approve the updated pairing with
+`openagent nodes approve <requestId>`. The persistent command allowlist does not
 replace launch authorization. The critical prompt offers two approval scopes:
 
 - **Allow once** authorizes one exec-server launch.
@@ -87,7 +87,7 @@ Choose the paired device in the Control UI **Place** picker, or dispatch an
 existing managed-worktree session explicitly:
 
 ```bash
-openclaw gateway call sessions.dispatch \
+openagent gateway call sessions.dispatch \
   --params '{"key":"agent:main:device-work","deviceId":"<paired-device-id>"}'
 ```
 

@@ -17,7 +17,7 @@ vision models.
 ```bash
 ollama pull qwen2.5vl:7b
 export OLLAMA_API_KEY="ollama-local"
-openclaw infer image describe --file ./photo.jpg --model ollama/qwen2.5vl:7b --json
+openagent infer image describe --file ./photo.jpg --model ollama/qwen2.5vl:7b --json
 ```
 
 `--model` must be a full `<provider/model>` ref; when set, `infer image

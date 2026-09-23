@@ -122,14 +122,14 @@ There is also a grounded historical backfill lane for review and recovery work:
 
 <AccordionGroup>
   <Accordion title="Backfill commands">
-    - `openclaw memory rem-harness --path <path> --grounded` previews grounded diary output from historical `YYYY-MM-DD.md` notes.
-    - `openclaw memory rem-backfill --path <path>` writes reversible grounded diary entries into `DREAMS.md`.
-    - `openclaw memory rem-backfill --path <path> --stage-short-term` stages grounded durable candidates into the same short-term evidence store the normal deep phase uses.
-    - `openclaw memory rem-backfill --rollback` and `--rollback-short-term` remove those staged backfill artifacts without touching ordinary diary entries or live short-term recall.
-    - `openclaw memory session-backfill --agent <id>` previews trusted candidates from the agent's retained session history, oldest unprocessed day first.
-    - `openclaw memory session-backfill --agent <id> --apply` stages those candidates through the normal short-term store and writes reversible diary blocks without changing `MEMORY.md` or `USER.md`.
-    - `openclaw memory session-backfill --agent <id> --rem` writes a deterministic grounded preview per day to `DREAMS.md` without staging candidates or calling a model.
-    - `openclaw memory session-backfill --agent <id> --rollback` clears the shared grounded backfill candidates and diary blocks, including artifacts created by `rem-backfill`.
+    - `openagent memory rem-harness --path <path> --grounded` previews grounded diary output from historical `YYYY-MM-DD.md` notes.
+    - `openagent memory rem-backfill --path <path>` writes reversible grounded diary entries into `DREAMS.md`.
+    - `openagent memory rem-backfill --path <path> --stage-short-term` stages grounded durable candidates into the same short-term evidence store the normal deep phase uses.
+    - `openagent memory rem-backfill --rollback` and `--rollback-short-term` remove those staged backfill artifacts without touching ordinary diary entries or live short-term recall.
+    - `openagent memory session-backfill --agent <id>` previews trusted candidates from the agent's retained session history, oldest unprocessed day first.
+    - `openagent memory session-backfill --agent <id> --apply` stages those candidates through the normal short-term store and writes reversible diary blocks without changing `MEMORY.md` or `USER.md`.
+    - `openagent memory session-backfill --agent <id> --rem` writes a deterministic grounded preview per day to `DREAMS.md` without staging candidates or calling a model.
+    - `openagent memory session-backfill --agent <id> --rollback` clears the shared grounded backfill candidates and diary blocks, including artifacts created by `rem-backfill`.
 
   </Accordion>
 </AccordionGroup>
@@ -172,7 +172,7 @@ Dreaming completions share the [background work budget](/concepts/queue#backgrou
 An explicit multi-agent fleet needs an [ambient system owner](/gateway/config-agents/heartbeat-compaction-and-streaming#agents.defaults.systemagent) for this job. If logs report `Agent-less cron job has no resolvable owner`, choose an existing agent to own the sweep. For example, if that agent is `ops`:
 
 ```bash
-openclaw config set agents.defaults.systemAgent.agentId ops
+openagent config set agents.defaults.systemAgent.agentId ops
 ```
 
 This selects the execution owner; it does not change any agent's workspace or limit the sweep to that agent's memory. A sole-agent installation resolves its owner automatically.
@@ -239,10 +239,10 @@ This selects the execution owner; it does not change any agent's workspace or li
 <Tabs>
   <Tab title="Promotion preview / apply">
     ```bash
-    openclaw memory promote
-    openclaw memory promote --apply
-    openclaw memory promote --limit 5
-    openclaw memory status --deep
+    openagent memory promote
+    openagent memory promote --apply
+    openagent memory promote --limit 5
+    openagent memory status --deep
     ```
 
     Manual `memory promote` uses deep-phase thresholds by default unless overridden with CLI flags.
@@ -252,8 +252,8 @@ This selects the execution owner; it does not change any agent's workspace or li
     Explain why a specific candidate would or would not promote:
 
     ```bash
-    openclaw memory promote-explain "router vlan"
-    openclaw memory promote-explain "router vlan" --json
+    openagent memory promote-explain "router vlan"
+    openagent memory promote-explain "router vlan" --json
     ```
 
   </Tab>
@@ -261,8 +261,8 @@ This selects the execution owner; it does not change any agent's workspace or li
     Preview REM reflections, candidate truths, and deep promotion output without writing anything:
 
     ```bash
-    openclaw memory rem-harness
-    openclaw memory rem-harness --json
+    openagent memory rem-harness
+    openagent memory rem-harness --json
     ```
 
   </Tab>

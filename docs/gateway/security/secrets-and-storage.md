@@ -54,7 +54,7 @@ Hardening: keep permissions tight (`700` on dirs, `600` on files); use full-disk
 - `~/.openclaw/openclaw.json`: `600` (user read/write only)
 - `~/.openclaw`: `700` (user only)
 
-`openclaw doctor` can warn and offer to tighten these.
+`openagent doctor` can warn and offer to tighten these.
 
 ### Workspace `.env` files
 
@@ -75,7 +75,7 @@ Gateway logs may include tool summaries, errors, and URLs; session transcripts c
 
 - Log/transcript redaction is always on and cannot be disabled by config.
 - Add custom patterns for your environment via `logging.redactPatterns` (tokens, hostnames, internal URLs).
-- When sharing diagnostics, prefer `openclaw status --all` (pasteable, secrets redacted) over raw logs.
+- When sharing diagnostics, prefer `openagent status --all` (pasteable, secrets redacted) over raw logs.
 - Prune old session transcripts and log files if you do not need long retention.
 
 Details: [Logging](/gateway/logging)

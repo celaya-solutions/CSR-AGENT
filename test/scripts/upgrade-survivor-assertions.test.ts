@@ -155,7 +155,7 @@ const RECOVERABLE_UPDATE = {
   steps: [
     { name: "global update", exitCode: 0 },
     { name: "global install swap", exitCode: 0 },
-    { name: "openclaw doctor", exitCode: 0 },
+    { name: "openagent doctor", exitCode: 0 },
   ],
   postUpdate: {
     plugins: {
@@ -165,9 +165,9 @@ const RECOVERABLE_UPDATE = {
       warnings: [
         {
           reason:
-            'Plugin "discord" requires capability consent. Use openclaw plugins install or openclaw plugins enable with --accept-capabilities, then retry.',
+            'Plugin "discord" requires capability consent. Use openagent plugins install or openagent plugins enable with --accept-capabilities, then retry.',
           message:
-            'Plugin "discord" requires capability consent. Use openclaw plugins install or openclaw plugins enable with --accept-capabilities, then retry.',
+            'Plugin "discord" requires capability consent. Use openagent plugins install or openagent plugins enable with --accept-capabilities, then retry.',
         },
         {
           reason: "Config remained invalid after updated plugin migrations.",
@@ -231,7 +231,7 @@ describe("upgrade recovery result assertions", () => {
       after: { version: "2026.8.1" },
       steps: [
         { name: "global update", exitCode: 0 },
-        { name: "openclaw doctor", exitCode: 0 },
+        { name: "openagent doctor", exitCode: 0 },
       ],
     };
     const plugins = {
@@ -374,7 +374,7 @@ describe("upgrade recovery result assertions", () => {
         .status,
     ).toBe(0);
     const consentError =
-      'Plugin "discord" requires capability consent. Use openclaw plugins install or openclaw plugins enable with --accept-capabilities, then retry.';
+      'Plugin "discord" requires capability consent. Use openagent plugins install or openagent plugins enable with --accept-capabilities, then retry.';
     const consentOutcome = {
       pluginId: "discord",
       status: "error",
@@ -889,8 +889,8 @@ function assertCompanionPluginRecords(
           plugins: {
             ...RECOVERABLE_UPDATE.postUpdate.plugins,
             warnings: recoveryPluginIds.map((pluginId) => ({
-              reason: `Plugin "${pluginId}" requires capability consent. Use openclaw plugins install or openclaw plugins enable with --accept-capabilities, then retry.`,
-              message: `Plugin "${pluginId}" requires capability consent. Use openclaw plugins install or openclaw plugins enable with --accept-capabilities, then retry.`,
+              reason: `Plugin "${pluginId}" requires capability consent. Use openagent plugins install or openagent plugins enable with --accept-capabilities, then retry.`,
+              message: `Plugin "${pluginId}" requires capability consent. Use openagent plugins install or openagent plugins enable with --accept-capabilities, then retry.`,
             })),
           },
         },

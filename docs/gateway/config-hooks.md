@@ -52,9 +52,9 @@ data and restrict the target agent's tools and workspace separately.
 `hooks.token` should be distinct from active Gateway shared-secret auth
 (`gateway.auth.token` / `OPENCLAW_GATEWAY_TOKEN` or `gateway.auth.password` /
 `OPENCLAW_GATEWAY_PASSWORD`). Startup logs a non-fatal warning on reuse;
-`openclaw security audit` reports a critical finding, including password auth
+`openagent security audit` reports a critical finding, including password auth
 supplied at audit time (`--auth password --password <password>`). Use
-`openclaw doctor --fix` to rotate a persisted reused hook token, then update all
+`openagent doctor --fix` to rotate a persisted reused hook token, then update all
 external senders.
 
 ### Hook HTTP contract

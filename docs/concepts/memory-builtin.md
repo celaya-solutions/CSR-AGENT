@@ -72,7 +72,7 @@ To force local GGUF embeddings, install and configure the official
 GGUF file:
 
 ```bash
-openclaw plugins install @openclaw/llama-cpp-provider
+openagent plugins install @openclaw/llama-cpp-provider
 ```
 
 ```json5
@@ -128,7 +128,7 @@ which support selective deletion after promotion. For coverage and limits, see
 - **Index compatibility:** changing the embedding provider, model, settings,
   configured sources, or scope can pause search until you explicitly rebuild.
   See [provider selection](/reference/memory-config#provider-selection).
-- **Reindex on demand:** `openclaw memory index --force --agent <id>`
+- **Reindex on demand:** `openagent memory index --force --agent <id>`
 
 When the index identity reports an OpenAgent chunking-implementation change,
 a normal or CLI search rebuilds it before returning results. The rebuild uses
@@ -161,7 +161,7 @@ Other agent state, including sessions and transcripts in the same database,
 is retained. Use the [memory index command](/cli/memory#memory-index) for
 memory-only repair.
 
-`openclaw memory status` reports stored chunk text and JSON embedding bytes
+`openagent memory status` reports stored chunk text and JSON embedding bytes
 for each source (`sourceCounts[].chunkBytes` in JSON). These are payload sizes,
 not total disk usage: embedding cache, FTS/vector tables, SQLite overhead, and
 WAL/free pages are excluded.
@@ -181,7 +181,7 @@ You can also index Markdown files outside the workspace with
 QMD has been removed; builtin is the only memory engine. After upgrading, run:
 
 ```bash
-openclaw doctor --fix
+openagent doctor --fix
 ```
 
 Doctor removes the retired `memory.backend`, `memory.qmd`, and
@@ -219,26 +219,26 @@ BM25 keyword search only.
 
 ## Troubleshooting
 
-**Memory search disabled?** Check `openclaw memory status`. If no provider is
+**Memory search disabled?** Check `openagent memory status`. If no provider is
 detected, set one explicitly or add an API key.
 
 **Local provider not detected?** Run the interactive
-[llama.cpp](/plugins/llama-cpp) setup once with `openclaw onboard`, confirm the
+[llama.cpp](/plugins/llama-cpp) setup once with `openagent onboard`, confirm the
 local path exists, and run:
 
 ```bash
-openclaw memory status --deep --agent main
-openclaw memory index --force --agent main
+openagent memory status --deep --agent main
+openagent memory index --force --agent main
 ```
 
 Both standalone CLI commands and the Gateway use the same `local` provider id.
 Set `memory.search.provider: "local"` when you want local embeddings.
 
-**Stale results?** Run `openclaw memory index --force` to rebuild. The watcher
+**Stale results?** Run `openagent memory index --force` to rebuild. The watcher
 may miss changes in rare edge cases.
 
 **sqlite-vec not loading?** OpenAgent falls back to in-process cosine
-similarity automatically. `openclaw memory status --deep` reports the local
+similarity automatically. `openagent memory status --deep` reports the local
 vector store separately from the embedding provider, so `Vector store:
 unavailable` points at sqlite-vec loading while `Embeddings: unavailable`
 points at provider/auth or model readiness. Check logs for the specific load
@@ -250,9 +250,9 @@ To rebuild after stale results or an embedding-provider change, select the
 affected agent explicitly:
 
 ```bash
-openclaw memory status --agent <agent-id> --deep
-openclaw memory index --agent <agent-id> --force --verbose
-openclaw memory status --agent <agent-id> --deep
+openagent memory status --agent <agent-id> --deep
+openagent memory index --agent <agent-id> --force --verbose
+openagent memory status --agent <agent-id> --deep
 ```
 
 <Warning>
@@ -266,8 +266,8 @@ To discard the derived index and embedding cache before rebuilding, use
 [`memory reset`](/cli/memory#memory-reset):
 
 ```bash
-openclaw memory reset --agent <agent-id>
-openclaw memory index --agent <agent-id>
+openagent memory reset --agent <agent-id>
+openagent memory index --agent <agent-id>
 ```
 
 Reset asks for confirmation; add `--yes` for non-interactive use. It clears only
@@ -286,7 +286,7 @@ the [restore workflow](/install/backups#restore-a-full-archive).
 
 ### Reclaim disk space
 
-Start with `openclaw memory status --agent <agent-id> --json`. Compare the
+Start with `openagent memory status --agent <agent-id> --json`. Compare the
 database and WAL sizes, reusable bytes, retained embedding-cache payload, and
 per-source chunk payloads. Reusable bytes are pages already free inside SQLite;
 they are not additional data. Cache and chunk payloads exclude indexes and
@@ -298,10 +298,10 @@ stop other writers. Keep them stopped through reset and compaction so background
 indexing cannot refill the cache between commands:
 
 ```bash
-openclaw memory reset --agent <agent-id> --yes
-openclaw doctor --session-sqlite compact --session-sqlite-agent <agent-id>
-openclaw memory index --agent <agent-id>
-openclaw memory status --agent <agent-id>
+openagent memory reset --agent <agent-id> --yes
+openagent doctor --session-sqlite compact --session-sqlite-agent <agent-id>
+openagent memory index --agent <agent-id>
+openagent memory status --agent <agent-id>
 ```
 
 If only unused pages need reclaiming, skip reset and preserve the existing index.

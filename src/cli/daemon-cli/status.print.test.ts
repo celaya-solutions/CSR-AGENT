@@ -362,7 +362,7 @@ describe("printDaemonStatus", () => {
     );
 
     expectMockLineContains(runtime.error, "Gateway runtime PID does not own the listening port");
-    expectMockLineContains(runtime.error, formatCliCommand("openclaw gateway restart"));
+    expectMockLineContains(runtime.error, formatCliCommand("openagent gateway restart"));
   });
 
   it("prints established gateway client guidance gathered by deep status", () => {
@@ -528,7 +528,7 @@ describe("printDaemonStatus", () => {
       expectMockLineContains(runtime.error, "keepalive=true");
       expectMockLineContains(runtime.error, "Gateway lifecycle=restart");
       expectMockLineContains(runtime.error, "3 external forced Gateway restart(s)");
-      expectMockLineContains(runtime.error, formatCliCommand("openclaw doctor --fix"));
+      expectMockLineContains(runtime.error, formatCliCommand("openagent doctor --fix"));
     }
   });
 
@@ -621,7 +621,7 @@ describe("printDaemonStatus", () => {
     expectMockLineContains(runtime.error, "ai.openclaw.update.2026.5.12");
     expectMockLineContains(runtime.error, "ai.openclaw.manual-update.1717168800");
     expectMockLineContains(runtime.error, "launchctl remove <label>");
-    expectMockLineContains(runtime.error, formatCliCommand("openclaw gateway restart"));
+    expectMockLineContains(runtime.error, formatCliCommand("openagent gateway restart"));
   });
 
   it("points macOS launchd stdout and stderr at one log when gateway is not listening", () => {
@@ -737,7 +737,7 @@ describe("printDaemonStatus", () => {
 
     expectMockLineContains(runtime.error, "macOS has no usable GUI session");
     expectMockLineContains(runtime.error, "logged-in macOS GUI session");
-    expectMockLineContains(runtime.error, "openclaw --profile work gateway restart");
+    expectMockLineContains(runtime.error, "openagent --profile work gateway restart");
   });
 
   it.each([
@@ -886,7 +886,7 @@ describe("printDaemonStatus", () => {
     expectMockLineContains(runtime.error, "this OpenAgent command is version 2026.4.23");
     expectMockLineContains(
       runtime.error,
-      "if this mismatch is unexpected, update PATH so `openclaw` points to the version you want",
+      "if this mismatch is unexpected, update PATH so `openagent` points to the version you want",
     );
   });
 
@@ -1190,7 +1190,7 @@ describe("printDaemonStatus", () => {
     );
 
     expectMockLineContains(runtime.log, "Plugin version drift: 1 active official plugin");
-    expectMockLineContains(runtime.log, "openclaw gateway status --deep");
+    expectMockLineContains(runtime.log, "openagent gateway status --deep");
     expect(runtime.log.mock.calls.map(([line]) => line).join("\n")).not.toContain("whatsapp:");
   });
 
@@ -1221,8 +1221,8 @@ describe("printDaemonStatus", () => {
     );
 
     expectMockLineContains(runtime.log, "- whatsapp: 2026.5.3 (clawhub)");
-    expectMockLineContains(runtime.log, "openclaw plugins update whatsapp");
-    expectMockLineContains(runtime.log, "openclaw gateway restart");
+    expectMockLineContains(runtime.log, "openagent plugins update whatsapp");
+    expectMockLineContains(runtime.log, "openagent gateway restart");
   });
 
   it("prints exact package update commands for pinned npm plugin drift in deep mode", () => {
@@ -1262,9 +1262,9 @@ describe("printDaemonStatus", () => {
     expectMockLineContains(runtime.log, "- brave: 2026.6.9 (npm)");
     expectMockLineContains(
       runtime.log,
-      "openclaw plugins update @openclaw/brave-plugin@2026.6.10-beta.1",
+      "openagent plugins update @openclaw/brave-plugin@2026.6.10-beta.1",
     );
-    expectMockLineContains(runtime.log, "openclaw gateway restart");
+    expectMockLineContains(runtime.log, "openagent gateway restart");
   });
 
   it("fails loudly without an install command when npm cannot resolve a pinned target", () => {
@@ -1306,8 +1306,8 @@ describe("printDaemonStatus", () => {
     const output = [runtime.log, runtime.error]
       .flatMap((mock) => mock.mock.calls.map(([line]) => line))
       .join("\n");
-    expect(output).not.toContain("openclaw plugins update");
-    expect(output).not.toContain("openclaw gateway restart");
+    expect(output).not.toContain("openagent plugins update");
+    expect(output).not.toContain("openagent gateway restart");
   });
 
   it("does not print systemd user-service hints when a gateway responds", () => {

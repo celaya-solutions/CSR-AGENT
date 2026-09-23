@@ -517,7 +517,7 @@ describe("device worker placement dispatch", () => {
     await expect(
       harness.service.dispatch(request, (placement) => states.push(placement.state)),
     ).rejects.toThrow(
-      "device worker node offline-device requires an update before it can host sessions; run openclaw update, then reconnect it (for a headless node, run openclaw node restart)",
+      "device worker node offline-device requires an update before it can host sessions; run openagent update, then reconnect it (for a headless node, run openagent node restart)",
     );
 
     expect(states).toEqual(["requested", "failed"]);
@@ -525,8 +525,8 @@ describe("device worker placement dispatch", () => {
     expect(createWorkerSessionPlacementStore({ database }).get(REQUEST.sessionId)).toMatchObject({
       state: "failed",
       environmentId: null,
-      recoveryError: expect.stringContaining("run openclaw update"),
-      terminalReason: expect.stringContaining("run openclaw node restart"),
+      recoveryError: expect.stringContaining("run openagent update"),
+      terminalReason: expect.stringContaining("run openagent node restart"),
       terminalAtMs: 1_000,
     });
   });

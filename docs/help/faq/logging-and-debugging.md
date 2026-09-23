@@ -15,7 +15,7 @@ read_when:
     Fastest tail:
 
     ```bash
-    openclaw logs --follow
+    openagent logs --follow
     ```
 
     Service/supervisor logs (when the gateway runs via launchd/systemd):
@@ -30,11 +30,11 @@ read_when:
 
   <Accordion title="How do I start/stop/restart the Gateway service?">
     ```bash
-    openclaw gateway status
-    openclaw gateway restart
+    openagent gateway status
+    openagent gateway restart
     ```
 
-    If you run the gateway manually, `openclaw gateway --force` can reclaim the port. See [Gateway](/gateway).
+    If you run the gateway manually, `openagent gateway --force` can reclaim the port. See [Gateway](/gateway).
 
   </Accordion>
 
@@ -44,17 +44,17 @@ read_when:
     **1) WSL2 Gateway**: the Gateway runs inside Linux.
     ```powershell
     wsl
-    openclaw gateway status
-    openclaw gateway restart
+    openagent gateway status
+    openagent gateway restart
     ```
-    If you never installed the service, start it in the foreground: `openclaw gateway run`.
+    If you never installed the service, start it in the foreground: `openagent gateway run`.
 
     **2) Native Windows CLI/Gateway**: runs directly in Windows.
     ```powershell
-    openclaw gateway status
-    openclaw gateway restart
+    openagent gateway status
+    openagent gateway restart
     ```
-    If you run it manually (no service): `openclaw gateway run`.
+    If you run it manually (no service): `openagent gateway run`.
 
     Docs: [Windows](/platforms/windows), [Gateway service runbook](/gateway).
 
@@ -64,10 +64,10 @@ read_when:
     Quick health sweep:
 
     ```bash
-    openclaw status
-    openclaw models status
-    openclaw channels status
-    openclaw logs --follow
+    openagent status
+    openagent models status
+    openagent channels status
+    openagent logs --follow
     ```
 
     Common causes: model auth not loaded on the **gateway host** (check `models status`), channel pairing/allowlist blocking replies (check channel config and logs), or WebChat/Dashboard open without the right token. If remote, confirm the tunnel/Tailscale connection is up and the Gateway WebSocket is reachable.
@@ -77,12 +77,12 @@ read_when:
   </Accordion>
 
   <Accordion title='"Disconnected from gateway: no reason" - what now?'>
-    Usually means the UI lost the WebSocket connection. Check: is the Gateway running (`openclaw gateway status`)? Is it healthy (`openclaw status`)? Does the UI have the right token (`openclaw dashboard`)? If remote, is the tunnel/Tailscale link up?
+    Usually means the UI lost the WebSocket connection. Check: is the Gateway running (`openagent gateway status`)? Is it healthy (`openagent status`)? Does the UI have the right token (`openagent dashboard`)? If remote, is the tunnel/Tailscale link up?
 
     Then tail logs:
 
     ```bash
-    openclaw logs --follow
+    openagent logs --follow
     ```
 
     Docs: [Dashboard](/web/dashboard), [Remote access](/gateway/remote), [Troubleshooting](/gateway/troubleshooting).
@@ -91,8 +91,8 @@ read_when:
 
   <Accordion title="Telegram setMyCommands fails. What should I check?">
     ```bash
-    openclaw channels status
-    openclaw channels logs --channel telegram
+    openagent channels status
+    openagent channels logs --channel telegram
     ```
 
     Then match the error:
@@ -108,9 +108,9 @@ read_when:
 
   <Accordion title="TUI shows no output. What should I check?">
     ```bash
-    openclaw status
-    openclaw models status
-    openclaw logs --follow
+    openagent status
+    openagent models status
+    openagent logs --follow
     ```
 
     In the TUI, use `/status` to see the current state. If you expect replies in a chat channel, confirm delivery is enabled (`/deliver on`).
@@ -123,18 +123,18 @@ read_when:
     If you installed the service (launchd on macOS, systemd on Linux):
 
     ```bash
-    openclaw gateway stop
-    openclaw gateway start
+    openagent gateway stop
+    openagent gateway start
     ```
 
-    In the foreground, stop with Ctrl-C, then `openclaw gateway run`.
+    In the foreground, stop with Ctrl-C, then `openagent gateway run`.
 
     Docs: [Gateway service runbook](/gateway).
 
   </Accordion>
 
-  <Accordion title="ELI5: openclaw gateway restart vs openclaw gateway">
-    `openclaw gateway restart` restarts the **background service** (launchd/systemd). `openclaw gateway` runs the gateway **in the foreground** for this terminal session. Use the gateway subcommands if you installed the service; use the bare foreground run for a one-off.
+  <Accordion title="ELI5: openagent gateway restart vs openagent gateway">
+    `openagent gateway restart` restarts the **background service** (launchd/systemd). `openagent gateway` runs the gateway **in the foreground** for this terminal session. Use the gateway subcommands if you installed the service; use the bare foreground run for a one-off.
   </Accordion>
 
   <Accordion title="Fastest way to get more details when something fails">

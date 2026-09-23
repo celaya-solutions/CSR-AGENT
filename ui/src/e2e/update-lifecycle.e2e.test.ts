@@ -241,7 +241,7 @@ suite.define(() => {
           const failureText = await dialog.textContent();
           expect(failureText).toContain("Failed: install — ENOSPC: no space left on device, write");
           expect(failureText).toContain(
-            "Run openclaw triage to diagnose and repair the failed update.",
+            "Run openagent triage to diagnose and repair the failed update.",
           );
           expect(await gateway.getRequests("update.run")).toHaveLength(1);
           await page.waitForTimeout(300);

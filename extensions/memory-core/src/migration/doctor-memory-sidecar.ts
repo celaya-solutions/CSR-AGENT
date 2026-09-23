@@ -677,7 +677,7 @@ export const qmdWorkspaceStateMigration: PluginDoctorStateMigration = {
         changes.push(`Removed retired Memory Core QMD workspace: ${home}`);
       } catch (err) {
         warnings.push(
-          `Skipped retired Memory Core QMD workspace cleanup. Run openclaw doctor --fix to retry. ${home}: ${String(err)}`,
+          `Skipped retired Memory Core QMD workspace cleanup. Run openagent doctor --fix to retry. ${home}: ${String(err)}`,
         );
       }
     }

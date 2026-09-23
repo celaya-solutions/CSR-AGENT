@@ -63,10 +63,10 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
       channelId: "examplechat",
       label: "ExampleChat",
       installSpec: "@example/examplechat",
-      installCommand: "openclaw plugins install @example/examplechat",
-      doctorFixCommand: "openclaw doctor --fix",
+      installCommand: "openagent plugins install @example/examplechat",
+      doctorFixCommand: "openagent doctor --fix",
       repairHint:
-        "Install the official external plugin with: openclaw plugins install @example/examplechat, or run: openclaw doctor --fix.",
+        "Install the official external plugin with: openagent plugins install @example/examplechat, or run: openagent doctor --fix.",
     });
   });
 
@@ -128,7 +128,7 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
       channelId: "otherchat",
       label: "OtherChat",
       installSpec: "@example/otherchat",
-      installCommand: "openclaw plugins install @example/otherchat",
+      installCommand: "openagent plugins install @example/otherchat",
     });
   });
 
@@ -176,7 +176,7 @@ describe("resolveExternalPluginRuntimeDependencyRepairHint", () => {
     {
       name: "names the official install command for the package that owns the id",
       candidate: { pluginId: "examplechat", packageName: "@example/examplechat" },
-      expected: "openclaw plugins install @example/examplechat",
+      expected: "openagent plugins install @example/examplechat",
     },
     {
       name: "withholds the official install command from a foreign package reusing the id",

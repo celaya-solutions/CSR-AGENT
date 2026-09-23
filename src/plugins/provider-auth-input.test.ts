@@ -242,10 +242,10 @@ describe("normalizeApiKeyInput", () => {
 
 describe("validateApiKeyInput", () => {
   it.each([
-    "openclaw onboard --auth-choice zai-coding-global",
-    "openclaw onboard --auth-choice=zai-coding-global",
-    "openclaw onboard --non-interactive --auth-choice zai-coding-global --zai-api-key $ZAI_API_KEY",
-    "openclaw onboard --non-interactive --auth-choice=zai-coding-global --zai-api-key $ZAI_API_KEY",
+    "openagent onboard --auth-choice zai-coding-global",
+    "openagent onboard --auth-choice=zai-coding-global",
+    "openagent onboard --non-interactive --auth-choice zai-coding-global --zai-api-key $ZAI_API_KEY",
+    "openagent onboard --non-interactive --auth-choice=zai-coding-global --zai-api-key $ZAI_API_KEY",
   ])("rejects pasted OpenAgent onboarding command %p", (value) => {
     expect(validateApiKeyInput(value)).toBe(
       "Paste the API key value, not an OpenAgent onboarding command.",

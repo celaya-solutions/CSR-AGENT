@@ -69,7 +69,7 @@ After verifying the downloaded archive, install it with the mask scoped to the r
 
 ```bash
 sudo sh -c 'umask 022 && npm install -g /tmp/openclaw-cloud.tgz'
-openclaw --version
+openagent --version
 ```
 
 Use the path of your verified archive in place of `/tmp/openclaw-cloud.tgz`. Changing the install mask does not repair existing root-only parent directories; if an earlier install was inaccessible, correct access to that package and its parent directories before retrying enrollment.

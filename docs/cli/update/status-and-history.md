@@ -1,5 +1,5 @@
 ---
-summary: "`openclaw update status` plus the durable run ledger, reports, and artifacts every update writes"
+summary: "`openagent update status` plus the durable run ledger, reports, and artifacts every update writes"
 read_when:
   - You want to check whether an update is available before applying one
   - You are inspecting a past update run, its reports, or its artifacts
@@ -7,7 +7,7 @@ title: "Update status and run history"
 sidebarTitle: "Status and history"
 ---
 
-Availability checks and the durable record every update leaves behind. Part of the [`openclaw update`](/cli/update) reference.
+Availability checks and the durable record every update leaves behind. Part of the [`openagent update`](/cli/update) reference.
 
 ## `update status`
 
@@ -15,9 +15,9 @@ Show the active update channel, git tag/branch/SHA (source checkouts only),
 update availability, and the active or most recent update report.
 
 ```bash
-openclaw update status
-openclaw update status --json
-openclaw update status --timeout 10
+openagent update status
+openagent update status --json
+openagent update status --timeout 10
 ```
 
 | Flag                  | Default | Description                         |
@@ -47,7 +47,7 @@ a run ID.
 Triage preserves the original update report. Any update launched during repair
 gets a separate `runId`.
 
-An admitted `openclaw update --json` includes `runId` and the `run` record. `openclaw update status --json`
+An admitted `openagent update --json` includes `runId` and the `run` record. `openagent update status --json`
 includes `activeRun` when a run is active and `lastRun` when history exists.
 If history cannot be read or classified, status still shows update availability
 and runtime findings. Human output explains that run status is unavailable;
@@ -67,10 +67,10 @@ row stays in `activeRun` until the Gateway or explicit repair commits the outcom
 Identityless rows outside the legacy-expiry shape are not reconciled automatically.
 For those stale identityless rows, JSON includes
 `staleRun` with `runId` and `guidance`; human status and Doctor preflight report
-"no activity since &lt;time&gt;; if no update is running, run `openclaw update repair`
-or start a new `openclaw update`".
+"no activity since &lt;time&gt;; if no update is running, run `openagent update repair`
+or start a new `openagent update`".
 
-An explicit new `openclaw update` (including `--dry-run`) supersedes the old row
+An explicit new `openagent update` (including `--dry-run`) supersedes the old row
 only when it is the sole active run, has no recorded driver identity, and has
 had no activity for more than 30 minutes. Admission atomically finishes that
 row as `failed` with reason `superseded` and a retained `reconcile:superseded`
@@ -81,11 +81,11 @@ active row is reconciled.
 
 OpenAgent 2026.9.2 can admit a new CLI update while an older row remains running;
 the stale row does not block updater admission. Upgrade normally, then run
-`openclaw update repair` from the updated installation if status still shows the
+`openagent update repair` from the updated installation if status still shows the
 old run. See [Updating](/install/updating#stale-update-history).
 
 Human output, chat completion notices, the Control UI update view, and the
-`openclaw status` update line use the same report, including on success. The report shows recorded facts; an absent verification fact
+`openagent status` update line use the same report, including on success. The report shows recorded facts; an absent verification fact
 means that check has not been observed.
 
 Failed steps include bounded `failureFacts` when the updater observed a specific
@@ -121,8 +121,8 @@ obsolete backups; unresolved recovery material is not eligible for this cleanup.
 Gateway clients with `operator.admin` can inspect history:
 
 ```bash
-openclaw gateway call update.runs.list --params '{"limit":10}'
-openclaw gateway call update.runs.get --params '{"runId":"<run-id>"}'
+openagent gateway call update.runs.list --params '{"limit":10}'
+openagent gateway call update.runs.get --params '{"runId":"<run-id>"}'
 ```
 
 `update.runs.list` returns `{ runs }`; `limit` defaults to 20 and is capped at 100. `update.runs.get` returns `{ run }`, with `run: null` when the ID is unknown. `update.status` retains its existing
@@ -160,7 +160,7 @@ Heartbeat write errors warn once per driver run and do not interrupt a running
 build, install, or finalization phase.
 
 Historical identityless rows outside the legacy-expiry shape require explicit
-`update repair` or a new operator-started `openclaw update`.
+`update repair` or a new operator-started `openagent update`.
 An old `requested` row alone does not prove that its updater exited: the 2026.9.2
 updater can still be waiting on package-manager or registry preflight before it
 records its first staging step. Stop an unrecorded old updater before explicitly

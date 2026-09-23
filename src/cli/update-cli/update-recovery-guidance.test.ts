@@ -14,7 +14,7 @@ vi.mock("../../infra/container-environment.js", () => ({ isContainerEnvironment:
 
 const dirs = useAutoCleanupTempDirTracker(afterEach);
 const hostGuidance =
-  "Run `openclaw triage` on this machine to open a coding agent that can diagnose and repair the installation.";
+  "Run `openagent triage` on this machine to open a coding agent that can diagnose and repair the installation.";
 const redeploy = "recreate or redeploy the container";
 function failure(overrides: Partial<UpdateRunResult> = {}): UpdateRunResult {
   return {

@@ -32,7 +32,7 @@ bundled, official external, and source-only plugins, see
 <Steps>
   <Step title="Find the plugin">
     Start with the plugins bundled in this repository (`extensions/`), listed
-    in the [Plugin inventory](/plugins/plugin-inventory). `openclaw plugins
+    in the [Plugin inventory](/plugins/plugin-inventory). `openagent plugins
     search` queries a plugin registry only when an operator configures one with
     `OPENCLAW_CLAWHUB_URL`; there is no default registry. Ordinary bare
     package specs install from npm unless they match a bundled or official
@@ -45,14 +45,14 @@ bundled, official external, and source-only plugins, see
   <Step title="Install the plugin">
     ```bash
     # From npm.
-    openclaw plugins install npm:<package>
+    openagent plugins install npm:<package>
 
     # From git.
-    openclaw plugins install git:github.com/<owner>/<repo>@<ref>
+    openagent plugins install git:github.com/<owner>/<repo>@<ref>
 
     # From a local development checkout.
-    openclaw plugins install ./my-plugin
-    openclaw plugins install --link ./my-plugin
+    openagent plugins install ./my-plugin
+    openagent plugins install --link ./my-plugin
     ```
 
     Treat plugin installs like running code. Prefer pinned versions for
@@ -69,11 +69,11 @@ bundled, official external, and source-only plugins, see
     Enable the plugin if it is not already enabled:
 
     ```bash
-    openclaw plugins enable <plugin-id>
+    openagent plugins enable <plugin-id>
     ```
 
     If `plugins.allow` is set, the installed plugin id must be in that list
-    before the plugin can load. `openclaw plugins install` adds the installed
+    before the plugin can load. `openagent plugins install` adds the installed
     id to an existing `plugins.allow` list and removes the same id from
     `plugins.deny` so the explicit install can load.
 
@@ -95,7 +95,7 @@ bundled, official external, and source-only plugins, see
 
   <Step title="Verify runtime registration">
     ```bash
-    openclaw plugins inspect <plugin-id> --runtime --json
+    openagent plugins inspect <plugin-id> --runtime --json
     ```
 
     `--runtime` loads the plugin in the inspecting CLI process and reports
@@ -111,13 +111,13 @@ bundled, official external, and source-only plugins, see
 
 ### Choose an install source
 
-| Source      | Use when                                                             | Example                                                        |
-| ----------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
-| registry    | An operator configured a plugin registry with `OPENCLAW_CLAWHUB_URL` | `openclaw plugins install clawhub:<package>`                   |
-| npm         | You need direct npm registry or dist-tag workflows                   | `openclaw plugins install npm:<package>`                       |
-| git         | You need a branch, tag, or commit from a repository                  | `openclaw plugins install git:github.com/<owner>/<repo>@<ref>` |
-| local path  | You are developing or testing a plugin on the same machine           | `openclaw plugins install --link ./my-plugin`                  |
-| marketplace | You are installing a Claude-compatible marketplace plugin            | `openclaw plugins install <plugin> --marketplace <source>`     |
+| Source      | Use when                                                             | Example                                                         |
+| ----------- | -------------------------------------------------------------------- | --------------------------------------------------------------- |
+| registry    | An operator configured a plugin registry with `OPENCLAW_CLAWHUB_URL` | `openagent plugins install clawhub:<package>`                   |
+| npm         | You need direct npm registry or dist-tag workflows                   | `openagent plugins install npm:<package>`                       |
+| git         | You need a branch, tag, or commit from a repository                  | `openagent plugins install git:github.com/<owner>/<repo>@<ref>` |
+| local path  | You are developing or testing a plugin on the same machine           | `openagent plugins install --link ./my-plugin`                  |
+| marketplace | You are installing a Claude-compatible marketplace plugin            | `openagent plugins install <plugin> --marketplace <source>`     |
 
 Bare package specs have special compatibility behavior: a bare name that
 matches a bundled plugin id uses that bundled source; a bare name that matches
@@ -127,7 +127,7 @@ specs that match bundled plugins also resolve to the bundled copy before npm
 fallback. Use `npm:@openclaw/<plugin>@<version>` to deliberately install the
 external npm package instead of the bundled copy. Use `clawhub:`, `npm:`,
 `git:`, or `npm-pack:` for deterministic source selection. See
-[`openclaw plugins`](/cli/plugins#install) for the full command contract.
+[`openagent plugins`](/cli/plugins#install) for the full command contract.
 
 For npm installs, unpinned specs and `@latest` choose the newest stable
 package that advertises compatibility with this OpenAgent build. If npm's
@@ -222,15 +222,15 @@ When `plugins.allow` is unset and non-bundled plugins are auto-discovered from
 the workspace or global plugin roots, startup logs
 `plugins.allow is empty; discovered non-bundled plugins may auto-load: ...`
 with the discovered plugin ids and, for short lists, a minimal `plugins.allow`
-snippet. Run [`openclaw plugins list --enabled --verbose`](/cli/plugins#list)
-or [`openclaw plugins inspect <id>`](/cli/plugins#inspect) on the listed
+snippet. Run [`openagent plugins list --enabled --verbose`](/cli/plugins#list)
+or [`openagent plugins inspect <id>`](/cli/plugins#inspect) on the listed
 plugin id before copying trusted plugins into `openclaw.json`. The same
 trust-pinning applies when diagnostics say a plugin loaded
 `without install/load-path provenance`: inspect that plugin id, then pin it in
 `plugins.allow` or reinstall from a trusted source so OpenAgent records install
 provenance.
 
-Run `openclaw doctor` or `openclaw doctor --fix` when config validation
+Run `openagent doctor` or `openagent doctor --fix` when config validation
 reports stale plugin ids, allowlist/tool mismatches, or legacy bundled plugin
 paths.
 
@@ -243,8 +243,8 @@ OpenAgent recognizes two plugin formats:
 | Native OpenAgent plugin | `openclaw.plugin.json` plus a runtime module loaded in process                               | You are installing or building OpenAgent-specific runtime capabilities |
 | Compatible bundle       | Agent Plugins, Codex, Claude, or Cursor plugin layout mapped into OpenAgent plugin inventory | You are reusing compatible skills, commands, hooks, or bundle metadata |
 
-Both formats appear in `openclaw plugins list`, `openclaw plugins inspect`,
-`openclaw plugins enable`, and `openclaw plugins disable`. See
+Both formats appear in `openagent plugins list`, `openagent plugins inspect`,
+`openagent plugins enable`, and `openagent plugins disable`. See
 [Plugin bundles](/plugins/bundles) for the bundle compatibility boundary and
 [Building plugins](/plugins/building-plugins) for native plugin authoring.
 
@@ -264,8 +264,8 @@ block/cancel behavior, use typed hooks. If it just reacts to `command:new`,
 `command:reset`, `message:sent`, or similar coarse events, `api.registerHook`
 is fine.
 
-Plugin-managed internal hooks show up in `openclaw hooks list` with
-`plugin:<id>`. You cannot enable or disable them through `openclaw hooks`;
+Plugin-managed internal hooks show up in `openagent hooks list` with
+`plugin:<id>`. You cannot enable or disable them through `openagent hooks`;
 enable or disable the plugin instead.
 
 Hook registration also depends on Gateway startup selection. For a hook-only
@@ -277,25 +277,25 @@ bypass global disable, deny, or per-plugin enablement policy.
 An explicit hook policy is also startup intent. For example,
 `plugins.entries.<id>.hooks.allowConversationAccess: true` both authorizes
 non-bundled conversation hooks and selects that configured plugin for Gateway
-startup; normal plugin policy still applies. Run `openclaw plugins reload <id>`
+startup; normal plugin policy still applies. Run `openagent plugins reload <id>`
 after changing the plugin manifest or source. With the default hybrid reload
 mode, hook policy changes hot-reload the plugin runtime. Inspect registration with
-`openclaw plugins inspect <id> --runtime --json`, then trigger an event to verify
+`openagent plugins inspect <id> --runtime --json`, then trigger an event to verify
 the running process. See [Plugin hooks](/plugins/hooks#quick-start) for a complete
 example.
 
 ## Verify the active Gateway
 
-`openclaw plugins list` and plain `openclaw plugins inspect` read cold config,
+`openagent plugins list` and plain `openagent plugins inspect` read cold config,
 manifest, and registry state. They do not prove that an already-running
 Gateway has imported the same plugin code.
 
 When a plugin appears installed but live chat traffic does not use it:
 
 ```bash
-openclaw gateway status --deep --require-rpc
-openclaw plugins inspect <plugin-id> --runtime --json
-openclaw plugins reload <plugin-id>
+openagent gateway status --deep --require-rpc
+openagent plugins inspect <plugin-id> --runtime --json
+openagent plugins reload <plugin-id>
 ```
 
 Plugin Reload refreshes the selected plugin in the running Gateway. Use it after
@@ -306,27 +306,27 @@ compiled bundled code and cleanup limitations.
 
 ## Troubleshooting
 
-| Symptom                                                        | Check                                                                                                                                      | Fix                                                                                                                              |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| Plugin appears in `plugins list` but runtime hooks do not run  | Use `openclaw plugins inspect <id> --runtime --json` and confirm the active Gateway with `gateway status --deep --require-rpc`             | Check activation errors; reload after source edits or repairs. For config changes, check reload mode and plugin restart prefixes |
-| Duplicate channel or tool ownership diagnostics appear         | Run `openclaw plugins list --enabled --verbose`, inspect each suspected plugin with `--runtime --json`, and compare channel/tool ownership | Disable one owner, remove stale installs, or use manifest `preferOver` for intentional replacement                               |
-| Config says a plugin is missing                                | Check [Plugin inventory](/plugins/plugin-inventory) for whether it is bundled, official external, or source-only                           | Install the external package, enable the bundled plugin, or remove stale config                                                  |
-| Config is invalid during install                               | Read the validation message and run `openclaw doctor --fix` if it points to stale plugin state                                             | Doctor can quarantine invalid plugin config by disabling the entry and removing the invalid payload                              |
-| Plugin path is blocked for suspicious ownership or permissions | Inspect the diagnostic before the config error                                                                                             | Fix filesystem ownership/permissions, then run `openclaw plugins registry --refresh`                                             |
-| `OPENCLAW_NIX_MODE=1` blocks lifecycle commands                | Confirm the install is managed by Nix                                                                                                      | Change plugin selection in the Nix source instead of using plugin mutator commands                                               |
-| Dependency import fails at runtime                             | Check whether the plugin was installed through npm/git/a registry or loaded from a local path                                              | Run `openclaw plugins update <id>`, reinstall the source, or install local plugin dependencies yourself                          |
+| Symptom                                                        | Check                                                                                                                                       | Fix                                                                                                                              |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Plugin appears in `plugins list` but runtime hooks do not run  | Use `openagent plugins inspect <id> --runtime --json` and confirm the active Gateway with `gateway status --deep --require-rpc`             | Check activation errors; reload after source edits or repairs. For config changes, check reload mode and plugin restart prefixes |
+| Duplicate channel or tool ownership diagnostics appear         | Run `openagent plugins list --enabled --verbose`, inspect each suspected plugin with `--runtime --json`, and compare channel/tool ownership | Disable one owner, remove stale installs, or use manifest `preferOver` for intentional replacement                               |
+| Config says a plugin is missing                                | Check [Plugin inventory](/plugins/plugin-inventory) for whether it is bundled, official external, or source-only                            | Install the external package, enable the bundled plugin, or remove stale config                                                  |
+| Config is invalid during install                               | Read the validation message and run `openagent doctor --fix` if it points to stale plugin state                                             | Doctor can quarantine invalid plugin config by disabling the entry and removing the invalid payload                              |
+| Plugin path is blocked for suspicious ownership or permissions | Inspect the diagnostic before the config error                                                                                              | Fix filesystem ownership/permissions, then run `openagent plugins registry --refresh`                                            |
+| `OPENCLAW_NIX_MODE=1` blocks lifecycle commands                | Confirm the install is managed by Nix                                                                                                       | Change plugin selection in the Nix source instead of using plugin mutator commands                                               |
+| Dependency import fails at runtime                             | Check whether the plugin was installed through npm/git/a registry or loaded from a local path                                               | Run `openagent plugins update <id>`, reinstall the source, or install local plugin dependencies yourself                         |
 
 When an enabled managed plugin fails payload verification during Gateway
 startup, OpenAgent quarantines that exact installed plugin root for the boot and
-continues serving other plugins. `openclaw status --all`, `openclaw health`,
-and `openclaw doctor` report it as `configured-unavailable`. Fix or reinstall
+continues serving other plugins. `openagent status --all`, `openagent health`,
+and `openagent doctor` report it as `configured-unavailable`. Fix or reinstall
 the plugin, then restart the Gateway. A healthy explicit `plugins.load.paths`
 override with the same plugin id is not quarantined by a stale broken install.
 
 When stale plugin config still names a no-longer-discoverable channel plugin,
 config validation downgrades that channel key to a warning instead of a hard
 failure, so Gateway startup can still serve every other channel. Run
-`openclaw doctor --fix` to remove stale plugin and channel entries. Unknown
+`openagent doctor --fix` to remove stale plugin and channel entries. Unknown
 channel keys without stale-plugin evidence still fail validation so typos
 stay visible.
 
@@ -347,8 +347,8 @@ If a plugin fails with `openKeyedStore is only available for trusted plugins`,
 compare the error's `registryPath` with `plugin.trust.registryPath` from:
 
 ```bash
-openclaw plugins inspect <plugin-id> --runtime --json
-openclaw doctor
+openagent plugins inspect <plugin-id> --runtime --json
+openagent doctor
 ```
 
 Inspection and the Gateway report the trust decision recorded during plugin
@@ -358,14 +358,14 @@ registry databases. Inspection loads into the CLI process, so compare both paths
 Doctor also checks the installed service environment when a local Gateway is
 unreachable; if that environment cannot be verified, it says so.
 
-| Reason                  | Remedy                                                                                                                                                                                                                 |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `record-missing`        | Align CLI and Gateway state paths if they differ; otherwise reinstall through `openclaw plugins install` so the install is recorded.                                                                                   |
-| `provenance-missing`    | Run `openclaw doctor --fix` with the Gateway's state/config paths. Doctor repairs catalog-proven legacy registry records; unverifiable records require reinstalling from the official npm package or registry listing. |
-| `origin-path`           | Replace the local path/archive install with the official npm package or registry listing.                                                                                                                              |
-| `install-path-mismatch` | Reinstall the intended package and remove load paths that select another copy.                                                                                                                                         |
-| `owner-ambiguous`       | Refresh the registry and resolve conflicting package ownership before reinstalling.                                                                                                                                    |
-| `provenance-invalid`    | Reinstall from the official source; conflicting or partial provenance is not automatically trusted.                                                                                                                    |
+| Reason                  | Remedy                                                                                                                                                                                                                  |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `record-missing`        | Align CLI and Gateway state paths if they differ; otherwise reinstall through `openagent plugins install` so the install is recorded.                                                                                   |
+| `provenance-missing`    | Run `openagent doctor --fix` with the Gateway's state/config paths. Doctor repairs catalog-proven legacy registry records; unverifiable records require reinstalling from the official npm package or registry listing. |
+| `origin-path`           | Replace the local path/archive install with the official npm package or registry listing.                                                                                                                               |
+| `install-path-mismatch` | Reinstall the intended package and remove load paths that select another copy.                                                                                                                                          |
+| `owner-ambiguous`       | Refresh the registry and resolve conflicting package ownership before reinstalling.                                                                                                                                     |
+| `provenance-invalid`    | Reinstall from the official source; conflicting or partial provenance is not automatically trusted.                                                                                                                     |
 
 `bundled` and `trusted-official` identify accepted sources. Legacy npm records
 with a consistent official package spec remain valid without extra resolution
@@ -396,8 +396,8 @@ root ownership instead:
 sudo chown -R root:root /path/to/openclaw-config/npm
 ```
 
-After fixing ownership, rerun `openclaw doctor --fix` or
-`openclaw plugins registry --refresh` so the persisted plugin registry
+After fixing ownership, rerun `openagent doctor --fix` or
+`openagent plugins registry --refresh` so the persisted plugin registry
 matches the repaired files.
 
 ### Slow plugin tool setup
@@ -406,8 +406,8 @@ If agent turns appear to stall while preparing tools, enable trace logging
 and check for plugin tool factory timing lines:
 
 ```bash
-openclaw config set logging.level trace
-openclaw logs --follow
+openagent config set logging.level trace
+openagent logs --follow
 ```
 
 Look for:
@@ -432,7 +432,7 @@ returning its tool definitions.
 If one plugin dominates the timing, inspect its runtime registrations:
 
 ```bash
-openclaw plugins inspect <plugin-id> --runtime --json
+openagent plugins inspect <plugin-id> --runtime --json
 ```
 
 Then update, reinstall, or disable that plugin. Plugin authors should move
@@ -446,7 +446,7 @@ reload behavior, and legacy cleanup, see
 ## Related
 
 - [Manage plugins](/plugins/manage-plugins) - command examples for list, install, update, uninstall, and publish
-- [`openclaw plugins`](/cli/plugins) - full CLI reference
+- [`openagent plugins`](/cli/plugins) - full CLI reference
 - [Plugin inventory](/plugins/plugin-inventory) - generated bundled and external plugin list
 - [Plugin reference](/plugins/reference) - generated per-plugin reference pages
 - [Plugin dependency resolution](/plugins/dependency-resolution) - install roots, registry records, and runtime boundaries

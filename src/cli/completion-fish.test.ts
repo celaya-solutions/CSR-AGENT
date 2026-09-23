@@ -15,7 +15,7 @@ describe("completion-fish helpers", () => {
       description: "Manage Bob's plugins",
     });
     expect(line).toBe(
-      `complete -c openclaw -n "__fish_use_subcommand" -a "plugins" -d 'Manage Bob'\\''s plugins'\n`,
+      `complete -c openagent -n "__fish_use_subcommand" -a "plugins" -d 'Manage Bob'\\''s plugins'\n`,
     );
   });
 
@@ -27,7 +27,7 @@ describe("completion-fish helpers", () => {
       description: "Shell target",
     });
     expect(line).toBe(
-      `complete -c openclaw -n "__fish_use_subcommand" -s s -l shell -d 'Shell target'\n`,
+      `complete -c openagent -n "__fish_use_subcommand" -s s -l shell -d 'Shell target'\n`,
     );
   });
 
@@ -39,7 +39,7 @@ describe("completion-fish helpers", () => {
       description: "Write cache",
     });
     expect(line).toBe(
-      `complete -c openclaw -n "__fish_seen_subcommand_from completion" -l write-state -d 'Write cache'\n`,
+      `complete -c openagent -n "__fish_seen_subcommand_from completion" -l write-state -d 'Write cache'\n`,
     );
   });
 
@@ -51,7 +51,7 @@ describe("completion-fish helpers", () => {
       description: "Workspace",
     });
     expect(line).toBe(
-      `complete -c openclaw -n "__fish_use_subcommand" -l ws -l workspace -d 'Workspace'\n`,
+      `complete -c openagent -n "__fish_use_subcommand" -l ws -l workspace -d 'Workspace'\n`,
     );
   });
 
@@ -69,7 +69,7 @@ describe("completion-fish helpers", () => {
       .map((choice) => `'${choice}'`)
       .join(" ");
     expect(line).toBe(
-      `complete -c openclaw -n "__fish_seen_subcommand_from completion" -s s -l shell -r -f -a "${quotedChoices}" -d 'Shell target'\n`,
+      `complete -c openagent -n "__fish_seen_subcommand_from completion" -s s -l shell -r -f -a "${quotedChoices}" -d 'Shell target'\n`,
     );
   });
 
@@ -85,7 +85,7 @@ describe("completion-fish helpers", () => {
     expect(line).toContain(` -l color -f -a "'always' 'never'" `);
     expect(line).not.toContain(" -r ");
     expect(line).toContain(
-      `complete -c openclaw -n "__fish_use_subcommand; and contains -- (commandline -opc)[-1] --color" -f -a "'always' 'never'" -d 'Color output'`,
+      `complete -c openagent -n "__fish_use_subcommand; and contains -- (commandline -opc)[-1] --color" -f -a "'always' 'never'" -d 'Color output'`,
     );
   });
 

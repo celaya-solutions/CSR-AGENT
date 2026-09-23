@@ -7,7 +7,7 @@ export class OpenClawAgentDatabaseMediaMigrationRequiredError extends StartupMai
   ) {
     super(
       "agent-media",
-      `OpenAgent agent database ${pathname} uses schema version ${schemaVersion}; run openclaw doctor --fix to migrate persisted media before using it.`,
+      `OpenAgent agent database ${pathname} uses schema version ${schemaVersion}; run openagent doctor --fix to migrate persisted media before using it.`,
     );
     this.name = "OpenClawAgentDatabaseMediaMigrationRequiredError";
   }

@@ -44,7 +44,7 @@ Nodes do not run the Gateway service. Only one Gateway should run per host unles
 ssh -N -L 18789:127.0.0.1:18789 user@gateway-host
 ```
 
-With the tunnel up, `openclaw health` and `openclaw status --deep` reach the remote Gateway via `ws://127.0.0.1:18789`. `openclaw gateway status`, `openclaw gateway health`, `openclaw gateway probe`, and `openclaw gateway call` can also target a forwarded URL via `--url`.
+With the tunnel up, `openagent health` and `openagent status --deep` reach the remote Gateway via `ws://127.0.0.1:18789`. `openagent gateway status`, `openagent gateway health`, `openagent gateway probe`, and `openagent gateway call` can also target a forwarded URL via `--url`.
 
 To replace per-client SSH tunnels with one private `wss://` endpoint while keeping the Gateway on loopback, follow [Give your Gateway a stable HTTPS URL](/gateway/stable-https-url).
 
@@ -74,7 +74,7 @@ Persist a remote target so CLI commands use it by default:
 
 When the Gateway is loopback-only, keep the URL at `ws://127.0.0.1:18789` and open the SSH tunnel first. For an SSH-tunnel transport, the Gateway hostname goes in `gateway.remote.sshTarget` (`user@host` or `user@host:port`); `gateway.remote.url` stays the local tunnel URL. If the remote port differs from the local one, set `gateway.remote.remotePort`.
 
-Running `openclaw configure --section gateway` or interactive onboarding again
+Running `openagent configure --section gateway` or interactive onboarding again
 preserves the remote TLS fingerprint and transport settings when you keep the
 same URL (ignoring surrounding whitespace). Changing the URL clears those
 endpoint settings. A newly confirmed discovery fingerprint replaces the saved
@@ -271,7 +271,7 @@ ssh-copy-id -i ~/.ssh/id_rsa <REMOTE_USER>@<REMOTE_IP>
 #### Step 3: configure the gateway token
 
 ```bash
-openclaw config set gateway.remote.token "<your-token>"
+openagent config set gateway.remote.token "<your-token>"
 ```
 
 The Gateway accepts its configured secret in either field: `gateway.remote.token` or `gateway.remote.password` both work, including for password-mode Gateways. The server's `gateway.auth.mode` selects which configured secret to use. `OPENCLAW_GATEWAY_TOKEN` is still valid as a shell-level override, but the durable remote-client setup is `gateway.remote.token` / `gateway.remote.password`.

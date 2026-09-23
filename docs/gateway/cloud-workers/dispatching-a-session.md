@@ -33,7 +33,7 @@ While that call is waiting, the parent remains an active turn under its existing
 
 ### Runtime support
 
-- **OpenAgent** uses `worker-turn` placement. The restricted `openclaw worker` process runs each turn on the leased node and proxies inference through the Gateway.
+- **OpenAgent** uses `worker-turn` placement. The restricted `openagent worker` process runs each turn on the leased node and proxies inference through the Gateway.
 - **Codex** uses `remote-exec` placement on the same bundled Crabbox cloud profile, an eligible paired device, or a provider that advertises an SSH-backed execution carrier. The Gateway keeps the Codex app-server and authentication local; an enrolled cloud node runs only the explicitly authorized Codex exec-server and does not start an OpenAgent worker child.
 
 The Control UI checks each cloud destination's advertised execution modes in both New Session and Move Session. One Crabbox **Cloud · profile** row is selectable for OpenAgent and Codex, while a genuinely single-mode provider stays disabled for the other runtime. An incompatible move is rejected before the active source starts draining or changes its durable placement.

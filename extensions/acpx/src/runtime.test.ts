@@ -37,7 +37,7 @@ function makeEmptySessionStore(): TestSessionStore {
 }
 
 const DOCUMENTED_OPENCLAW_BRIDGE_COMMAND =
-  "env OPENCLAW_HIDE_BANNER=1 OPENCLAW_SUPPRESS_NOTES=1 openclaw acp --url ws://127.0.0.1:18789 --token-file ~/.openclaw/gateway.token --session agent:main:main";
+  "env OPENCLAW_HIDE_BANNER=1 OPENCLAW_SUPPRESS_NOTES=1 openagent acp --url ws://127.0.0.1:18789 --token-file ~/.openclaw/gateway.token --session agent:main:main";
 const CODEX_ACP_COMMAND = "npx @agentclientprotocol/codex-acp@1.10.0";
 const CODEX_ACP_WRAPPER_COMMAND = `node "/tmp/openclaw/acpx/codex-acp-wrapper.mjs"`;
 const CODEX_ACP_WRAPPER_COMMAND_WITH_LEASE = `${CODEX_ACP_WRAPPER_COMMAND} ${OPENCLAW_ACPX_LEASE_ID_ARG} lease-close ${OPENCLAW_GATEWAY_INSTANCE_ID_ARG} gateway-test`;
@@ -110,7 +110,7 @@ function makeRuntime(
       cwd: "/tmp",
       sessionStore: baseStore as unknown as AcpSessionStore,
       agentRegistry: {
-        resolve: (agentName: string) => (agentName === "openclaw" ? "openclaw acp" : agentName),
+        resolve: (agentName: string) => (agentName === "openclaw" ? "openagent acp" : agentName),
         list: () => ["codex", "openclaw"],
       },
       permissionMode: "approve-reads",
@@ -1318,7 +1318,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
       OPENCLAW_CODEX_CONFIG_ARG,
       '{"model":"gpt-5.4","model_reasoning_effort":"medium"}',
     ]);
-    expect(testing.isCodexAcpCommand("openclaw acp")).toBe(false);
+    expect(testing.isCodexAcpCommand("openagent acp")).toBe(false);
   });
 
   it("passes gpt-5.5 Codex ACP startup through instead of blocking it", async () => {
@@ -2078,7 +2078,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
         `Node.EXE "C:/Users/runner/AppData/Local/Temp/openclaw/acpx/claude-agent-acp-wrapper.mjs"`,
       ),
     ).toBe(true);
-    expect(testing.isClaudeAcpCommand("openclaw acp")).toBe(false);
+    expect(testing.isClaudeAcpCommand("openagent acp")).toBe(false);
     expect(testing.isClaudeAcpCommand("npx @agentclientprotocol/codex-acp")).toBe(false);
   });
 
@@ -4002,7 +4002,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     expect(bridgeEnsure).not.toHaveBeenCalled();
   });
 
-  it("routes handle-based follow-up calls for openclaw sessions through the bridge-safe delegate", async () => {
+  it("routes handle-based follow-up calls for openagent sessions through the bridge-safe delegate", async () => {
     const baseStore: TestSessionStore = makeEmptySessionStore();
 
     const { runtime, delegate, bridgeSafeDelegate } = makeRuntime(baseStore, {
@@ -4027,7 +4027,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     expect(defaultStatus).not.toHaveBeenCalled();
   });
 
-  it("keeps MCP-enabled routing when the openclaw agent is overridden to a non-bridge adapter", async () => {
+  it("keeps MCP-enabled routing when the openagent agent is overridden to a non-bridge adapter", async () => {
     const baseStore: TestSessionStore = makeEmptySessionStore();
 
     const { runtime, delegate, bridgeSafeDelegate } = makeRuntime(baseStore, {
@@ -4065,7 +4065,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
     const { runtime, delegate, bridgeSafeDelegate } = makeRuntime(baseStore, {
       mcpServers: [{ name: "tools", command: "mcp-tools" }] as never,
       agentRegistry: {
-        resolve: (agentName: string) => (agentName === "codex" ? "openclaw acp" : agentName),
+        resolve: (agentName: string) => (agentName === "codex" ? "openagent acp" : agentName),
         list: () => ["codex", "openclaw"],
       },
     });

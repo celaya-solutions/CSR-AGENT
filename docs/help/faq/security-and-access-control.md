@@ -12,10 +12,10 @@ read_when:
   <Accordion title="Is it safe to expose OpenAgent to inbound DMs?">
     Yes - on channels that default to **pairing** (most DM-capable channels), a stranger who DMs your bot never reaches the model:
 
-    - With the pairing default, unknown senders receive a pairing code and their message is not processed. Approve with `openclaw pairing approve --channel <channel> [--account <id>] <code>`. Pending requests are capped at **3 per channel**; check `openclaw pairing list --channel <channel> [--account <id>]` if a code did not arrive.
+    - With the pairing default, unknown senders receive a pairing code and their message is not processed. Approve with `openagent pairing approve --channel <channel> [--account <id>] <code>`. Pending requests are capped at **3 per channel**; check `openagent pairing list --channel <channel> [--account <id>]` if a code did not arrive.
     - Opening DMs publicly requires explicit opt-in (`dmPolicy: "open"` and allowlist `"*"`).
 
-    A few workspace channels ship different defaults - ClickClack, for example, allows workspace members by default. Check your channel's page, and run `openclaw doctor` to confirm your DM policies look the way you expect.
+    A few workspace channels ship different defaults - ClickClack, for example, allows workspace members by default. Check your channel's page, and run `openagent doctor` to confirm your DM policies look the way you expect.
 
   </Accordion>
 
@@ -36,7 +36,7 @@ read_when:
   <Accordion title="Is OpenAgent less safe because it uses TypeScript/Node instead of Rust/WASM?">
     Language and runtime matter, but are not the main risk for a personal agent. The practical risks are gateway exposure, who can message the bot, prompt injection, tool scope, credential handling, browser access, exec access, and third-party skill/plugin trust.
 
-    Rust and WASM can provide stronger isolation for some code classes, but do not solve prompt injection, bad allowlists, public gateway exposure, overbroad tools, or a browser profile already logged in to sensitive accounts. Treat these as the primary controls: keep the Gateway private or authenticated, use pairing and allowlists for DMs/groups, deny or sandbox risky tools for untrusted inputs, install only trusted plugins and skills, and run `openclaw security audit --deep` after config changes.
+    Rust and WASM can provide stronger isolation for some code classes, but do not solve prompt injection, bad allowlists, public gateway exposure, overbroad tools, or a browser profile already logged in to sensitive accounts. Treat these as the primary controls: keep the Gateway private or authenticated, use pairing and allowlists for DMs/groups, deny or sandbox risky tools for untrusted inputs, install only trusted plugins and skills, and run `openagent security audit --deep` after config changes.
 
     Details: [Security](/gateway/security), [Sandboxing](/gateway/sandboxing).
 
@@ -44,13 +44,13 @@ read_when:
 
   <Accordion title="I saw reports about exposed OpenAgent instances. What should I check?">
     ```bash
-    openclaw security audit --deep
-    openclaw gateway status
+    openagent security audit --deep
+    openagent gateway status
     ```
 
     A safer baseline: Gateway bound to `loopback`, or exposed only through authenticated private access (tailnet, SSH tunnel, token/password auth, or a correctly configured trusted proxy); DMs in `pairing` or `allowlist` mode; group access limited to rooms you chose (group allowlists), with mention gating or sender allowlists where membership is broad or public; high-risk tools (`exec`, `browser`, `gateway`, `cron`) denied or tightly scoped for agents that read untrusted content; sandboxing enabled where tool execution needs a smaller blast radius.
 
-    Public binds without auth, open DMs/groups with tools, and exposed browser control are the findings to fix first. Details: [openclaw security audit](/gateway/security/running-the-audit#openclaw-security-audit).
+    Public binds without auth, open DMs/groups with tools, and exposed browser control are the findings to fix first. Details: [openagent security audit](/gateway/security/running-the-audit#openclaw-security-audit).
 
   </Accordion>
 
@@ -89,7 +89,7 @@ read_when:
     Check pending requests:
 
     ```bash
-    openclaw pairing list telegram
+    openagent pairing list telegram
     ```
 
     For immediate access, allowlist your sender id or set `dmPolicy: "open"` for that account.

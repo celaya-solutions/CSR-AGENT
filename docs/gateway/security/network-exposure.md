@@ -88,7 +88,7 @@ Gateway auth is required by default - with no valid auth path configured, the Ga
 { gateway: { auth: { mode: "token", token: "your-token" } } }
 ```
 
-`openclaw doctor --generate-gateway-token` can generate one for you.
+`openagent doctor --generate-gateway-token` can generate one for you.
 
 <Note>
 `gateway.remote.token` and `gateway.remote.password` are client credential sources - they do not protect local WS access by themselves. Local call paths use `gateway.remote.*` only as fallback when `gateway.auth.*` is unset. If `gateway.auth.token` or `gateway.auth.password` is explicitly configured via SecretRef and unresolved, resolution fails closed (no remote-fallback masking).
@@ -104,7 +104,7 @@ Auth modes:
 - `"password"`: prefer setting via `OPENCLAW_GATEWAY_PASSWORD`.
 - `"trusted-proxy"`: trust an identity-aware reverse proxy to authenticate users and pass identity via headers. See [Trusted Proxy Auth](/gateway/trusted-proxy-auth).
 
-Gateway startup rejects blank tokens and passwords, the literal strings `undefined` and `null`, and published example placeholders. Generate a real secret (for example, `openssl rand -hex 32`) and update the selected credential or its external source. `openclaw security audit` flags blank/nullish values as critical and warns when the selected token or password has fewer than 24 characters.
+Gateway startup rejects blank tokens and passwords, the literal strings `undefined` and `null`, and published example placeholders. Generate a real secret (for example, `openssl rand -hex 32`) and update the selected credential or its external source. `openagent security audit` flags blank/nullish values as critical and warns when the selected token or password has fewer than 24 characters.
 
 Rotation checklist (token/password): generate/set a new secret (`gateway.auth.token` or `gateway.auth.password`); update remote clients (`gateway.remote.token`/`.password`); verify the old credentials no longer work. Configured token/password rotation hot-applies only when the effective auth mode stays the same; set `gateway.auth.mode` explicitly for SecretRef credentials. Auth-mode changes require a Gateway restart. Changes to process environment credentials such as `OPENCLAW_GATEWAY_PASSWORD` also require restarting the Gateway (or its supervising macOS app) with the updated environment. See [Config hot reload](/gateway/configuration#config-hot-reload).
 
@@ -177,12 +177,12 @@ Trusted proxy headers do not make node device pairing automatically trusted - `g
 The Control UI generates device identity with pure-JS Ed25519, so pairing works on any origin, including plain HTTP.
 
 - Token/password auth does not replace browser device identity: HTTP browsers still pair with a signed device key, which never crosses the wire. Prefer HTTPS (for example, Tailscale Serve) — plaintext transport still exposes the page and the shared secret to on-path attackers.
-- `gateway.controlUi.dangerouslyDisableDeviceAuth`: retired break-glass input, now fully inert. Control UI browsers pair through the normal device flow; `openclaw doctor --fix` removes the legacy key.
+- `gateway.controlUi.dangerouslyDisableDeviceAuth`: retired break-glass input, now fully inert. Control UI browsers pair through the normal device flow; `openagent doctor --fix` removes the legacy key.
 - Separately, successful `gateway.auth.mode: "trusted-proxy"` authentication can admit **operator** Control UI sessions without device identity when the browser cannot supply one. Browsers that can mint an identity (any origin, including plain HTTP) follow the normal pairing flow instead — automatic with `deviceAutoApprove`, otherwise a one-time approval. This does not extend to node-role Control UI sessions.
 
 ### Insecure/dangerous flags
 
-`openclaw security audit` raises `config.insecure_or_dangerous_flags` for each enabled known insecure/dangerous debug switch (one finding per flag). Keep these unset in production. If audit suppressions are configured, `security.audit.suppressions.active` stays in the active output even when matching findings move to `suppressedFindings`.
+`openagent security audit` raises `config.insecure_or_dangerous_flags` for each enabled known insecure/dangerous debug switch (one finding per flag). Keep these unset in production. If audit suppressions are configured, `security.audit.suppressions.active` stays in the active output even when matching findings move to `suppressedFindings`.
 
 <AccordionGroup>
   <Accordion title="Flags tracked by the audit today">

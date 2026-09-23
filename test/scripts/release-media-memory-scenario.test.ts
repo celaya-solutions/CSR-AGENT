@@ -7,7 +7,7 @@ const SCENARIO = "scripts/e2e/lib/release-media-memory/scenario.sh";
 describe("release media memory scenario", () => {
   it("fails when packaged plugin listing is broken or omits memory-core", () => {
     const script = readFileSync(SCENARIO, "utf8");
-    const listIndex = script.indexOf('openclaw plugins list --json >"$PLUGINS_JSON"');
+    const listIndex = script.indexOf('openagent plugins list --json >"$PLUGINS_JSON"');
     const assertIndex = script.indexOf('assert-file-contains "$PLUGINS_JSON" memory-core');
 
     expect(listIndex).toBeGreaterThanOrEqual(0);

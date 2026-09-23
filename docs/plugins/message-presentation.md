@@ -367,7 +367,7 @@ Table report:
 CLI send:
 
 ```bash
-openclaw message send --channel discord \
+openagent message send --channel discord \
   --target channel:123 \
   --message "Deploy approval" \
   --presentation '{"title":"Deploy approval","tone":"warning","blocks":[{"type":"text","text":"Canary is ready."},{"type":"buttons","buttons":[{"label":"Approve","value":"deploy:approve","style":"success"},{"label":"Decline","value":"deploy:decline","style":"danger"}]}]}'
@@ -376,7 +376,7 @@ openclaw message send --channel discord \
 Pinned delivery:
 
 ```bash
-openclaw message send --channel telegram \
+openagent message send --channel telegram \
   --target -1001234567890 \
   --message "Topic opened" \
   --pin

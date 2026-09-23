@@ -1,18 +1,18 @@
 ---
-summary: "CLI reference for `openclaw message` (send + channel actions)"
+summary: "CLI reference for `openagent message` (send + channel actions)"
 read_when:
   - Adding or modifying message CLI actions
   - Changing outbound channel behavior
 title: "Message"
 ---
 
-# `openclaw message`
+# `openagent message`
 
 Single outbound command for sending messages and channel actions on Discord
 and Telegram.
 
 ```bash
-openclaw message <subcommand> [flags]
+openagent message <subcommand> [flags]
 ```
 
 ## Channel selection
@@ -25,17 +25,17 @@ openclaw message <subcommand> [flags]
 
 ## Agent ownership
 
-`openclaw message` uses the configured
+`openagent message` uses the configured
 [System Agent](/gateway/config-agents/heartbeat-compaction-and-streaming#agents.defaults.systemagent)
 as its agent owner, falling back to a retained legacy owner or the sole configured
 agent when the System Agent is unset.
 
 In an explicit multi-agent configuration without an owner, the command stops
-before sending. Choose an existing agent ID from `openclaw agents list`, set it
+before sending. Choose an existing agent ID from `openagent agents list`, set it
 as the System Agent, then retry:
 
 ```bash
-openclaw config set agents.defaults.systemAgent.agentId <id>
+openagent config set agents.defaults.systemAgent.agentId <id>
 ```
 
 This setting also selects the owner for other ambient system work. The message
@@ -77,7 +77,7 @@ the action's exit status. `message read` skips these shutdown hooks.
 
 ## SecretRef resolution
 
-`openclaw message` resolves channel SecretRefs before running the action,
+`openagent message` resolves channel SecretRefs before running the action,
 scoped as narrowly as possible:
 
 - channel-scoped when `--channel` is set (or inferred from a prefixed target)
@@ -115,7 +115,7 @@ scripts but has no effect.
 ### Send
 
 ```bash
-openclaw message send --channel discord \
+openagent message send --channel discord \
   --target channel:123 --message "hi" --reply-to 456
 ```
 
@@ -138,13 +138,13 @@ confirmed message ID. JSON failures include `ok: false`, `deliveryStatus`, and
 `error`; successful JSON responses retain their existing shape.
 
 ```bash
-openclaw message send --channel discord \
+openagent message send --channel discord \
   --target channel:123 --message "Choose:" \
   --presentation '{"blocks":[{"type":"buttons","buttons":[{"label":"Approve","value":"approve","style":"success"},{"label":"Decline","value":"decline","style":"danger"}]}]}'
 ```
 
 ```bash
-openclaw message send --channel telegram --target @mychat --message "Choose:" \
+openagent message send --channel telegram --target @mychat --message "Choose:" \
   --presentation '{"blocks":[{"type":"buttons","buttons":[{"label":"Yes","value":"cmd:yes"},{"label":"No","value":"cmd:no"}]}]}'
 ```
 
@@ -152,7 +152,7 @@ Chart and table blocks render as readable text on channels without native
 support:
 
 ```bash
-openclaw message send --channel discord --target channel:123 \
+openagent message send --channel discord --target channel:123 \
   --presentation '{"title":"Pipeline report","blocks":[{"type":"table","caption":"Open pipeline","headers":["Account","Stage","ARR"],"rows":[["Acme","Won",125000],["Globex","Review",82000]],"rowHeaderColumnIndex":0}]}'
 ```
 
@@ -160,19 +160,19 @@ Telegram Mini App buttons use `webApp` (`web_app` still parses for legacy
 JSON) and only render in private chats between a user and the bot:
 
 ```bash
-openclaw message send --channel telegram --target 123456789 --message "Open app:" \
+openagent message send --channel telegram --target 123456789 --message "Open app:" \
   --presentation '{"blocks":[{"type":"buttons","buttons":[{"label":"Launch","webApp":{"url":"https://example.com/app"}}]}]}'
 ```
 
 ```bash
-openclaw message send --channel telegram --target @mychat \
+openagent message send --channel telegram --target @mychat \
   --media ./diagram.png --force-document
 ```
 
 ### Poll
 
 ```bash
-openclaw message poll --channel discord \
+openagent message poll --channel discord \
   --target channel:123 \
   --poll-question "Snack?" \
   --poll-option Pizza --poll-option Sushi \
@@ -186,7 +186,7 @@ openclaw message poll --channel discord \
   `--poll-anonymous` / `--poll-public`, `--thread-id`.
 
 ```bash
-openclaw message poll --channel telegram \
+openagent message poll --channel telegram \
   --target @mychat \
   --poll-question "Lunch?" \
   --poll-option Pizza --poll-option Sushi \
@@ -237,7 +237,7 @@ openclaw message poll --channel telegram \
 ### Broadcast
 
 ```bash
-openclaw message broadcast --targets <target...> [--channel all] [--message <text>] [--media <url>] [--dry-run]
+openagent message broadcast --targets <target...> [--channel all] [--message <text>] [--media <url>] [--dry-run]
 ```
 
 Sends one payload to multiple targets. `--targets` takes a space-separated

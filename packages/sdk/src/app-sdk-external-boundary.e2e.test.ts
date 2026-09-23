@@ -86,8 +86,8 @@ describe("external preview App SDK boundary", () => {
           issues: [{
             code: "update-required",
             action: "update-and-reconnect",
-            updateCommand: "openclaw update",
-            headlessReconnectCommand: "openclaw node restart",
+            updateCommand: "openagent update",
+            headlessReconnectCommand: "openagent node restart",
           }],
           worker: {
             providerId: "worker-provider",

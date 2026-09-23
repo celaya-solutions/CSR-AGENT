@@ -212,7 +212,7 @@ describe("runDoctorLintCli", () => {
       expect(output).toContain("cold account:discord:ops");
       expect(output).toContain("Secret egress proxy: Check OpenSSL, then retry the request.");
       expect(output).toContain("channels.discord.accounts.ops.token");
-      expect(output).toContain("openclaw secrets reload");
+      expect(output).toContain("openagent secrets reload");
       expect(output).not.toContain("SYNTHETIC_GATEWAY_SECRET");
       expect(output).not.toContain("SYNTHETIC_OWNER_SECRET");
       expect(output).not.toContain("PRIVATE_REF_ID");

@@ -122,7 +122,7 @@ export async function resolveSettledUpdateCommandResult(
           ...pendingResult.steps,
           {
             name: "update executor settlement",
-            command: "openclaw update",
+            command: "openagent update",
             cwd: pendingResult.root ?? params.root,
             durationMs: 0,
             exitCode: 1,
@@ -176,7 +176,7 @@ export async function recordVerifiedUpdatePackageCleanup(
       cleanupFailure = error;
       return {
         name: "global install backup retention",
-        command: "openclaw update",
+        command: "openagent update",
         cwd: result.root ?? params.root,
         durationMs: 0,
         exitCode: 1,
@@ -283,7 +283,7 @@ async function publishPreMutationUpdateOutcome(
           ? [
               {
                 name: params.reason,
-                command: "openclaw update",
+                command: "openagent update",
                 cwd: params.root,
                 durationMs: 0,
                 exitCode: 1,

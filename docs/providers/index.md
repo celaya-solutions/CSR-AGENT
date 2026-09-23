@@ -15,7 +15,7 @@ Looking for chat channel docs (Discord, Telegram)? See [Channels](/channels).
 
 ## Quick start
 
-1. Authenticate with the provider (usually via `openclaw onboard`).
+1. Authenticate with the provider (usually via `openagent onboard`).
 2. Set the default model:
 
 ```json5

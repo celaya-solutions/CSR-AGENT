@@ -633,7 +633,7 @@ export const updateHandlers: GatewayRequestHandlers = {
       } catch {
         if (result.status === "ok" && handoff?.status !== "started") {
           noticeFailureMessage =
-            "The update was installed, but its restart notice could not be saved. Run openclaw update status after the gateway restarts.";
+            "The update was installed, but its restart notice could not be saved. Run openagent update status after the gateway restarts.";
           recordUpdateRunPhase(runId, "restarting", {
             origin: { nextAction: noticeFailureMessage },
           });

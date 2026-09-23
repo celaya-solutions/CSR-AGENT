@@ -758,7 +758,7 @@ describe("config plugin validation", () => {
     expect(res.warnings).toContainEqual({
       path: "channels.missing-chat",
       message:
-        "unknown channel id: missing-chat (stale channel plugin config ignored; run openclaw doctor --fix to remove stale config, or install the plugin)",
+        "unknown channel id: missing-chat (stale channel plugin config ignored; run openagent doctor --fix to remove stale config, or install the plugin)",
     });
     expect(res.warnings).toContainEqual({
       path: "plugins.allow",
@@ -867,7 +867,7 @@ describe("config plugin validation", () => {
       expect(res.warnings).toContainEqual({
         path: "channels.missing-sms",
         message:
-          "unknown channel id: missing-sms (stale channel plugin config ignored; run openclaw doctor --fix to remove stale config, or install the plugin)",
+          "unknown channel id: missing-sms (stale channel plugin config ignored; run openagent doctor --fix to remove stale config, or install the plugin)",
       });
     } finally {
       await writePersistedInstalledPluginIndex(
@@ -953,7 +953,7 @@ describe("config plugin validation", () => {
     const res = validateRemovedPluginConfig(removedId);
     expect(res.ok).toBe(true);
     const message =
-      "plugin removed: skill-workshop (stale plugin config ignored; Skill Workshop is built into OpenAgent skills now. Use skills.workshop settings and openclaw skills workshop commands, then remove this plugins config entry)";
+      "plugin removed: skill-workshop (stale plugin config ignored; Skill Workshop is built into OpenAgent skills now. Use skills.workshop settings and openagent skills workshop commands, then remove this plugins config entry)";
     expectPathMessage(res.warnings, `plugins.entries.${removedId}`, message);
     expectPathMessage(res.warnings, "plugins.allow", message);
     expectPathMessage(res.warnings, "plugins.deny", message);

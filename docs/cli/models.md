@@ -1,5 +1,5 @@
 ---
-summary: "CLI reference for `openclaw models` (status/list/set/scan, aliases, fallbacks, shared auth, personal accounts)"
+summary: "CLI reference for `openagent models` (status/list/set/scan, aliases, fallbacks, shared auth, personal accounts)"
 read_when:
   - You want to change default models or view provider auth status
   - You want to scan available models/providers and debug auth profiles
@@ -7,7 +7,7 @@ read_when:
 title: "Models"
 ---
 
-# `openclaw models`
+# `openagent models`
 
 Model discovery, scanning, and configuration (default model, fallbacks, auth profiles).
 
@@ -20,13 +20,13 @@ Related:
 ## Common commands
 
 ```bash
-openclaw models --json
-openclaw models status
-openclaw models list
-openclaw models refresh
-openclaw models set <model-or-alias>
-openclaw models set-image <model-or-alias>
-openclaw models scan
+openagent models --json
+openagent models status
+openagent models list
+openagent models refresh
+openagent models set <model-or-alias>
+openagent models set-image <model-or-alias>
+openagent models scan
 ```
 
 `status`, `list`, and `auth` subcommands accept `--agent <id>` to target a configured agent. Without it, model inspection uses `agents.defaults.systemAgent.agentId` when configured, otherwise the sole configured agent. Auth mutations require `--agent <id>` when multiple agents are configured.
@@ -35,23 +35,23 @@ For `models status`, `OPENCLAW_AGENT_DIR` overrides the inspected auth directory
 
 `fallbacks`/`image-fallbacks` manage global defaults. `set`, `set-image`, `scan`, `refresh`, and `aliases` also operate globally and reject `--agent`.
 
-`models set` and `models set-image` require the provider to be declared by an installed plugin or configured under `models.providers`. An unknown provider exits nonzero without changing config. If the provider is known but the model is absent from the local catalog, the command saves the selection and prints a warning because newly released and self-hosted models may not be cataloged yet. Writing `agents.defaults.model` with [`openclaw config set`](/cli/config#values) is stricter than `models set`: it rejects a model reference it cannot resolve instead of warning. That check is text-model only; `config set` does not validate `agents.defaults.imageModel` at all, so it is not the stricter path for the `set-image` setting. `openclaw doctor --json` reports configured unknown providers; add `--severity-min info` to also see active models that the local catalog cannot confirm.
+`models set` and `models set-image` require the provider to be declared by an installed plugin or configured under `models.providers`. An unknown provider exits nonzero without changing config. If the provider is known but the model is absent from the local catalog, the command saves the selection and prints a warning because newly released and self-hosted models may not be cataloged yet. Writing `agents.defaults.model` with [`openagent config set`](/cli/config#values) is stricter than `models set`: it rejects a model reference it cannot resolve instead of warning. That check is text-model only; `config set` does not validate `agents.defaults.imageModel` at all, so it is not the stricter path for the `set-image` setting. `openagent doctor --json` reports configured unknown providers; add `--severity-min info` to also see active models that the local catalog cannot confirm.
 
 Default-model, alias, and fallback changes resolve provider-owned model aliases using the current plugin configuration. When stored entries resolve to the selected model, their settings move to its canonical key; existing canonical settings take precedence. Adding an alias replaces the model's previous alias. If config changes during that preparation, the command rejects the write; rerun it against the updated config.
 
 ### Status
 
-Bare `openclaw models` is equivalent to `openclaw models status`.
-`openclaw models --json` returns the same object as `openclaw models status --json`.
+Bare `openagent models` is equivalent to `openagent models status`.
+`openagent models --json` returns the same object as `openagent models status --json`.
 
-`openclaw models status` shows the resolved default/fallbacks plus an auth overview. Active profile cooldowns appear under **Unavailable auth profiles** with the stored reason and recovery action; JSON output exposes the same data in `auth.unusableProfiles`. For plugin-owned agent runtimes such as Codex, status also checks whether the owning plugin is enabled and passed startup payload verification. A route with valid credentials but an unavailable runtime reports `status: unavailable` instead of `usable`; JSON output includes separate `authStatus`, `runtimeStatus`, and bounded runtime diagnostics. When provider usage snapshots are available, the OAuth/API-key status section includes provider usage windows and quota snapshots. Current usage-window providers: Anthropic, GitHub Copilot, OpenAI, MiniMax, SuperGrok via xAI OAuth, Xiaomi, and z.ai. Usage auth comes from provider-specific hooks when available; otherwise OpenAgent falls back to matching OAuth/API-key credentials from auth profiles, env, or config.
+`openagent models status` shows the resolved default/fallbacks plus an auth overview. Active profile cooldowns appear under **Unavailable auth profiles** with the stored reason and recovery action; JSON output exposes the same data in `auth.unusableProfiles`. For plugin-owned agent runtimes such as Codex, status also checks whether the owning plugin is enabled and passed startup payload verification. A route with valid credentials but an unavailable runtime reports `status: unavailable` instead of `usable`; JSON output includes separate `authStatus`, `runtimeStatus`, and bounded runtime diagnostics. When provider usage snapshots are available, the OAuth/API-key status section includes provider usage windows and quota snapshots. Current usage-window providers: Anthropic, GitHub Copilot, OpenAI, MiniMax, SuperGrok via xAI OAuth, Xiaomi, and z.ai. Usage auth comes from provider-specific hooks when available; otherwise OpenAgent falls back to matching OAuth/API-key credentials from auth profiles, env, or config.
 
 Use an explicit agent when diagnosing that agent's selection:
 
 ```bash
-openclaw models list --agent <agentId>
-openclaw models status --agent <agentId>
-openclaw models status --agent <agentId> --json --check
+openagent models list --agent <agentId>
+openagent models status --agent <agentId>
+openagent models status --agent <agentId> --json --check
 ```
 
 The list shows model inventory. Status explains the configured default, fallbacks,
@@ -113,7 +113,7 @@ Options:
 
 Probe rows can come from auth profiles, env credentials, or `models.json`. Probe status buckets: `ok`, `auth`, `rate_limit`, `billing`, `timeout`, `format`, `unknown`, `no_model`.
 
-Direct `models status --probe` runs create temporary internal sessions in the selected agent's canonical database, so the command requires exclusive ownership of the configured state directory. Stop a running Gateway with `openclaw gateway stop` before probing. Probe results can be reported before slow cleanup finishes. Temporary auth directories, internal sessions, and the state lock remain held until accepted work and cleanup settle, including after interruption. Cleanup failures are reported; a timeout does not certify that resources have closed.
+Direct `models status --probe` runs create temporary internal sessions in the selected agent's canonical database, so the command requires exclusive ownership of the configured state directory. Stop a running Gateway with `openagent gateway stop` before probing. Probe results can be reported before slow cleanup finishes. Temporary auth directories, internal sessions, and the state lock remain held until accepted work and cleanup settle, including after interruption. Cleanup failures are reported; a timeout does not certify that resources have closed.
 
 Probe detail/reason codes to expect when a probe never reaches a model call:
 
@@ -122,18 +122,18 @@ Probe detail/reason codes to expect when a probe never reaches a model call:
 - `ineligible_profile`: profile is incompatible with provider config for another reason.
 - `no_model`: provider auth exists, but OpenAgent could not resolve a probeable model candidate for that provider.
 
-For OpenAI ChatGPT/Codex OAuth troubleshooting, `openclaw models status`, `openclaw models auth list --provider openai`, and `openclaw config get agents.defaults.model --json` are the quickest way to confirm whether an agent has a usable `openai` OAuth profile for `openai/*` through the native Codex runtime. See [OpenAI provider setup](/providers/openai/setup#check-and-recover-codex-oauth-routing).
+For OpenAI ChatGPT/Codex OAuth troubleshooting, `openagent models status`, `openagent models auth list --provider openai`, and `openagent config get agents.defaults.model --json` are the quickest way to confirm whether an agent has a usable `openai` OAuth profile for `openai/*` through the native Codex runtime. See [OpenAI provider setup](/providers/openai/setup#check-and-recover-codex-oauth-routing).
 
 ### List
 
-`openclaw models list` reads published model inventory. It does not start model
+`openagent models list` reads published model inventory. It does not start model
 provider discovery or rewrite `models.json`. This also applies to `--all` and
 `--provider <id>`.
 
 ```bash
-openclaw models list --agent <agentId>
-openclaw models list --agent <agentId> --provider <providerId> --json
-openclaw models list --agent <agentId> --refresh
+openagent models list --agent <agentId>
+openagent models list --agent <agentId> --provider <providerId> --json
+openagent models list --agent <agentId> --refresh
 ```
 
 When a local Gateway is running, or a remote Gateway is selected by configuration
@@ -186,7 +186,7 @@ for the wire controls.
 
 ### Refresh the hosted catalog
 
-`openclaw models refresh [--json]` checks the hosted metadata catalog. It does
+`openagent models refresh [--json]` checks the hosted metadata catalog. It does
 not sign in to providers, test credentials, or activate downloaded rows in a
 running Gateway. It rejects `--agent` because the hosted catalog is global.
 
@@ -202,8 +202,8 @@ update lifecycle.
 ### Set default / image model
 
 ```bash
-openclaw models set <model-or-alias>
-openclaw models set-image <model-or-alias>
+openagent models set <model-or-alias>
+openagent models set-image <model-or-alias>
 ```
 
 `set` writes `agents.defaults.model.primary`; `set-image` writes `agents.defaults.imageModel.primary`. Both accept `provider/model` or a configured alias. `set` also repairs Codex/Copilot runtime plugin installs when the newly selected model needs one; `set-image` does not. Neither command accepts `--agent`; they always write agent defaults.
@@ -241,9 +241,9 @@ Numeric scan options reject empty and whitespace-only values. Omit a flag to ret
 ## Aliases
 
 ```bash
-openclaw models aliases list [--json] [--plain]
-openclaw models aliases add <alias> <model-or-alias>
-openclaw models aliases remove <alias>
+openagent models aliases list [--json] [--plain]
+openagent models aliases add <alias> <model-or-alias>
+openagent models aliases remove <alias>
 ```
 
 Aliases are stored per model entry as `agents.defaults.models.<key>.alias`. `add` resolves `<model-or-alias>` to a canonical provider/model key first, so aliasing an alias repoints it rather than chaining.
@@ -252,13 +252,13 @@ Adding an alias does not change `agents.defaults.modelPolicy.allow` or restrict 
 ## Fallbacks
 
 ```bash
-openclaw models fallbacks list [--json] [--plain]
-openclaw models fallbacks add <model-or-alias>
-openclaw models fallbacks remove <model-or-alias>
-openclaw models fallbacks clear
+openagent models fallbacks list [--json] [--plain]
+openagent models fallbacks add <model-or-alias>
+openagent models fallbacks remove <model-or-alias>
+openagent models fallbacks clear
 ```
 
-Manages `agents.defaults.model.fallbacks`. `openclaw models image-fallbacks list|add|remove|clear` manages the parallel `agents.defaults.imageModel.fallbacks` list with the same subcommand shape.
+Manages `agents.defaults.model.fallbacks`. `openagent models image-fallbacks list|add|remove|clear` manages the parallel `agents.defaults.imageModel.fallbacks` list with the same subcommand shape.
 
 ## Personal model accounts
 
@@ -272,13 +272,13 @@ Use `models accounts` for accounts owned by your signed-in person on the selecte
 To configure system/agent credentials for a remote server, run `models auth` on that server with its OpenAgent state/config. Configuring a remote Gateway URL on your laptop does not make `models auth` write to the server.
 
 ```bash
-openclaw models accounts list
-openclaw models accounts login
-openclaw models accounts login anthropic --method api-key
-openclaw models accounts login openai --method device-code
-openclaw models accounts login xai --method api-key
-openclaw models accounts use <account-id>
-openclaw models accounts clear-default <provider>
+openagent models accounts list
+openagent models accounts login
+openagent models accounts login anthropic --method api-key
+openagent models accounts login openai --method device-code
+openagent models accounts login xai --method api-key
+openagent models accounts use <account-id>
+openagent models accounts clear-default <provider>
 ```
 
 Every account command shows **Gateway**, **Person**, and **Scope: Personal** before accessing accounts or asking for provider credentials. This context goes to stderr so `--json` output stays pipeable. The person is the Gateway's saved, verified profile, not your operating-system username or an unsaved display-name edit.
@@ -287,7 +287,7 @@ Gateway access and provider sign-in are separate. Account ownership follows the 
 
 For separate people on a shared server, use its identity-bearing WebSocket endpoint, such as [Tailscale Serve](/gateway/tailscale#tailscale-identity-headers-serve-only) or a [trusted proxy](/gateway/trusted-proxy-auth). Approve device pairing separately if requested: pairing grants device access, not a distinct person's identity. Supplying shared Gateway token/password credentials takes precedence over Tailscale identity authentication. A browser sign-in does not transfer its identity to the CLI. For an identity-aware edge, follow [remote edge authentication](/gateway/remote#gateway-behind-an-identity-aware-proxy).
 
-If no person is identified, the command stops before provider sign-in and explains how to use an identity-bearing endpoint. It does not infer ownership or change Gateway authentication. These commands do not accept `--agent` or an owner id, and they do not modify local shared auth stores or model config. The top-level `openclaw connect` command enrolls a node; it is not a personal-account login.
+If no person is identified, the command stops before provider sign-in and explains how to use an identity-bearing endpoint. It does not infer ownership or change Gateway authentication. These commands do not accept `--agent` or an owner id, and they do not modify local shared auth stores or model config. The top-level `openagent connect` command enrolls a node; it is not a personal-account login.
 
 `list` needs `operator.read` and returns one page of at most 50 saved accounts: id, provider, friendly label, auth type, and whether each is the new-session default. It never returns credentials. Use `--json` for structured output and `list --cursor <nextCursor>` for the next page.
 
@@ -302,8 +302,8 @@ Keep the command running until it reports a terminal result. Ctrl-C cancels that
 All account subcommands accept `--url <url>`, `--port <port>`, `--token-file <path>`, `--password-file <path>`, `--timeout <ms>` (default `30000`), and `--json`. The token/password files authenticate the **Gateway**, not the provider, and do not establish a personal identity for this CLI. An explicit `--url` can use an identity-bearing endpoint without supplying a shared token. It does not send ambient or configured shared credentials to the override; configured edge credentials remain bound to their own endpoint. Flags may precede or follow the leaf command:
 
 ```bash
-openclaw models accounts --timeout 45000 list --json
-openclaw models accounts list --timeout 45000 --json
+openagent models accounts --timeout 45000 list --json
+openagent models accounts list --timeout 45000 --json
 ```
 
 ## Auth profiles
@@ -313,30 +313,30 @@ These commands manage **System / agent** credentials, not personal Gateway accou
 Before a `models auth` command changes the local auth store, OpenAgent compares the selected CLI state/config paths with the local Gateway or its installed service. A proven mismatch stops before the write. A remote Gateway or an authenticated path that cannot be verified produces a warning instead.
 
 ```bash
-openclaw models auth add
-openclaw models auth list [--provider <id>] [--json]
-openclaw models auth login --provider <id> [--agent <agentId>]
-openclaw models auth login --provider openai --profile-id openai:work
-openclaw models auth login-github-copilot
-openclaw models auth activate <profileId> [--agent <id>]
-openclaw models auth logout <profileId> [--yes]
-openclaw models auth paste-api-key --provider <id>
-openclaw models auth setup-token --provider <id>
-openclaw models auth paste-token --provider <id>
-openclaw models auth order get --provider <id>
-openclaw models auth order set --provider <id> <profileIds...>
-openclaw models auth order clear --provider <id>
+openagent models auth add
+openagent models auth list [--provider <id>] [--json]
+openagent models auth login --provider <id> [--agent <agentId>]
+openagent models auth login --provider openai --profile-id openai:work
+openagent models auth login-github-copilot
+openagent models auth activate <profileId> [--agent <id>]
+openagent models auth logout <profileId> [--yes]
+openagent models auth paste-api-key --provider <id>
+openagent models auth setup-token --provider <id>
+openagent models auth paste-token --provider <id>
+openagent models auth order get --provider <id>
+openagent models auth order set --provider <id> <profileIds...>
+openagent models auth order clear --provider <id>
 ```
 
 `models auth add` is the interactive auth helper. It can launch a provider auth flow (OAuth/API key) or guide you into manual token paste, depending on the provider you choose.
 
 `models auth list` lists saved auth profiles for the selected agent without printing token, API-key, or OAuth secret material. Active cooldown and disable entries include their reason and recovery action. Legacy Gemini CLI OAuth cooldowns direct you to the supported Google AI Studio API-key setup instead of offering an unavailable Gemini CLI login flow. Use `--provider <id>` to filter to one provider, such as `openai`, and `--json` for scripting.
 
-`models auth login` runs a provider plugin's auth flow (OAuth/API key). Use `openclaw plugins list` to see which providers are installed. `login` accepts `--profile-id <id>` for providers that support named profiles during login (use this to keep multiple logins for the same provider separate), `--method <id>` to pick a specific auth method, `--device-code` as a shortcut for `--method device-code`, `--set-default` to apply the provider's recommended default model, and `--force` to remove existing profiles for that provider first (use when a cached OAuth profile is stuck or you want to switch accounts).
+`models auth login` runs a provider plugin's auth flow (OAuth/API key). Use `openagent plugins list` to see which providers are installed. `login` accepts `--profile-id <id>` for providers that support named profiles during login (use this to keep multiple logins for the same provider separate), `--method <id>` to pick a specific auth method, `--device-code` as a shortcut for `--method device-code`, `--set-default` to apply the provider's recommended default model, and `--force` to remove existing profiles for that provider first (use when a cached OAuth profile is stuck or you want to switch accounts).
 
 After credentials are saved, an existing model restriction can prompt **Show all &lt;Provider&gt; models** or **Keep current restrictions**. Only the first choice adds that provider's wildcard to the current restriction. Credentials stay saved either way. The CLI, private-chat login, and Control UI use the same choice. No prompt appears when the provider is already unrestricted. If restrictions change during sign-in, OpenAgent preserves the newer settings and asks you to choose model access again.
 
-The CLI reports saved model access separately from confirmed Gateway application. If application is not confirmed, run `openclaw gateway restart` to apply the saved policy to the running Gateway. This is required when automatic config reload is disabled.
+The CLI reports saved model access separately from confirmed Gateway application. If application is not confirmed, run `openagent gateway restart` to apply the saved policy to the running Gateway. This is required when automatic config reload is disabled.
 
 Without `--set-default`, login preserves the current default, including an unset default, and keeps unrelated configuration edits made while login is running. If credentials are saved but provider settings cannot be applied, the error reports the saved credentials separately. Auth changes request a refresh from the running local Gateway; a refresh failure does not undo the saved change, and the command reports how to apply it.
 
@@ -352,23 +352,23 @@ For the shared-main agent, `--force` clears the provider's shared credentials an
 
 `models auth login-github-copilot` is a shortcut for `models auth login --provider github-copilot --method device` (GitHub device flow); it accepts `--yes` to overwrite an existing profile without prompting.
 
-Use either `openclaw models auth --agent <id> <subcommand>` or `openclaw models auth <subcommand> --agent <id>` to target a specific configured agent store. Both forms are supported by `add`, `list`, `login`, `activate`, `logout`, `paste-api-key`, `setup-token`, `paste-token`, `login-github-copilot`, and `order get`/`set`/`clear`.
+Use either `openagent models auth --agent <id> <subcommand>` or `openagent models auth <subcommand> --agent <id>` to target a specific configured agent store. Both forms are supported by `add`, `list`, `login`, `activate`, `logout`, `paste-api-key`, `setup-token`, `paste-token`, `login-github-copilot`, and `order get`/`set`/`clear`.
 
-For OpenAI models, `--provider openai` defaults to ChatGPT/Codex account login. Use `--method api-key` only when you want to add an OpenAI API-key profile, usually as a backup for Codex subscription limits. Run `openclaw doctor --fix` to migrate older legacy OpenAI Codex prefix auth/profile state to `openai`.
+For OpenAI models, `--provider openai` defaults to ChatGPT/Codex account login. Use `--method api-key` only when you want to add an OpenAI API-key profile, usually as a backup for Codex subscription limits. Run `openagent doctor --fix` to migrate older legacy OpenAI Codex prefix auth/profile state to `openai`.
 
 Examples:
 
 ```bash
-openclaw models auth login --provider openai --set-default
-openclaw models auth login --provider openai --method api-key
-openclaw models auth paste-api-key --provider openai
-openclaw models auth list --provider openai
-openclaw models auth logout openai:manual --yes
+openagent models auth login --provider openai --set-default
+openagent models auth login --provider openai --method api-key
+openagent models auth paste-api-key --provider openai
+openagent models auth list --provider openai
+openagent models auth logout openai:manual --yes
 ```
 
 Notes:
 
-- `paste-api-key` accepts API keys generated elsewhere, prompts for the key value, and uses the same credential writer as the Models page. It updates the configured profile or the active saved key, or creates `<provider>:manual` when neither exists. Use `--profile-id` to update a named profile or add a backup without changing the active provider connection. A configured provider stores the profile reference, while key material stays in the auth store. Saved changes report any Gateway refresh failure with a recovery step. In automation, pipe the key on stdin, for example `printf "%s\n" "$OPENAI_API_KEY" | openclaw models auth paste-api-key --provider openai`.
+- `paste-api-key` accepts API keys generated elsewhere, prompts for the key value, and uses the same credential writer as the Models page. It updates the configured profile or the active saved key, or creates `<provider>:manual` when neither exists. Use `--profile-id` to update a named profile or add a backup without changing the active provider connection. A configured provider stores the profile reference, while key material stays in the auth store. Saved changes report any Gateway refresh failure with a recovery step. In automation, pipe the key on stdin, for example `printf "%s\n" "$OPENAI_API_KEY" | openagent models auth paste-api-key --provider openai`.
 - `setup-token` and `paste-token` remain generic token commands for providers that expose token auth methods.
 - `setup-token` requires an interactive TTY and runs the provider's token-auth method (defaulting to that provider's `setup-token` method when it exposes one).
 - `paste-token` requires `--provider`, prompts for the token value by default, and writes it to the default profile id `<provider>:manual` unless you pass `--profile-id`. In automation, pipe the token on stdin instead of passing it as an argument so provider credentials do not appear in shell history or process lists.
@@ -382,4 +382,4 @@ Notes:
 - [CLI reference](/cli)
 - [Model selection](/concepts/model-providers)
 - [Model failover](/concepts/model-failover)
-- [`openclaw promos`](/cli/promos) — list and claim promotional model offers
+- [`openagent promos`](/cli/promos) — list and claim promotional model offers

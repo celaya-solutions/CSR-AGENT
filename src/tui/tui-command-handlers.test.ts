@@ -3290,10 +3290,10 @@ describe("tui command handlers", () => {
   });
 
   it.each([
-    ["missing-auth", "Run openclaw models auth login or choose another model."],
-    ["auth-failed", "Run openclaw models auth login or choose another model."],
+    ["missing-auth", "Run openagent models auth login or choose another model."],
+    ["auth-failed", "Run openagent models auth login or choose another model."],
     ["cooldown", "Wait and retry, or choose another model."],
-    [undefined, "Run openclaw models auth login or choose another model."],
+    [undefined, "Run openagent models auth login or choose another model."],
   ])(
     "keeps unavailable model availability %s visible without applying it",
     async (reason, guidance) => {

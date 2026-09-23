@@ -407,7 +407,7 @@ export function registerOnboardCommand(program: Command): void {
           rejectOption(
             [
               "Non-interactive setup requires explicit risk acknowledgement.",
-              `Re-run with: ${formatCliCommand("openclaw onboard --modern --non-interactive --accept-risk ...")}`,
+              `Re-run with: ${formatCliCommand("openagent onboard --modern --non-interactive --accept-risk ...")}`,
             ].join("\n"),
           );
           return;

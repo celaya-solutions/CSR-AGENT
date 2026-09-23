@@ -235,7 +235,7 @@ class SystemAgentTuiBackend implements TuiBackend {
   async patchSession(opts: SessionsPatchParams): Promise<SessionsPatchResult> {
     if (opts.model !== undefined) {
       throw new Error(
-        "OpenAgent cannot change the model inside its active verified session. Exit and run `openclaw onboard`, then start OpenAgent again.",
+        "OpenAgent cannot change the model inside its active verified session. Exit and run `openagent onboard`, then start OpenAgent again.",
       );
     }
     return {
@@ -396,7 +396,7 @@ async function runSetupHandoff(
     handoff.target !== "gateway"
   ) {
     runtime.error(
-      "Setup cannot replace the inference route powering OpenAgent. Exit and run `openclaw onboard`, then start OpenAgent again.",
+      "Setup cannot replace the inference route powering OpenAgent. Exit and run `openagent onboard`, then start OpenAgent again.",
     );
     return;
   }
@@ -426,7 +426,7 @@ async function runSetupHandoff(
   if (handoff.target === "gateway") {
     if (opts.runGatewaySetupHandoff) {
       await opts.runGatewaySetupHandoff(runtime, beforePersistentEffect);
-      runtime.log("Done — gateway settings saved. Run `openclaw gateway restart` to apply them.");
+      runtime.log("Done — gateway settings saved. Run `openagent gateway restart` to apply them.");
       return;
     }
     const { createClackPrompter, hostedSetup } = await loadHostedSetupForTui();
@@ -435,7 +435,7 @@ async function runSetupHandoff(
       async () => await beforePersistentEffect(),
       runtime,
     );
-    runtime.log("Done — gateway settings saved. Run `openclaw gateway restart` to apply them.");
+    runtime.log("Done — gateway settings saved. Run `openagent gateway restart` to apply them.");
     return;
   }
   if (handoff.target === "search") {
@@ -505,7 +505,7 @@ export async function runSystemAgentTui(
         historyLimit: SYSTEM_AGENT_HISTORY_LIMIT,
         backend,
         config: {},
-        title: "openclaw setup",
+        title: "openagent setup",
         ...(initialMessage ? { message: initialMessage } : {}),
       });
     } finally {
@@ -518,7 +518,7 @@ export async function runSystemAgentTui(
     }
     if (handoff.kind === "model-setup") {
       runtime.error(
-        "OpenAgent cannot replace its active inference route. Run `openclaw onboard` outside this session, then start OpenAgent again.",
+        "OpenAgent cannot replace its active inference route. Run `openagent onboard` outside this session, then start OpenAgent again.",
       );
       return;
     }

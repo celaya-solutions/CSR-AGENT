@@ -3689,9 +3689,9 @@ describe("gateway session utils", () => {
       const key = "agent:retired-agent:main";
       expect(() =>
         resolveGatewaySessionStoreTargetWithStore({ cfg, key, readOnly: true, exactRead: true }),
-      ).toThrow("openclaw doctor --fix");
+      ).toThrow("openagent doctor --fix");
       expect(() => resolveGatewaySessionStoreTargetsReadOnly({ cfg, targets: [{ key }] })).toThrow(
-        "openclaw doctor --fix",
+        "openagent doctor --fix",
       );
     });
   });
@@ -3991,10 +3991,10 @@ describe("gateway session utils", () => {
             clone: false,
             includeStoreChildEntries: true,
           }),
-        ).toThrow("openclaw doctor --fix");
+        ).toThrow("openagent doctor --fix");
         expect(() =>
           resolveGatewaySessionStoreTargetsReadOnly({ cfg, targets: [{ key: "main" }] }),
-        ).toThrow("openclaw doctor --fix");
+        ).toThrow("openagent doctor --fix");
       });
     } finally {
       resetConfigRuntimeState();
@@ -4180,10 +4180,10 @@ describe("gateway session utils", () => {
         } as OpenClawConfig;
         setRuntimeConfigSnapshot(cfg, cfg);
 
-        expect(() => loadSessionEntry("agent:main:work")).toThrow("openclaw doctor --fix");
+        expect(() => loadSessionEntry("agent:main:work")).toThrow("openagent doctor --fix");
         expect(() =>
           resolveGatewaySessionStoreTargetsReadOnly({ cfg, targets: [{ key: "agent:main:work" }] }),
-        ).toThrow("openclaw doctor --fix");
+        ).toThrow("openagent doctor --fix");
       });
     } finally {
       resetConfigRuntimeState();
@@ -4246,7 +4246,7 @@ describe("gateway session utils", () => {
         key: "agent:ops:main",
         store,
       }),
-    ).toThrow("openclaw doctor --fix");
+    ).toThrow("openagent doctor --fix");
   });
 
   test("listAgentsForGateway rejects avatar symlink escapes outside workspace", () => {

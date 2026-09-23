@@ -5,8 +5,8 @@ Official OpenAgent plugin for DuckDuckGo web search.
 Install from OpenAgent:
 
 ```bash
-openclaw plugins install @openclaw/duckduckgo-plugin
-openclaw gateway restart
+openagent plugins install @openclaw/duckduckgo-plugin
+openagent gateway restart
 ```
 
 Setup and configuration are covered in this repository at `docs/tools/duckduckgo-search.md`.

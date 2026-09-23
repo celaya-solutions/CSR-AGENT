@@ -955,7 +955,7 @@ describe("buildFailoverRemediationHint", () => {
       model: "claude-opus-4-7",
     });
     expect(buildFailoverRemediationHint(err)).toBe(
-      "Re-authenticate with: openclaw models auth login --provider 'anthropic' --force",
+      "Re-authenticate with: openagent models auth login --provider 'anthropic' --force",
     );
   });
 
@@ -966,16 +966,16 @@ describe("buildFailoverRemediationHint", () => {
       model: "gemini-3.1-pro-preview",
     });
     expect(buildFailoverRemediationHint(err)).toBe(
-      "Authenticate in Gemini CLI directly, or configure a supported Google API key with: openclaw configure",
+      "Authenticate in Gemini CLI directly, or configure a supported Google API key with: openagent configure",
     );
   });
 
   it("quotes provider ids that contain shell metacharacters", () => {
     expect(buildProviderReauthCommand("custom;touch /tmp/pwned")).toBe(
-      "openclaw models auth login --provider 'custom;touch /tmp/pwned' --force",
+      "openagent models auth login --provider 'custom;touch /tmp/pwned' --force",
     );
     expect(buildProviderReauthCommand("custom'provider")).toBe(
-      "openclaw models auth login --provider 'custom'\\''provider' --force",
+      "openagent models auth login --provider 'custom'\\''provider' --force",
     );
   });
 
@@ -985,10 +985,10 @@ describe("buildFailoverRemediationHint", () => {
 
   it("wraps rendered provider commands in the standard CLI formatter", () => {
     expect(buildProviderReauthCommand("anthropic", { OPENCLAW_PROFILE: "work" })).toBe(
-      "openclaw --profile work models auth login --provider 'anthropic' --force",
+      "openagent --profile work models auth login --provider 'anthropic' --force",
     );
     expect(buildProviderReauthCommand("anthropic", { OPENCLAW_CONTAINER_HINT: "dev" })).toBe(
-      "openclaw --container dev models auth login --provider 'anthropic' --force",
+      "openagent --container dev models auth login --provider 'anthropic' --force",
     );
   });
 

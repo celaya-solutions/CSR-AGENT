@@ -438,7 +438,7 @@ exit 1
       const calls = await fs.readFile(callsPath, "utf-8");
 
       expect(result.code).toBe(78);
-      expect(result.stderr).toContain("system-scoped openclaw gateway unit detected");
+      expect(result.stderr).toContain("system-scoped openagent gateway unit detected");
       expect(result.stderr).toContain("sudo systemctl restart openclaw-gateway.service");
       expect(calls).toContain("--user is-active --quiet openclaw-gateway.service");
       expect(calls).toContain("is-active --quiet openclaw-gateway.service");

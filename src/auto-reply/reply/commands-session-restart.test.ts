@@ -19,7 +19,7 @@ const mocks = vi.hoisted(() => ({
   })),
   formatDoctorNonInteractiveHint: vi.fn(
     () =>
-      "Recommended follow-up: run openclaw doctor --non-interactive in a terminal or approvals-capable OpenAgent surface.",
+      "Recommended follow-up: run openagent doctor --non-interactive in a terminal or approvals-capable OpenAgent surface.",
   ),
   writeRestartSentinel: vi.fn(async (_payload: RestartSentinelPayload) => undefined),
   scheduleGatewaySigusr1Restart: vi.fn((_opts?: ScheduleGatewayRestartArgs) => ({
@@ -142,7 +142,7 @@ describe("handleRestartCommand", () => {
     expect(sentinelPayload?.message).toBe("/restart");
     expect(sentinelPayload?.continuation).toBeNull();
     expect(sentinelPayload?.doctorHint).toBe(
-      "Recommended follow-up: run openclaw doctor --non-interactive in a terminal or approvals-capable OpenAgent surface.",
+      "Recommended follow-up: run openagent doctor --non-interactive in a terminal or approvals-capable OpenAgent surface.",
     );
     expect(sentinelPayload?.stats).toEqual({
       mode: "gateway.restart",
@@ -278,7 +278,7 @@ describe("handleRestartCommand", () => {
       expect(result).toEqual({
         shouldContinue: false,
         reply: {
-          text: "You are not authorized to use this owner-only command. Ask the operator to run `openclaw config set commands.ownerAllowFrom '[\"telegram:user-1\"]'` in a terminal to make this sender a command owner.",
+          text: "You are not authorized to use this owner-only command. Ask the operator to run `openagent config set commands.ownerAllowFrom '[\"telegram:user-1\"]'` in a terminal to make this sender a command owner.",
         },
       });
       expect(mocks.writeRestartSentinel).not.toHaveBeenCalled();

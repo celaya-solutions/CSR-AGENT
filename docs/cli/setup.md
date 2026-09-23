@@ -1,5 +1,5 @@
 ---
-summary: "CLI reference for `openclaw setup` (system-agent chat with onboarding fallback)"
+summary: "CLI reference for `openagent setup` (system-agent chat with onboarding fallback)"
 read_when:
   - You want to chat with OpenAgent for setup or repair
   - You're doing first-run setup with the onboarding wizard
@@ -8,10 +8,10 @@ read_when:
 title: "Setup CLI"
 ---
 
-# `openclaw setup`
+# `openagent setup`
 
-`openclaw setup` is the system-agent entry point. On a configured system, bare
-`openclaw setup` opens an interactive OpenAgent chat. On a fresh system, it
+`openagent setup` is the system-agent entry point. On a configured system, bare
+`openagent setup` opens an interactive OpenAgent chat. On a fresh system, it
 falls through to guided onboarding. Use `-m`/`--message` for one request or
 `--baseline` to initialize config/workspace folders without the wizard.
 
@@ -19,7 +19,7 @@ Routing order:
 
 1. Any onboarding option (`--wizard`, `--baseline`, workspace, reset,
    non-interactive, flow, mode, Gateway, daemon, skip, import, remote, or auth
-   options) runs onboarding exactly as `openclaw onboard` does.
+   options) runs onboarding exactly as `openagent onboard` does.
 2. `-m`/`--message` or `--yes` runs the system agent.
 3. With no routing option, a configured interactive system opens OpenAgent. A
    fresh system runs onboarding. On a configured system, `--json` prints the
@@ -55,16 +55,16 @@ Pi and OpenCode CLIs may also be reported for context when they cannot serve as
 the reusable inference route for guided setup. Gemini CLI and Antigravity are
 not offered as detected setup routes.
 
-`setup` accepts the same onboarding flags as `openclaw onboard`, including
+`setup` accepts the same onboarding flags as `openagent onboard`, including
 auth (`--auth-choice`, `--token`, provider key flags), Gateway
 (`--gateway-port`, `--gateway-bind`, `--gateway-auth`, `--install-daemon`),
 Tailscale (`--tailscale`), reset (`--reset`, `--reset-scope`), flow
 (`--flow quickstart|advanced|manual|import`), and skip flags
 (`--skip-channels`, `--skip-skills`, `--skip-bootstrap`, `--skip-search`,
 `--skip-health`, `--skip-ui`, `--skip-hooks`). Pass `--tui` to use the same
-terminal hatch as `openclaw onboard --tui`. See [Onboard](/cli/onboard) and
+terminal hatch as `openagent onboard --tui`. See [Onboard](/cli/onboard) and
 [CLI automation](/start/wizard-cli-automation) for the full flag reference and
-non-interactive examples. `openclaw onboard --modern` remains a compatibility
+non-interactive examples. `openagent onboard --modern` remains a compatibility
 entry for the same inference-gated OpenAgent assistant.
 
 Local onboarding generates a Gateway secret in token mode by default, without
@@ -76,7 +76,7 @@ Use `setup --team` for the same small-team onboarding as `onboard --team`.
 `--agent-name <name>` names the first agent or, with `--team`, the coordinator.
 
 <Note>
-`openclaw setup` is for mutable config installs. In Nix mode (`OPENCLAW_NIX_MODE=1`) OpenAgent refuses setup writes because the config file is managed by Nix. Change the Nix source config for this install instead.
+`openagent setup` is for mutable config installs. In Nix mode (`OPENCLAW_NIX_MODE=1`) OpenAgent refuses setup writes because the config file is managed by Nix. Change the Nix source config for this install instead.
 </Note>
 
 ## Options
@@ -121,33 +121,33 @@ mode. For remote token SecretRefs, set `OPENCLAW_GATEWAY_TOKEN` and use
 
 ### Baseline mode
 
-`openclaw setup --baseline` preserves the older baseline-only behavior: it
+`openagent setup --baseline` preserves the older baseline-only behavior: it
 creates the config, workspace, and session directories, then exits without
 running onboarding. It accepts `--workspace` and harmless output controls, but
 rejects explicit onboarding, Gateway, auth, reset, or daemon options instead of
 silently ignoring them. If an existing config is invalid, baseline setup preserves
-it and asks you to run `openclaw doctor` before retrying.
+it and asks you to run `openagent doctor` before retrying.
 
 ## Examples
 
 ```bash
-openclaw setup
-openclaw setup -m "status"
-openclaw setup -m "restart gateway" --yes
-openclaw setup --json
-openclaw setup --wizard
-openclaw setup --baseline
-openclaw setup --workspace ~/.openclaw/workspace
-openclaw setup --import-from hermes --import-source ~/.hermes
-openclaw setup --non-interactive --accept-risk --mode remote --remote-url wss://gateway-host:18789 --remote-token <token>
-openclaw setup --non-interactive --accept-risk --mode remote --remote-url wss://gateway-host:18789 --remote-password <password>
+openagent setup
+openagent setup -m "status"
+openagent setup -m "restart gateway" --yes
+openagent setup --json
+openagent setup --wizard
+openagent setup --baseline
+openagent setup --workspace ~/.openclaw/workspace
+openagent setup --import-from hermes --import-source ~/.hermes
+openagent setup --non-interactive --accept-risk --mode remote --remote-url wss://gateway-host:18789 --remote-token <token>
+openagent setup --non-interactive --accept-risk --mode remote --remote-url wss://gateway-host:18789 --remote-password <password>
 ```
 
 ## Notes
 
-- Inside the interactive OpenAgent chat, `configure skills`, `configure web search`, and `configure gateway` run hosted setup flows. `open search wizard` and `open gateway wizard` hand credential entry to masked terminal wizards. Gateway setup is local-only and config-only; restart afterward with `restart gateway` in chat or `openclaw gateway restart` in the terminal. See [`openclaw setup` operations](/cli/openclaw#operations-and-approval).
+- Inside the interactive OpenAgent chat, `configure skills`, `configure web search`, and `configure gateway` run hosted setup flows. `open search wizard` and `open gateway wizard` hand credential entry to masked terminal wizards. Gateway setup is local-only and config-only; restart afterward with `restart gateway` in chat or `openagent gateway restart` in the terminal. See [`openagent setup` operations](/cli/openclaw#operations-and-approval).
 - `import memory` copies detected local memory into the existing default agent workspace without importing config, credentials, or skills. Finish onboarding first; the chat reports partial and failed copies instead of assuming success.
-- After baseline setup, run `openclaw onboard` for the full guided journey, `openclaw configure` for targeted changes, or `openclaw channels add` to add channel accounts.
+- After baseline setup, run `openagent onboard` for the full guided journey, `openagent configure` for targeted changes, or `openagent channels add` to add channel accounts.
 - If Hermes state is detected, interactive onboarding can offer migration automatically. Import onboarding requires a fresh setup; use [Migrate](/cli/migrate) for dry-run plans, backups, and overwrite mode outside onboarding.
 
 ## Related

@@ -288,7 +288,7 @@ describe("custodian page", () => {
       .fn()
       .mockRejectedValue(
         new Error(
-          "OpenAgent requires working inference: No agent model is configured. Run `openclaw onboard` first.",
+          "OpenAgent requires working inference: No agent model is configured. Run `openagent onboard` first.",
         ),
       );
     const { context } = createContext(request);

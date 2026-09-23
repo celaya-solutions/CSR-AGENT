@@ -1,4 +1,4 @@
-// Commander wiring for `openclaw update`, its status/finalize subcommands, and help text.
+// Commander wiring for `openagent update`, its status/finalize subcommands, and help text.
 import type { Command } from "commander";
 import { theme } from "../../packages/terminal-core/src/theme.js";
 import { formatErrorMessage } from "../infra/errors.js";
@@ -75,12 +75,12 @@ function createUpdateLeafAction(
     try {
       if (inheritOptionFromParent<boolean>(command, "reapplyLocalOverrides")) {
         throw new Error(
-          `--reapply-local-overrides is not supported for openclaw update ${command.name()}. Use it with openclaw update.`,
+          `--reapply-local-overrides is not supported for openagent update ${command.name()}. Use it with openagent update.`,
         );
       }
       if (!options.supportsDryRun && inheritOptionFromParent<boolean>(command, "dryRun")) {
         throw new Error(
-          `--dry-run is not supported for \`openclaw update ${command.name()}\`. Run \`openclaw update --dry-run\` instead.`,
+          `--dry-run is not supported for \`openagent update ${command.name()}\`. Run \`openagent update --dry-run\` instead.`,
         );
       }
       await action(opts, command);
@@ -104,13 +104,13 @@ function registerUpdateFinalizationCommand(update: Command, name: string, hidden
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw update repair", "Reconcile abandoned runs or repair post-update state."],
+          ["openagent update repair", "Reconcile abandoned runs or repair post-update state."],
           [
-            "openclaw update repair --accept-capabilities",
+            "openagent update repair --accept-capabilities",
             "Accept reviewed plugin capability changes during repair.",
           ],
-          ["openclaw update repair --channel beta", "Repair against the beta update channel."],
-          ["openclaw update repair --json", "JSON output for automation."],
+          ["openagent update repair --channel beta", "Repair against the beta update channel."],
+          ["openagent update repair --json", "JSON output for automation."],
         ])}\n\n${theme.heading("Notes:")}\n${theme.muted(
           "- Reconciles abandoned runs when the Gateway is healthy; otherwise repairs post-update state",
         )}\n${theme.muted("- Runs doctor repair and plugin convergence, but never restarts the Gateway")}`,
@@ -149,22 +149,22 @@ export function registerUpdateCli(program: Command) {
   update
     .addHelpText("after", () => {
       const examples = [
-        ["openclaw update", "Update a source checkout (git)"],
+        ["openagent update", "Update a source checkout (git)"],
         [
-          "openclaw update --channel extended-stable",
+          "openagent update --channel extended-stable",
           "Switch to the monthly supported npm channel",
         ],
-        ["openclaw update --channel beta", "Switch to beta channel (git + npm)"],
-        ["openclaw update --channel dev", "Switch to dev channel (git + npm)"],
-        ["openclaw update --tag beta", "One-off update to a dist-tag or version"],
-        ["openclaw update --dry-run", "Preview actions without changing anything"],
-        ["openclaw update --no-restart", "Update without restarting the service"],
-        ["openclaw update --json", "Output result as JSON"],
-        ["openclaw update --yes", "Non-interactive (accept downgrade prompts)"],
-        ["openclaw update --accept-capabilities", "Accept reviewed plugin capability changes"],
-        ["openclaw update repair", "Repair stranded post-update plugin state"],
-        ["openclaw update wizard", "Interactive update wizard"],
-        ["openclaw --update", "Shorthand for openclaw update"],
+        ["openagent update --channel beta", "Switch to beta channel (git + npm)"],
+        ["openagent update --channel dev", "Switch to dev channel (git + npm)"],
+        ["openagent update --tag beta", "One-off update to a dist-tag or version"],
+        ["openagent update --dry-run", "Preview actions without changing anything"],
+        ["openagent update --no-restart", "Update without restarting the service"],
+        ["openagent update --json", "Output result as JSON"],
+        ["openagent update --yes", "Non-interactive (accept downgrade prompts)"],
+        ["openagent update --accept-capabilities", "Accept reviewed plugin capability changes"],
+        ["openagent update repair", "Repair stranded post-update plugin state"],
+        ["openagent update wizard", "Interactive update wizard"],
+        ["openagent --update", "Shorthand for openagent update"],
       ] as const;
       const fmtExamples = examples
         .map(([cmd, desc]) => `  ${theme.command(cmd)} ${theme.muted(`# ${desc}`)}`)
@@ -176,7 +176,7 @@ ${theme.heading("What this does:")}
 
 ${theme.heading("Switch channels:")}
   - Use --channel stable|extended-stable|beta|dev to persist the update channel in config
-  - Run openclaw update status to see the active channel and source
+  - Run openagent update status to see the active channel and source
   - Use --tag <dist-tag|version|spec> for a one-off package update without persisting
   - Use --channel dev for the moving GitHub main checkout; package installs reject --tag main
 
@@ -229,7 +229,7 @@ ${theme.heading("Notes:")}
               update.getOptionValueSource(key) !== "default"
             ) {
               throw new Error(
-                `--${key === "restart" ? "no-restart" : key === "acceptCapabilities" ? "accept-capabilities" : key} is not supported for openclaw update cleanup.`,
+                `--${key === "restart" ? "no-restart" : key === "acceptCapabilities" ? "accept-capabilities" : key} is not supported for openagent update cleanup.`,
               );
             }
           }
@@ -297,9 +297,9 @@ ${theme.heading("Notes:")}
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw update status", "Show channel + version status."],
-          ["openclaw update status --json", "JSON output."],
-          ["openclaw update status --timeout 10", "Custom timeout."],
+          ["openagent update status", "Show channel + version status."],
+          ["openagent update status --json", "JSON output."],
+          ["openagent update status --timeout 10", "Custom timeout."],
         ])}\n\n${theme.heading("Notes:")}\n${theme.muted(
           "- Shows current update channel (stable/extended-stable/beta/dev) and source",
         )}\n${theme.muted("- Includes git tag/branch/SHA for source checkouts")}`,

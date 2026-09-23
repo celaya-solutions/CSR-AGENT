@@ -24,7 +24,7 @@ configuration. They are different layers:
 A **harness** is the implementation that provides an agent runtime (code
 term). For example, the bundled Codex harness implements the `codex` runtime.
 Public config uses `agentRuntime.id` on provider or model entries; whole-agent
-runtime keys are legacy and ignored. `openclaw doctor --fix` removes old
+runtime keys are legacy and ignored. `openagent doctor --fix` removes old
 whole-agent runtime pins and rewrites legacy runtime model refs to canonical
 provider/model refs plus model-scoped runtime policy where needed.
 
@@ -52,7 +52,7 @@ Several surfaces share the Codex name:
 | OpenAI Platform API route for non-agent surfaces | `openai/*` plus API-key auth         | Direct OpenAI APIs such as images, embeddings, speech, and realtime.                                           |
 
 These surfaces are intentionally independent. Enabling the `codex` plugin
-makes native app-server features available; `openclaw doctor --fix` owns
+makes native app-server features available; `openagent doctor --fix` owns
 legacy Codex route repair and stale session pin cleanup. Automatic Codex
 selection requires a compatible effective route: an exact official HTTPS
 Platform Responses or ChatGPT Responses endpoint without authored request
@@ -88,7 +88,7 @@ Decision tree:
 1. **Codex bind/control/thread/resume/steer/stop** -> native `/codex` command surface when the bundled `codex` plugin is enabled.
 2. **Codex as the embedded runtime** or the normal subscription-backed Codex agent experience -> `openai/<model>`.
 3. **OpenAgent explicitly chosen for an OpenAI model** -> keep the model ref as `openai/<model>` and set provider/model runtime policy to `agentRuntime.id: "openclaw"`. A selected `openai` OAuth profile is routed internally through OpenAgent's Codex-auth transport.
-4. **Legacy Codex model refs in config** -> repair with `openclaw doctor --fix` to `openai/<model>`; doctor keeps the Codex auth route by adding provider/model-scoped `agentRuntime.id: "codex"` where the old model ref implied it. Legacy **`codex-cli/*`** model refs repair to the same `openai/<model>` Codex app-server route; The bundled Codex CLI backend was removed in v2026.5.14.
+4. **Legacy Codex model refs in config** -> repair with `openagent doctor --fix` to `openai/<model>`; doctor keeps the Codex auth route by adding provider/model-scoped `agentRuntime.id: "codex"` where the old model ref implied it. Legacy **`codex-cli/*`** model refs repair to the same `openai/<model>` Codex app-server route; The bundled Codex CLI backend was removed in v2026.5.14.
 5. **ACP, acpx, or Codex ACP adapter explicitly requested** -> `runtime: "acp"` and `agentId: "codex"`.
 6. **Claude Code, Gemini CLI, OpenCode, Cursor, Droid, or another external harness** -> ACP/acpx, not the native sub-agent runtime.
 
@@ -178,7 +178,7 @@ on that plugin-owned chat does not turn the observation into a native harness
 pin. Locked native transcripts retain their creating harness, and compatible
 explicit session runtime overrides take precedence over configured policy.
 ACP sessions retain their ACP backend. Legacy whole-agent runtime config and
-`OPENCLAW_AGENT_RUNTIME` are ignored; use `openclaw doctor --fix` to remove stale
+`OPENCLAW_AGENT_RUNTIME` are ignored; use `openagent doctor --fix` to remove stale
 config and repair legacy model refs.
 
 Explicit provider/model plugin runtimes fail closed when the harness is missing
@@ -216,7 +216,7 @@ CLI backend aliases differ from embedded harness ids. Preferred Claude CLI form:
 
 Legacy refs such as `claude-cli/claude-opus-4-7` are accepted as compatibility
 input, but new config should keep the provider/model canonical and put the
-execution backend in provider/model runtime policy. Run `openclaw doctor --fix`
+execution backend in provider/model runtime policy. Run `openagent doctor --fix`
 to rewrite persisted legacy model selections, model-map keys, and explicit
 `modelPolicy.allow` entries to that canonical shape.
 
@@ -231,11 +231,11 @@ than losing their transport settings. Explicit `agentRuntime.id: "openclaw"`
 also keeps the built-in runtime available; with a selected `openai` OAuth
 profile, it uses OpenAgent's Codex-auth transport while keeping the public model
 ref as `openai/*`. Stale historical producer fields do not pin the next turn
-and can be cleaned with `openclaw doctor --fix`.
+and can be cleaned with `openagent doctor --fix`.
 
-If `openclaw doctor` warns that the `codex` plugin is enabled while legacy
+If `openagent doctor` warns that the `codex` plugin is enabled while legacy
 Codex model refs remain in config, treat that as legacy route state and run
-`openclaw doctor --fix` to rewrite it to `openai/*` with the Codex runtime.
+`openagent doctor --fix` to rewrite it to `openai/*` with the Codex runtime.
 
 ## Compatibility contract
 

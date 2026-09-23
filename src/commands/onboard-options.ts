@@ -1,5 +1,5 @@
 /**
- * Shared choice validation and rejection for `openclaw onboard` options.
+ * Shared choice validation and rejection for `openagent onboard` options.
  *
  * Lives above the local/remote split because both the outer command and the
  * non-interactive handlers reject options, and every one of them must honor --json.

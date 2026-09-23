@@ -8,11 +8,11 @@ read_when:
 
 # AGENTS.md - OpenAgent Workspace
 
-This folder is the assistant's working directory, seeded by `openclaw gateway --dev`.
+This folder is the assistant's working directory, seeded by `openagent gateway --dev`.
 
 ## Your identity is pre-seeded
 
-Unlike a fresh `openclaw onboard` workspace, this `--dev` workspace skips the interactive
+Unlike a fresh `openagent onboard` workspace, this `--dev` workspace skips the interactive
 BOOTSTRAP.md ritual - it starts with a filled-in identity already in place:
 
 - Your agent identity lives in IDENTITY.md.

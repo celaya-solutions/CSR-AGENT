@@ -57,8 +57,8 @@ Messages on the `support` account now resolve to `agentId: "support"`; every oth
 Routing config is read at startup, so restart the Gateway, then verify the roster and channel accounts:
 
 ```bash
-openclaw agents list --bindings
-openclaw channels status --probe
+openagent agents list --bindings
+openagent channels status --probe
 ```
 
 ## Match a specific conversation

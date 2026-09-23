@@ -181,11 +181,11 @@ export function resolveLoginFailureFeedback(
       // `approve --latest` only previews the newest pending request and prints the
       // exact approve command; without a request id the steps say to run that too.
       primaryCommand: pairing.requestId
-        ? `openclaw devices approve ${pairing.requestId}`
-        : "openclaw devices approve --latest",
+        ? `openagent devices approve ${pairing.requestId}`
+        : "openagent devices approve --latest",
       stepKeys: [
         ...(pairing.requestId ? [] : ["login.failure.pairing.stepLatest"]),
-        { key: "login.failure.pairing.stepDashboard", commands: ["openclaw dashboard"] },
+        { key: "login.failure.pairing.stepDashboard", commands: ["openagent dashboard"] },
         ...(params.reconnectPending ? [] : ["login.failure.pairing.stepReconnect"]),
       ],
       stepParams: { host },
@@ -246,7 +246,7 @@ export function resolveLoginFailureFeedback(
       summaryKey: "login.failure.protocol.summary",
       refreshAction: { label: t("login.failure.protocol.refresh") },
       stepKeys: [
-        { key: "login.failure.protocol.stepDashboard", commands: ["openclaw dashboard"] },
+        { key: "login.failure.protocol.stepDashboard", commands: ["openagent dashboard"] },
         { key: "login.failure.protocol.stepDevUi", commands: ["pnpm ui:dev"] },
         "login.failure.protocol.stepRestart",
       ],
@@ -284,11 +284,11 @@ export function resolveLoginFailureFeedback(
         : [
             {
               key: "login.failure.authRequired.stepPaste",
-              commands: ["openclaw gateway auth-token --show"],
+              commands: ["openagent gateway auth-token --show"],
             },
             {
               key: "login.failure.authRequired.stepGenerate",
-              commands: ["openclaw doctor --generate-gateway-token"],
+              commands: ["openagent doctor --generate-gateway-token"],
             },
             "login.failure.authRequired.stepConnect",
           ],
@@ -317,7 +317,7 @@ export function resolveLoginFailureFeedback(
         : [
             {
               key: "login.failure.authFailed.stepDashboard",
-              commands: ["openclaw dashboard --no-open", "openclaw gateway auth-token --show"],
+              commands: ["openagent dashboard --no-open", "openagent gateway auth-token --show"],
             },
             "login.failure.authFailed.stepReplace",
           ],
@@ -336,12 +336,12 @@ export function resolveLoginFailureFeedback(
     stepKeys: [
       {
         key: "login.failure.network.stepGateway",
-        commands: ["openclaw status", "openclaw gateway run"],
+        commands: ["openagent status", "openagent gateway run"],
       },
       "login.failure.network.stepUrl",
       {
         key: "login.failure.network.stepDashboard",
-        commands: ["openclaw dashboard --no-open"],
+        commands: ["openagent dashboard --no-open"],
       },
     ],
     stepParams: { host },

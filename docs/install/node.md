@@ -21,7 +21,7 @@ Upgrade Node before updating OpenAgent to avoid SQLite TEXT truncation. See [Nod
 
 ### Update from the CLI
 
-If you run `openclaw` with an incompatible Node.js, startup first checks for an
+If you run `openagent` with an incompatible Node.js, startup first checks for an
 already available compatible runtime: the private OpenAgent runtime, the Node
 recorded in the managed Gateway service, Node on PATH, then nvm, fnm, Volta, and
 Homebrew defaults. Each candidate must pass the same SQLite capability checks as
@@ -138,7 +138,7 @@ fnm use 26
 
 ### `openclaw: command not found`
 
-Inside the checkout, run the CLI as `pnpm openclaw ...`. If you linked a global
+Inside the checkout, run the CLI as `pnpm openagent ...`. If you linked a global
 command with `pnpm add --global "openclaw@link:$PWD"`, pnpm's global bin
 directory must be on your PATH.
 

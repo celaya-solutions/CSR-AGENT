@@ -33,7 +33,7 @@ cuts can be made against evidence rather than assumption.
 
 ```
 pnpm install
-pnpm openclaw --version
+pnpm openagent --version
 ```
 
 Both succeed. Two environment traps had to be cleared first; **both will hit students**:
@@ -374,7 +374,7 @@ rename runs. Sizing that split is the first Phase 4.2 task.
    bundled hooks) cannot be decided. Blocking for that item only.
 2. **Native apps.** `apps/` is 8 targets and 2,591 files. Phase 3.2 says remove
    every client except the approved entry point; that reads as deleting all of
-   `apps/`. Confirm, since it also removes the mobile pairing story (`openclaw qr`).
+   `apps/`. Confirm, since it also removes the mobile pairing story (`openagent qr`).
 3. **Rename scope.** See §10. Recommend renaming user-visible strings only and
    leaving `openclaw` as the internal package/module/env identifier, which is what
    the spec already says but which the raw counts obscure.

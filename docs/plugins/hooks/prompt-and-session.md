@@ -20,7 +20,7 @@ the runtime emits it; `assistantTexts` can be empty and `lastAssistant` absent,
 so the event alone does not prove a successful final answer.
 
 For proof of the effective session model, inspect runtime registrations, then
-use `openclaw sessions` or the Gateway session/status surfaces. To debug
+use `openagent sessions` or the Gateway session/status surfaces. To debug
 provider payloads, start the Gateway with `--raw-stream` and
 `--raw-stream-path <path>` to write raw model stream events to a jsonl file.
 

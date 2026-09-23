@@ -14,7 +14,7 @@ For the full key index and the other top-level config domains, see [Configuratio
 ## MCP
 
 OpenAgent-managed MCP server definitions live under `mcp.servers` for embedded
-OpenAgent and other runtime adapters. `openclaw mcp list`, `show`, `set`, and
+OpenAgent and other runtime adapters. `openagent mcp list`, `show`, `set`, and
 `unset` manage this block without connecting to the servers. The Fetch example
 requires [`uv`/`uvx`](https://docs.astral.sh/uv/getting-started/installation/).
 
@@ -61,8 +61,8 @@ requires [`uv`/`uvx`](https://docs.astral.sh/uv/getting-started/installation/).
 - `mcp.servers`: named stdio or remote MCP server definitions for runtimes that
   expose configured MCP tools.
   Remote entries use `transport: "streamable-http"` or `transport: "sse"`;
-  `type: "http"` is a CLI-native alias that `openclaw mcp set` and
-  `openclaw doctor --fix` normalize into the canonical `transport` field.
+  `type: "http"` is a CLI-native alias that `openagent mcp set` and
+  `openagent doctor --fix` normalize into the canonical `transport` field.
 - `mcp.servers.<name>.enabled`: set `false` to keep a saved server definition
   while excluding it from embedded OpenAgent MCP discovery and tool projection.
 - `mcp.servers.<name>.requestTimeoutMs`: per-server MCP request timeout in milliseconds.
@@ -70,7 +70,7 @@ requires [`uv`/`uvx`](https://docs.astral.sh/uv/getting-started/installation/).
 - `mcp.servers.<name>.supportsParallelToolCalls`: optional concurrency hint for
   adapters that can choose whether to issue parallel MCP tool calls.
 - `mcp.servers.<name>.auth`: set `"oauth"` for HTTP MCP servers that require
-  OAuth. Run `openclaw mcp login <name>` to store tokens under OpenAgent state.
+  OAuth. Run `openagent mcp login <name>` to store tokens under OpenAgent state.
 - `mcp.servers.<name>.oauth`: optional OAuth scope, redirect URL, and client
   metadata URL overrides.
 - `mcp.servers.<name>.oauth.identity`: credential ownership. Omit it or set
@@ -205,7 +205,7 @@ See [MCP](/cli/mcp#openclaw-as-an-mcp-client-registry) and
 - Loaded from package or bundle directories under `~/.openclaw/extensions` and `<workspace>/.openclaw/extensions`, plus files or directories listed in `plugins.load.paths`.
 - Put standalone plugin files in `plugins.load.paths`; auto-discovered extension roots ignore top-level `.js`, `.mjs`, and `.ts` files so helper scripts in those roots do not block startup.
 - Discovery accepts native OpenAgent plugins plus compatible Codex bundles and Claude bundles, including manifestless Claude default-layout bundles.
-- With the default hybrid reload mode, ordinary plugin policy, entry, and discovery-path changes hot-reload the plugin runtime. Entry config changes replace the affected instance. Use `openclaw plugins reload <id>` after source or manifest edits; active plugins can still declare restart-triggering config prefixes. See [Apply changes and inspect](/plugins/manage-plugins#apply-changes-and-inspect).
+- With the default hybrid reload mode, ordinary plugin policy, entry, and discovery-path changes hot-reload the plugin runtime. Entry config changes replace the affected instance. Use `openagent plugins reload <id>` after source or manifest edits; active plugins can still declare restart-triggering config prefixes. See [Apply changes and inspect](/plugins/manage-plugins#apply-changes-and-inspect).
 - `allow`: optional allowlist (only listed plugins load). `deny` wins.
 - `plugins.entries.<id>.apiKey`: plugin-level API key convenience field (when supported by the plugin).
 - `plugins.entries.<id>.env`: plugin-scoped env var map.

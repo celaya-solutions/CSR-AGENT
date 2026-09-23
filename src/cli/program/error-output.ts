@@ -29,7 +29,7 @@ function resolveHelpCommand(
 ): string {
   const commandPath = options?.commandPath ?? (argv ? getCommandPathWithRootOptions(argv, 2) : []);
   if (commandPath.length === 0) {
-    return formatCliCommand("openclaw --help");
+    return formatCliCommand("openagent --help");
   }
   return formatCliCommand(`openclaw ${commandPath.join(" ")} --help`);
 }
@@ -65,7 +65,7 @@ function formatCliUnknownCommandOutput(
     formatHelpHint(options.argv, { commandPath }),
     hasParentCommand
       ? undefined
-      : `${theme.muted("Plugin command?")} ${theme.command(formatCliCommand("openclaw plugins list"))}`,
+      : `${theme.muted("Plugin command?")} ${theme.command(formatCliCommand("openagent plugins list"))}`,
   );
 }
 

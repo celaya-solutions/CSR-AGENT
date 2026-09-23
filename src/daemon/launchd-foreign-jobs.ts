@@ -101,7 +101,7 @@ function lifecycleInvocation(
 }
 
 const SCRIPT_HELPER_NAME = /(?:openclaw_|OPENCLAW_)[A-Za-z0-9_]*/;
-const SCRIPT_LITERAL_EXEC = String.raw`/(?:[A-Za-z0-9_.-]+/)*openclaw(?:\.mjs)?`;
+const SCRIPT_LITERAL_EXEC = String.raw`/(?:[A-Za-z0-9_.-]+/)*(?:openagent|openclaw)(?:\.mjs)?`;
 const SCRIPT_HELPER_REF = String.raw`\$(?:${SCRIPT_HELPER_NAME.source}|\{${SCRIPT_HELPER_NAME.source}\})`;
 // JavaScript's $ can stop before a final Unicode separator; require the raw end.
 const SCRIPT_LINE_END = String.raw`$(?![\s\S])`;
@@ -355,7 +355,7 @@ export function formatForeignLaunchdJobs(jobs: ForeignLaunchdJob[]): string {
       [
         `${job.label}: program=${job.program}, keepalive=${job.keepAlive}, Gateway lifecycle=${job.gatewayActions.join("|") || "not verified"}`,
         job.safeToRemove
-          ? "  Removable with openclaw doctor --fix."
+          ? "  Removable with openagent doctor --fix."
           : "  Report only; left unchanged.",
         ...(job.diagnostic ? [`  ${job.diagnostic}`] : []),
       ].join("\n"),

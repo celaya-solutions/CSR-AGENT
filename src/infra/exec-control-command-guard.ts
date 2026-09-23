@@ -337,7 +337,7 @@ export async function rejectUnsafeExecControlShellCommand(command: string): Prom
     throw new Error(
       [
         "exec cannot run interactive OpenAgent channel login commands.",
-        "Run `openclaw channels login` in a terminal on the gateway host, or use the channel-specific login agent tool when available (for WhatsApp: `whatsapp_login`).",
+        "Run `openagent channels login` in a terminal on the gateway host, or use the channel-specific login agent tool when available (for WhatsApp: `whatsapp_login`).",
       ].join(" "),
     );
   }

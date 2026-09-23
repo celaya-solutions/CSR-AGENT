@@ -2931,7 +2931,7 @@ describe("runCli exit behavior", () => {
 
     expect(error).toBeInstanceOf(ExpectedCliError);
     expect((error as ExpectedCliError).humanOutput).toContain(
-      "Did you mean this?\n  openclaw update\n",
+      "Did you mean this?\n  openagent update\n",
     );
 
     expect(startProxyMock).not.toHaveBeenCalled();
@@ -3692,7 +3692,7 @@ describe("runCli exit behavior", () => {
     });
 
     await expectNonInteractiveBareCliError(
-      "Onboarding needs an interactive TTY. Use `openclaw onboard --non-interactive --accept-risk ...` for automation.",
+      "Onboarding needs an interactive TTY. Use `openagent onboard --non-interactive --accept-risk ...` for automation.",
       () => {
         expect(setupWizardCommandMock).not.toHaveBeenCalled();
         expect(tryRouteCliMock).not.toHaveBeenCalled();
@@ -3807,7 +3807,7 @@ describe("runCli exit behavior", () => {
       detail: "Gateway default agent has no configured model",
     });
     await expectNonInteractiveBareCliError(
-      "Remote Gateway inference setup needs an interactive TTY. Re-run `openclaw` in a terminal connected to this Gateway.",
+      "Remote Gateway inference setup needs an interactive TTY. Re-run `openagent` in a terminal connected to this Gateway.",
       () => {
         expect(setupWizardCommandMock).not.toHaveBeenCalled();
         expect(runRemoteGatewayInferenceOnboardingMock).not.toHaveBeenCalled();
@@ -4417,7 +4417,7 @@ describe("runCli exit behavior", () => {
 
       expect(process.exitCode).toBe(1);
       expect(errorSpy).toHaveBeenCalledWith(
-        "OpenAgent TUI needs an interactive TTY. Use `openclaw agent --local ...` for automation.",
+        "OpenAgent TUI needs an interactive TTY. Use `openagent agent --local ...` for automation.",
       );
       expect(runTuiMock).not.toHaveBeenCalled();
     } finally {
@@ -4457,7 +4457,7 @@ describe("runCli exit behavior", () => {
       sourceConfig: { gateway: { mode: "local" } },
     });
     await expectNonInteractiveBareCliError(
-      "OpenAgent config is invalid. Run `openclaw doctor --fix` before onboarding.",
+      "OpenAgent config is invalid. Run `openagent doctor --fix` before onboarding.",
       () => expect(setupWizardCommandMock).not.toHaveBeenCalled(),
     );
   });

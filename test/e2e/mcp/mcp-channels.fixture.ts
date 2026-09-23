@@ -448,7 +448,7 @@ export async function connectMcpClient(params: {
     stderr: "pipe",
   });
   transport.stderr?.on("data", (chunk) => {
-    process.stderr.write(`[openclaw mcp] ${String(chunk)}`);
+    process.stderr.write(`[openagent mcp] ${String(chunk)}`);
   });
   const rawMessages: unknown[] = [];
   Reflect.set(transport, "onmessage", (message: unknown) => {

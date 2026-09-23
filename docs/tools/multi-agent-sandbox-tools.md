@@ -310,7 +310,7 @@ Per-agent elevated overrides (`agents.entries.*.tools.elevated`) can further res
 </Tabs>
 
 <Note>
-Legacy `agents.list` rosters and retired per-agent keys (such as `sandbox.perSession`, `agentRuntime`, and `embeddedPi`) are migrated by `openclaw doctor`; prefer `agents.defaults` + `agents.entries` going forward.
+Legacy `agents.list` rosters and retired per-agent keys (such as `sandbox.perSession`, `agentRuntime`, and `embeddedPi`) are migrated by `openagent doctor`; prefer `agents.defaults` + `agents.entries` going forward.
 </Note>
 
 ---
@@ -388,7 +388,7 @@ After configuring multi-agent sandbox and tools:
 <Steps>
   <Step title="Check agent resolution">
     ```bash
-    openclaw agents list --bindings
+    openagent agents list --bindings
     ```
   </Step>
   <Step title="Verify sandbox containers">
@@ -403,7 +403,7 @@ After configuring multi-agent sandbox and tools:
   </Step>
   <Step title="Monitor logs">
     ```bash
-    openclaw logs --follow | grep -E "routing|sandbox|tools"
+    openagent logs --follow | grep -E "routing|sandbox|tools"
     ```
   </Step>
 </Steps>

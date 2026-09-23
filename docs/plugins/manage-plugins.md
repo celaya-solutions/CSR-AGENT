@@ -14,7 +14,7 @@ The Control UI covers discovery, installation, schema-backed configuration,
 effective access, enablement, reload, and removal. The CLI adds update,
 advanced maintenance, and explicit install-source controls.
 For its full command contract, flags, source-selection rules, and edge cases, see
-[`openclaw plugins`](/cli/plugins).
+[`openagent plugins`](/cli/plugins).
 
 Typical workflow: find a package, install it, enable it, then verify the plugin's
 runtime registrations. Control UI actions apply to the running Gateway without
@@ -65,7 +65,7 @@ connection. If application fails, the error distinguishes a rejected replacement
 from a change that was published before a later runtime failure.
 An install can remain saved even if its runtime fails to start. The page refreshes
 that installed entry and keeps the failure visible. Fix the reported problem, then
-choose **Reload** in its **Lifecycle** settings or run `openclaw plugins reload <plugin-id>`; repeating
+choose **Reload** in its **Lifecycle** settings or run `openagent plugins reload <plugin-id>`; repeating
 installation is unnecessary.
 
 **Reload** refreshes the backend plugin and its package entries while preserving
@@ -88,17 +88,17 @@ or update plugin packages. Use the CLI workflows below for those operations.
 ## List and search plugins
 
 ```bash
-openclaw plugins list
-openclaw plugins list --enabled
-openclaw plugins list --verbose
-openclaw plugins list --json
-openclaw plugins search "calendar"
+openagent plugins list
+openagent plugins list --enabled
+openagent plugins list --verbose
+openagent plugins list --json
+openagent plugins search "calendar"
 ```
 
 `--json` for scripts:
 
 ```bash
-openclaw plugins list --json \
+openagent plugins list --json \
   | jq '.plugins[] | {id, enabled, format, source, dependencyStatus}'
 ```
 
@@ -109,13 +109,13 @@ registry diagnostics and each plugin's `dependencyStatus` (whether declared
 `dependencies`/`optionalDependencies` resolve on disk).
 
 `plugins search` queries ClawHub for installable plugin packages and prints
-an install hint (`openclaw plugins install clawhub:<package>`) per result.
+an install hint (`openagent plugins install clawhub:<package>`) per result.
 
 ## Enable and disable plugins
 
 ```bash
-openclaw plugins enable <plugin-id>
-openclaw plugins disable <plugin-id>
+openagent plugins enable <plugin-id>
+openagent plugins disable <plugin-id>
 ```
 
 Toggles a plugin's config entry without touching installed files. Some
@@ -152,7 +152,7 @@ surfaces can refresh an existing valid acceptance. Updating a disabled
 plugin preserves disablement and defers any required consent until enablement.
 Reinstalling through `plugins install` also preserves an authored `enabled: false`,
 but requires consent before committing the install when no valid acceptance can
-be reused. Run `openclaw plugins enable <plugin-id>` to activate it afterward.
+be reused. Run `openagent plugins enable <plugin-id>` to activate it afterward.
 
 Already-enabled third-party legacy installations remain usable without an initial review;
 disabling and re-enabling them requires consent. Setup rechecks consent when
@@ -177,9 +177,9 @@ retry setup. Noninteractive plugin install, update, and enable commands also
 require the explicit flag when consent is needed:
 
 ```bash
-openclaw plugins install clawhub:<package> --accept-capabilities
-openclaw plugins update <plugin-id> --accept-capabilities
-openclaw plugins enable <plugin-id> --accept-capabilities
+openagent plugins install clawhub:<package> --accept-capabilities
+openagent plugins update <plugin-id> --accept-capabilities
+openagent plugins enable <plugin-id> --accept-capabilities
 ```
 
 Doctor uses the same source checks and review before installing or adopting a replacement plugin.
@@ -202,7 +202,7 @@ in a workspace or through `plugins.load.paths`, without a managed install
 record, cannot persist capability acceptance. Their details in the Control UI
 still show declared capabilities.
 
-`openclaw plugins install --link <path>` creates a managed install record and
+`openagent plugins install --link <path>` creates a managed install record and
 requires capability consent even though it loads the plugin from its source
 directory. It is not the same as adding a bare `plugins.load.paths` entry.
 
@@ -210,25 +210,25 @@ directory. It is not the same as adding a bare `plugins.load.paths` entry.
 
 ```bash
 # Search ClawHub for plugin packages.
-openclaw plugins search "calendar"
+openagent plugins search "calendar"
 
 # Install from ClawHub.
-openclaw plugins install clawhub:<package>
-openclaw plugins install clawhub:<package>@1.2.3
-openclaw plugins install clawhub:<package>@beta
+openagent plugins install clawhub:<package>
+openagent plugins install clawhub:<package>@1.2.3
+openagent plugins install clawhub:<package>@beta
 
 # Install from npm.
-openclaw plugins install npm:<package>
-openclaw plugins install npm:@scope/openclaw-plugin@1.2.3
-openclaw plugins install npm:@openclaw/codex
+openagent plugins install npm:<package>
+openagent plugins install npm:@scope/openclaw-plugin@1.2.3
+openagent plugins install npm:@openclaw/codex
 
 # Install from a local npm-pack artifact.
-openclaw plugins install npm-pack:<path.tgz>
+openagent plugins install npm-pack:<path.tgz>
 
 # Install from git or a local development checkout.
-openclaw plugins install git:github.com/acme/openclaw-plugin@v1.0.0
-openclaw plugins install ./my-plugin
-openclaw plugins install --link ./my-plugin
+openagent plugins install git:github.com/acme/openclaw-plugin@v1.0.0
+openagent plugins install ./my-plugin
+openagent plugins install --link ./my-plugin
 ```
 
 Bare package specs install from npm, unless the name matches a bundled or
@@ -242,13 +242,13 @@ and trust the source.
 
 `--force` confirms a non-ClawHub source without prompting and overwrites an
 existing install target when needed. For routine upgrades of a tracked npm,
-ClawHub, or hook-pack install, use `openclaw plugins update` instead. With
+ClawHub, or hook-pack install, use `openagent plugins update` instead. With
 `--link`, `--force` only confirms the source; the linked directory is not
 copied or overwritten.
 
 If a newly installed plugin requires configuration that is not present yet,
 OpenAgent records the install but leaves the plugin disabled. Configure
-`plugins.entries.<id>.config`, then run `openclaw plugins enable <id>`. If an
+`plugins.entries.<id>.config`, then run `openagent plugins enable <id>`. If an
 existing config entry is present but invalid, install fails without rewriting it.
 
 A plugin package can expose multiple child entries. Installation tracks that
@@ -268,7 +268,7 @@ it after the local package operation finishes. Without a running Gateway, those
 commands update the local installation for its next startup.
 
 In the default `hybrid` reload mode, saving plugin configuration in the Control
-UI, through `openclaw config`, or in `openclaw.json` also applies automatically.
+UI, through `openagent config`, or in `openclaw.json` also applies automatically.
 By default, changes under `plugins.entries.<id>` replace that plugin's runtime
 instance, so registration, tools, hooks, and services receive its new configuration.
 Unchanged plugins keep their instances. A plugin can declare a narrower policy
@@ -282,11 +282,11 @@ After an offline installation, start the Gateway to use the installed runtime
 surfaces. To inspect their registration:
 
 ```bash
-openclaw plugins inspect <plugin-id> --runtime --json
+openagent plugins inspect <plugin-id> --runtime --json
 ```
 
 The Gateway reuses its current plugin inventory until startup or an explicit
-owner update. Run `openclaw plugins reload <plugin-id>` after source or manifest
+owner update. Run `openagent plugins reload <plugin-id>` after source or manifest
 edits. For API clients, `plugins.reload` takes `plugins: [{ pluginId }]` to reload
 one installed plugin, or multiple targets in the same request, and
 `plugins.refresh` refreshes the inventory.
@@ -340,10 +340,10 @@ inspect that result before retrying activation, rather than reinstalling it.
 ## Update plugins
 
 ```bash
-openclaw plugins update <plugin-id>
-openclaw plugins update <npm-package-or-spec>
-openclaw plugins update --all
-openclaw plugins update <plugin-id> --dry-run
+openagent plugins update <plugin-id>
+openagent plugins update <npm-package-or-spec>
+openagent plugins update --all
+openagent plugins update <plugin-id> --dry-run
 ```
 
 Passing a plugin id reuses its tracked install spec: stored dist-tags
@@ -356,11 +356,11 @@ state commits; retained/new children and unrelated plugins are preserved.
 
 If OpenAgent cannot prove exactly one package owner and a complete child list,
 update and uninstall fail closed without changing package files, config, or the
-installed index. Run `openclaw plugins registry --refresh`, inspect
-`openclaw plugins doctor`, and use `openclaw doctor --fix` for repairable legacy
+installed index. Run `openagent plugins registry --refresh`, inspect
+`openagent plugins doctor`, and use `openagent doctor --fix` for repairable legacy
 index state. If the ambiguity remains, reinstall the package before retrying.
 
-`openclaw plugins update --all` is the bulk maintenance path. It preserves
+`openagent plugins update --all` is the bulk maintenance path. It preserves
 exact version pins and explicit tags, including trusted official OpenAgent
 plugin records, because older automatic pins cannot be distinguished from an
 operator's intentional pin. When a newer default-line release exists,
@@ -372,29 +372,29 @@ For an exact-pinned ClawHub record, deliberately return to the default release
 line with the command printed by the updater:
 
 ```bash
-openclaw plugins install clawhub:<package> --force
+openagent plugins install clawhub:<package> --force
 ```
 
 For npm installs, pass an explicit package spec to switch the tracked
 record:
 
 ```bash
-openclaw plugins update @scope/openclaw-plugin@beta
-openclaw plugins update @scope/openclaw-plugin
+openagent plugins update @scope/openclaw-plugin@beta
+openagent plugins update @scope/openclaw-plugin
 ```
 
 The second command moves a plugin back to the registry's default release
 line when it was previously pinned to an exact version or tag.
 
-See [`openclaw plugins`](/cli/plugins#update) for the exact fallback and
+See [`openagent plugins`](/cli/plugins#update) for the exact fallback and
 pinning rules.
 
 ## Uninstall plugins
 
 ```bash
-openclaw plugins uninstall <plugin-id> --dry-run
-openclaw plugins uninstall <plugin-id>
-openclaw plugins uninstall <plugin-id> --keep-files
+openagent plugins uninstall <plugin-id> --dry-run
+openagent plugins uninstall <plugin-id>
+openagent plugins uninstall <plugin-id> --keep-files
 ```
 
 Uninstall removes the package's persisted install record and every owned child's
@@ -421,14 +421,14 @@ for the install instead.
 
 ## Choose a source
 
-| Source      | Use when                                                                    | Example                                                        |
-| ----------- | --------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| ClawHub     | You run a ClawHub registry and set `OPENCLAW_CLAWHUB_URL` to it             | `openclaw plugins install clawhub:<package>`                   |
-| git         | You want a branch, tag, or commit from a repository                         | `openclaw plugins install git:github.com/<owner>/<repo>@<ref>` |
-| local path  | You are developing or testing a plugin on the same machine                  | `openclaw plugins install --link ./my-plugin`                  |
-| marketplace | You are installing a Claude-compatible marketplace plugin                   | `openclaw plugins install <plugin> --marketplace <source>`     |
-| npm pack    | You are proving a local package artifact through npm install semantics      | `openclaw plugins install npm-pack:<path.tgz>`                 |
-| npmjs.com   | You already ship JavaScript packages or need npm dist-tags/private registry | `openclaw plugins install npm:@acme/openclaw-plugin`           |
+| Source      | Use when                                                                    | Example                                                         |
+| ----------- | --------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| ClawHub     | You run a ClawHub registry and set `OPENCLAW_CLAWHUB_URL` to it             | `openagent plugins install clawhub:<package>`                   |
+| git         | You want a branch, tag, or commit from a repository                         | `openagent plugins install git:github.com/<owner>/<repo>@<ref>` |
+| local path  | You are developing or testing a plugin on the same machine                  | `openagent plugins install --link ./my-plugin`                  |
+| marketplace | You are installing a Claude-compatible marketplace plugin                   | `openagent plugins install <plugin> --marketplace <source>`     |
+| npm pack    | You are proving a local package artifact through npm install semantics      | `openagent plugins install npm-pack:<path.tgz>`                 |
+| npmjs.com   | You already ship JavaScript packages or need npm dist-tags/private registry | `openagent plugins install npm:@acme/openclaw-plugin`           |
 
 OpenAgent has no default ClawHub registry. `clawhub:` installs, `plugins search`,
 and ClawHub updates refuse before any network request until
@@ -456,9 +456,9 @@ Native npm plugins must ship a plugin manifest (`openclaw.plugin.json`) plus
 
 ```bash
 npm publish --access public
-openclaw plugins install npm:@acme/openclaw-plugin
-openclaw plugins install npm:@acme/openclaw-plugin@beta
-openclaw plugins install npm:@acme/openclaw-plugin@1.0.0
+openagent plugins install npm:@acme/openclaw-plugin
+openagent plugins install npm:@acme/openclaw-plugin@beta
+openagent plugins install npm:@acme/openclaw-plugin@1.0.0
 ```
 
 Use these pages for the full publishing contract instead of treating this
@@ -476,6 +476,6 @@ If the same package is available on both ClawHub and npm, use the explicit
 ## Related
 
 - [Plugins](/tools/plugin) - install, configure, reload, and troubleshoot
-- [`openclaw plugins`](/cli/plugins) - full CLI reference
+- [`openagent plugins`](/cli/plugins) - full CLI reference
 - [Building plugins](/plugins/building-plugins) - create a plugin package
 - [Plugin manifest](/plugins/manifest) - manifest and package metadata

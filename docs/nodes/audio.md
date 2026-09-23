@@ -57,8 +57,8 @@ Binary detection is best-effort across macOS/Linux/Windows. Make sure the CLI is
 Inspect the local selection without transcribing audio:
 
 ```bash
-openclaw capability audio providers
-openclaw doctor --lint --only core/doctor/local-audio-acceleration --severity-min info
+openagent capability audio providers
+openagent doctor --lint --only core/doctor/local-audio-acceleration --severity-min info
 ```
 
 The provider inventory reports the local fallback winner separately from global provider selection, plus capable, requested, and observed backend fields. After transcription runs, `/status` reports the requested or observed backend in the media line. Explicit audio-capable `tools.media.models` CLI entries still bypass auto-selection; use their backend-specific flags such as sherpa `--provider=cuda` or whisper.cpp `--no-gpu`/`--device`.
@@ -93,20 +93,20 @@ installation, run them once for that agent.
 1. List the agent's OpenAI profiles so you can copy the exact OAuth profile ID:
 
    ```bash
-   openclaw models auth list --agent AGENT_NAME_HERE --provider openai
+   openagent models auth list --agent AGENT_NAME_HERE --provider openai
    ```
 
 2. Create a dedicated API-key profile. This command prompts for the key; paste it
    into the prompt rather than putting it in the command line:
 
    ```bash
-   openclaw models auth paste-api-key --agent AGENT_NAME_HERE --provider openai --profile-id openai:CUSTOM_PROFILE_NAME_HERE
+   openagent models auth paste-api-key --agent AGENT_NAME_HERE --provider openai --profile-id openai:CUSTOM_PROFILE_NAME_HERE
    ```
 
    Example:
 
    ```bash
-   openclaw models auth paste-api-key --agent smith --provider openai --profile-id openai:audio
+   openagent models auth paste-api-key --agent smith --provider openai --profile-id openai:audio
    ```
 
 3. Put the OAuth profile first and the audio API-key profile second in the agent's
@@ -114,13 +114,13 @@ installation, run them once for that agent.
    reported by the list command:
 
    ```bash
-   openclaw models auth order set --agent AGENT_NAME_HERE --provider openai openai:YOUR_OPENAI_ACCOUNT_EMAIL_ADDRESS openai:CUSTOM_PROFILE_NAME_HERE
+   openagent models auth order set --agent AGENT_NAME_HERE --provider openai openai:YOUR_OPENAI_ACCOUNT_EMAIL_ADDRESS openai:CUSTOM_PROFILE_NAME_HERE
    ```
 
    Example:
 
    ```bash
-   openclaw models auth order set --agent smith --provider openai openai:youremailaddress@email.com openai:audio
+   openagent models auth order set --agent smith --provider openai openai:youremailaddress@email.com openai:audio
    ```
 
 4. Configure the OpenAI transcription model and explicitly select the API-key
@@ -212,7 +212,7 @@ provider-wide rather than scoped to the audio model entry.
 - Transcript is available to templates as `{{Transcript}}`.
 - `tools.media.audio.echoTranscript` is off by default; `echoFormat` accepts a `{transcript}` placeholder.
 - CLI stdout is capped at 5MB; keep CLI output concise.
-- CLI `args` should use `{{AttachmentPath}}` for the local audio file path. Run `openclaw doctor --fix` to migrate deprecated `{input}` placeholders from older `audio.transcription.command` configs (retired key: `audio.transcription`, replaced by `tools.media.models`). `{{MediaPath}}` remains a deprecated compatibility alias.
+- CLI `args` should use `{{AttachmentPath}}` for the local audio file path. Run `openagent doctor --fix` to migrate deprecated `{input}` placeholders from older `audio.transcription.command` configs (retired key: `audio.transcription`, replaced by `tools.media.models`). `{{MediaPath}}` remains a deprecated compatibility alias.
 - `tools.media.concurrency` bounds media tasks; it is not a GPU scheduler.
 
 ### Resident local STT

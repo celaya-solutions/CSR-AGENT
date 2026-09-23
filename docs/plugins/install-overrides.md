@@ -12,7 +12,7 @@ Plugin install overrides let maintainers point setup-time plugin installs at
 a specific npm package or local npm-pack tarball instead of the catalog,
 bundled, or default npm source. They exist for E2E and package validation
 only; normal users install plugins with
-[`openclaw plugins install`](/cli/plugins).
+[`openagent plugins install`](/cli/plugins).
 
 <Warning>
 Overrides execute plugin code from the source you provide. Use them only in an
@@ -65,7 +65,7 @@ npm pack extensions/codex --pack-destination /tmp
 OPENCLAW_STATE_DIR="$(mktemp -d)" \
 OPENCLAW_ALLOW_PLUGIN_INSTALL_OVERRIDES=1 \
 OPENCLAW_PLUGIN_INSTALL_OVERRIDES='{"codex":"npm-pack:/tmp/openclaw-codex-2026.5.8.tgz"}' \
-pnpm openclaw onboard --mode local
+pnpm openagent onboard --mode local
 ```
 
 Verify the installed package under the state directory:

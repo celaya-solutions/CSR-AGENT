@@ -7,8 +7,8 @@ import type { DraftEnvironment } from "./discovery.ts";
 const updateIssue = {
   code: "update-required",
   action: "update-and-reconnect",
-  updateCommand: "openclaw update",
-  headlessReconnectCommand: "openclaw node restart",
+  updateCommand: "openagent update",
+  headlessReconnectCommand: "openagent node restart",
 } as const;
 
 function node(overrides: Partial<DraftEnvironment>): DraftEnvironment {
@@ -77,9 +77,9 @@ describe("device placement projection", () => {
       environment: node({ sessionHost: false, workerSlots: undefined }),
       selectable: false,
       reason:
-        "Session hosting is disabled. Run openclaw connect --service --session-host on the device.",
+        "Session hosting is disabled. Run openagent connect --service --session-host on the device.",
       facts: [
-        "Session hosting is disabled. Run openclaw connect --service --session-host on the device.",
+        "Session hosting is disabled. Run openagent connect --service --session-host on the device.",
         "macOS",
         "Camera",
       ],
@@ -89,9 +89,9 @@ describe("device placement projection", () => {
       environment: node({ issues: [updateIssue] }),
       selectable: false,
       reason:
-        "Update required: run openclaw update, then reconnect. For a headless node, run openclaw node restart.",
+        "Update required: run openagent update, then reconnect. For a headless node, run openagent node restart.",
       facts: [
-        "Update required: run openclaw update, then reconnect. For a headless node, run openclaw node restart.",
+        "Update required: run openagent update, then reconnect. For a headless node, run openagent node restart.",
         "macOS",
         "Camera",
       ],

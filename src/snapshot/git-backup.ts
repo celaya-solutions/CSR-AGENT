@@ -349,7 +349,7 @@ export async function createGitBackup(params: {
     );
     commit = await commitGitBackup({
       repositoryPath,
-      message: `openclaw backup ${now.toISOString()}`,
+      message: `openagent backup ${now.toISOString()}`,
       scopes: commitScopes,
       env: params.gitEnv,
     });
@@ -361,7 +361,7 @@ export async function createGitBackup(params: {
     // repository is the supported remote shape.
     const nonBackupCommitCount = await requireGit(
       repositoryPath,
-      ["rev-list", "HEAD", "--invert-grep", "--grep=^openclaw backup ", "--count"],
+      ["rev-list", "HEAD", "--invert-grep", "--grep=^openagent backup ", "--count"],
       { env: params.gitEnv },
     );
     if (nonBackupCommitCount !== "0") {

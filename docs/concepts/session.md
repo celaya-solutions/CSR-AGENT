@@ -69,7 +69,7 @@ If the same person contacts you from multiple channels, use
 they share a session.
 </Tip>
 
-Verify your setup with `openclaw security audit`.
+Verify your setup with `openagent security audit`.
 
 ## Retired channel docking
 
@@ -119,7 +119,7 @@ context, and replies to the source room remain unchanged.
 
 Incognito sessions are available only from the Control UI's **New thread** screen. Turn on **Incognito** before starting the thread to keep its session entry, transcript, and compaction state in process memory instead of on disk. The thread disappears when the Gateway restarts, does not run OpenAgent's automatic memory flush, and does not create a transcript archive when you reset or delete it. Codex-backed runs also start their harness thread in ephemeral mode, so Codex writes no rollout or local session-state files; other model providers use HTTP APIs and keep no local provider transcript in OpenAgent.
 
-The `incognito-` segment is reserved for dashboard, subagent, and hidden internal session keys; `openclaw doctor --fix` renames any colliding legacy durable keys.
+The `incognito-` segment is reserved for dashboard, subagent, and hidden internal session keys; `openagent doctor --fix` renames any colliding legacy durable keys.
 
 Incognito does not restrict the agent's normal tools. An explicit request to save information, or any tool-driven file write, can still persist data outside the incognito session store. Your configured model provider still processes the messages you send, diagnostic logging remains unchanged, and OpenAgent still records content-free audit metadata such as HMAC references.
 
@@ -227,14 +227,14 @@ timestamps:
 
 To import legacy `sessions.json` rows and hot transcript JSONL history from an
 older installation, stop the Gateway, back up its state, and run
-`openclaw doctor --fix` before restarting it. Gateway and local CLI startup use
+`openagent doctor --fix` before restarting it. Gateway and local CLI startup use
 SQLite without importing, restoring, or rewriting legacy session files.
 If startup finds a legacy store, it refuses readiness and prints the Doctor
 command for the active profile instead of silently starting with empty history.
 During Doctor import, rows without `sessionStartedAt` are resolved from the
 legacy transcript JSONL session header when available. If an older row also
 lacks `lastInteractionAt`, idle freshness falls back to that session start time,
-not to later bookkeeping writes. Use `openclaw doctor --session-sqlite inspect
+not to later bookkeeping writes. Use `openagent doctor --session-sqlite inspect
 --session-sqlite-all-agents` and the [Doctor migration
 sequence](/cli/doctor#session-sqlite-migration) for inspection and validation.
 
@@ -261,7 +261,7 @@ For production-sized `maxEntries` limits, Gateway runtime writes use a small
 high-water buffer and clean back down to the configured cap in batches.
 Session store reads do not prune or cap entries during Gateway startup, so
 startup and isolated cron sessions do not pay for a full store cleanup.
-`openclaw sessions cleanup --enforce` applies the cap immediately.
+`openagent sessions cleanup --enforce` applies the cap immediately.
 
 `maxEntries` defaults to 5000 unarchived session rows. Archived rows do not consume
 the cap. Existing explicit limits remain unchanged.
@@ -314,20 +314,20 @@ failure stops the sweep.
 
 If you previously used DM isolation and later returned `session.dmScope` to
 `main`, preview stale peer-keyed DM rows with
-`openclaw sessions cleanup --dry-run --fix-dm-scope`. Applying the same flag
+`openagent sessions cleanup --dry-run --fix-dm-scope`. Applying the same flag
 retires those old direct-DM rows and keeps their transcripts as deleted
 archives.
 
-Preview any maintenance run with `openclaw sessions cleanup --dry-run`.
+Preview any maintenance run with `openagent sessions cleanup --dry-run`.
 
 ## Inspecting sessions
 
-| Command                    | Shows                                           |
-| -------------------------- | ----------------------------------------------- |
-| `openclaw status`          | Session store path and recent activity          |
-| `openclaw sessions --json` | All sessions (filter with `--active <minutes>`) |
-| `/status` in chat          | Context usage, model, and toggles               |
-| `/context list`            | What is in the system prompt                    |
+| Command                     | Shows                                           |
+| --------------------------- | ----------------------------------------------- |
+| `openagent status`          | Session store path and recent activity          |
+| `openagent sessions --json` | All sessions (filter with `--active <minutes>`) |
+| `/status` in chat           | Context usage, model, and toggles               |
+| `/context list`             | What is in the system prompt                    |
 
 <a id="further-reading" />
 

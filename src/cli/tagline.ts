@@ -83,7 +83,7 @@ const TAGLINES: string[] = [
   "Runs on a Raspberry Pi. Dreams of a rack in Iceland.",
   "Alexa, but with taste.",
   "I'm not AI-powered, I'm AI-possessed. Big difference.",
-  "You had me at 'openclaw gateway start.'",
+  "You had me at 'openagent gateway start.'",
   "Sideways is a perfectly valid direction of progress—trust me, I'm a crustacean.",
   "I contain multitudes. Mostly subagents.",
   "Technically a daemon, spiritually a familiar.",

@@ -12,7 +12,7 @@ devices across localhost, LAN, and tailnet.
 
 ## Core model
 
-Most operations flow through the Gateway (`openclaw gateway`), a single long-running process that owns channel connections and the WebSocket control plane.
+Most operations flow through the Gateway (`openagent gateway`), a single long-running process that owns channel connections and the WebSocket control plane.
 
 - **Loopback first**: the Gateway WS defaults to `ws://127.0.0.1:18789`.
   Non-loopback binds refuse to start without a valid gateway auth path:

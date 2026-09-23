@@ -452,7 +452,7 @@ export async function preflightOpenClawDatabaseSchemas(options: {
           );
           if (blockingIssues.length > 0) {
             throw new Error(
-              `OpenAgent state database ${statePath} requires repair: ${blockingIssues.map((issue) => issue.message).join("; ")}; run openclaw doctor --fix.`,
+              `OpenAgent state database ${statePath} requires repair: ${blockingIssues.map((issue) => issue.message).join("; ")}; run openagent doctor --fix.`,
             );
           }
         } else {

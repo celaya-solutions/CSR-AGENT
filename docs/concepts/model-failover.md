@@ -82,7 +82,7 @@ OpenAgent uses **auth profiles** for both API keys and OAuth tokens.
 - Secrets and runtime auth-routing state live in `~/.openclaw/agents/<agentId>/agent/openclaw-agent.sqlite`.
 - Config `auth.profiles` / `auth.order` are **metadata + routing only** (no secrets).
 - Legacy `credentials/oauth.json`, `auth-profiles.json`, `auth-state.json`, and
-  per-agent `auth.json` files are imported only by `openclaw doctor --fix`.
+  per-agent `auth.json` files are imported only by `openagent doctor --fix`.
   Runtime fails closed for the affected agent until credential-bearing legacy
   files are migrated. It never silently imports or falls back to them.
 
@@ -109,7 +109,7 @@ When a provider has multiple profiles, OpenAgent chooses an order like this:
 
 <Steps>
   <Step title="Stored order override">
-    The per-agent order set with `openclaw models auth order set --provider <id> <profileIds...>`.
+    The per-agent order set with `openagent models auth order set --provider <id> <profileIds...>`.
   </Step>
   <Step title="Explicit config">
     `auth.order[provider]` (if set).
@@ -406,7 +406,7 @@ See [Gateway configuration](/gateway/configuration) for:
 - `auth.profiles` / `auth.order`
 - `agents.defaults.model.primary` / `agents.defaults.model.fallbacks`
 - `agents.defaults.imageModel` routing
-- [`openclaw models`](/cli/models) — inspect resolved defaults and fallbacks
+- [`openagent models`](/cli/models) — inspect resolved defaults and fallbacks
 
 See [Models](/concepts/models) for the broader model selection and fallback overview.
 

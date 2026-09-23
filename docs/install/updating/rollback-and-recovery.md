@@ -2,7 +2,7 @@
 summary: "Downgrading, automatic schema-neutral rollback, verified pre-update backups, and triage when an update leaves you stuck"
 read_when:
   - Something broke after an update and you need to go back
-  - You want to know when `openclaw update` can roll back automatically
+  - You want to know when `openagent update` can roll back automatically
   - You are creating a verified backup before a significant update
   - An update failed and you need triage or unattended repair
 title: "Rollback and recovery"
@@ -13,15 +13,15 @@ Downgrades, automatic rollback, verified pre-update backups, and triage when an 
 ## Downgrade
 
 Verify the upgrade and your session history before retiring recovery originals
-with `openclaw update cleanup`. Downgrading the checkout does not reverse config
+with `openagent update cleanup`. Downgrading the checkout does not reverse config
 or database migrations. Once state has migrated beyond the older release's
 supported format, the supported recovery is to restore a verified pre-update
 backup with its matching OpenAgent release.
 
-Prefer `openclaw update` for upgrades and recovery. It validates the target,
+Prefer `openagent update` for upgrades and recovery. It validates the target,
 runs required Doctor migrations, and verifies the activated Gateway. A manual
 `git pull` and rebuild does not retain the previous build or run this recovery
-workflow; use `openclaw update` or [create a backup first](#before-updating-create-a-verified-backup).
+workflow; use `openagent update` or [create a backup first](#before-updating-create-a-verified-backup).
 
 The updater retains the previous build during activation and keeps it when
 failed recovery cannot prove a working installation. Migration recovery originals
@@ -36,11 +36,11 @@ state, stop the Gateway from a shell outside it, check out that commit,
 rebuild, and run Doctor:
 
 ```bash
-openclaw gateway stop
+openagent gateway stop
 git checkout <known-good-commit>
 pnpm install && pnpm build && pnpm ui:build
-openclaw doctor --fix
-openclaw gateway start
+openagent doctor --fix
+openagent gateway start
 ```
 
 Supported targets finalize the config writer stamp, restart the service,
@@ -66,7 +66,7 @@ A complete recovery point must cover these together:
   including databases at configured paths outside the default layout.
 - The workspaces, credentials, and retained originals needed by that installation.
 
-Use `openclaw backup` for a verified, WAL-aware archive. Never copy only the
+Use `openagent backup` for a verified, WAL-aware archive. Never copy only the
 main `.sqlite` file from a live WAL database: committed data can still be in
 `-wal`. Restore the verified consolidated database offline; do not mix it with
 `-wal` or `-shm` files from another database generation. See [Backup](/cli/backup)
@@ -77,7 +77,7 @@ leave configuration, databases, and migration inputs unchanged when preflight
 refuses startup. A successful start can migrate state forward. An older binary may then refuse
 both the database schema and the config's `meta.lastTouchedVersion`; changing
 either version marker does not undo the migration. Repair the installed version
-with `openclaw doctor --fix --non-interactive`, or use the backup recovery above.
+with `openagent doctor --fix --non-interactive`, or use the backup recovery above.
 
 During recovery, prevent an enabled [auto-updater](/install/updating/automatic-updates#auto-updater) from immediately
 reapplying the newer release by setting `OPENCLAW_NO_AUTO_UPDATE=1` in the Gateway
@@ -86,18 +86,18 @@ environment.
 After recovery, verify the running installation before cleanup:
 
 ```bash
-openclaw --version
-openclaw health
-openclaw gateway status --deep --json
-openclaw doctor --lint --json
-openclaw update cleanup --dry-run
+openagent --version
+openagent health
+openagent gateway status --deep --json
+openagent doctor --lint --json
+openagent update cleanup --dry-run
 ```
 
 <a id="automatic-checkpoint-recovery" />
 
 ### Full-state recovery requires a backup
 
-`openclaw update` does not create or replay a full-state checkpoint. It can
+`openagent update` does not create or replay a full-state checkpoint. It can
 restore a retained package only under the compatibility checks below. It cannot
 reverse a database migration by replacing the package. Use a verified pre-update
 backup with its matching release when migration has made state incompatible.
@@ -111,7 +111,7 @@ verified backup. An interrupted or refused restore is not a successful rollback.
 
 ### Automatic schema-neutral rollback
 
-If a newly activated package fails verification, `openclaw update` compares the
+If a newly activated package fails verification, `openagent update` compares the
 shared and affected per-agent SQLite `user_version` values with their
 pre-activation values and checks that the config file still matches the content
 reported by the candidate’s activation Doctor writer.
@@ -152,7 +152,7 @@ measured from service stop through verified recovery. The headline is
 verification failure. The command still exits nonzero; recovery does not turn a
 rejected candidate into a successful update.
 
-Use `openclaw update status` for the recorded reason and `openclaw triage` to
+Use `openagent update status` for the recorded reason and `openagent triage` to
 diagnose a failed check. Recovery guidance reports whether the Gateway is running
 or stopped from the latest service observation, even when a running candidate did
 not pass verification. A restored Gateway must pass its own verification checks
@@ -173,7 +173,7 @@ whose changes blocked restoration. The updater attempts
 on the installed candidate, preserving migrated state. The same repair slot can
 run if rollback itself fails, targeting the previous release if its package was
 already restored. If repair cannot pass verification, the update
-fails with the original reason and recorded repair attempts. Use `openclaw triage`
+fails with the original reason and recorded repair attempts. Use `openagent triage`
 or the printed repair command before considering an older version.
 Automatic rollback restores code and the captured config, not a full state snapshot.
 The candidate's temporary migration-rehearsal snapshots are removed after
@@ -185,13 +185,13 @@ preserving the same run ID and recorded activation steps.
 
 ### Before updating: create a verified backup
 
-`openclaw update` preserves an automatic pre-update config copy, not a full-state
+`openagent update` preserves an automatic pre-update config copy, not a full-state
 recovery point. Before a significant update, create an independent verified backup
 explicitly:
 
 ```bash
 mkdir -p ~/Backups/openclaw
-openclaw backup create --output ~/Backups/openclaw --verify
+openagent backup create --output ~/Backups/openclaw --verify
 ```
 
 The archive manifest records the OpenAgent version and the source paths included
@@ -215,13 +215,13 @@ for staging and memory details.
 
 ## If you are stuck
 
-Run `openclaw triage` in a terminal on the Gateway host, using the printed
+Run `openagent triage` in a terminal on the Gateway host, using the printed
 installation-specific command or keeping the same profile and state/config
 overrides. It opens the first directly launchable coding agent in this order:
 Claude Code, Codex, OpenCode, then Pi. The agent receives local diagnostics and
 any recorded failed-update outcome so it can repair the installation and verify
 Gateway health, using its normal authentication, sandbox, and approval settings.
-Use `openclaw triage --agent codex` to select a particular agent.
+Use `openagent triage --agent codex` to select a particular agent.
 
 Failed interactive updates offer triage after updater cleanup and
 pass the captured failure to the agent before fresh diagnostics can delay the
@@ -229,17 +229,17 @@ handoff. Before launch, OpenAgent shows the agent, saved prompt path when availa
 and use of your own account/tokens; Enter or `y` proceeds, while `n` prints handoff
 commands and preserves diagnostics and the failed update's exit status.
 After 30 seconds without an answer, it announces that it is continuing and
-proceeds as Yes; explicit `openclaw triage` does not ask for this confirmation.
+proceeds as Yes; explicit `openagent triage` does not ask for this confirmation.
 JSON, `--yes`, and non-interactive update invocations collect diagnostics
 and print handoff commands without starting an agent. For diagnostic collection
-alone, use `openclaw triage --non-interactive`; add `--update-result <path>` to
+alone, use `openagent triage --non-interactive`; add `--update-result <path>` to
 include a saved update-failure artifact. See [Triage](/cli/triage) for command
 formatting and installation targeting.
 
 Triage keeps the failed update's report intact. An update started during repair
 creates its own history entry. After package replacement, restart commands run
 from the updated installation. A restart accepted by the service owner can still
-fail readiness checks; inspect `openclaw gateway status --deep` before retrying.
+fail readiness checks; inspect `openagent gateway status --deep` before retrying.
 
 Keep a stopped, unverified Gateway stopped and preserve migrated state during
 repair. A reachable candidate retained after a schema migration can continue
@@ -301,7 +301,7 @@ for activation and suspends it again if final verification fails. This ownership
 survives the fresh-process handoff required after a state migration. See
 [Failed update recovery](/gateway/restart-recovery#recovery-after-a-failed-update).
 
-Repair uses the same embedded loop as `openclaw triage --run`, without a terminal
+Repair uses the same embedded loop as `openagent triage --run`, without a terminal
 or an external coding-agent CLI. It uses the system-agent owner's default model,
 its `model.fallbacks`, then other configured agents' authenticated routes,
 skipping models without tool support and routes without usable authentication.
@@ -310,7 +310,7 @@ prompt. Operator-owned updates and explicit repair requests
 replace interactive exec approval with a prompt-free run scoped to the installation
 or staged candidate root (`fs.workspaceOnly: true`), preserving safe-bin and tool
 allowlists and refusing explicit exec or repair-tool denies with `exec-denied-by-policy`
-and an `openclaw triage` external handoff.
+and an `openagent triage` external handoff.
 
 Chat-requested updates recheck the requester's command ownership before repair
 effects and service activation. If configuration or plugin loading fails, the
@@ -331,11 +331,11 @@ deleting state or databases, package-manager writes outside the target root,
 and service or Gateway lifecycle commands. The orchestrator retains control of
 activation, restart, and rollback. The repair loop does not take snapshots or undo
 changes. Attempts appear live in the Control UI's phase and step details and in
-`openclaw update status`; the final report includes their summaries. JSON run
+`openagent update status`; the final report includes their summaries. JSON run
 records retain the `repair` attempt list. Repairing stays hidden in the Control
 UI when the run never entered that phase.
 
-For an explicit repair using configured inference, run `openclaw triage --run`
+For an explicit repair using configured inference, run `openagent triage --run`
 in a terminal on the Gateway host. Interactive triage checks Doctor lint, runs
 up to one embedded repair turn with time and tool-call limits, and checks Doctor
 again. See [Triage](/cli/triage#installation-target-and-embedded-handoff) for the

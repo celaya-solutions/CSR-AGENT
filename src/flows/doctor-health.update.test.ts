@@ -174,7 +174,7 @@ describe("runDoctorHealthFlow update outcomes", () => {
           reversibility: "checkpoint-required",
           outcome,
           changes: [],
-          warnings: [`${id}: run openclaw doctor --fix`],
+          warnings: [`${id}: run openagent doctor --fix`],
         });
         mocks.stateMigrationReceipts.push(receipt("preflight cleanup", "warning"));
         mocks.stateMigrationReceipts.push(receipt("skipped audit recovery", "skipped"));
@@ -208,9 +208,9 @@ describe("runDoctorHealthFlow update outcomes", () => {
             refused
               ? undefined
               : [
-                  "preflight cleanup: run openclaw doctor --fix",
-                  "skipped audit recovery: run openclaw doctor --fix",
-                  "deferred cleanup: run openclaw doctor --fix",
+                  "preflight cleanup: run openagent doctor --fix",
+                  "skipped audit recovery: run openagent doctor --fix",
+                  "deferred cleanup: run openagent doctor --fix",
                 ],
           );
         } finally {

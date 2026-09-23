@@ -4,7 +4,7 @@ title: "Chat and CLI authoring"
 read_when:
   - You want the agent to create or update a skill from chat
   - You are using /learn to capture recent work
-  - You need the openclaw skills workshop commands and flags
+  - You need the openagent skills workshop commands and flags
 ---
 
 ## Chat
@@ -32,7 +32,7 @@ naming requirements. It gathers the sources with its existing tools, then calls
 skill, or create a proposal when neither exists.
 
 The resulting proposal stays `pending`; `/learn` never applies it. Review and
-apply it through the normal approval flow or with `openclaw skills workshop`.
+apply it through the normal approval flow or with `openagent skills workshop`.
 
 When the actual turn supports only personal publication, including paired-node
 personal CLI authoring, `/learn` stops without changing a skill. Ask normally
@@ -78,35 +78,35 @@ skill, and shows the proposal description, support-file count, and body size.
 Approval requests are bounded to finish before the agent tool watchdog. If no
 decision arrives before the prompt expires, the lifecycle action does not run:
 the proposal stays pending and unchanged. Decide later in the Skill Workshop UI or run
-`openclaw skills workshop apply|reject|quarantine <proposal-id>`. Agents should
+`openagent skills workshop apply|reject|quarantine <proposal-id>`. Agents should
 not retry an expired lifecycle action in a loop.
 
 ## CLI
 
 ```bash
 # Create
-openclaw skills workshop propose-create \
+openagent skills workshop propose-create \
   --name morning-catchup \
   --description "Daily inbox catch-up: triage, archive, surface, draft, plan" \
   --proposal ./PROPOSAL.md
 
 # Update an existing Workshop-generated skill
-openclaw skills workshop propose-update trip-planning --proposal ./PROPOSAL.md
+openagent skills workshop propose-update trip-planning --proposal ./PROPOSAL.md
 
 # List and inspect
-openclaw skills workshop list
-openclaw skills workshop inspect <proposal-id>
+openagent skills workshop list
+openagent skills workshop inspect <proposal-id>
 
 # Revise before approval
-openclaw skills workshop revise <proposal-id> --proposal ./PROPOSAL.md
+openagent skills workshop revise <proposal-id> --proposal ./PROPOSAL.md
 
 # Run installed plugin evaluators against the exact current draft
-openclaw skills workshop evaluate <proposal-id>
+openagent skills workshop evaluate <proposal-id>
 
 # Close out
-openclaw skills workshop apply <proposal-id>
-openclaw skills workshop reject <proposal-id> --reason "Duplicate"
-openclaw skills workshop quarantine <proposal-id> --reason "Needs security review"
+openagent skills workshop apply <proposal-id>
+openagent skills workshop reject <proposal-id> --reason "Duplicate"
+openagent skills workshop quarantine <proposal-id> --reason "Needs security review"
 ```
 
 Every subcommand takes `--agent <id>` (agent context; defaults to

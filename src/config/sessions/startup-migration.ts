@@ -49,7 +49,7 @@ export function assertSessionStoreMigrationComplete(params: {
             `Legacy session store requires migration at ${legacyStore}`,
             "Repair the retained source using the migration report's named file and validation error, preserving the original history.",
           )
-        : `Legacy session store requires migration: ${legacyStore}. Run "${formatCliCommand("openclaw doctor --fix", env)}" against the same state/config before starting OpenAgent.`,
+        : `Legacy session store requires migration: ${legacyStore}. Run "${formatCliCommand("openagent doctor --fix", env)}" against the same state/config before starting OpenAgent.`,
     );
   }
 }

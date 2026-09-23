@@ -2056,7 +2056,7 @@ try {
 
         expect(result.status).toBe(1);
         expect(`${result.stdout}\n${result.stderr}`).toContain(
-          "openclaw onboard failed with exit code 17",
+          "openagent onboard failed with exit code 17",
         );
       } finally {
         rmSync(tempDir, { force: true, recursive: true });

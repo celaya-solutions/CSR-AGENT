@@ -40,6 +40,6 @@ Platforms:
 ## Control API (optional)
 
 For scripting and debugging, the Gateway exposes a small **loopback-only HTTP
-control API** plus a matching `openclaw browser` CLI (snapshots, refs, wait
+control API** plus a matching `openagent browser` CLI (snapshots, refs, wait
 power-ups, JSON output, debug workflows). See
 [Browser control API](/tools/browser-control) for the full reference.

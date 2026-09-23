@@ -60,7 +60,7 @@ Useful excerpts usually include `openai/gpt-6-astra` or `openai/gpt-5.6-luna`,
 `No API key` result. A corrected run should show the OpenAI OAuth path
 instead of a plain OpenAI API-key failure.
 
-**Legacy Codex model refs config remains:** run `openclaw doctor --fix`.
+**Legacy Codex model refs config remains:** run `openagent doctor --fix`.
 Doctor rewrites legacy model refs to `openai/*`, removes stale session and
 whole-agent runtime pins, and preserves existing auth-profile overrides.
 
@@ -124,9 +124,9 @@ allocation. An OS hard limit can terminate Codex rather than backpressure it.
 `plugins.entries.codex.config.discovery.timeoutMs` or disable discovery.
 See [Codex harness reference](/plugins/codex-harness-reference#model-discovery).
 
-**Codex plugin state has reached its row limit:** run `openclaw doctor` to
+**Codex plugin state has reached its row limit:** run `openagent doctor` to
 check for bindings left behind by deleted or expired OpenAgent sessions. Stop
-the Gateway, then run `openclaw doctor --fix` to remove proven orphaned session
+the Gateway, then run `openagent doctor --fix` to remove proven orphaned session
 bindings after session repair. Doctor preserves supervised bindings, active
 leases, ambiguous ownership, and bindings whose session store cannot be read.
 This cleanup does not delete native Codex thread history or managed-thread

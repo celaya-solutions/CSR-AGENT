@@ -110,7 +110,7 @@ one-shot and session approval.
 Terminal operator decisions reuse the Gateway's authoritative approval row and
 its exact execution binding. When execution identity collection is enabled,
 inspect the admitted run with
-[`openclaw audit --run <run-id> --explain`](/cli/audit). The resulting receipt
+[`openagent audit --run <run-id> --explain`](/cli/audit). The resulting receipt
 can report allow-once, allow-always, denial, no-route, expiry, or cancellation
 without exposing command text, patch content, paths, or native request ids.
 
@@ -125,7 +125,7 @@ from later tool events.
 In the default per-agent home, auth is selected in this order:
 
 1. Ordered OpenAI auth profiles for the agent, preferably under
-   `auth.order.openai`. Run `openclaw doctor --fix` to migrate older legacy
+   `auth.order.openai`. Run `openagent doctor --fix` to migrate older legacy
    Codex auth profile ids and legacy Codex auth order.
 2. The app-server's existing account in that agent's Codex home.
 3. For local stdio app-server launches only, `CODEX_API_KEY`, then
@@ -207,8 +207,8 @@ connection or recreate the automation from a fresh authenticated owner turn.
 Account changes that remove access to a captured app also fail visibly.
 
 Before rolling back to a build without configured-endpoint authority and cron
-authority hydration, disable these jobs with `openclaw automations disable <id>`
-and verify them with `openclaw automations list --all`. Do not rely on an older
+authority hydration, disable these jobs with `openagent automations disable <id>`
+and verify them with `openagent automations list --all`. Do not rely on an older
 binary to enforce the new authority envelope. Keep the jobs disabled until you
 return to a supporting build or recreate them under that build's supported auth
 path. See [Automations](/automation/cron-jobs) for run history and failure handling.

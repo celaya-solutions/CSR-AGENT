@@ -1388,7 +1388,7 @@ describe("doctor health contributions", () => {
     mocks.replaceConfigFile.mockRejectedValueOnce(
       Object.assign(
         new Error(
-          'Config write refused: cannot inspect cron ownership. Run "openclaw doctor --fix", then retry.',
+          'Config write refused: cannot inspect cron ownership. Run "openagent doctor --fix", then retry.',
         ),
         { code: "CONFIG_WRITE_REJECTED", refusal: "cron-owner-safety" },
       ),
@@ -2455,7 +2455,7 @@ describe("doctor health contributions", () => {
           severity: "warning",
           message: "Retired Workspaces plugin state remains at /tmp/workspaces.",
           path: "/tmp/workspaces",
-          fixHint: "Run openclaw doctor --fix.",
+          fixHint: "Run openagent doctor --fix.",
         },
       ],
       remainingFindings: [],
@@ -2598,7 +2598,7 @@ describe("doctor health contributions", () => {
             reversibility: "checkpoint-required",
             outcome,
             changes: [],
-            warnings: ["Legacy cleanup deferred; run openclaw doctor --fix"],
+            warnings: ["Legacy cleanup deferred; run openagent doctor --fix"],
           },
         ],
       });
@@ -2617,7 +2617,7 @@ describe("doctor health contributions", () => {
         "Doctor notices",
       );
       expect(ctx.updateWarnings ?? []).toEqual(
-        outcome === "warning" ? ["Legacy cleanup deferred; run openclaw doctor --fix"] : [],
+        outcome === "warning" ? ["Legacy cleanup deferred; run openagent doctor --fix"] : [],
       );
     },
   );
@@ -3878,7 +3878,7 @@ describe("doctor health contributions", () => {
           message: "structured finding needs attention",
           path: "openclaw.json",
           line: 12,
-          fixHint: "run openclaw doctor --fix",
+          fixHint: "run openagent doctor --fix",
         },
       ],
       remainingFindings: [],
@@ -3906,7 +3906,7 @@ describe("doctor health contributions", () => {
     expect(ctx.runtime.log).toHaveBeenCalledWith(
       "[warning] core/doctor/test-structured-findings openclaw.json:12 - structured finding needs attention",
     );
-    expect(ctx.runtime.log).toHaveBeenCalledWith("  fix: run openclaw doctor --fix");
+    expect(ctx.runtime.log).toHaveBeenCalledWith("  fix: run openagent doctor --fix");
   });
 
   it("runs structured-only contributions in dry-run mode when doctor is not repairing", async () => {

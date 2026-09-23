@@ -54,15 +54,15 @@ read_when:
   </Accordion>
 
   <Accordion title='I set COPILOT_GITHUB_TOKEN, but models status shows "Shell env: off." Why?'>
-    `openclaw models status` reports whether **shell env import** is enabled. "Shell env: off" does **not** mean your env vars are missing - it just means OpenAgent will not load your login shell automatically.
+    `openagent models status` reports whether **shell env import** is enabled. "Shell env: off" does **not** mean your env vars are missing - it just means OpenAgent will not load your login shell automatically.
 
     If the Gateway runs as a service (launchd/systemd), it will not inherit your shell environment. Fix by putting the token in `~/.openclaw/.env`, enabling `env.shellEnv.enabled: true`, or adding it to config `env` (applies only if missing), then restarting the gateway and rechecking:
 
     ```bash
-    openclaw models status
+    openagent models status
     ```
 
-    Copilot activates only with an explicit `models.providers.github-copilot` entry, a saved Copilot auth profile, or `COPILOT_GITHUB_TOKEN`. Generic `GH_TOKEN` and `GITHUB_TOKEN` variables do not enable or authenticate Copilot. Run `openclaw models auth login --provider github-copilot` to sign in.
+    Copilot activates only with an explicit `models.providers.github-copilot` entry, a saved Copilot auth profile, or `COPILOT_GITHUB_TOKEN`. Generic `GH_TOKEN` and `GITHUB_TOKEN` variables do not enable or authenticate Copilot. Run `openagent models auth login --provider github-copilot` to sign in.
 
     See [/concepts/model-providers](/concepts/model-providers) and [/environment](/help/environment).
 

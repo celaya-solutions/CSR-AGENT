@@ -41,7 +41,7 @@ The variables below are the supported environment contract for operators. Undocu
 
 #### `OPENCLAW_HOME`
 
-When set, `OPENCLAW_HOME` replaces the system home directory (`$HOME` / `os.homedir()`) for internal OpenAgent path defaults. This includes the default state directory, config path, agent directories, credentials, installer onboarding workspace, and the default dev checkout used by `openclaw update --channel dev`.
+When set, `OPENCLAW_HOME` replaces the system home directory (`$HOME` / `os.homedir()`) for internal OpenAgent path defaults. This includes the default state directory, config path, agent directories, credentials, installer onboarding workspace, and the default dev checkout used by `openagent update --channel dev`.
 
 `OPENCLAW_HOME` does not grant ownership of the OS account's native Gateway service. Gateway service-management commands treat a relocated home as isolated state. Use the OS account home and a named profile when a separate native service identity is required.
 
@@ -220,7 +220,7 @@ environments unchanged.
 OpenAgent also injects context markers into spawned child processes:
 
 - `OPENCLAW_SHELL=exec`: set for commands run through the `exec` tool.
-- `OPENCLAW_SHELL=acp-client`: set for `openclaw acp client` when it spawns the ACP bridge process.
+- `OPENCLAW_SHELL=acp-client`: set for `openagent acp client` when it spawns the ACP bridge process.
 - `OPENCLAW_SHELL=tui-local`: set for local TUI `!` shell commands.
 - `OPENCLAW_CLI=1`: set for child processes spawned by the CLI entry point.
 
@@ -304,7 +304,7 @@ DigiCert Global Root G2, etc.). This causes `web_fetch` to fail with `"fetch fai
 
 On Linux, OpenAgent automatically detects nvm and applies the fix in the actual startup environment:
 
-- `openclaw gateway install` writes `NODE_EXTRA_CA_CERTS` into the systemd service environment
+- `openagent gateway install` writes `NODE_EXTRA_CA_CERTS` into the systemd service environment
 - the `openclaw` CLI entrypoint re-execs itself with `NODE_EXTRA_CA_CERTS` set before Node startup
 
 **Manual fix (for older versions or direct `node ...` launches):**
@@ -313,7 +313,7 @@ Export the variable before starting OpenAgent:
 
 ```bash
 export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-openclaw gateway run
+openagent gateway run
 ```
 
 Do not rely on writing only to `~/.openclaw/.env` for this variable. Node reads

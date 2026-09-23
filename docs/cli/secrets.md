@@ -1,5 +1,5 @@
 ---
-summary: "CLI reference for `openclaw secrets` (store, reload, audit, configure, apply)"
+summary: "CLI reference for `openagent secrets` (store, reload, audit, configure, apply)"
 read_when:
   - Re-resolving secret refs at runtime
   - Managing team-scoped values in the shared secret store
@@ -8,7 +8,7 @@ read_when:
 title: "Secrets CLI"
 ---
 
-# `openclaw secrets`
+# `openagent secrets`
 
 Manage SecretRefs and keep the active runtime snapshot healthy.
 
@@ -23,12 +23,12 @@ Manage SecretRefs and keep the active runtime snapshot healthy.
 Recommended operator loop:
 
 ```bash
-openclaw secrets audit --check
-openclaw secrets configure --plan-out /tmp/openclaw-secrets-plan.json
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json
-openclaw secrets audit --check
-openclaw secrets reload
+openagent secrets audit --check
+openagent secrets configure --plan-out /tmp/openclaw-secrets-plan.json
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json
+openagent secrets audit --check
+openagent secrets reload
 ```
 
 If your plan includes `exec` SecretRefs/providers, pass `--allow-exec` on both the dry-run and write `apply` commands. If the closing `audit --check` still reports plaintext findings, update the remaining reported target paths and rerun the audit.
@@ -44,16 +44,16 @@ Related: [Secrets Management](/gateway/secrets) · [SecretRef Credential Surface
 
 ## Shared secret store
 
-`openclaw secrets store` writes directly to the local shared state database. The store is Gateway-wide and team-scoped, and `--scope team` is the only accepted value. `--scope me` exits `2` with `Identity scope is not supported yet; use --scope team.`
+`openagent secrets store` writes directly to the local shared state database. The store is Gateway-wide and team-scoped, and `--scope team` is the only accepted value. `--scope me` exits `2` with `Identity scope is not supported yet; use --scope team.`
 
 Entries also arrive from **Settings -> Secrets** in the Control UI, and from the agent's [`secrets` tool](/tools/secrets). That tool asks you to type a credential into a masked prompt. It stores the credential without the value reaching the model.
 
 ```bash
-openclaw secrets store list
-openclaw secrets store set <NAME>
-openclaw secrets store get <NAME>
-openclaw secrets store rm <NAME>...
-openclaw secrets store import [--from <file>]
+openagent secrets store list
+openagent secrets store set <NAME>
+openagent secrets store get <NAME>
+openagent secrets store rm <NAME>...
+openagent secrets store import [--from <file>]
 ```
 
 Naming and value rules:
@@ -68,7 +68,7 @@ Naming and value rules:
 `--value` is accepted only when the resolved kind is `env`:
 
 ```bash
-openclaw secrets store set LOG_LEVEL --kind env --value debug
+openagent secrets store set LOG_LEVEL --kind env --value debug
 ```
 
 For `secret` values, `--value` is refused with exit code `2` because command-line arguments can leak through shell history and process listings. Use one of the three safe inputs instead:
@@ -81,23 +81,23 @@ Examples:
 
 ```bash
 op read 'op://Engineering/OpenAI/apiKey' | \
-  openclaw secrets store set OPENAI_API_KEY --kind secret
+  openagent secrets store set OPENAI_API_KEY --kind secret
 
-openclaw secrets store set TLS_PRIVATE_KEY \
+openagent secrets store set TLS_PRIVATE_KEY \
   --kind secret \
   --value-file ./client-key.pem
 ```
 
-`set` is idempotent and updates an existing name. Add `--dry-run` to validate and preview the operation without writing. A successful write reminds you to run `openclaw secrets reload` before a config-referenced value can take effect.
+`set` is idempotent and updates an existing name. Add `--dry-run` to validate and preview the operation without writing. A successful write reminds you to run `openagent secrets reload` before a config-referenced value can take effect.
 
 Secret egress substitution fails closed until each secret has at least one exact allowed host. Bind or replace hosts with repeatable `--allow-host` flags. This policy-only form does not ask for or replace an existing secret value:
 
 ```bash
-openclaw secrets store set OPENAI_API_KEY --allow-host api.openai.com
-openclaw secrets store set SERVICE_TOKEN \
+openagent secrets store set OPENAI_API_KEY --allow-host api.openai.com
+openagent secrets store set SERVICE_TOKEN \
   --allow-host api.example.com \
   --allow-host uploads.example.com
-openclaw secrets store set SERVICE_TOKEN --clear-allowed-hosts
+openagent secrets store set SERVICE_TOKEN --clear-allowed-hosts
 ```
 
 Hosts are normalized to lowercase ASCII/punycode. Schemes, paths, ports, and wildcards are rejected. `store list` shows allowed hosts because they are policy metadata, not secret material.
@@ -105,9 +105,9 @@ Hosts are normalized to lowercase ASCII/punycode. Schemes, paths, ports, and wil
 ### Read values
 
 ```bash
-openclaw secrets store list --json
-openclaw secrets store list --plain
-openclaw secrets store get LOG_LEVEL
+openagent secrets store list --json
+openagent secrets store list --plain
+openagent secrets store get LOG_LEVEL
 ```
 
 Secret values never appear in human, `--json`, or `--plain` output. `store get` refuses a `secret` entry as write-only by design and exits `2`. It exits `3` when the name does not exist. Environment-kind values are readable.
@@ -121,9 +121,9 @@ Store entries do not reach commands run inside an external agent harness. The Co
 ### Remove values
 
 ```bash
-openclaw secrets store rm OLD_TOKEN
-openclaw secrets store rm OLD_TOKEN LEGACY_PASSWORD --yes
-openclaw secrets store rm OLD_TOKEN --dry-run
+openagent secrets store rm OLD_TOKEN
+openagent secrets store rm OLD_TOKEN LEGACY_PASSWORD --yes
+openagent secrets store rm OLD_TOKEN --dry-run
 ```
 
 Removal is idempotent, so a missing name succeeds quietly. Without `--yes`, the CLI asks for confirmation. Removed rows are soft-deleted and purged after 30 days.
@@ -133,10 +133,10 @@ Removal is idempotent, so a missing name succeeds quietly. Without `--yes`, the 
 Import dotenv-format assignments from a regular file or stdin:
 
 ```bash
-openclaw secrets store import --from .env
-openclaw secrets store import --from .env --dry-run
-openclaw secrets store import --from .env --yes
-op read 'op://Engineering/service-account/dotenv' | openclaw secrets store import --yes
+openagent secrets store import --from .env
+openagent secrets store import --from .env --dry-run
+openagent secrets store import --from .env --yes
+op read 'op://Engineering/service-account/dotenv' | openagent secrets store import --yes
 ```
 
 The importer supports quoted values and multiline quoted values such as PEM keys. Use `--yes` to skip confirmation and `--dry-run` to inspect the import without writing. Kind detection follows the same name-based rule as `store set`.
@@ -146,9 +146,9 @@ The store CLI commands do not accept `--url` or `--token` and do not route throu
 ## Reload runtime snapshot
 
 ```bash
-openclaw secrets reload
-openclaw secrets reload --json
-openclaw secrets reload --url ws://127.0.0.1:18789 --token <token>
+openagent secrets reload
+openagent secrets reload --json
+openagent secrets reload --url ws://127.0.0.1:18789 --token <token>
 ```
 
 Uses gateway RPC method `secrets.reload`. Healthy owners refresh independently. Eligible failed owners become stale only when their ref identities, provider definitions, and complete non-secret owner contract are unchanged. New or changed failures become cold. This degraded activation succeeds and reports `warningCount`. Strict or unmapped failures return an error and preserve the previously active snapshot.
@@ -171,10 +171,10 @@ The `.env` scan covers the effective state directory and the directory containin
 Sensitive provider header detection is name-heuristic based: it flags headers whose name matches common auth/credential fragments (`authorization`, `x-api-key`, `token`, `secret`, `password`, `credential`).
 
 ```bash
-openclaw secrets audit
-openclaw secrets audit --check
-openclaw secrets audit --json
-openclaw secrets audit --allow-exec
+openagent secrets audit
+openagent secrets audit --check
+openagent secrets audit --json
+openagent secrets audit --allow-exec
 ```
 
 Report shape:
@@ -189,13 +189,13 @@ Report shape:
 Build provider and SecretRef changes interactively, run preflight, and optionally apply:
 
 ```bash
-openclaw secrets configure
-openclaw secrets configure --plan-out /tmp/openclaw-secrets-plan.json
-openclaw secrets configure --apply --yes
-openclaw secrets configure --providers-only
-openclaw secrets configure --skip-provider-setup
-openclaw secrets configure --agent ops
-openclaw secrets configure --json
+openagent secrets configure
+openagent secrets configure --plan-out /tmp/openclaw-secrets-plan.json
+openagent secrets configure --apply --yes
+openagent secrets configure --providers-only
+openagent secrets configure --skip-provider-setup
+openagent secrets configure --agent ops
+openagent secrets configure --json
 ```
 
 Flow: provider setup first (add/edit/remove `secrets.providers` aliases), then credential mapping (select fields, assign `{source, provider, id}` refs), then preflight and optional apply.
@@ -225,16 +225,16 @@ Notes:
 
 ### Exec provider safety
 
-Package managers often expose symlinked command paths. Resolve the real binary path (for example with `realpath "$(command -v vault)"`) and configure that absolute, non-symlink path. Use `trustedDirs` to restrict executables to approved directories. Run `openclaw config validate` on the Gateway host to check manual exec command paths without executing providers. On Windows, provider paths fail closed when ACL verification is unavailable, with no provider-level bypass.
+Package managers often expose symlinked command paths. Resolve the real binary path (for example with `realpath "$(command -v vault)"`) and configure that absolute, non-symlink path. Use `trustedDirs` to restrict executables to approved directories. Run `openagent config validate` on the Gateway host to check manual exec command paths without executing providers. On Windows, provider paths fail closed when ACL verification is unavailable, with no provider-level bypass.
 
 ## Apply a saved plan
 
 ```bash
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --allow-exec
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run --allow-exec
-openclaw secrets apply --from /tmp/openclaw-secrets-plan.json --json
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json --allow-exec
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json --dry-run --allow-exec
+openagent secrets apply --from /tmp/openclaw-secrets-plan.json --json
 ```
 
 `--dry-run` validates preflight without writing files. Exec SecretRef checks are skipped by default in dry-run. Write mode rejects plans containing exec SecretRefs/providers unless `--allow-exec`. Use `--allow-exec` to opt in to exec provider checks/execution in either mode.

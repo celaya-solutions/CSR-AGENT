@@ -18,7 +18,7 @@ Each agent uses a single workspace directory (`agents.defaults.workspace`, or
 `agents.entries.*.workspace` per agent) as its **only** working directory (`cwd`)
 for tools and context.
 
-Recommended: use `openclaw setup` to create `~/.openclaw/openclaw.json` if missing and initialize the workspace files.
+Recommended: use `openagent setup` to create `~/.openclaw/openclaw.json` if missing and initialize the workspace files.
 
 Full workspace layout + backup guide: [Agent workspace](/concepts/agent-workspace)
 
@@ -41,7 +41,7 @@ Inside the workspace, OpenAgent expects these user-editable files:
 
 On the first turn of a new session, OpenAgent injects the contents of these files into the system prompt's Project Context. `MEMORY.md` is only injected when it exists at the workspace root.
 
-Blank files are skipped. Large files are trimmed and truncated with a marker so prompts stay lean (read the file for full content). A missing file (other than `MEMORY.md`) injects a single "missing file" marker line instead. `openclaw setup` creates a safe default template for it.
+Blank files are skipped. Large files are trimmed and truncated with a marker so prompts stay lean (read the file for full content). A missing file (other than `MEMORY.md`) injects a single "missing file" marker line instead. `openagent setup` creates a safe default template for it.
 
 `BOOTSTRAP.md` is only created for a **brand new workspace** (no other bootstrap files present). While it is pending, OpenAgent keeps it in Project Context. OpenAgent adds system-prompt bootstrap guidance for the initial ritual, instead of copying the file into the user message. If you delete it after completing the ritual, it is not recreated on later restarts.
 
@@ -53,7 +53,7 @@ Restore the workspace, or use a full onboard reset, so the workspace and its
 database state are cleared together.
 
 Older releases used workspace JSON and `.attested` sidecar files. Runtime does
-not read those files. Run `openclaw doctor --fix` to validate them, import their
+not read those files. Run `openagent doctor --fix` to validate them, import their
 state into SQLite, and remove each source after the imported rows are verified.
 
 To disable bootstrap file creation entirely (for pre-seeded workspaces), set:

@@ -88,7 +88,7 @@ export function createUpdateCommandFailureResult(
     steps: [
       {
         name: preMutationFailure || admissionFailure ? reason : "update",
-        command: "openclaw update",
+        command: "openagent update",
         cwd: result.root ?? process.cwd(),
         durationMs: result.durationMs,
         exitCode: 1,
@@ -117,7 +117,7 @@ export async function withUpdateAdmissionReporting<T>(
     if (!(error instanceof GatewayServiceUpdateOwnershipError)) {
       throw error;
     }
-    const message = `${error.message} Run \`openclaw gateway status --deep\` from the service's owning account before retrying.`;
+    const message = `${error.message} Run \`openagent gateway status --deep\` from the service's owning account before retrying.`;
     if (opts.json) {
       defaultRuntime.error(message);
     }

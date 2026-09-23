@@ -20,6 +20,7 @@
     "url": "git+https://github.com/openclaw/openclaw.git"
   },
   "bin": {
+    "openagent": "openclaw.mjs",
     "openclaw": "openclaw.mjs"
   },
   "publishConfig": {
@@ -1666,6 +1667,7 @@
     "lint:ui:styles": "stylelint --config config/stylelint.config.mjs \"ui/src/**/*.css\" \"ui/src/**/*.ts\" \"ui/public/themes/*.css\"",
     "lint:web-fetch-provider-boundaries": "node --import ./scripts/tsx.mjs scripts/check-web-fetch-provider-boundaries.mts",
     "lint:webhook:no-low-level-body-read": "node --import ./scripts/tsx.mjs scripts/check-webhook-auth-body-order.mts",
+    "openagent": "node scripts/run-node.mjs",
     "openclaw": "node scripts/run-node.mjs",
     "openclaw:rpc": "node scripts/run-node.mjs agent --mode rpc --json",
     "perf:web-fetch": "node --import ./scripts/tsx.mjs scripts/bench-web-fetch.ts",

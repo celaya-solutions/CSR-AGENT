@@ -2,15 +2,15 @@
 summary: "Expose OpenAgent channel conversations over MCP and manage saved MCP server definitions"
 read_when:
   - Connecting Codex, Claude Code, or another MCP client to OpenAgent-backed channels
-  - Running `openclaw mcp serve`
+  - Running `openagent mcp serve`
   - Managing OpenAgent-saved MCP server definitions
 title: "MCP"
 sidebarTitle: "MCP"
 ---
 
-`openclaw mcp` has two jobs:
+`openagent mcp` has two jobs:
 
-- run OpenAgent as an MCP server with `openclaw mcp serve`
+- run OpenAgent as an MCP server with `openagent mcp serve`
 - manage OpenAgent-managed outbound MCP server definitions with `list`, `show`, `status`, `doctor`, `probe`, `add`, `set`, `configure`, `tools`, `login`, `logout`, `reload`, and `unset`
 
 `serve` is OpenAgent acting as an MCP server. The other subcommands are OpenAgent acting as an MCP client-side registry for servers its own runtimes may consume later.
@@ -19,36 +19,36 @@ sidebarTitle: "MCP"
   `list`, `show`, `set`, and `unset` only read and write OpenAgent-managed `mcp.servers` entries in OpenAgent config. They do not include mcporter servers from `config/mcporter.json`; use `mcporter list` for that registry.
 </Note>
 
-Use [`openclaw acp`](/cli/acp) when OpenAgent should host a coding harness session itself and route that runtime through ACP.
+Use [`openagent acp`](/cli/acp) when OpenAgent should host a coding harness session itself and route that runtime through ACP.
 
 ## Choose the right MCP path
 
-| Goal                                                                     | Use                                                                  | Why                                                                                                             |
-| ------------------------------------------------------------------------ | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Let an external MCP client read/send OpenAgent channel conversations | `openclaw mcp serve`                                                 | OpenAgent is the MCP server and exposes Gateway-backed conversations over stdio.                            |
-| Save third-party MCP servers for OpenAgent-managed agent runs        | `openclaw mcp add`, `set`, `configure`, `tools`, `login`             | OpenAgent is the MCP client-side registry and later projects those servers into eligible runtimes.          |
-| Check a saved server without running an agent turn                       | `openclaw mcp status`, `doctor`, `probe`                             | `status` and `doctor` inspect config; `probe` opens a live MCP connection and lists capabilities.               |
-| Edit MCP config from a browser                                           | Control UI `/settings/mcp` (`/mcp` alias)                            | The page shows inventory, enablement, OAuth/filter summaries, command hints, and a scoped `mcp` editor.         |
-| Give Codex app-server a scoped native MCP server                         | `mcp.servers.<name>.codex`                                           | The `codex` block only affects Codex app-server thread projection and is stripped before native config handoff. |
-| Run ACP-hosted harness sessions                                          | [`openclaw acp`](/cli/acp) and [ACP Agents](/tools/acp-agents-setup) | ACP bridge mode does not accept per-session MCP server injection; configure gateway/plugin bridges instead.     |
+| Goal                                                                 | Use                                                                   | Why                                                                                                             |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Let an external MCP client read/send OpenAgent channel conversations | `openagent mcp serve`                                                 | OpenAgent is the MCP server and exposes Gateway-backed conversations over stdio.                                |
+| Save third-party MCP servers for OpenAgent-managed agent runs        | `openagent mcp add`, `set`, `configure`, `tools`, `login`             | OpenAgent is the MCP client-side registry and later projects those servers into eligible runtimes.              |
+| Check a saved server without running an agent turn                   | `openagent mcp status`, `doctor`, `probe`                             | `status` and `doctor` inspect config; `probe` opens a live MCP connection and lists capabilities.               |
+| Edit MCP config from a browser                                       | Control UI `/settings/mcp` (`/mcp` alias)                             | The page shows inventory, enablement, OAuth/filter summaries, command hints, and a scoped `mcp` editor.         |
+| Give Codex app-server a scoped native MCP server                     | `mcp.servers.<name>.codex`                                            | The `codex` block only affects Codex app-server thread projection and is stripped before native config handoff. |
+| Run ACP-hosted harness sessions                                      | [`openagent acp`](/cli/acp) and [ACP Agents](/tools/acp-agents-setup) | ACP bridge mode does not accept per-session MCP server injection; configure gateway/plugin bridges instead.     |
 
 <Tip>
-If you are not sure which path you need, start with `openclaw mcp status --verbose`. It shows what OpenAgent has saved without starting any MCP servers.
+If you are not sure which path you need, start with `openagent mcp status --verbose`. It shows what OpenAgent has saved without starting any MCP servers.
 </Tip>
 
 ## MCP pages
 
-This page is an index. `openclaw mcp` has six pages, one per reader job. Open
+This page is an index. `openagent mcp` has six pages, one per reader job. Open
 the page that matches your task.
 
-| Page                                                 | Read it when                                                                                        |
-| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [Run OpenAgent as an MCP server](/cli/mcp/serve) | An MCP client should read or send OpenAgent channel conversations through `openclaw mcp serve`. |
-| [Manage saved MCP servers](/cli/mcp/registry)        | You are saving, inspecting, or approving third-party MCP servers for OpenAgent-managed runs.    |
-| [JSON output shapes](/cli/mcp/json-output)           | You are scripting against `status --json`, `doctor --json`, or `probe --json`.                      |
-| [Transports and OAuth](/cli/mcp/transports)          | You need a transport config field, or you are running the MCP OAuth login flow.                     |
-| [MCP in the Control UI](/cli/mcp/control-ui)         | You want to edit or inspect MCP config from a browser.                                              |
-| [MCP Apps](/cli/mcp/apps)                            | You are enabling or securing the MCP Apps host bridge.                                              |
+| Page                                             | Read it when                                                                                     |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| [Run OpenAgent as an MCP server](/cli/mcp/serve) | An MCP client should read or send OpenAgent channel conversations through `openagent mcp serve`. |
+| [Manage saved MCP servers](/cli/mcp/registry)    | You are saving, inspecting, or approving third-party MCP servers for OpenAgent-managed runs.     |
+| [JSON output shapes](/cli/mcp/json-output)       | You are scripting against `status --json`, `doctor --json`, or `probe --json`.                   |
+| [Transports and OAuth](/cli/mcp/transports)      | You need a transport config field, or you are running the MCP OAuth login flow.                  |
+| [MCP in the Control UI](/cli/mcp/control-ui)     | You want to edit or inspect MCP config from a browser.                                           |
+| [MCP Apps](/cli/mcp/apps)                        | You are enabling or securing the MCP Apps host bridge.                                           |
 
 ## Where each section moved
 
@@ -138,4 +138,4 @@ the page that now holds the content.
 - [Connect MCP servers](/tools/mcp)
 - [CLI reference](/cli)
 - [Plugins](/cli/plugins)
-- [`openclaw attach`](/cli/attach) — launch Claude Code with a temporary session-scoped Gateway MCP grant
+- [`openagent attach`](/cli/attach) — launch Claude Code with a temporary session-scoped Gateway MCP grant

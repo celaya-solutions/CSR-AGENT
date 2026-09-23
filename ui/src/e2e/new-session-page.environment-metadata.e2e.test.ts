@@ -16,8 +16,8 @@ const suite = createNewSessionPageE2eSuite();
 const updateIssue = {
   code: "update-required",
   action: "update-and-reconnect",
-  updateCommand: "openclaw update",
-  headlessReconnectCommand: "openclaw node restart",
+  updateCommand: "openagent update",
+  headlessReconnectCommand: "openagent node restart",
 };
 
 suite.define(() => {

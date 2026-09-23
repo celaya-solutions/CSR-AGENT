@@ -16,14 +16,14 @@ A command ladder and the common failure shapes for scheduled jobs. Part of the [
 ### Command ladder
 
 ```bash
-openclaw status
-openclaw gateway status
-openclaw automations status
-openclaw automations list
-openclaw automations runs <jobId> --limit 20
-openclaw system heartbeat last
-openclaw logs --follow
-openclaw doctor
+openagent status
+openagent gateway status
+openagent automations status
+openagent automations list
+openagent automations runs <jobId> --limit 20
+openagent system heartbeat last
+openagent logs --follow
+openagent doctor
 ```
 
 <AccordionGroup>
@@ -31,8 +31,8 @@ openclaw doctor
     - Check the `cron.enabled` config setting and `OPENCLAW_SKIP_CRON` in the Gateway's launch environment. Either can disable automatic runs; clear both disable settings and restart the Gateway to enable scheduling.
     - Confirm the Gateway is running continuously.
     - For `cron` schedules, verify timezone (`--tz`) vs the host timezone.
-    - `reason: not-due` in run output means the manual run was checked with `openclaw automations run <jobId> --due` and the job was not due yet.
-    - If the job's execution agent cannot be resolved, automatic and manual attempts record a failed task and a skipped run-history entry with the reason. Select an agent with `openclaw automations edit <jobId> --agent <id>`.
+    - `reason: not-due` in run output means the manual run was checked with `openagent automations run <jobId> --due` and the job was not due yet.
+    - If the job's execution agent cannot be resolved, automatic and manual attempts record a failed task and a skipped run-history entry with the reason. Select an agent with `openagent automations edit <jobId> --agent <id>`.
     - If a capped job's stored named creator account is unavailable, the run fails before model/tool execution. Job details, run history, and warning logs name the account. Re-add it to the channel configuration, or recreate the automation from the intended account; changing the delivery `--account` does not change creator authority. Legacy jobs without account metadata keep their existing execution policy.
 
   </Accordion>

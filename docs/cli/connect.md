@@ -6,19 +6,19 @@ read_when:
 title: "Connect"
 ---
 
-# `openclaw connect`
+# `openagent connect`
 
 Connect the current machine to an OpenAgent Gateway as a headless node. The
 command redeems a short-lived bootstrap credential, saves the Gateway endpoint
 in the existing node-host state, and runs the same runtime as
-[`openclaw node run`](/cli/node).
+[`openagent node run`](/cli/node).
 
 ## Create a join command
 
 On the Gateway host, use admin credentials to mint a single-use join URL:
 
 ```bash
-openclaw devices join-code
+openagent devices join-code
 ```
 
 The command prints the URL and a pasteable command:
@@ -51,7 +51,7 @@ To expose only selected commands, pass a comma-separated list of exact command
 IDs. For a Session Share node:
 
 ```bash
-openclaw connect <join-url> \
+openagent connect <join-url> \
   --commands openclaw.sessions.list.v1,openclaw.sessions.read.v1
 ```
 
@@ -62,9 +62,9 @@ and disables computer use, skills, plugin-tool publication, MCP servers, and
 worker hosting. Startup fails when no requested command is available. The
 Gateway pairing approval shows the resulting declared commands.
 
-To restore the full default surface, use `openclaw node run --all-commands`
-for a foreground node or `openclaw node install --force --all-commands` for
-an installed service. When enrolling again, use `openclaw connect <join-url>
+To restore the full default surface, use `openagent node run --all-commands`
+for a foreground node or `openagent node install --force --all-commands` for
+an installed service. When enrolling again, use `openagent connect <join-url>
 --all-commands` (add `--service` for a service). This forgets the saved allowlist;
 `--all-commands` cannot be combined with `--commands`.
 
@@ -105,7 +105,7 @@ or node-host configuration; later starts use the durable paired-device token.
 When restarting against that saved endpoint, config credentials for a co-located
 Gateway do not override the paired token. Explicit `OPENCLAW_GATEWAY_TOKEN` or
 `OPENCLAW_GATEWAY_PASSWORD` environment credentials still take precedence.
-Use [`openclaw node status`](/cli/node#service-background) to inspect the
+Use [`openagent node status`](/cli/node#service-background) to inspect the
 installed service.
 
 The service does not host worker sessions by default. To consent to full
@@ -134,7 +134,7 @@ hosting and exact capacity from this durable consent when it starts.
 | `--ephemeral`           | Run a provider-managed disposable worker node.                                                                        |
 | `--target-file <path>`  | Read a join target from a file and consume the handoff after a successful read.                                       |
 
-`openclaw connect <target>` accepts:
+`openagent connect <target>` accepts:
 
 - an `https://<gateway>/j/<shortcode>` join URL;
 - an `oc-pair://<setup-code>` URL;
@@ -164,13 +164,13 @@ A join code and a paired device have separate lifecycles:
 - Burning or expiring a join code prevents another enrollment with that code.
 - It does not disconnect or remove a node that already redeemed it.
 - To revoke a normal enrolled machine, remove its paired device with
-  [`openclaw devices remove <deviceId>`](/cli/devices#openclaw-devices-remove-%3Cdeviceid%3E).
+  [`openagent devices remove <deviceId>`](/cli/devices#openclaw-devices-remove-%3Cdeviceid%3E).
 - Environment-managed `--ephemeral` nodes are removed automatically when their owning cloud environment is destroyed.
 
 ## Troubleshooting
 
 If the join URL reports that it is missing or expired, mint a new one with
-`openclaw devices join-code`. A used code intentionally returns the same result
+`openagent devices join-code`. A used code intentionally returns the same result
 as an unknown code.
 
 If an HTTPS join URL uses a certificate the local machine does not trust, use

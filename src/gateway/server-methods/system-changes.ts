@@ -126,7 +126,7 @@ function classifyConfigWriteSource(record: Extract<ConfigAuditRecord, { event: "
     return record.origin;
   }
   const launcherIndex = record.argv.findIndex((arg) =>
-    /(?:^|[/\\])openclaw(?:\.m?js)?$/i.test(arg),
+    /(?:^|[/\\])(?:openagent|openclaw)(?:\.m?js)?$/i.test(arg),
   );
   let command: string | undefined;
   if (launcherIndex >= 0) {

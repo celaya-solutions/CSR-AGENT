@@ -122,7 +122,7 @@ function registerCronToggleCommand(params: {
           printCronJson(res);
           if (!params.enabled && process.stderr.isTTY) {
             process.stderr.write(
-              `Note: 'openclaw cron list' hides disabled jobs by default. Use 'openclaw cron list --all' to see this job, or 'openclaw cron enable <id>' to re-enable it.\n`,
+              `Note: 'openagent cron list' hides disabled jobs by default. Use 'openagent cron list --all' to see this job, or 'openagent cron enable <id>' to re-enable it.\n`,
             );
           }
           await warnIfCronSchedulerDisabled(opts);

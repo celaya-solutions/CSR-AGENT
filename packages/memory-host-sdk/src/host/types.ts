@@ -283,7 +283,7 @@ export function formatMemoryIndexRebuildGuidance(
   status: Partial<Pick<MemoryProviderStatus, "provider" | "requestedProvider">>,
   agentId?: string,
 ): string {
-  const command = `openclaw memory status --index${agentId?.trim() ? ` --agent ${agentId.trim()}` : ""}`;
+  const command = `openagent memory status --index${agentId?.trim() ? ` --agent ${agentId.trim()}` : ""}`;
   const configuredProvider = status.requestedProvider?.trim() || status.provider?.trim();
   const disclosure =
     configuredProvider === "none"

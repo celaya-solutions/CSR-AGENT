@@ -174,7 +174,7 @@ main model can read the screenshot directly.
 - Control service binds to loopback on a port derived from `gateway.port` (default `18791` = gateway + 2). `OPENCLAW_GATEWAY_PORT` takes priority over `gateway.port`; either shifts the derived ports in the same family.
 - Local `openclaw` profiles use a CDP port range starting 9 ports above the control port (default `18800`-`18899`). OpenAgent allocates from that range for
   the implicit default profile and for profiles created with
-  `openclaw browser create-profile`, writing the chosen `cdpPort` into the
+  `openagent browser create-profile`, writing the chosen `cdpPort` into the
   config. A profile you declare by hand must set `cdpPort` itself, or `cdpUrl`
   for a remote endpoint: the schema rejects an `openclaw` or `clawd` profile
   that sets neither with `Profile must set cdpPort or cdpUrl`.
@@ -213,7 +213,7 @@ main model can read the screenshot directly.
   returned hostname is not enough; the WebSocket transport must use the endpoint
   that passed policy validation.
 - Gateway/provider `HTTP_PROXY`, `HTTPS_PROXY`, `ALL_PROXY`, and `NO_PROXY` environment variables do not automatically proxy the OpenAgent-managed browser. Managed Chrome launches direct by default so provider proxy settings do not weaken browser SSRF checks.
-- OpenAgent-managed local CDP readiness probes and DevTools WebSocket connections bypass the managed network proxy for the exact launched loopback endpoint, so `openclaw browser start` still works when an operator proxy blocks loopback egress.
+- OpenAgent-managed local CDP readiness probes and DevTools WebSocket connections bypass the managed network proxy for the exact launched loopback endpoint, so `openagent browser start` still works when an operator proxy blocks loopback egress.
 - To proxy the managed browser itself, pass explicit Chrome proxy flags through `browser.extraArgs`, such as `--proxy-server=...` or `--proxy-pac-url=...`. Strict SSRF mode blocks explicit browser proxy routing unless private-network browser access is intentionally enabled.
 - `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork` is off by default; enable only when private-network browser access is intentionally trusted.
 - `browser.ssrfPolicy.allowedHostnames` grants exact hosts while the rest of the private network remains blocked.
@@ -226,7 +226,7 @@ main model can read the screenshot directly.
 
 - `attachOnly: true` means never launch a local browser; only attach if one is already running.
 - `headless` can be set globally or per local managed profile. Per-profile values override `browser.headless`, so one locally launched profile can stay headless while another remains visible.
-- `POST /start?headless=true` and `openclaw browser start --headless` request a
+- `POST /start?headless=true` and `openagent browser start --headless` request a
   one-shot headless launch for local managed profiles without rewriting
   `browser.headless` or profile config. Existing-session, attach-only, and
   remote CDP profiles reject the override because OpenAgent does not launch those
@@ -234,7 +234,7 @@ main model can read the screenshot directly.
 - On Linux hosts without `DISPLAY` or `WAYLAND_DISPLAY`, local managed profiles
   default to headless automatically when neither the environment nor profile/global
   config explicitly chooses headed mode. Use the unambiguous browser-level form
-  `openclaw browser --json status`; trailing `openclaw browser status --json`
+  `openagent browser --json status`; trailing `openagent browser status --json`
   also works because `status` does not define its own `--json`. The command reports
   `headlessSource` as `env`, `profile`, `config`,
   `request`, `linux-display-fallback`, or `default`.
@@ -251,7 +251,7 @@ main model can read the screenshot directly.
   browser-level CDP endpoint for renderer, backend, device/driver, feature
   status, driver workarounds, and accelerated video capabilities. The result is
   cached for that browser process and exposed in full by
-  `openclaw browser --json status`. A passive status call does not launch Chrome.
+  `openagent browser --json status`. A passive status call does not launch Chrome.
   Existing-session, extension, remote CDP, and sandbox browsers remain separate
   and are not inspected through this managed-host path.
 - Headless managed Chrome still uses the conservative `--disable-gpu` default.
@@ -276,8 +276,8 @@ auto-detection. Top-level and per-profile `executablePath` values accept `~`
 for your OS home directory:
 
 ```bash
-openclaw config set browser.executablePath "/usr/bin/google-chrome"
-openclaw config set browser.profiles.work '{"cdpPort":18801,"executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"}' --strict-json --merge
+openagent config set browser.executablePath "/usr/bin/google-chrome"
+openagent config set browser.profiles.work '{"cdpPort":18801,"executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"}' --strict-json --merge
 ```
 
 Or set it in config, per platform:

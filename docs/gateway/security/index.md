@@ -9,7 +9,7 @@ title: "Security"
 OpenAgent ships with conservative defaults. On a regular host install the Gateway binds to loopback; most chat channels answer an unknown DM sender with a pairing code instead of processing the message; and group access is allowlisted, usually behind a mention gate. The exceptions are deliberate and documented: container images default to an exposed bind (pair that with auth - see the [exposure runbook](/gateway/security/exposure-runbook)), and a few workspace channels such as ClickClack trust workspace membership by default - each channel page states its exact defaults. Run on those defaults and you are in good shape, and one command tells you if you have drifted:
 
 ```bash
-openclaw security audit
+openagent security audit
 ```
 
 The pages below are the deep end: the trust model, what the audit checks, and how to harden further as you expose more surface.
@@ -30,7 +30,7 @@ The pages below are the deep end: the trust model, what the audit checks, and ho
 Understand the model:
 
 - [Security trust model](/gateway/security/trust-model) - One trust boundary per gateway, the boundary matrix, and the findings closed as no-action.
-- [Running the security audit](/gateway/security/running-the-audit) - What `openclaw security audit` checks and the order to fix findings in.
+- [Running the security audit](/gateway/security/running-the-audit) - What `openagent security audit` checks and the order to fix findings in.
 - [Security audit checks](/gateway/security/audit-checks) - Reference catalog of every `checkId`, its severity, and its auto-fix support.
 - [Threat model](/security/THREAT-MODEL-ATLAS) - Adversarial threats to the OpenAgent platform and ClawHub, mapped to MITRE ATLAS.
 
@@ -55,7 +55,7 @@ Expose and operate:
 
 Run it from the CLI:
 
-- [`openclaw security`](/cli/security) - Run the audit, read findings, and apply the supported auto-fixes.
+- [`openagent security`](/cli/security) - Run the audit, read findings, and apply the supported auto-fixes.
 
 ## Where each section moved
 
@@ -73,7 +73,7 @@ Every anchor this page used to publish still resolves here. Each entry below car
 
 **[Running the security audit](/gateway/security/running-the-audit)**
 
-- <a id="openclaw-security-audit" />[`openclaw security audit`](/gateway/security/running-the-audit#openclaw-security-audit)
+- <a id="openclaw-security-audit" />[`openagent security audit`](/gateway/security/running-the-audit#openclaw-security-audit)
 - <a id="what-the-audit-checks-(high-level)" /><a id="what-the-audit-checks-high-level" />[What the audit checks (high level)](/gateway/security/running-the-audit#what-the-audit-checks-high-level)
 - <a id="priority-order-when-triaging-findings" />[Priority order when triaging findings](/gateway/security/running-the-audit#priority-order-when-triaging-findings)
 

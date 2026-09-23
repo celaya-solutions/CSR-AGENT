@@ -32,7 +32,7 @@ A CLI backend plugin has three contracts:
 
 | Contract             | File                   | Purpose                                                   |
 | -------------------- | ---------------------- | --------------------------------------------------------- |
-| Package entry        | `package.json`         | Points OpenAgent at the plugin runtime module         |
+| Package entry        | `package.json`         | Points OpenAgent at the plugin runtime module             |
 | Manifest ownership   | `openclaw.plugin.json` | Declares the backend id before runtime loads              |
 | Runtime registration | `index.ts`             | Calls `api.registerCliBackend(...)` with command defaults |
 
@@ -192,10 +192,10 @@ model-alias, session, and image fields as the bundled
 | `maxPromptArgChars`                                       | Max prompt length for `arg` mode before falling back to stdin                     |
 | `env` / `clearEnv`                                        | Extra env vars to inject, or names to strip before launch                         |
 | `modelArg`                                                | Flag used before the model id                                                     |
-| `modelAliases`                                            | Map OpenAgent model ids to CLI-native ids                                     |
+| `modelAliases`                                            | Map OpenAgent model ids to CLI-native ids                                         |
 | `sessionArgs`                                             | How to pass a session id using `{sessionId}`                                      |
 | `sessionMode`                                             | `always`, `existing`, or `none`                                                   |
-| `sessionIdFields`                                         | JSON fields OpenAgent reads from CLI output                                   |
+| `sessionIdFields`                                         | JSON fields OpenAgent reads from CLI output                                       |
 | `systemPromptArg` / `systemPromptFileArg`                 | System prompt transport                                                           |
 | `systemPromptFileConfigArg` / `systemPromptFileConfigKey` | Config-override transport for a system prompt file (for example `-c`)             |
 | `systemPromptMode`                                        | `append` or `replace`                                                             |
@@ -241,14 +241,14 @@ only for behavior that really belongs to the backend.
 | `prepareExecution(ctx)`            | Create temporary auth, config, or environment bridges before launch         |
 | `transformSystemPrompt(ctx)`       | Apply a final CLI-specific system prompt transform                          |
 | `textTransforms`                   | Bidirectional prompt/output replacements                                    |
-| `defaultAuthProfileId`             | Prefer a specific OpenAgent auth profile                                |
+| `defaultAuthProfileId`             | Prefer a specific OpenAgent auth profile                                    |
 | `authEpochMode`                    | Decide how auth changes invalidate stored CLI sessions                      |
 | `nativeToolMode`                   | Declare whether native tools are absent, always on, or host-selectable      |
 | `toolAvailabilityEnforcement`      | Declare whether exact tool caps are enforced in argv or execution staging   |
 | `projectNativeToolAuthority`       | Map the observed native tool list to canonical capabilities for cron caps   |
 | `sideQuestionToolMode`             | Declare disabled native tools for `/btw` side questions                     |
-| `bundleMcp` / `bundleMcpMode`      | Opt into OpenAgent's loopback MCP tool bridge                           |
-| `ownsNativeCompaction`             | Backend owns its own automatic compaction - OpenAgent defers            |
+| `bundleMcp` / `bundleMcpMode`      | Opt into OpenAgent's loopback MCP tool bridge                               |
+| `ownsNativeCompaction`             | Backend owns its own automatic compaction - OpenAgent defers                |
 | `manualCompaction`                 | Atomic command, transport, and positive-acknowledgement contract            |
 | `subscriptionAuthDispatch`         | Opted-in embedded runs on subscription credentials execute via this backend |
 | `runtimeArtifact`                  | Bound a script launcher to its complete bundled package tree                |
@@ -531,8 +531,8 @@ pnpm test extensions/acme-cli
 For local or installed plugins, verify discovery and one real model run:
 
 ```bash
-openclaw plugins inspect acme-cli --runtime --json
-openclaw agent --message "reply exactly: backend ok" --model acme-cli/acme-large
+openagent plugins inspect acme-cli --runtime --json
+openagent agent --message "reply exactly: backend ok" --model acme-cli/acme-large
 ```
 
 If the backend supports images or MCP, add a live smoke that proves those

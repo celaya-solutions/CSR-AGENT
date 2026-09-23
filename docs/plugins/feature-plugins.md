@@ -64,12 +64,12 @@ Enable the [Custom plugin UI lab](/plugins/feature-plugins#enable-custom-plugin-
 scaffold's browser views.
 
 ```bash
-openclaw plugins init draft-review --name "Draft Review" --type feature
+openagent plugins init draft-review --name "Draft Review" --type feature
 cd draft-review
 npm install
 npm run build
 npm run validate
-openclaw plugins install .
+openagent plugins install .
 ```
 
 The scaffold includes a draft-analysis operation, an agent tool, a native page,
@@ -230,7 +230,7 @@ ownership.
 }
 ```
 
-`openclaw plugins build` bundles that source and its browser dependencies with
+`openagent plugins build` bundles that source and its browser dependencies with
 the plugin's `esbuild` dev dependency. It writes immutable JavaScript and CSS
 under `dist/control-ui/<content-hash>/`, then publishes their paths in
 `openclaw.plugin.json.controlUi`. A failed build leaves the previous manifest
@@ -294,7 +294,7 @@ tool catalog.
 After building and validating, produce an import archive:
 
 ```bash
-openclaw plugins pack --root . --out ./draft-review.tgz --json
+openagent plugins pack --root . --out ./draft-review.tgz --json
 ```
 
 The receipt contains the absolute archive path, SHA-256 digest, plugin id, and
@@ -333,7 +333,7 @@ an installer error leaves the final installation outcome uncertain.
 Artifact activation currently requires plugin configuration in the root config
 file without a root-level `$include`. For a `plugins` section containing only
 `$include: "plugins.json5"` (a single file under the config directory with no
-nested includes), use `openclaw plugins install <archive>` from a trusted shell.
+nested includes), use `openagent plugins install <archive>` from a trusted shell.
 The regular installer also rejects root-level, nested, and external include
 layouts; adjust those layouts before installation.
 

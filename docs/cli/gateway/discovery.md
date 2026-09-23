@@ -1,19 +1,19 @@
 ---
-summary: "`openclaw gateway discover` and the Bonjour beacons and TXT hints it scans for"
+summary: "`openagent gateway discover` and the Bonjour beacons and TXT hints it scans for"
 read_when:
   - Discovering gateways via Bonjour (local + wide-area DNS-SD)
 title: "Discover gateways (Bonjour)"
 sidebarTitle: "Discovery"
 ---
 
-Scanning for Gateway beacons over mDNS and wide-area DNS-SD. Part of the [`openclaw gateway`](/cli/gateway) reference.
+Scanning for Gateway beacons over mDNS and wide-area DNS-SD. Part of the [`openagent gateway`](/cli/gateway) reference.
 
 ## Discover gateways (Bonjour)
 
 `gateway discover` scans for Gateway beacons (`_openclaw-gw._tcp`).
 
 - Multicast DNS-SD: `local.`
-- Unicast DNS-SD (wide-area): choose a domain (example: `openclaw.internal.`) and set up split DNS + a DNS server; see [`openclaw dns`](/cli/dns).
+- Unicast DNS-SD (wide-area): choose a domain (example: `openclaw.internal.`) and set up split DNS + a DNS server; see [`openagent dns`](/cli/dns).
 
 This build publishes the beacon through wide-area DNS-SD only; it does not include a LAN multicast advertiser, so `local.` results come only from other hosts that advertise one.
 
@@ -22,7 +22,7 @@ TXT hints on every beacon: `role` (gateway role hint), `transport` (transport hi
 ### `gateway discover`
 
 ```bash
-openclaw gateway discover
+openagent gateway discover
 ```
 
 <ParamField path="--timeout <ms>" type="number" default="2000">
@@ -35,8 +35,8 @@ openclaw gateway discover
 Examples:
 
 ```bash
-openclaw gateway discover --timeout 4000
-openclaw gateway discover --json | jq '.beacons[].wsUrl'
+openagent gateway discover --timeout 4000
+openagent gateway discover --json | jq '.beacons[].wsUrl'
 ```
 
 <Note>

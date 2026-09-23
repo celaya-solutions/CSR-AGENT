@@ -92,7 +92,7 @@ sidebarTitle: "Troubleshooting"
     Verify from the same machine and runtime that runs the Gateway:
 
     ```bash
-    openclaw gateway status --deep
+    openagent gateway status --deep
     curl http://ollama-host:11434/api/tags
     ```
 
@@ -138,8 +138,8 @@ sidebarTitle: "Troubleshooting"
     session and a fallback model:
 
     ```bash
-    openclaw infer model run --model ollama/kimi-k2.5:cloud --prompt "Reply with exactly: ok" --json
-    openclaw models set ollama/gemma4
+    openagent infer model run --model ollama/kimi-k2.5:cloud --prompt "Reply with exactly: ok" --json
+    openagent models set ollama/gemma4
     ```
 
   </Accordion>

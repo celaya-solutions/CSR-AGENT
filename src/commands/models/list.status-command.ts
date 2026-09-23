@@ -1,4 +1,4 @@
-/** Implementation of `openclaw models status`. */
+/** Implementation of `openagent models status`. */
 import path from "node:path";
 import { stripSelfProviderModelPrefix } from "@openclaw/model-catalog-core/provider-model-id-normalization";
 import {

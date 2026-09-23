@@ -51,7 +51,7 @@ pending work, that wait returns `failed` with `code: "aborted"` and the final
 telemetry; pending calls are canceled and the snapshot is dropped. Retained
 diagnostics grant no authority to resume or repair the closed run.
 
-The run metadata (`meta.agentMeta` in `openclaw agent --json`, mirrored on the
+The run metadata (`meta.agentMeta` in `openagent agent --json`, mirrored on the
 `agent exec --json` envelope) adds per-run stats:
 
 - `codeModeEngaged`: `true` only when code mode actually owned the model tool
@@ -96,7 +96,7 @@ OPENCLAW_DEBUG_CODE_MODE=1 \
 OPENCLAW_DEBUG_MODEL_TRANSPORT=1 \
 OPENCLAW_DEBUG_MODEL_PAYLOAD=tools \
 OPENCLAW_DEBUG_SSE=events \
-openclaw gateway
+openagent gateway
 ```
 
 For payload-shape debugging, use `OPENCLAW_DEBUG_MODEL_PAYLOAD=full-redacted`.

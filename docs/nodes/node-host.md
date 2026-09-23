@@ -26,10 +26,10 @@ Approval note:
 
 ### Gateway deployments that cannot host nodes
 
-A Gateway can remain healthy for browser users while node hosting is unavailable. Run `openclaw doctor` on the Gateway before onboarding nodes, and check these preconditions:
+A Gateway can remain healthy for browser users while node hosting is unavailable. Run `openagent doctor` on the Gateway before onboarding nodes, and check these preconditions:
 
 - **Machine authentication:** Tailscale identity headers do not authenticate node-role connections. In `gateway.auth.mode: "trusted-proxy"`, a new node also cannot supply the proxy's user identity headers. To use a shared token, switch to token mode and configure `gateway.auth.token` with a SecretRef; trusted-proxy mode rejects mixed token configuration. A trusted-proxy Gateway can use `gateway.auth.password` only for clean loopback/direct callers. See [trusted-proxy mixed token configuration](/gateway/trusted-proxy-auth#mixed-token-configuration).
-- **Node onboarding URL:** With only the default `gateway.bind: "loopback"` and no advertised endpoint, `openclaw devices join-code` reports: `Gateway is only bound to loopback. Set gateway.bind=lan, enable tailscale serve, or configure plugins.entries.device-pair.config.publicUrl.` Configure a reachable endpoint through Tailscale Serve, `gateway.remote.url`, or `plugins.entries.device-pair.config.publicUrl`. Remote join URLs require TLS; enabling LAN bind alone does not enable plaintext remote join URLs. Explicitly configured loopback endpoints can produce HTTP join URLs, but the joining machine must be able to reach that loopback endpoint, for example through a local tunnel. Plaintext LAN pairing can use a setup code directly.
+- **Node onboarding URL:** With only the default `gateway.bind: "loopback"` and no advertised endpoint, `openagent devices join-code` reports: `Gateway is only bound to loopback. Set gateway.bind=lan, enable tailscale serve, or configure plugins.entries.device-pair.config.publicUrl.` Configure a reachable endpoint through Tailscale Serve, `gateway.remote.url`, or `plugins.entries.device-pair.config.publicUrl`. Remote join URLs require TLS; enabling LAN bind alone does not enable plaintext remote join URLs. Explicitly configured loopback endpoints can produce HTTP join URLs, but the joining machine must be able to reach that loopback endpoint, for example through a local tunnel. Plaintext LAN pairing can use a setup code directly.
 - **Node onboarding support:** Join-code creation and `/j` redemption are core Gateway operations. They do not require enabling the `device-pair` plugin, even though its retained `publicUrl` configuration field can supply an endpoint. See [Join codes](/cli/devices#openclaw-devices-join-code) for the printed `npx openclaw connect <url>` command.
 - **Device session runtime:** Paired-device runners support the embedded OpenAgent runtime and explicitly authorized Codex `remote-exec`; ACPX routes cannot dispatch to a paired device. Codex requires `codex.exec-server.stdio.v1` in `gateway.nodes.commands.allow` plus its normal pairing and invocation approvals. Runtime policy belongs on provider/model routes, not the ignored whole-agent runtime keys. Multi-agent rosters must also set `agents.ownership: "explicit"`. See [Codex paired-device placement](/plugins/codex-harness/placement#run-codex-on-a-paired-device) and [runtime policy](/gateway/config-agents/runtime-and-cli-backends#runtime-policy).
 - **Edge routing:** When a reverse proxy or access edge fronts the Gateway, the node must satisfy edge auth on the join request, its main Gateway WebSocket, and the worker WebSocket. Keep WebSocket upgrade enabled for `/__openclaw__/worker`. You can instead exempt `/j/*` and `/__openclaw__/worker` from edge identity auth because both routes enforce their own short-lived credentials. See [worker protocol](/gateway/protocol/handshake#worker-role-and-closed-protocol).
@@ -43,7 +43,7 @@ For a Cloudflare Access-fronted Gateway:
    ```bash
    export CF_ACCESS_CLIENT_ID="<client-id>"
    export CF_ACCESS_CLIENT_SECRET="<client-secret>"
-   openclaw connect https://gateway.example/j/<code> --service
+   openagent connect https://gateway.example/j/<code> --service
    ```
 
 The canonical node connection keys are `gateway.cloudflareAccess.clientId` and `gateway.cloudflareAccess.clientSecret`; both accept SecretInput values. The environment fallback above persists those keys as env SecretRefs, not copied plaintext. For installed nodes, OpenAgent stores the environment values in the managed service environment file rather than inline in launchd, systemd, or Task Scheduler definitions. Resolved values are bound to the configured Gateway origin and are not followed across redirects. OpenAgent rejects the pair before resolution on plaintext `http://` or `ws://` routes; credential-free loopback and private-network plaintext behavior is unchanged.
@@ -53,14 +53,14 @@ The canonical node connection keys are `gateway.cloudflareAccess.clientId` and `
 On the node machine:
 
 ```bash
-openclaw node run --host <gateway-host> --port 18789 --display-name "Build Node"
+openagent node run --host <gateway-host> --port 18789 --display-name "Build Node"
 ```
 
 For one-paste setup, create a **Node host** setup link from the Control UI
 Devices page, then run its copyable command on the node machine:
 
 ```bash
-openclaw node run --pair "oc-pair://<setup-code>"
+openagent node run --pair "oc-pair://<setup-code>"
 ```
 
 The link is single-use and expires after 10 minutes. It supplies the endpoint,
@@ -88,12 +88,12 @@ ssh -N -L 18790:127.0.0.1:18789 user@gateway-host
 
 # Terminal B: export the gateway token and connect through the tunnel
 export OPENCLAW_GATEWAY_TOKEN="<gateway-token>"
-openclaw node run --host 127.0.0.1 --port 18790 --display-name "Build Node"
+openagent node run --host 127.0.0.1 --port 18790 --display-name "Build Node"
 ```
 
 Notes:
 
-- `openclaw node run` supports token or password auth.
+- `openagent node run` supports token or password auth.
 - Env vars are preferred: `OPENCLAW_GATEWAY_TOKEN` / `OPENCLAW_GATEWAY_PASSWORD`.
 - Config fallback is `gateway.auth.token` / `gateway.auth.password`.
 - In local mode, node host intentionally ignores `gateway.remote.token` / `gateway.remote.password`.
@@ -103,13 +103,13 @@ Notes:
 
 ### Restrict the node command surface
 
-Pass `--commands <ids>` to `openclaw node run`, `openclaw node install`, or
-`openclaw connect` to advertise only an explicit comma-separated list of exact
+Pass `--commands <ids>` to `openagent node run`, `openagent node install`, or
+`openagent connect` to advertise only an explicit comma-separated list of exact
 command IDs. For example, a Session Share node can
 publish sessions without exposing execution or other machine capabilities:
 
 ```bash
-openclaw connect <join-url> --service \
+openagent connect <join-url> --service \
   --commands openclaw.sessions.list.v1,openclaw.sessions.read.v1
 ```
 
@@ -125,9 +125,9 @@ publication, plugin-tool publication, MCP servers, and worker hosting. An
 allowlist does not enable a disabled plugin or make an unavailable command
 available.
 
-Restore the full default surface with `openclaw node run --all-commands` in
-the foreground or `openclaw node install --force --all-commands` for an
-installed service. When enrolling with `openclaw connect`, add `--all-commands`
+Restore the full default surface with `openagent node run --all-commands` in
+the foreground or `openagent node install --force --all-commands` for an
+installed service. When enrolling with `openagent connect`, add `--all-commands`
 and optionally `--service`. This durably removes the saved allowlist and
 replaces the service's `--commands` arguments. Do not combine `--all-commands`
 with `--commands`.
@@ -135,9 +135,9 @@ with `--commands`.
 ### Start a node host (service)
 
 ```bash
-openclaw node install --host <gateway-host> --port 18789 --display-name "Build Node"
-openclaw node start
-openclaw node restart
+openagent node install --host <gateway-host> --port 18789 --display-name "Build Node"
+openagent node start
+openagent node restart
 ```
 
 `node install` also accepts `--context-path`, `--tls`, `--tls-fingerprint`, `--node-id` (legacy client instance ID only), `--share-installed-apps` / `--no-share-installed-apps`, `--runtime <node|bun>` (default: `node`), and `--force` to reinstall. Bun requires version 1.4+ with WAL-reset-safe `node:sqlite` and is an explicit opt-in; Node remains recommended. `node status`, `node stop`, and `node uninstall` are also available.
@@ -147,21 +147,21 @@ openclaw node restart
 On the Gateway host, approve the device request:
 
 ```bash
-openclaw devices list
-openclaw devices approve <deviceRequestId>
+openagent devices list
+openagent devices approve <deviceRequestId>
 ```
 
-If the node retries with changed auth details, re-run `openclaw devices list` and approve the current `requestId`.
+If the node retries with changed auth details, re-run `openagent devices list` and approve the current `requestId`.
 
-Restart an installed node with `openclaw node restart`, or stop and rerun its
-foreground `openclaw node run` command. A node paused on `PAIRING_REQUIRED`
+Restart an installed node with `openagent node restart`, or stop and rerun its
+foreground `openagent node run` command. A node paused on `PAIRING_REQUIRED`
 does not resume automatically after manual approval. Its reconnect creates a
 separate command-surface request. On the Gateway:
 
 ```bash
-openclaw nodes pending
-openclaw nodes approve <nodeRequestId>
-openclaw nodes describe --node <id|name|ip>
+openagent nodes pending
+openagent nodes approve <nodeRequestId>
+openagent nodes describe --node <id|name|ip>
 ```
 
 The device and node request IDs are distinct. An initial unapproved surface has
@@ -173,8 +173,8 @@ and node-local exec approvals remain separate gates.
 
 Naming options:
 
-- `--display-name` on `openclaw node run` / `openclaw node install` (persists in the shared `nodeHost.config` SQLite machine-state value alongside the client instance ID and Gateway connection metadata).
-- `openclaw nodes rename --node <id|name|ip> --name "Build Node"` (gateway override).
+- `--display-name` on `openagent node run` / `openagent node install` (persists in the shared `nodeHost.config` SQLite machine-state value alongside the client instance ID and Gateway connection metadata).
+- `openagent nodes rename --node <id|name|ip> --name "Build Node"` (gateway override).
 
 ### Headless identity state
 
@@ -192,7 +192,7 @@ supported revoke-and-re-pair flow and upgrade notes.
 
 Retired `identity/device.json` and `identity/device-auth.json` files are
 Doctor-owned migration inputs. Stop the node host and run
-`openclaw doctor --fix`; Doctor imports and verifies their rows in SQLite before
+`openagent doctor --fix`; Doctor imports and verifies their rows in SQLite before
 removing the old files.
 
 ## System commands (node host / mac node)
@@ -202,8 +202,8 @@ The macOS node and headless node host both expose `system.run.prepare`, `system.
 Examples:
 
 ```bash
-openclaw nodes notify --node <idOrNameOrIp> --title "Ping" --body "Gateway ready"
-openclaw nodes invoke --node <idOrNameOrIp> --command system.which --params '{"bins":["git"]}'
+openagent nodes notify --node <idOrNameOrIp> --title "Ping" --body "Gateway ready"
+openagent nodes invoke --node <idOrNameOrIp> --command system.which --params '{"bins":["git"]}'
 ```
 
 Notes:
@@ -228,7 +228,7 @@ OpenAgent can run a **headless node host** (no UI) that connects to the Gateway 
 Start it:
 
 ```bash
-openclaw node run --host <gateway-host> --port 18789
+openagent node run --host <gateway-host> --port 18789
 ```
 
 Notes:

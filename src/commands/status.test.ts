@@ -1123,7 +1123,7 @@ describe("statusCommand", () => {
       expect(output).toContain("Config diagnostics:");
       expect(output).toContain("Config file is invalid: /tmp/openclaw.json");
       expect(output).toContain("gateway.port: Invalid input: expected number, received string");
-      expect(output).toContain("Fix: openclaw --profile isolated doctor --fix");
+      expect(output).toContain("Fix: openagent --profile isolated doctor --fix");
     }
 
     expect((await runStatusAndGetLogs()).join("\n")).not.toContain("Config diagnostics:");
@@ -1343,7 +1343,7 @@ describe("statusCommand", () => {
     const joined = await runStatusAndGetJoinedLogs();
     expect(joined).toContain("node → gateway.example.com:19000 · no local gateway");
     expect(joined).not.toContain("Gateway: local · ws://127.0.0.1:18789");
-    expect(joined).toContain("openclaw --profile isolated node status");
+    expect(joined).toContain("openagent --profile isolated node status");
     expect(joined).not.toContain("Fix reachability first");
   });
 

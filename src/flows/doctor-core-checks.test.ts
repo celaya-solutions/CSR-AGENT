@@ -552,8 +552,8 @@ describe("CORE_HEALTH_CHECKS", () => {
                   "Anyone on your network can fully control your agent.",
                 ].join("\n"),
                 remediation: [
-                  "Fix: openclaw config set gateway.bind loopback",
-                  "Fix: openclaw doctor --fix to generate a token",
+                  "Fix: openagent config set gateway.bind loopback",
+                  "Fix: openagent doctor --fix to generate a token",
                 ].join("\n"),
               },
             ];
@@ -583,8 +583,8 @@ describe("CORE_HEALTH_CHECKS", () => {
         message: 'CRITICAL: Gateway bound to "lan" (0.0.0.0) without authentication.',
         fixHint: [
           "Anyone on your network can fully control your agent.",
-          "Fix: openclaw config set gateway.bind loopback",
-          "Fix: openclaw doctor --fix to generate a token",
+          "Fix: openagent config set gateway.bind loopback",
+          "Fix: openagent doctor --fix to generate a token",
         ].join("\n"),
       }),
     ]);
@@ -858,7 +858,7 @@ describe("CORE_HEALTH_CHECKS", () => {
         severity: "warning",
         message: expect.stringContaining("Gateway token SecretRef could not be resolved:"),
         fixHint:
-          "Run `openclaw doctor --allow-exec` to verify exec SecretRefs during doctor, or `openclaw secrets audit --allow-exec` to audit all exec SecretRefs.",
+          "Run `openagent doctor --allow-exec` to verify exec SecretRefs during doctor, or `openagent secrets audit --allow-exec` to audit all exec SecretRefs.",
       }),
     );
   });
@@ -1017,7 +1017,7 @@ describe("CORE_HEALTH_CHECKS", () => {
           severity,
           target: source,
           message: `Configured model "${source}" is a legacy reference. Doctor can migrate it to "${target}".`,
-          fixHint: `Run \`openclaw doctor --fix\` to migrate this model reference to "${target}".`,
+          fixHint: `Run \`openagent doctor --fix\` to migrate this model reference to "${target}".`,
         }),
       );
     }

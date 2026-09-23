@@ -72,11 +72,11 @@ export function resolvePluginVersionDriftUpdateCommand(
     }
     const exactNpmTarget = `${exactNpmPackageName}@${entry.targetResolution.version}`;
     if (parseRegistryNpmSpec(exactNpmTarget)?.selectorKind === "exact-version") {
-      return `openclaw plugins update ${exactNpmTarget}`;
+      return `openagent plugins update ${exactNpmTarget}`;
     }
     return undefined;
   }
-  return `openclaw plugins update ${entry.pluginId}`;
+  return `openagent plugins update ${entry.pluginId}`;
 }
 
 async function resolveEntryTarget(

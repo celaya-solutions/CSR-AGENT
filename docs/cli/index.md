@@ -12,10 +12,10 @@ the commands, global flags, and output styling rules that apply across the CLI.
 
 Setup commands by intent:
 
-- `openclaw setup` and `openclaw onboard` verify inference first, then start OpenAgent for Gateway, workspace, channels, skills, and health setup.
-- `openclaw setup --baseline` creates the baseline config and workspace without walking the guided onboarding flow.
-- `openclaw configure` changes targeted parts of an existing setup: model auth, gateway, channels, plugins, or skills.
-- `openclaw channels add` configures channel accounts after the baseline exists. A channel selection alone uses guided setup. Account, credential, or channel-config flags use the direct path for scripts.
+- `openagent setup` and `openagent onboard` verify inference first, then start OpenAgent for Gateway, workspace, channels, skills, and health setup.
+- `openagent setup --baseline` creates the baseline config and workspace without walking the guided onboarding flow.
+- `openagent configure` changes targeted parts of an existing setup: model auth, gateway, channels, plugins, or skills.
+- `openagent channels add` configures channel accounts after the baseline exists. A channel selection alone uses guided setup. Account, credential, or channel-config flags use the direct path for scripts.
 
 <a id="status" />
 
@@ -47,10 +47,10 @@ Setup commands by intent:
 | `--container <name>`    | Run the CLI inside a running Podman/Docker container named `<name>` (default: env `OPENCLAW_CONTAINER`) |
 | `--log-level <level>`   | Override the global log level for file + console output                                                 |
 | `--no-color`            | Disable ANSI colors (`NO_COLOR=1` is also respected)                                                    |
-| `--update`              | Shorthand for [`openclaw update`](/cli/update); works for both source checkouts and package installs    |
+| `--update`              | Shorthand for [`openagent update`](/cli/update); works for both source checkouts and package installs   |
 | `-V`, `--version`, `-v` | Print version and exit                                                                                  |
 
-Place command-specific options after their command name, for example `openclaw status --json`. Global options such as `--profile` can precede the command.
+Place command-specific options after their command name, for example `openagent status --json`. Global options such as `--profile` can precede the command.
 
 A named `--profile` replaces canonical state and config paths inherited from
 another profile, including a running Gateway service. Explicitly customized
@@ -486,7 +486,7 @@ Highlights:
 
 ## Usage tracking
 
-`openclaw status --usage` and the Control UI surface provider usage/quota when
+`openagent status --usage` and the Control UI surface provider usage/quota when
 OAuth/API credentials are available. Data comes directly from provider usage
 endpoints and is normalized to `X% left`. Providers with current usage
 windows: Anthropic, OpenAI Codex, and OpenRouter.

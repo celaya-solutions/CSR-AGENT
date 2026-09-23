@@ -101,7 +101,7 @@ Chat status and model listings identify a selected personal credential as **pers
 
 ### CLI and Custodian
 
-The CLI uses the same Gateway operations through [`openclaw models accounts`](/cli/models#personal-model-accounts). Run `openclaw models accounts login` to choose a provider and method, or supply `login <provider> --method <id>` directly. Use `list` to inspect saved accounts. Each command shows the selected Gateway, verified person, and Personal scope. It targets that person, not `--agent` or the operating-system username.
+The CLI uses the same Gateway operations through [`openagent models accounts`](/cli/models#personal-model-accounts). Run `openagent models accounts login` to choose a provider and method, or supply `login <provider> --method <id>` directly. Use `list` to inspect saved accounts. Each command shows the selected Gateway, verified person, and Personal scope. It targets that person, not `--agent` or the operating-system username.
 
 Ask OpenAgent (Custodian) requires administrator access and a working configured inference route. Ask it to manage your personal model accounts, or enter `model accounts`. In the Control UI it opens **Settings → Profile → Connected accounts**. In a terminal it gives the CLI commands. If Custodian is unavailable, open **Connected accounts** or use the CLI directly. The handoff makes no change by itself. Complete sign-in in the protected controls or hidden terminal prompt, never in the conversation. Delegated agent requests cannot open or complete the human sign-in flow.
 
@@ -109,7 +109,7 @@ Ask OpenAgent (Custodian) requires administrator access and a working configured
 
 Credentials and the selected link are saved together in private, identity-scoped records in the shared state database (`state/openclaw.sqlite` under the Gateway state directory). There is no second account database or JSON sidecar. Pending sign-in operations live only in Gateway memory. Credentials are not added to the shared or agent-local auth stores, copied into global runtime snapshots, or included in automatic account rotation. Reconnecting replaces only a credential owned by that person. For ChatGPT, matching a workspace alone is not enough: the provider must also identify the same user. An administrator-linked shared account is never overwritten by a personal reconnect.
 
-Administrators can still create shared profiles through the CLI (`openclaw models auth login --provider openai --profile-id openai:alice`, see [OAuth](/concepts/oauth)) and link them with `users.linkAuthProfile`. Attaching an existing shared credential is an admin decision. `users.unlinkAuthProfile` remains self-or-admin, and `users.listAuthLinks` returns link metadata without secrets. A personal credential cannot be linked to another person's profile.
+Administrators can still create shared profiles through the CLI (`openagent models auth login --provider openai --profile-id openai:alice`, see [OAuth](/concepts/oauth)) and link them with `users.linkAuthProfile`. Attaching an existing shared credential is an admin decision. `users.unlinkAuthProfile` remains self-or-admin, and `users.listAuthLinks` returns link metadata without secrets. A personal credential cannot be linked to another person's profile.
 
 ### Pin and default rules
 

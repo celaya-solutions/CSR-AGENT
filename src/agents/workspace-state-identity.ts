@@ -106,7 +106,7 @@ export class WorkspaceAliasRepointedError extends Error {
   }) {
     super(
       `workspace path alias points to a different current target: ${params.aliasPath} now resolves to ${params.currentWorkspacePath}, but its stored workspace state belongs to ${params.storedWorkspacePath}. ` +
-        "Run `openclaw doctor --fix` and confirm the move, or use `openclaw doctor --fix --force`.",
+        "Run `openagent doctor --fix` and confirm the move, or use `openagent doctor --fix --force`.",
     );
     this.name = "WorkspaceAliasRepointedError";
     this.aliasPath = params.aliasPath;

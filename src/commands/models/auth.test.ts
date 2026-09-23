@@ -538,10 +538,10 @@ describe("modelsAuthLoginCommand", () => {
       "Auth profile: openai:user@example.com (openai/oauth)",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Default model available: openai/gpt-5.5 (current default unchanged; run openclaw models set openai/gpt-5.5 to apply)",
+      "Default model available: openai/gpt-5.5 (current default unchanged; run openagent models set openai/gpt-5.5 to apply)",
     );
     expect(runtime.log).toHaveBeenCalledWith(
-      "Tip: Codex-capable models can use native Codex web search. Configure the `web_search` tool with `openclaw configure --section web`.",
+      "Tip: Codex-capable models can use native Codex web search. Configure the `web_search` tool with `openagent configure --section web`.",
     );
     expect(mocks.callGateway).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -660,7 +660,7 @@ describe("modelsAuthLoginCommand", () => {
         }),
       );
       expect(runtime.error).toHaveBeenCalledWith(
-        `Warning: Model auth changes were saved, but the ${target} Gateway could not refresh them. Run \`openclaw gateway restart\` to apply the saved changes.`,
+        `Warning: Model auth changes were saved, but the ${target} Gateway could not refresh them. Run \`openagent gateway restart\` to apply the saved changes.`,
       );
     },
   );
@@ -1013,7 +1013,7 @@ describe("modelsAuthLoginCommand", () => {
         "Scope: System / agent",
         "Agent: coder",
         "Location: the machine running OpenAgent",
-        "For personal model accounts on a Gateway, run openclaw models accounts login --help.",
+        "For personal model accounts on a Gateway, run openagent models accounts login --help.",
       ].join("\n"),
       "Provider sign-in",
     );
@@ -1373,7 +1373,7 @@ describe("modelsAuthLoginCommand", () => {
     });
     expect(currentConfig.auth).toBeUndefined();
     expect(runtime.log).toHaveBeenCalledWith(
-      "Default model available: openai/gpt-5.5 (current default unchanged; run openclaw models set openai/gpt-5.5 to apply)",
+      "Default model available: openai/gpt-5.5 (current default unchanged; run openagent models set openai/gpt-5.5 to apply)",
     );
   });
 
@@ -1555,7 +1555,7 @@ describe("modelsAuthLoginCommand", () => {
     const runtime = createRuntime();
 
     await expect(modelsAuthLoginCommand({ provider: "anthropic" }, runtime)).rejects.toThrow(
-      'Unknown provider "anthropic". Loaded providers: openai. Verify plugins via `openclaw plugins list --json`.',
+      'Unknown provider "anthropic". Loaded providers: openai. Verify plugins via `openagent plugins list --json`.',
     );
   });
 
@@ -1735,7 +1735,7 @@ describe("modelsAuthLoginCommand", () => {
     );
 
     expect(validateMessages).toEqual([
-      "That looks like an OpenAI API key. Use openclaw models auth paste-api-key --provider openai for API-key auth.",
+      "That looks like an OpenAI API key. Use openagent models auth paste-api-key --provider openai for API-key auth.",
     ]);
     expect(mocks.upsertAuthProfileWithLock).not.toHaveBeenCalled();
     expect(mocks.updateConfig).not.toHaveBeenCalled();
@@ -1885,7 +1885,7 @@ describe("modelsAuthLoginCommand", () => {
     );
 
     expect(validateMessages).toEqual([
-      "That looks like token or OAuth material, not an OpenAI API key. Use openclaw models auth paste-token --provider openai for token auth material.",
+      "That looks like token or OAuth material, not an OpenAI API key. Use openagent models auth paste-token --provider openai for token auth material.",
     ]);
     expect(mocks.upsertAuthProfileWithLock).not.toHaveBeenCalled();
     expect(mocks.updateConfig).not.toHaveBeenCalled();
@@ -1898,7 +1898,7 @@ describe("modelsAuthLoginCommand", () => {
     await expect(
       modelsAuthPasteTokenCommand({ provider: "openai", agent: "missing" }, runtime),
     ).rejects.toThrow(
-      'Unknown agent id "missing". Use "openclaw agents list" to see configured agents.',
+      'Unknown agent id "missing". Use "openagent agents list" to see configured agents.',
     );
 
     expect(mocks.clackPassword).not.toHaveBeenCalled();

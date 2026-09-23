@@ -1,31 +1,31 @@
 ---
-summary: "CLI reference for `openclaw agents` (roles, teams, workspaces, routing, and identity)"
+summary: "CLI reference for `openagent agents` (roles, teams, workspaces, routing, and identity)"
 read_when:
   - You want multiple isolated agents (workspaces + routing + auth)
   - You want to create an agent from a role or set up a coordinated team
 title: "Agents"
 ---
 
-# `openclaw agents`
+# `openagent agents`
 
-Manage isolated agents (workspaces + auth + routing). Running `openclaw agents` with no subcommand is equivalent to `openclaw agents list`.
+Manage isolated agents (workspaces + auth + routing). Running `openagent agents` with no subcommand is equivalent to `openagent agents list`.
 
 ## Examples
 
 ```bash
-openclaw agents list
-openclaw agents list --bindings
-openclaw agents add work --workspace ~/.openclaw/workspace-work
-openclaw agents add work --workspace ~/.openclaw/workspace-work --bind telegram:*
-openclaw agents add ops --workspace ~/.openclaw/workspace-ops --bind telegram:ops --non-interactive
-openclaw agents add research --role researcher --non-interactive
-openclaw agents team create --non-interactive
-openclaw agents bindings
-openclaw agents bind --agent work --bind telegram:ops
-openclaw agents unbind --agent work --bind telegram:ops
-openclaw agents set-identity --workspace ~/.openclaw/workspace --from-identity
-openclaw agents set-identity --agent main --avatar avatars/openclaw.png
-openclaw agents delete work
+openagent agents list
+openagent agents list --bindings
+openagent agents add work --workspace ~/.openclaw/workspace-work
+openagent agents add work --workspace ~/.openclaw/workspace-work --bind telegram:*
+openagent agents add ops --workspace ~/.openclaw/workspace-ops --bind telegram:ops --non-interactive
+openagent agents add research --role researcher --non-interactive
+openagent agents team create --non-interactive
+openagent agents bindings
+openagent agents bind --agent work --bind telegram:ops
+openagent agents unbind --agent work --bind telegram:ops
+openagent agents set-identity --workspace ~/.openclaw/workspace --from-identity
+openagent agents set-identity --agent main --avatar avatars/openclaw.png
+openagent agents delete work
 ```
 
 ## Command surface
@@ -56,7 +56,7 @@ Options: `--role <role>`, `--workspace <dir>`, `--model <id>`, `--agent-dir <dir
 - The automation flags `--workspace`, `--model`, `--agent-dir`, `--bind`, and `--non-interactive` select the non-interactive path. Non-interactive mode requires an agent name and, unless `--role` is supplied, `--workspace`.
 - `--json` alone keeps the guided wizard interactive. Prompts and status are written to stderr, and stdout contains one JSON summary after setup completes.
 - Non-interactive `--json` reports normalized agent IDs in the summary without extra stdout status messages.
-- `main` is an ordinary agent id. Recreating it after another agent owns the installation can require `openclaw doctor --fix` to repair legacy session or shared-auth ownership first.
+- `main` is an ordinary agent id. Recreating it after another agent owns the installation can require `openagent doctor --fix` to repair legacy session or shared-auth ownership first.
 - Interactive mode offers optional auth copying. When the fleet has no default agent, choose a source agent or **Skip copying auth profiles** (the default). Selecting a source still requires confirmation before copying. Only portable static credentials (`api_key` and static `token` profiles) are copied unless a credential opts out with `copyToAgents: false`; OAuth refresh-token profiles are not copied unless a provider opts in with `copyToAgents: true`. Without a copy, OAuth stays available through the shared auth base. If the source agent has its own local OAuth profile, sign in separately for the new agent.
 
 #### Role templates
@@ -108,8 +108,8 @@ Existing agents remain in place, including an implicit `main` on an already
 configured installation.
 
 ```bash
-openclaw agents team create --prefix editorial --workspace-root ~/agents --non-interactive --json
-openclaw agent --agent editorial-coordinator --message "Research this topic and draft a brief."
+openagent agents team create --prefix editorial --workspace-root ~/agents --non-interactive --json
+openagent agent --agent editorial-coordinator --message "Research this topic and draft a brief."
 ```
 
 The coordinator's `subagents.allowAgents` names the three specialist ids and
@@ -150,7 +150,7 @@ Options: `--force`, `--json`.
 - Without `--force`, interactive confirmation is required (fails in a non-TTY session; re-run with `--force`).
 - Workspace, agent state, and session transcript directories move to Trash, not hard-deleted. If Trash is unavailable, agent config deletion still succeeds and reports paths requiring manual cleanup; `--json` exposes path outcomes in `removed` and `failed` arrays.
 - If session-store cleanup fails, the agent is removed from config but its files and pending cleanup are retained. Resolve the reported storage error, then retry the same deletion command; `--json` reports `purgeFailed: true` until the purge succeeds.
-- On installations that have not migrated shared auth yet, the legacy owner cannot be deleted. Run `openclaw doctor --fix`; after relocation into shared state SQLite, `main` follows the same deletion rules as any other agent.
+- On installations that have not migrated shared auth yet, the legacy owner cannot be deleted. Run `openagent doctor --fix`; after relocation into shared state SQLite, `main` follows the same deletion rules as any other agent.
 - An agent that owns a session database still used by another configured agent cannot be deleted, even when retaining files. Keep that owner configured; moving shared history to another owner requires a supported migration, which is not currently available.
 - When the Gateway is reachable, deletion routes through the Gateway so config and session-store cleanup share the same writer as runtime traffic. If the Gateway is unreachable, the CLI falls back to the offline local path and removes the agent's scheduled jobs transactionally. If Gateway credentials are unavailable before the CLI can test reachability, deletion still falls back locally but warns that cron cleanup was skipped because a live scheduler may own the store.
 - If another agent's workspace is the same path, inside this workspace, or contains this workspace, the workspace is retained, and `--json` reports `workspaceRetained`, `workspaceRetainedReason`, and `workspaceSharedWith`.
@@ -165,21 +165,21 @@ If you also want different visible skills per agent, configure `agents.defaults.
 List bindings:
 
 ```bash
-openclaw agents bindings
-openclaw agents bindings --agent work
-openclaw agents bindings --json
+openagent agents bindings
+openagent agents bindings --agent work
+openagent agents bindings --json
 ```
 
 Add bindings:
 
 ```bash
-openclaw agents bind --agent work --bind telegram:ops --bind discord:guild-a
+openagent agents bind --agent work --bind telegram:ops --bind discord:guild-a
 ```
 
 You can also add bindings when creating an agent:
 
 ```bash
-openclaw agents add work --workspace ~/.openclaw/workspace-work --bind telegram:* --bind discord:*
+openagent agents add work --workspace ~/.openclaw/workspace-work --bind telegram:* --bind discord:*
 ```
 
 If you omit `accountId` (`--bind <channel>`), OpenAgent resolves it from plugin setup hooks, forced account binding, or the channel's configured account count.
@@ -204,16 +204,16 @@ Examples:
 
 ```bash
 # match all accounts on the channel
-openclaw agents bind --agent work --bind telegram:*
+openagent agents bind --agent work --bind telegram:*
 
 # match a specific account
-openclaw agents bind --agent work --bind telegram:ops
+openagent agents bind --agent work --bind telegram:ops
 
 # initial channel-only binding
-openclaw agents bind --agent work --bind telegram
+openagent agents bind --agent work --bind telegram
 
 # later upgrade to account-scoped binding
-openclaw agents bind --agent work --bind telegram:alerts
+openagent agents bind --agent work --bind telegram:alerts
 ```
 
 After the upgrade, routing for that binding is scoped to `telegram:alerts`. If you also want default-account routing, add it explicitly (for example `--bind telegram:default`).
@@ -221,8 +221,8 @@ After the upgrade, routing for that binding is scoped to `telegram:alerts`. If y
 Remove bindings:
 
 ```bash
-openclaw agents unbind --agent work --bind telegram:ops
-openclaw agents unbind --agent work --all
+openagent agents unbind --agent work --bind telegram:ops
+openagent agents unbind --agent work --all
 ```
 
 ## Identity files
@@ -241,27 +241,27 @@ Avatar paths resolve relative to the workspace root and cannot escape it, even t
 - `--agent` or `--workspace` selects the target agent. If `--workspace` matches more than one agent, the command fails and asks you to pass `--agent`.
 - `--workspace` and `--identity-file` only select the agent or identity file. They do not change `agents.entries.*.workspace`.
   For `--json`, `workspace` is the resolved identity directory: the `--workspace` locator, the parent of `--identity-file`, or the agent's workspace when identity is read from there. It is `null` only when identity is supplied through flags with no identity directory. `storedWorkspace` reports the agent's persisted workspace.
-- Relocate an existing agent with `openclaw config set agents.entries.<id>.workspace <dir>`, then follow the CLI restart hint and confirm with `openclaw agents list`.
+- Relocate an existing agent with `openagent config set agents.entries.<id>.workspace <dir>`, then follow the CLI restart hint and confirm with `openagent agents list`.
 - Local workspace-relative avatar image files are limited to 2 MB. HTTP(S) URLs and `data:` URIs are not checked against the local file-size limit.
 - When no explicit identity fields are provided, the command reads identity data from `IDENTITY.md`.
 
 Load from `IDENTITY.md`:
 
 ```bash
-openclaw agents set-identity --workspace ~/.openclaw/workspace --from-identity
+openagent agents set-identity --workspace ~/.openclaw/workspace --from-identity
 ```
 
 Override fields explicitly:
 
 ```bash
-openclaw agents set-identity --agent main --name "OpenAgent" --emoji "🤖" --avatar avatars/openclaw.png
+openagent agents set-identity --agent main --name "OpenAgent" --emoji "🤖" --avatar avatars/openclaw.png
 ```
 
 Relocate the stored workspace:
 
 ```bash
-openclaw config set agents.entries.work.workspace ~/.openclaw/workspace-work
-openclaw agents list
+openagent config set agents.entries.work.workspace ~/.openclaw/workspace-work
+openagent agents list
 ```
 
 Config sample:

@@ -87,8 +87,8 @@ page.
 To see what you can test on your machine (and the exact `provider/model` ids), run:
 
 ```bash
-openclaw models list
-openclaw models list --json
+openagent models list
+openagent models list --json
 ```
 
 </Tip>

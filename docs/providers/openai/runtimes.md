@@ -27,10 +27,10 @@ endpoint and adapter:
 | Effective route facts                                                                                                                                                           | Implicit runtime      |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
 | Exact official Platform HTTPS endpoint with `openai-responses`, or exact official ChatGPT HTTPS endpoint with `openai-chatgpt-responses`; no authored provider request override | Codex may be selected |
-| Authored `openai-completions` adapter                                                                                                                                           | OpenAgent         |
-| Custom endpoint                                                                                                                                                                 | OpenAgent         |
+| Authored `openai-completions` adapter                                                                                                                                           | OpenAgent             |
+| Custom endpoint                                                                                                                                                                 | OpenAgent             |
 | Explicit exact official endpoint using HTTP                                                                                                                                     | Rejected              |
-| Route with an authored provider/model request override                                                                                                                          | OpenAgent         |
+| Route with an authored provider/model request override                                                                                                                          | OpenAgent             |
 
 Valid model-scoped `params.fastMode` / `params.fast_mode`, cutoff, and `thinking`
 values are typed agent-runtime controls, not authored provider request params.
@@ -60,7 +60,7 @@ default model's route intent. Doctor reports a resolved billing-route change
 after saving a model-reference migration, including the consumer and old/new
 models, routes, and profiles.
 
-`openclaw doctor --fix` migrates legacy `codex/*` and `openai-codex/*` model
+`openagent doctor --fix` migrates legacy `codex/*` and `openai-codex/*` model
 refs, legacy Codex auth profile ids, and legacy Codex auth-order entries to the
 canonical `openai` route. Migrated model refs receive model-scoped
 `agentRuntime.id: "codex"`; use `auth.order.openai` for new auth-order config.
@@ -81,7 +81,7 @@ exact official HTTPS route selects it implicitly, or when provider/model
 account-based. OpenAgent selects auth in this order:
 
 1. Ordered OpenAI auth profiles for the agent, preferably under
-   `auth.order.openai`. Run `openclaw doctor --fix` to migrate older legacy
+   `auth.order.openai`. Run `openagent doctor --fix` to migrate older legacy
    Codex auth profile ids and auth order.
 2. The native Codex account, when no host credential or account selection owns
    the route. This path uses the user Codex home. An explicit
@@ -104,8 +104,8 @@ OpenAgent auth store before starting a native Codex turn. Replace `<agent-id>`
 with the configured agent that owns this Codex home:
 
 ```bash
-openclaw migrate plan codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai
-openclaw migrate apply codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai --yes
+openagent migrate plan codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai
+openagent migrate apply codex --from <codex-home> --agent <agent-id> --include-secrets --item auth:openai --yes
 ```
 
 A local ChatGPT/Codex subscription sign-in is not replaced just because the

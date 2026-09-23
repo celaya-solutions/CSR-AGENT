@@ -130,9 +130,9 @@ describe("runDoctorConfigPreflight", () => {
       await writeOpenClawConfig(home, { gateway: { mode: "local" } });
       const run = createUpdateRun({ trigger: "cli" });
       const detail =
-        "Warning: Skipped derived cache cleanup: permission denied. Run openclaw doctor --fix.";
+        "Warning: Skipped derived cache cleanup: permission denied. Run openagent doctor --fix.";
       recordUpdateRunStep(run.runId, {
-        step: "warning:openclaw doctor",
+        step: "warning:openagent doctor",
         status: "completed",
         detail,
       });
@@ -152,7 +152,7 @@ describe("runDoctorConfigPreflight", () => {
       clock.mockReturnValue(now);
       await runDoctorConfigPreflight({ migrateState: false, migrateLegacyConfig: false });
       expect(noteMock).toHaveBeenCalledWith(
-        `Update ${run.runId}: no activity since ${new Date(inactiveAt).toISOString()}; if no update is running, run \`openclaw update repair\` or start a new \`openclaw update\``,
+        `Update ${run.runId}: no activity since ${new Date(inactiveAt).toISOString()}; if no update is running, run \`openagent update repair\` or start a new \`openagent update\``,
         "Update history",
       );
       expect(getUpdateRun(run.runId)).toEqual(run);
@@ -350,7 +350,7 @@ describe("runDoctorConfigPreflight", () => {
             ...startupCheckpointOptions,
             skipPristineStartupStateMigrations: true,
           }),
-        ).rejects.toThrow("openclaw doctor --fix");
+        ).rejects.toThrow("openagent doctor --fix");
       });
       expect(await fs.readFile(configPath, "utf-8")).toBe(original);
       await expect(fs.access(`${configPath}.bak`)).rejects.toMatchObject({ code: "ENOENT" });
@@ -845,11 +845,11 @@ describe("runDoctorConfigPreflight", () => {
             "is not parseable and cannot be repaired automatically",
           );
           expect((failure as Error).message).toContain(
-            "openclaw --container repair-test config validate",
+            "openagent --container repair-test config validate",
           );
           expect((failure as Error).message).toContain("hand-edit the file");
           expect((failure as Error).message).toContain("move it aside");
-          expect((failure as Error).message).toContain("openclaw --container repair-test onboard");
+          expect((failure as Error).message).toContain("openagent --container repair-test onboard");
         }
       });
 

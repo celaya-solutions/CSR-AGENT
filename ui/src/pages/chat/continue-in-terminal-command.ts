@@ -38,7 +38,7 @@ export function buildContinueInTerminalCommand(params: {
   try {
     return {
       ok: true,
-      command: `openclaw resume --handoff ${encodeResumeHandoff({ sessionKey: qualifiedKey, gatewayUrl })}`,
+      command: `openagent resume --handoff ${encodeResumeHandoff({ sessionKey: qualifiedKey, gatewayUrl })}`,
       qualifiedSessionKey: qualifiedKey,
     };
   } catch {

@@ -58,7 +58,7 @@ If `MEMORY.md` grows past the bootstrap file budget, OpenAgent keeps the file on
 disk intact but truncates the copy injected into context. Treat that as a
 signal to move detailed material into `memory/*.md`, keep only a durable
 summary in `MEMORY.md`, or raise the bootstrap limits if you want to spend more
-prompt budget. Use `/context list`, `/context detail`, or `openclaw doctor` to
+prompt budget. Use `/context list`, `/context detail`, or `openagent doctor` to
 see raw vs. injected sizes and truncation status.
 
 ## Import from coding assistants
@@ -261,7 +261,7 @@ The dreaming system has two related review lanes:
 - **Live dreaming** works from short-term dreaming state in SQLite plugin
   storage and is what the normal deep phase uses to decide what graduates into
   `MEMORY.md`. Doctor owns migration of legacy dreaming JSON state from
-  `memory/.dreams/`; run `openclaw doctor --fix` before using that old state.
+  `memory/.dreams/`; run `openagent doctor --fix` before using that old state.
 - **Grounded backfill** reads historical `memory/YYYY-MM-DD.md` notes as
   standalone day files and writes structured review output into `DREAMS.md`.
 
@@ -269,7 +269,7 @@ Grounded backfill is useful for replaying older notes and inspecting what the
 system considers durable, without manually editing `MEMORY.md`.
 
 ```bash
-openclaw memory rem-backfill --path ./memory --stage-short-term
+openagent memory rem-backfill --path ./memory --stage-short-term
 ```
 
 The `--stage-short-term` flag stages grounded durable candidates into the same
@@ -284,16 +284,16 @@ To undo a replay without touching ordinary diary entries or normal recall
 state:
 
 ```bash
-openclaw memory rem-backfill --rollback
-openclaw memory rem-backfill --rollback-short-term
+openagent memory rem-backfill --rollback
+openagent memory rem-backfill --rollback-short-term
 ```
 
 ## CLI
 
 ```bash
-openclaw memory status          # Check index status and provider
-openclaw memory search "query"  # Search from the command line
-openclaw memory index --force   # Rebuild the index
+openagent memory status          # Check index status and provider
+openagent memory search "query"  # Search from the command line
+openagent memory index --force   # Rebuild the index
 ```
 
 ## Further reading
@@ -310,4 +310,4 @@ openclaw memory index --force   # Rebuild the index
 
 ## Related
 
-- [`openclaw memory`](/cli/memory) — command reference for inspecting and editing memory
+- [`openagent memory`](/cli/memory) — command reference for inspecting and editing memory

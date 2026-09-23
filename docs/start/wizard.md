@@ -8,14 +8,14 @@ sidebarTitle: "Onboarding: CLI"
 ---
 
 ```bash
-openclaw onboard
+openagent onboard
 ```
 
 CLI onboarding is the recommended terminal setup path on macOS, Linux, and
 Windows (native or WSL2). On a fresh install, **Quick start** detects available AI
 access, waits for you to choose a connection, verifies your choice with a real
 completion, and opens the web dashboard with a foreground Gateway. **Custom setup** preserves the full
-guided flow. `openclaw setup` runs the same flow ([Setup](/cli/setup) covers
+guided flow. `openagent setup` runs the same flow ([Setup](/cli/setup) covers
 the `--baseline` config-only variant).
 
 Guided onboarding verifies your selected connection before starting the Gateway
@@ -27,7 +27,7 @@ resumes on the next run.
 
 The classic wizard remains available for remote Gateway setup, channel pairing,
 daemon controls, skills, and imports. Run it explicitly
-with `openclaw onboard --classic`; the guided inference picker does not delegate
+with `openagent onboard --classic`; the guided inference picker does not delegate
 into it. After inference passes, OpenAgent can use `open channel wizard for
 <channel>` to hand channel setup that needs secrets to a masked terminal wizard.
 Workspace skills and web search are configured the same conversational way:
@@ -37,19 +37,19 @@ wizard.
 For a local Gateway, `configure gateway` guides port, bind, auth, and Tailscale
 settings but saves config without restarting; say `restart gateway` afterward,
 or use `open gateway wizard` for masked terminal credential entry and then run
-`openclaw gateway restart`. Remote Gateway mode remains an onboarding or
-`openclaw configure` choice rather than a hosted chat wizard.
+`openagent gateway restart`. Remote Gateway mode remains an onboarding or
+`openagent configure` choice rather than a hosted chat wizard.
 
 After onboarding has created the default agent workspace, `import memory` can
 copy detected local memory into it. This conversational import does not change
 config or import credentials or skills, needs no Gateway restart, and reports
 per-source partial or failed copies honestly.
 To change the model provider or its authentication, exit OpenAgent and run
-`openclaw onboard`; OpenAgent does not open guided or classic provider flows.
+`openagent onboard`; OpenAgent does not open guided or classic provider flows.
 
 <Info>
-On a fresh install, run `pnpm openclaw onboard` from your checkout and choose **Quick start** for the
-browser dashboard. Reopen it later with `openclaw dashboard`.
+On a fresh install, run `pnpm openagent onboard` from your checkout and choose **Quick start** for the
+browser dashboard. Reopen it later with `openagent dashboard`.
 Docs: [Dashboard](/web/dashboard).
 </Info>
 
@@ -60,8 +60,8 @@ The wizard localizes fixed onboarding copy. It uses the first nonblank value fro
 falls back to English. Supported locales: `en`, `zh-CN`, `zh-TW`.
 
 ```bash
-OPENCLAW_LOCALE=zh-CN openclaw onboard
-OPENCLAW_LOCALE=en openclaw onboard # Explicit English override
+OPENCLAW_LOCALE=zh-CN openagent onboard
+OPENCLAW_LOCALE=en openagent onboard # Explicit English override
 ```
 
 Product names, commands, config keys, URLs, provider IDs, model IDs, and
@@ -70,8 +70,8 @@ plugin/channel labels stay in English regardless of locale.
 To reconfigure non-inference settings later:
 
 ```bash
-openclaw configure
-openclaw agents add <name>
+openagent configure
+openagent agents add <name>
 ```
 
 <Note>
@@ -80,7 +80,7 @@ openclaw agents add <name>
 
 <Tip>
 The classic wizard includes a web search step where you can pick a provider:
-DuckDuckGo or Ollama Web Search. Configure this later with `openclaw configure --section web`, or say
+DuckDuckGo or Ollama Web Search. Configure this later with `openagent configure --section web`, or say
 `configure web search` in the OpenAgent chat to run the same provider setup
 conversationally. Docs: [Web tools](/tools/web).
 </Tip>
@@ -123,8 +123,8 @@ Quick start follows this path:
 5. Save the verified route, prepare the agent workspace, and persist Gateway
    settings.
 6. Start the Gateway in the foreground and open the browser dashboard. Press
-   **Ctrl+C** to stop it; config persists. Use `openclaw gateway install` later
-   for background operation, `openclaw` for the TUI, or `openclaw dashboard` to
+   **Ctrl+C** to stop it; config persists. Use `openagent gateway install` later
+   for background operation, `openclaw` for the TUI, or `openagent dashboard` to
    reopen the web UI.
 
 The Quick start choice is not offered for configured installs, remote Gateway
@@ -132,15 +132,15 @@ chat setup, non-interactive runs, or runs with `--skip-ui` or `--tui`.
 
 Re-running the command on a configured installation offers the current default
 model first. Select it for a verification and repair pass. A failed check never
-replaces the configured model automatically; onboarding waits for your next choice. Run `openclaw channels add` or `openclaw configure` for
-later non-inference additions; use `openclaw onboard` for provider or auth route
+replaces the configured model automatically; onboarding waits for your next choice. Run `openagent channels add` or `openagent configure` for
+later non-inference additions; use `openagent onboard` for provider or auth route
 changes.
 
 ## Choose one agent or a team
 
 When guided onboarding creates the first agent, choose **One agent** (the
 default) or **A small team: a chief of staff plus specialists**. The team choice
-uses the same preset as `openclaw agents team create`: a chief of staff (`coordinator`), researcher,
+uses the same preset as `openagent agents team create`: a chief of staff (`coordinator`), researcher,
 writer, and reviewer with separate workspaces, completed identities, and written
 role contracts. The chief of staff delegates suitable tasks and verifies specialist
 results before reporting to you.
@@ -155,19 +155,19 @@ interruption after provider activation but before member creation.
 For a team, `--workspace` is the parent directory; every member uses
 `<workspace>/<agent-id>`. After all members have been created, interrupted setup
 keeps that parent as its recovery workspace. Retry
-`openclaw onboard --workspace <workspace>` without `--team` to finish setup. Completion
+`openagent onboard --workspace <workspace>` without `--team` to finish setup. Completion
 checks the full team roster and every member's workspace before closing the
 setup receipt; an incomplete or changed team stays pending with an error.
 
 If member creation itself fails, already-created members are retained and are
-not recreated automatically. Inspect `openclaw agents list` and repair the
+not recreated automatically. Inspect `openagent agents list` and repair the
 incomplete roster before retrying setup.
 
 Select the team directly in an interactive or non-interactive run with `--team`:
 
 ```bash
-openclaw onboard --team
-openclaw onboard --non-interactive --team --accept-risk
+openagent onboard --team
+openagent onboard --non-interactive --team --accept-risk
 ```
 
 The usual non-interactive provider and Gateway options still apply. Onboarding
@@ -178,12 +178,12 @@ not introduce a universal default agent or change global delegation or tool
 policy. To address it later, use an explicit target:
 
 ```bash
-openclaw agent --agent coordinator --message "Research a topic and prepare a draft."
+openagent agent --agent coordinator --message "Research a topic and prepare a draft."
 ```
 
 `--team` is for local first-agent setup. It cannot be combined with remote,
 classic, or import onboarding. If an agent roster already exists, use
-`openclaw agents team create` instead.
+`openagent agents team create` instead.
 
 See [Team preset](/concepts/multi-agent#team-preset) for the delegation config and
 [`agents team create`](/cli/agents#agents-team-create) to add a namespaced team
@@ -191,7 +191,7 @@ to an existing installation.
 
 ## Classic wizard setup modes
 
-Run `openclaw onboard --classic` to open the full wizard. Its **Setup mode**
+Run `openagent onboard --classic` to open the full wizard. Its **Setup mode**
 menu is built from the current installation:
 
 - With no configured default model, **QuickStart (recommended)** is selected by
@@ -217,7 +217,7 @@ directly instead of showing a menu that could discard the requested import.
     - Gateway port **18789**
     - Gateway auth **Token** (auto-generated, even on loopback)
     - Tool policy: `tools.profile: "coding"` for new setups (an existing explicit profile is preserved)
-    - DM sessions: onboarding preserves an explicit `session.dmScope` and otherwise leaves it unset, so the `"main"` default keeps all direct messages across channels in the agent's rolling main session—the personal-agent default. For shared or multi-user inboxes, use `"per-channel-peer"`; `openclaw security audit` recommends isolation when it detects multi-user DM traffic. Details: [CLI setup reference](/start/wizard-cli-reference#outputs-and-internals)
+    - DM sessions: onboarding preserves an explicit `session.dmScope` and otherwise leaves it unset, so the `"main"` default keeps all direct messages across channels in the agent's rolling main session—the personal-agent default. For shared or multi-user inboxes, use `"per-channel-peer"`; `openagent security audit` recommends isolation when it detects multi-user DM traffic. Details: [CLI setup reference](/start/wizard-cli-reference#outputs-and-internals)
     - Tailscale exposure **Off**
     - Telegram DMs default to **allowlist**: setup asks for a numeric Telegram user ID
 
@@ -299,22 +299,22 @@ Migration import options (`--flow import`, `--import-from`, `--import-source`,
 and `--import-secrets`) cannot be combined with `--reset`; run the import
 without `--reset`.
 Without `--reset`, an invalid config or legacy keys make onboarding ask you to
-run `openclaw doctor` first.
+run `openagent doctor` first.
 </Note>
 
 `--flow import` runs a detected migration flow (for example Hermes) in the
 classic wizard instead of fresh setup; see [Migrate](/cli/migrate) and the migration guides under
-Install. `openclaw onboard --modern` is a
+Install. `openagent onboard --modern` is a
 compatibility alias for [OpenAgent](/cli/openclaw). It uses the same
-inference gate as `openclaw setup`: verified inference starts the
+inference gate as `openagent setup`: verified inference starts the
 assistant, while an interactive failure returns to guided inference setup.
 
 ## Add another agent
 
-Use `openclaw agents add <name>` to create a separate agent with its own
+Use `openagent agents add <name>` to create a separate agent with its own
 workspace, sessions, and auth profiles. Running without `--workspace` starts
 an interactive flow for name, workspace, auth, channels, and bindings - it is
-not the full `openclaw onboard` wizard.
+not the full `openagent onboard` wizard.
 
 What it sets:
 
@@ -334,10 +334,10 @@ Notes:
 For detailed step-by-step behavior and config outputs, see
 [CLI setup reference](/start/wizard-cli-reference).
 For non-interactive examples, see [CLI automation](/start/wizard-cli-automation).
-For the full flag reference, see [`openclaw onboard`](/cli/onboard).
+For the full flag reference, see [`openagent onboard`](/cli/onboard).
 
 ## Related docs
 
-- CLI command reference: [`openclaw onboard`](/cli/onboard)
+- CLI command reference: [`openagent onboard`](/cli/onboard)
 - Onboarding overview: [Onboarding overview](/start/onboarding-overview)
 - Agent first-run ritual: [Agent Bootstrapping](/start/bootstrapping)

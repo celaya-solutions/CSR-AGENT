@@ -52,7 +52,7 @@ Two settings silently disable ambient room events even when `unmentionedInbound:
 }
 ```
 
-Check the effective surface with `openclaw agents list` and a probe turn rather than assuming the profile includes it.
+Check the effective surface with `openagent agents list` and a probe turn rather than assuming the profile includes it.
 
 After saving the config, the Gateway hot-applies `messages` settings. With `gateway.reload.mode: "off"`, restart manually to apply the change.
 
@@ -142,7 +142,7 @@ For Telegram groups, the bot must be able to see normal group messages. If `requ
 }
 ```
 
-Telegram group IDs are usually negative numbers such as `-1001234567890`. Read `chat.id` from `openclaw logs --follow`, forward a group message to an ID helper bot, or inspect Bot API `getUpdates`.
+Telegram group IDs are usually negative numbers such as `-1001234567890`. Read `chat.id` from `openagent logs --follow`, forward a group message to an ID helper bot, or inspect Bot API `getUpdates`.
 
 ## Agent specific policy
 
@@ -183,7 +183,7 @@ Room events stay strict even when other group requests use automatic replies. Un
 
 `messages.groupChat.historyLimit` sets the global group history default (50 when unset; must be a positive integer). Channels can override it with `channels.<channel>.historyLimit`, and some channels also support per-account history limits. Set the channel-level `historyLimit: 0` to disable group history context for that channel.
 
-Supported room-event channels keep recent ambient room messages as context. Telegram keeps an always-on rolling per-group window bounded by `historyLimit`; user-request turns select entries after the bot's last recorded reply, while room-event turns receive the full recent window so the model can see its own recent posts. The retired Telegram `includeGroupHistoryContext` mode key is removed by `openclaw doctor --fix`.
+Supported room-event channels keep recent ambient room messages as context. Telegram keeps an always-on rolling per-group window bounded by `historyLimit`; user-request turns select entries after the bot's last recorded reply, while room-event turns receive the full recent window so the model can see its own recent posts. The retired Telegram `includeGroupHistoryContext` mode key is removed by `openagent doctor --fix`.
 
 ## Troubleshooting
 

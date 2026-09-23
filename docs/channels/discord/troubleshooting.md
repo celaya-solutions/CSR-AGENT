@@ -28,7 +28,7 @@ Symptom-first checks for a Discord account that is not behaving.
     - if a guild `channels` map exists, only listed channels are allowed
     - verify `requireMention` behavior and mention patterns
 
-    The Control UI channel details and `openclaw channels status` warn when the
+    The Control UI channel details and `openagent channels status` warn when the
     effective policy is `allowlist` but no guilds are configured. Add your server
     under `channels.discord.guilds`, or the account's `guilds` map when overridden.
     An explicit `channels.discord.accounts.default.guilds` map also overrides the
@@ -43,9 +43,9 @@ Symptom-first checks for a Discord account that is not behaving.
     Useful checks:
 
 ```bash
-openclaw doctor
-openclaw channels status --probe
-openclaw logs --follow
+openagent doctor
+openagent channels status --probe
+openagent logs --follow
 ```
 
   </Accordion>
@@ -168,7 +168,7 @@ openclaw logs --follow
 
   <Accordion title="Voice STT drops with DecryptionFailed(...)">
 
-    - run OpenAgent 2026.2.24 or newer (`openclaw update`), the release that added the Discord voice receive recovery logic
+    - run OpenAgent 2026.2.24 or newer (`openagent update`), the release that added the Discord voice receive recovery logic
     - confirm `channels.discord.voice.daveEncryption=true` (default)
     - start from `channels.discord.voice.decryptionFailureTolerance=24` (upstream default) and tune only if needed
     - watch logs for:

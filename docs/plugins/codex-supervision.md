@@ -42,7 +42,7 @@ Supported actions depend on the source host and its capabilities:
 ## Before you begin
 
 - Enable the bundled `codex` plugin on the Gateway
-  (`openclaw plugins enable codex`).
+  (`openagent plugins enable codex`).
 - Install and sign in to Codex Desktop or the Codex CLI on each computer whose
   sessions you want to list.
 - Pair remote computers as OpenAgent nodes. Each computer must opt in locally.
@@ -52,7 +52,7 @@ Supported actions depend on the source host and its capabilities:
 
 ## Enable supervision
 
-Guided `openclaw onboard` and macOS first-run setup attempt to install and
+Guided `openagent onboard` and macOS first-run setup attempt to install and
 enable Codex supervision after detecting a native Codex installation and
 successfully activating the selected inference backend. Codex does not need to
 be the primary backend. Supervision becomes available when that opportunistic
@@ -139,8 +139,8 @@ A newly advertised node command changes the node's approved command surface.
 Approve the update from the Gateway host:
 
 ```bash
-openclaw nodes pending
-openclaw nodes approve <requestId>
+openagent nodes pending
+openagent nodes approve <requestId>
 ```
 
 Non-archived Codex sessions also appear in the main Control UI sidebar, grouped
@@ -187,7 +187,7 @@ The sidebar warning includes the catalog error code and the safe underlying
 Gateway error. Open the sidebar's **Filter & sort > Session sources…** menu,
 or **Settings > Appearance > Session sources**, and turn off **Show Codex sessions**
 to disable discovery without disabling Codex. For
-`NODE_LIST_FAILED`, compare `openclaw nodes list` and **Settings > Devices**.
+`NODE_LIST_FAILED`, compare `openagent nodes list` and **Settings > Devices**.
 The detailed cause identifies the pairing-store, node-registry, permission, or
 Gateway lifecycle failure that needs repair.
 
@@ -226,12 +226,12 @@ The terminal CLI exposes the same non-archived catalog and Gateway-local branch
 and archive actions:
 
 ```bash
-openclaw codex sessions [--agent <id>] [--search <text>] [--host <id>] [--limit <count>] [--cursor <cursor>] [--json] [--url <url>] [--token <token>] [--timeout <ms>] [--expect-final]
-openclaw codex continue <thread-id> [--agent <id>] [--host <id>] [--json] [--url <url>] [--token <token>] [--timeout <ms>] [--expect-final]
-openclaw codex archive <thread-id> --confirm-no-other-runner [--agent <id>] [--host <id>] [--json] [--url <url>] [--token <token>] [--timeout <ms>] [--expect-final]
+openagent codex sessions [--agent <id>] [--search <text>] [--host <id>] [--limit <count>] [--cursor <cursor>] [--json] [--url <url>] [--token <token>] [--timeout <ms>] [--expect-final]
+openagent codex continue <thread-id> [--agent <id>] [--host <id>] [--json] [--url <url>] [--token <token>] [--timeout <ms>] [--expect-final]
+openagent codex archive <thread-id> --confirm-no-other-runner [--agent <id>] [--host <id>] [--json] [--url <url>] [--token <token>] [--timeout <ms>] [--expect-final]
 ```
 
-`openclaw codex sessions` options:
+`openagent codex sessions` options:
 
 - `--agent <id>` selects the OpenAgent owner in a multi-agent Gateway.
 - `--search <text>` searches session titles case-insensitively.
@@ -579,7 +579,7 @@ Sessions**, where the full harness installs approval and tool handlers before
 continuation. Interrupt likewise requires an active readable turn. These tools
 do not resume or start an idle source thread.
 
-`openclaw doctor --fix` moves a retired `codex-supervisor` entry, its endpoint
+`openagent doctor --fix` moves a retired `codex-supervisor` entry, its endpoint
 and permission fields, and plugin allow/deny policy references into the official
 `codex` plugin without overwriting explicit canonical settings. The standalone
 compatibility MCP adapter continues to load the same five tools from that
@@ -624,7 +624,7 @@ read-only for archive.
 no archived view. Run `codex unarchive <thread-id>` or use Codex Desktop to show
 it again.
 
-**Old `codex-supervisor` config remains:** run `openclaw doctor --fix`. Doctor
+**Old `codex-supervisor` config remains:** run `openagent doctor --fix`. Doctor
 moves the retired plugin entry and related plugin-policy references into
 `plugins.entries.codex.config.supervision` without overwriting explicit Codex
 settings.

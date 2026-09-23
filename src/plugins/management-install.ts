@@ -163,7 +163,7 @@ type SourceInstallerResult =
 
 /**
  * Official plugin installs target the release stream the gateway is running,
- * the same target `openclaw doctor --fix` and `openclaw plugins update`
+ * the same target `openagent doctor --fix` and `openagent plugins update`
  * already resolve. Resolving here keeps every managed install path — CLI,
  * chat command, and any future caller — on one answer instead of letting the
  * registry default land a plugin the gateway then reports as drifted.

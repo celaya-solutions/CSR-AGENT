@@ -61,7 +61,9 @@ describe("createNewerSqliteSchemaVersionError", () => {
     const error = createNewerSqliteSchemaVersionError("test database", "/tmp/test.sqlite", 12, 11);
 
     expect(error.name).toBe("SqliteSchemaVersionError");
-    expect(error.message).toContain("restore your pre-update backup created with openclaw backup.");
+    expect(error.message).toContain(
+      "restore your pre-update backup created with openagent backup.",
+    );
   });
 
   it("names the refusing install and both schema versions", () => {

@@ -11,20 +11,20 @@ This page covers lint output, check selection, and post-upgrade probes.
 
 ## Lint mode
 
-Bare `openclaw doctor --json` is read-only and non-interactive: no prompts, repairs, or config/state rewrites. It emits the same default findings as lint mode, but exits `0` after a report is produced so output formatting does not change ordinary Doctor's advisory success contract. Read the payload's `ok` and `findings` fields to determine health.
+Bare `openagent doctor --json` is read-only and non-interactive: no prompts, repairs, or config/state rewrites. It emits the same default findings as lint mode, but exits `0` after a report is produced so output formatting does not change ordinary Doctor's advisory success contract. Read the payload's `ok` and `findings` fields to determine health.
 
-Explicit `openclaw doctor --lint` is the deployment-preflight posture. Add `--json` for machine-readable output without changing lint's threshold-based exit code. Policy findings reported here are documented in `openclaw policy`.
+Explicit `openagent doctor --lint` is the deployment-preflight posture. Add `--json` for machine-readable output without changing lint's threshold-based exit code. Policy findings reported here are documented in `openclaw policy`.
 
 ```bash
-openclaw doctor --json
-openclaw doctor --lint
-openclaw doctor --lint --severity-min warning
-openclaw doctor --lint --json
-openclaw doctor --lint --all
-openclaw doctor --lint --allow-exec
-openclaw doctor --lint --only core/doctor/gateway-config --json
-openclaw doctor --lint --only core/doctor/local-audio-acceleration --severity-min info
-openclaw doctor --lint --only memory-core/managed-local-embedding-setup --severity-min error --json
+openagent doctor --json
+openagent doctor --lint
+openagent doctor --lint --severity-min warning
+openagent doctor --lint --json
+openagent doctor --lint --all
+openagent doctor --lint --allow-exec
+openagent doctor --lint --only core/doctor/gateway-config --json
+openagent doctor --lint --only core/doctor/local-audio-acceleration --severity-min info
+openagent doctor --lint --only memory-core/managed-local-embedding-setup --severity-min error --json
 ```
 
 The managed local embedding setup check is a scoped, non-mutating pre-cutover gate for existing
@@ -38,7 +38,7 @@ Human output is compact:
 ```text
 doctor --lint: ran 6 check(s), 1 finding(s)
   [warning] core/doctor/gateway-config gateway.mode - gateway.mode is unset; gateway start will be blocked.
-    fix: Run `openclaw configure` and set Gateway mode (local/remote), or `openclaw config set gateway.mode local`.
+    fix: Run `openagent configure` and set Gateway mode (local/remote), or `openagent config set gateway.mode local`.
 ```
 
 JSON output is the scripting surface:
@@ -54,7 +54,7 @@ JSON output is the scripting surface:
       "severity": "warning",
       "message": "gateway.mode is unset; gateway start will be blocked.",
       "path": "gateway.mode",
-      "fixHint": "Run `openclaw configure` and set Gateway mode (local/remote), or `openclaw config set gateway.mode local`."
+      "fixHint": "Run `openagent configure` and set Gateway mode (local/remote), or `openagent config set gateway.mode local`."
     }
   ]
 }
@@ -68,11 +68,11 @@ Explicit lint exit codes:
 | `1`  | At least one finding meets the selected threshold.            |
 | `2`  | Command/runtime failure before lint findings can be produced. |
 
-`--severity-min` controls both which findings print and the exit threshold: `openclaw doctor --lint --severity-min error` can print nothing and exit `0` even when lower-severity `info`/`warning` findings exist.
+`--severity-min` controls both which findings print and the exit threshold: `openagent doctor --lint --severity-min error` can print nothing and exit `0` even when lower-severity `info`/`warning` findings exist.
 
-When the updater runs lint, warning-severity findings below its error threshold are retained in a separate JSON `warnings` array. They do not change the lint exit code. The updater records these advisories in its run history, including intentional open channel policies, so they remain available in `openclaw update status`. Ordinary standalone lint keeps the selected output threshold.
+When the updater runs lint, warning-severity findings below its error threshold are retained in a separate JSON `warnings` array. They do not change the lint exit code. The updater records these advisories in its run history, including intentional open channel policies, so they remain available in `openagent update status`. Ordinary standalone lint keeps the selected output threshold.
 
-Bare `openclaw doctor --json` exits `0` once it emits a findings payload, including when `ok` is `false`. Argument errors or runtime failures before a payload can be produced remain nonzero.
+Bare `openagent doctor --json` exits `0` once it emits a findings payload, including when `ok` is `false`. Argument errors or runtime failures before a payload can be produced remain nonzero.
 
 `--all` controls which checks are selected before severity filtering. The default lint run excludes checks that are deep, historical, or more likely to surface repairable legacy residue; use `--all` for the complete inventory. `--only <id>` is the most precise selector and can run any registered check by id.
 
@@ -80,7 +80,7 @@ Bare `openclaw doctor --json` exits `0` once it emits a findings payload, includ
 
 `core/doctor/skill-workshop-relocation` distinguishes pending legacy collection
 backup roots from roots preserved for review. Eligible proposals or backup roots
-receive `openclaw doctor --fix` guidance, not a guarantee that every backup will
+receive `openagent doctor --fix` guidance, not a guarantee that every backup will
 be retired. Preserved roots require manual review of workspace ownership, backup
 manifests, and workspace migration blockers. If both kinds remain, Doctor reports
 both next steps. Do not delete preserved backups to clear the warning.
@@ -91,20 +91,20 @@ not need relocation merely because lint uses a temporary directory.
 ## Check selection
 
 ```bash
-openclaw doctor --lint --only core/doctor/gateway-config --json
-openclaw doctor --lint --skip core/doctor/skills-readiness
+openagent doctor --lint --only core/doctor/gateway-config --json
+openagent doctor --lint --skip core/doctor/skills-readiness
 ```
 
 `--only` and `--skip` accept full check ids and may be repeated. An unregistered `--only` id emits a `core/doctor/lint-selection` error finding; valid selected checks still run. Use `checksRun`/`checksSkipped` in the output to confirm a focused gate selects the checks you expect.
 
-To check model credentials, run `openclaw doctor --lint --only core/doctor/auth-profiles --json`.
+To check model credentials, run `openagent doctor --lint --only core/doctor/auth-profiles --json`.
 This opt-in check inspects shared credentials and each configured agent's local
 auth store, including fleets without a default agent. Shared credential problems
 are reported once; agent-specific cooldowns remain attributed to their local store.
 
 ## Post-upgrade mode
 
-`openclaw doctor --post-upgrade` runs plugin compatibility probes for chaining after a build or upgrade. Findings go to stdout; exit code is 1 if any finding has `level: "error"`. Add `--json` for a machine-readable envelope (`{ probesRun, findings }`), suitable for CI, the community `fork-upgrade` skill, and other post-upgrade smoke tooling. If the installed plugin index is missing or malformed, JSON mode still emits the envelope with a `plugin.index_unavailable` error finding.
+`openagent doctor --post-upgrade` runs plugin compatibility probes for chaining after a build or upgrade. Findings go to stdout; exit code is 1 if any finding has `level: "error"`. Add `--json` for a machine-readable envelope (`{ probesRun, findings }`), suitable for CI, the community `fork-upgrade` skill, and other post-upgrade smoke tooling. If the installed plugin index is missing or malformed, JSON mode still emits the envelope with a `plugin.index_unavailable` error finding.
 
 The probes also warn with `plugin.version_drift` when an enabled official plugin
 in the installed index belongs to a different release cohort than the upgraded
@@ -114,8 +114,8 @@ confirms that target exists. Independently versioned community plugins and
 disabled plugins are excluded; version drift alone does not change the exit code.
 
 Container image startup is the exception to the usual "run doctor after
-updating" flow. When `openclaw gateway run` starts on a new OpenAgent version, it
+updating" flow. When `openagent gateway run` starts on a new OpenAgent version, it
 runs safe state and plugin repairs before reporting ready. If repair cannot
 finish safely, startup exits and tells you to run the same image once with
-`openclaw doctor --fix` against the same mounted state/config before restarting
+`openagent doctor --fix` against the same mounted state/config before restarting
 the container normally.

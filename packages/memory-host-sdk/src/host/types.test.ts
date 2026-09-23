@@ -23,7 +23,7 @@ describe("memory search staleness", () => {
       warning:
         "Memory index is stale: embedding request timed out. Search results may be incomplete.",
       action:
-        "Run: openclaw memory status --index --agent main. Rebuilding may call the configured embedding provider and can incur provider cost.",
+        "Run: openagent memory status --index --agent main. Rebuilding may call the configured embedding provider and can incur provider cost.",
     });
   });
 
@@ -67,7 +67,7 @@ describe("memory search staleness", () => {
       warning:
         "Memory index is stale: index provenance classifier changed (owner: openclaw, code: provenance_version). Search results may be incomplete.",
       action:
-        "Run: openclaw memory status --index --agent main. Rebuilding may call the configured embedding provider and can incur provider cost.",
+        "Run: openagent memory status --index --agent main. Rebuilding may call the configured embedding provider and can incur provider cost.",
     });
   });
 
@@ -93,7 +93,7 @@ describe("memory search staleness", () => {
       warning:
         "Memory index is stale: index sources changed (owner: configuration, code: sources). Search results may be incomplete.",
       action:
-        "Run: openclaw memory status --index --agent main. Rebuilding uses keyword indexing only and does not call an embedding provider.",
+        "Run: openagent memory status --index --agent main. Rebuilding uses keyword indexing only and does not call an embedding provider.",
     });
   });
 
@@ -116,7 +116,7 @@ describe("memory search staleness", () => {
       ),
     ).toMatchObject({
       action:
-        "Run: openclaw memory status --index --agent main. Rebuilding may call the configured embedding provider and can incur provider cost.",
+        "Run: openagent memory status --index --agent main. Rebuilding may call the configured embedding provider and can incur provider cost.",
     });
   });
 

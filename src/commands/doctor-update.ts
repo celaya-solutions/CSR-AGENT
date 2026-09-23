@@ -181,7 +181,7 @@ export async function maybeOfferUpdateBeforeDoctor(params: {
           ...(result?.steps ?? []),
           {
             name: reason,
-            command: "openclaw update",
+            command: "openagent update",
             cwd: updateRoot,
             durationMs,
             exitCode: 1,
@@ -489,7 +489,7 @@ export async function maybeOfferUpdateBeforeDoctor(params: {
           assertCurrent();
           if (activated !== "ok") {
             throw new Error(
-              "Gateway restart was not verified; run `openclaw gateway status --deep` before restarting manually.",
+              "Gateway restart was not verified; run `openagent gateway status --deep` before restarting manually.",
             );
           }
           note("Restarted the running gateway service after updating OpenAgent.", "Update");
@@ -586,7 +586,7 @@ export async function maybeOfferUpdateBeforeDoctor(params: {
     note(
       [
         "This install is not a git checkout.",
-        `Run \`${formatCliCommand("openclaw update")}\` to update via your package manager (npm/pnpm), then rerun doctor.`,
+        `Run \`${formatCliCommand("openagent update")}\` to update via your package manager (npm/pnpm), then rerun doctor.`,
       ].join("\n"),
       "Update",
     );

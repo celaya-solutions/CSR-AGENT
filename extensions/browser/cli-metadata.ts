@@ -1,5 +1,5 @@
 /**
- * Browser CLI metadata entry. It registers the `openclaw browser` command lazily
+ * Browser CLI metadata entry. It registers the `openagent browser` command lazily
  * so command discovery does not load the full browser runtime.
  */
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";

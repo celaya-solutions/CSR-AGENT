@@ -114,7 +114,7 @@ describe("restart log conventions", () => {
     );
 
     const line = fs.readFileSync(path.join(stateDir, "logs", "gateway-restart.log"), "utf8");
-    expect(line).toMatch(/^\[[^\]]+\] openclaw gateway lifecycle /);
+    expect(line).toMatch(/^\[[^\]]+\] openagent gateway lifecycle /);
     expect(line).toContain("source=safe-rpc");
     expect(line).toContain("action=restart");
     expect(line).toContain("mode=deferred");
@@ -142,7 +142,7 @@ describe("restart log conventions", () => {
     const advertised = hints.find((hint) => hint.startsWith("Restart attempts: "));
     expect(advertised).toBe(`Restart attempts: ${resolveGatewayRestartLogPath(env)}`);
     expect(fs.readFileSync(resolveGatewayRestartLogPath(env), "utf8")).toContain(
-      "openclaw gateway lifecycle source=cli action=restart",
+      "openagent gateway lifecycle source=cli action=restart",
     );
   });
 

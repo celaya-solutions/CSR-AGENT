@@ -10,8 +10,8 @@ These semantics keep selection-time and runtime auth behavior aligned. They are 
 
 - `resolveAuthProfileOrder` (profile ordering)
 - `resolveApiKeyForProfile` (runtime credential resolution)
-- `openclaw models status --probe`
-- `openclaw doctor` auth checks (`doctor-auth`)
+- `openagent models status --probe`
+- `openagent doctor` auth checks (`doctor-auth`)
 
 ## Stable probe reason codes
 
@@ -64,16 +64,16 @@ migration; older runtimes do not enforce the inactive state. Before downgrading,
 remove saved inactive replacements or restore the state from before setup.
 
 Noninteractive setup saves replacement credentials and prints a
-`openclaw models auth activate <profileId> --agent <id>` command to test and activate
+`openagent models auth activate <profileId> --agent <id>` command to test and activate
 the saved sign-in. Model Setup offers the same operation. Interactive setup defaults
 to activation after a successful test. Reusing an existing credential
 and first-run noninteractive setup retain their existing behavior.
 
 ## Agent copy portability
 
-Agent auth inheritance is read-through. When an agent has no local profile, it resolves profiles from the shared auth store at runtime without copying secret material into its own credential store (`agents/<agentId>/agent/openclaw-agent.sqlite`). The shared store lives in `state/openclaw.sqlite` after `openclaw doctor --fix` performs the one-time relocation. Until then, doctor reports the legacy `agents/main/agent/openclaw-agent.sqlite` owner and leaves that agent undeletable.
+Agent auth inheritance is read-through. When an agent has no local profile, it resolves profiles from the shared auth store at runtime without copying secret material into its own credential store (`agents/<agentId>/agent/openclaw-agent.sqlite`). The shared store lives in `state/openclaw.sqlite` after `openagent doctor --fix` performs the one-time relocation. Until then, doctor reports the legacy `agents/main/agent/openclaw-agent.sqlite` owner and leaves that agent undeletable.
 
-Explicit copy flows, such as `openclaw agents add`, use this portability policy:
+Explicit copy flows, such as `openagent agents add`, use this portability policy:
 
 - `api_key` and `token` profiles are portable unless `copyToAgents: false`.
 - `oauth` profiles are not portable by default because refresh tokens can be single-use or rotation-sensitive.
@@ -107,7 +107,7 @@ fails closed and can leave that generation and its peers terminally fenced, so
 the operator must authenticate again. Callers that omit the callback retain the
 existing resolution and fallback behavior.
 
-`openclaw agent exec` preserves the original shared-store root when switching to temporary run state. Its bounded credential scope reads portable `api_key` and `token` profiles from that shared store without persisting copies; the configured agent's local profiles still win. Shared OAuth profiles are excluded from this temporary scope, even with `copyToAgents: true`, so the run does not acquire another refresh owner. `--auth-env-only` disables stored credential access entirely.
+`openagent agent exec` preserves the original shared-store root when switching to temporary run state. Its bounded credential scope reads portable `api_key` and `token` profiles from that shared store without persisting copies; the configured agent's local profiles still win. Shared OAuth profiles are excluded from this temporary scope, even with `copyToAgents: true`, so the run does not acquire another refresh owner. `--auth-env-only` disables stored credential access entirely.
 
 Auth writes that explicitly select a state directory, including isolated QA staging, use that directory's shared store for ownership and OAuth deduplication. Their runtime publication and rollback retain the same owner; another process-local state root is not an inherited base. An unrelated outer database may be older, newer, or unreadable without blocking an isolated write, but an unreadable or newer database in the selected target still fails closed. Writes without an explicit state directory retain the normal ambient state and agent-directory configuration.
 
@@ -121,7 +121,7 @@ Personal pins keep the existing same-provider failover policy: ordered shared ac
 
 `auth.profiles` entries with `mode: "aws-sdk"` are routing metadata, not stored credentials. They are valid when the target provider uses `models.providers.<id>.auth: "aws-sdk"`. These profile ids may appear in `auth.order` and session overrides even when no matching entry exists in the credential store.
 
-Do not write `type: "aws-sdk"` into the credential store; stored credentials are only `api_key`, `token`, or `oauth`. If a legacy `auth-profiles.json` has such a marker, `openclaw doctor --fix` moves it to `auth.profiles` and removes the marker from the store.
+Do not write `type: "aws-sdk"` into the credential store; stored credentials are only `api_key`, `token`, or `oauth`. If a legacy `auth-profiles.json` has such a marker, `openagent doctor --fix` moves it to `auth.profiles` and removes the marker from the store.
 
 When a selected stored profile is removed, credential-scoped model discovery reports `selected_auth_profile_unavailable` before consulting dynamic model metadata. Restore the credential or select another configured profile; registering the model does not repair missing authentication. Config-only AWS SDK profiles remain valid without a stored credential. Chat admission and agent commands retain an explicit same-provider selection when its credential disappears so authentication can report recovery. Stale automatic selections and selections for incompatible providers are still cleared.
 
@@ -146,7 +146,7 @@ including cold command and worker paths. When that material is missing, only the
 selected profile's activated snapshot may supply it; otherwise discovery reports
 `unavailable` before catalog HTTP. Reference names are never sent as credentials
 or replaced with another profile's credential. On a Gateway, restore the secret
-and run `openclaw secrets reload` before retrying discovery.
+and run `openagent secrets reload` before retrying discovery.
 
 When every eligible OAuth candidate fails preparation, discovery reports
 `unavailable` with the attempted profile identities instead of treating the
@@ -178,7 +178,7 @@ they do not change message-execution profile rotation or session pins.
 Codex owns its native login. Ordinary status and model reads do not import its
 credentials into OpenAgent profiles. To retain a configured CLI-backed
 `openai:default` profile, explicitly import the current Codex login with
-`openclaw models auth login --provider openai --method device-code`. When that
+`openagent models auth login --provider openai --method device-code`. When that
 OAuth profile is declared in `auth.profiles`, the source is the current native
 Codex home, and no other managed OpenAI OAuth profile exists, import preserves
 the profile ID and its existing model and session pins. The configured model
@@ -208,7 +208,7 @@ aliases; unrelated provider auth remains available. Unreadable or unrecognized
 legacy data retains the owner-wide refusal. A populated SQLite store retains its
 warning-only behavior. Recorded refusals remain until the lifecycle explicitly
 clears them; changing or removing a legacy file does not release them. Doctor lists the affected providers, and
-`openclaw doctor --fix` performs the supported verified import and archive.
+`openagent doctor --fix` performs the supported verified import and archive.
 
 Session readers retain their local and shared auth-store owners and check each
 owner's current refusal before returning credentials. A shared-provider refusal

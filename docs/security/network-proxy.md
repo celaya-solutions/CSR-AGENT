@@ -20,7 +20,7 @@ proxy:
 You can also set the URL through the environment:
 
 ```bash
-OPENCLAW_PROXY_URL=http://127.0.0.1:3128 openclaw gateway run
+OPENCLAW_PROXY_URL=http://127.0.0.1:3128 openagent gateway run
 ```
 
 `proxy.proxyUrl` takes precedence over `OPENCLAW_PROXY_URL`. A configured URL activates managed proxy routing; removing both URLs disables it.
@@ -34,9 +34,9 @@ OPENCLAW_PROXY_URL=http://127.0.0.1:3128 openclaw gateway run
 For managed gateway services, store the URL in config so it survives reinstall, rather than relying on foreground env:
 
 ```bash
-openclaw config set proxy.proxyUrl http://127.0.0.1:3128
-openclaw gateway install --force
-openclaw gateway start
+openagent config set proxy.proxyUrl http://127.0.0.1:3128
+openagent gateway install --force
+openagent gateway start
 ```
 
 The `OPENCLAW_PROXY_URL` env fallback is best for foreground runs. To use it with an installed service, put it in the service's durable environment (`$OPENCLAW_STATE_DIR/.env`, default `~/.openclaw/.env`), then reinstall so launchd/systemd/Scheduled Tasks picks it up. This variable is copied into the generated service environment rather than tracked as a managed dotenv key, so systemd's restart-only managed dotenv refresh does not apply.
@@ -53,14 +53,14 @@ proxy:
 `proxy.tls.caFile` verifies the proxy endpoint's own TLS certificate. It is not a destination MITM trust setting, a client certificate, or a substitute for the proxy's destination policy. Use `NODE_EXTRA_CA_CERTS` instead only when the entire Node process must trust an additional CA from startup (for example, an enterprise TLS-inspection system re-signing every HTTPS destination certificate) — that variable is process-global and must be set before Node starts, so OpenAgent cannot apply it mid-run the way it applies `proxy.tls.caFile`. Prefer `proxy.tls.caFile` for HTTPS proxy endpoint trust: it is scoped to managed proxy routing instead of the whole process.
 
 ```bash
-openclaw config set proxy.proxyUrl https://proxy.corp.example:8443
-openclaw config set proxy.tls.caFile /etc/openclaw/proxy-ca.pem
-openclaw gateway run
+openagent config set proxy.proxyUrl https://proxy.corp.example:8443
+openagent config set proxy.tls.caFile /etc/openclaw/proxy-ca.pem
+openagent gateway run
 ```
 
 ## How routing works
 
-With a valid proxy URL, protected runtime processes (`openclaw gateway run`, `openclaw node run`, `openclaw agent --local`) route normal HTTP and WebSocket egress through the proxy:
+With a valid proxy URL, protected runtime processes (`openagent gateway run`, `openagent node run`, `openagent agent --local`) route normal HTTP and WebSocket egress through the proxy:
 
 ```text
 OpenAgent process
@@ -104,13 +104,13 @@ Gateway control-plane bypass is limited to `localhost` and literal loopback IP U
 
 ### Containers
 
-For `openclaw --container ...` commands, OpenAgent forwards `OPENCLAW_PROXY_URL` into the container-targeted child CLI when it is set. The URL must be reachable from inside the container — `127.0.0.1` there refers to the container itself, not the host. OpenAgent rejects loopback proxy URLs for container-targeted commands unless you set `OPENCLAW_CONTAINER_ALLOW_LOOPBACK_PROXY_URL=1` to explicitly override that check.
+For `openagent --container ...` commands, OpenAgent forwards `OPENCLAW_PROXY_URL` into the container-targeted child CLI when it is set. The URL must be reachable from inside the container — `127.0.0.1` there refers to the container itself, not the host. OpenAgent rejects loopback proxy URLs for container-targeted commands unless you set `OPENCLAW_CONTAINER_ALLOW_LOOPBACK_PROXY_URL=1` to explicitly override that check.
 
 ## Related proxy terms
 
 - `proxy.enabled` / `proxy.proxyUrl` — outbound forward-proxy routing for runtime egress. This page.
 - `gateway.auth.mode: "trusted-proxy"` — inbound identity-aware reverse-proxy authentication for Gateway access. See [Trusted proxy auth](/gateway/trusted-proxy-auth).
-- `openclaw proxy` — local debug proxy and capture inspector for development and support. See [openclaw proxy](/cli/proxy).
+- `openagent proxy` — local debug proxy and capture inspector for development and support. See [openagent proxy](/cli/proxy).
 - `tools.web.fetch.useTrustedEnvProxy` — opt-in for `web_fetch` to let an operator-controlled HTTP(S) env proxy resolve DNS while keeping strict DNS pinning and hostname policy by default. See [Web fetch](/tools/web-fetch#trusted-env-proxy).
 - Channel- or provider-specific proxy settings — owner-specific overrides for one transport. Prefer the managed network proxy for central egress control across the runtime.
 
@@ -128,13 +128,13 @@ The proxy's destination policy is the actual security boundary; OpenAgent cannot
 Validate from the same host/container/service account that runs OpenAgent:
 
 ```bash
-openclaw proxy validate --proxy-url http://127.0.0.1:3128
+openagent proxy validate --proxy-url http://127.0.0.1:3128
 ```
 
 With a private-CA HTTPS proxy endpoint:
 
 ```bash
-openclaw proxy validate --proxy-url https://proxy.corp.example:8443 --proxy-ca-file /etc/openclaw/proxy-ca.pem
+openagent proxy validate --proxy-url https://proxy.corp.example:8443 --proxy-ca-file /etc/openclaw/proxy-ca.pem
 ```
 
 | Flag                     | Purpose                                                              |
@@ -150,7 +150,7 @@ openclaw proxy validate --proxy-url https://proxy.corp.example:8443 --proxy-ca-f
 
 If no config, environment, or `--proxy-url` value is available, the command reports a config problem; pass `--proxy-url` for a one-off preflight before changing config.
 
-With no `--allowed-url`/`--denied-url`, the default checks are: `https://example.com/` must succeed, and a temporary loopback canary server the proxy must not reach must be blocked. The loopback check passes on a transport failure, or on a non-2xx response that lacks the canary's per-run token; it fails on a 2xx response missing the token (an unexpected success from something other than the canary) and, especially, on any response carrying the matching token, since that proves the proxy actually forwarded a loopback destination it should have denied. Custom `--denied-url` targets have no such canary token, so they are fail-closed: any HTTP response counts as reachable, and a transport error fails the check too, because OpenAgent cannot confirm your proxy denied a reachable origin versus something else going wrong. Only the built-in loopback canary treats a transport error as proof of blocking. See [`openclaw proxy`](/cli/proxy) for the CLI-side statement of the same rule. `--apns-reachable` sends an intentionally invalid provider token, so a `403 InvalidProviderToken` response counts as proof the tunnel reached Apple. The command exits `1` on any validation failure; proxy URL credentials are redacted from both text and JSON output.
+With no `--allowed-url`/`--denied-url`, the default checks are: `https://example.com/` must succeed, and a temporary loopback canary server the proxy must not reach must be blocked. The loopback check passes on a transport failure, or on a non-2xx response that lacks the canary's per-run token; it fails on a 2xx response missing the token (an unexpected success from something other than the canary) and, especially, on any response carrying the matching token, since that proves the proxy actually forwarded a loopback destination it should have denied. Custom `--denied-url` targets have no such canary token, so they are fail-closed: any HTTP response counts as reachable, and a transport error fails the check too, because OpenAgent cannot confirm your proxy denied a reachable origin versus something else going wrong. Only the built-in loopback canary treats a transport error as proof of blocking. See [`openagent proxy`](/cli/proxy) for the CLI-side statement of the same rule. `--apns-reachable` sends an intentionally invalid provider token, so a `403 InvalidProviderToken` response counts as proof the tunnel reached Apple. The command exits `1` on any validation failure; proxy URL credentials are redacted from both text and JSON output.
 
 ```json
 {
@@ -168,7 +168,7 @@ With no `--allowed-url`/`--denied-url`, the default checks are: `https://example
 }
 ```
 
-Manual `curl` check (the public request should succeed; the loopback and metadata requests should be blocked by the proxy itself — `curl` alone cannot distinguish a proxy denial from an unreachable origin the way `openclaw proxy validate`'s built-in canary can):
+Manual `curl` check (the public request should succeed; the loopback and metadata requests should be blocked by the proxy itself — `curl` alone cannot distinguish a proxy denial from an unreachable origin the way `openagent proxy validate`'s built-in canary can):
 
 ```bash
 curl -x http://127.0.0.1:3128 https://example.com/
@@ -221,4 +221,4 @@ Add any additional metadata hosts or reserved ranges your cloud provider or netw
 
 - [Threat model](/security/THREAT-MODEL-ATLAS) — adversarial threats to the OpenAgent platform and ClawHub, mapped to MITRE ATLAS
 - [Security](/gateway/security) — the trust model, safe defaults, and hardening guidance for running OpenAgent
-- [Proxy](/cli/proxy) — `openclaw proxy`, which validates operator-managed proxy routing and runs the local debug capture proxy
+- [Proxy](/cli/proxy) — `openagent proxy`, which validates operator-managed proxy routing and runs the local debug capture proxy

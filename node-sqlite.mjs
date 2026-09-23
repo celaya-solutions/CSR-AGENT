@@ -88,7 +88,7 @@ export function nodeRuntimeFailure(version, probe) {
   // Node 22/23 remain excluded until their separate compatibility work is complete.
   const release = parseNodeReleaseVersion(version);
   if (!release || release.major < 24) {
-    return `${label}: openclaw requires Node >=24.16.0 <25, or >=26.1.0.`;
+    return `${label}: OpenAgent requires Node >=24.16.0 <25, or >=26.1.0.`;
   }
   return null;
 }

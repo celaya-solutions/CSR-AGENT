@@ -128,6 +128,6 @@ This pattern applies to channels that support `accounts`.
 - Base channel settings apply to all accounts unless overridden per account.
 - For Discord and Telegram, an omitted account `groupPolicy` or `dmPolicy` inherits the channel policy. An explicit account value wins, including `allowlist` or `pairing`. With no applicable policy configured, group access stays `allowlist` and DMs use `pairing`.
 - Use `bindings[].match.accountId` to route each account to a different agent.
-- If you add a non-default account via `openclaw channels add` (or channel onboarding) while still on a single-account top-level channel config, OpenAgent promotes account-scoped top-level single-account values into the channel account map first so the original account keeps working. They move into `channels.<channel>.accounts.default`.
+- If you add a non-default account via `openagent channels add` (or channel onboarding) while still on a single-account top-level channel config, OpenAgent promotes account-scoped top-level single-account values into the channel account map first so the original account keeps working. They move into `channels.<channel>.accounts.default`.
 - Existing channel-only bindings (no `accountId`) keep matching the default account; account-scoped bindings remain optional.
-- `openclaw doctor --fix` also repairs mixed shapes by moving account-scoped top-level single-account values into the promoted account chosen for that channel. Channels use `accounts.default`.
+- `openagent doctor --fix` also repairs mixed shapes by moving account-scoped top-level single-account values into the promoted account chosen for that channel. Channels use `accounts.default`.

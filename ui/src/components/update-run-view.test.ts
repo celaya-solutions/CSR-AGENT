@@ -162,7 +162,7 @@ describe("update run view", () => {
       }),
     );
     expect(element.querySelector('[aria-label="Update report"]')?.textContent).toContain(
-      "Run openclaw triage to diagnose and repair the failed update.",
+      "Run openagent triage to diagnose and repair the failed update.",
     );
     expect(element.querySelector(".update-run-view__details")?.textContent).toContain(
       '<img src=x onerror="alert(1)">',

@@ -18,17 +18,17 @@ read_when:
 
   </Accordion>
 
-  <Accordion title='Why does openclaw gateway status say "Runtime: running" but "Connectivity probe: failed"?'>
-    "Running" is the **supervisor's** view (launchd/systemd/schtasks); the connectivity probe is the CLI actually connecting to the gateway WebSocket. Trust these lines from `openclaw gateway status`: `Probe target:` (the URL the probe used), `Listening:` (what is actually bound on the port), `Last gateway error:` (common root cause when the process is alive but the port is not listening).
+  <Accordion title='Why does openagent gateway status say "Runtime: running" but "Connectivity probe: failed"?'>
+    "Running" is the **supervisor's** view (launchd/systemd/schtasks); the connectivity probe is the CLI actually connecting to the gateway WebSocket. Trust these lines from `openagent gateway status`: `Probe target:` (the URL the probe used), `Listening:` (what is actually bound on the port), `Last gateway error:` (common root cause when the process is alive but the port is not listening).
   </Accordion>
 
-  <Accordion title='Why does openclaw gateway status show "Config (cli)" and "Config (service)" different?'>
+  <Accordion title='Why does openagent gateway status show "Config (cli)" and "Config (service)" different?'>
     You are editing one config file while the service runs another (often a `--profile` / `OPENCLAW_STATE_DIR` mismatch).
 
     Fix, run from the same `--profile` / environment you want the service to use:
 
     ```bash
-    openclaw gateway install --force
+    openagent gateway install --force
     ```
 
   </Accordion>
@@ -36,7 +36,7 @@ read_when:
   <Accordion title='What does "another gateway instance is already listening" mean?'>
     OpenAgent enforces a runtime lock by binding the WebSocket listener immediately on startup (default `ws://127.0.0.1:18789`). If the bind fails with `EADDRINUSE`, it throws `GatewayLockError` ("another gateway instance is already listening").
 
-    Fix: stop the other instance, free the port, or run with `openclaw gateway --port <port>`.
+    Fix: stop the other instance, free the port, or run with `openagent gateway --port <port>`.
 
   </Accordion>
 
@@ -56,7 +56,7 @@ read_when:
     }
     ```
 
-    - `openclaw gateway` only starts when `gateway.mode` is `local` (or you pass an override flag).
+    - `openagent gateway` only starts when `gateway.mode` is `local` (or you pass an override flag).
     - `gateway.remote.token` / `.password` are client-side remote credentials only; they do not enable local gateway auth by themselves.
 
   </Accordion>
@@ -74,19 +74,19 @@ read_when:
 
     Fix:
 
-    - Fastest: `openclaw dashboard` (prints + copies the dashboard URL, tries to open; shows an SSH hint if headless).
-    - No token yet: `openclaw doctor --generate-gateway-token`.
+    - Fastest: `openagent dashboard` (prints + copies the dashboard URL, tries to open; shows an SSH hint if headless).
+    - No token yet: `openagent doctor --generate-gateway-token`.
     - Remote: tunnel first with `ssh -N -L 18789:127.0.0.1:18789 user@host`, then open `http://127.0.0.1:18789/`.
     - Shared-secret mode: set `gateway.auth.token` / `OPENCLAW_GATEWAY_TOKEN` or `gateway.auth.password` / `OPENCLAW_GATEWAY_PASSWORD`, then paste the matching secret in Control UI settings.
     - Tailscale Serve mode: confirm `gateway.auth.allowTailscale` is enabled and you are opening the Serve URL, not a raw loopback/tailnet URL that bypasses Tailscale identity headers.
     - Trusted-proxy mode: confirm you are coming through the configured identity-aware proxy. Same-host loopback proxies also need `gateway.auth.trustedProxy.allowLoopback = true`.
     - Mismatch persists after the one retry: rotate/re-approve the paired device token:
       ```bash
-      openclaw devices list
-      openclaw devices rotate --device <id> --role operator
+      openagent devices list
+      openagent devices rotate --device <id> --role operator
       ```
     - Rotate denied: paired-device sessions can rotate only their **own** device unless they also have `operator.admin`, and explicit `--scope` values cannot exceed the caller's current operator scopes.
-    - Still stuck: `openclaw status --all` plus [Troubleshooting](/gateway/troubleshooting). See [Dashboard](/web/dashboard) for auth details.
+    - Still stuck: `openagent status --all` plus [Troubleshooting](/gateway/troubleshooting). See [Dashboard](/web/dashboard) for auth details.
 
   </Accordion>
 
@@ -102,7 +102,7 @@ read_when:
   <Accordion title="Can I run multiple Gateways on the same host?">
     Usually no - one Gateway can run multiple messaging channels and agents. Use multiple Gateways only for redundancy (for example a rescue bot) or hard isolation, and isolate each with its own `OPENCLAW_CONFIG_PATH`, `OPENCLAW_STATE_DIR`, `agents.defaults.workspace`, and unique `gateway.port`.
 
-    Recommended: `openclaw --profile <name> ...` per instance (auto-creates `~/.openclaw-<name>`), a unique `gateway.port` per profile config (or `--port` for manual runs), and a per-profile service with `openclaw --profile <name> gateway install`.
+    Recommended: `openagent --profile <name> ...` per instance (auto-creates `~/.openclaw-<name>`), a unique `gateway.port` per profile config (or `--port` for manual runs), and a per-profile service with `openagent --profile <name> gateway install`.
 
     Profiles also suffix service names: launchd `ai.openclaw.<profile>`, systemd `openclaw-gateway-<profile>.service`, Windows `OpenAgent Gateway (<profile>)`. The unqualified `openclaw-gateway` systemd unit only exists for the default profile; the legacy pre-rename systemd unit name `clawdbot-gateway` is migrated automatically.
 
@@ -118,7 +118,7 @@ read_when:
     Fix: use the WS URL (`ws://<host>:18789`, or `wss://...` over HTTPS), do not open the WS port in a normal browser tab, and include the token/password in the `connect` frame when auth is on. CLI/TUI example:
 
     ```bash
-    openclaw tui --url ws://<host>:18789 --token <token>
+    openagent tui --url ws://<host>:18789 --token <token>
     ```
 
     Protocol details: [Gateway protocol](/gateway/protocol).

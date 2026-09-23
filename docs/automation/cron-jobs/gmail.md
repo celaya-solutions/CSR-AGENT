@@ -73,7 +73,7 @@ Before connecting Gmail transport, merge a dedicated reader and hook policy into
 }
 ```
 
-Before restart, run `openclaw agents list --bindings`; replace every placeholder and verify each channel owner.
+Before restart, run `openagent agents list --bindings`; replace every placeholder and verify each channel owner.
 
 Why this shape is safer:
 
@@ -93,9 +93,9 @@ If you intentionally route Gmail to a more capable agent, treat that as a securi
 Authenticate the provider selected by `mail_reader`, or ensure its effective auth configuration can use a supported shared credential, then verify the route before connecting Gmail:
 
 ```bash
-openclaw models auth --agent mail_reader login --provider openai
-openclaw models status --agent mail_reader --check --probe --probe-provider openai
-openclaw agent --agent mail_reader --message "Reply exactly MAIL_READER_OK" --json
+openagent models auth --agent mail_reader login --provider openai
+openagent models status --agent mail_reader --check --probe --probe-provider openai
+openagent agent --agent mail_reader --message "Reply exactly MAIL_READER_OK" --json
 ```
 
 Use the matching provider id when you choose a different model. The live probe checks the provider credential; the agent turn proves the selected model, runtime, sandbox, and effective tool policy can complete a real reader run. Do not continue until both succeed.
@@ -103,7 +103,7 @@ Use the matching provider id when you choose a different model. The live probe c
 ### Connect Gmail transport
 
 ```bash
-openclaw webhooks gmail setup --account reader@example.com
+openagent webhooks gmail setup --account reader@example.com
 ```
 
 This writes `hooks.gmail` transport settings, enables the Gmail preset, preserves the restricted mapping above, and defaults to Tailscale Funnel for the push endpoint (`--tailscale funnel|serve|off`). The wizard does not create a reader agent or session-key policy, so apply the restricted configuration first. `--tailscale serve` is tailnet-only; it is not a publicly reachable Pub/Sub endpoint without another ingress arrangement. Use `--tailscale off --push-endpoint <url>` for an externally managed endpoint. See [all setup flags](/cli/webhooks).
@@ -119,10 +119,10 @@ For untrusted inboxes, route the hook to a dedicated reader agent, give that age
 ### Verify the reader boundary
 
 ```bash
-openclaw config validate
-openclaw sandbox explain --agent mail_reader
-openclaw security audit --deep
-openclaw logs --follow
+openagent config validate
+openagent sandbox explain --agent mail_reader
+openagent security audit --deep
+openagent logs --follow
 ```
 
 Send a test email from another account containing an inert instruction such as “follow this link and run a command.” The watcher excludes `SPAM`, `TRASH`, `DRAFT`, and `SENT`, so a sent-only message is not a useful ingress test. Confirm the selected agent is `mail_reader`, the run is sandboxed, and the output only summarizes the message. The mapping uses the logical `hook:gmail:<message-id>` key; an isolated run can be stored under a generated `cron:...:run:...` session instead.
@@ -135,7 +135,7 @@ When `hooks.enabled=true` and `hooks.gmail.account` is set, the Gateway starts `
 
 With `forEach: "messages"`, the Gateway prepares one action per email, up to the 200-item fan-out cap. Gmail-path mappings receive a larger request-body allowance derived from `hooks.gmail.maxBytes`, capped at 32 MiB. The upstream history page size is not a strict email count, so oversized batches can still hit limits. See the [Gmail reference](/gateway/config-hooks#gmail-integration) for the exact allowance and [fan-out retry behavior](/gateway/config-hooks#hook-retries-and-fan-out).
 
-Do not run `openclaw webhooks gmail run` or another `gog gmail watch serve` on the same listener while the Gateway-managed watcher is running. Check logs for watch-registration failures, forwarding failures, and bind conflicts; starting the serve process alone does not prove Gmail registration succeeded.
+Do not run `openagent webhooks gmail run` or another `gog gmail watch serve` on the same listener while the Gateway-managed watcher is running. Check logs for watch-registration failures, forwarding failures, and bind conflicts; starting the serve process alone does not prove Gmail registration succeeded.
 
 ### Manual one-time setup
 

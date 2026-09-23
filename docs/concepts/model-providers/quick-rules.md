@@ -13,15 +13,15 @@ title: "Quick rules"
   <Accordion title="Model refs and CLI helpers">
     - Model refs use `provider/model` (example: `opencode/claude-opus-4-6`).
     - `agents.defaults.models` stores aliases and per-model settings; `agents.defaults.modelPolicy.allow` is the optional explicit override allowlist.
-    - CLI helpers: `openclaw onboard`, `openclaw models list`, `openclaw models set <provider/model>`.
+    - CLI helpers: `openagent onboard`, `openagent models list`, `openagent models set <provider/model>`.
     - `models.providers.*.maxTokens` sets the provider-level output-token default. On each `models.providers.*.models[]` entry, `contextWindow` declares the native window, `contextTokens` caps active input, and `maxTokens` overrides output capacity for that model. Configured output limits are clamped to the final native context window when known: the per-model `contextWindow`, otherwise the discovered window.
     - Fallback rules, cooldown probes, and session-override persistence: [Model failover](/concepts/model-failover).
 
   </Accordion>
   <Accordion title="Adding provider auth does not change your primary model">
-    `openclaw configure` preserves an existing `agents.defaults.model.primary` when you add or reauth a provider. `openclaw models auth login` does the same unless you pass `--set-default`. Provider plugins may still return a recommended default model in their auth config patch, but OpenAgent treats that as "make this model available" when a primary model already exists, not "replace the current primary model."
+    `openagent configure` preserves an existing `agents.defaults.model.primary` when you add or reauth a provider. `openagent models auth login` does the same unless you pass `--set-default`. Provider plugins may still return a recommended default model in their auth config patch, but OpenAgent treats that as "make this model available" when a primary model already exists, not "replace the current primary model."
 
-    To intentionally switch the default model, use `openclaw models set <provider/model>` or `openclaw models auth login --provider <id> --set-default`.
+    To intentionally switch the default model, use `openagent models set <provider/model>` or `openagent models auth login --provider <id> --set-default`.
 
   </Accordion>
   <Accordion title="OpenAI provider/runtime split">

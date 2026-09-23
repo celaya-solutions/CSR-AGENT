@@ -41,12 +41,12 @@ describe("doctor WhatsApp responsiveness", () => {
       stdout: [
         " 101 openclaw-tui",
         " 102 /usr/bin/node /usr/lib/node_modules/openclaw/dist/index.js gateway --port 18789",
-        " 103 openclaw channels",
-        " 104 openclaw tui --local",
+        " 103 openagent channels",
+        " 104 openagent tui --local",
         " 105 /usr/bin/openclaw chat",
-        " 106 helper --note 'openclaw tui'",
-        " 107 openclaw-helper openclaw terminal",
-        " 108 openclaw --flag tui",
+        " 106 helper --note 'openagent tui'",
+        " 107 openclaw-helper openagent terminal",
+        " 108 openagent --flag tui",
       ].join("\n"),
     });
     const findings = collectWhatsappResponsivenessHealthFindings({
@@ -84,7 +84,7 @@ describe("doctor WhatsApp responsiveness", () => {
         message:
           "Gateway reports pressure, and local TUI clients were detected. This snapshot does not identify the source of the pressure.",
         fixHint:
-          "Inspect Gateway diagnostics with openclaw gateway diagnostics export before deciding whether to close clients.",
+          "Inspect Gateway diagnostics with openagent gateway diagnostics export before deciding whether to close clients.",
       }),
     ]);
     noteWhatsappResponsivenessHealth(params);

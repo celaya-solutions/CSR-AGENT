@@ -25,7 +25,7 @@ Create the bot in BotFather, give OpenAgent its token, approve the first DM, and
     The fastest option is the CLI. It writes the token into your config for you:
 
 ```bash
-openclaw channels add --channel telegram --token <bot-token>
+openagent channels add --channel telegram --token <bot-token>
 ```
 
     To edit config by hand instead, put this in `~/.openclaw/openclaw.json`:
@@ -44,7 +44,7 @@ openclaw channels add --channel telegram --token <bot-token>
 ```
 
     Env fallback: `TELEGRAM_BOT_TOKEN` (default account only). Named accounts must use `botToken` or `tokenFile`.
-    Telegram does **not** use `openclaw channels login telegram`. Set the token in config or env, then start the gateway.
+    Telegram does **not** use `openagent channels login telegram`. Set the token in config or env, then start the gateway.
 
   </Step>
 
@@ -54,11 +54,11 @@ openclaw channels add --channel telegram --token <bot-token>
     Gateway applies the new channel configuration. Check that Telegram is ready:
 
 ```bash
-openclaw channels status --probe
+openagent channels status --probe
 ```
 
-    If the Gateway is offline, start it with `openclaw gateway start` for a managed
-    service, or `openclaw gateway` to run it in this terminal. If you changed the
+    If the Gateway is offline, start it with `openagent gateway start` for a managed
+    service, or `openagent gateway` to run it in this terminal. If you changed the
     service environment, restart the Gateway to load it.
 
   </Step>
@@ -68,8 +68,8 @@ openclaw channels status --probe
     pairing request the next command lists:
 
 ```bash
-openclaw pairing list telegram
-openclaw pairing approve telegram <CODE>
+openagent pairing list telegram
+openagent pairing approve telegram <CODE>
 ```
 
     Pairing codes expire after 1 hour.
@@ -82,7 +82,7 @@ openclaw pairing approve telegram <CODE>
     - your Telegram user ID, for `allowFrom` / `groupAllowFrom`
     - the Telegram group chat ID, as the key under `channels.telegram.groups`
 
-    Get the group chat ID from `openclaw logs --follow`, a forwarded-ID bot, or Bot API `getUpdates`. After the group is allowed, `/whoami@<bot_username>` confirms the user and group IDs.
+    Get the group chat ID from `openagent logs --follow`, a forwarded-ID bot, or Bot API `getUpdates`. After the group is allowed, `/whoami@<bot_username>` confirms the user and group IDs.
 
     Negative supergroup IDs starting with `-100` are group chat IDs. They go under `channels.telegram.groups`, not `groupAllowFrom`.
 

@@ -175,10 +175,10 @@ export function renderGatewayServiceStartHints(env: NodeJS.ProcessEnv = process.
   const profile = env.OPENCLAW_PROFILE;
   const installHint =
     resolveDaemonInstallBlockMessage("gateway", env) ??
-    formatCliCommand("openclaw gateway install", env);
+    formatCliCommand("openagent gateway install", env);
   return buildPlatformServiceStartHints({
     installHint,
-    startCommand: formatCliCommand("openclaw gateway start", env),
+    startCommand: formatCliCommand("openagent gateway start", env),
     launchAgentPlistPath: `~/Library/LaunchAgents/${resolveGatewayLaunchAgentLabel(profile)}.plist`,
     systemdServiceName: resolveGatewaySystemdServiceName(profile),
     windowsTaskName: resolveGatewayWindowsTaskName(profile),

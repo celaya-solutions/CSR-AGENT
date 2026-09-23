@@ -103,13 +103,13 @@ describe("cli json stdout contract", () => {
       name: "bare list unknown agent",
       args: ["sessions", "--agent", "unknown-agent", "--json"],
       message:
-        'Unknown agent id "unknown-agent". Run openclaw agents list to see configured agents.',
+        'Unknown agent id "unknown-agent". Run openagent agents list to see configured agents.',
     },
     {
       name: "Commander list unknown agent through dual-TTY finalization",
       args: ["sessions", "--json", "--agent", "unknown-agent"],
       message:
-        'Unknown agent id "unknown-agent". Run openclaw agents list to see configured agents.',
+        'Unknown agent id "unknown-agent". Run openagent agents list to see configured agents.',
       commander: true,
       tty: true,
     },
@@ -134,7 +134,7 @@ describe("cli json stdout contract", () => {
       name: "list unknown agent in human mode",
       args: ["sessions", "--agent", "unknown-agent"],
       message:
-        'Unknown agent id "unknown-agent". Run openclaw agents list to see configured agents.',
+        'Unknown agent id "unknown-agent". Run openagent agents list to see configured agents.',
       human: true,
     },
     {
@@ -177,18 +177,18 @@ describe("cli json stdout contract", () => {
     {
       name: "trajectory export missing session key in human mode",
       args: ["sessions", "export-trajectory"],
-      message: "--session-key is required. Run openclaw sessions to choose a session.",
+      message: "--session-key is required. Run openagent sessions to choose a session.",
       human: true,
     },
     {
       name: "trajectory export missing session key with leaf JSON",
       args: ["sessions", "export-trajectory", "--json"],
-      message: "--session-key is required. Run openclaw sessions to choose a session.",
+      message: "--session-key is required. Run openagent sessions to choose a session.",
     },
     {
       name: "trajectory export missing session key with parent JSON through forced Commander",
       args: ["sessions", "--json", "export-trajectory"],
-      message: "--session-key is required. Run openclaw sessions to choose a session.",
+      message: "--session-key is required. Run openagent sessions to choose a session.",
       commander: true,
     },
     {
@@ -240,13 +240,13 @@ describe("cli json stdout contract", () => {
         "--json",
       ],
       message:
-        'Unknown agent id "unknown-agent". Run openclaw agents list to see configured agents.',
+        'Unknown agent id "unknown-agent". Run openagent agents list to see configured agents.',
     },
     {
       name: "trajectory export missing session through dual-TTY finalization",
       args: ["sessions", "export-trajectory", "--session-key", "agent:main:missing", "--json"],
       message:
-        "Session not found: agent:main:missing. Run openclaw sessions to see available sessions.",
+        "Session not found: agent:main:missing. Run openagent sessions to see available sessions.",
       tty: true,
     },
     {

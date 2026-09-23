@@ -4,24 +4,24 @@ title: "Browser setup"
 read_when:
   - You are starting the OpenAgent browser for the first time
   - The agent reports the browser tool as unavailable
-  - The `openclaw browser` command is missing after an upgrade
+  - The `openagent browser` command is missing after an upgrade
 ---
 
 ## Quick start
 
 ```bash
-openclaw browser --browser-profile openclaw doctor
-openclaw browser --browser-profile openclaw doctor --deep
-openclaw browser --browser-profile openclaw status
-openclaw browser --browser-profile openclaw start
-openclaw browser --browser-profile openclaw open https://example.com
-openclaw browser --browser-profile openclaw snapshot
+openagent browser --browser-profile openagent doctor
+openagent browser --browser-profile openagent doctor --deep
+openagent browser --browser-profile openagent status
+openagent browser --browser-profile openclaw start
+openagent browser --browser-profile openclaw open https://example.com
+openagent browser --browser-profile openclaw snapshot
 ```
 
 "Browser disabled" means the plugin or `browser.enabled` is off; see
 [Configuration](/tools/browser/configuration#configuration) and [Plugin control](#plugin-control).
 
-If `openclaw browser` is missing entirely, or the agent says the browser tool
+If `openagent browser` is missing entirely, or the agent says the browser tool
 is unavailable, jump to [Missing browser command or tool](#missing-browser-command-or-tool).
 
 ## Plugin control
@@ -40,7 +40,7 @@ The default `browser` tool is a bundled plugin. Disable it to replace it with an
 }
 ```
 
-Defaults need both `plugins.entries.browser.enabled` **and** `browser.enabled=true`. Disabling only the plugin removes the `openclaw browser` CLI, `browser.request` gateway method, agent tool, and control service as one unit; your `browser.*` config stays intact for a replacement.
+Defaults need both `plugins.entries.browser.enabled` **and** `browser.enabled=true`. Disabling only the plugin removes the `openagent browser` CLI, `browser.request` gateway method, agent tool, and control service as one unit; your `browser.*` config stays intact for a replacement.
 
 Profiles, launch settings, snapshot defaults, tab cleanup, and
 `browser.allowSystemProfileImport` hot-reload. Import permission changes apply to
@@ -89,7 +89,7 @@ action discovery; they intentionally omit most non-interactive prose.
 
 ## Missing browser command or tool
 
-If `openclaw browser` is unknown after an upgrade, `browser.request` is missing, or the agent reports the browser tool as unavailable, the usual cause is a `plugins.allow` list that omits `browser` and no root `browser` config block exists. Add it:
+If `openagent browser` is unknown after an upgrade, `browser.request` is missing, or the agent reports the browser tool as unavailable, the usual cause is a `plugins.allow` list that omits `browser` and no root `browser` config block exists. Add it:
 
 ```json5
 {

@@ -78,7 +78,7 @@ sidebarTitle: "Advanced"
     does Ollama choose its own model, Modelfile, `OLLAMA_CONTEXT_LENGTH`, or
     VRAM-based default; the native adapter does not fall back directly to the
     advertised `contextWindow`. After upgrading an older configuration, run
-    `openclaw doctor --fix`. Doctor preserves current `contextTokens` caps without
+    `openagent doctor --fix`. Doctor preserves current `contextTokens` caps without
     creating a stronger model or provider `num_ctx` pin; uncapped legacy native
     entries still migrate their older context budgets. Existing explicit
     `params.num_ctx` values remain authoritative, including pins an older Doctor
@@ -165,8 +165,8 @@ sidebarTitle: "Advanced"
     history policy without mixing it into visible answer text.
 
     ```bash
-    openclaw agent --model ollama/gemma4 --thinking off
-    openclaw agent --model ollama/gemma4 --thinking low
+    openagent agent --model ollama/gemma4 --thinking off
+    openagent agent --model ollama/gemma4 --thinking low
     ```
 
     Or set a model default:
@@ -264,7 +264,7 @@ sidebarTitle: "Advanced"
     streaming and tool calling together — no special config needed.
 
     For native requests, thinking control is forwarded directly: `/think off`
-    and `openclaw agent --thinking off` send top-level `think: false` unless
+    and `openagent agent --thinking off` send top-level `think: false` unless
     an explicit `params.think`/`params.thinking` is configured; `/think
     low|medium|high` send the matching effort string. Verified full-effort
     Ollama Cloud families such as GLM 5.2 and DeepSeek V4 also send native

@@ -48,7 +48,7 @@ their initial pairing even when no MCP server is configured. A node paired on an
 older OpenAgent version may request a one-time command-surface upgrade after the
 node host is updated. Adding, removing, or filtering servers after that does not
 require re-pairing because the approved command family is unchanged. Restart
-`openclaw node run` or `openclaw node restart` to apply node MCP config changes;
+`openagent node run` or `openagent node restart` to apply node MCP config changes;
 the node host does not watch this config.
 
 Server-advertised tool-list changes apply live and replace the published node
@@ -68,7 +68,7 @@ Install skills under the node machine's active OpenAgent skills directory,
 `~/.openclaw/skills` by default. `OPENCLAW_HOME`, `OPENCLAW_STATE_DIR`, and
 `OPENCLAW_CONFIG_PATH` move that active profile. `OPENCLAW_STATE_DIR` takes
 precedence for skills; otherwise, `skills/` is beside the path printed by
-`openclaw config file`. The headless node host publishes valid `SKILL.md` files
+`openagent config file`. The headless node host publishes valid `SKILL.md` files
 after it connects, and the Gateway adds them to agent skill snapshots only while
 that node remains connected. Each skill directory name must match the `name`
 frontmatter field so the abstract node locator maps to one entry without adding
@@ -76,7 +76,7 @@ another protocol field.
 
 The initial node-role pairing approves skill publication. Adding, removing, or
 changing skills does not require another pairing or Gateway configuration
-change. Restart `openclaw node run` or `openclaw node restart` after changing
+change. Restart `openagent node run` or `openagent node restart` after changing
 node skill files; the node host does not watch the skills directory.
 
 Node-hosted skill entries identify their node and carry their execution

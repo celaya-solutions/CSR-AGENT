@@ -69,7 +69,7 @@ If you configure nothing, OpenAgent runs one agent:
 Add a new isolated agent:
 
 ```bash
-openclaw agents add work
+openagent agents add work
 ```
 
 Flags: `--role <role>`, `--workspace <dir>`, `--model <id>`, `--agent-dir <dir>`, `--bind <channel[:accountId]>` (repeatable), `--non-interactive` (requires `--workspace` unless a role is supplied).
@@ -77,7 +77,7 @@ Flags: `--role <role>`, `--workspace <dir>`, `--model <id>`, `--agent-dir <dir>`
 Add `bindings` to route inbound messages (the wizard offers to do this for you), then verify:
 
 ```bash
-openclaw agents list --bindings
+openagent agents list --bindings
 ```
 
 In the Control UI, **Agents** at `/agents` shows the roster, current work status,
@@ -101,7 +101,7 @@ shows the requesting agent id to the operator, and creates the agent only after
 operator approval. Inspect the current creation hierarchy with:
 
 ```bash
-openclaw agents list --tree
+openagent agents list --tree
 ```
 
 Deleted creators remain historical provenance. If the creator is no longer in
@@ -112,8 +112,8 @@ the configured roster, its children appear at the root of the tree.
 Create a small team with written role contracts and directed delegation:
 
 ```bash
-openclaw agents team create --non-interactive
-openclaw agent --agent coordinator --message "Research the options and draft a recommendation."
+openagent agents team create --non-interactive
+openagent agent --agent coordinator --message "Research the options and draft a recommendation."
 ```
 
 The preset creates a chief of staff (`coordinator`), researcher, writer, and
@@ -180,8 +180,8 @@ or use the team choice during [onboarding](/start/wizard#choose-one-agent-or-a-t
 <Steps>
   <Step title="Create each agent workspace">
     ```bash
-    openclaw agents add coding
-    openclaw agents add social
+    openagent agents add coding
+    openagent agents add social
     ```
 
     Each agent gets its own workspace with `SOUL.md`, `AGENTS.md`, and optional `USER.md`, plus a dedicated `agentDir` and session store. By default, those agent files live under `~/.openclaw/agents/<agentId>`.
@@ -200,9 +200,9 @@ or use the team choice during [onboarding](/start/wizard#choose-one-agent-or-a-t
   </Step>
   <Step title="Restart and verify">
     ```bash
-    openclaw gateway restart
-    openclaw agents list --bindings
-    openclaw channels status --probe
+    openagent gateway restart
+    openagent agents list --bindings
+    openagent channels status --probe
     ```
   </Step>
 </Steps>
@@ -235,7 +235,7 @@ Bindings are deterministic and most-specific wins. See [Channel routing](/channe
 - If a binding sets multiple match fields (for example `peer` + `guildId`), all specified fields must match (`AND` semantics).
 - A binding that omits `accountId` matches only the default account, not every account. Use `accountId: "*"` for a channel-wide fallback, or `accountId: "<name>"` for one account. Adding the same binding again with an explicit account id upgrades the existing channel-only binding instead of duplicating it.
 
-For existing multi-agent configs, `openclaw doctor --fix` materializes legacy ambient default routing into channel-wide bindings plus explicit heartbeat, Custodian, and Talk targets. Single-agent configs are unchanged.
+For existing multi-agent configs, `openagent doctor --fix` materializes legacy ambient default routing into channel-wide bindings plus explicit heartbeat, Custodian, and Talk targets. Single-agent configs are unchanged.
 
 For a multi-agent roster defined directly in the main config file without a
 legacy `default: true` marker, Doctor adds `agents.ownership: "explicit"` for
@@ -541,4 +541,4 @@ See [Multi-agent sandbox and tools](/tools/multi-agent-sandbox-tools) for detail
 - [Presence](/concepts/presence) — agent presence and availability
 - [Session](/concepts/session) — session isolation and routing
 - [Sub-agents](/tools/subagents) — spawning background agent runs
-- [`openclaw agents`](/cli/agents) — create and inspect agents from the CLI
+- [`openagent agents`](/cli/agents) — create and inspect agents from the CLI

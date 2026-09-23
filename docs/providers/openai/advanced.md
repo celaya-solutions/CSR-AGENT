@@ -55,7 +55,7 @@ separate and configurable.
   </Tab>
   <Tab title="CLI">
     ```bash
-    openclaw config set plugins.entries.openai.config.personality off
+    openagent config set plugins.entries.openai.config.personality off
     ```
   </Tab>
 </Tabs>
@@ -67,7 +67,7 @@ friendly style layer.
 
 <Note>
 The retired `agents.defaults.promptOverlays` key is no longer read; config
-validation rejects it, and `openclaw doctor --fix` migrates its personality
+validation rejects it, and `openagent doctor --fix` migrates its personality
 value into `plugins.entries.openai.config.personality` when that key is unset.
 </Note>
 

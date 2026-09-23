@@ -100,7 +100,7 @@ The Control UI waits up to 10 seconds for its service worker. If that times out 
 
 ### Web Push asks for a Doctor migration
 
-Run `openclaw doctor --fix` with the Gateway stopped. Web Push refuses to use the retired JSON stores until Doctor imports them into SQLite.
+Run `openagent doctor --fix` with the Gateway stopped. Web Push refuses to use the retired JSON stores until Doctor imports them into SQLite.
 
 ### Tests arrive but approval requests do not
 

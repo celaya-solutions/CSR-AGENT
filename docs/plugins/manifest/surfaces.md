@@ -171,7 +171,7 @@ resource declarations, only an explicit nested `include` protects a descendant
 and keeps its excluded ancestors traversable. Explicit config, credentials,
 workspace, and nested agent paths also remain protected. Omit only data the
 plugin can recreate.
-`openclaw backup create --only-config` does not inspect plugin backup metadata.
+`openagent backup create --only-config` does not inspect plugin backup metadata.
 
 ## MCP server reference
 
@@ -216,7 +216,7 @@ plugin's backend APIs or the sandboxed dashboard bindings below.
 ```
 
 Use `package.json.openclaw.controlUi` for the source entry and let
-`openclaw plugins build` generate this declaration. Native UI executes with the
+`openagent plugins build` generate this declaration. Native UI executes with the
 browser application's trust; it is distinct from the scoped dashboard widget
 bindings below. See [Feature plugins](/plugins/feature-plugins) for authoring,
 replacements, reload, and activation receipts.
@@ -289,13 +289,13 @@ Declare every plugin-owned root command in `cliCommands` so root help and comman
 }
 ```
 
-The manifest row is the canonical help text. Register the same command at runtime with `api.registerCli(..., { descriptors: [...] })`; runtime descriptors may additionally provide `machineOutput`. Nested commands such as `openclaw nodes <feature>` are not root commands and do not belong in `cliCommands`.
+The manifest row is the canonical help text. Register the same command at runtime with `api.registerCli(..., { descriptors: [...] })`; runtime descriptors may additionally provide `machineOutput`. Nested commands such as `openagent nodes <feature>` are not root commands and do not belong in `cliCommands`.
 
 ## commandAliases reference
 
 Use `commandAliases` when a plugin owns a runtime command name that users may mistakenly put in `plugins.allow` or try to run as a root CLI command. OpenAgent uses this metadata for diagnostics without importing plugin runtime code.
 
-If a plugin fails to load, invoking its declared `runtime-slash` command in chat returns the plugin name, a short failure reason, and recovery guidance (`openclaw doctor` and gateway logs). Unknown commands and commands belonging to intentionally disabled plugins keep their normal handling; manifest ownership alone does not make a command executable.
+If a plugin fails to load, invoking its declared `runtime-slash` command in chat returns the plugin name, a short failure reason, and recovery guidance (`openagent doctor` and gateway logs). Unknown commands and commands belonging to intentionally disabled plugins keep their normal handling; manifest ownership alone does not make a command executable.
 
 ```json
 {

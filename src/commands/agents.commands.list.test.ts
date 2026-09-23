@@ -192,7 +192,7 @@ describe("agentsListCommand", () => {
           "  Providers:",
           "    - Telegram default: configured",
           "Routing rules map channel/account/peer to an agent. Use --bindings for full rules.",
-          "Channel status reflects local config/creds. For live health: openclaw channels status --probe.",
+          "Channel status reflects local config/creds. For live health: openagent channels status --probe.",
         ].join("\n"),
       ],
     ]);

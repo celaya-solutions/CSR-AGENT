@@ -757,7 +757,7 @@ describe("channelsAddCommand", () => {
 
       expect(runtime.error).toHaveBeenCalledWith(
         interactive
-          ? `Unknown channel "${expectedChannel}". Run \`openclaw channels list --all\` to see configured and installable channels.`
+          ? `Unknown channel "${expectedChannel}". Run \`openagent channels list --all\` to see configured and installable channels.`
           : expect.stringContaining("channels add --channel <id> --use-env"),
       );
       expect(runtime.exit).toHaveBeenCalledWith(1);
@@ -784,7 +784,7 @@ describe("channelsAddCommand", () => {
       await expect(
         runChannelsSetupWizard({ channel }, runtime, channelWizardMocks.prompter),
       ).rejects.toThrow(
-        `Unknown channel "${expectedChannel}". Run \`openclaw channels list --all\` to see configured and installable channels.`,
+        `Unknown channel "${expectedChannel}". Run \`openagent channels list --all\` to see configured and installable channels.`,
       );
 
       expect(runtime.exit).not.toHaveBeenCalled();

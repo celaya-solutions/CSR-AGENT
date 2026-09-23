@@ -357,7 +357,7 @@ tools but does not turn off automatic Tool Search.
 Enable Tool Search explicitly for OpenAgent runs with the default code bridge:
 
 ```bash
-openclaw config set tools.toolSearch true
+openagent config set tools.toolSearch true
 ```
 
 Equivalent JSON:

@@ -327,7 +327,7 @@ describe("parseSystemAgentOperation", () => {
     expect(parseSystemAgentOperation("plugin install npm:@example/plugin")).toEqual({
       kind: "none",
       message:
-        "OpenAgent installs only ClawHub, bundled, or official-catalog plugins. Use `openclaw plugins install <spec>` in a trusted shell to review an arbitrary executable source.",
+        "OpenAgent installs only ClawHub, bundled, or official-catalog plugins. Use `openagent plugins install <spec>` in a trusted shell to review an arbitrary executable source.",
     });
   });
 

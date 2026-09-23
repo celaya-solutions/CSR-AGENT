@@ -1,5 +1,5 @@
 ---
-summary: "Scaffold, build, validate, and pack an OpenAgent plugin with `openclaw plugins init`"
+summary: "Scaffold, build, validate, and pack an OpenAgent plugin with `openagent plugins init`"
 title: "Author plugins"
 read_when:
   - You want to scaffold a tool, feature, or provider plugin
@@ -13,7 +13,7 @@ scaffolds they generate.
 ## Author
 
 ```bash
-openclaw plugins init stock-quotes --name "Stock Quotes"
+openagent plugins init stock-quotes --name "Stock Quotes"
 cd stock-quotes
 npm run plugin:build
 npm run plugin:validate
@@ -23,7 +23,7 @@ npm run plugin:validate
 argument is the plugin id; `--name` sets the display name. OpenAgent uses the
 id for the default output directory and package naming. Tool scaffolds use
 `defineToolPlugin` and generate `package.json` scripts `plugin:build` and
-`plugin:validate` that build then call `openclaw plugins build`/`validate`.
+`plugin:validate` that build then call `openagent plugins build`/`validate`.
 
 `plugins build` imports the built entry, reads its static tool metadata, writes
 `openclaw.plugin.json`, and keeps `package.json`'s `openclaw.extensions` aligned.
@@ -66,7 +66,7 @@ view lifecycle, and recovery.
 ### Provider scaffold
 
 ```bash
-openclaw plugins init acme-models --name "Acme Models" --type provider
+openagent plugins init acme-models --name "Acme Models" --type provider
 cd acme-models
 npm install
 npm run build
@@ -79,7 +79,7 @@ with API-key auth plumbing, a `npm run validate` script that runs
 `clawhub package validate`, ClawHub package metadata, and a manually
 dispatched GitHub Actions workflow for future trusted publishing via GitHub
 OIDC. Provider scaffolds do not generate skills and do not use
-`openclaw plugins build`/`validate`; those commands are for the tool
+`openagent plugins build`/`validate`; those commands are for the tool
 scaffold's generated-metadata path.
 
 Before publishing, replace the placeholder API base URL, model catalog, docs

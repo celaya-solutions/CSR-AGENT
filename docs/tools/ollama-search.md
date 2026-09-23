@@ -33,7 +33,7 @@ configured host.
   </Step>
   <Step title="Choose Ollama Web Search">
     ```bash
-    openclaw configure --section web
+    openagent configure --section web
     ```
 
     Select **Ollama Web Search** as the provider.
@@ -51,7 +51,7 @@ configured host.
    local daemon. To move web search alone, set
    `plugins.entries.ollama.config.webSearch.baseUrl` to `https://ollama.com`
    and leave `models.providers.ollama.baseUrl` pointing at your local host.
-3. Run `openclaw configure --section web` and select **Ollama Web Search**.
+3. Run `openagent configure --section web` and select **Ollama Web Search**.
 
 Hosted search does not require a local Ollama daemon or `ollama signin`.
 

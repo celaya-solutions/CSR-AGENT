@@ -8,7 +8,7 @@ read_when:
 title: "Local models"
 ---
 
-OpenAgent can install and manage a local model or connect to a server you already run. For a hardware-aware recommendation, install the [llama.cpp plugin](/plugins/llama-cpp), run `openclaw onboard`, and choose **Managed local server**. Setup shows the Gateway host, model, download size, and execution backend before downloading, then verifies a real tool call before changing the default model. LM Studio and [Ollama](/providers/ollama) remain options when you want to manage the model separately.
+OpenAgent can install and manage a local model or connect to a server you already run. For a hardware-aware recommendation, install the [llama.cpp plugin](/plugins/llama-cpp), run `openagent onboard`, and choose **Managed local server**. Setup shows the Gateway host, model, download size, and execution backend before downloading, then verifies a real tool call before changing the default model. LM Studio and [Ollama](/providers/ollama) remain options when you want to manage the model separately.
 
 This page also covers larger local stacks and custom OpenAI-compatible servers. Local models do not provide hosted providers' safety filters. Keep tool permissions and prompt-injection defenses appropriate for the model and task.
 
@@ -216,10 +216,10 @@ Compat overrides for stricter OpenAI-compatible backends:
   }
   ```
 
-  Use this only where every normal turn should call a tool. Replace `local/my-local-model` with the exact ref from `openclaw models list`, or set it via CLI:
+  Use this only where every normal turn should call a tool. Replace `local/my-local-model` with the exact ref from `openagent models list`, or set it via CLI:
 
   ```bash
-  openclaw config set agents.defaults.models '{"local/my-local-model":{"params":{"extra_body":{"tool_choice":"required"}}}}' --strict-json --merge
+  openagent config set agents.defaults.models '{"local/my-local-model":{"params":{"extra_body":{"tool_choice":"required"}}}}' --strict-json --merge
   ```
 
 - **Extra reasoning efforts**: if a custom OpenAI-compatible model accepts OpenAI reasoning efforts beyond the built-in profile, declare them in the model's compat block. Adding `"xhigh"` exposes it for that model ref in `/think xhigh`, session pickers, Gateway validation, and `llm-task` validation:
@@ -260,13 +260,13 @@ If the model loads cleanly but full agent turns misbehave, check transport first
 1. **Check the local model responds** - no tools, no agent context:
 
    ```bash
-   openclaw infer model run --local --model <provider/model> --prompt "Reply with exactly: pong" --json
+   openagent infer model run --local --model <provider/model> --prompt "Reply with exactly: pong" --json
    ```
 
 2. **Check Gateway routing** - sends only the prompt. It skips transcript, AGENTS bootstrap, context-engine assembly, tools, and bundled MCP servers. It still exercises Gateway routing, auth, and provider selection:
 
    ```bash
-   openclaw infer model run --gateway --model <provider/model> --prompt "Reply with exactly: pong" --json
+   openagent infer model run --gateway --model <provider/model> --prompt "Reply with exactly: pong" --json
    ```
 
 3. **Check Tool Search** if both probes pass but real agent turns fail with malformed tool calls or oversized prompts. Local Ollama models, LM Studio, and managed local services automatically use structured [Tool Search](/tools/tool-search) when `tools.toolSearch` is unset. Other backends can enable it with `tools.toolSearch: { mode: "tools" }`. This defers schemas while preserving policy-approved capabilities. Leave `localModelLean` unset or set it to `false` so optional tools remain available. Check the server's actual context allocation and memory use as well.
@@ -283,7 +283,7 @@ If the model loads cleanly but full agent turns misbehave, check transport first
 - **Context errors?** OpenAgent derives context-window preflight thresholds from the detected model window or the per-model `models.providers.<provider>.models[].contextTokens` cap. It warns below 20% with an **8k** floor. It hard-blocks below 10% with a **4k** floor. Lower that model entry's `contextTokens` or raise the server/model context limit.
 - **`messages[].content ... expected a string`?** Add `compat.requiresStringContent: true` on that model entry.
 - **`validation.keys`, or "message entries only allow `role` and `content`"?** Add `compat.strictMessageKeys: true` on that model entry.
-- **Direct `/v1/chat/completions` calls work, but `openclaw infer model run --local` fails on Gemma or another local model?** Check the provider URL, model ref, auth marker, and server logs first. `model run` skips agent tools entirely. If `model run` succeeds but larger agent turns fail, check Tool Search and the allocated context. Use `compat.supportsTools: false` only for a model that cannot reliably call tools.
+- **Direct `/v1/chat/completions` calls work, but `openagent infer model run --local` fails on Gemma or another local model?** Check the provider URL, model ref, auth marker, and server logs first. `model run` skips agent tools entirely. If `model run` succeeds but larger agent turns fail, check Tool Search and the allocated context. Use `compat.supportsTools: false` only for a model that cannot reliably call tools.
 - **Tool calls show up as raw JSON/XML/ReAct text, or the provider returns an empty `tool_calls` array?** Do not add a proxy that blindly converts assistant text into tool execution. Fix the server's chat template and parser first. If the model only works when tool use is forced, add the `params.extra_body.tool_choice: "required"` override above. Use that model entry only for sessions where a tool call is expected every turn.
 - **Safety**: local models skip provider-side filters. Keep agents narrow and compaction on to limit prompt-injection blast radius.
 
@@ -295,7 +295,7 @@ Lean mode is an advanced troubleshooting override that explicitly restricts capa
 
 `agents.defaults.experimental.localModelLean: true` removes optional tools before catalog construction: `browser`, `automations`, `message`, `image_generate`, `music_generate`, `video_generate`, `tts`, and `pdf`. These removed tools cannot be found through Tool Search. Explicitly allowed or delivery-required tools remain available, though Tool Search may catalog them instead of exposing them directly. Lean mode also defaults catalogs to structured Tool Search (`tool_search`, `tool_describe`, `tool_call`) when `tools.toolSearch` is not already set. Use `agents.entries.*.experimental.localModelLean` to scope this to one agent.
 
-Setup no longer writes this flag. For older installations, `openclaw doctor --fix` removes an onboarding-owned `true` when its ownership marker still matches the default model. Explicit settings and settings with stale ownership markers are preserved. Set a retained flag to `false` to restore optional capabilities; automatic Tool Search still applies to local routes.
+Setup no longer writes this flag. For older installations, `openagent doctor --fix` removes an onboarding-owned `true` when its ownership marker still matches the default model. Explicit settings and settings with stale ownership markers are preserved. Set a retained flag to `false` to restore optional capabilities; automatic Tool Search still applies to local routes.
 
 If you already tune Tool Search globally, OpenAgent leaves that config alone. Set `tools.toolSearch: false` to opt out of the lean-mode Tool Search default.
 
@@ -315,7 +315,7 @@ The model still has `read`, `write`, `edit`, `exec`, `apply_patch`, image unders
 
 Enable lean mode once you have proved the model can talk to the Gateway but full agent turns misbehave:
 
-1. `openclaw infer model run --gateway --model <ref> --prompt "Reply with exactly: pong"` succeeds.
+1. `openagent infer model run --gateway --model <ref> --prompt "Reply with exactly: pong"` succeeds.
 2. A normal agent turn fails with malformed tool calls, oversized prompts, or the model ignoring its tools.
 3. Toggling `localModelLean: true` clears the failure.
 

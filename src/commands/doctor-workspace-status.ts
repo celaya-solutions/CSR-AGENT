@@ -89,8 +89,8 @@ function noteFlowRecoveryHints() {
     [
       ...suspicious.slice(0, 5).map((finding) => finding.message),
       suspicious.length > 5 ? `...and ${suspicious.length - 5} more.` : null,
-      `Inspect: ${formatCliCommand("openclaw tasks flow show <flow-id>")}`,
-      `Cancel: ${formatCliCommand("openclaw tasks flow cancel <flow-id>")}`,
+      `Inspect: ${formatCliCommand("openagent tasks flow show <flow-id>")}`,
+      `Cancel: ${formatCliCommand("openagent tasks flow cancel <flow-id>")}`,
     ]
       .filter((line): line is string => Boolean(line))
       .join("\n"),
@@ -116,7 +116,7 @@ function pluginVersionDriftToHealthFindings(
         message: `Active official plugins match post-restart OpenAgent ${drift.gatewayVersion}, but the running Gateway is ${runningGatewayVersion}.`,
         path: "plugins",
         requirement: "plugin-version-gateway-restart",
-        fixHint: formatCliCommand("openclaw gateway restart"),
+        fixHint: formatCliCommand("openagent gateway restart"),
       },
     ];
   }
@@ -135,8 +135,8 @@ function pluginVersionDriftToHealthFindings(
       target: entry.pluginId,
       requirement: "plugin-version-drift",
       fixHint: updateCommand
-        ? `${formatCliCommand(updateCommand)} && ${formatCliCommand("openclaw gateway restart")}`
-        : `No install command generated; retry openclaw doctor after checking registry availability (${targetError}).`,
+        ? `${formatCliCommand(updateCommand)} && ${formatCliCommand("openagent gateway restart")}`
+        : `No install command generated; retry openagent doctor after checking registry availability (${targetError}).`,
     };
   });
 }
@@ -169,7 +169,7 @@ function pluginVersionReadinessToHealthFindings(
       path: "plugins",
       requirement: "plugin-version-restart-readiness",
       fixHint:
-        "Repair the Gateway service installation, then rerun openclaw doctor before restarting.",
+        "Repair the Gateway service installation, then rerun openagent doctor before restarting.",
     },
   ];
 }
@@ -209,8 +209,8 @@ function taskFlowRecoveryToHealthFinding(finding: TaskFlowRecoveryFinding): Heal
     target: finding.flowId,
     requirement: "taskflow-recovery",
     fixHint: [
-      formatCliCommand(`openclaw tasks flow show ${finding.flowId}`),
-      formatCliCommand(`openclaw tasks flow cancel ${finding.flowId}`),
+      formatCliCommand(`openagent tasks flow show ${finding.flowId}`),
+      formatCliCommand(`openagent tasks flow cancel ${finding.flowId}`),
     ].join(" or "),
   };
 }
@@ -268,7 +268,7 @@ function notePluginVersionReadiness(readiness: PluginVersionRestartReadiness | u
       ? `\nRunning Gateway: OpenAgent ${readiness.runningGatewayVersion}`
       : "";
     note(
-      `${readiness.reason}${running}\nRepair the Gateway service installation, then rerun openclaw doctor before restarting.`,
+      `${readiness.reason}${running}\nRepair the Gateway service installation, then rerun openagent doctor before restarting.`,
       "Plugin restart readiness",
     );
     return;
@@ -282,7 +282,7 @@ function notePluginVersionReadiness(readiness: PluginVersionRestartReadiness | u
       [
         `Running Gateway: OpenAgent ${readiness.runningGatewayVersion}`,
         `Active official plugins match post-restart OpenAgent ${drift.gatewayVersion}.`,
-        `Fix: ${formatCliCommand("openclaw gateway restart")}.`,
+        `Fix: ${formatCliCommand("openagent gateway restart")}.`,
       ].join("\n"),
       "Plugin restart readiness",
     );
@@ -318,13 +318,13 @@ function notePluginVersionReadiness(readiness: PluginVersionRestartReadiness | u
       return `Repair target resolution failed for ${entry.pluginId}: ${detail}. No install command generated.`;
     }),
     singleDrift && updateCommands.length === 1
-      ? `Fix: ${updateCommands[0]} && ${formatCliCommand("openclaw gateway restart")}.`
+      ? `Fix: ${updateCommands[0]} && ${formatCliCommand("openagent gateway restart")}.`
       : updateCommands.length > 0
         ? [
             "Fix each drifted plugin:",
             ...updateCommands.map((command) => `- ${command}`),
             ...(unresolvedRepairs.length === 0
-              ? [`Then run ${formatCliCommand("openclaw gateway restart")}.`]
+              ? [`Then run ${formatCliCommand("openagent gateway restart")}.`]
               : []),
           ].join("\n")
         : null,

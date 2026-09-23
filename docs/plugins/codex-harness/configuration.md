@@ -12,20 +12,20 @@ The Codex harness configuration map and the turn-level behavior each setting con
 
 ## Configuration
 
-| Need                                                | Set                                                                                                       | Where                                   |
-| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| Need                                                | Set                                                                                                       | Where                               |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | Enable the harness                                  | `plugins.entries.codex.enabled: true`                                                                     | OpenAgent config                    |
-| Hide native Codex session discovery                 | `plugins.entries.codex.config.sessionCatalog.enabled: false`                                              | Codex plugin config                     |
-| Include additional local Codex stores (stdio only)  | `plugins.entries.codex.config.sessionCatalog.homes`                                                       | Codex plugin config                     |
+| Hide native Codex session discovery                 | `plugins.entries.codex.config.sessionCatalog.enabled: false`                                              | Codex plugin config                 |
+| Include additional local Codex stores (stdio only)  | `plugins.entries.codex.config.sessionCatalog.homes`                                                       | Codex plugin config                 |
 | Keep an allowlisted plugin install                  | Include `codex` in `plugins.allow`                                                                        | OpenAgent config                    |
-| Allow eligible OpenAI turns to use Codex implicitly | Exact official HTTPS Responses/ChatGPT route, no authored provider request override, runtime unset/`auto` | OpenAI provider/model config            |
-| Sign in with ChatGPT/Codex OAuth                    | `openclaw models auth login --provider openai`                                                            | CLI auth profile                        |
+| Allow eligible OpenAI turns to use Codex implicitly | Exact official HTTPS Responses/ChatGPT route, no authored provider request override, runtime unset/`auto` | OpenAI provider/model config        |
+| Sign in with ChatGPT/Codex OAuth                    | `openagent models auth login --provider openai`                                                           | CLI auth profile                    |
 | Add API-key backup for Codex runs                   | `openai:*` API-key profile listed after subscription auth in `auth.order.openai`                          | CLI auth profile + OpenAgent config |
 | Fail closed when Codex is unavailable               | Provider or model `agentRuntime.id: "codex"`                                                              | OpenAgent model/provider config     |
 | Use direct OpenAI API traffic                       | Provider or model `agentRuntime.id: "openclaw"` with normal OpenAI auth                                   | OpenAgent model/provider config     |
-| Tune app-server behavior                            | `plugins.entries.codex.config.appServer.*`                                                                | Codex plugin config                     |
-| Enable native Codex plugin apps                     | `plugins.entries.codex.config.codexPlugins.*`                                                             | Codex plugin config                     |
-| Enable Codex Computer Use                           | `plugins.entries.codex.config.computerUse.*`                                                              | Codex plugin config                     |
+| Tune app-server behavior                            | `plugins.entries.codex.config.appServer.*`                                                                | Codex plugin config                 |
+| Enable native Codex plugin apps                     | `plugins.entries.codex.config.codexPlugins.*`                                                             | Codex plugin config                 |
+| Enable Codex Computer Use                           | `plugins.entries.codex.config.computerUse.*`                                                              | Codex plugin config                 |
 
 Prefer `auth.order.openai` for subscription-first/API-key-backup ordering.
 Existing legacy Codex auth profile ids and legacy Codex auth order are
@@ -122,7 +122,7 @@ whether any individual file was fully loaded or truncated.
 Do not set `compaction.model` or `compaction.provider` on Codex-backed
 agents. Codex compacts through its native app-server thread state, so
 OpenAgent ignores those local summarizer overrides at runtime, and
-`openclaw doctor --fix` removes them when the agent uses Codex.
+`openagent doctor --fix` removes them when the agent uses Codex.
 
 An authored `models.providers.*.models[].contextTokens` cap is forwarded to
 Codex thread start and resume as `model_context_window`. Codex clamps the value
@@ -133,7 +133,7 @@ Lossless remains supported as a context engine for assembly, ingestion, and
 maintenance around Codex turns, configured through
 `plugins.slots.contextEngine: "lossless-claw"` and
 `plugins.entries.lossless-claw.config.summaryModel`, not through
-`agents.defaults.compaction.provider`. `openclaw doctor --fix` migrates the
+`agents.defaults.compaction.provider`. `openagent doctor --fix` migrates the
 old `compaction.provider: "lossless-claw"` shape to the Lossless
 context-engine slot when Codex is the active runtime, but native Codex still
 owns compaction. The native app-server harness supports context engines

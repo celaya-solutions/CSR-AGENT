@@ -46,23 +46,33 @@ pnpm ui:build
 Then set up your assistant and start the Gateway:
 
 ```bash
-pnpm openclaw onboard --install-daemon
+pnpm openagent onboard --install-daemon
 ```
 
 Onboarding checks your model access, creates a workspace, and configures the
 Gateway. When it finishes:
 
 ```bash
-pnpm openclaw gateway status
-pnpm openclaw dashboard
+pnpm openagent gateway status
+pnpm openagent dashboard
 ```
 
 The last command opens the Control UI. Send a message there to confirm the
 assistant is working.
 
-Always run the CLI through `pnpm openclaw ...` or `pnpm dev`. These wrappers
-handle build freshness and process setup; running the TypeScript entry point
-directly will not.
+Inside the checkout, run the CLI through `pnpm openagent ...` or `pnpm dev`.
+These wrappers handle build freshness and process setup; running the
+TypeScript entry point directly will not.
+
+To get a global `openagent` command, link the checkout once after building:
+
+```bash
+npm install -g .
+openagent --version
+```
+
+The global command points at this checkout, so `git pull && pnpm build` updates
+it. The old `openclaw` command name still works as an alias.
 
 ## Where to read next
 
@@ -82,7 +92,7 @@ to find a page, or `pnpm docs:dev` to browse them locally. Good starting points:
 
 Treat every inbound message as untrusted input. Channels that accept direct
 messages pair unknown senders by default; approve one with
-`pnpm openclaw pairing approve <channel> <code>`.
+`pnpm openagent pairing approve <channel> <code>`.
 
 Tools run on your host unless you turn on sandboxing. Read
 [`docs/gateway/security`](docs/gateway/security) and

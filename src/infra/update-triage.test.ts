@@ -217,7 +217,7 @@ describe("update triage child lifecycle", () => {
     });
     expect(result).toMatchObject({
       status: "failed",
-      hint: expect.stringContaining("openclaw triage"),
+      hint: expect.stringContaining("openagent triage"),
     });
   });
 
@@ -259,7 +259,7 @@ describe("update triage child lifecycle", () => {
         const contextPath = args.at(-2)!;
         if (platformName === "win32") {
           expect(guidance).toContain(
-            `& openclaw triage --update-result '${contextPath.replaceAll("'", "''")}'`,
+            `& openagent triage --update-result '${contextPath.replaceAll("'", "''")}'`,
           );
           for (const selector of [targetEnv.OPENCLAW_STATE_DIR, configPath, workspaceDir]) {
             expect(guidance).toContain(`'${selector.replaceAll("'", "''")}'`);

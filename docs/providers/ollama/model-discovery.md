@@ -20,12 +20,12 @@ defined, OpenAgent discovers models from `http://127.0.0.1:11434`:
 | Capability detection | Best-effort `/api/show` reads `contextWindow`, `num_ctx` Modelfile parameters, and capabilities (vision/tools/thinking)                                                                                                                                                                       |
 | Vision models        | A `vision` capability from `/api/show` marks the model image-capable (`input: ["text", "image"]`)                                                                                                                                                                                             |
 | Reasoning detection  | Uses the `thinking` capability from `/api/show` when available; falls back to a name heuristic (`r1`, `reason`, `reasoning`, `think`) when Ollama omits capabilities. `glm-5.2:cloud` and `deepseek-v4-flash\|pro:cloud` are always treated as reasoning regardless of reported capabilities. |
-| Token limits         | `maxTokens` defaults to OpenAgent's Ollama max-token cap                                                                                                                                                                                                                                  |
+| Token limits         | `maxTokens` defaults to OpenAgent's Ollama max-token cap                                                                                                                                                                                                                                      |
 | Costs                | All costs are `0`                                                                                                                                                                                                                                                                             |
 
 ```bash
 ollama list
-openclaw models list
+openagent models list
 ```
 
 A **nonempty** `models.providers.ollama.models` list selects manual models and
@@ -57,7 +57,7 @@ For a narrow text probe that skips the full agent tool surface:
 
 ```bash
 OLLAMA_API_KEY=ollama-local \
-  openclaw infer model run \
+  openagent infer model run \
     --local \
     --model ollama/llama3.2:latest \
     --prompt "Reply with exactly: pong" \
@@ -66,11 +66,11 @@ OLLAMA_API_KEY=ollama-local \
 
 Add `--file` with an image for a lean vision-model probe (accepts PNG/JPEG/WebP;
 non-image files are rejected before Ollama is called — use
-`openclaw infer audio transcribe` for audio):
+`openagent infer audio transcribe` for audio):
 
 ```bash
 OLLAMA_API_KEY=ollama-local \
-  openclaw infer model run \
+  openagent infer model run \
     --local \
     --model ollama/qwen2.5vl:7b \
     --prompt "Describe this image in one sentence." \

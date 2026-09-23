@@ -140,7 +140,7 @@ With hardening in place, grant the delegate its identity and permissions.
 ### 1. Create the delegate agent
 
 ```bash
-openclaw agents add delegate --workspace ~/.openclaw/workspace-delegate
+openagent agents add delegate --workspace ~/.openclaw/workspace-delegate
 ```
 
 This creates:
@@ -243,7 +243,7 @@ Agents read shared auth profiles without copying them. To give the delegate an
 independent provider account, sign in on the Gateway host for that agent:
 
 ```bash
-openclaw models auth login --provider <providerId> --agent delegate
+openagent models auth login --provider <providerId> --agent delegate
 ```
 
 The login writes the delegate's SQLite auth store at `~/.openclaw/agents/delegate/agent/openclaw-agent.sqlite`; its local profiles override the shared read-through base. Never share the main agent's `agentDir` with the delegate. See [Auth credential semantics](/auth-credential-semantics#agent-copy-portability) and [Multi-Agent Routing](/concepts/multi-agent) for auth isolation details.

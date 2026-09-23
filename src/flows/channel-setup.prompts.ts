@@ -191,12 +191,12 @@ export async function maybeConfigureDmPolicies(params: {
       [
         t("wizard.channels.dmPolicyDefault"),
         t("wizard.channels.dmPolicyApprove", {
-          command: formatCliCommand(`openclaw pairing approve ${policy.channel} <code>`),
+          command: formatCliCommand(`openagent pairing approve ${policy.channel} <code>`),
         }),
         t("wizard.channels.dmPolicyAllowlist", { allowFromKey, policyKey }),
         t("wizard.channels.dmPolicyOpen", { allowFromKey, policyKey }),
         t("wizard.channels.dmPolicyMultiUser", {
-          command: formatCliCommand('openclaw config set session.dmScope "per-channel-peer"'),
+          command: formatCliCommand('openagent config set session.dmScope "per-channel-peer"'),
         }),
       ].join("\n"),
       t("wizard.channels.dmAccessTitle", { label: policy.label }),

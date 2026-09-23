@@ -19,10 +19,10 @@ configs, configs written by a newer version, and configs that still fail validat
 require operator repair. See [Legacy config key migrations](/gateway/doctor#detailed-behavior-and-rationale).
 
 ```bash
-openclaw logs --follow
-openclaw config file
-openclaw config validate
-openclaw doctor
+openagent logs --follow
+openagent config file
+openagent config validate
+openagent doctor
 ```
 
 Look for:
@@ -40,17 +40,17 @@ Look for:
     - Gateway startup leaves `openclaw.json` unchanged and fails closed when safe legacy-key migration cannot produce a fully valid config.
     - Hot reload skips invalid external edits and keeps the current runtime config active.
     - OpenAgent-owned writes reject invalid/destructive payloads before commit and save `.rejected.*`.
-    - `openclaw doctor --fix` owns repairs beyond automatic legacy-key migration. It can remove non-JSON prefixes or restore the last-known-good copy while preserving the rejected payload as `.clobbered.*`.
+    - `openagent doctor --fix` owns repairs beyond automatic legacy-key migration. It can remove non-JSON prefixes or restore the last-known-good copy while preserving the rejected payload as `.clobbered.*`.
     - When many repairs happen for one config path, OpenAgent rotates older `.clobbered.*` files so the newest repaired payload is still available.
 
   </Accordion>
   <Accordion title="Inspect and repair">
     ```bash
-    CONFIG="$(openclaw config file)"
+    CONFIG="$(openagent config file)"
     ls -lt "$CONFIG".clobbered.* "$CONFIG".rejected.* 2>/dev/null | head
     diff -u "$CONFIG" "$(ls -t "$CONFIG".clobbered.* 2>/dev/null | head -n 1)"
-    openclaw config validate
-    openclaw doctor
+    openagent config validate
+    openagent doctor
     ```
   </Accordion>
   <Accordion title="Common signatures">
@@ -64,11 +64,11 @@ Look for:
 
   </Accordion>
   <Accordion title="Fix options">
-    An interactive startup can offer to run `openclaw doctor --fix` and retry once when automatic legacy-key migration is not enough. Non-interactive startup prints the repair command instead.
+    An interactive startup can offer to run `openagent doctor --fix` and retry once when automatic legacy-key migration is not enough. Non-interactive startup prints the repair command instead.
 
-    1. Run `openclaw doctor --fix` to let doctor repair prefixed/clobbered config or restore last-known-good.
-    2. Copy only the intended keys from `.clobbered.*` or `.rejected.*`, then apply them with `openclaw config set` or `config.patch`.
-    3. Run `openclaw config validate` before restarting.
+    1. Run `openagent doctor --fix` to let doctor repair prefixed/clobbered config or restore last-known-good.
+    2. Copy only the intended keys from `.clobbered.*` or `.rejected.*`, then apply them with `openagent config set` or `config.patch`.
+    3. Run `openagent config validate` before restarting.
     4. If you edit by hand, keep the full JSON5 config, not just the partial object you wanted to change.
 
   </Accordion>
@@ -83,12 +83,12 @@ Related:
 
 ## Gateway probe warnings
 
-Use when `openclaw gateway probe` reaches something, but still prints a warning block.
+Use when `openagent gateway probe` reaches something, but still prints a warning block.
 
 ```bash
-openclaw gateway probe
-openclaw gateway probe --json
-openclaw gateway probe --ssh user@gateway-host
+openagent gateway probe
+openagent gateway probe --json
+openagent gateway probe --ssh user@gateway-host
 ```
 
 Look for:

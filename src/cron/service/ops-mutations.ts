@@ -667,7 +667,7 @@ export async function remove(
       }
       return undefined;
     } catch (error) {
-      const message = `Cron job ${id} was removed, but session cleanup failed: ${String(error)}. Use openclaw sessions list --json, then openclaw sessions delete to retry.`;
+      const message = `Cron job ${id} was removed, but session cleanup failed: ${String(error)}. Use openagent sessions list --json, then openagent sessions delete to retry.`;
       state.deps.log.warn({ jobId: id, err: message }, "cron: session cleanup failed");
       return message;
     } finally {

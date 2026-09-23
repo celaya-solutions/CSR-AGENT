@@ -87,7 +87,7 @@ describe("update.run current owner authority", () => {
           reason: "owner_required",
           ackDelivered: false,
           message: expect.stringContaining(
-            `openclaw config set commands.ownerAllowFrom '${JSON.stringify(change === "revoked" ? ["slack:owner"] : ["replacement", "slack:owner"])}'`,
+            `openagent config set commands.ownerAllowFrom '${JSON.stringify(change === "revoked" ? ["slack:owner"] : ["replacement", "slack:owner"])}'`,
           ),
         });
         expect(listUpdateRuns()).toEqual([
@@ -188,7 +188,7 @@ describe("update.run current owner authority", () => {
           reason: "managed-service-handoff-unavailable",
           handoff: {
             status: "unavailable",
-            command: expect.stringContaining("openclaw update"),
+            command: expect.stringContaining("openagent update"),
             message: expect.stringContaining("Stop the foreground Gateway"),
           },
         });
@@ -198,7 +198,7 @@ describe("update.run current owner authority", () => {
       }
       expect(runGatewayUpdateMock).not.toHaveBeenCalled();
       expect(guidance).toContain(
-        "Never run openclaw update, npm install -g openclaw, or stop/restart the gateway service via exec.",
+        "Never run openagent update, npm install -g openclaw, or stop/restart the gateway service via exec.",
       );
     },
   );
@@ -250,7 +250,7 @@ describe("update.run current owner authority", () => {
       reason: "owner_required",
       ackDelivered: true,
       message: expect.stringContaining(
-        'openclaw config set commands.ownerAllowFrom \'["replacement","slack:owner"]\'',
+        'openagent config set commands.ownerAllowFrom \'["replacement","slack:owner"]\'',
       ),
     });
     expect(runGatewayUpdateMock).not.toHaveBeenCalled();

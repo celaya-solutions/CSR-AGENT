@@ -274,7 +274,7 @@ async function selectSetupMigrationProvider(params: {
 
 /**
  * Rejects a provider id that is absent from the listed options, naming the ids that are present.
- * `openclaw migrate` already answers an unknown provider this way; onboarding has to match, because
+ * `openagent migrate` already answers an unknown provider this way; onboarding has to match, because
  * a typed id is far likelier to be a typo here than a genuinely missing plugin. An undefined id
  * means the operator dismissed the prompt, which is a cancellation rather than a bad choice.
  */
@@ -290,7 +290,7 @@ function assertListedMigrationProvider(
     available.length > 0
       ? ` Available providers: ${available.join(", ")}.`
       : " No migration providers are installed.";
-  const listCommand = formatCliCommand("openclaw migrate list");
+  const listCommand = formatCliCommand("openagent migrate list");
   throw new Error(
     `Unknown migration provider "${providerId}".${suffix} Run ${listCommand} to see the current list.`,
   );

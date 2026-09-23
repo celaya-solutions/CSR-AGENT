@@ -347,7 +347,7 @@ describe("failed update recovery restart", () => {
         steps: [
           {
             name: "update",
-            command: "openclaw update",
+            command: "openagent update",
             cwd: "/repo",
             durationMs: 1,
             exitCode: 1,
@@ -532,7 +532,7 @@ describe("failed update recovery restart", () => {
 
       const nextAction = getUpdateRun(run.runId, { env })?.origin.nextAction;
       expect(mocks.restart).not.toHaveBeenCalled();
-      expect(nextAction).toContain("Run `openclaw --profile work triage`");
+      expect(nextAction).toContain("Run `openagent --profile work triage`");
       expect(nextAction?.includes("Keep the gateway stopped")).toBe(stopped);
       expect(mocks.printResult.mock.lastCall?.[2]).toEqual({ nextAction });
     },
@@ -870,7 +870,7 @@ describe("failed package update recovery safety", () => {
       reason: "doctor-failed",
       steps: [
         { name: "global update", command: "npm", cwd: "/", durationMs: 1, exitCode: 0 },
-        { name: "openclaw doctor", command: "doctor", cwd: "/", durationMs: 1, exitCode: 1 },
+        { name: "openagent doctor", command: "doctor", cwd: "/", durationMs: 1, exitCode: 1 },
       ],
       recovery: {
         serviceRestartSafe: false,

@@ -14,29 +14,29 @@ OpenAgent stores control-plane state in the shared state database and agent data
 Two mechanisms back that contract. CI runs
 `scripts/check-native-state-schema-version.mjs`, which fails the build when the
 Swift and TypeScript state-database contracts declare different schema versions.
-[`openclaw doctor --fix`](/cli/doctor) owns file-to-SQLite migrations and records a
+[`openagent doctor --fix`](/cli/doctor) owns file-to-SQLite migrations and records a
 receipt for each one in the shared `migration_runs` and `migration_sources` tables.
 
 This page is an index. The reference is documented on seven pages, one per
 reader job. Open the page that matches your task and stay there.
 
-| Page                                                                                           | Read it when                                                                                             |
-| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| [Database layout](/reference/database-schemas/layout)                                          | The two database roles, their on-disk paths, and the tables behind individual features.                  |
-| [Versioning contract](/reference/database-schemas/versioning)                                  | How schema versions are recorded, when a bump is required, and how updaters cross one.                   |
-| [Per-person and companion storage](/reference/database-schemas/personal-data)                  | Personal GitHub connections, personal model accounts, and Apple companion delivery journals.             |
-| [Storage changes and release preflight](/reference/database-schemas/storage-changes)           | Preparing for another backend, the material-change review checkpoint, and `openclaw database preflight`. |
-| [Agent schema history](/reference/database-schemas/agent-schema-history)                       | Per-agent database schema versions, their changes, and their first releases.                             |
-| [State schema history](/reference/database-schemas/state-schema-history)                       | Shared state database schema versions, their changes, and their first releases.                          |
-| [Integrity, troubleshooting, and recovery](/reference/database-schemas/integrity-and-recovery) | Integrity checks, common database errors, and the supported downgrade recovery path.                     |
+| Page                                                                                           | Read it when                                                                                              |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [Database layout](/reference/database-schemas/layout)                                          | The two database roles, their on-disk paths, and the tables behind individual features.                   |
+| [Versioning contract](/reference/database-schemas/versioning)                                  | How schema versions are recorded, when a bump is required, and how updaters cross one.                    |
+| [Per-person and companion storage](/reference/database-schemas/personal-data)                  | Personal GitHub connections, personal model accounts, and Apple companion delivery journals.              |
+| [Storage changes and release preflight](/reference/database-schemas/storage-changes)           | Preparing for another backend, the material-change review checkpoint, and `openagent database preflight`. |
+| [Agent schema history](/reference/database-schemas/agent-schema-history)                       | Per-agent database schema versions, their changes, and their first releases.                              |
+| [State schema history](/reference/database-schemas/state-schema-history)                       | Shared state database schema versions, their changes, and their first releases.                           |
+| [Integrity, troubleshooting, and recovery](/reference/database-schemas/integrity-and-recovery) | Integrity checks, common database errors, and the supported downgrade recovery path.                      |
 
 ## Related
 
 - [Backups](/install/backups) — archives, per-database snapshots, scheduling, and offsite copies for the databases described here
 - [Updating](/install/updating) — updating safely, including the verified backup to take before a schema bump, and the rollback strategy
 - [Doctor](/gateway/doctor) — the repair and migration tool that fixes stale config/state and reports health problems
-- [`openclaw doctor`](/cli/doctor) — CLI reference for the command that runs those migrations
-- [`openclaw update`](/cli/update) — CLI reference for the updater that preflights schema support
+- [`openagent doctor`](/cli/doctor) — CLI reference for the command that runs those migrations
+- [`openagent update`](/cli/update) — CLI reference for the updater that preflights schema support
 
 ## Where each section moved
 

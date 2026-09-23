@@ -73,7 +73,7 @@ describe("resetCommand", () => {
 
     expect(
       cleanupCommandLogMessages(runtime).some((message) =>
-        message.includes("openclaw backup create"),
+        message.includes("openagent backup create"),
       ),
     ).toBe(true);
   });
@@ -88,7 +88,7 @@ describe("resetCommand", () => {
 
     expect(
       cleanupCommandLogMessages(runtime).some((message) =>
-        message.includes("openclaw backup create"),
+        message.includes("openagent backup create"),
       ),
     ).toBe(false);
   });

@@ -1,14 +1,14 @@
 ---
-summary: "Recovering from a failed `openclaw update`, plus the `update repair` and `update cleanup` subcommands"
+summary: "Recovering from a failed `openagent update`, plus the `update repair` and `update cleanup` subcommands"
 read_when:
   - An update or repair failed and you need a working install back
-  - You are running `openclaw update repair` and need its flags or exit codes
+  - You are running `openagent update repair` and need its flags or exit codes
   - You want to inspect or retire migration recovery originals after an update
 title: "Update repair and recovery"
 sidebarTitle: "Repair and recovery"
 ---
 
-What happens when an update fails, and the subcommands that finish the job. Part of the [`openclaw update`](/cli/update) reference.
+What happens when an update fails, and the subcommands that finish the job. Part of the [`openagent update`](/cli/update) reference.
 
 ## Recover a failed update
 
@@ -47,11 +47,11 @@ POSIX shells on macOS, Linux, and WSL. When running triage manually, keep the sa
 profile and state/config overrides:
 
 ```bash
-openclaw triage
-openclaw triage --agent codex
+openagent triage
+openagent triage --agent codex
 ```
 
-Use `openclaw triage --non-interactive` to collect diagnostics without starting
+Use `openagent triage --non-interactive` to collect diagnostics without starting
 an agent. Add `--update-result <path>` to include a saved update-failure artifact.
 
 Validation failures leave the serving Gateway untouched. If stopping the managed
@@ -77,15 +77,15 @@ Gateway, retry the update, or bypass safety checks. See
 
 Rerun update finalization after the core package already changed but later
 repair work did not finish cleanly. This is the supported recovery path when
-`openclaw update` installed the new core package but post-core plugin sync,
+`openagent update` installed the new core package but post-core plugin sync,
 managed npm plugin metadata, registry refresh, or doctor repair did not
 converge.
 
 ```bash
-openclaw update repair
-openclaw update repair --channel beta
-openclaw update repair --json
-openclaw update repair --accept-capabilities
+openagent update repair
+openagent update repair --channel beta
+openagent update repair --json
+openagent update repair --accept-capabilities
 ```
 
 | Flag                                             | Description                                                                                                                                                                                                                                                                                      |
@@ -98,9 +98,9 @@ openclaw update repair --accept-capabilities
 | `--no-restart`                                   | Accepted for parity; repair does not request update activation. Doctor can restore a Gateway it stopped for maintenance during a verified owning-run continuation.                                                                                                                               |
 
 Untouched, identityless 2026.9.2-era update admissions heal automatically after
-more than 24 hours. Gateway startup, `openclaw update status`, and `openclaw status`
+more than 24 hours. Gateway startup, `openagent update status`, and `openagent status`
 retain the row as an abandoned failure with reason `legacy-driver-expired` and an
-advisory to run `openclaw update` to retry. The Control UI refreshes the Gateway's
+advisory to run `openagent update` to retry. The Control UI refreshes the Gateway's
 recovery classification before refusing a suspended config write, so an expired
 orphan does not keep settings or provider sign-in blocked. Live updates and
 pending recovery remain protected. No explicit repair is needed for this shape.
@@ -135,7 +135,7 @@ An unrelated update whose driver is live or cannot be inspected still blocks
 repair, even after a long period without activity. The refusal identifies the
 owning run, phase, driver PID, host, start and last-activity times and ages, and observed liveness (`alive` or
 `not observed`). Wait for that update to finish, or stop the named driver on its
-host and rerun `openclaw update repair` after it exits. Elapsed inactivity alone
+host and rerun `openagent update repair` after it exits. Elapsed inactivity alone
 does not authorize taking over a live updater.
 
 Explicit channel or capability changes and known incomplete post-core work use
@@ -153,7 +153,7 @@ selected run resumes before reconciliation, the whole selection is preserved.
 Full finalization JSON includes `reconciledRuns` when stale rows were selected
 for recovery, listing the IDs reconciled by that invocation.
 
-For full finalization, `update repair` runs `openclaw doctor --fix`, reloads the repaired config and
+For full finalization, `update repair` runs `openagent doctor --fix`, reloads the repaired config and
 install records, syncs tracked plugins for the active update channel, updates
 managed npm plugin installs, repairs missing configured plugin payloads,
 refreshes the plugin registry, and writes converged install-record metadata.
@@ -175,7 +175,7 @@ repaired install record is published.
 
 When a bundled plugin moves to an external package, failed relocation reports
 that the replacement payload was not installed and preserves the underlying error.
-Resolve that error before retrying with `openclaw update repair`.
+Resolve that error before retrying with `openagent update repair`.
 Doctor and update repair reinstall configured payloads with missing package files
 or a reported missing runtime entry;
 an empty directory is not a successful installation. Rollback removes empty
@@ -250,7 +250,7 @@ interactive review or explicit `--accept-capabilities`. `--yes` alone does not
 accept capability changes, and JSON mode does not prompt. An unresolved review
 preserves the previous plugin payload and appears in `postUpdate.plugins.warnings`
 with a `PLUGIN_CAPABILITY_CONSENT_REQUIRED` outcome. When required checks pass,
-`openclaw update` can complete the core update and requested Gateway restart with
+`openagent update` can complete the core update and requested Gateway restart with
 `status: "ok"`; `update repair` reports `status: "warning"` without requesting
 update activation. Both commands exit successfully. This also applies when a
 bundled plugin moves to an external package or a missing configured plugin has
@@ -258,9 +258,9 @@ no install record yet; the unreviewed replacement is not installed. Automatic re
 report a deferred replacement as a notice when a usable, enabled artifact remains
 installed; that retained artifact still undergoes payload validation.
 
-If the core package has already changed, run `openclaw update repair` in an
+If the core package has already changed, run `openagent update repair` in an
 interactive terminal to review plugin capabilities. After reviewing the changes,
-automation can use `openclaw update repair --accept-capabilities`. Acceptance
+automation can use `openagent update repair --accept-capabilities`. Acceptance
 applies to each artifact's recomputed declared surface during this invocation;
 it does not approve future capability additions.
 
@@ -280,7 +280,7 @@ before attempting recovery, and include the warning and archive filenames when
 requesting help. Do not delete or rewrite archives or checkpoints to suppress
 the warning.
 
-The warning repeats on later Doctor or `openclaw update repair` runs until the
+The warning repeats on later Doctor or `openagent update repair` runs until the
 archive is resolved. Successful finalization does not mean this historical audit
 data was imported. There is currently no supported sanitized-only import when
 the raw archive is unusable: accepting the companion as a recovery source needs
@@ -294,8 +294,8 @@ session history work. Start with a preview, which can run while the Gateway is
 active:
 
 ```bash
-openclaw update cleanup --dry-run
-openclaw --profile work update cleanup --dry-run --json
+openagent update cleanup --dry-run
+openagent --profile work update cleanup --dry-run --json
 ```
 
 Cleanup targets the selected profile and `OPENCLAW_STATE_DIR` / `OPENCLAW_CONFIG_PATH`
@@ -309,7 +309,7 @@ include reason codes.
 
 Before applying, stop the Gateway for that same profile/state directory and wait
 for other SQLite maintenance commands to finish. Stop database readers too,
-including watchers that repeatedly run `openclaw sessions --all-agents --json`,
+including watchers that repeatedly run `openagent sessions --all-agents --json`,
 and keep them stopped until cleanup exits. Read-only SQLite connections can
 create or change WAL/SHM sidecars, invalidating cleanup's destination check even
 when session content is unchanged. If cleanup reports `Recovery destination
@@ -325,8 +325,8 @@ them, if you still need that rollback path. Current SQLite history stays in plac
 </Warning>
 
 ```bash
-openclaw update cleanup
-openclaw update cleanup --yes --json
+openagent update cleanup
+openagent update cleanup --yes --json
 ```
 
 Interactive confirmation defaults to **No**. JSON mode never prompts or grants

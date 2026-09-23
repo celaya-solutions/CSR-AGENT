@@ -135,7 +135,7 @@ export async function formatConfigChannelsStatusLines(
 
   lines.push("");
   lines.push(
-    `Tip: ${formatCliCommand("openclaw status --deep")} adds gateway health probes to status output (requires a reachable gateway).`,
+    `Tip: ${formatCliCommand("openagent status --deep")} adds gateway health probes to status output (requires a reachable gateway).`,
   );
   return lines;
 }

@@ -28,9 +28,9 @@ pnpm add --global "openclaw@link:$PWD"
 Verify:
 
 ```powershell
-openclaw --version
-openclaw doctor
-openclaw gateway status --json
+openagent --version
+openagent doctor
+openagent gateway status --json
 ```
 
 Managed startup uses Windows Scheduled Tasks when available. The task keeps
@@ -42,7 +42,7 @@ falls back to a per-user Startup-folder login item.
 The hidden launcher owns the supervised Gateway process tree. Ending the task
 with `schtasks /end /tn "OpenAgent Gateway"`, `Stop-ScheduledTask`, or Task
 Scheduler's **End** action terminates the Gateway and its descendants. After
-updating an older installation, run `openclaw gateway install --force` to
+updating an older installation, run `openagent gateway install --force` to
 regenerate the launcher if the update did not refresh it.
 
 Gateway status and Doctor read the Scheduled Task's numeric current state, independently of the Windows display language or console code page. A previous task exit result does not prove whether it is running now. Queued or unknown tasks do not count as safely stopped for Doctor maintenance. Stop a queued task through its service owner; if inspection is inaccessible, restore Task Scheduler inspection permissions before retrying.
@@ -54,20 +54,20 @@ without compiling C# or launching PowerShell for their permissions. The owner,
 SYSTEM, and Administrators retain full access; other inherited access is removed
 at creation. Update restart helpers also avoid runtime C# compilation and
 `Invoke-Expression`. If antivirus software still interrupts a start, include its
-detection name and the output of `openclaw gateway status --json` in your report.
+detection name and the output of `openagent gateway status --json` in your report.
 
 Install the Gateway service:
 
 ```powershell
-openclaw gateway install
-openclaw gateway status --json
+openagent gateway install
+openagent gateway status --json
 ```
 
 For CLI-only use without a managed Gateway service:
 
 ```powershell
-openclaw onboard --non-interactive --accept-risk --skip-health
-openclaw gateway run
+openagent onboard --non-interactive --accept-risk --skip-health
+openagent gateway run
 ```
 
 ## WSL2 Gateway
@@ -101,7 +101,7 @@ Then install OpenAgent inside WSL [from source](/install), the same way as on
 Linux, and check the Gateway:
 
 ```bash
-openclaw gateway status
+openagent gateway status
 ```
 
 ## Gateway auto-start before Windows login
@@ -114,7 +114,7 @@ Inside WSL:
 ```bash
 sudo apt-get install -y dbus-x11
 sudo loginctl enable-linger "$(whoami)"
-openclaw gateway install
+openagent gateway install
 ```
 
 In PowerShell as Administrator:
@@ -184,7 +184,7 @@ Notes:
 
 ### The Scheduled Task stops before the Gateway is ready
 
-Run `openclaw gateway status --json`, then inspect the local [Gateway log](/gateway/logging).
+Run `openagent gateway status --json`, then inspect the local [Gateway log](/gateway/logging).
 Entries from `gateway/task-supervisor` record the child exit code, signal, and
 the last 8,192 characters of stderr, including failures before Gateway logging
 starts. Child stdout is discarded. A failed child or supervisor exits nonzero;
@@ -194,7 +194,7 @@ not prove the Gateway is healthy.
 Task Scheduler's [`RestartOnFailure` policy](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-tsch/2ff4aa5a-7bc4-449f-bbb1-27475645867f)
 retries failed start conditions or action launches. Do not rely on it to restart
 a Gateway that launches successfully and then exits with an error, such as an
-occupied port. Fix the logged cause, then run `openclaw gateway start`.
+occupied port. Fix the logged cause, then run `openagent gateway start`.
 
 ### Web chat cannot reach a remote Gateway
 

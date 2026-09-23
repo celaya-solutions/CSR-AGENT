@@ -14,9 +14,9 @@ title: "Session state on disk"
 Older installs may still have `sessions.json` files under the agent `sessions/`
 directory. Treat those files as legacy session-row migration inputs or explicit
 offline-maintenance targets. Gateway startup does not import them. Stop the
-Gateway, back up its state, and use `openclaw doctor --fix` to import legacy rows
+Gateway, back up its state, and use `openagent doctor --fix` to import legacy rows
 and transcript history into the per-agent SQLite store. Run
-`openclaw doctor --session-sqlite inspect --session-sqlite-all-agents`, then
+`openagent doctor --session-sqlite inspect --session-sqlite-all-agents`, then
 follow the [Doctor migration sequence](/cli/doctor#session-sqlite-migration)
 for inspection and validation. If a migration fails after legacy transcript
 artifacts were archived, use the Doctor recovery mode from that sequence.

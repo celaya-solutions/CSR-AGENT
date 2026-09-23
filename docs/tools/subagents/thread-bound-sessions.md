@@ -88,7 +88,7 @@ app-server, and other configured native runtimes.
 `allowAgents` entries must point at configured agent ids in `agents.entries.*`.
 `["*"]` means any configured target agent plus the requester. If an agent config
 is deleted but its id remains in `allowAgents`, `sessions_spawn` rejects that id
-and `agents_list` omits it. Run `openclaw doctor --fix` to clean stale
+and `agents_list` omits it. Run `openagent doctor --fix` to clean stale
 allowlist entries, or add a minimal `agents.entries.*` entry when the target should
 remain spawnable while inheriting defaults.
 

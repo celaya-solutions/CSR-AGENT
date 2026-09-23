@@ -7,7 +7,7 @@ read_when:
 title: "Audit records"
 ---
 
-# `openclaw audit`
+# `openagent audit`
 
 Query the Gateway's metadata-only activity ledger, discover executions that
 share a run correlation, or inspect immutable identity context for one exact
@@ -17,8 +17,8 @@ Run and tool activity records are on by default. Execution identity is
 separately off by default on fresh installs and upgrades. Enable it explicitly:
 
 ```bash
-openclaw config set logging.audit.executionIdentity true
-openclaw gateway restart
+openagent config set logging.audit.executionIdentity true
+openagent gateway restart
 ```
 
 Identity collection requires `logging.audit.enabled` to remain enabled.
@@ -27,7 +27,7 @@ Message records are also separately disabled by default; set
 record them. Existing records stay queryable until they expire (30 days).
 
 Direct local commands use the same bounded writer lifecycle as the Gateway.
-`openclaw agent exec` deletes its temporary state directory by default, so its
+`openagent agent exec` deletes its temporary state directory by default, so its
 audit evidence is intentionally discarded with the rest of that isolated run.
 Use `agent exec --state-dir <dir>` when the run state must remain available,
 and inspect it through a Gateway using that same state directory.
@@ -40,16 +40,16 @@ privacy semantics, storage/retention bounds, and coverage limits; this page
 covers the command surface.
 
 ```bash
-openclaw audit
-openclaw audit --agent main --status failed
-openclaw audit --session "agent:main:main" --after 2026-07-01T00:00:00Z
-openclaw audit --run 8c69f72e-8b11-4c54-98d5-1a3dd67450c3
-openclaw audit --run 8c69f72e-8b11-4c54-98d5-1a3dd67450c3 --explain
-openclaw audit --execution 5da4c4c3-e1c9-4c95-a17d-6e5c10fd45cf --explain
-openclaw audit --execution 5da4c4c3-e1c9-4c95-a17d-6e5c10fd45cf --explain --json
-openclaw audit --run 8c69f72e-8b11-4c54-98d5-1a3dd67450c3 --explain --json
-openclaw audit --kind tool_action --limit 50 --json
-openclaw audit --kind message --direction outbound --channel telegram --json
+openagent audit
+openagent audit --agent main --status failed
+openagent audit --session "agent:main:main" --after 2026-07-01T00:00:00Z
+openagent audit --run 8c69f72e-8b11-4c54-98d5-1a3dd67450c3
+openagent audit --run 8c69f72e-8b11-4c54-98d5-1a3dd67450c3 --explain
+openagent audit --execution 5da4c4c3-e1c9-4c95-a17d-6e5c10fd45cf --explain
+openagent audit --execution 5da4c4c3-e1c9-4c95-a17d-6e5c10fd45cf --explain --json
+openagent audit --run 8c69f72e-8b11-4c54-98d5-1a3dd67450c3 --explain --json
+openagent audit --kind tool_action --limit 50 --json
+openagent audit --kind message --direction outbound --channel telegram --json
 ```
 
 ## Filters
@@ -103,7 +103,7 @@ activity list. One match resolves directly. Multiple matches return
 `ambiguous`, list at most 50 candidates, and tell you to select one explicitly:
 
 ```bash
-openclaw audit --execution <execution-id> --explain
+openagent audit --execution <execution-id> --explain
 ```
 
 OpenAgent never silently selects the first or latest execution. The exact text
@@ -321,7 +321,7 @@ returns the named V1 activity event union, including run, tool, inbound-message,
 and terminal outbound-message records.
 
 ```bash
-openclaw gateway call audit.activity.list --params '{"channel":"telegram","limit":50}'
+openagent gateway call audit.activity.list --params '{"channel":"telegram","limit":50}'
 ```
 
 The result is `{ "events": AuditActivityEventV1[], "nextCursor"?: string }`.
@@ -330,10 +330,10 @@ Results are newest first and limited to 500 records per request.
 `audit.run.inspect` also requires `operator.read`:
 
 ```bash
-openclaw gateway call audit.run.inspect \
+openagent gateway call audit.run.inspect \
   --params '{"runId":"8c69f72e-8b11-4c54-98d5-1a3dd67450c3","decisionLimit":50}'
 
-openclaw gateway call audit.run.inspect \
+openagent gateway call audit.run.inspect \
   --params '{"executionId":"5da4c4c3-e1c9-4c95-a17d-6e5c10fd45cf","decisionLimit":50}'
 ```
 

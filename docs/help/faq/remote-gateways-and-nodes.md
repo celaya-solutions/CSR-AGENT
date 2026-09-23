@@ -24,11 +24,11 @@ read_when:
     1. Run the Gateway on the always-on host (VPS/home server).
     2. Put the Gateway host and your computer on the same tailnet.
     3. Ensure the Gateway WS is reachable (tailnet bind or SSH tunnel).
-    4. Run a node host locally (`openclaw node run --host <gateway-host>`) so it registers as a node.
+    4. Run a node host locally (`openagent node run --host <gateway-host>`) so it registers as a node.
     5. Approve the node:
        ```bash
-       openclaw devices list
-       openclaw devices approve <requestId>
+       openagent devices list
+       openagent devices approve <requestId>
        ```
 
     No separate TCP bridge is required; nodes connect over the Gateway WebSocket.
@@ -43,9 +43,9 @@ read_when:
     Check the basics:
 
     ```bash
-    openclaw gateway status
-    openclaw status
-    openclaw channels status
+    openagent gateway status
+    openagent status
+    openagent channels status
     ```
 
     Then verify auth and routing: if you use Tailscale Serve, confirm `gateway.auth.allowTailscale` is set correctly; if you connect via SSH tunnel, confirm the tunnel is up and points at the right port; confirm your DM/group allowlists include your account.
@@ -59,10 +59,10 @@ read_when:
 
     **Simplest**: use a normal chat channel both bots can access (Discord/Telegram). Have Bot A message Bot B, then let Bot B reply as usual.
 
-    **CLI bridge (generic)**: run a script that calls the other Gateway with `openclaw agent --message ... --deliver`, targeting a chat where the other bot listens. If one bot is on a remote VPS, point your CLI at that remote Gateway via SSH/Tailscale (see [Remote access](/gateway/remote)):
+    **CLI bridge (generic)**: run a script that calls the other Gateway with `openagent agent --message ... --deliver`, targeting a chat where the other bot listens. If one bot is on a remote VPS, point your CLI at that remote Gateway via SSH/Tailscale (see [Remote access](/gateway/remote)):
 
     ```bash
-    openclaw agent --message "Hello from local bot" --deliver --channel telegram --reply-to <chat-id>
+    openagent agent --message "Hello from local bot" --deliver --channel telegram --reply-to <chat-id>
     ```
 
     Add a guardrail so the two bots do not loop endlessly (mention-only, channel allowlists, or a "do not reply to bot messages" rule).
@@ -134,7 +134,7 @@ read_when:
     For the Control UI without SSH, use Tailscale Serve on the VPS:
 
     ```bash
-    openclaw gateway --tailscale serve
+    openagent gateway --tailscale serve
     ```
 
     This keeps the gateway bound to loopback and exposes HTTPS via Tailscale. See [Tailscale](/gateway/tailscale).
@@ -145,11 +145,11 @@ read_when:
     Serve exposes the **Gateway Control UI + WS**; nodes connect over the same Gateway WS endpoint.
 
     1. Make sure the VPS and your machine are on the same tailnet.
-    2. Run `openclaw node run --host <tailnet-hostname> --port 443 --tls` on your machine so it connects as a node.
+    2. Run `openagent node run --host <tailnet-hostname> --port 443 --tls` on your machine so it connects as a node.
     3. Approve the node:
        ```bash
-       openclaw devices list
-       openclaw devices approve <requestId>
+       openagent devices list
+       openagent devices approve <requestId>
        ```
 
     Docs: [Gateway protocol](/gateway/protocol), [Discovery](/gateway/discovery), [Run a node host](/nodes/node-host).

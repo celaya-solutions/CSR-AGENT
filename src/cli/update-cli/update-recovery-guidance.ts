@@ -14,7 +14,7 @@ export function resolveUnsafeUpdateRecoveryGuidance(
   reason?: UnsafeUpdateRecovery["reason"],
   env: NodeJS.ProcessEnv = process.env,
 ): string {
-  const triageCommand = formatCliCommand("openclaw triage", env);
+  const triageCommand = formatCliCommand("openagent triage", env);
   const guidance = `Run \`${triageCommand}\` on this machine to open a coding agent that can diagnose and repair the installation.`;
   if (reason === "state-migration-started") {
     return `${guidance} Candidate Doctor may have migrated state; keep the candidate installed and do not roll back code alone.`;
@@ -74,16 +74,16 @@ export function resolveUpdateResultNextAction(params: {
   }
   const command = (value: string) => formatCliCommand(value, env);
   if (result.reason === "dirty") {
-    return `Git-based updates need a clean working tree before they can switch commits, fetch, or rebase. Commit, stash, or discard the local changes, then rerun \`${command("openclaw update")}\`.`;
+    return `Git-based updates need a clean working tree before they can switch commits, fetch, or rebase. Commit, stash, or discard the local changes, then rerun \`${command("openagent update")}\`.`;
   }
   if (result.reason === "not-git-install") {
-    return `This OpenAgent install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${command("openclaw doctor")}\` and \`${command("openclaw gateway restart")}\`. Examples: \`npm i -g openclaw@latest\` or \`pnpm add -g openclaw@latest\`.`;
+    return `This OpenAgent install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${command("openagent doctor")}\` and \`${command("openagent gateway restart")}\`.`;
   }
   if (result.status === "ok") {
     if (params.restart === false && result.postUpdate?.plugins?.changed) {
-      return `Plugins updated; Gateway restart skipped (--no-restart). Run \`${command("openclaw gateway restart")}\` to activate them in the running Gateway.`;
+      return `Plugins updated; Gateway restart skipped (--no-restart). Run \`${command("openagent gateway restart")}\` to activate them in the running Gateway.`;
     }
-    return `After verifying your history, preview recovery rollback retirement with ${command("openclaw update cleanup --dry-run")} for state ${resolveStateDir(env)}. Keep the same state/config overrides.`;
+    return `After verifying your history, preview recovery rollback retirement with ${command("openagent update cleanup --dry-run")} for state ${resolveStateDir(env)}. Keep the same state/config overrides.`;
   }
   return undefined;
 }

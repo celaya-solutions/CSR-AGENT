@@ -64,7 +64,7 @@ Bind mounts are the supported multi-folder boundary because Docker constructs th
 The opt-in `dangerouslyAllowExternalBindSources` only permits sources outside the workspace roots. It does not disable OpenAgent's blocked system, credential, Docker socket, symlink-parent, or reserved-target checks. Prefer the smallest folder, use `ro` unless writes are required, and recreate the sandbox after changing mounts:
 
 ```bash
-openclaw sandbox recreate --agent research
+openagent sandbox recreate --agent research
 ```
 
 ### Other bind behavior

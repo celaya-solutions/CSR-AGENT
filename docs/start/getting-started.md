@@ -40,16 +40,16 @@ Need to install Node? See [Node setup](/install/node).
     <Note>
     Docker, Podman, and an optional global `openclaw` command: [Install](/install).
     The steps below write commands as `openclaw ...`; from inside the checkout,
-    run them as `pnpm openclaw ...`.
+    run them as `pnpm openagent ...`.
     </Note>
 
   </Step>
   <Step title="Complete onboarding">
-    Run `pnpm openclaw onboard` to start the guided onboarding wizard. Choose
+    Run `pnpm openagent onboard` to start the guided onboarding wizard. Choose
     **Quick start** to reuse detected AI access and open the dashboard, or
     **Custom setup** for the full guided flow. Provider sign-in and optional
-    setup can take longer. Return later with `openclaw configure` for
-    additional settings. `openclaw onboard --classic` opens the classic
+    setup can take longer. Return later with `openagent configure` for
+    additional settings. `openagent onboard --classic` opens the classic
     step-by-step wizard instead.
 
     See [Onboarding (CLI)](/start/wizard) for the full reference.
@@ -61,7 +61,7 @@ Need to install Node? See [Node setup](/install/node).
     foreground Gateway, then install the service:
 
     ```bash
-    openclaw gateway install
+    openagent gateway install
     ```
 
     This installs a LaunchAgent on macOS, a systemd user unit on Linux and
@@ -72,7 +72,7 @@ Need to install Node? See [Node setup](/install/node).
   </Step>
   <Step title="Verify the Gateway is running">
     ```bash
-    openclaw gateway status
+    openagent gateway status
     ```
 
     You should see the Gateway listening on port 18789.
@@ -80,7 +80,7 @@ Need to install Node? See [Node setup](/install/node).
   </Step>
   <Step title="Open the dashboard">
     ```bash
-    openclaw dashboard
+    openagent dashboard
     ```
 
     This opens the Control UI in your browser. If it loads, everything is working.
@@ -122,8 +122,8 @@ Then set:
 Restart the gateway and reopen the dashboard:
 
 ```bash
-openclaw gateway restart
-openclaw dashboard
+openagent gateway restart
+openagent dashboard
 ```
 
 </Accordion>
@@ -133,14 +133,14 @@ openclaw dashboard
 One command turns the current state of your install into a diagnosis you can act on:
 
 ```bash
-openclaw triage
+openagent triage
 ```
 
 It runs read-only health checks, writes a sanitized prompt describing what it found, and then offers to hand that prompt to a coding agent it detects on your machine — Claude Code, Codex CLI, or the built-in OpenAgent agent — so the agent starts with the diagnosis already loaded. Pick "just print the commands" if you would rather run the handoff yourself.
 
 Nothing leaves your machine until you choose an agent, and secrets, tokens, raw chat payloads, and raw logs are excluded from the prompt.
 
-To read the findings yourself instead, run [`openclaw doctor`](/cli/doctor). For symptom-first routes, see [Troubleshooting](/help/troubleshooting).
+To read the findings yourself instead, run [`openagent doctor`](/cli/doctor). For symptom-first routes, see [Troubleshooting](/help/troubleshooting).
 
 ## What to do next
 

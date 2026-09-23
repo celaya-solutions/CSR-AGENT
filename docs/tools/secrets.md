@@ -47,7 +47,7 @@ reason. For egress use, it proposes the exact destination hosts too.
 
 There is deliberately no action that writes a value the agent supplies. If a
 value must enter the store, it arrives through the human prompt, the
-`/settings/secrets` page, or the [`openclaw secrets store` CLI](/cli/secrets).
+`/settings/secrets` page, or the [`openagent secrets store` CLI](/cli/secrets).
 
 ## Answering a request
 
@@ -68,9 +68,9 @@ Use the Control UI if you need to edit it before submitting. **Skip** declines
 the request. Esc leaves it pending, and `/question` reopens it. Never enter a
 credential in the ordinary composer.
 
-Local mode (`openclaw chat` or `openclaw tui --local`) cannot fulfill store-bound
+Local mode (`openagent chat` or `openagent tui --local`) cannot fulfill store-bound
 requests. The agent receives a blocker directing the operator to run
-`openclaw secrets store` or use the Control UI with a running Gateway. The local
+`openagent secrets store` or use the Control UI with a running Gateway. The local
 question prompt supports masked input, but that alone does not provide the
 Gateway's secret-store write and runtime refresh flow.
 
@@ -82,7 +82,7 @@ egress substitution while keeping the credential usable through config SecretRef
 
 Once the store write commits, the request is answered and cannot be submitted
 again. A later runtime refresh failure does not undo that write: resolve the
-reported provider error and run `openclaw secrets reload`, rather than resubmitting.
+reported provider error and run `openagent secrets reload`, rather than resubmitting.
 
 The same tool result reports `status: "stored"`, the SecretRef, and `currentPolicy`
 from one follow-up metadata read. This is the entry's current host list, which you

@@ -175,7 +175,7 @@ describe("harness runtime plugins", () => {
     expect((error as Error).message).toContain(
       'Owner plugin "codex" is absent from this prepared plugin generation.',
     );
-    expect((error as Error).message).toContain('Run "openclaw doctor --fix"');
+    expect((error as Error).message).toContain('Run "openagent doctor --fix"');
   });
 
   it("reports a manifest owner's restrictive allowlist blocker", async () => {
@@ -228,7 +228,7 @@ describe("harness runtime plugins", () => {
     );
     expect((error as Error).message).not.toContain("absent from this prepared plugin generation");
     // The first chat error uses the Gateway's bounded formatter, before the full reply arrives.
-    expect(formatForLog((error as Error).message)).toContain('Run "openclaw doctor --fix"');
+    expect(formatForLog((error as Error).message)).toContain('Run "openagent doctor --fix"');
   });
 
   it.each([
@@ -351,12 +351,12 @@ describe("harness runtime plugins", () => {
       'Owner plugin "custom-owner" failed during register.',
     );
     expect((error as Error).message).toContain(
-      'Run "openclaw plugins inspect custom-owner --runtime --json"',
+      'Run "openagent plugins inspect custom-owner --runtime --json"',
     );
     expect((error as Error).message).not.toContain("not in allowlist");
     expect((error as Error).message).not.toContain("registration exploded");
     expect(formatForLog((error as Error).message)).toContain(
-      'Run "openclaw plugins inspect custom-owner --runtime --json"',
+      'Run "openagent plugins inspect custom-owner --runtime --json"',
     );
   });
 
@@ -393,7 +393,7 @@ describe("harness runtime plugins", () => {
     );
     expect((error as Error).message).not.toContain("not in allowlist");
     expect(formatForLog((error as Error).message)).toContain(
-      'Run "openclaw plugins inspect custom-owner --runtime --json"',
+      'Run "openagent plugins inspect custom-owner --runtime --json"',
     );
   });
 

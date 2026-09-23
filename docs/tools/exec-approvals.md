@@ -59,11 +59,11 @@ for matching, prompting, and binding restrictions.
 
 ## Inspecting the effective policy
 
-| Command                                                          | What it shows                                                                              |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `openclaw approvals get` / `--gateway` / `--node <id\|name\|ip>` | Requested policy, host policy sources, and the effective result.                           |
-| `openclaw exec-policy show`                                      | Local-machine merged view.                                                                 |
-| `openclaw exec-policy set` / `preset`                            | Synchronize the local requested policy with the local host approvals document in one step. |
+| Command                                                           | What it shows                                                                              |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `openagent approvals get` / `--gateway` / `--node <id\|name\|ip>` | Requested policy, host policy sources, and the effective result.                           |
+| `openagent exec-policy show`                                      | Local-machine merged view.                                                                 |
+| `openagent exec-policy set` / `preset`                            | Synchronize the local requested policy with the local host approvals document in one step. |
 
 <Note>
 Per-session `/exec` overrides are not included. Run `/exec` in the relevant session to inspect its current defaults. See [session overrides](/tools/exec#session-overrides-%2Fexec).
@@ -109,7 +109,7 @@ State directories are independent trust scopes. When `OPENCLAW_STATE_DIR`
 points somewhere else, OpenAgent never imports or archives approvals from the
 default state directory. Configure approvals separately for the custom state
 directory. If the active state directory still contains a legacy
-`exec-approvals.json`, stop the Gateway and run `openclaw doctor --fix` once to
+`exec-approvals.json`, stop the Gateway and run `openagent doctor --fix` once to
 import it. Doctor also imports legacy
 `plugin-binding-approvals.json` only when it belongs to the active state
 directory.
@@ -120,7 +120,7 @@ import, including when the config still needs repair. This does not relax
 canonical policy validation: other malformed fields or conflicting legacy
 policies remain preserved for operator recovery, and exec approvals stay
 blocked until the legacy file is resolved. After repair, verify with
-`openclaw approvals get` using the same state directory.
+`openagent approvals get` using the same state directory.
 
 Example schema:
 
@@ -195,7 +195,7 @@ An incomplete pair needs an explicit choice of the intended policy before
 conversion. Pairs with `ask: "always"`, or `security: "full", ask: "on-miss"`,
 have no exact mode equivalent: retain both legacy fields and remove `mode` from
 that same object to keep their policy. Preserve other exec settings when replacing
-an object. Run `openclaw doctor --fix` for a saved file that still needs migration.
+an object. Run `openagent doctor --fix` for a saved file that still needs migration.
 Running it again does not update a stale deployment source.
 
 ### `exec.security`
@@ -328,15 +328,15 @@ If you want a more conservative setup, tighten OpenAgent exec policy back to
 <Steps>
   <Step title="Set the requested config policy">
     ```bash
-    openclaw config set tools.exec.host gateway
-    openclaw config set tools.exec.mode full
-    openclaw config set tools.exec.strictInlineEval false
-    openclaw gateway restart
+    openagent config set tools.exec.host gateway
+    openagent config set tools.exec.mode full
+    openagent config set tools.exec.strictInlineEval false
+    openagent gateway restart
     ```
   </Step>
   <Step title="Match the host approvals document">
     ```bash
-    openclaw approvals set --stdin <<'EOF'
+    openagent approvals set --stdin <<'EOF'
     {
       version: 1,
       defaults: {
@@ -353,28 +353,28 @@ If you want a more conservative setup, tighten OpenAgent exec policy back to
 ### Local shortcut
 
 ```bash
-openclaw exec-policy preset yolo
+openagent exec-policy preset yolo
 ```
 
 Updates both local `tools.exec.host/security/ask` and the local approvals
 file defaults (including `askFallback: "full"`). It is intentionally
 local-only. To change gateway-host or node-host approvals remotely, use
-`openclaw approvals set --gateway` or
-`openclaw approvals set --node <id|name|ip>`.
+`openagent approvals set --gateway` or
+`openagent approvals set --node <id|name|ip>`.
 
 Other built-in presets: `cautious` (`host=gateway`, `security=allowlist`,
 `ask=on-miss`, `askFallback=deny`) and `deny-all` (`host=gateway`,
 `security=deny`, `ask=off`, `askFallback=deny`). Apply the same way:
-`openclaw exec-policy preset cautious`.
+`openagent exec-policy preset cautious`.
 
-To set individual fields instead of a full preset, use `openclaw exec-policy set --host <auto|sandbox|gateway|node> --security <deny|allowlist|full> --ask <off|on-miss|always> --ask-fallback <deny|allowlist|full>` with any subset of those flags.
+To set individual fields instead of a full preset, use `openagent exec-policy set --host <auto|sandbox|gateway|node> --security <deny|allowlist|full> --ask <off|on-miss|always> --ask-fallback <deny|allowlist|full>` with any subset of those flags.
 
 ### Node host
 
 Apply the same approvals document on the node instead:
 
 ```bash
-openclaw approvals set --node <id|name|ip> --stdin <<'EOF'
+openagent approvals set --node <id|name|ip> --stdin <<'EOF'
 {
   version: 1,
   defaults: {
@@ -389,9 +389,9 @@ EOF
 <Note>
 **Local-only limitations:**
 
-- `openclaw exec-policy` does not synchronize node approvals.
-- `openclaw exec-policy set --host node` is rejected.
-- Node exec approvals are fetched from the node at runtime, so node-targeted updates must use `openclaw approvals --node ...`.
+- `openagent exec-policy` does not synchronize node approvals.
+- `openagent exec-policy set --host node` is rejected.
+- Node exec approvals are fetched from the node at runtime, so node-targeted updates must use `openagent approvals --node ...`.
 
 </Note>
 
@@ -467,8 +467,8 @@ directory where you approved them. Choosing **Always allow here** authorizes the
 same command only in that directory. Running it elsewhere is an allowlist miss.
 
 Generated entries saved before 2026.8.1 are not directory-bound and are inactive
-after upgrading. `openclaw update` removes them during its automatic Doctor pass,
-or you can run `openclaw doctor --fix` yourself. Rerun an affected workflow and
+after upgrading. `openagent update` removes them during its automatic Doctor pass,
+or you can run `openagent doctor --fix` yourself. Rerun an affected workflow and
 choose **Always allow here** to create the replacement. Manual allowlist rules
 are not changed. For a manual path-only rule, omit both `source` and
 `argPattern`.
@@ -511,14 +511,14 @@ configuration and hook registration, such as for a new session or after a
 restart. The current session continues using Codex's remembered decision.
 OpenAgent does not reload grants for every tool call.
 
-To inspect grants, run `openclaw approvals get --gateway`. To revoke one,
+To inspect grants, run `openagent approvals get --gateway`. To revoke one,
 export the document, remove its entry from `agents.<agentId>.mcpTools`, and
 replace the document with the existing `set` command:
 
 ```bash
-openclaw approvals get --gateway --json | jq '.file' > approvals.json
+openagent approvals get --gateway --json | jq '.file' > approvals.json
 # Edit approvals.json, preserving other settings, allowlists, and grants.
-openclaw approvals set --gateway --file approvals.json
+openagent approvals set --gateway --file approvals.json
 ```
 
 Omit `--gateway` from both commands to edit local approvals. Revocation takes
@@ -573,7 +573,7 @@ change retroactively:
   knob for managed deployments that require periodic re-approval.
 - A resolving surface may override the default per grant with the
   `grantExpiresInDays` field on `approval.resolve` /
-  `exec.approval.resolve`, or `openclaw approvals resolve <id> allow-always
+  `exec.approval.resolve`, or `openagent approvals resolve <id> allow-always
 --expires-in-days <n>`. The override wins over the config default.
 - Expired grants fall back to prompting and are pruned opportunistically.
 
@@ -584,8 +584,8 @@ Every standing grant is visible and revocable:
 - **Control UI**: Settings → Approvals shows the standing-grant ledger —
   automation, exact command, use count, and state (until revoked, expires in
   N days, expired, revoked) — with a Revoke action per active row.
-- **CLI**: `openclaw approvals grants list` renders the same ledger.
-  `openclaw approvals grants revoke <grant-id>` revokes one grant. Revocation
+- **CLI**: `openagent approvals grants list` renders the same ledger.
+  `openagent approvals grants revoke <grant-id>` revokes one grant. Revocation
   is idempotent and takes effect at the next occurrence's spawn boundary —
   that occurrence prompts again.
 - Deleting or editing the automation, or reversing the minting approval,
@@ -639,10 +639,10 @@ node host). If a node does not advertise exec approvals yet, edit its
 local approvals document directly.
 
 Some node hosts own a different approval policy format. Control UI shows these
-host-native policies read-only. Use `openclaw approvals set --node <id|name|ip>`
+host-native policies read-only. Use `openagent approvals set --node <id|name|ip>`
 with the native policy shape to edit them. See [Approvals CLI](/cli/approvals).
 
-CLI: `openclaw approvals` supports gateway or node editing - see
+CLI: `openagent approvals` supports gateway or node editing - see
 [Approvals CLI](/cli/approvals).
 
 ## Approval flow

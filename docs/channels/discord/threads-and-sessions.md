@@ -15,19 +15,19 @@ How Discord threads, forums, and channels map onto OpenAgent sessions.
 Discord forum and media channels only accept thread posts. OpenAgent supports two ways to create them:
 
 - Send a message to the forum parent (`channel:<forumId>`) to auto-create a thread. The thread title is the first non-empty line of the message (truncated to Discord's 100-character thread-name limit).
-- Use `openclaw message thread create` to create a thread directly. Do not pass `--message-id` for forum channels.
+- Use `openagent message thread create` to create a thread directly. Do not pass `--message-id` for forum channels.
 
 Send to the forum parent to create a thread:
 
 ```bash
-openclaw message send --channel discord --target channel:<forumId> \
+openagent message send --channel discord --target channel:<forumId> \
   --message "Topic title\nBody of the post"
 ```
 
 Create a forum thread explicitly:
 
 ```bash
-openclaw message thread create --channel discord --target channel:<forumId> \
+openagent message thread create --channel discord --target channel:<forumId> \
   --thread-name "Topic title" --message "Body of the post"
 ```
 
@@ -91,7 +91,7 @@ Forum parents do not accept Discord components. If you need components, send to 
     - `session.threadBindings.*` is the canonical policy for Discord and Telegram.
     - `spawnSessions` controls auto-create/bind threads for `sessions_spawn({ thread: true })` and ACP thread spawns. Default: `true`.
     - `defaultSpawnContext` controls native subagent context for thread-bound spawns. Default: `"fork"`.
-    - Deprecated `spawnSubagentSessions`/`spawnAcpSessions` keys are migrated by `openclaw doctor --fix`.
+    - Deprecated `spawnSubagentSessions`/`spawnAcpSessions` keys are migrated by `openagent doctor --fix`.
     - If thread bindings are disabled, thread-bound spawns are unavailable.
 
     See [Sub-agents](/tools/subagents), [ACP Agents](/tools/acp-agents), and [Configuration Reference](/gateway/configuration-reference).

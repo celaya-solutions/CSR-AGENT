@@ -57,7 +57,7 @@ Connect the channel your team lives in. Example: a Discord bot, allowed in one t
 }
 ```
 
-Group chats are a first-class deployment. The defaults are already team-shaped. Group access is allowlisted per room, and replies require a mention. DMs stay on the pairing default: the first time a teammate DMs the bot they get a pairing code. Approve it with `openclaw pairing approve discord <code>`. So the bot participates when addressed and stays quiet otherwise. In a private room whose members you trust, that is all the gating you need. For broad or public rooms, add sender allowlists and `contextVisibility` - see [Groups](/channels/groups).
+Group chats are a first-class deployment. The defaults are already team-shaped. Group access is allowlisted per room, and replies require a mention. DMs stay on the pairing default: the first time a teammate DMs the bot they get a pairing code. Approve it with `openagent pairing approve discord <code>`. So the bot participates when addressed and stays quiet otherwise. In a private room whose members you trust, that is all the gating you need. For broad or public rooms, add sender allowlists and `contextVisibility` - see [Groups](/channels/groups).
 
 If the same people should be allowed across several channels, define the list once as an [access group](/channels/access-groups) and reference it from each channel's allowlist.
 
@@ -144,7 +144,7 @@ container network when that access needs tighter controls. See
 
 - Mention the bot in the allowed team channel and confirm it replies there.
 - Open the Control UI as two different people: both should see the session, its owner avatar, and each other's presence.
-- Run `openclaw security audit` on the host and resolve anything it flags about inbound access or exposure.
+- Run `openagent security audit` on the host and resolve anything it flags about inbound access or exposure.
 
 ## When to split things up
 

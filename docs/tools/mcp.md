@@ -3,14 +3,14 @@ summary: "Connect MCP servers to OpenAgent from the Control UI, CLI, or config"
 title: "Connect MCP servers"
 read_when:
   - Adding an MCP server for OpenAgent agents
-  - Choosing between Settings and `openclaw mcp`
+  - Choosing between Settings and `openagent mcp`
   - Troubleshooting MCP transport, OAuth, or tool discovery
 ---
 
 The Model Context Protocol (MCP) is how an agent borrows tools from another program: an MCP server exposes tools, resources, and prompts, and OpenAgent connects to it and makes those tools available to your agents. Server definitions live under `mcp.servers` in config, and the tools they expose go through the same tool-profile and tool-policy controls as everything else — connecting a server does not bypass your policy.
 
 <Note>
-This guide is about connecting third-party MCP servers **to OpenAgent**. For the reverse — exposing OpenAgent channel conversations to another MCP client — use [`openclaw mcp serve`](/cli/mcp#openclaw-as-an-mcp-server).
+This guide is about connecting third-party MCP servers **to OpenAgent**. For the reverse — exposing OpenAgent channel conversations to another MCP client — use [`openagent mcp serve`](/cli/mcp#openclaw-as-an-mcp-server).
 </Note>
 
 ## Add a server from Settings
@@ -26,7 +26,7 @@ That writes the new `mcp.servers` entry through the Gateway. For anything beyond
 Once the server is saved, verify it actually answers:
 
 ```bash
-openclaw mcp doctor <name> --probe
+openagent mcp doctor <name> --probe
 ```
 
 Saving a definition proves nothing about reachability — the probe does. With Gateway hot reload enabled, changed or removed servers retire immediately and the next turn's discovery uses the new definition. Unchanged servers keep their connections and cached tools, including for runs already in progress. Requester sign-in tools refresh on the next message after runtime replacement.
@@ -49,24 +49,24 @@ the next turn starts.
 A local stdio server:
 
 ```bash
-openclaw mcp add local-tools \
+openagent mcp add local-tools \
   --command node \
   --arg ./dist/mcp-server.js \
   --cwd /srv/openclaw-tools
-openclaw mcp doctor local-tools --probe
+openagent mcp doctor local-tools --probe
 ```
 
 A remote Streamable HTTP server, exposing only some of its tools:
 
 ```bash
-openclaw mcp add docs \
+openagent mcp add docs \
   --url https://mcp.example.com/mcp \
   --transport streamable-http \
   --include 'search,read_*'
-openclaw mcp doctor docs --probe
+openagent mcp doctor docs --probe
 ```
 
-Useful companions: `openclaw mcp status --verbose` for a config-only summary, `openclaw mcp probe <name>` for live capabilities, and `openclaw mcp login <name>` when an HTTP server uses OAuth. The [MCP CLI reference](/cli/mcp) documents every command, flag, and output shape, plus the separate `mcp serve` bridge.
+Useful companions: `openagent mcp status --verbose` for a config-only summary, `openagent mcp probe <name>` for live capabilities, and `openagent mcp login <name>` when an HTTP server uses OAuth. The [MCP CLI reference](/cli/mcp) documents every command, flag, and output shape, plus the separate `mcp serve` bridge.
 
 ## Configure a server directly
 
@@ -106,13 +106,13 @@ computer-use servers are excluded. Grants survive restarts and apply at the
 next thread configuration and hook registration, such as a new session or
 restart; the current session uses Codex's remembered decision.
 
-Override a server with `openclaw mcp configure <server> --approval approve|prompt|auto`; an explicit mode takes precedence over the posture-derived default. Stored grants apply only under `auto` or an unspecified server mode; explicit `prompt` keeps asking. Inspect or revoke grants through [MCP tool grants](/tools/exec-approvals#mcp-tool-grants). See [Codex tool approvals](/cli/mcp#codex-tool-approvals) for details and Native approvals in Slack for Slack button delivery.
+Override a server with `openagent mcp configure <server> --approval approve|prompt|auto`; an explicit mode takes precedence over the posture-derived default. Stored grants apply only under `auto` or an unspecified server mode; explicit `prompt` keeps asking. Inspect or revoke grants through [MCP tool grants](/tools/exec-approvals#mcp-tool-grants). See [Codex tool approvals](/cli/mcp#codex-tool-approvals) for details and Native approvals in Slack for Slack button delivery.
 
 ## Troubleshooting
 
 ### The server appears in Settings but exposes no tools
 
-Run `openclaw mcp doctor <name> --probe`. Doctor validates the saved definition first, then opens a live connection and reports the tools and other capabilities the server advertises. If it connects but expected tools are missing, check `toolFilter.include` and `toolFilter.exclude`.
+Run `openagent mcp doctor <name> --probe`. Doctor validates the saved definition first, then opens a live connection and reports the tools and other capabilities the server advertises. If it connects but expected tools are missing, check `toolFilter.include` and `toolFilter.exclude`.
 
 ### A stdio server does not start
 
@@ -125,14 +125,14 @@ For servers launched by OpenAgent's built-in MCP client, debug logs prefix stder
 Set `auth: "oauth"` plus any required `oauth` metadata, then:
 
 ```bash
-openclaw mcp login <name>
+openagent mcp login <name>
 ```
 
 Follow the printed authorization URL. OpenAgent normally captures the loopback redirect and saves the credentials automatically; use the printed `--code` command when the browser cannot reach the callback listener.
 
 ### Changes do not reach an active agent
 
-`openclaw mcp reload` refreshes runtimes owned by the current CLI process. A Gateway or agent running elsewhere needs its own reload, config publish, or restart.
+`openagent mcp reload` refreshes runtimes owned by the current CLI process. A Gateway or agent running elsewhere needs its own reload, config publish, or restart.
 
 ## Related
 

@@ -395,7 +395,7 @@ describe("handleModelsCommand", () => {
 
       expect(result?.reply?.text).toContain(`custom-route: ${label}.`);
       expect(result?.reply?.text).toContain(
-        "Set up this connection with `openclaw configure --section model`, or add it under models.providers in your config.",
+        "Set up this connection with `openagent configure --section model`, or add it under models.providers in your config.",
       );
       expect(result?.reply?.text).not.toContain("/login custom-route");
     },

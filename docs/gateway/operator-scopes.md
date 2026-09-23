@@ -147,7 +147,7 @@ Required creation provenance is immutable. Role changes, sharing, participation,
 `sessions.patch`, whole-entry replacement, legacy imports, and canonical-key
 repair cannot remove or replace an existing required stamp. Blocked persisted
 overwrites emit a `session-sqlite` warning. Inspect them with
-[`openclaw logs --follow`](/cli/logs). Existing unstamped sessions and new sessions
+[`openagent logs --follow`](/cli/logs). Existing unstamped sessions and new sessions
 whose creator does not require sandboxing retain their existing behavior.
 
 A person whose role requires sandboxing cannot start a run in an existing
@@ -340,7 +340,7 @@ blocks an out-of-role result. The Control UI shows the denial and administrator
 guidance without **Retry**. An administrator must change the role first.
 
 The explicit exception is the administrator-capable Control UI owner profile
-issued directly on the Gateway host by `openclaw dashboard` or graphical
+issued directly on the Gateway host by `openagent dashboard` or graphical
 onboarding. Its short-lived, single-use bootstrap can approve the exact closed
 scope set for a fresh browser or upgrade an existing limited credential only
 when it binds to that same signed browser keypair. Generic Control UI and

@@ -496,7 +496,7 @@ export async function verifySetupInference(
     return {
       ok: false,
       status: "unavailable",
-      error: "No OpenAgent config exists. Run `openclaw onboard` first.",
+      error: "No OpenAgent config exists. Run `openagent onboard` first.",
     };
   }
   if (!snapshot.valid) {
@@ -651,7 +651,7 @@ export async function verifySetupInferenceConfig(
     return {
       ok: false,
       status: "unavailable",
-      error: "No agent model is configured. Run `openclaw onboard` first.",
+      error: "No agent model is configured. Run `openagent onboard` first.",
     };
   }
   const route = params.agentDir

@@ -68,7 +68,7 @@ exceeds the limit.
 Bundled channels spell these overrides as
 `channels.<id>.streaming.{chunkMode,block.enabled,block.coalesce}`. The flat
 `*.chunkMode` / `*.blockStreaming` / `*.blockStreamingCoalesce` spellings are
-rejected by validation. `openclaw doctor --fix` migrates legacy configs into the
+rejected by validation. `openagent doctor --fix` migrates legacy configs into the
 nested shape; Gateway startup applies the same migration automatically when the
 single-file config meets the [startup migration conditions](/gateway/doctor#detailed-behavior-and-rationale).
 
@@ -173,7 +173,7 @@ delivery still applies.
 ## Preview streaming modes
 
 Canonical key: `channels.<channel>.streaming` (nested `{ mode, ... }`; legacy
-top-level boolean/string spellings are rewritten by `openclaw doctor --fix`).
+top-level boolean/string spellings are rewritten by `openagent doctor --fix`).
 
 | Mode       | Behavior                                                              |
 | ---------- | --------------------------------------------------------------------- |
@@ -203,10 +203,10 @@ Preview chunk config (`streaming.preview.chunk.*`, e.g. under
 
 ### Legacy key migration
 
-| Channel  | Legacy keys                              | Status                                                                        |
-| -------- | ---------------------------------------- | ----------------------------------------------------------------------------- |
-| Telegram | `streamMode`, scalar/boolean `streaming` | Rewritten to `streaming.mode` by `openclaw doctor --fix`; not read at runtime |
-| Discord  | `streamMode`, boolean `streaming`        | Rewritten to `streaming.mode` by `openclaw doctor --fix`; not read at runtime |
+| Channel  | Legacy keys                              | Status                                                                         |
+| -------- | ---------------------------------------- | ------------------------------------------------------------------------------ |
+| Telegram | `streamMode`, scalar/boolean `streaming` | Rewritten to `streaming.mode` by `openagent doctor --fix`; not read at runtime |
+| Discord  | `streamMode`, boolean `streaming`        | Rewritten to `streaming.mode` by `openagent doctor --fix`; not read at runtime |
 
 ## Runtime behavior
 

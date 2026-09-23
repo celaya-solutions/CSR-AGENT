@@ -74,7 +74,7 @@ For a broken or runaway cloud environment, an administrator can call the admin-o
 The equivalent write-scoped session RPC is:
 
 ```bash
-openclaw gateway call sessions.reclaim \
+openagent gateway call sessions.reclaim \
   --timeout 600000 \
   --params '{"key":"agent:main:big-refactor"}'
 ```
@@ -98,7 +98,7 @@ An ended or unusable provider lease is not proof that its machine was deleted. O
 For automation, read the active placement's `generation`, `environmentId`, and `activeOwnerEpoch` from `sessions.describe`, then supply those exact source facts to `sessions.move`:
 
 ```bash
-openclaw gateway call sessions.move \
+openagent gateway call sessions.move \
   --timeout 1500000 \
   --params '{"key":"agent:main:big-refactor","expected":{"generation":5,"environmentId":"worker:source","ownerEpoch":2},"target":{"kind":"gateway"}}'
 ```

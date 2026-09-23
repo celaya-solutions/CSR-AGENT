@@ -117,24 +117,24 @@ function registerSessionsLifecycleCommand(
   const destructive = operation === "delete";
   const examples: Array<[string, string]> = destructive
     ? [
-        ['openclaw sessions delete "agent:main:scratch-1"', "Delete with confirmation."],
+        ['openagent sessions delete "agent:main:scratch-1"', "Delete with confirmation."],
         [
-          'openclaw sessions delete "agent:main:scratch-1" "agent:main:scratch-2" --yes',
+          'openagent sessions delete "agent:main:scratch-1" "agent:main:scratch-2" --yes',
           "Delete several sessions non-interactively.",
         ],
         [
-          'openclaw sessions delete "agent:work:scratch-1" --agent work --dry-run',
+          'openagent sessions delete "agent:work:scratch-1" --agent work --dry-run',
           "Preview an agent-scoped delete.",
         ],
       ]
     : [
-        ['openclaw sessions archive "agent:main:scratch-1"', "Archive one session."],
+        ['openagent sessions archive "agent:main:scratch-1"', "Archive one session."],
         [
-          'openclaw sessions archive "agent:main:scratch-1" "agent:main:scratch-2"',
+          'openagent sessions archive "agent:main:scratch-1" "agent:main:scratch-2"',
           "Archive several sessions.",
         ],
         [
-          'openclaw sessions archive "agent:work:scratch-1" --agent work --dry-run',
+          'openagent sessions archive "agent:work:scratch-1" --agent work --dry-run',
           "Preview an agent-scoped archive.",
         ],
       ];
@@ -156,7 +156,7 @@ function registerSessionsLifecycleCommand(
         `\n${theme.heading("Examples:")}\n${formatHelpExamples(examples)}${
           destructive
             ? `\n\n${theme.muted(
-                "Deletion uses the Control UI lifecycle operation, including transcript archival and runtime cleanup. Retained deleted-session archives can remain eligible for memory search. To remove indexed memories, run `openclaw memory forget --agent <agent-id> --session <id-or-key>` on the Gateway host or container using its state and configuration. Use the agent that owned the deleted session, including for global keys. Memory cleanup runs locally; --url does not forward it to a remote Gateway.",
+                "Deletion uses the Control UI lifecycle operation, including transcript archival and runtime cleanup. Retained deleted-session archives can remain eligible for memory search. To remove indexed memories, run `openagent memory forget --agent <agent-id> --session <id-or-key>` on the Gateway host or container using its state and configuration. Use the agent that owned the deleted session, including for global keys. Memory cleanup runs locally; --url does not forward it to a remote Gateway.",
               )}`
             : ""
         }`,
@@ -228,15 +228,15 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw status", "Show channel health + session summary."],
-          ["openclaw status --all", "Full diagnosis (read-only)."],
-          ["openclaw status --json", "Machine-readable output."],
-          ["openclaw status --usage", "Show model provider usage/quota snapshots."],
+          ["openagent status", "Show channel health + session summary."],
+          ["openagent status --all", "Full diagnosis (read-only)."],
+          ["openagent status --json", "Machine-readable output."],
+          ["openagent status --usage", "Show model provider usage/quota snapshots."],
           [
-            "openclaw status --deep",
+            "openagent status --deep",
             "Run channel probes (WA + Telegram + Discord + Slack + Signal).",
           ],
-          ["openclaw status --deep --timeout 5000", "Tighten probe timeout."],
+          ["openagent status --deep --timeout 5000", "Tighten probe timeout."],
         ])}`,
     )
     .action(async (opts) => {
@@ -285,13 +285,13 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw sessions", "List all sessions."],
-          ["openclaw sessions --agent work", "List sessions for one agent."],
-          ["openclaw sessions --all-agents", "Aggregate sessions across agents."],
-          ["openclaw sessions --active 120", "Only last 2 hours."],
-          ["openclaw sessions --limit 25", "Show the newest 25 sessions."],
-          ["openclaw sessions --json", "Machine-readable output."],
-          ["openclaw sessions --store ./tmp/sessions.sqlite", "Use a specific session store."],
+          ["openagent sessions", "List all sessions."],
+          ["openagent sessions --agent work", "List sessions for one agent."],
+          ["openagent sessions --all-agents", "Aggregate sessions across agents."],
+          ["openagent sessions --active 120", "Only last 2 hours."],
+          ["openagent sessions --limit 25", "Show the newest 25 sessions."],
+          ["openagent sessions --json", "Machine-readable output."],
+          ["openagent sessions --store ./tmp/sessions.sqlite", "Use a specific session store."],
         ])}\n\n${theme.muted(
           "Shows token usage per session when the agent reports it; set the model entry's contextTokens to cap the window and show %.",
         )}`,
@@ -332,20 +332,20 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw sessions cleanup --dry-run", "Preview stale/cap cleanup."],
+          ["openagent sessions cleanup --dry-run", "Preview stale/cap cleanup."],
           [
-            "openclaw sessions cleanup --dry-run --fix-missing",
+            "openagent sessions cleanup --dry-run --fix-missing",
             "Also preview pruning entries with missing transcript files.",
           ],
           [
-            "openclaw sessions cleanup --dry-run --fix-dm-scope",
+            "openagent sessions cleanup --dry-run --fix-dm-scope",
             "Preview stale direct-DM rows after returning dmScope to main.",
           ],
-          ["openclaw sessions cleanup --enforce", "Apply maintenance now."],
-          ["openclaw sessions cleanup --agent work --dry-run", "Preview one agent store."],
-          ["openclaw sessions cleanup --all-agents --dry-run", "Preview all agent stores."],
+          ["openagent sessions cleanup --enforce", "Apply maintenance now."],
+          ["openagent sessions cleanup --agent work --dry-run", "Preview one agent store."],
+          ["openagent sessions cleanup --all-agents --dry-run", "Preview all agent stores."],
           [
-            "openclaw sessions cleanup --enforce --store ./tmp/sessions.sqlite",
+            "openagent sessions cleanup --enforce --store ./tmp/sessions.sqlite",
             "Use a specific store.",
           ],
         ])}`,
@@ -459,15 +459,15 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
           [
-            'openclaw sessions compact "agent:main:main"',
+            'openagent sessions compact "agent:main:main"',
             "LLM-summarize a session to reclaim context budget.",
           ],
           [
-            'openclaw sessions compact "agent:main:main" --max-lines 200',
+            'openagent sessions compact "agent:main:main" --max-lines 200',
             "Truncate to the last 200 transcript lines instead.",
           ],
           [
-            'openclaw sessions compact "agent:work:main" --agent work --json',
+            'openagent sessions compact "agent:work:main" --agent work --json',
             "Target one agent's session and emit JSON.",
           ],
         ])}\n\n${theme.muted(
@@ -477,7 +477,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
     .action(async (key: string, opts, command) => {
       // Sibling `sessions` subcommands inherit parent options (see list/cleanup
       // above): `--agent`/`--json` may be supplied on the parent `sessions`
-      // command, e.g. `openclaw sessions --agent work compact <key>`. Merge those
+      // command, e.g. `openagent sessions --agent work compact <key>`. Merge those
       // so a parent `--agent` is not silently dropped and the wrong agent's
       // session compacted.
       //

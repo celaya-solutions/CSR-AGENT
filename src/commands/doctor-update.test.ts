@@ -500,7 +500,7 @@ describe("maybeOfferUpdateBeforeDoctor", () => {
       expect.stringContaining("source checkout may be partially mutated"),
       "Update",
     );
-    expect(mocks.note).toHaveBeenCalledWith(expect.stringContaining("openclaw triage"), "Update");
+    expect(mocks.note).toHaveBeenCalledWith(expect.stringContaining("openagent triage"), "Update");
     expect(mocks.triageCommand).toHaveBeenCalledOnce();
   });
 
@@ -615,7 +615,7 @@ describe("maybeOfferUpdateBeforeDoctor", () => {
     expect(mocks.triageCommand).toHaveBeenCalledOnce();
     expect(mocks.note).toHaveBeenCalledWith(expect.stringContaining(`(${reason})`), "Update");
     expect(mocks.note).toHaveBeenCalledWith(
-      expect.stringContaining("Run `openclaw triage` on this machine"),
+      expect.stringContaining("Run `openagent triage` on this machine"),
       "Update",
     );
     if (reason === "state-migration-started") {
@@ -652,7 +652,7 @@ describe("maybeOfferUpdateBeforeDoctor", () => {
     const recoveryNote = mocks.note.mock.calls.find((call) =>
       String(call[0]).includes("rollback-checkout-dirty"),
     )?.[0];
-    expect(recoveryNote).toContain("Run `openclaw triage` on this machine");
+    expect(recoveryNote).toContain("Run `openagent triage` on this machine");
     expect(recoveryNote).not.toContain("remains stopped");
     expect(recoveryNote).not.toContain("Keep the gateway stopped");
   });
@@ -675,7 +675,7 @@ describe("maybeOfferUpdateBeforeDoctor", () => {
     );
 
     expect(mocks.note).toHaveBeenCalledWith(
-      expect.stringContaining("Run `openclaw --profile work triage`"),
+      expect.stringContaining("Run `openagent --profile work triage`"),
       "Update",
     );
   });

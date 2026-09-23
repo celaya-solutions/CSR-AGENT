@@ -62,9 +62,9 @@ You can override the path in `~/.openclaw/openclaw.json`:
 Tail the gateway log file via RPC:
 
 ```bash
-openclaw logs --follow
-openclaw --dev logs --follow
-openclaw --profile work logs --follow
+openagent logs --follow
+openagent --dev logs --follow
+openagent --profile work logs --follow
 ```
 
 The root profile selector resolves the same profile-specific file used by the
@@ -105,9 +105,9 @@ In JSON mode, the CLI emits `type`-tagged objects:
 - `error`: gateway connection failures (written to stderr)
 
 If the implicit local loopback Gateway asks for pairing, closes during connect,
-or times out before `logs.tail` answers, `openclaw logs` falls back to the
+or times out before `logs.tail` answers, `openagent logs` falls back to the
 configured Gateway file log automatically. Explicit `--url` targets do not use
-this fallback. `openclaw logs --follow` is stricter: on Linux it uses the active
+this fallback. `openagent logs --follow` is stricter: on Linux it uses the active
 user-systemd Gateway journal by PID when available, and otherwise retries the
 live Gateway with backoff instead of following a potentially stale side-by-side
 file.
@@ -115,7 +115,7 @@ file.
 If the Gateway is unreachable, the CLI prints a short hint to run:
 
 ```bash
-openclaw doctor
+openagent doctor
 ```
 
 ### Control UI (web)
@@ -128,7 +128,7 @@ See [Control UI](/web/control-ui) for how to open it.
 To filter channel activity (Telegram/Discord/etc), use:
 
 ```bash
-openclaw channels logs --channel whatsapp
+openagent channels logs --channel whatsapp
 ```
 
 `--channel` defaults to `all`; `--lines <n>` (default 200) and `--json` are also
@@ -170,7 +170,7 @@ Console formatting is controlled by `logging.consoleStyle`.
 
 ### Gateway WebSocket logs
 
-`openclaw gateway` also has WebSocket protocol logging for RPC traffic:
+`openagent gateway` also has WebSocket protocol logging for RPC traffic:
 
 - normal mode: only interesting results (errors, parse errors, slow calls)
 - `--verbose`: all request/response traffic
@@ -180,9 +180,9 @@ Console formatting is controlled by `logging.consoleStyle`.
 Examples:
 
 ```bash
-openclaw gateway
-openclaw gateway --verbose --ws-log compact
-openclaw gateway --verbose --ws-log full
+openagent gateway
+openagent gateway --verbose --ws-log compact
+openagent gateway --verbose --ws-log full
 ```
 
 ## Configuring logging
@@ -208,7 +208,7 @@ Levels: `silent`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
 - `logging.level`: **file logs** (JSONL) level (default: `info`).
 - `logging.consoleLevel`: **console** verbosity level.
 
-You can override both via the **`OPENCLAW_LOG_LEVEL`** environment variable (e.g. `OPENCLAW_LOG_LEVEL=debug`). The env var takes precedence over the config file, so you can raise verbosity for a single run without editing `openclaw.json`. You can also pass the global CLI option **`--log-level <level>`** (for example, `openclaw --log-level debug gateway run`), which overrides the environment variable for that command.
+You can override both via the **`OPENCLAW_LOG_LEVEL`** environment variable (e.g. `OPENCLAW_LOG_LEVEL=debug`). The env var takes precedence over the config file, so you can raise verbosity for a single run without editing `openclaw.json`. You can also pass the global CLI option **`--log-level <level>`** (for example, `openagent --log-level debug gateway run`), which overrides the environment variable for that command.
 
 `--verbose` only affects console output and WS log verbosity; it does not change
 file log levels.
@@ -231,8 +231,8 @@ When debugging provider calls, use targeted environment flags instead of raising
 all logs to `debug`:
 
 ```bash
-OPENCLAW_DEBUG_MODEL_TRANSPORT=1 openclaw gateway
-OPENCLAW_DEBUG_MODEL_PAYLOAD=tools OPENCLAW_DEBUG_SSE=events openclaw gateway
+OPENCLAW_DEBUG_MODEL_TRANSPORT=1 openagent gateway
+OPENCLAW_DEBUG_MODEL_PAYLOAD=tools OPENCLAW_DEBUG_SSE=events openagent gateway
 ```
 
 Available flags:
@@ -254,7 +254,7 @@ Available flags:
   including bounded activation facts, the final visible surface, and names of
   provider-native tools filtered because code mode owns the tool surface.
 
-These flags log through normal OpenAgent logging, so `openclaw logs --follow`
+These flags log through normal OpenAgent logging, so `openagent logs --follow`
 and the Control UI Logs tab show them. For backward compatibility,
 `OPENCLAW_DEBUG_CODE_MODE` also promotes general model-transport diagnostics to
 `info`; dedicated code-mode diagnostics are emitted only when that flag is
@@ -400,7 +400,7 @@ are elapsed durations, including asynchronous waits, rather than CPU time or
 proof that the main event loop was blocked for the whole interval.
 
 The structured warning also includes `pid`, Node's `threadId`, and `isMainThread`
-for the opener emitting it. Inspect each `openclaw logs --json` event's original
+for the opener emitting it. Inspect each `openagent logs --json` event's original
 `raw` record; ordinary console text omits structured metadata.
 An opener on the main thread may have awaited an integrity Worker, so these
 fields do not identify the thread performing every phase. `admissionMode` records
@@ -440,7 +440,7 @@ identity and numbered admission fields.
 The `sqlite/transaction` warnings `slow SQLite transaction hold`,
 `slow SQLite transaction lock wait`, and `SQLite transaction lock wait failed`
 include `pid`, Node's `threadId`, and `isMainThread` for the thread executing the
-transaction. Inspect the original `raw` record in `openclaw logs --json` to
+transaction. Inspect the original `raw` record in `openagent logs --json` to
 distinguish the main thread from Workers sharing the same process. `async: false`
 describes the synchronous transaction helper; it does not identify the thread.
 
@@ -490,7 +490,7 @@ The timing fields separate the elapsed interval into:
 
 These fields are available when the queued callback started and finished;
 `elapsedMs` records the total duration. Inspect the original `raw` record in
-`openclaw logs --json` to see the structured fields.
+`openagent logs --json` to see the structured fields.
 
 Use `operation` to locate the owning code path. It does not identify a specific
 SQL statement, measure CPU time or lock contention, or establish that a nearby
@@ -573,7 +573,7 @@ checkpoint mode or timeout, or archive-retention behavior.
 When a reply spends a long time preparing, inspect the normal Gateway logs:
 
 ```bash
-openclaw logs --follow --plain | rg 'timings|agent turn milestone|liveness warning'
+openagent logs --follow --plain | rg 'timings|agent turn milestone|liveness warning'
 ```
 
 Reply resolver, dispatch, and agent-turn preparation milestones include stage
@@ -627,7 +627,7 @@ OTEL model-call spans/metrics when diagnostics export is enabled.
 
 A third rendering style, `compact` (tighter output, best for long sessions), is
 applied automatically when stdout is not a TTY. It is no longer a settable
-config value; `openclaw doctor --fix` maps a stored `consoleStyle: "compact"`
+config value; `openagent doctor --fix` maps a stored `consoleStyle: "compact"`
 to `"pretty"`.
 
 ### Redaction
@@ -694,7 +694,7 @@ An adjacent surface:
 
 ## Troubleshooting tips
 
-- **Gateway not reachable?** Run `openclaw doctor` first.
+- **Gateway not reachable?** Run `openagent doctor` first.
 - **Logs empty?** Check that the Gateway is running and writing to the file path
   in `logging.file`.
 - **Need more detail?** Set `logging.level` to `debug` or `trace` and retry.
@@ -704,4 +704,4 @@ An adjacent surface:
 - [Diagnostics flags](/diagnostics/flags) — targeted debug-log flags
 - [Gateway logging internals](/gateway/logging) — WS log styles, subsystem prefixes, and console capture
 - [Configuration reference](/gateway/config-observability#diagnostics) — full `diagnostics.*` field reference
-- [`openclaw logs`](/cli/logs) — tail Gateway logs over RPC from the CLI
+- [`openagent logs`](/cli/logs) — tail Gateway logs over RPC from the CLI

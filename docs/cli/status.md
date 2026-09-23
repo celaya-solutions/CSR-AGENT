@@ -1,20 +1,20 @@
 ---
-summary: "CLI reference for `openclaw status` (diagnostics, probes, usage snapshots)"
+summary: "CLI reference for `openagent status` (diagnostics, probes, usage snapshots)"
 read_when:
   - You want a quick diagnosis of channel health + recent session recipients
   - You want a pasteable "all" status for debugging
-title: "openclaw status"
+title: "openagent status"
 ---
 
 Diagnostics for channels + sessions.
 
 ```bash
-openclaw status
-openclaw status --all
-openclaw status --deep
-openclaw status --usage
-openclaw status --all --usage
-openclaw status --usage --agent work
+openagent status
+openagent status --all
+openagent status --deep
+openagent status --usage
+openagent status --all --usage
+openagent status --usage --agent work
 ```
 
 | Flag                    | Description                                                                                                     |
@@ -36,11 +36,11 @@ and pressured inbound lanes. These warnings include pending, claimed, and blocke
 message counts even when a channel connection is healthy. See
 [Queue warnings](/gateway/health#queue-warnings).
 
-Plain `openclaw status` stays on the fast read-only path and marks memory as
+Plain `openagent status` stays on the fast read-only path and marks memory as
 `not checked` instead of unavailable when it skips memory inspection. Heavy
 security audit, plugin compatibility, and memory-vector probes are left to
-`openclaw status --all`, `openclaw status --deep`, `openclaw security audit`,
-and `openclaw memory status --deep`.
+`openagent status --all`, `openagent status --deep`, `openagent security audit`,
+and `openagent memory status --deep`.
 
 Local agent ownership checks read schema and owner metadata from one consistent
 SQLite snapshot, including committed WAL changes. They do not copy the entire
@@ -49,7 +49,7 @@ migration readiness checks retain their full validation.
 
 The CLI runs in a separate process and contacts the Gateway over WebSocket, even
 for a local loopback target. `--timeout` bounds probes, not the entire status
-command. Compare `openclaw gateway call status --json` with `openclaw status --json`
+command. Compare `openagent gateway call status --json` with `openagent status --json`
 to separate the Gateway response from local report collection. Gateway
 Prometheus RPC timings exclude CLI startup and connection
 setup; a slow CLI can finish without a slow Gateway handler.
@@ -64,8 +64,8 @@ run records a completed fetch, the Update row shows
 cached comparison is unchanged. The history belongs to the current state
 directory. A later run that completes its fetch clears the warning even if the
 rest of that update is skipped, fails, or rolls back. A manual `git fetch` does
-not clear the recorded warning. Use `openclaw update status` for a fresh check
-and the last update run, or run `openclaw update` again. `openclaw status --deep`
+not clear the recorded warning. Use `openagent update status` for a fresh check
+and the last update run, or run `openagent update` again. `openagent status --deep`
 also fetches for that check; it does not change the ledger. See
 Release channels.
 
@@ -76,7 +76,7 @@ Use the existing diagnostic timeline to locate time spent outside Gateway RPCs:
 ```bash
 OPENCLAW_DIAGNOSTICS=timeline \
 OPENCLAW_DIAGNOSTICS_TIMELINE_PATH=/tmp/openclaw-status-timeline.jsonl \
-  openclaw status --json
+  openagent status --json
 ```
 
 The timeline includes configuration and secret resolution, agent admission,
@@ -87,11 +87,11 @@ waiting; parallel stages overlap and should not be added together.
 
 `status --all` reports eligible skills and skills with missing prerequisites for
 the workspace shown in the Skills row. Missing prerequisites use the same category as
-`openclaw skills check`: intentionally disabled skills and skills blocked by the
+`openagent skills check`: intentionally disabled skills and skills blocked by the
 bundled allowlist are excluded; agent allowlist exclusions remain independent.
 Unmet OS requirements are included in this count, although Doctor does not disable
 skills for OS incompatibility.
-Use `openclaw skills check --agent <id>` to inspect the missing requirements.
+Use `openagent skills check --agent <id>` to inspect the missing requirements.
 
 ## Session and model resolution
 
@@ -144,7 +144,7 @@ Use `openclaw skills check --agent <id>` to inspect the missing requirements.
   manager is unavailable; its runtime status stays unknown.
 - Overview includes update channel + git SHA (for source checkouts).
 - Update info surfaces in the Overview; if an update is available, status
-  prints a hint to run `openclaw update` (see [Updating](/install/updating)).
+  prints a hint to run `openagent update` (see [Updating](/install/updating)).
 - `status` and `status --all` keep current availability in **Update** and show
   active or recent update history separately in **Update run**. A distinct
   **Update restart** report remains visible unless it names that same run ID.
@@ -181,4 +181,4 @@ their own files, chunks, vector, and FTS state.
 
 - [CLI reference](/cli)
 - [Doctor](/gateway/doctor)
-- [`openclaw health`](/cli/health) — Gateway health snapshot over RPC
+- [`openagent health`](/cli/health) — Gateway health snapshot over RPC

@@ -17,7 +17,7 @@ You do not need to add an external plugin to the OpenAgent repository. Publish
 the package to ClawHub and users install it with:
 
 ```bash
-openclaw plugins install clawhub:<package-name>
+openagent plugins install clawhub:<package-name>
 ```
 
 Bare package specs install from npm. Use the `clawhub:` prefix when you want
@@ -173,7 +173,7 @@ local proof.
     For an installed or external plugin, inspect the loaded runtime:
 
     ```bash
-    openclaw plugins inspect my-plugin --runtime --json
+    openagent plugins inspect my-plugin --runtime --json
     ```
 
     If the plugin registers a CLI command, run that command too and confirm
@@ -201,8 +201,8 @@ local proof.
 
     ```bash
     npm pack --pack-destination /tmp
-    openclaw plugins install npm-pack:/tmp/<plugin-package>.tgz --force
-    openclaw plugins inspect my-plugin --runtime --json
+    openagent plugins install npm-pack:/tmp/<plugin-package>.tgz --force
+    openagent plugins inspect my-plugin --runtime --json
     ```
 
     `npm-pack:` uses OpenAgent's managed per-plugin npm project, so it catches
@@ -242,7 +242,7 @@ local proof.
     Install the published package through ClawHub:
 
     ```bash
-    openclaw plugins install clawhub:your-org/your-plugin
+    openagent plugins install clawhub:your-org/your-plugin
     ```
 
   </Step>

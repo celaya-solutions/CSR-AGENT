@@ -48,7 +48,7 @@ avoiding another download. Cloud-enrolled nodes keep their own execution-mode-sp
 installation and retention lifecycle.
 
 You can also enroll and enable a service host in one step with
-`openclaw connect --service --session-host`. In Control UI New Session, a
+`openagent connect --service --session-host`. In Control UI New Session, a
 write-scoped operator selects a Gateway project or folder and then either a
 specific paired device or **Auto**. OpenAgent creates a
 session-owned managed worktree on the Gateway, dispatches it with the exact
@@ -65,7 +65,7 @@ requires the exact durable receipt and current node authority.
 Node hosts must support the current private worker-supervisor dialect before
 they can host sessions. An older connected host remains visible but disabled in
 the session picker. Update OpenAgent on that device and reconnect it; for a
-headless node, run `openclaw update` followed by `openclaw node restart`. The
+headless node, run `openagent update` followed by `openagent node restart`. The
 Gateway does not fall back to the node's local OpenAgent package or an older
 supervisor dialect.
 
@@ -86,7 +86,7 @@ capabilities. A declared command is usable only when the approved pairing and
 Gateway command allowlist both authorize it. Connected non-hosts, ineligible
 or saturated hosts, update-required devices, and unavailable hosts remain
 visible but disabled with an actionable reason. Enable hosting with
-`openclaw connect --service --session-host` or the `nodeHost.workerRuns`
+`openagent connect --service --session-host` or the `nodeHost.workerRuns`
 setting, then restart the node host. Update-required hosts must be upgraded and
 restarted before selection.
 

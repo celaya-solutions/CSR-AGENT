@@ -256,7 +256,7 @@ sidebarTitle: "Voice and speech"
     OAuth subscription profile first. When OAuth is unavailable, the Gateway
     falls back to Platform auth in this order: the configured realtime key, an
     `openai` API-key profile, then `OPENAI_API_KEY`. Create the OAuth profile
-    with `openclaw models auth login --provider openai`.
+    with `openagent models auth login --provider openai`.
 
     Discord uses this same Gateway-owned WebRTC bridge when
     `channels.discord.voice.realtime.model` is `gpt-live-1-codex`. Set
