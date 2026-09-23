@@ -166,7 +166,6 @@ export const DEPRECATION_MARKING_COMPAT_RECORDS = [
       "openclaw/plugin-sdk/reply-payload ReplyPayload.interactive",
       "reduceInteractiveReply",
       "@openclaw/discord buildDiscordInteractiveComponents",
-      "@openclaw/slack buildSlackInteractiveBlocks",
       "@openclaw/telegram buildTelegramInteractiveButtons",
     ],
     diagnostics: [
@@ -271,28 +270,25 @@ export const DEPRECATION_MARKING_COMPAT_RECORDS = [
     deprecated: MARKING_DATE,
     warningStarts: MARKING_DATE,
     removeAfter: DEFAULT_REMOVE_AFTER,
-    replacement:
-      "the canonical testing export, MessagePresentation renderers, and host-owned timeout/runtime behavior",
+    replacement: "MessagePresentation renderers and host-owned timeout/runtime behavior",
     docsPath: "/plugins/compatibility#current-compatibility-areas",
     surfaces: [
-      "@openclaw/google-meet __testing",
       "@openclaw/discord buildDiscordInteractiveComponents",
       "@openclaw/discord normalizeDiscordListenerTimeoutMs",
       "@openclaw/discord normalizeDiscordInboundWorkerTimeoutMs",
       "@openclaw/discord isAbortError",
       "@openclaw/discord runDiscordTaskWithTimeout",
-      "@openclaw/slack buildSlackInteractiveBlocks",
     ],
     diagnostics: [
       "TypeScript @deprecated annotations on published official-plugin exports",
       "plugin boundary report compatibility inventory",
     ],
-    // Owning discord/slack suites live under extensions/*/src; the core import
+    // The owning Discord suites live under extensions/*/src; the core import
     // guardrail forbids that path shape in core string literals, so cite the
-    // package-root and registry tests here.
-    tests: ["extensions/google-meet/index.test.ts", "src/plugins/compat/registry.test.ts"],
+    // registry test here.
+    tests: ["src/plugins/compat/registry.test.ts"],
     releaseNote:
-      "Published Google Meet testing, channel presentation, and Discord timeout aliases remain available while consumers move to their canonical exports and host-owned behavior.",
+      "Published Discord presentation and timeout aliases remain available while consumers move to their canonical exports and host-owned behavior.",
   },
   {
     code: "memory-host-compatibility-aliases",

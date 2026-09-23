@@ -280,22 +280,15 @@ const COVERAGE_BUNDLED_CHANNEL_IDS = [
   ...new Set(
     COVERAGE_REGISTRY_ENTRIES.flatMap((entry) => {
       const [scope, channelId] = entry.id.split(".");
-      return scope === "channels" && channelId && channelId !== "qqbot" ? [channelId] : [];
+      return scope === "channels" && channelId ? [channelId] : [];
     }),
   ),
 ];
 
 const DEBUG_COVERAGE_BATCHES = process.env.OPENCLAW_DEBUG_RUNTIME_COVERAGE === "1";
 const RUNTIME_COVERAGE_TEST_TIMEOUT_MS = 240_000;
-const COVERAGE_CONFIG_PLUGIN_SOURCE_DIRS = new Map([
-  ["google-meet", path.join(process.cwd(), "extensions", "google-meet")],
-  ["voice-call", path.join(process.cwd(), "extensions", "voice-call")],
-]);
 const COVERAGE_LOADABLE_PLUGIN_ORIGINS =
   buildCoverageLoadablePluginOrigins(COVERAGE_REGISTRY_ENTRIES);
-const PLUGIN_OWNED_OPENCLAW_COVERAGE_EXCLUSIONS = new Set([
-  "channels.googlechat.accounts.*.serviceAccount",
-]);
 
 let applyResolvedAssignments: typeof import("./runtime-shared.js").applyResolvedAssignments;
 let collectAuthStoreAssignments: typeof import("./runtime-auth-collectors.js").collectAuthStoreAssignments;
@@ -399,26 +392,10 @@ function buildCoverageLoadablePluginOrigins(
   for (const entry of entries) {
     const [scope, entriesKey, pluginId] = entry.id.split(".");
     if (scope === "plugins" && entriesKey === "entries" && pluginId) {
-      origins.set(
-        pluginId,
-        COVERAGE_CONFIG_PLUGIN_SOURCE_DIRS.has(pluginId) ? "config" : "bundled",
-      );
+      origins.set(pluginId, "bundled");
     }
   }
   return origins;
-}
-
-function addCoveragePluginLoadPath(config: OpenClawConfig, pluginId: string): void {
-  const loadPath = COVERAGE_CONFIG_PLUGIN_SOURCE_DIRS.get(pluginId);
-  if (!loadPath) {
-    return;
-  }
-  const existing = getPath(config, ["plugins", "load", "paths"]);
-  if (Array.isArray(existing) && existing.includes(loadPath)) {
-    return;
-  }
-  const nextIndex = Array.isArray(existing) ? existing.length : 0;
-  setPathCreateStrict(config, ["plugins", "load", "paths", nextIndex], loadPath);
 }
 
 function resolveCoverageLoadablePluginOrigins(
@@ -458,15 +435,7 @@ function resolveCoverageBatchKey(entry: SecretRegistryEntry): string {
     const segments = entry.id.split(".");
     const channelId = segments[1] ?? "unknown";
     const field = segments.at(-1);
-    if (
-      field === "accessToken" ||
-      field === "password" ||
-      (channelId === "slack" &&
-        (field === "appToken" ||
-          field === "botToken" ||
-          field === "signingSecret" ||
-          field === "userToken"))
-    ) {
+    if (field === "accessToken" || field === "password") {
       return entry.id;
     }
     const scope = segments[2] === "accounts" ? "accounts" : "root";
@@ -541,8 +510,7 @@ function collectOpenClawCoverageEntries(options: {
   return COVERAGE_REGISTRY_ENTRIES.filter(
     (entry) =>
       entry.configFile === "openclaw.json" &&
-      entry.id.startsWith("plugins.entries.") === options.includePluginEntries &&
-      !PLUGIN_OWNED_OPENCLAW_COVERAGE_EXCLUSIONS.has(entry.id),
+      entry.id.startsWith("plugins.entries.") === options.includePluginEntries,
   );
 }
 
@@ -574,7 +542,6 @@ function applyConfigForOpenClawTarget(
     const pluginId = entry.id.split(".")[2];
     if (pluginId) {
       setPathCreateStrict(config, ["plugins", "entries", pluginId, "enabled"], true);
-      addCoveragePluginLoadPath(config, pluginId);
     }
   }
   if (entry.id === "memory.search.remote.apiKey") {
@@ -595,58 +562,6 @@ function applyConfigForOpenClawTarget(
       config,
       ["channels", "telegram", "accounts", wildcardToken, "webhookUrl"],
       "https://example.com/hook",
-    );
-  }
-  if (entry.id === "channels.slack.signingSecret") {
-    setPathCreateStrict(config, ["channels", "slack", "mode"], "http");
-  }
-  if (entry.id === "channels.slack.accounts.*.signingSecret") {
-    setPathCreateStrict(config, ["channels", "slack", "accounts", wildcardToken, "mode"], "http");
-  }
-  if (entry.id === "channels.slack.relay.authToken") {
-    setPathCreateStrict(config, ["channels", "slack", "mode"], "relay");
-  }
-  if (entry.id === "channels.slack.accounts.*.relay.authToken") {
-    setPathCreateStrict(config, ["channels", "slack", "accounts", wildcardToken, "mode"], "relay");
-  }
-  if (entry.id === "channels.zalo.webhookSecret") {
-    setPathCreateStrict(config, ["channels", "zalo", "webhookUrl"], "https://example.com/hook");
-  }
-  if (entry.id === "channels.zalo.accounts.*.webhookSecret") {
-    setPathCreateStrict(
-      config,
-      ["channels", "zalo", "accounts", wildcardToken, "webhookUrl"],
-      "https://example.com/hook",
-    );
-  }
-  if (entry.id === "channels.qqbot.clientSecret") {
-    setPathCreateStrict(config, ["channels", "qqbot", "appId"], "sample-app-id");
-  }
-  if (entry.id === "channels.qqbot.accounts.*.clientSecret") {
-    setPathCreateStrict(
-      config,
-      ["channels", "qqbot", "accounts", wildcardToken, "appId"],
-      "sample-app-id",
-    );
-  }
-  if (entry.id === "channels.feishu.verificationToken") {
-    setPathCreateStrict(config, ["channels", "feishu", "connectionMode"], "webhook");
-  }
-  if (entry.id === "channels.feishu.encryptKey") {
-    setPathCreateStrict(config, ["channels", "feishu", "connectionMode"], "webhook");
-  }
-  if (entry.id === "channels.feishu.accounts.*.verificationToken") {
-    setPathCreateStrict(
-      config,
-      ["channels", "feishu", "accounts", wildcardToken, "connectionMode"],
-      "webhook",
-    );
-  }
-  if (entry.id === "channels.feishu.accounts.*.encryptKey") {
-    setPathCreateStrict(
-      config,
-      ["channels", "feishu", "accounts", wildcardToken, "connectionMode"],
-      "webhook",
     );
   }
   if (entry.id === "plugins.entries.brave.config.webSearch.apiKey") {
@@ -905,7 +820,6 @@ describe("secrets runtime target coverage", () => {
       authCollectors,
       runtimeWebTools,
       channelContracts,
-      officialExternalChannelContract,
     ] = await Promise.all([
       import("./runtime-shared.js"),
       import("./resolve.js"),
@@ -924,17 +838,10 @@ describe("secrets runtime target coverage", () => {
             ] as const,
         ),
       ),
-      import("./official-external-channel-secret-contract.js"),
     ]);
     for (const [channelId, contract] of channelContracts) {
       COVERAGE_CHANNEL_CONTRACTS.set(channelId, contract);
     }
-    const qqbotContract =
-      officialExternalChannelContract.loadOfficialExternalChannelSecretContractApi("qqbot");
-    if (!qqbotContract) {
-      throw new Error("missing coverage contract for official QQBot channel");
-    }
-    COVERAGE_CHANNEL_CONTRACTS.set("qqbot", qqbotContract);
     ({ applyResolvedAssignments, createResolverContext } = sharedRuntime);
     ({ resolveSecretRefValues } = resolver);
     ({ collectConfigAssignments } = configCollectors);

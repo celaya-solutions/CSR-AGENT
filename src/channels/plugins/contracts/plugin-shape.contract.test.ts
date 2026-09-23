@@ -19,8 +19,6 @@ import { sanitizeAssistantVisibleText } from "openclaw/plugin-sdk/text-chunking"
 import { beforeAll, describe, expect, it } from "vitest";
 import { listBundledPackageChannelMetadata } from "../../../plugins/bundled-package-channel-metadata.js";
 import {
-  getBundledChannelGatewayAuthArtifactAsync,
-  getBundledChannelMessageToolArtifactAsync,
   getBundledChannelPluginAsync,
   getBundledChannelSessionKeyArtifactAsync,
   getBundledChannelThreadBindingArtifactAsync,
@@ -32,26 +30,11 @@ const bundledChannelPluginIds = listBundledChannelPluginIds();
 const packageMetadataById = new Map(
   listBundledPackageChannelMetadata().map((channel) => [channel.id, channel]),
 );
-const SHARED_SANITIZER_CHANNEL_IDS = [
-  "nextcloud-talk",
-  "zalo",
-  "irc",
-  "feishu",
-  "signal",
-  "twitch",
-  "matrix",
-  "slack",
-] as const;
-const MESSAGE_TOOL_ARTIFACT_PLUGIN_IDS = ["imessage", "slack"] as const;
-const SESSION_CONVERSATION_ARTIFACT_PLUGIN_IDS = ["feishu", "telegram"] as const;
-const THREAD_BINDING_ARTIFACT_PLUGIN_IDS = ["discord", "matrix"] as const;
+const SHARED_SANITIZER_CHANNEL_IDS = ["telegram"] as const;
+const SESSION_CONVERSATION_ARTIFACT_PLUGIN_IDS = ["telegram"] as const;
+const THREAD_BINDING_ARTIFACT_PLUGIN_IDS = ["discord"] as const;
 const PROVIDER_OWNED_READ_GATE_PLUGINS = [
   ["discord", true],
-  ["feishu", true],
-  ["matrix", true],
-  ["msteams", true],
-  ["slack", true],
-  ["mattermost", ["read"]],
   ["telegram", ["react", "edit", "delete", "emoji-list"]],
 ] as const;
 
@@ -62,10 +45,6 @@ type ExplicitSessionKeyNormalizer = (
 
 describe("bundled channel plugin shape coherence", () => {
   const plugins = new Map<string, Awaited<ReturnType<typeof getBundledChannelPluginAsync>>>();
-  const messageToolArtifacts = new Map<
-    string,
-    Awaited<ReturnType<typeof getBundledChannelMessageToolArtifactAsync>>
-  >();
   const sessionKeyArtifacts = new Map<
     string,
     Awaited<ReturnType<typeof getBundledChannelSessionKeyArtifactAsync>>
@@ -74,17 +53,11 @@ describe("bundled channel plugin shape coherence", () => {
     string,
     Awaited<ReturnType<typeof getBundledChannelThreadBindingArtifactAsync>>
   >();
-  let gatewayAuthArtifact: Awaited<ReturnType<typeof getBundledChannelGatewayAuthArtifactAsync>> =
-    null;
 
   beforeAll(async () => {
     for (const id of bundledChannelPluginIds) {
       plugins.set(id, await getBundledChannelPluginAsync(id));
     }
-    for (const id of MESSAGE_TOOL_ARTIFACT_PLUGIN_IDS) {
-      messageToolArtifacts.set(id, await getBundledChannelMessageToolArtifactAsync(id));
-    }
-    gatewayAuthArtifact = await getBundledChannelGatewayAuthArtifactAsync("mattermost");
     for (const id of ["discord", ...SESSION_CONVERSATION_ARTIFACT_PLUGIN_IDS] as const) {
       sessionKeyArtifacts.set(id, await getBundledChannelSessionKeyArtifactAsync(id));
     }
@@ -119,29 +92,6 @@ describe("bundled channel plugin shape coherence", () => {
       expect(sanitizeText({ text, payload: { text } })).toBe(expected);
     },
   );
-
-  it.each(MESSAGE_TOOL_ARTIFACT_PLUGIN_IDS)(
-    "keeps the %s message-tool artifact identical to the loaded plugin action surface",
-    (id) => {
-      const artifactDescribeMessageTool = messageToolArtifacts.get(id)?.describeMessageTool;
-      const pluginDescribeMessageTool = plugins.get(id)?.actions?.describeMessageTool;
-
-      expect(typeof artifactDescribeMessageTool).toBe("function");
-      expect(typeof pluginDescribeMessageTool).toBe("function");
-      expect(artifactDescribeMessageTool).toBe(pluginDescribeMessageTool);
-    },
-  );
-
-  it("keeps the mattermost gateway-auth artifact identical to the loaded plugin gateway surface", () => {
-    const artifactResolveGatewayAuthBypassPaths =
-      gatewayAuthArtifact?.resolveGatewayAuthBypassPaths;
-    const pluginResolveGatewayAuthBypassPaths =
-      plugins.get("mattermost")?.gateway?.resolveGatewayAuthBypassPaths;
-
-    expect(typeof artifactResolveGatewayAuthBypassPaths).toBe("function");
-    expect(typeof pluginResolveGatewayAuthBypassPaths).toBe("function");
-    expect(artifactResolveGatewayAuthBypassPaths).toBe(pluginResolveGatewayAuthBypassPaths);
-  });
 
   it.each(SESSION_CONVERSATION_ARTIFACT_PLUGIN_IDS)(
     "keeps the %s session-conversation artifact identical to the loaded plugin messaging hook",

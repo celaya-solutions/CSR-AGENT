@@ -838,7 +838,6 @@ describe("secrets audit", () => {
 
   it("exempts only known openclaw.json model provider apiKey markers", async () => {
     for (const { apiKey, isPlaintext } of [
-      { apiKey: "lmstudio-local", isPlaintext: false },
       { apiKey: "ollama-local", isPlaintext: false },
       { apiKey: "sk-real-plaintext", isPlaintext: true },
     ]) {

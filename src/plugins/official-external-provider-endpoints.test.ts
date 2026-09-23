@@ -7,7 +7,6 @@ import { describe, expect, it } from "vitest";
 import rootPackageJson from "../../package.json" with { type: "json" };
 import officialExternalProviderCatalog from "../../scripts/lib/official-external-provider-catalog.json" with { type: "json" };
 import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.js";
-import { listOfficialExternalProviderEndpointManifests } from "./official-external-provider-endpoints.js";
 
 const repoRoot = fileURLToPath(new URL("../..", import.meta.url));
 
@@ -68,7 +67,6 @@ describe("official external provider endpoint catalog mirror", () => {
   const catalogManifestsByPluginId = listCatalogManifestsByPluginId();
 
   it("mirrors providerEndpoints for every dist-excluded plugin manifest that declares them", () => {
-    const checkedPluginIds: string[] = [];
     for (const { dirName, manifest } of extensionManifests) {
       if (!Array.isArray(manifest.providerEndpoints)) {
         continue;
@@ -88,14 +86,7 @@ describe("official external provider endpoint catalog mirror", () => {
         catalogManifest?.providerEndpoints,
         `catalog providerEndpoints for plugin "${pluginId}" must mirror extensions/${dirName}/openclaw.plugin.json`,
       ).toEqual(manifest.providerEndpoints);
-      if (pluginId) {
-        checkedPluginIds.push(pluginId);
-      }
     }
-    // The mirror set going empty means the scan above stopped covering the
-    // externalized providers this contract exists for.
-    expect(checkedPluginIds).toContain("qwen");
-    expect(checkedPluginIds).toContain("moonshot");
   });
 
   it("keeps catalog providerEndpoints in sync with local plugin manifests", () => {
@@ -118,23 +109,5 @@ describe("official external provider endpoint catalog mirror", () => {
         `catalog providerEndpoints for plugin "${pluginId}" must mirror extensions/${local.dirName}/openclaw.plugin.json`,
       ).toEqual(local.manifest.providerEndpoints);
     }
-  });
-
-  it("exposes endpoint metadata for externalized providers", () => {
-    const endpointClasses = listOfficialExternalProviderEndpointManifests().flatMap((manifest) =>
-      Array.isArray(manifest.providerEndpoints)
-        ? manifest.providerEndpoints.flatMap((endpoint) =>
-            isRecord(endpoint) && typeof endpoint.endpointClass === "string"
-              ? [endpoint.endpointClass]
-              : [],
-          )
-        : [],
-    );
-    expect(endpointClasses).toContain("modelstudio-native");
-    expect(endpointClasses).toContain("moonshot-native");
-    expect(endpointClasses).toContain("meta-native");
-    expect(endpointClasses).toContain("novita-native");
-    expect(endpointClasses).toContain("xiaomi-native");
-    expect(endpointClasses).toContain("zai-native");
   });
 });

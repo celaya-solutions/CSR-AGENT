@@ -1,5 +1,7 @@
 /** Tests channel plugin id resolution from config, manifests, and installed state. */
-import { fileURLToPath } from "node:url";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../config/config.js";
 import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
@@ -3289,56 +3291,72 @@ describe("listConfiguredChannelIdsForReadOnlyScope", () => {
   });
 
   it.each(["global", "config"] as const)(
-    "evaluates the trusted %s installed Slack owner's credential contract",
+    "evaluates the trusted %s installed channel owner's credential contract",
     (origin) => {
       listPotentialConfiguredChannelPresenceSignals.mockReturnValue([
-        { channelId: "slack", source: "env" },
+        { channelId: "acme-chat", source: "env" },
       ]);
-      const slackRoot = fileURLToPath(new URL("../../extensions/slack/", import.meta.url));
+      // The owner's configured-state module requires both tokens, while its env
+      // hint accepts either one; only the module decides effective presence.
+      const ownerRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-channel-owner-"));
+      fs.writeFileSync(
+        path.join(ownerRoot, "configured-state.js"),
+        [
+          "export function hasConfiguredAcmeChannelState({ env }) {",
+          "  return Boolean(env?.ACME_BOT_TOKEN && env?.ACME_APP_TOKEN);",
+          "}",
+          "",
+        ].join("\n"),
+        "utf8",
+      );
       const record = {
         ...withManifestLoadPaths({
-          id: "slack",
+          id: "acme-chat",
           origin,
-          channels: ["slack"],
+          channels: ["acme-chat"],
           providers: [],
           cliBackends: [],
           packageChannel: {
-            id: "slack",
+            id: "acme-chat",
             configuredState: {
-              env: { anyOf: ["SLACK_BOT_TOKEN", "SLACK_APP_TOKEN"] },
+              env: { anyOf: ["ACME_BOT_TOKEN", "ACME_APP_TOKEN"] },
               specifier: "./configured-state",
-              exportName: "hasConfiguredSlackChannelState",
+              exportName: "hasConfiguredAcmeChannelState",
             },
           },
         }),
-        rootDir: slackRoot,
+        rootDir: ownerRoot,
       } satisfies PluginManifestRecord;
-      const config = { plugins: { allow: ["slack"] } } as OpenClawConfig;
+      const config = { plugins: { allow: ["acme-chat"] } } as OpenClawConfig;
 
-      expect(
-        resolveConfiguredChannelPresencePolicy({
-          config,
-          env: { SLACK_BOT_TOKEN: "xoxb-test" },
-          manifestRecords: [record],
-          includePersistedAuthState: false,
-        }),
-      ).toStrictEqual([]);
-      expect(
-        resolveConfiguredChannelPresencePolicy({
-          config,
-          env: { SLACK_BOT_TOKEN: "xoxb-test", SLACK_APP_TOKEN: "xapp-test" },
-          manifestRecords: [record],
-          includePersistedAuthState: false,
-        }),
-      ).toStrictEqual([
-        {
-          channelId: "slack",
-          sources: ["env", "manifest-env"],
-          effective: true,
-          pluginIds: ["slack"],
-          blockedReasons: [],
-        },
-      ]);
+      try {
+        expect(
+          resolveConfiguredChannelPresencePolicy({
+            config,
+            env: { ACME_BOT_TOKEN: "bot-test" },
+            manifestRecords: [record],
+            includePersistedAuthState: false,
+          }),
+        ).toStrictEqual([]);
+        expect(
+          resolveConfiguredChannelPresencePolicy({
+            config,
+            env: { ACME_BOT_TOKEN: "bot-test", ACME_APP_TOKEN: "app-test" },
+            manifestRecords: [record],
+            includePersistedAuthState: false,
+          }),
+        ).toStrictEqual([
+          {
+            channelId: "acme-chat",
+            sources: ["env", "manifest-env"],
+            effective: true,
+            pluginIds: ["acme-chat"],
+            blockedReasons: [],
+          },
+        ]);
+      } finally {
+        fs.rmSync(ownerRoot, { recursive: true, force: true });
+      }
     },
   );
 

@@ -261,42 +261,13 @@ describe("opt-in extension package boundaries", () => {
     }
   });
 
-  it("keeps xai as the only opt-in extension with custom path overrides", () => {
+  it("keeps opt-in extensions on the shared path overrides", () => {
     const extensionsWithCustomPaths = collectExtensionsWithTsconfig().filter((extensionName) => {
       const tsconfig = readExtensionTsconfig(extensionName);
       return tsconfig.compilerOptions?.paths !== undefined;
     });
 
-    expect(extensionsWithCustomPaths).toEqual(["xai"]);
-  });
-
-  it("keeps xai's boundary-specific path overrides derived from the shared package boundary map", () => {
-    const pathsConfig = readJsonFile<TsConfigJson>(EXTENSION_PACKAGE_BOUNDARY_PATHS_CONFIG);
-    const paths = pathsConfig.compilerOptions?.paths;
-    if (!paths) {
-      throw new Error("Missing shared extension package boundary aliases");
-    }
-    const omitted = new Set(Object.keys(XAI_OMITTED_BOUNDARY_PATHS));
-    const expectedPaths = Object.fromEntries(
-      Object.entries(paths)
-        .filter(([specifier]) => !omitted.has(specifier))
-        .map(([specifier, targets]) => [
-          specifier,
-          targets.map((target) => posix.join("../", target)),
-        ]),
-    );
-    Object.assign(expectedPaths, {
-      "@openclaw/qa-channel/api.js": [
-        "../../.artifacts/extension-package-boundary/plugins/qa-channel/api.d.ts",
-      ],
-      "@openclaw/*.js": ["../../packages/plugin-sdk/dist/extensions/*.d.ts", "../*"],
-      "@openclaw/*": ["../*"],
-      "@openclaw/plugin-sdk/*": ["../../packages/plugin-sdk/dist/src/plugin-sdk/*.d.ts"],
-      "@openclaw/anthropic-vertex/api.js": ["./.boundary-stubs/anthropic-vertex-api.d.ts"],
-      "@openclaw/ollama/api.js": ["./.boundary-stubs/ollama-api.d.ts"],
-      "@openclaw/ollama/runtime-api.js": ["./.boundary-stubs/ollama-runtime-api.d.ts"],
-    });
-    expect(readExtensionTsconfig("xai").compilerOptions?.paths).toEqual(expectedPaths);
+    expect(extensionsWithCustomPaths).toEqual([]);
   });
 
   it("keeps plugin-sdk package types generated from the package build, not a hand-maintained types bridge", () => {

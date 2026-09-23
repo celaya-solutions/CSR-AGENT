@@ -12,6 +12,12 @@ import {
 } from "./management-service.test-helpers.js";
 import { invokePluginArtifactInstallMock } from "./test-helpers/install-fixtures.js";
 
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 const mocks = vi.hoisted(() => ({
   clawhubInstall: vi.fn(),
   installRecords: vi.fn(),

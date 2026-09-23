@@ -1266,9 +1266,6 @@ describe("plugin-sdk subpath exports", () => {
     expectSourceOmitsSnippet("agent-runtime", "./sglang.js");
     expectSourceOmitsSnippet("agent-runtime", "./vllm.js");
     expectSourceOmitsSnippet("agent-runtime", "../../extensions/");
-    expectRepoSourceOmitsSnippet("extensions/xai/model-id.ts", "./xai.js");
-    expectRepoSourceOmitsSnippet("extensions/xai/model-id.ts", "./facade-runtime.js");
-    expectRepoSourceOmitsSnippet("extensions/xai/model-id.ts", "../../extensions/");
     expectSourceMentions("sandbox", ["registerSandboxBackend", "runPluginCommandWithTimeout"]);
 
     expectSourceMentions("secret-input", [

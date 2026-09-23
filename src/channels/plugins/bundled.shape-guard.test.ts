@@ -254,7 +254,7 @@ describe("bundled channel entry shape guards", () => {
         }) =>
           actual
             .listBundledChannelPluginMetadata(params)
-            .filter((metadata) => metadata.manifest.id === "slack"),
+            .filter((metadata) => metadata.manifest.id === "telegram"),
       };
     });
     const bundled = await importFreshModule<typeof import("./bundled.js")>(
@@ -262,7 +262,8 @@ describe("bundled channel entry shape guards", () => {
       "./bundled.js?scope=real-bundled-source-tree-preload",
     );
     realBundledSourceTreeProbe = {
-      hasAccountInspector: typeof bundled.getBundledChannelAccountInspector("slack") === "function",
+      hasAccountInspector:
+        typeof bundled.getBundledChannelAccountInspector("telegram") === "function",
       pluginIds: [...bundled.listBundledChannelPluginIds()],
     };
   });
@@ -296,7 +297,7 @@ describe("bundled channel entry shape guards", () => {
   });
 
   it("loads real bundled channel entry contracts from the source tree", async () => {
-    expect(realBundledSourceTreeProbe.pluginIds).toEqual(["slack"]);
+    expect(realBundledSourceTreeProbe.pluginIds).toEqual(["telegram"]);
     expect(realBundledSourceTreeProbe.hasAccountInspector).toBe(true);
   });
 
@@ -1115,7 +1116,10 @@ describe("bundled channel entry shape guards", () => {
   });
 
   it("keeps bundled hot runtime barrels off the broad core SDK surface", () => {
-    const offenders = ["extensions/googlechat/runtime-api.ts"].filter((filePath) =>
+    const offenders = [
+      "extensions/discord/runtime-api.ts",
+      "extensions/telegram/runtime-api.ts",
+    ].filter((filePath) =>
       fs.readFileSync(path.resolve(filePath), "utf8").includes("openclaw/plugin-sdk/core"),
     );
 

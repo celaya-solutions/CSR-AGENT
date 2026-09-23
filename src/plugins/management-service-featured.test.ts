@@ -3,6 +3,12 @@ import { recordInstalledPluginIndexInstallOwner } from "./installed-plugin-index
 import { recordPluginManifestInstallOwner } from "./manifest-install-owner.js";
 import type { OfficialExternalPluginCatalogEntry } from "./official-external-plugin-catalog.js";
 
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 const mocks = vi.hoisted(() => ({
   metadata: vi.fn(),
   officialCatalog: vi.fn(),

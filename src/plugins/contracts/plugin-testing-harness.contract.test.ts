@@ -15,7 +15,7 @@ const echoCases = typedCases([
   { message: "beta", expected: "scoped:beta" },
 ]);
 
-describePluginRegistrationContract(pluginRegistrationContractCases.brave);
+describePluginRegistrationContract(pluginRegistrationContractCases.duckduckgo);
 
 describe("plugin testing harness contracts", () => {
   it("executes declared tools and reports missing tool contracts", async () => {

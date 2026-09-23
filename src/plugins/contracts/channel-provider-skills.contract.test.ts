@@ -75,7 +75,7 @@ function listRepositoryOwnedChannelSkillFiles(): string[] {
 describe("bundled channel-provider skill contracts", () => {
   it.each<{
     label: string;
-    pluginId: "discord" | "slack";
+    pluginId: "discord";
     config: OpenClawConfig;
     eligible: boolean;
     disabled?: boolean;
@@ -109,18 +109,6 @@ describe("bundled channel-provider skill contracts", () => {
       },
       eligible: false,
       disabled: true,
-    },
-    {
-      label: "exposes Slack with only named-account credentials",
-      pluginId: "slack",
-      config: {
-        channels: {
-          slack: {
-            accounts: { support: { botToken: "xoxb-test-token", appToken: "xapp-test-token" } },
-          },
-        },
-      },
-      eligible: true,
     },
   ])("$label", async ({ pluginId, config, eligible, disabled = false }) => {
     const workspaceDir = resolve(process.cwd(), "extensions", pluginId);

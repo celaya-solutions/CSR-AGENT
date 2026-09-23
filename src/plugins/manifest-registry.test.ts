@@ -13,6 +13,47 @@ import type { OpenClawPackageManifest } from "./manifest.js";
 import { createPluginCache, withPluginCache } from "./plugin-cache.js";
 import { cleanupTrackedTempDirs, makeTrackedTempDir } from "./test-helpers/fs-fixtures.js";
 
+// Shipped official catalogs are empty; catalog hydration is exercised against fixture entries.
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: [
+    ...(await import("./test-helpers/official-external-catalog-fixture.js"))
+      .OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+    {
+      name: "@openclaw/slack",
+      source: "official",
+      kind: "channel",
+      openclaw: {
+        channelConfigs: {
+          slack: {
+            label: "Slack",
+            description: "Slack channel, DM, command, and app event integration.",
+          },
+        },
+        channel: { id: "slack", label: "Slack", docsPath: "/channels/slack", blurb: "Slack." },
+        install: { npmSpec: "@openclaw/slack", defaultChoice: "npm" },
+      },
+    },
+    {
+      name: "@wecom/wecom-openclaw-plugin",
+      source: "external",
+      kind: "channel",
+      openclaw: {
+        plugin: { id: "wecom-openclaw-plugin", label: "WeCom" },
+        contracts: { tools: ["wecom_mcp"] },
+        channel: { id: "wecom", label: "WeCom", docsPath: "/channels/wecom", blurb: "WeCom." },
+        channelConfigs: {
+          wecom: {
+            label: "WeCom",
+            description: "Enterprise WeChat conversation channel.",
+            schema: { type: "object", additionalProperties: true },
+          },
+        },
+        install: { npmSpec: "@wecom/wecom-openclaw-plugin@2026.7.2", defaultChoice: "npm" },
+      },
+    },
+  ],
+}));
+
 vi.unmock("../version.js");
 
 const tempDirs: string[] = [];

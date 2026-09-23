@@ -7,7 +7,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { resolvePreferredOpenClawTmpDir } from "../../../../infra/tmp-openclaw-dir.js";
-import { getChannelPluginCatalogEntry, listRawChannelPluginCatalogEntries } from "../../catalog.js";
+import { listRawChannelPluginCatalogEntries } from "../../catalog.js";
 
 type CatalogEntryMeta = {
   id: string;
@@ -30,27 +30,6 @@ function createCatalogFallbackOnlyEnv(): NodeJS.ProcessEnv {
   return createCatalogFixtureEnv({
     OPENCLAW_DISABLE_BUNDLED_PLUGINS: "1",
     OPENCLAW_BUNDLED_PLUGINS_DIR: "/nonexistent/bundled/plugins",
-  });
-}
-
-export function describeChannelCatalogEntryContract(params: {
-  channelId: string;
-  npmSpec: string;
-  alias?: string;
-}) {
-  describe(`${params.channelId} channel catalog contract`, () => {
-    it("keeps the shipped catalog entry aligned", () => {
-      const entry = getChannelPluginCatalogEntry(params.channelId);
-      expect(entry?.install.npmSpec).toBe(params.npmSpec);
-      if (params.alias) {
-        expect(entry?.meta.aliases).toContain(params.alias);
-      }
-    });
-
-    it("appears in the channel catalog listing", () => {
-      const ids = listRawChannelPluginCatalogEntries().map((entry) => entry.id);
-      expect(ids).toContain(params.channelId);
-    });
   });
 }
 
@@ -107,33 +86,16 @@ export function describeBundledMetadataOnlyChannelCatalogContract(params: {
   });
 }
 
-/** Verifies fallback ordering between bundled, official, and external catalogs. */
-export function describeOfficialFallbackChannelCatalogContract(params: {
+/** Verifies external catalog entries when bundled metadata is omitted. */
+export function describeExternalChannelCatalogContract(params: {
   channelId: string;
-  npmSpec: string;
   meta: CatalogEntryMeta;
   packageName: string;
   externalNpmSpec: string;
   externalLabel: string;
 }) {
-  describe(`${params.channelId} official fallback channel catalog contract`, () => {
-    it("includes shipped official channel catalog entries when bundled metadata is omitted", () => {
-      const dir = fs.mkdtempSync(
-        path.join(resolvePreferredOpenClawTmpDir(), "openclaw-official-catalog-"),
-      );
-      const catalogPath = path.join(dir, "channel-catalog.json");
-
-      const entry = listRawChannelPluginCatalogEntries({
-        env: createCatalogFallbackOnlyEnv(),
-        officialCatalogPaths: [catalogPath],
-      }).find((item) => item.id === params.channelId);
-
-      expect(entry?.install.npmSpec).toBe(params.npmSpec);
-      expect(entry?.pluginId).toBeUndefined();
-      expect(entry?.trustedSourceLinkedOfficialInstall).toBe(true);
-    });
-
-    it("lets external catalogs override shipped fallback channel metadata", () => {
+  describe(`${params.channelId} external channel catalog contract`, () => {
+    it("uses external catalog channel metadata when bundled metadata is omitted", () => {
       const dir = fs.mkdtempSync(
         path.join(resolvePreferredOpenClawTmpDir(), "openclaw-fallback-catalog-"),
       );

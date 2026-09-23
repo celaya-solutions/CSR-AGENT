@@ -253,39 +253,24 @@ describe("provider-catalog-shared live catalog cache", () => {
 });
 
 describe("provider-catalog-shared native streaming usage compat", () => {
-  it("detects native streaming usage compat from the endpoint capabilities", () => {
-    expect(
-      supportsNativeStreamingUsageCompat({
-        providerId: "custom-qwen",
-        baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
-      }),
-    ).toBe(true);
-    expect(
-      supportsNativeStreamingUsageCompat({
-        providerId: "custom-kimi",
-        baseUrl: "https://api.moonshot.ai/v1",
-      }),
-    ).toBe(true);
+  // The Moonshot and DashScope endpoint classes that opt in come from provider plugins that this
+  // distribution does not bundle, so only the generic-endpoint default is observable here.
+  it("does not opt generic OpenAI-compatible endpoints into native streaming usage", () => {
     expect(
       supportsNativeStreamingUsageCompat({
         providerId: "custom-proxy",
         baseUrl: "https://proxy.example.com/v1",
       }),
     ).toBe(false);
-  });
 
-  it("opts models into streaming usage for native endpoints while preserving explicit overrides", () => {
-    const provider = applyProviderNativeStreamingUsageCompat({
-      providerId: "custom-qwen",
-      providerConfig: {
-        api: "openai-completions",
-        baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
-        models: [buildModel("qwen-plus"), buildModel("qwen-max", false)],
-      },
-    });
-
-    expect(provider.models?.[0]?.compat?.supportsUsageInStreaming).toBe(true);
-    expect(provider.models?.[1]?.compat?.supportsUsageInStreaming).toBe(false);
+    const providerConfig = {
+      api: "openai-completions" as const,
+      baseUrl: "https://proxy.example.com/v1",
+      models: [buildModel("proxy-model")],
+    };
+    expect(
+      applyProviderNativeStreamingUsageCompat({ providerId: "custom-proxy", providerConfig }),
+    ).toBe(providerConfig);
   });
 });
 

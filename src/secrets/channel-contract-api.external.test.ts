@@ -31,6 +31,21 @@ vi.mock("../plugins/public-surface-loader.js", () => ({
   loadBundledPluginPublicArtifactModuleFromCandidatesSync: loadBundledPublicArtifactMock,
 }));
 
+// The shipped official external catalog is empty; a synthetic catalog contract
+// keeps the host secret fallback covered without a real external channel.
+vi.mock("../plugins/official-external-plugin-catalog.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../plugins/official-external-plugin-catalog.js")>()),
+  getOfficialExternalChannelSecretContract: (channelId: string) =>
+    channelId === "acme"
+      ? {
+          channelId: "acme",
+          fields: [
+            { field: "clientSecret", activationField: "appId", activationEnv: "ACME_APP_ID" },
+          ],
+        }
+      : undefined,
+}));
+
 vi.mock("../plugins/hardlink-policy.js", () => ({
   shouldRejectHardlinkedPluginFiles: shouldRejectHardlinkedPluginFilesMock,
 }));
@@ -237,14 +252,14 @@ describe("external channel secret contract api", () => {
     loadPluginMetadataSnapshotMock.mockReturnValue({ plugins: [] });
 
     const api = loadChannelSecretContractApi({
-      channelId: "qqbot",
-      config: { channels: { qqbot: { appId: "app" } } },
+      channelId: "acme",
+      config: { channels: { acme: { appId: "app" } } },
       env: {},
     });
 
     expect(api?.secretTargetRegistryEntries?.map((entry) => entry.id)).toEqual([
-      "channels.qqbot.accounts.*.clientSecret",
-      "channels.qqbot.clientSecret",
+      "channels.acme.accounts.*.clientSecret",
+      "channels.acme.clientSecret",
     ]);
     expect(api?.collectRuntimeConfigAssignments).toBeTypeOf("function");
   });
@@ -255,19 +270,19 @@ describe("external channel secret contract api", () => {
     });
 
     const api = loadChannelSecretContractApi({
-      channelId: "qqbot",
-      config: { channels: { qqbot: { appId: "app" } } },
+      channelId: "acme",
+      config: { channels: { acme: { appId: "app" } } },
       env: {},
     });
 
     expect(api?.secretTargetRegistryEntries?.map((entry) => entry.id)).toEqual([
-      "channels.qqbot.accounts.*.clientSecret",
-      "channels.qqbot.clientSecret",
+      "channels.acme.accounts.*.clientSecret",
+      "channels.acme.clientSecret",
     ]);
   });
 
   it("does not hide installed plugin contract loading failures behind the official fallback", () => {
-    const record = writeExternalChannelPlugin({ pluginId: "qqbot", channelId: "qqbot" });
+    const record = writeExternalChannelPlugin({ pluginId: "acme", channelId: "acme" });
     loadPluginMetadataSnapshotMock.mockReturnValue({ plugins: [record] });
     shouldRejectHardlinkedPluginFilesMock.mockImplementation(() => {
       throw new Error("contract policy failed");
@@ -275,8 +290,8 @@ describe("external channel secret contract api", () => {
 
     expect(() =>
       loadChannelSecretContractApi({
-        channelId: "qqbot",
-        config: { channels: { qqbot: { appId: "app" } } },
+        channelId: "acme",
+        config: { channels: { acme: { appId: "app" } } },
         env: {},
       }),
     ).toThrow("contract policy failed");

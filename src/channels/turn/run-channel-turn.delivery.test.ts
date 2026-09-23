@@ -836,15 +836,15 @@ describe("channel turn delivery", () => {
   });
 
   it("prepares payloads before durable enqueue and observes handled delivery", async () => {
-    sendDurableMessageBatch.mockResolvedValueOnce(createDurableSendResult(["tlon-1"]));
+    sendDurableMessageBatch.mockResolvedValueOnce(createDurableSendResult(["tg-1"]));
     const onDelivered = vi.fn();
     const dispatchReplyWithBufferedBlockDispatcher = createDispatch();
 
     await dispatchTestAssembledTurn({
-      channel: "tlon",
+      channel: "telegram",
       accountId: "acct",
-      routeSessionKey: "agent:main:tlon:peer",
-      ctxPayload: createCtx({ To: "chat/~nec/general", OriginatingTo: "chat/~nec/general" }),
+      routeSessionKey: "agent:main:telegram:peer",
+      ctxPayload: createCtx({ To: "123", OriginatingTo: "123" }),
       dispatchReplyWithBufferedBlockDispatcher,
       delivery: {
         deliver: vi.fn(),

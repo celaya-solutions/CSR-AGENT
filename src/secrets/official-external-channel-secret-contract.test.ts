@@ -1,21 +1,36 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+// The shipped official external catalog is empty; a synthetic catalog contract
+// keeps the host fallback collector covered without a real external channel.
+vi.mock("../plugins/official-external-plugin-catalog.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../plugins/official-external-plugin-catalog.js")>()),
+  getOfficialExternalChannelSecretContract: (channelId: string) =>
+    channelId === "acme"
+      ? {
+          channelId: "acme",
+          fields: [
+            { field: "clientSecret", activationField: "appId", activationEnv: "ACME_APP_ID" },
+          ],
+        }
+      : undefined,
+}));
 import { loadOfficialExternalChannelSecretContractApi } from "./official-external-channel-secret-contract.js";
 import { createResolverContext } from "./runtime-shared.js";
 
 describe("official external channel secret contracts", () => {
-  it("collects active QQBot root and account SecretRefs for Tencent 2.0.1", () => {
+  it("collects active root and account SecretRefs from the catalog contract", () => {
     const config = {
       channels: {
-        qqbot: {
+        acme: {
           appId: "root-app",
-          clientSecret: { source: "env" as const, provider: "default", id: "QQBOT_ROOT_SECRET" },
+          clientSecret: { source: "env" as const, provider: "default", id: "ACME_ROOT_SECRET" },
           accounts: {
             named: {
               appId: "named-app",
               clientSecret: {
                 source: "env" as const,
                 provider: "default",
-                id: "QQBOT_NAMED_SECRET",
+                id: "ACME_NAMED_SECRET",
               },
             },
           },
@@ -23,25 +38,25 @@ describe("official external channel secret contracts", () => {
       },
     };
     const context = createResolverContext({ sourceConfig: config, env: {} });
-    const api = loadOfficialExternalChannelSecretContractApi("qqbot");
+    const api = loadOfficialExternalChannelSecretContractApi("acme");
 
     api?.collectRuntimeConfigAssignments({ config, defaults: undefined, context });
 
     expect(context.assignments.map((assignment) => assignment.path)).toEqual([
-      "channels.qqbot.clientSecret",
-      "channels.qqbot.accounts.named.clientSecret",
+      "channels.acme.clientSecret",
+      "channels.acme.accounts.named.clientSecret",
     ]);
     context.assignments[0]?.apply("resolved-root-secret");
     context.assignments[1]?.apply("resolved-named-secret");
-    expect(config.channels.qqbot.clientSecret).toBe("resolved-root-secret");
-    expect(config.channels.qqbot.accounts.named.clientSecret).toBe("resolved-named-secret");
+    expect(config.channels.acme.clientSecret).toBe("resolved-root-secret");
+    expect(config.channels.acme.accounts.named.clientSecret).toBe("resolved-named-secret");
   });
 
-  it("uses QQBOT_APP_ID only for the default account and skips inactive credentials", () => {
+  it("uses the activation env only for the default account and skips inactive credentials", () => {
     const config = {
       channels: {
-        qqbot: {
-          clientSecret: { source: "env" as const, provider: "default", id: "QQBOT_ROOT_SECRET" },
+        acme: {
+          clientSecret: { source: "env" as const, provider: "default", id: "ACME_ROOT_SECRET" },
           accounts: {
             disabled: {
               enabled: false,
@@ -49,14 +64,14 @@ describe("official external channel secret contracts", () => {
               clientSecret: {
                 source: "env" as const,
                 provider: "default",
-                id: "QQBOT_DISABLED_SECRET",
+                id: "ACME_DISABLED_SECRET",
               },
             },
             missingAppId: {
               clientSecret: {
                 source: "env" as const,
                 provider: "default",
-                id: "QQBOT_MISSING_APP_SECRET",
+                id: "ACME_MISSING_APP_SECRET",
               },
             },
           },
@@ -65,19 +80,19 @@ describe("official external channel secret contracts", () => {
     };
     const context = createResolverContext({
       sourceConfig: config,
-      env: { QQBOT_APP_ID: "env-app" },
+      env: { ACME_APP_ID: "env-app" },
     });
-    const api = loadOfficialExternalChannelSecretContractApi("qqbot");
+    const api = loadOfficialExternalChannelSecretContractApi("acme");
 
     api?.collectRuntimeConfigAssignments({ config, defaults: undefined, context });
 
     expect(context.assignments.map((assignment) => assignment.path)).toEqual([
-      "channels.qqbot.clientSecret",
+      "channels.acme.clientSecret",
     ]);
-    expect(config.channels.qqbot).toHaveProperty("appId", "env-app");
+    expect(config.channels.acme).toHaveProperty("appId", "env-app");
     expect(context.warnings.map((warning) => warning.path)).toEqual([
-      "channels.qqbot.accounts.disabled.clientSecret",
-      "channels.qqbot.accounts.missingAppId.clientSecret",
+      "channels.acme.accounts.disabled.clientSecret",
+      "channels.acme.accounts.missingAppId.clientSecret",
     ]);
   });
 });

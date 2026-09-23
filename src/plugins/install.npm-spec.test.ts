@@ -24,6 +24,12 @@ import {
 } from "./managed-npm-retention.js";
 import { createSyncSuiteTempRootTracker } from "./test-helpers/fs-fixtures.js";
 
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 const runCommandWithTimeoutMock = vi.fn();
 const resolveOpenClawPackageRootSyncMock = vi.fn();
 

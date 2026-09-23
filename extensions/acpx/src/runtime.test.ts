@@ -4198,7 +4198,7 @@ describe("AcpxRuntime fresh reset wrapper", () => {
 
     const { runtime, delegate, bridgeSafeDelegate } = makeRuntime(baseStore, {
       mcpServers: [{ name: "tools", command: "mcp-tools" }] as never,
-      probeAgent: "  OpenAgent  ",
+      probeAgent: "  OpenClaw  ",
       agentRegistry: {
         resolve: (agentName: string) =>
           agentName === "openclaw" ? DOCUMENTED_OPENCLAW_BRIDGE_COMMAND : agentName,

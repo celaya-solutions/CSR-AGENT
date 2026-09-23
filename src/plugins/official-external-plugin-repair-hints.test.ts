@@ -1,10 +1,5 @@
 // Covers repair hints for official external plugin installs.
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  resolveExternalPluginRuntimeDependencyRepairHint,
-  resolveMissingOfficialExternalChannelPluginRepairHint,
-  resolveMissingOfficialExternalChannelPluginRepairHints,
-} from "./official-external-plugin-repair-hints.js";
 
 const mocks = vi.hoisted(() => ({
   resolveConfiguredChannelPresencePolicy: vi.fn(),
@@ -15,6 +10,33 @@ vi.mock("./channel-plugin-ids.js", () => ({
     mocks.resolveConfiguredChannelPresencePolicy(params),
 }));
 
+// The shipped official external catalogs are empty in this distribution, so the
+// repair hints are resolved against synthetic official external channel entries.
+function externalChannel(id: string, label: string): Record<string, unknown> {
+  return {
+    name: `@example/${id}`,
+    source: "official",
+    kind: "channel",
+    openclaw: {
+      channel: { id, label },
+      install: { npmSpec: `@example/${id}`, defaultChoice: "npm" },
+    },
+  };
+}
+
+vi.mock("./official-external-plugin-bundled-catalogs.js", () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: [
+    externalChannel("examplechat", "ExampleChat"),
+    externalChannel("otherchat", "OtherChat"),
+  ],
+}));
+
+const {
+  resolveExternalPluginRuntimeDependencyRepairHint,
+  resolveMissingOfficialExternalChannelPluginRepairHint,
+  resolveMissingOfficialExternalChannelPluginRepairHints,
+} = await import("./official-external-plugin-repair-hints.js");
+
 describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
   beforeEach(() => {
     mocks.resolveConfiguredChannelPresencePolicy.mockReset();
@@ -23,7 +45,7 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
   it("returns an install hint when a configured official external channel has no owner", () => {
     mocks.resolveConfiguredChannelPresencePolicy.mockReturnValue([
       {
-        channelId: "feishu",
+        channelId: "examplechat",
         sources: ["explicit-config"],
         effective: false,
         pluginIds: [],
@@ -33,32 +55,32 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
 
     expect(
       resolveMissingOfficialExternalChannelPluginRepairHint({
-        config: { channels: { feishu: { appId: "cli_xxx" } } },
-        channelId: "feishu",
+        config: { channels: { examplechat: { appId: "app-id" } } },
+        channelId: "examplechat",
       }),
     ).toEqual({
-      pluginId: "feishu",
-      channelId: "feishu",
-      label: "Feishu",
-      installSpec: "@openclaw/feishu",
-      installCommand: "openclaw plugins install @openclaw/feishu",
+      pluginId: "examplechat",
+      channelId: "examplechat",
+      label: "ExampleChat",
+      installSpec: "@example/examplechat",
+      installCommand: "openclaw plugins install @example/examplechat",
       doctorFixCommand: "openclaw doctor --fix",
       repairHint:
-        "Install the official external plugin with: openclaw plugins install @openclaw/feishu, or run: openclaw doctor --fix.",
+        "Install the official external plugin with: openclaw plugins install @example/examplechat, or run: openclaw doctor --fix.",
     });
   });
 
   it("resolves multiple channel hints with one presence-policy pass", () => {
     mocks.resolveConfiguredChannelPresencePolicy.mockReturnValue([
       {
-        channelId: "feishu",
+        channelId: "examplechat",
         sources: ["explicit-config"],
         effective: false,
         pluginIds: [],
         blockedReasons: ["no-channel-owner"],
       },
       {
-        channelId: "whatsapp",
+        channelId: "otherchat",
         sources: ["explicit-config"],
         effective: false,
         pluginIds: [],
@@ -68,10 +90,10 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
 
     expect(
       resolveMissingOfficialExternalChannelPluginRepairHints({
-        config: { channels: { feishu: {}, whatsapp: {} } },
-        channelIds: ["feishu", "whatsapp"],
+        config: { channels: { examplechat: {}, otherchat: {} } },
+        channelIds: ["examplechat", "otherchat"],
       }).map((hint) => hint.channelId),
-    ).toEqual(["feishu", "whatsapp"]);
+    ).toEqual(["examplechat", "otherchat"]);
     expect(mocks.resolveConfiguredChannelPresencePolicy).toHaveBeenCalledTimes(1);
   });
 
@@ -85,10 +107,10 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
     expect(mocks.resolveConfiguredChannelPresencePolicy).not.toHaveBeenCalled();
   });
 
-  it("prefers the npm install hint for externalized WhatsApp", () => {
+  it("prefers the npm install hint for an externalized channel", () => {
     mocks.resolveConfiguredChannelPresencePolicy.mockReturnValue([
       {
-        channelId: "whatsapp",
+        channelId: "otherchat",
         sources: ["explicit-config"],
         effective: false,
         pluginIds: [],
@@ -98,22 +120,22 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
 
     expect(
       resolveMissingOfficialExternalChannelPluginRepairHint({
-        config: { channels: { whatsapp: { enabled: true } } },
-        channelId: "whatsapp",
+        config: { channels: { otherchat: { enabled: true } } },
+        channelId: "otherchat",
       }),
     ).toMatchObject({
-      pluginId: "whatsapp",
-      channelId: "whatsapp",
-      label: "WhatsApp",
-      installSpec: "@openclaw/whatsapp",
-      installCommand: "openclaw plugins install @openclaw/whatsapp",
+      pluginId: "otherchat",
+      channelId: "otherchat",
+      label: "OtherChat",
+      installSpec: "@example/otherchat",
+      installCommand: "openclaw plugins install @example/otherchat",
     });
   });
 
   it("does not return install hints for policy-blocked official external channel owners", () => {
     mocks.resolveConfiguredChannelPresencePolicy.mockReturnValue([
       {
-        channelId: "whatsapp",
+        channelId: "otherchat",
         sources: ["explicit-config"],
         effective: false,
         pluginIds: [],
@@ -123,8 +145,8 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
 
     expect(
       resolveMissingOfficialExternalChannelPluginRepairHint({
-        config: { channels: { whatsapp: { enabled: true } } },
-        channelId: "whatsapp",
+        config: { channels: { otherchat: { enabled: true } } },
+        channelId: "otherchat",
       }),
     ).toBeNull();
   });
@@ -132,18 +154,18 @@ describe("resolveMissingOfficialExternalChannelPluginRepairHint", () => {
   it("does not return install hints for active official external channel owners", () => {
     mocks.resolveConfiguredChannelPresencePolicy.mockReturnValue([
       {
-        channelId: "whatsapp",
+        channelId: "otherchat",
         sources: ["explicit-config"],
         effective: true,
-        pluginIds: ["whatsapp"],
+        pluginIds: ["otherchat"],
         blockedReasons: [],
       },
     ]);
 
     expect(
       resolveMissingOfficialExternalChannelPluginRepairHint({
-        config: { channels: { whatsapp: { enabled: true } } },
-        channelId: "whatsapp",
+        config: { channels: { otherchat: { enabled: true } } },
+        channelId: "otherchat",
       }),
     ).toBeNull();
   });
@@ -153,8 +175,8 @@ describe("resolveExternalPluginRuntimeDependencyRepairHint", () => {
   it.each([
     {
       name: "names the official install command for the package that owns the id",
-      candidate: { pluginId: "discord", packageName: "@openclaw/discord" },
-      expected: "openclaw plugins install @openclaw/discord",
+      candidate: { pluginId: "examplechat", packageName: "@example/examplechat" },
+      expected: "openclaw plugins install @example/examplechat",
     },
     {
       name: "withholds the official install command from a foreign package reusing the id",

@@ -22,9 +22,9 @@ function bundledPluginIdsWithContract(
 }
 
 describe("web provider public artifacts", () => {
-  it("declares bundled web providers in manifests", () => {
+  it("declares bundled web-search providers in manifests", () => {
+    // No bundled plugin in this distribution declares a web-fetch provider.
     expect(webSearchPluginIds).not.toHaveLength(0);
-    expect(webFetchPluginIds).not.toHaveLength(0);
   });
 
   it.each(webSearchPluginIds)("loads public web-search artifacts for %s", (pluginId) => {

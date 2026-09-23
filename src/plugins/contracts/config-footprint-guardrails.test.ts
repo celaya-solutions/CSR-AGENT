@@ -119,33 +119,25 @@ describe("config footprint guardrails", () => {
   });
 
   it("keeps bundled channel private-network config canonical in generated metadata", () => {
-    const pluginIds = ["matrix", "nextcloud-talk", "tlon"];
-
-    for (const pluginId of pluginIds) {
-      const metadata = GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA.find(
-        (entry) => entry.pluginId === pluginId,
-      );
-      if (metadata === undefined) {
-        throw new Error(`${pluginId} metadata missing`);
-      }
+    const canonicalOwners: string[] = [];
+    for (const metadata of GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA) {
       const paths = new Set(collectSchemaPaths(metadata.schema));
-      expect(paths.has("allowPrivateNetwork"), `${pluginId} leaked flat allowPrivateNetwork`).toBe(
-        false,
-      );
       expect(
-        paths.has("network.dangerouslyAllowPrivateNetwork"),
-        `${pluginId} missing canonical network.dangerouslyAllowPrivateNetwork`,
-      ).toBe(true);
+        paths.has("allowPrivateNetwork"),
+        `${metadata.pluginId} leaked flat allowPrivateNetwork`,
+      ).toBe(false);
+      if (paths.has("network.dangerouslyAllowPrivateNetwork")) {
+        canonicalOwners.push(metadata.pluginId);
+      }
     }
+    expect(canonicalOwners).not.toStrictEqual([]);
   });
 
   it("keeps retired flat streaming aliases out of channel-owned schemas", () => {
     const telegramSource = readSource("extensions/telegram/src/config-schema.ts");
     const discordSource = readSource("extensions/discord/src/config-schema.ts");
-    const msTeamsSource = readSource("extensions/msteams/src/config-schema.ts");
-    const slackSource = readSource("extensions/slack/src/config-schema.ts");
 
-    for (const schemaSource of [telegramSource, discordSource, msTeamsSource, slackSource]) {
+    for (const schemaSource of [telegramSource, discordSource]) {
       expect(schemaSource).not.toContain(
         'streamMode: z.enum(["replace", "status_final", "append"])',
       );

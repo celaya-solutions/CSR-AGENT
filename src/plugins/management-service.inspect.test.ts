@@ -7,6 +7,12 @@ import {
 } from "./management-service.test-helpers.js";
 import { clearPluginMetadataLifecycleCaches } from "./plugin-metadata-lifecycle.js";
 
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 const mocks = vi.hoisted(() => ({ metadata: vi.fn(), officialCatalog: vi.fn() }));
 
 vi.mock("./plugin-metadata-snapshot.js", () => ({
