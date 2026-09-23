@@ -11,6 +11,7 @@ import { resolveOpenClawPackageRoot } from "../../infra/openclaw-root.js";
 import { readPackageName, readPackageVersion } from "../../infra/package-json.js";
 import { normalizePackageTagInput } from "../../infra/package-tag.js";
 import { parseSemver } from "../../infra/runtime-guard.js";
+import { SOURCE_REPOSITORY_GIT_URL } from "../../infra/source-repository.js";
 import { fetchNpmTagVersion } from "../../infra/update-check.js";
 import {
   normalizeUpdateFailureFacts,
@@ -126,7 +127,6 @@ export function parseTimeoutMsOrExit(timeout?: string): number | undefined | nul
   }
 }
 
-const UPSTREAM_REPOSITORY_URL = "https://github.com/openclaw/openclaw.git";
 // Keep the full commit graph for dev ref switching while deferring historical blobs.
 // A shallow clone would make older or non-default dev targets unreachable.
 const GIT_CLONE_BLOB_FILTER = "--filter=blob:none";
@@ -298,7 +298,7 @@ async function cloneGitCheckoutTransactionally(params: {
   try {
     const result = await runUpdateStep({
       name: "git clone",
-      argv: ["git", "clone", GIT_CLONE_BLOB_FILTER, UPSTREAM_REPOSITORY_URL, stagingDir],
+      argv: ["git", "clone", GIT_CLONE_BLOB_FILTER, SOURCE_REPOSITORY_GIT_URL, stagingDir],
       env: params.env,
       timeoutMs: params.timeoutMs,
       progress: params.progress,

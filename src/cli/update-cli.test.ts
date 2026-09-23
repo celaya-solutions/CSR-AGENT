@@ -8058,15 +8058,15 @@ describe("update-cli", () => {
     },
     {
       name: "explicit git package spec",
-      options: { yes: true, tag: "github:openclaw/openclaw#main" },
+      options: { yes: true, tag: "github:celaya-solutions/CSR-AGENT#csr-course" },
       packageSpec: undefined,
-      expectedSpec: "github:openclaw/openclaw#main",
+      expectedSpec: "github:celaya-solutions/CSR-AGENT#csr-course",
     },
     {
       name: "aliased git package spec",
-      options: { yes: true, tag: "OpenAgent@github:openclaw/openclaw#main" },
+      options: { yes: true, tag: "OpenAgent@github:celaya-solutions/CSR-AGENT#csr-course" },
       packageSpec: undefined,
-      expectedSpec: "OpenAgent@github:openclaw/openclaw#main",
+      expectedSpec: "OpenAgent@github:celaya-solutions/CSR-AGENT#csr-course",
     },
     {
       name: "aliased hosted GitHub URL package spec without git suffix",

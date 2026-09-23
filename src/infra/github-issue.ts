@@ -1,7 +1,8 @@
 import { spawn } from "node:child_process";
-/** Prepares and submits bounded issue content to openclaw/openclaw. */
+/** Prepares and submits bounded issue content to this build's source repository. */
 import { createHash } from "node:crypto";
 import { truncateUtf8Prefix } from "../utils/utf8-truncate.js";
+import { SOURCE_REPOSITORY_SLUG } from "./source-repository.js";
 
 export type PreparedGithubIssue = {
   body: string;
@@ -60,8 +61,8 @@ export type GithubIssueSubmitHooks = GithubIssueReconcileHooks & {
   beforeIssueCreate?: () => Promise<() => undefined> | (() => undefined);
 };
 
-const GITHUB_REPOSITORY = "github.com/openclaw/openclaw";
-const GITHUB_REPOSITORY_ISSUES_API = "repos/openclaw/openclaw/issues";
+const GITHUB_REPOSITORY = `github.com/${SOURCE_REPOSITORY_SLUG}`;
+const GITHUB_REPOSITORY_ISSUES_API = `repos/${SOURCE_REPOSITORY_SLUG}/issues`;
 const GITHUB_ISSUE_CREATE_TIMEOUT_MS = 30_000;
 const GITHUB_OUTPUT_MAX_BYTES = 1024 * 1024;
 const GITHUB_ISSUE_BODY_MAX_BYTES = 20_000;

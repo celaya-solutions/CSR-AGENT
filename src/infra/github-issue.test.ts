@@ -170,7 +170,7 @@ describe("GitHub issue transport", () => {
         "--include",
         "--method",
         "POST",
-        "repos/openclaw/openclaw/issues",
+        "repos/celaya-solutions/CSR-AGENT/issues",
         "--input",
         "-",
         "--jq",

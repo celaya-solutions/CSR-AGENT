@@ -1,6 +1,7 @@
 // Maintenance command registration: doctor, triage, dashboard, reset, and uninstall.
 import type { Command } from "commander";
 import { detectCurrentSqliteCapabilities, nodeRuntimeFailure } from "../../../node-sqlite.mjs";
+import { SOURCE_REPOSITORY_SLUG } from "../../infra/source-repository.js";
 import { defaultRuntime } from "../../runtime.js";
 import { formatErrorMessage as formatError, runCommandWithRuntime } from "../cli-utils.js";
 import { hasExplicitOptions } from "../command-options.js";
@@ -83,7 +84,7 @@ export function registerMaintenanceCommands(program: Command) {
     )
     .option(
       "--github-issue",
-      "With --session-sqlite recover: prepare and optionally create an openclaw/openclaw issue",
+      `With --session-sqlite recover: prepare and optionally create a ${SOURCE_REPOSITORY_SLUG} issue`,
       false,
     )
     .option("--json", "Emit JSON; bare --json runs advisory read-only health checks", false)
