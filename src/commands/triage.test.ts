@@ -614,10 +614,10 @@ describe("triageCommand", () => {
         }
         return [];
       });
-      for (const command of ["claude", "codex", "opencode", "pi", "openclaw"]) {
+      for (const command of ["claude", "codex", "opencode", "pi", "openagent"]) {
         await fs.writeFile(
           path.join(bin, command),
-          `#!/bin/sh\nprintf "%s\\n" "$OPENCLAW_STATE_DIR" "$OPENCLAW_CONFIG_PATH" "$OPENCLAW_WORKSPACE_DIR"\n${command === "openclaw" ? "" : "cat\n"}`,
+          `#!/bin/sh\nprintf "%s\\n" "$OPENCLAW_STATE_DIR" "$OPENCLAW_CONFIG_PATH" "$OPENCLAW_WORKSPACE_DIR"\n${command === "openagent" ? "" : "cat\n"}`,
           { mode: 0o700 },
         );
       }

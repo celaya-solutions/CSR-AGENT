@@ -15,7 +15,8 @@ export function classifyPortListener(listener: PortListener, _port: number): Por
     return "non_gateway";
   }
   const raw = `${commandLine} ${command}`;
-  if (raw.includes("openclaw")) {
+  // `openagent` is the current binary; `openclaw` remains its alias and the package name.
+  if (raw.includes("openagent") || raw.includes("openclaw")) {
     return "gateway";
   }
   const hasSshCommand = /(?:^|[/\\])ssh(?:\.exe)?$/.test(command);

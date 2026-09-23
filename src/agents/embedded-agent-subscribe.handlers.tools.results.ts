@@ -6,6 +6,7 @@ import {
   normalizeOptionalLowercaseString,
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
+import { isCliCommandName } from "../cli/cli-name.js";
 import { consumeRootOptionToken } from "../infra/cli-root-options.js";
 import type { ExecApprovalDecision } from "../infra/exec-approvals.js";
 import {
@@ -240,7 +241,7 @@ export function extractLiveExecOutput(result: unknown): string | undefined {
 
 function isOpenClawExecutable(token: string | undefined): boolean {
   const executable = normalizeOptionalLowercaseString(token);
-  return executable?.split(/[\\/]/).at(-1) === "openclaw";
+  return isCliCommandName(executable?.split(/[\\/]/).at(-1));
 }
 
 function isOpenClawPackageSpec(token: string | undefined): boolean {

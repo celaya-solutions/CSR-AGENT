@@ -10,7 +10,7 @@ import { quoteCliArg } from "./quote-cli-arg.js";
 
 export function createCompletionProgram(): Command {
   const program = new Command();
-  program.name("openclaw");
+  program.name("openagent");
   program.description("CLI root");
   program.option("-v, --verbose", "Verbose output");
   program.option(
@@ -43,7 +43,7 @@ export function createDocumentedCompletionProgram(): Command {
 
 export function createAliasedCompletionProgram(): Command {
   const program = new Command();
-  program.name("openclaw");
+  program.name("openagent");
   program.option("--profile <name>", "Profile");
   const infer = program.command("infer").alias("capability").description("Run inference");
   infer.command("embed").description("Embed text").option("--model <id>", "Model id");
@@ -80,7 +80,7 @@ COMP_WORDS=(${words.map(quoteCliArg).join(" ")})
 COMP_CWORD=${input.cword ?? words.length - 1}
 COMP_LINE=${quoteCliArg(input.line ?? words.join(" "))}
 COMP_POINT=${input.point ?? "${#COMP_LINE}"}
-_openclaw_completion openclaw ${quoteCliArg(input.word ?? words.at(-1) ?? "")}
+_openagent_completion openagent ${quoteCliArg(input.word ?? words.at(-1) ?? "")}
 printf '%s\\n' "\${COMPREPLY[@]}"
 `,
     ],

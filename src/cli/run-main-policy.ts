@@ -160,7 +160,7 @@ export function resolveMissingPluginCommandMessage(
     if (allow.length > 0 && !allow.includes(parentPluginId)) {
       if (parentPluginId === normalizedPluginId) {
         return (
-          `The \`openclaw ${normalizedPluginId}\` command is unavailable because ` +
+          `The \`openagent ${normalizedPluginId}\` command is unavailable because ` +
           `\`plugins.allow\` excludes "${normalizedPluginId}". Add "${normalizedPluginId}" to ` +
           `\`plugins.allow\` if you want that bundled plugin CLI surface.`
         );
@@ -173,7 +173,7 @@ export function resolveMissingPluginCommandMessage(
     }
     if (config?.plugins?.entries?.[parentPluginId]?.enabled === false) {
       return (
-        `The \`openclaw ${normalizedPluginId}\` command is unavailable because ` +
+        `The \`openagent ${normalizedPluginId}\` command is unavailable because ` +
         `\`plugins.entries.${parentPluginId}.enabled=false\`. Re-enable that entry if you want ` +
         "the bundled plugin command surface."
       );
@@ -184,14 +184,14 @@ export function resolveMissingPluginCommandMessage(
       config?.plugins?.entries?.[parentPluginId]?.enabled !== true
     ) {
       return (
-        `The \`openclaw ${normalizedPluginId}\` command is provided by the ` +
+        `The \`openagent ${normalizedPluginId}\` command is provided by the ` +
         `"${parentPluginId}" plugin, but that bundled plugin is disabled by default. Run ` +
         `\`openagent plugins enable ${parentPluginId}\` to enable that CLI surface.`
       );
     }
     if (commandAlias.kind === "runtime-slash") {
       const cliHint = commandAlias.cliCommand
-        ? `Use \`openclaw ${commandAlias.cliCommand}\` for related CLI operations, or `
+        ? `Use \`openagent ${commandAlias.cliCommand}\` for related CLI operations, or `
         : "Use ";
       return (
         `"${normalizedPluginId}" is a runtime slash command (/${normalizedPluginId}), not a CLI command. ` +
@@ -260,14 +260,14 @@ export function resolveMissingPluginCommandMessage(
       );
     }
     return (
-      `The \`openclaw ${normalizedPluginId}\` command is unavailable because ` +
+      `The \`openagent ${normalizedPluginId}\` command is unavailable because ` +
       `\`plugins.allow\` excludes "${normalizedPluginId}". Add "${normalizedPluginId}" to ` +
       `\`plugins.allow\` if you want that bundled plugin CLI surface.`
     );
   }
   if (config?.plugins?.entries?.[normalizedPluginId]?.enabled === false) {
     return (
-      `The \`openclaw ${normalizedPluginId}\` command is unavailable because ` +
+      `The \`openagent ${normalizedPluginId}\` command is unavailable because ` +
       `\`plugins.entries.${normalizedPluginId}.enabled=false\`. Re-enable that entry if you want ` +
       "the bundled plugin CLI surface."
     );

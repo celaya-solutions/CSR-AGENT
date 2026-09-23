@@ -356,7 +356,7 @@ describe("plugin update unchanged Docker E2E", () => {
       'node "$entry" update --channel beta --tag "${OPENCLAW_CURRENT_PACKAGE_TGZ',
     );
     expect(script).toContain(
-      "openagent update failed or timed out after ${update_timeout_seconds}s",
+      "openclaw update failed or timed out after ${update_timeout_seconds}s",
     );
     expect(script.match(/openclaw_e2e_print_log \/tmp\/openclaw-update-corrupt-/g)).toHaveLength(5);
     expect(script).not.toContain("cat /tmp/openclaw-update-corrupt-");
@@ -430,8 +430,8 @@ describe("plugin update unchanged Docker E2E", () => {
                     {
                       pluginId: warnedPluginId,
                       reason: "package.json is missing",
-                      message: `Plugin "${warnedPluginId}" could not be loaded. Run \`openagent doctor --fix\` to check and repair the load problem.`,
-                      guidance: outcome === "missing guidance" ? [] : ["openagent doctor --fix"],
+                      message: `Plugin "${warnedPluginId}" could not be loaded. Run \`openclaw doctor --fix\` to check and repair the load problem.`,
+                      guidance: outcome === "missing guidance" ? [] : ["openclaw doctor --fix"],
                     },
                   ],
           },

@@ -204,7 +204,7 @@ describe("CLI help process exit", () => {
     });
 
     expect(result.stderr).toBe("");
-    expect(result.stdout).toContain("Usage: openclaw [options] [command]");
+    expect(result.stdout).toContain("Usage: openagent [options] [command]");
     expect(() => parseJsonLines(result.stdout)).toThrow();
   });
 
@@ -239,7 +239,7 @@ describe("CLI help process exit", () => {
       let stdout = "";
       let stderr = "";
       const program = new Command()
-        .name("openclaw")
+        .name("openagent")
         .exitOverride()
         .configureOutput({
           writeOut: (value) => {
@@ -262,7 +262,7 @@ describe("CLI help process exit", () => {
       expect(parseResult).toBeInstanceOf(CommanderError);
       expect(parseResult).toMatchObject({ code: "commander.helpDisplayed", exitCode: 0 });
       expect(stderr).toBe("");
-      expect(stdout).toContain(`Usage: openclaw ${usageCommand} [options] [command]`);
+      expect(stdout).toContain(`Usage: openagent ${usageCommand} [options] [command]`);
     },
   );
 
@@ -274,7 +274,7 @@ describe("CLI help process exit", () => {
     let stderr = "";
     let actionStarted = false;
     const program = new Command()
-      .name("openclaw")
+      .name("openagent")
       .exitOverride()
       .configureOutput({
         writeOut: (value) => {

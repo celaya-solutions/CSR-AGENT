@@ -73,7 +73,7 @@ describe("skills-cli", () => {
         name: "default profile",
         profile: "default",
         container: "",
-        prefix: "openclaw",
+        prefix: "openagent",
       },
     ])("preserves the $name on every human skill surface", ({ profile, container, prefix }) => {
       vi.stubEnv("OPENCLAW_PROFILE", profile);

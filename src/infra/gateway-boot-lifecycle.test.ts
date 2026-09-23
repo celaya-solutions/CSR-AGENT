@@ -364,7 +364,7 @@ describe("formatGatewayCrashLoopManualChannelStartHint", () => {
   });
 
   it.each([
-    { name: "default", profile: "", container: "", command: "openclaw" },
+    { name: "default", profile: "", container: "", command: "openagent" },
     { name: "named profile", profile: "work", container: "", command: "openagent --profile work" },
     { name: "container", profile: "", container: "demo", command: "openagent --container demo" },
     {

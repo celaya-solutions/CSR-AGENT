@@ -552,7 +552,7 @@ describe("resolveMissingPluginCommandMessage", () => {
     );
 
     expect(message).toBe(
-      'The `openclaw workboard` command is provided by the "workboard" plugin, but that bundled plugin is disabled by default. Run `openagent plugins enable workboard` to enable that CLI surface.',
+      'The `openagent workboard` command is provided by the "workboard" plugin, but that bundled plugin is disabled by default. Run `openagent plugins enable workboard` to enable that CLI surface.',
     );
   });
 

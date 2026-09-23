@@ -11,6 +11,7 @@ import { resolveStateDir } from "../config/paths.js";
 import { isErrno } from "../infra/errors.js";
 import { decodeWindowsTextFileBuffer } from "../infra/windows-encoding.js";
 import { pathExists } from "../utils.js";
+import { CLI_NAME } from "./cli-name.js";
 import { publishOutputFileAtomically } from "./output-file.runtime.js";
 import { quotePowerShellArg } from "./quote-cli-arg.js";
 
@@ -82,7 +83,7 @@ export function resolveShellFromEnv(
 function sanitizeCompletionBasename(value: string): string {
   const trimmed = value.trim();
   if (!trimmed) {
-    return "openclaw";
+    return CLI_NAME;
   }
   return trimmed.replace(/[^a-zA-Z0-9._-]/g, "-");
 }
@@ -104,7 +105,7 @@ export function resolveCompletionCachePath(shell: CompletionShell, binName: stri
 /** Check if the completion cache file exists for the given shell. */
 export async function completionCacheExists(
   shell: CompletionShell,
-  binName = "openclaw",
+  binName = CLI_NAME,
 ): Promise<boolean> {
   const cachePath = resolveCompletionCachePath(shell, binName);
   return pathExists(cachePath);
@@ -524,7 +525,7 @@ export function resolveCompletionProfileHint(shell: CompletionShell): string {
 /** Returns whether a shell profile already contains an OpenAgent completion block or source line. */
 export async function isCompletionInstalled(
   shell: CompletionShell,
-  binName = "openclaw",
+  binName = CLI_NAME,
 ): Promise<boolean> {
   const profilePath = resolveCompletionProfilePath(shell);
 
@@ -550,7 +551,7 @@ export async function isCompletionInstalled(
  */
 export async function usesSlowDynamicCompletion(
   shell: CompletionShell,
-  binName = "openclaw",
+  binName = CLI_NAME,
 ): Promise<boolean> {
   const profilePath = resolveCompletionProfilePath(shell);
 
@@ -574,7 +575,7 @@ export function findCompletionProfileWriteError(err: unknown): NodeJS.ErrnoExcep
   return err instanceof Error ? findCompletionProfileWriteError(err.cause) : undefined;
 }
 
-export async function installCompletion(shell: string, yes: boolean, binName = "openclaw") {
+export async function installCompletion(shell: string, yes: boolean, binName = CLI_NAME) {
   if (!isCompletionShell(shell)) {
     throw new Error(`Automated installation not supported for ${shell} yet.`);
   }

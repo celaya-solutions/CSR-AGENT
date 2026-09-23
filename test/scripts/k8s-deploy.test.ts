@@ -86,7 +86,7 @@ describe("scripts/k8s/deploy.sh", () => {
 
     expect(result.status, output).toBe(0);
     expect(output).toContain("Deleting namespace 'openclaw' and all resources");
-    expect(calls).toEqual(["cluster-info", "delete namespace openagent --ignore-not-found"]);
+    expect(calls).toEqual(["cluster-info", "delete namespace openclaw --ignore-not-found"]);
   });
 
   it("keeps a custom namespace and unrelated workloads when the legacy delete mode is used", () => {

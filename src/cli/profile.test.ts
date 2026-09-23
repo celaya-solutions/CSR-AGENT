@@ -629,8 +629,8 @@ describe("formatCliCommand", () => {
     );
   });
 
-  it("handles command with no args after openclaw", () => {
-    expect(formatCliCommand("openclaw", { OPENCLAW_PROFILE: "test" })).toBe(
+  it("handles command with no args after openagent", () => {
+    expect(formatCliCommand("openagent", { OPENCLAW_PROFILE: "test" })).toBe(
       "openagent --profile test",
     );
   });

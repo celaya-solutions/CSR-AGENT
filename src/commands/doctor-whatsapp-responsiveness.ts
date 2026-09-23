@@ -2,6 +2,7 @@
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { note } from "../../packages/terminal-core/src/note.js";
+import { isCliCommandName } from "../cli/cli-name.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import type { HealthFinding } from "../flows/health-checks.js";
@@ -30,7 +31,7 @@ function isLocalTuiCommand(command: string): boolean {
   if (executable === "openclaw-tui") {
     return true;
   }
-  return executable === "openclaw" && LOCAL_TUI_SUBCOMMANDS.has(argv[1] ?? "");
+  return isCliCommandName(executable) && LOCAL_TUI_SUBCOMMANDS.has(argv[1] ?? "");
 }
 
 function parsePsPidLine(line: string): LocalTuiProcess | null {

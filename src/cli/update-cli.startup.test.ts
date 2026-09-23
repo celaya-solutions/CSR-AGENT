@@ -15,7 +15,7 @@ it("keeps update help available without loading execution dependencies", async (
   for (const leaf of [undefined, "status", "repair", "finalize", "wizard"]) {
     let output = "";
     const program = new Command()
-      .name("openclaw")
+      .name("openagent")
       .exitOverride()
       .configureOutput({ writeOut: (text) => (output += text) });
     registerUpdateCli(program);

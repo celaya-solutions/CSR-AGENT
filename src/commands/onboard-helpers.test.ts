@@ -49,7 +49,8 @@ describe("printWizardHeader", () => {
     const rows = output.split("\n");
     // The flagged pole stands above the wordmark; its first row shares the upper bar row.
     expect(rows[0]?.trimEnd()).toBe("           ▼");
-    expect(rows[3]).toContain("█▀▀▀█ █▀▀▀█ █▀▀▀▀ █▄  █ █▀▀▀▀ █     █▀▀▀█ █   █");
+    expect(rows[3]).toContain("█▀▀▀█ █▀▀▀█ █▀▀▀▀ █▄  █ █▀▀▀█ █▀▀▀▀ █▀▀▀▀ █▄  █ ▀▀█▀▀");
+    expect(output).toContain("Celaya Solutions Research");
     expect(rows[3]).toContain("┃ ┃ ┃ ┃ ┃  █  ┃ ┃");
   });
 
@@ -57,7 +58,7 @@ describe("printWizardHeader", () => {
     const log = vi.fn();
     await withColumns(50, () => printWizardHeader({ log } as unknown as RuntimeEnv));
     const output = String(log.mock.calls[0]?.[0]);
-    expect(output).toContain("OPENCLAW");
+    expect(output).toContain("OPENAGENT — Celaya Solutions Research");
     expect(output).not.toContain("█");
   });
 });

@@ -31,7 +31,7 @@ let originalArgv: string[];
 
 beforeAll(async () => {
   const { registerPreActionHooks } = await import("./preaction.js");
-  program = new Command().name("openclaw");
+  program = new Command().name("openagent");
   program.command("configure").action(mocks.action);
   registerPreActionHooks(program, "test");
 });

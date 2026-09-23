@@ -862,7 +862,7 @@ describe("runServiceRestart token drift", () => {
       );
       expect(repairWarnings).toHaveLength(1);
       expect(repairWarnings[0]).toContain(
-        `run \`openclaw ${serviceNoun.toLowerCase()} ${repairAction}\` to apply.`,
+        `run \`openagent ${serviceNoun.toLowerCase()} ${repairAction}\` to apply.`,
       );
       expect(service.start).not.toHaveBeenCalled();
     },

@@ -268,7 +268,7 @@ esac
       ],
       command: String.raw`C:\Windows\System32\cmd.exe`,
       commandLabel:
-        'openagent config set models.providers.openai {"apiKey":"sk test"} --strict-json',
+        'openclaw config set models.providers.openai {"apiKey":"sk test"} --strict-json',
       shell: false,
       windowsVerbatimArguments: true,
     });
@@ -282,7 +282,7 @@ esac
     ).toEqual({
       args: ["config", "validate"],
       command: "openclaw",
-      commandLabel: "openagent config validate",
+      commandLabel: "openclaw config validate",
       shell: false,
     });
   });
@@ -551,7 +551,7 @@ esac
       },
     });
     expect(outcome).toMatchObject({
-      command: "openagent config validate",
+      command: "openclaw config validate",
       errorCode: "ETIMEDOUT",
       errorMessage: "spawnSync openclaw ETIMEDOUT",
       ok: false,

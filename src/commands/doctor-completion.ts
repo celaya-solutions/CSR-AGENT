@@ -104,7 +104,7 @@ export type ShellCompletionStatus = {
 
 /** Check the status of shell completion for the current shell. */
 export async function checkShellCompletionStatus(
-  binName = "openclaw",
+  binName = CLI_NAME,
   options: ShellCompletionStatusOptions = {},
 ): Promise<ShellCompletionStatus> {
   const shell = options.shell ?? resolveShellFromEnv();

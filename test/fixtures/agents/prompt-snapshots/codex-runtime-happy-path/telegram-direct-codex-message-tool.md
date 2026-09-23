@@ -254,7 +254,7 @@ This is the deterministic model-bound layer stack OpenAgent can snapshot for the
     "roughTokens": 0
   },
   "dynamicToolsJson": {
-    "chars": 59211,
+    "chars": 59212,
     "roughTokens": 14803
   },
   "openClawDeveloperInstructions": {
@@ -270,8 +270,8 @@ This is the deterministic model-bound layer stack OpenAgent can snapshot for the
     "roughTokens": 6620
   },
   "totalWithDynamicToolsJson": {
-    "chars": 85692,
-    "roughTokens": 21423
+    "chars": 85693,
+    "roughTokens": 21424
   },
   "userInputText": {
     "chars": 797,

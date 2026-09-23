@@ -335,7 +335,7 @@ function collectPairedRecordIssues(snapshot: DoctorPairingSnapshot): PairedRecor
     for (const role of approvedRoles) {
       const token = findTokenSummary(device, role);
       const rotateCommand = formatCliArgs([
-        "openclaw",
+        "openagent",
         "devices",
         "rotate",
         "--device",
@@ -431,7 +431,7 @@ function collectLocalDeviceAuthIssues(snapshot: DoctorPairingSnapshot): LocalDev
       continue;
     }
     const rotateCommand = formatCliArgs([
-      "openclaw",
+      "openagent",
       "devices",
       "rotate",
       "--device",

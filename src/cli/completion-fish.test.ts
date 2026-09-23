@@ -9,7 +9,7 @@ import {
 describe("completion-fish helpers", () => {
   it("builds a subcommand completion line", () => {
     const line = buildFishSubcommandCompletionLine({
-      rootCmd: "openclaw",
+      rootCmd: "openagent",
       condition: "__fish_use_subcommand",
       name: "plugins",
       description: "Manage Bob's plugins",
@@ -21,7 +21,7 @@ describe("completion-fish helpers", () => {
 
   it("builds option line with short and long flags", () => {
     const line = buildFishOptionCompletionLine({
-      rootCmd: "openclaw",
+      rootCmd: "openagent",
       condition: "__fish_use_subcommand",
       flags: ["-s", "--shell"],
       description: "Shell target",
@@ -33,7 +33,7 @@ describe("completion-fish helpers", () => {
 
   it("builds option line with long-only flags", () => {
     const line = buildFishOptionCompletionLine({
-      rootCmd: "openclaw",
+      rootCmd: "openagent",
       condition: "__fish_seen_subcommand_from completion",
       flags: ["--write-state"],
       description: "Write cache",
@@ -45,7 +45,7 @@ describe("completion-fish helpers", () => {
 
   it("builds option line with two long aliases", () => {
     const line = buildFishOptionCompletionLine({
-      rootCmd: "openclaw",
+      rootCmd: "openagent",
       condition: "__fish_use_subcommand",
       flags: ["--ws", "--workspace"],
       description: "Workspace",
@@ -57,7 +57,7 @@ describe("completion-fish helpers", () => {
 
   it("preserves required Commander option values and constrained choices", () => {
     const line = buildFishOptionCompletionLine({
-      rootCmd: "openclaw",
+      rootCmd: "openagent",
       condition: "__fish_seen_subcommand_from completion",
       flags: ["-s", "--shell"],
       description: "Shell target",
@@ -75,7 +75,7 @@ describe("completion-fish helpers", () => {
 
   it("preserves optional Commander option values without requiring an argument", () => {
     const line = buildFishOptionCompletionLine({
-      rootCmd: "openclaw",
+      rootCmd: "openagent",
       condition: "__fish_use_subcommand",
       flags: ["--color"],
       description: "Color output",
@@ -91,7 +91,7 @@ describe("completion-fish helpers", () => {
 
   it("preserves whitespace within each Commander choice", () => {
     const line = buildFishOptionCompletionLine({
-      rootCmd: "openclaw",
+      rootCmd: "openagent",
       condition: "__fish_use_subcommand",
       flags: ["--theme"],
       description: "Theme",
@@ -106,7 +106,7 @@ describe("completion-fish helpers", () => {
     "preserves apostrophes and backslashes through both Fish quoting layers",
     () => {
       const line = buildFishOptionCompletionLine({
-        rootCmd: "openclaw",
+        rootCmd: "openagent",
         condition: "true",
         flags: ["--theme"],
         description: "Theme",
@@ -135,7 +135,7 @@ describe("completion-fish helpers", () => {
     () => {
       const marker = "OPENCLAW_FISH_CHOICE_MUST_NOT_EXECUTE";
       const line = buildFishOptionCompletionLine({
-        rootCmd: "openclaw",
+        rootCmd: "openagent",
         condition: "true",
         flags: ["--channel"],
         description: "Channel",

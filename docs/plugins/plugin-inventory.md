@@ -35,8 +35,8 @@ local Gateway without restarting it; start the Gateway if it was stopped.
 For example, Discord is an official external package:
 
 ```bash
-openagent plugins install @openclaw/discord
-openagent plugins inspect discord --runtime --json
+openclaw plugins install @openclaw/discord
+openclaw plugins inspect discord --runtime --json
 ```
 
 Ordinary bare package specs install from npm. Use `clawhub:@openclaw/discord`

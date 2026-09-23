@@ -2534,7 +2534,7 @@ Command: ${command}`;
       analysisOk: true,
       allowlistSatisfied: true,
       segments: [
-        { resolution: null, argv: ["openclaw", "config", "get", "security.audit.suppressions"] },
+        { resolution: null, argv: ["openagent", "config", "get", "security.audit.suppressions"] },
       ],
       segmentAllowlistEntries: [],
       segmentSatisfiedBy: [null],
@@ -2563,7 +2563,14 @@ Command: ${command}`;
       segments: [
         {
           resolution: null,
-          argv: ["openclaw", "--profile", "rescue", "config", "get", "security.audit.suppressions"],
+          argv: [
+            "openagent",
+            "--profile",
+            "rescue",
+            "config",
+            "get",
+            "security.audit.suppressions",
+          ],
         },
       ],
       segmentAllowlistEntries: [],

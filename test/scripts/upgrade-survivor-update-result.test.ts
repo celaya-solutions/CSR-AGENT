@@ -363,7 +363,7 @@ function deniedUpdate() {
         npm: { outcomes: [] as { status: string }[] },
         integrityDrifts: [] as string[],
         warnings: ["codex", "discord", "whatsapp"].map((id) => {
-          const message = `Plugin "${id}" requires capability consent. Use openagent plugins install or openagent plugins enable with --accept-capabilities, then retry.`;
+          const message = `Plugin "${id}" requires capability consent. Use openclaw plugins install or openclaw plugins enable with --accept-capabilities, then retry.`;
           return { reason: message, message };
         }),
       },
@@ -378,7 +378,7 @@ function deferredUpdate() {
     "Codex consent warning",
   );
   const reason = 'Plugin "codex" requires capability consent; rerun with --accept-capabilities.';
-  const message = `Plugin "codex" could not be processed after the core update: ${reason} Run openagent update repair to retry post-update plugin repair. Run openagent plugins inspect codex --runtime --json for details.`;
+  const message = `Plugin "codex" could not be processed after the core update: ${reason} Run openclaw update repair to retry post-update plugin repair. Run openclaw plugins inspect codex --runtime --json for details.`;
   const retained = `Kept installed plugin "codex"; replacement deferred. ${codexWarning.reason}`;
   return {
     ...update,
@@ -430,7 +430,7 @@ describe("published upgrade survivor consent recovery", () => {
     ),
   )("admits $pluginId fixture consent after a $status update", ({ pluginId, status }) => {
     const update = deniedUpdate();
-    const reason = `Plugin "${pluginId}" requires capability consent. Use openagent plugins install or openagent plugins enable with --accept-capabilities, then retry.`;
+    const reason = `Plugin "${pluginId}" requires capability consent. Use openclaw plugins install or openclaw plugins enable with --accept-capabilities, then retry.`;
     update.postUpdate.plugins.warnings.push({ reason, message: reason });
     const result = check({
       ...update,
@@ -1046,7 +1046,7 @@ describe("published survivor schema outcome", () => {
           { name: "global update", exitCode: 0 },
           { name: "global install swap", exitCode: 0 },
           {
-            name: "openagent doctor",
+            name: "openclaw doctor",
             exitCode: 1,
             stdoutTail: JSON.stringify({
               ok: false,

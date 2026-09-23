@@ -2914,7 +2914,7 @@ describe("plugins cli install", () => {
   });
 
   it.each([
-    ["default", undefined, undefined, "openclaw"],
+    ["default", undefined, undefined, "openagent"],
     ["profile", "work", undefined, "openagent --profile work"],
     ["container", undefined, "demo", "openagent --container demo"],
     ["container before profile", "work", "demo", "openagent --container demo"],

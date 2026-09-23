@@ -91,11 +91,20 @@ function readRuntimeTargetIssues(value: unknown): RuntimeTargetIssue[] | undefin
     if (!isRecord(raw)) {
       return [];
     }
+    // Gateways from before the `openagent` rename still send `openclaw ...`.
+    const isCommand = (value: unknown, command: string) =>
+      value === `openagent ${command}` || value === `openclaw ${command}`;
     return raw.code === "update-required" &&
       raw.action === "update-and-reconnect" &&
-      raw.updateCommand === "openagent update" &&
-      raw.headlessReconnectCommand === "openagent node restart"
-      ? [raw as RuntimeTargetIssue]
+      isCommand(raw.updateCommand, "update") &&
+      isCommand(raw.headlessReconnectCommand, "node restart")
+      ? [
+          {
+            ...(raw as RuntimeTargetIssue),
+            updateCommand: "openagent update",
+            headlessReconnectCommand: "openagent node restart",
+          },
+        ]
       : [];
   });
   return issues.length > 0 ? issues : undefined;

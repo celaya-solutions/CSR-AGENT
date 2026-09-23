@@ -218,7 +218,7 @@ export async function runServiceStart(params: {
   expectedPort?: number;
 }) {
   const json = Boolean(params.opts?.json);
-  const serviceCommand = formatCliCommand(`openclaw ${params.serviceNoun.toLowerCase()}`);
+  const serviceCommand = formatCliCommand(`openagent ${params.serviceNoun.toLowerCase()}`);
   const { stdout, warnings, emit, fail } = createDaemonActionContext({ action: "start", json });
   const warn = json ? (message: string) => warnings.push(message) : undefined;
   const emitStarted = async (result: {

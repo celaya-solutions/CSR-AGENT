@@ -2909,7 +2909,7 @@ describe("update-cli", () => {
     if (yes) {
       expect(installCompletion).not.toHaveBeenCalled();
     } else {
-      expect(installCompletion).toHaveBeenCalledWith("zsh", false, "openclaw");
+      expect(installCompletion).toHaveBeenCalledWith("zsh", false, "openagent");
     }
   });
 
@@ -11688,7 +11688,7 @@ describe("update-cli", () => {
     expect(logs).toContain(
       `Shell OpenAgent root differs from the managed gateway service root: ${shellRoot}`,
     );
-    expect(logs).toContain("make sure `openclaw` on PATH resolves to the managed service root");
+    expect(logs).toContain("make sure `openagent` on PATH resolves to the managed service root");
     expect(logs).toContain(`Managed gateway service Node: ${serviceNode}`);
   });
 
@@ -13925,7 +13925,7 @@ describe("update-cli", () => {
           );
           vi.mocked(defaultRuntime.writeJson).mockClear();
           const program = new Command();
-          program.name("openclaw");
+          program.name("openagent");
           program.exitOverride();
           registerUpdateCli(program);
           await program.parseAsync(["node", "openclaw", "update", command, "--json", "--yes"]);
@@ -13956,7 +13956,7 @@ describe("update-cli", () => {
       pathExists.mockResolvedValue(false);
       vi.mocked(resolveGatewayInstallEntrypoint).mockResolvedValue(FRESH_POST_UPDATE_ENTRYPOINT);
       const program = new Command();
-      program.name("openclaw");
+      program.name("openagent");
       program.exitOverride();
       registerUpdateCli(program);
 

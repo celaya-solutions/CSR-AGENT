@@ -259,7 +259,7 @@ describe("command-analysis risks", () => {
         "env",
         "env",
         "env",
-        "openclaw",
+        "openagent",
         "channels",
         "login",
         "--channel",

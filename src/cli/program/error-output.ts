@@ -31,7 +31,7 @@ function resolveHelpCommand(
   if (commandPath.length === 0) {
     return formatCliCommand("openagent --help");
   }
-  return formatCliCommand(`openclaw ${commandPath.join(" ")} --help`);
+  return formatCliCommand(`openagent ${commandPath.join(" ")} --help`);
 }
 
 function lines(...items: Array<string | undefined>): string {

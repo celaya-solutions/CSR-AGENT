@@ -112,11 +112,11 @@ describe("shell completion health mapping", () => {
       "utf-8",
     );
 
-    await expect(checkShellCompletionStatus("openclaw", { shell: "bash" })).resolves.toEqual({
+    await expect(checkShellCompletionStatus("openagent", { shell: "bash" })).resolves.toEqual({
       shell: "bash",
       profileInstalled: true,
       cacheExists: false,
-      cachePath: path.join(stateDir, "completions", "openclaw.bash"),
+      cachePath: path.join(stateDir, "completions", "openagent.bash"),
       usesSlowPattern: true,
     });
   });
@@ -261,7 +261,7 @@ async function setupDoctorCompletionTest(usesSlowPattern: boolean) {
     );
     const cacheDir = path.join(stateDir, "completions");
     await fs.mkdir(cacheDir, { recursive: true });
-    await fs.writeFile(path.join(cacheDir, "openclaw.bash"), "# completion cache\n", "utf-8");
+    await fs.writeFile(path.join(cacheDir, "openagent.bash"), "# completion cache\n", "utf-8");
   }
   return profilePath;
 }
@@ -287,7 +287,7 @@ describe("doctorShellCompletion", () => {
 
     await doctorShellCompletion(mockPrompter());
 
-    expect(installCompletionMock).toHaveBeenCalledWith("bash", true, "openclaw");
+    expect(installCompletionMock).toHaveBeenCalledWith("bash", true, "openagent");
     expect(noteSpy).toHaveBeenCalledWith(
       expect.stringContaining("source ~/.bash_profile"),
       "Shell completion",
@@ -314,7 +314,7 @@ describe("doctorShellCompletion", () => {
 
     await doctorShellCompletion(mockPrompter());
 
-    expect(installCompletionMock).toHaveBeenCalledWith(testCase.shell, true, "openclaw");
+    expect(installCompletionMock).toHaveBeenCalledWith(testCase.shell, true, "openagent");
     expect(noteSpy).toHaveBeenCalledWith(
       expect.stringContaining(`source '${path.join(configDir, testCase.profile)}'`),
       "Shell completion",
@@ -368,7 +368,7 @@ describe("doctorShellCompletion", () => {
 
     const command = formatCompletionReloadCommand(
       "bash",
-      resolveCompletionCachePath("bash", "openclaw"),
+      resolveCompletionCachePath("bash", "openagent"),
     );
     expect(noteSpy).toHaveBeenCalledWith(expect.stringContaining(command), "Shell completion");
     expect(noteSpy).toHaveBeenCalledWith(

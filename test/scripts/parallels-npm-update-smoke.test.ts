@@ -1485,7 +1485,7 @@ exit 7
       'OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 "$OPENCLAW_BIN" gateway stop',
     );
     expect(linuxScript).toContain(
-      "OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 OPENCLAW_ALLOW_ROOT=1 openagent gateway stop",
+      "OPENCLAW_DISABLE_BUNDLED_PLUGINS=1 OPENCLAW_ALLOW_ROOT=1 openclaw gateway stop",
     );
   });
 

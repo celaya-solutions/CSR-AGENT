@@ -512,7 +512,7 @@ describe("one-shot CLI exit", () => {
       import { requestExitAfterOneShotOutput, runCliWithExitFinalization } from ${JSON.stringify(oneShotExitUrl)};
 
       setRuntimeConfigSnapshot({});
-      const argv = ["node", "openclaw", "proxy", "validate", ...${JSON.stringify(args)}];
+      const argv = ["node", "openagent", "proxy", "validate", ...${JSON.stringify(args)}];
       await runCliWithExitFinalization({
         run: async () => {
           const program = new Command().enablePositionalOptions().exitOverride();

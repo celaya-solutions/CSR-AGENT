@@ -66,7 +66,7 @@ describe("command owner health", () => {
       const command = hint.slice(hint.indexOf("`") + 1, hint.lastIndexOf("`"));
       const args = execFileSync(
         "/bin/sh",
-        ["-c", command.replace(/^openclaw /, "printf '%s\\n' ")],
+        ["-c", command.replace(/^openagent /, "printf '%s\\n' ")],
         {
           encoding: "utf8",
         },

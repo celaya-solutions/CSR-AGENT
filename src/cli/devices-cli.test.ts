@@ -179,7 +179,7 @@ function mockApprovedReplacement() {
 
 const requireRecord = createRequireRecord("object", "label-not-object");
 const approvalCommandContexts = [
-  ["default", undefined, undefined, "openclaw"],
+  ["default", undefined, undefined, "openagent"],
   ["profile", "work", undefined, "openagent --profile work"],
   ["container", "work", "demo", "openagent --container demo"],
 ] as const;

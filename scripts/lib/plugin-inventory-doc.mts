@@ -94,7 +94,9 @@ export function resolvePluginSurface(manifest: PluginSurfaceManifest): string[] 
     ),
   ].toSorted((left, right) => left.localeCompare(right));
   if (cliCommands.length > 0) {
-    parts.push(`CLI commands: ${formatIdentifiers(cliCommands.map((name) => `openclaw ${name}`))}`);
+    parts.push(
+      `CLI commands: ${formatIdentifiers(cliCommands.map((name) => `openagent ${name}`))}`,
+    );
   }
   const slashCommands = [
     ...new Set(
