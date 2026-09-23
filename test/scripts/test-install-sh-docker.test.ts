@@ -35,8 +35,6 @@ const BUN_GLOBAL_SMOKE_PATH = "scripts/e2e/bun-global-install-smoke.sh";
 const BUN_GLOBAL_ASSERTIONS_PATH = "scripts/e2e/lib/bun-global-install/assertions.mjs";
 const DOCKER_E2E_PACKAGE_HELPER_PATH = "scripts/lib/docker-e2e-package.sh";
 const INSTALL_SMOKE_WORKFLOW_PATH = ".github/workflows/install-smoke-reusable.yml";
-const INSTALL_SMOKE_WRAPPER_PATH = ".github/workflows/install-smoke.yml";
-const RELEASE_CHECKS_WORKFLOW_PATH = ".github/workflows/openclaw-release-checks.yml";
 const LIVE_E2E_WORKFLOW_PATH = ".github/workflows/openclaw-live-and-e2e-checks-reusable.yml";
 const tempDirs = createTempDirTracker();
 
@@ -2848,90 +2846,6 @@ node -e 'const fs=require("node:fs");const p=process.argv[1];const value=JSON.pa
       }
     },
   );
-
-  it("gates workflow Bun install smoke to scheduled and release-check runs", () => {
-    const workflow = readFileSync(INSTALL_SMOKE_WORKFLOW_PATH, "utf8");
-    const wrapper = readFileSync(INSTALL_SMOKE_WRAPPER_PATH, "utf8");
-    const releaseChecks = readFileSync(RELEASE_CHECKS_WORKFLOW_PATH, "utf8");
-
-    expect(workflow).not.toContain("pull_request:");
-    expect(workflow).not.toContain("branches: [main]");
-    expect(workflow).toContain("workflow_call:");
-    expect(workflow).not.toContain("workflow_dispatch:");
-    expect(workflow).not.toContain("schedule:");
-    expect(wrapper).toContain('cron: "17 3 * * *"');
-    expect(wrapper).toContain("workflow_dispatch:");
-    expect(wrapper).toContain("uses: ./.github/workflows/install-smoke-reusable.yml");
-    expect(wrapper).toContain(
-      "github.event_name == 'schedule' || inputs.run_bun_global_install_smoke",
-    );
-    expect(workflow).toContain("run_bun_global_install_smoke:");
-    expect(workflow).toContain(
-      "if: needs.preflight.outputs.run_full_install_smoke == 'true' && needs.preflight.outputs.run_bun_global_install_smoke == 'true'",
-    );
-    expect(workflow).toContain("bun_global_install_smoke:");
-    expect(workflow).toContain("Setup trusted release harness for Bun smoke");
-    expect(workflow).toContain("uses: ./.release-harness/.github/actions/setup-release-harness");
-    expect(workflow).toContain("npm install -g bun@1.4.0");
-    expect(workflow).toContain('install-bun: "false"');
-    expect(workflow).toContain("Run Bun global install candidate-payload smoke");
-    expect(workflow).toContain("working-directory: .release-harness");
-    expect(workflow).toContain("bash scripts/e2e/bun-global-install-smoke.sh");
-    expect(workflow).not.toContain("uses: ./.release-harness/.github/actions/setup-node-env");
-    expect(workflow).toContain(
-      "OPENCLAW_BUN_GLOBAL_SMOKE_PACKAGE_TGZ: ${{ runner.temp }}/install-smoke-candidate-payload/candidate.tgz",
-    );
-    expect(workflow).not.toContain("OPENCLAW_BUN_GLOBAL_SMOKE_DIST_IMAGE");
-    expect(workflow).toContain("group: ${{ github.workflow }}-workflow-call-${{ github.run_id }}");
-    expect(workflow).toContain("cancel-in-progress: false");
-    expect(workflow).not.toContain(
-      "github.event_name == 'workflow_call' || github.event_name == 'push'",
-    );
-    expect(workflow).not.toContain("github.event_name == 'pull_request'");
-    expect(workflow).not.toContain("node scripts/ci-changed-scope.mjs");
-    expect(workflow).toContain("OPENCLAW_CI_WORKFLOW_BUN_GLOBAL_INSTALL_SMOKE");
-    expect(workflow).toContain('run_bun_global_install_smoke="$workflow_bun_global_install_smoke"');
-    expect(workflow).not.toContain("OPENCLAW_CI_EVENT_NAME");
-    expect(workflow).not.toContain('if [ "$event_name"');
-    expect(workflow).toContain('echo "run_bun_global_install_smoke=$run_bun_global_install_smoke"');
-    expect(workflow).toContain("run_fast_install_smoke=true");
-    expect(workflow).toContain("run_full_install_smoke=true");
-    expect(workflow).toContain("run_install_smoke=true");
-    expect(workflow).toContain("install-smoke-fast:");
-    expect(workflow).toContain("run_fast_install_smoke");
-    expect(workflow).toContain("run_full_install_smoke");
-    expect(workflow).toContain("timeout --kill-after=30s 45m docker buildx build");
-    expect(workflow).not.toContain('docker pull "$IMAGE_REF"');
-    expect(workflow).not.toContain("packages: write");
-    expect(workflow).not.toContain("--push");
-    expect(workflow).not.toContain('timeout 300s docker pull "$IMAGE_REF"');
-    expect(workflow.match(/timeout --kill-after=30s 20m docker run --rm/g)?.length).toBe(6);
-    expect(workflow).not.toMatch(/(^|\n)\s+docker run --rm --entrypoint sh/u);
-    expect(workflow).toContain("--progress=plain");
-    expect(workflow).toContain("--load");
-    expect(workflow).toContain("OPENCLAW_INSTALL_URL: file:///tmp/openclaw-install.sh");
-    expect(workflow).toContain("OPENCLAW_INSTALL_CLI_URL: file:///tmp/openclaw-install-cli.sh");
-    expect(workflow).toContain('OPENCLAW_INSTALL_SMOKE_SKIP_CLI: "0"');
-    expect(workflow).toContain("Run Rocky Linux installer smoke");
-    expect(workflow).toContain("Run Rocky Linux CLI installer smoke");
-    expect(workflow).toContain("PAYLOAD_DIR: ${{ runner.temp }}/install-smoke-candidate-payload");
-    expect(workflow).toContain("$PAYLOAD_DIR/install-cli.sh:/tmp/install-cli.sh:ro");
-    expect(workflow).toContain("bash /tmp/install-cli.sh --prefix /tmp/openclaw-cli");
-    expect(workflow.match(/-e OPENCLAW_NODE_VERSION="\$\{NODE_VERSION\}"/gu)).toHaveLength(2);
-    expect(workflow).toContain("rockylinux:9@sha256:");
-    expect(workflow).toContain("pnpm-workspace.yaml");
-    expect(workflow).toContain("workspace.patchedDependencies");
-    expect(workflow).toContain('throw new Error(\\"missing patch for \\" + dep + \\": \\" + rel)');
-    expect(workflow).not.toContain("throw new Error(`missing patch");
-    expect(workflow).not.toContain("pkg.pnpm?.patchedDependencies");
-    expect(workflow).not.toContain("--cache-from");
-    expect(workflow).not.toContain("--cache-to");
-    expect(workflow).not.toContain("type=gha");
-    expect(workflow).toContain('OPENCLAW_INSTALL_SMOKE_SKIP_NPM_GLOBAL: "1"');
-    expect(releaseChecks).toContain("install_smoke_release_checks:");
-    expect(releaseChecks).toContain("uses: ./.github/workflows/install-smoke-reusable.yml");
-    expect(releaseChecks).toContain("run_bun_global_install_smoke: true");
-  });
 
   it("packages candidate bytes in isolation and gives consumers only verified artifacts", () => {
     const workflow = parse(readFileSync(INSTALL_SMOKE_WORKFLOW_PATH, "utf8"));

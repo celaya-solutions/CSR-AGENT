@@ -17,12 +17,9 @@ function bundledPluginFile(pluginId: string, relativePath: string, suffix = ""):
 // Package scripts, workflows, Docker scenarios, and documented maintainer commands invoke these
 // files by path. They are executable roots rather than importable library modules.
 const repositoryScriptEntries = [
-  // apps/linux/README.md invokes this live Windows native-browser proof driver by path.
   "scripts/render-proof-video.mts!",
   // CI imports this selector from its trusted harness inside an inline Node script.
   ".github/actions/git-owner/test-prerequisites.mjs!",
-  // mobile-release-authority invokes this helper from composite-action YAML.
-  ".github/actions/mobile-release-authority/authority.mjs!",
   // setup-node-env invokes this helper from composite-action YAML.
   ".github/actions/setup-node-env/dependency-fingerprint.mjs!",
   ".github/actions/setup-node-env/seed-bun-from-image.mjs!",
@@ -30,8 +27,6 @@ const repositoryScriptEntries = [
   ".github/actions/setup-pnpm-store-cache/seed-pnpm-from-image.mjs!",
   "scripts/bundle-a2ui.mts!",
   "scripts/build-discord-activity-sdk.mts!",
-  // package-mac-app.sh launches the architecture scheduler by path.
-  "scripts/build-mac-swift.mts!",
   "scripts/check-control-ui-performance.mts!",
   "scripts/check-control-ui-precompressed-assets.mts!",
   "scripts/check-live-cache.ts!",
@@ -43,7 +38,6 @@ const repositoryScriptEntries = [
   "scripts/cloudflare/src/index.ts!",
   // Invoked by the documented macOS Computer Use live-proof shell rig.
   "scripts/dev/computer-use-macos-live-proof.ts!",
-  "scripts/dev/ios-node-e2e.ts!",
   // Reusable Docker workflows invoke this from the downloaded .release-harness tree.
   "scripts/docker-e2e.mts!",
   // Docker and package-install harnesses invoke this verifier by path.
@@ -117,13 +111,6 @@ const repositoryScriptEntries = [
   "scripts/embedded-run-abort-leak.ts!",
   "scripts/embedded-run-liveness-leak.ts!",
   "scripts/fixtures/packed-plugin-sdk-type-smoke.ts!",
-  // Generates the native browser page scripts from their UI source modules.
-  "scripts/generate-browser-inspect-script-swift.mts!",
-  // CI executes screenshot evidence from the workflow-owned harness copy.
-  "scripts/ios-screenshot-evidence.mjs!",
-  "scripts/ios-release-cut.ts!",
-  "scripts/ios-release-plan.ts!",
-  "scripts/ios-release-signing.mts!",
   "scripts/lib/docker-plugin-selection.mjs!",
   // The frozen compatibility shell invokes this CLI and imports it from inline bundle resolution.
   "scripts/lib/frozen-target-source.mjs!",
@@ -131,17 +118,6 @@ const repositoryScriptEntries = [
   "scripts/lib/vitest-resource-reporter.mts!",
   // Invoked by scripts/lib/live-docker-stage.sh during container validation.
   "scripts/live-docker-normalize-config.ts!",
-  // Mantis controllers launch these observers and bridge by path inside isolated runtimes.
-  // Existing explicit Linux proof driver imports the inactive capsule adapter.
-  // Reachability for auditing is not registration or permission to execute it.
-  "scripts/openclaw-release-clawhub-plan.ts!",
-  "scripts/openclaw-release-clawhub-runtime-state.ts!",
-  // Protected preparation/button workflows invoke this coordinator by path.
-  "scripts/openclaw-release-ready.mjs!",
-  // Plugin Prerelease builds immutable package artifacts, then scans them in a bounded child.
-  "scripts/plugin-npm-security-prepare.mts!",
-  "scripts/plugin-npm-security-scan-runner.mjs!",
-  "scripts/plugin-npm-security-scan.mts!",
   // Oxlint loads this JS plugin by path from config/oxlint/boundary-guards.json.
   "scripts/oxlint-boundary-guards.mjs!",
   "scripts/plugin-prerelease-liveish-matrix.mts!",
@@ -169,14 +145,9 @@ const repositoryScriptEntries = [
   "scripts/secrets/openclaw-bws-resolver.mjs!",
   "scripts/sync-labels.ts!",
   "scripts/test-built-bundled-channel-entry-smoke.mts!",
-  // Native shell UI tests connect to this manually launched loopback Gateway fixture.
-  "scripts/test-ios-shell-gateway.mjs!",
   "scripts/update-clawtributors.ts!",
   // The candidate binder invokes this trusted producer-identity verifier by path.
   "scripts/verify-full-release-producer-job.mjs!",
-  // Staging and signed-app packaging execute this verifier with each bundled Node.
-  "scripts/verify-mac-node-worker.mjs!",
-  "scripts/verify-stable-main-closeout.mjs!",
   "scripts/write-package-dist-inventory.ts!",
   "scripts/write-plugin-sdk-entry-dts.ts!",
   "scripts/write-unified-entry-dts.ts!",
@@ -233,10 +204,6 @@ const rootEntries = [
   "src/agents/compaction-planning.worker.ts!",
   "src/config/sessions/disk-budget.worker.ts!",
   "scripts/print-cli-backend-live-metadata.ts!",
-  // Workflow/package-script entrypoints are not imported from production modules.
-  "scripts/openclaw-cross-os-release-checks.ts!",
-  "scripts/release-plan-producer-core.mts!",
-  "scripts/release-plan-producer.mts!",
   // Spawned by the agent concurrency benchmark; no static import edge exists.
   "scripts/bench-agent-concurrency-worker.ts!",
   // Spawned by the durable task registry churn benchmark in a fresh GC-enabled process.
@@ -288,7 +255,6 @@ const rootEntries = [
   "src/plugins/contracts/rootdir-boundary-canary.ts!",
   // Mintlify executes every JavaScript file in the docs content directory on each page.
   "docs/nav-tabs-underline.js!",
-  // Native applications load these JavaScript assets directly rather than through Node imports.
   bundledPluginFile("telegram", "src/audit.ts", "!"),
   bundledPluginFile("telegram", "src/token.ts", "!"),
   "src/hooks/bundled/*/handler.ts!",

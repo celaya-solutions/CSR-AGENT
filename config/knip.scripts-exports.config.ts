@@ -30,7 +30,7 @@ const repositoryToolEntries = [
 ] as const;
 
 const config = {
-  ignoreWorkspaces: ["apps/**", "extensions/**", "packages/**", "ui"],
+  ignoreWorkspaces: ["extensions/**", "packages/**", "ui"],
   ignore: ["scripts/**/*.d.{mts,cts,ts}", "scripts/**/*.test-support.{js,mjs,cjs,ts,mts,cts}"],
   // Script entrypoints import core and Plugin SDK APIs. Those owners are
   // checked by the application scans; this pass owns only scripts/** exports.

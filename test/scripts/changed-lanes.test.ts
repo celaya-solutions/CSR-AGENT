@@ -2934,9 +2934,6 @@ describe("scripts/changed-lanes", () => {
     });
 
     expect(plan.commands.map((command) => command.args[0])).toContain("lint:apps");
-    expect(plan.commands.map((command) => command.name)).toContain(
-      "native state schema version guard",
-    );
     expect(plan.commands.map((command) => command.args[0])).not.toContain("test:macos:ci");
   });
 
@@ -2993,27 +2990,6 @@ describe("scripts/changed-lanes", () => {
         expect.objectContaining({
           name: "macOS app CI tests",
           args: ["test:macos:ci"],
-        }),
-      );
-    }
-  });
-
-  it("runs the native state schema guard for either contract owner", () => {
-    for (const changedPath of [
-      "apps/shared/OpenClawKit/Sources/OpenClawNativeState/OpenClawNativeStateSQLite.swift",
-      "src/state/openclaw-state-db-contract.ts",
-    ]) {
-      const plan = createChangedCheckPlan(detectChangedLanes([changedPath]), {
-        env: { PATH: "/usr/bin" },
-        platform: "linux",
-        swiftlintAvailable: false,
-      });
-
-      expect(plan.commands).toContainEqual(
-        expect.objectContaining({
-          name: "native state schema version guard",
-          bin: "node",
-          args: ["scripts/check-native-state-schema-version.mjs"],
         }),
       );
     }
