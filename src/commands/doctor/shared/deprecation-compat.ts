@@ -276,16 +276,6 @@ const DOCTOR_DEPRECATION_COMPAT_RECORDS = [
     docsPath: "/automation/cron-jobs",
     tests: ["src/commands/doctor/shared/legacy-config-migrations.runtime.retired.test.ts"],
   }),
-  deprecatedCompatRecord("doctor-canvas-host-root", {
-    previousRemoveAfter: "2026-09-18",
-    owner: "plugin",
-    introduced: "2026-07-18",
-    source: "canvasHost",
-    migration: "extensions/canvas/setup-api.ts",
-    replacement: "plugins.entries.canvas.config.host",
-    docsPath: "/plugins",
-    tests: ["src/plugins/setup-registry.migrations.test.ts"],
-  }),
   deprecatedCompatRecord("doctor-phase1-channel-noops-aliases", {
     previousRemoveAfter: "2026-09-18",
     owner: "channel",

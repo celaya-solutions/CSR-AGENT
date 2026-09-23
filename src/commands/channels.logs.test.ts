@@ -87,7 +87,7 @@ describe("channelsLogsCommand", () => {
       [
         logLine({ plugin: "vendor-external-chat", message: "external sent" }),
         logLine({ plugin: "vendor-external-chat-shadow", message: "shadow sent" }),
-        logLine({ module: "gateway/channels/slack/send", message: "slack sent" }),
+        logLine({ module: "gateway/channels/discord/send", message: "discord sent" }),
       ].join(""),
     );
 
@@ -105,9 +105,9 @@ describe("channelsLogsCommand", () => {
   it.each([
     {
       label: "subsystem",
-      channel: "slack",
-      shadow: { subsystem: "gateway/channels/slack-archive" },
-      match: { subsystem: "gateway/channels/slack/send" },
+      channel: "discord",
+      shadow: { subsystem: "gateway/channels/discord-archive" },
+      match: { subsystem: "gateway/channels/discord/send" },
     },
     {
       label: "module",
@@ -117,9 +117,9 @@ describe("channelsLogsCommand", () => {
     },
     {
       label: "nested subsystem",
-      channel: "slack",
-      shadow: { subsystem: "slack-archive/send" },
-      match: { subsystem: "slack/send" },
+      channel: "discord",
+      shadow: { subsystem: "discord-archive/send" },
+      match: { subsystem: "discord/send" },
     },
     {
       label: "nested module",
@@ -146,16 +146,16 @@ describe("channelsLogsCommand", () => {
     async (json) => {
       await fs.writeFile(
         logPath,
-        logLine({ module: "gateway/channels/slack/send", message: "unrelated message" }),
+        logLine({ module: "gateway/channels/discord/send", message: "unrelated message" }),
       );
 
-      const error = await channelsLogsCommand({ channel: "slakc", json }, runtime).catch(
+      const error = await channelsLogsCommand({ channel: "discrod", json }, runtime).catch(
         (cause: unknown) => cause,
       );
       expect(error).toBeInstanceOf(Error);
-      expect((error as Error).message).toContain('Unknown channel "slakc". Valid channels: all,');
+      expect((error as Error).message).toContain('Unknown channel "discrod". Valid channels: all,');
       expect((error as Error).message).toContain("external-chat");
-      expect((error as Error).message).toContain("slack");
+      expect((error as Error).message).toContain("discord");
       expect(runtime.log).not.toHaveBeenCalled();
     },
   );
@@ -166,12 +166,12 @@ describe("channelsLogsCommand", () => {
     await fs.writeFile(
       logPath,
       logLine({
-        module: "gateway/channels/slack/send",
+        module: "gateway/channels/discord/send",
         message: `opaque=${fixtureCredential}`,
       }),
     );
 
-    await channelsLogsCommand({ channel: "slack" }, runtime);
+    await channelsLogsCommand({ channel: "discord" }, runtime);
 
     const output = runtime.log.mock.calls.flat().join("\n");
     expect(output).toContain("2026-04-25T12:00:00.000Z info");
@@ -185,12 +185,12 @@ describe("channelsLogsCommand", () => {
     await fs.writeFile(
       logPath,
       logLine({
-        module: "gateway/channels/slack/send",
+        module: "gateway/channels/discord/send",
         message: `opaque=${fixtureCredential}`,
       }),
     );
 
-    await channelsLogsCommand({ channel: "slack", json: true }, runtime);
+    await channelsLogsCommand({ channel: "discord", json: true }, runtime);
 
     const payload = readJsonPayload();
     expect(payload.lines[0]?.message).toBe("opaque=opaque…7890");
@@ -207,7 +207,7 @@ describe("channelsLogsCommand", () => {
       messages
         .map((message, index) =>
           logLine({
-            module: `gateway/channels/${index % 2 ? "external-chat" : "slack"}/send`,
+            module: `gateway/channels/${index % 2 ? "external-chat" : "discord"}/send`,
             message,
           }),
         )
@@ -224,13 +224,13 @@ describe("channelsLogsCommand", () => {
   it("finds sparse channel records beyond the shared 5000-line cap", async () => {
     const filler = logLine({ module: "gateway/health", message: "ok" });
     const lines = [
-      logLine({ module: "gateway/channels/slack/send", message: "first match" }),
+      logLine({ module: "gateway/channels/discord/send", message: "first match" }),
       ...Array.from({ length: 5000 }, () => filler),
-      logLine({ module: "gateway/channels/slack/send", message: "second match" }),
+      logLine({ module: "gateway/channels/discord/send", message: "second match" }),
     ];
     await fs.writeFile(logPath, lines.join(""));
 
-    await channelsLogsCommand({ channel: "slack", lines: 2000, json: true }, runtime);
+    await channelsLogsCommand({ channel: "discord", lines: 2000, json: true }, runtime);
 
     expect(readJsonPayload().lines.map((line) => line.message)).toEqual([
       "first match",
@@ -239,15 +239,15 @@ describe("channelsLogsCommand", () => {
   });
 
   it("reports when the byte window omits all matching channel records", async () => {
-    const omitted = logLine({ module: "gateway/channels/slack/send", message: "omitted" });
+    const omitted = logLine({ module: "gateway/channels/discord/send", message: "omitted" });
     const filler = logLine({ module: "gateway/health", message: "x".repeat(1000) });
     await fs.writeFile(logPath, `${omitted}${filler.repeat(1100)}`);
 
-    await channelsLogsCommand({ channel: "slack", json: true }, runtime);
+    await channelsLogsCommand({ channel: "discord", json: true }, runtime);
     expect(readJsonPayload()).toMatchObject({ truncated: true, lines: [] });
 
     runtime.log.mockClear();
-    await channelsLogsCommand({ channel: "slack" }, runtime);
+    await channelsLogsCommand({ channel: "discord" }, runtime);
     expect(runtime.log.mock.calls.flat().join("\n")).toContain(
       "Log tail truncated; earlier entries were omitted.",
     );
@@ -256,7 +256,7 @@ describe("channelsLogsCommand", () => {
   it("treats an omitted channel filter as all", async () => {
     await fs.writeFile(
       logPath,
-      logLine({ module: "gateway/channels/slack/send", message: "omitted filter" }),
+      logLine({ module: "gateway/channels/discord/send", message: "omitted filter" }),
     );
 
     await channelsLogsCommand({ json: true }, runtime);
@@ -274,7 +274,7 @@ describe("channelsLogsCommand", () => {
     await fs.writeFile(
       fallbackFile,
       [
-        logLine({ module: "gateway/channels/slack/send", message: "slack fallback" }),
+        logLine({ module: "gateway/channels/discord/send", message: "discord fallback" }),
         logLine({ module: "gateway/channels/external-chat/send", message: "fallback sent" }),
       ].join(""),
     );

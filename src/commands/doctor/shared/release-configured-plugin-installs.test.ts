@@ -3,6 +3,12 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { initializeNativeSessionCatalogPreferences } from "../../../plugins/native-session-catalog-config.js";
 import { maybeRunConfiguredPluginInstallReleaseStep } from "./release-configured-plugin-installs.js";
 
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const mocks = vi.hoisted(() => ({
   detectPluginAutoEnableCandidates: vi.fn(),
   getOfficialExternalPluginCatalogEntry: vi.fn(),

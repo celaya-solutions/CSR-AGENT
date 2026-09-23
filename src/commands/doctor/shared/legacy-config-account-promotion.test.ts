@@ -13,6 +13,12 @@ import {
 import { normalizeCompatibilityConfigValues } from "./legacy-config-core-migrate.js";
 import { seedMissingDefaultAccountsFromSingleAccountBase } from "./legacy-config-core-normalizers.js";
 
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 let state: OpenClawTestState | undefined;
 
 afterEach(async () => {

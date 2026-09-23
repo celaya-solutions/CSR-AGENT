@@ -53,6 +53,12 @@ import {
 import { runPluginInstallCommand } from "./plugins-install-command.js";
 import { createCliTtyMock } from "./test-runtime-capture.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 // Default-selector assertions describe a stable build; beta cases set their own identity.
 const coreVersion = vi.hoisted(() => ({ value: "2026.8.1" }));
 const resolveNpmSpecMetadataMock = vi.hoisted(() =>

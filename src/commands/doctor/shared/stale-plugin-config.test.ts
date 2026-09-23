@@ -10,6 +10,12 @@ import {
   scanStalePluginConfig,
 } from "./stale-plugin-config.js";
 
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const installedPluginIndexMocks = vi.hoisted(() => ({
   loadInstalledPluginIndexInstallRecordsSync: vi.fn<() => Record<string, PluginInstallRecord>>(
     () => ({}),

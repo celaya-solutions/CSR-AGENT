@@ -133,15 +133,15 @@ describe("automatic startup config repair", () => {
     // The full planner owns plugin contracts; pre-bootstrap uses core-only selection.
     const snapshot = invalidSnapshot({
       config: {
-        plugins: { entries: { "active-memory": { config: { qmd: { enabled: true } } } } },
+        plugins: { entries: { acpx: { config: { strictWindowsCmdWrapper: true } } } },
       } as OpenClawConfig,
-      issuePaths: ["plugins.entries.active-memory.config.qmd"],
+      issuePaths: ["plugins.entries.acpx.config.strictWindowsCmdWrapper"],
     });
 
     const resolved = planAutomaticConfigRepair(snapshot)?.snapshot;
 
     expect(resolved?.valid).toBe(true);
-    expect(resolved?.sourceConfig.plugins?.entries?.["active-memory"]?.config).toEqual({});
+    expect(resolved?.sourceConfig.plugins?.entries?.acpx?.config).toEqual({});
   });
 
   it("previews repairable snapshots without touching the shared state database", async () => {

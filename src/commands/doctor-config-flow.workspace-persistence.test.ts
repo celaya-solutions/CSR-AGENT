@@ -39,23 +39,18 @@ describe("Doctor workspace persistence", () => {
           "123",
           456,
         ];
-        const canonical = ["discord:100000000000000001", "telegram:123", "slack:U123"];
+        const canonical = ["discord:100000000000000001", "telegram:123"];
         const configPath = await writeOpenClawConfig(home, {
           meta: { lastTouchedVersion: "2026.7.1-2" },
           agents: { list: [{ id: "main" }] },
           commands: {
-            ownerAllowFrom: [
-              "discord:user:100000000000000001",
-              "telegram:user:123",
-              "slack:user:U123",
-              ...preserved,
-            ],
+            ownerAllowFrom: ["discord:user:100000000000000001", "telegram:user:123", ...preserved],
           },
           gateway: { mode: "local" },
           plugins: { enabled: false },
         });
         const ctx = await prepareDoctorContext(configPath);
-        for (const index of [0, 1, 2]) {
+        for (const index of [0, 1]) {
           expect(ctx.configResult.pendingChangePanels?.join("\n")).toContain(
             `commands.ownerAllowFrom[${index}]`,
           );

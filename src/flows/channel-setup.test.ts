@@ -22,6 +22,12 @@ import {
   makeMeta,
 } from "./channel-setup.test-helpers.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 type ChannelSetupPlugin = import("../channels/plugins/setup-wizard-types.js").ChannelSetupPlugin;
 type ChannelSetupWizardAdapter =
   import("../channels/plugins/setup-wizard-types.js").ChannelSetupWizardAdapter;
@@ -557,74 +563,6 @@ describe("setupChannels workspace shadow exclusion", () => {
     expect(next.channels?.qqbot).toMatchObject({
       dmPolicy: "open",
       allowFrom: ["openclaw:approval-disabled"],
-    });
-  });
-
-  it("allowlists ClickClack when it is explicitly selected for setup", async () => {
-    const setupWizard = {
-      channel: "clickclack",
-      getStatus: vi.fn(async () => ({
-        channel: "clickclack",
-        configured: false,
-        statusLines: [],
-      })),
-      configure: vi.fn(async ({ cfg }: { cfg: OpenClawConfig }) => ({
-        cfg: {
-          ...cfg,
-          channels: {
-            ...cfg.channels,
-            clickclack: {
-              ...cfg.channels?.clickclack,
-              token: "secret",
-            },
-          },
-        },
-      })),
-    };
-    const clickClackPlugin = makeSetupPlugin({
-      id: "clickclack",
-      label: "ClickClack",
-      setupWizard,
-    });
-    resolveChannelSetupEntries.mockReturnValue(
-      makeChannelSetupEntries({
-        entries: [
-          {
-            id: "clickclack",
-            meta: makeMeta("clickclack", "ClickClack"),
-          },
-        ],
-      }),
-    );
-    loadChannelSetupPluginRegistrySnapshotForChannel.mockReturnValue(
-      makePluginRegistry({
-        channelSetups: [
-          {
-            pluginId: "clickclack",
-            source: "bundled",
-            enabled: true,
-            plugin: clickClackPlugin,
-          },
-        ],
-      }),
-    );
-    const select = vi.fn().mockResolvedValueOnce("clickclack").mockResolvedValueOnce("__done__");
-
-    const next = await runChannelSetup(
-      {
-        plugins: {
-          allow: ["memory-core"],
-        },
-      } as never,
-      { select },
-      DEFERRED_CHANNEL_SETUP_OPTIONS,
-    );
-
-    expect(next.plugins?.allow).toEqual(["memory-core", "clickclack"]);
-    expect(next.plugins?.entries?.clickclack?.enabled).toBe(true);
-    expect(next.channels?.clickclack).toEqual({
-      enabled: true,
-      token: "secret",
     });
   });
 

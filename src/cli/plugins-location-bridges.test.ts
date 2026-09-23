@@ -4,6 +4,12 @@ import type { InstalledPluginStartupInfo } from "../plugins/installed-plugin-ind
 import type { InstalledPluginIndex } from "../plugins/installed-plugin-index.js";
 import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const readPersistedInstalledPluginIndexMock = vi.fn();
 const loadPluginManifestRegistryForInstalledIndexMock = vi.fn();
 

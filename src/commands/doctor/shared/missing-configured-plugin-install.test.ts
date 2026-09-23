@@ -37,6 +37,12 @@ import {
   successfulUpdate,
 } from "./missing-configured-plugin-install.test-helpers.js";
 
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 function expectedNpmInstallSpec(spec: string): string {
   return resolveRegistryUpdateChannel({ currentVersion: VERSION }) === "beta"
     ? `${spec}@${VERSION}`

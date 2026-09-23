@@ -1,10 +1,12 @@
 // Doctor channel capability tests cover channel capability inspection and diagnostics.
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { collectChannelDmPolicyDependencyWarnings } from "../../config/validation-channel-rules.js";
-import {
-  getDoctorChannelCapabilities,
-  resolveDoctorChannelAccountIds,
-} from "./channel-capabilities.js";
+
+vi.mock("../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
 
 const channelPluginMocks = vi.hoisted(() => ({
   getBundledChannelPlugin: vi.fn(() => undefined),
@@ -19,7 +21,18 @@ vi.mock("../../channels/plugins/index.js", () => ({
   getChannelPlugin: channelPluginMocks.getChannelPlugin,
 }));
 
+let getDoctorChannelCapabilities: typeof import("./channel-capabilities.js").getDoctorChannelCapabilities;
+let resolveDoctorChannelAccountIds: typeof import("./channel-capabilities.js").resolveDoctorChannelAccountIds;
+
 describe("doctor channel capabilities", () => {
+  beforeAll(async () => {
+    // The shared runtime setup preloads the channel catalog reader against the shipped (empty)
+    // official catalog; reload the graph so it reads the injected catalog fixture.
+    vi.resetModules();
+    ({ getDoctorChannelCapabilities, resolveDoctorChannelAccountIds } =
+      await import("./channel-capabilities.js"));
+  });
+
   beforeEach(() => {
     channelPluginMocks.getBundledChannelPlugin.mockReset().mockReturnValue(undefined);
     channelPluginMocks.getChannelPlugin.mockReset().mockReturnValue(undefined);

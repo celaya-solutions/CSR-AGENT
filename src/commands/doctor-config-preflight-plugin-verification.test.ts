@@ -15,6 +15,12 @@ import {
 } from "./doctor-config-preflight-plugin-verification.js";
 import { runPostCorePluginConvergence } from "./doctor/shared/post-core-plugin-convergence.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const npmInstall = vi.hoisted(() =>
   vi.fn<typeof import("../plugins/install.js").installPluginFromNpmSpec>(() => {
     throw new Error("unselected plugin reached package installation");

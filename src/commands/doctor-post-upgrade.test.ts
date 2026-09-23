@@ -14,6 +14,12 @@ import { runOpenClawStateWriteTransaction } from "../state/openclaw-state-db.js"
 import { VERSION } from "../version.js";
 import { runPostUpgradeProbes } from "./doctor-post-upgrade.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 async function makeFixtureRoot(prefix: string): Promise<string> {
   return await fs.mkdtemp(path.join(os.tmpdir(), `doctor-post-upgrade-${prefix}-`));
 }

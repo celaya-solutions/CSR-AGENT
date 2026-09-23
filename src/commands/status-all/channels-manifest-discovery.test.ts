@@ -7,6 +7,12 @@ import { afterAll, beforeEach, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../../config/types.openclaw.js";
 import { createPluginCache, withPluginCache } from "../../plugins/plugin-cache.js";
 
+vi.mock("../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const counters = vi.hoisted(() => ({
   installedIndexPreparations: 0,
 }));

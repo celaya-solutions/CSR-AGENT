@@ -33,6 +33,12 @@ import type { GatewayRestartSnapshot } from "./restart-health.js";
 import { gatherDaemonStatus, renderPortDiagnosticsForCli } from "./status.gather.js";
 import { printDaemonStatus } from "./status.print.js";
 
+vi.mock("../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 type PortConnections = Awaited<
   ReturnType<typeof import("../../infra/ports-inspect.js").inspectPortConnections>
 >;

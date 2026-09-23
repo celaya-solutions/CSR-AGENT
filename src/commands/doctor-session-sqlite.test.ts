@@ -5435,7 +5435,9 @@ describe("runDoctorSessionSqlite", () => {
     await expect(refused).rejects.toThrow("nlink=2");
     await expect(refused).rejects.toThrow("another hard link references this inode");
     await expect(refused).rejects.toThrow("backup");
-    await expect(refused).rejects.toThrow("#hard-linked-legacy-artifacts");
+    await expect(refused).rejects.toThrow(
+      "has a link count of one, rename it over the reported path",
+    );
     expect(fs.lstatSync(store.storePath).nlink).toBe(2);
     expect(fs.readFileSync(store.storePath)).toEqual(originalBytes);
     expect(fs.readFileSync(snapshotPath)).toEqual(originalBytes);
@@ -5465,7 +5467,7 @@ describe("runDoctorSessionSqlite", () => {
     expect(issue.message).toContain("nlink=2");
     expect(issue.message).toContain("another hard link references this inode");
     expect(issue.message).toContain("backup");
-    expect(issue.message).toContain("#hard-linked-legacy-artifacts");
+    expect(issue.message).toContain("has a link count of one, rename it over the reported path");
     expect(fs.lstatSync(store.transcriptPath).nlink).toBe(2);
     expect(fs.readFileSync(store.transcriptPath)).toEqual(originalBytes);
     expect(fs.readFileSync(snapshotPath)).toEqual(originalBytes);

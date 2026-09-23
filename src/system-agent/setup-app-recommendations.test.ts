@@ -3,6 +3,13 @@ import type { OfficialExternalPluginCatalogEntry } from "../plugins/official-ext
 import { defaultRuntime } from "../runtime.js";
 import { getSetupAppRecommendations, type SetupAppScanPhase } from "./setup-app-recommendations.js";
 
+// OpenAgent ships empty official catalogs; these cases use the upstream catalog snapshot.
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 /** Force an "ok" result so the returned candidate `groups` can be asserted. */
 function completeMatching(
   pairs: Array<{ appLabel: string; candidateId: string }>,

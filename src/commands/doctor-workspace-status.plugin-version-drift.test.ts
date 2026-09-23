@@ -8,6 +8,12 @@ import {
   noteWorkspaceStatus,
 } from "./doctor-workspace-status.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 vi.mock("../agents/agent-scope.js", () => ({
   listAgentIds: () => [],
   resolveAgentWorkspaceDir: () => {

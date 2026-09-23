@@ -16,6 +16,12 @@ import {
 } from "./doctor-plugin-registry.test-support.js";
 import { importShippedPluginInstallConfigForDoctor } from "./doctor/shared/plugin-registry-migration.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 vi.mock("../../packages/terminal-core/src/note.js", () => ({ note: vi.fn() }));
 
 const tempDirs: string[] = [];

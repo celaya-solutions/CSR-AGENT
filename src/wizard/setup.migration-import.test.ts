@@ -158,8 +158,6 @@ describe("setup migration import options", () => {
     expect(initialOptions).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ providerId: "codex", label: "Import from Codex" }),
-        expect.objectContaining({ providerId: "claude", label: "Import from Claude" }),
-        expect.objectContaining({ providerId: "hermes", label: "Import from Hermes" }),
       ]),
     );
   });

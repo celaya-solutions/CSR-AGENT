@@ -14,6 +14,12 @@ import {
   type PluginInstallRequestContext,
 } from "../plugins/install-config.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const hoisted = vi.hoisted(() => ({
   assertConfigPathForWriteMock: vi.fn(),
   includeFileHashesForWriteMock: vi.fn<() => Record<string, string>>(),
