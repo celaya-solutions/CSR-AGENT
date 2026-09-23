@@ -279,16 +279,16 @@ describe("release docs mirrors", () => {
       "- Exact credit [#42](https://github.com/openclaw/openclaw/pull/42). Thanks @alice, @steipete.",
     );
     expect(result).toContain("| A | B |\n| --- | --- |\n| exact | cells |");
-    expect(result).toContain("![original alt](https://docs.openclaw.ai/images/example.png)");
+    expect(result).toContain("![original alt](/images/example.png)");
     expect(result).toContain(code);
     expect(result).toContain(
       "`<Widget> [inline](/unchanged)` and `<Note>\n[split](/unchanged) </Note>`.",
     );
-    expect(result).toContain("[install](https://docs.openclaw.ai/install/node#help)");
-    expect(result).toContain("[relative](https://docs.openclaw.ai/guide)");
-    expect(result).toContain("[section](https://docs.openclaw.ai/releases/2026.9.4#source)");
+    expect(result).toContain("[install](/install/node#help)");
+    expect(result).toContain("[relative](/guide)");
+    expect(result).toContain("[section](/releases/2026.9.4#source)");
     expect(result).toContain("> **Warning**\n> \n> Keep the warning.");
-    expect(result).toContain('[ref]: https://docs.openclaw.ai/install/node "Keep title"');
+    expect(result).toContain('[ref]: /install/node "Keep title"');
   });
 
   it("binds source bytes and explicit multi-page order, preserving landing navigation", () => {
@@ -303,7 +303,7 @@ describe("release docs mirrors", () => {
       "---\ntitle: Part\n---\n\nFinal complete list.\n",
     );
     const result = renderReleaseDocsMirror({ ...options, sources: [source, other] });
-    expect(result).toContain("[Part](https://docs.openclaw.ai/releases/part) - Exact navigation.");
+    expect(result).toContain("[Part](/releases/part) - Exact navigation.");
     expect(result.indexOf("### Landing")).toBeLessThan(result.indexOf("### Part"));
     expect(result).toContain("Final complete list.");
     const metadata = parseReleaseDocsMirror(result);

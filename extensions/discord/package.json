@@ -4,7 +4,7 @@
   "description": "OpenAgent Discord channel plugin for channels, DMs, commands, and app events.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/celaya-solutions/CSR-AGENT"
   },
   "type": "module",
   "dependencies": {

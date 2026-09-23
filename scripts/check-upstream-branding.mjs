@@ -25,6 +25,7 @@ const EXCLUDED = [
   /(^|\/)[^/]*\.(test|e2e|live|spec)\.[cm]?[jt]sx?$/u,
   /(^|\/)[^/]*\.test-(support|helpers?|utils)\.[cm]?[jt]sx?$/u,
   /(^|\/)(test-support|test-helpers|test-utils|__tests__|__fixtures__|__traces__|fixtures)\//u,
+  /-test-(support|helpers?|utils)\.[cm]?[jt]sx?$/u,
   /(^|\/)(AGENTS|CLAUDE)\.md$/u,
   /^docs\/\.i18n\//u,
   /^docs\/INVENTORY\.md$/u,

@@ -4,7 +4,7 @@
   "description": "OpenAgent Codex app-server harness and native session supervision plugin.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/celaya-solutions/CSR-AGENT"
   },
   "type": "module",
   "dependencies": {

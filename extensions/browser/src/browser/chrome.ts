@@ -1118,7 +1118,7 @@ export async function launchOpenClawChrome(
         downloadDir: DEFAULT_DOWNLOAD_DIR,
         mockKeychain: useMockKeychain,
       });
-      log.info(`🦞 openclaw browser profile decorated (${profile.color})`);
+      log.info(`openclaw browser profile decorated (${profile.color})`);
     } catch (err) {
       log.warn(`openclaw browser profile decoration failed: ${String(err)}`);
     }
@@ -1235,7 +1235,7 @@ export async function launchOpenClawChrome(
       signal?.throwIfAborted();
       const pid = spawned.pid;
       log.info(
-        `🦞 openclaw browser started (${exe.kind}) profile "${profile.name}" on 127.0.0.1:${profile.cdpPort} (pid ${pid})`,
+        `openclaw browser started (${exe.kind}) profile "${profile.name}" on 127.0.0.1:${profile.cdpPort} (pid ${pid})`,
       );
 
       return runningForProcess(proc, pid);

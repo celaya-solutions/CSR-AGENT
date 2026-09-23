@@ -83,7 +83,7 @@ function boundUtf8(value: string, maxBytes: number, suffix: string): string {
 
 function buildPrefilledUrl(title: string, body: string): string {
   const query = new URLSearchParams({ body, title });
-  return `https://github.com/openclaw/openclaw/issues/new?${query.toString()}`;
+  return `https://github.com/${SOURCE_REPOSITORY_SLUG}/issues/new?${query.toString()}`;
 }
 
 /** Builds an exact browser fallback when its encoded request stays within a safe bound. */

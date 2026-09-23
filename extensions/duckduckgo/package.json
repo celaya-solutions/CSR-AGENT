@@ -4,7 +4,7 @@
   "description": "OpenAgent DuckDuckGo plugin.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/celaya-solutions/CSR-AGENT"
   },
   "type": "module",
   "devDependencies": {

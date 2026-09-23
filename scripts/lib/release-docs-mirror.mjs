@@ -66,9 +66,11 @@ function docsUrl(href, source) {
     .replace(/^docs\//, "/")
     .replace(/\.mdx?$/, "")
     .replace(/\/index$/, "/");
-  const url = new URL(href, `https://docs.openclaw.ai${route}`);
+  // Resolve against a placeholder origin only to normalize the path; this build
+  // hosts no docs site, so mirrored links stay site-relative.
+  const url = new URL(href, `https://docs.invalid${route}`);
   url.pathname = url.pathname.replace(/\.mdx?$/, "").replace(/\/index$/, "/");
-  return url.href;
+  return `${url.pathname}${url.search}${url.hash}`;
 }
 
 // CommonMark identifies code before any source edits. Inline code is held as well;
