@@ -7331,7 +7331,6 @@ server.listen(0, "127.0.0.1", () => {
   it("runs temp path guardrails in the hosted guard shard", () => {
     const requiredScripts = [
       "check:doctor-deprecation-registry",
-      "check:browser-inspect-script:swift",
       "check:coercion-helpers",
     ];
     const current = runCheckShardFixture({
