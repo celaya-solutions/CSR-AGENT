@@ -14,22 +14,12 @@
     "extensions": [
       "./index.ts"
     ],
-    "install": {
-      "clawhubSpec": "clawhub:@openclaw/duckduckgo-plugin",
-      "npmSpec": "@openclaw/duckduckgo-plugin",
-      "defaultChoice": "npm",
-      "minHostVersion": ">=2026.7.2"
-    },
     "compat": {
       "pluginApi": ">=2026.9.4"
     },
     "build": {
       "openclawVersion": "2026.9.4",
       "bundledDist": false
-    },
-    "release": {
-      "publishToClawHub": true,
-      "publishToNpm": true
     }
   }
 }

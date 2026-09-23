@@ -50,7 +50,9 @@ Each entry lists the package, distribution route, and description.
 
 ## Core npm package
 
-12 plugins
+17 plugins
+
+- **[acpx](/plugins/reference/acpx)** (`@openclaw/acpx`) - included in OpenAgent. OpenAgent ACP runtime backend with plugin-owned session and transport management.
 
 - **[agent-workforce](/plugins/reference/agent-workforce)** (`@openclaw/agent-workforce`) - included in OpenAgent. A named team of teammates one agent can hand work to, with drafts held for human review and a plain-language decision log.
 
@@ -58,9 +60,17 @@ Each entry lists the package, distribution route, and description.
 
 - **[browser](/plugins/reference/browser)** (`@openclaw/browser-plugin`) - included in OpenAgent. Adds agent-callable tools.
 
+- **[codex](/plugins/reference/codex)** (`@openclaw/codex`) - included in OpenAgent. Codex app-server harness and native session catalog.
+
 - **[device-pair](/plugins/reference/device-pair)** (`openclaw`) - included in OpenAgent. Generate setup codes and approve device pairing requests.
 
+- **[discord](/plugins/reference/discord)** (`@openclaw/discord`) - included in OpenAgent. OpenAgent Discord channel plugin for channels, DMs, commands, and app events.
+
 - **[document-extract](/plugins/reference/document-extract)** (`@openclaw/document-extract-plugin`) - included in OpenAgent. Extract text and fallback page images from local document attachments.
+
+- **[duckduckgo](/plugins/reference/duckduckgo)** (`@openclaw/duckduckgo-plugin`) - included in OpenAgent. Adds web search provider support.
+
+- **[llama-cpp](/plugins/reference/llama-cpp)** (`@openclaw/llama-cpp-provider`) - included in OpenAgent. Managed and external llama.cpp servers for GGUF chat and embeddings.
 
 - **[llm-task](/plugins/reference/llm-task)** (`@openclaw/llm-task`) - included in OpenAgent. Generic JSON-only LLM tool for structured tasks callable from workflows.
 
@@ -78,17 +88,9 @@ Each entry lists the package, distribution route, and description.
 
 ## Official external packages
 
-5 plugins
+0 plugins
 
-- **[acpx](/plugins/reference/acpx)** (`@openclaw/acpx`) - npm or ClawHub: `clawhub:@openclaw/acpx`. OpenAgent ACP runtime backend with plugin-owned session and transport management.
-
-- **[codex](/plugins/reference/codex)** (`@openclaw/codex`) - npm or ClawHub. Codex app-server harness and native session catalog.
-
-- **[discord](/plugins/reference/discord)** (`@openclaw/discord`) - npm or ClawHub: `clawhub:@openclaw/discord`. OpenAgent Discord channel plugin for channels, DMs, commands, and app events.
-
-- **[duckduckgo](/plugins/reference/duckduckgo)** (`@openclaw/duckduckgo-plugin`) - npm or ClawHub: `clawhub:@openclaw/duckduckgo-plugin`. Adds web search provider support.
-
-- **[llama-cpp](/plugins/reference/llama-cpp)** (`@openclaw/llama-cpp-provider`) - npm or ClawHub. Managed and external llama.cpp servers for GGUF chat and embeddings.
+_None._
 
 ## Source checkout only
 

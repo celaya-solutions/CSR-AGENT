@@ -1,5 +1,8 @@
 [
+  "dist/extensions/acpx/runtime-api.js",
   "dist/extensions/browser/runtime-api.js",
+  "dist/extensions/discord/runtime-api.js",
+  "dist/extensions/discord/runtime-setter-api.js",
   "dist/extensions/memory-core/runtime-api.js",
   "dist/extensions/ollama/runtime-api.js",
   "dist/extensions/telegram/runtime-api.js",

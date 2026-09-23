@@ -91,13 +91,6 @@
         "warnOnEmptyGroupSenderAllowlist": false
       }
     },
-    "install": {
-      "clawhubSpec": "clawhub:@openclaw/discord",
-      "npmSpec": "@openclaw/discord",
-      "defaultChoice": "npm",
-      "minHostVersion": ">=2026.5.26",
-      "allowInvalidConfigRecovery": true
-    },
     "compat": {
       "pluginApi": ">=2026.9.4"
     },
@@ -113,10 +106,6 @@
     },
     "assetScripts": {
       "build": "node --import tsx ../../scripts/build-discord-activity-sdk.mts"
-    },
-    "release": {
-      "publishToClawHub": true,
-      "publishToNpm": true
     }
   }
 }
