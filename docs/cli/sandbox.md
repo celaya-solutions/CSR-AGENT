@@ -5,7 +5,7 @@ read_when: "You are managing sandbox runtimes or debugging sandbox/tool-policy b
 status: active
 ---
 
-Manage sandbox runtimes for isolated agent execution: Docker/Podman containers, SSH targets, or OpenShell backends.
+Manage sandbox runtimes for isolated agent execution: Docker/Podman containers, SSH targets, or plugin-provided backends.
 
 [`openclaw agent exec`](/cli/agent#agent-exec) does not use these configured runtimes. Its isolated implicit policy config turns the agent sandbox off, allows full Gateway-host execution, and restricts filesystem tools to `--cwd`.
 
@@ -15,7 +15,7 @@ Manage sandbox runtimes for isolated agent execution: Docker/Podman containers, 
 
 List sandbox runtimes with status, backend, config match, age, idle time, and associated session/agent.
 
-For configured plugin-provided backends such as OpenShell, the CLI loads the
+For configured plugin-provided backends, the CLI loads the
 owning backend plugin before checking live runtime status. Browser-only
 operations do not require backend plugin activation.
 
@@ -47,7 +47,7 @@ Options:
 
 Pass exactly one of `--all`, `--session`, or `--agent`.
 
-For `ssh` and OpenShell `remote`, recreate matters more than with Docker: the remote workspace is canonical after the initial seed, `recreate` deletes that canonical remote workspace for the selected scope, and the next run reseeds it from the current local workspace.
+For `ssh`, recreate matters more than with Docker: the remote workspace is canonical after the initial seed, `recreate` deletes that canonical remote workspace for the selected scope, and the next run reseeds it from the current local workspace.
 
 ### `openclaw sandbox explain`
 
@@ -80,7 +80,6 @@ Run `openclaw sandbox recreate --all` after any of these changes:
 - Container sandbox image update: `agents.defaults.sandbox.docker.image`
 - Sandbox config: `agents.defaults.sandbox.*`
 - SSH target/auth: `agents.defaults.sandbox.ssh.{target,workspaceRoot,identityFile,certificateFile,knownHostsFile,identityData,certificateData,knownHostsData}`
-- OpenShell source/policy/mode: `plugins.entries.openshell.config.{from,mode,policy}`
 - `setupCommand` — `--agent <id>` recreates one agent instead of all
 
 <Note>
@@ -107,7 +106,7 @@ Sandbox settings live in `~/.openclaw/openclaw.json` under `agents.defaults.sand
     "defaults": {
       "sandbox": {
         "mode": "all", // off, non-main, all
-        "backend": "docker", // docker, podman, ssh; openshell is plugin-provided
+        "backend": "docker", // docker, podman, ssh; plugins can add more
         "scope": "agent", // session, agent, shared
         "docker": {
           "image": "openclaw-sandbox:bookworm-slim",
@@ -130,4 +129,3 @@ Sandbox settings live in `~/.openclaw/openclaw.json` under `agents.defaults.sand
 - [Sandboxing](/gateway/sandboxing)
 - [Agent workspace](/concepts/agent-workspace)
 - [Doctor](/gateway/doctor): checks sandbox setup.
-- [OpenShell](/gateway/openshell) — a managed sandbox backend driven through the `openshell` CLI

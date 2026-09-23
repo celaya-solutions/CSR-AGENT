@@ -12,7 +12,7 @@ Ambient room events let OpenAgent process unmentioned group or channel chatter a
 
 For always-on group chats, combine `messages.groupChat.unmentionedInbound: "room_event"` with `messages.groupChat.visibleReplies: "message_tool"`. The agent listens, decides when a reply is useful, and never needs the old prompt pattern of answering `NO_REPLY`.
 
-Supported today: Discord guild channels, Slack channels and private channels, Slack multi-person DMs, and Telegram groups or supergroups. Other group channels keep their existing group behavior unless their channel page says they support ambient room events.
+Supported today: Discord guild channels and Telegram groups or supergroups. Other group channels keep their existing group behavior unless their channel page says they support ambient room events.
 
 ## Recommended setup
 
@@ -116,32 +116,6 @@ Use per-channel Discord config when only one channel should be ambient. Under `g
 }
 ```
 
-## Slack example
-
-Slack channel allowlists are ID-first. Use channel IDs such as `C12345678`, not `#channel-name`. Listing the channel under `channels.slack.channels` is what allows it (`enabled: false` disables an entry):
-
-```json5
-{
-  messages: {
-    groupChat: {
-      unmentionedInbound: "room_event",
-      visibleReplies: "message_tool",
-      historyLimit: 50,
-    },
-  },
-  channels: {
-    slack: {
-      groupPolicy: "allowlist",
-      channels: {
-        "<SLACK_CHANNEL_ID>": {
-          requireMention: false,
-        },
-      },
-    },
-  },
-}
-```
-
 ## Telegram example
 
 For Telegram groups, the bot must be able to see normal group messages. If `requireMention: false`, disable BotFather privacy mode or use another Telegram setup that delivers full group traffic to the bot.
@@ -223,13 +197,10 @@ If the room shows typing or token usage but no visible message:
 
 If Telegram ambient rooms do not trigger at all, check BotFather privacy mode and verify the Gateway is receiving normal group messages.
 
-If Slack ambient rooms do not trigger, verify the channel key is the Slack channel ID and the app has the history scope for that room type: `channels:history` (public), `groups:history` (private), or `mpim:history` (multi-person DMs).
-
 ## Related
 
 - [Groups](/channels/groups)
 - [Discord](/channels/discord)
-- [Slack](/channels/slack)
 - [Telegram](/channels/telegram)
 - [Channel troubleshooting](/channels/troubleshooting)
 - [Channel configuration reference](/gateway/config-channels)

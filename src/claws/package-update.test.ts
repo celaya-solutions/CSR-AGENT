@@ -579,7 +579,7 @@ describe("applyClawPackageUpdate", () => {
                   clawhub: {
                     source: "clawhub",
                     clawhubFamily: "code-plugin",
-                    clawhubUrl: "https://clawhub.ai",
+                    clawhubUrl: "https://registry.example.test",
                     clawhubPackage: "audit",
                     integrity,
                   },

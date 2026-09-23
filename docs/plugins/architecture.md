@@ -33,24 +33,24 @@ This is the **deep architecture reference** for the OpenAgent plugin system. For
 
 Capabilities are the public **native plugin** model inside OpenAgent. Native plugins can register one or more capability types:
 
-| Capability             | Registration method                              | Example plugins                                             |
-| ---------------------- | ------------------------------------------------ | ----------------------------------------------------------- |
-| Text inference         | `api.registerProvider(...)`                      | `anthropic`, `openai`                                       |
-| CLI inference backend  | `api.registerCliBackend(...)`                    | `anthropic`, `openai`                                       |
-| Embeddings             | `api.registerEmbeddingProvider(...)`             | Provider-owned vector plugins                               |
-| Speech                 | `api.registerSpeechProvider(...)`                | `elevenlabs`, `microsoft`                                   |
-| Realtime transcription | `api.registerRealtimeTranscriptionProvider(...)` | `openai`                                                    |
-| Realtime voice         | `api.registerRealtimeVoiceProvider(...)`         | `google`, `openai`                                          |
-| Media understanding    | `api.registerMediaUnderstandingProvider(...)`    | `google`, `openai`                                          |
-| Transcripts source     | `api.registerTranscriptSourceProvider(...)`      | `discord`, `google-meet`, `teams-meetings`, `zoom-meetings` |
-| Image generation       | `api.registerImageGenerationProvider(...)`       | `fal`, `google`, `openai`                                   |
-| Music generation       | `api.registerMusicGenerationProvider(...)`       | `fal`, `google`, `minimax`                                  |
-| Video generation       | `api.registerVideoGenerationProvider(...)`       | `fal`, `google`, `qwen`                                     |
-| Web fetch              | `api.registerWebFetchProvider(...)`              | `firecrawl`                                                 |
-| Web search             | `api.registerWebSearchProvider(...)`             | `brave`, `firecrawl`, `google`                              |
-| Channel / messaging    | `api.registerChannel(...)`                       | `matrix`, `msteams`                                         |
-| Gateway discovery      | `api.registerGatewayDiscoveryService(...)`       | `bonjour`                                                   |
-| Migration              | `api.registerMigrationProvider(...)`             | `migrate-claude`, `migrate-hermes`                          |
+| Capability             | Registration method                              | Example plugins                  |
+| ---------------------- | ------------------------------------------------ | -------------------------------- |
+| Text inference         | `api.registerProvider(...)`                      | `anthropic`, `openai`            |
+| CLI inference backend  | `api.registerCliBackend(...)`                    | `anthropic`, `openai`            |
+| Embeddings             | `api.registerEmbeddingProvider(...)`             | Provider-owned vector plugins    |
+| Speech                 | `api.registerSpeechProvider(...)`                | `openai`, `openrouter`           |
+| Realtime transcription | `api.registerRealtimeTranscriptionProvider(...)` | `openai`                         |
+| Realtime voice         | `api.registerRealtimeVoiceProvider(...)`         | `openai`                         |
+| Media understanding    | `api.registerMediaUnderstandingProvider(...)`    | `anthropic`, `openai`            |
+| Transcripts source     | `api.registerTranscriptSourceProvider(...)`      | `discord`                        |
+| Image generation       | `api.registerImageGenerationProvider(...)`       | `openai`, `openrouter`           |
+| Music generation       | `api.registerMusicGenerationProvider(...)`       | `openrouter`                     |
+| Video generation       | `api.registerVideoGenerationProvider(...)`       | `openai`, `openrouter`           |
+| Web fetch              | `api.registerWebFetchProvider(...)`              | Provider-owned fetch plugins     |
+| Web search             | `api.registerWebSearchProvider(...)`             | `duckduckgo`, `ollama`           |
+| Channel / messaging    | `api.registerChannel(...)`                       | `discord`, `telegram`            |
+| Gateway discovery      | `api.registerGatewayDiscoveryService(...)`       | Provider-owned discovery plugins |
+| Migration              | `api.registerMigrationProvider(...)`             | `codex`                          |
 
 <Note>
 A plugin that registers only hooks is **hook-only**. Plugins with tools, commands, background services, or routes but no capabilities are **non-capability** plugins. Both patterns remain supported; gateway discovery is an explicit capability listed above.
@@ -327,9 +327,9 @@ That matters for context-sensitive plugins. A channel can hide or expose message
 
 This is why embedded-runner routing changes are still plugin work: the runner is responsible for forwarding the current chat/session identity into the plugin discovery boundary so the shared `message` tool exposes the right channel-owned surface for the current turn.
 
-For channel-owned execution helpers, channel plugins should keep the execution runtime inside their own plugin modules. Core no longer owns the Discord, Slack, Telegram, or WhatsApp message-action runtimes under `src/agents/tools`. We do not publish separate `plugin-sdk/*-action-runtime` subpaths, and those plugins should import their own local runtime code directly from their plugin-owned modules.
+For channel-owned execution helpers, channel plugins should keep the execution runtime inside their own plugin modules. Core no longer owns the Discord or Telegram message-action runtimes under `src/agents/tools`. We do not publish separate `plugin-sdk/*-action-runtime` subpaths, and those plugins should import their own local runtime code directly from their plugin-owned modules.
 
-The same boundary applies to provider-named SDK seams in general: core should not import channel-specific convenience barrels for Discord, Signal, Slack, WhatsApp, or similar plugins. If core needs a behavior, either consume the bundled plugin's own `api.ts` / `runtime-api.ts` barrel or promote the need into a narrow generic capability in the shared SDK.
+The same boundary applies to provider-named SDK seams in general: core should not import channel-specific convenience barrels for Discord, Telegram, or similar plugins. If core needs a behavior, either consume the bundled plugin's own `api.ts` / `runtime-api.ts` barrel or promote the need into a narrow generic capability in the shared SDK.
 
 Bundled plugins follow the same rule. A bundled plugin's `runtime-api.ts` should not re-export its own branded `openclaw/plugin-sdk/<plugin-id>` facade. Those branded facades remain compatibility shims for external plugins and older consumers, but bundled plugins should use local exports plus narrow generic SDK subpaths such as `openclaw/plugin-sdk/channel-policy`, `openclaw/plugin-sdk/runtime-store`, or `openclaw/plugin-sdk/webhook-ingress`. New code should not add plugin-id-specific SDK facades unless the compatibility boundary for an existing external ecosystem requires it.
 
@@ -354,13 +354,13 @@ That means:
 
 <AccordionGroup>
   <Accordion title="Vendor multi-capability">
-    `google` owns text inference, CLI backend, embeddings, speech, realtime voice, media understanding, image/music/video generation, and web search. `openai` owns text inference, embeddings, speech, realtime transcription, realtime voice, media understanding, image/video generation. `minimax` owns text inference plus media understanding, speech, image/music/video generation, and web search.
+    `openai` owns text inference, embeddings, speech, realtime transcription, realtime voice, media understanding, and image/video generation. `openrouter` owns text inference plus media understanding, speech, and image/music/video generation.
   </Accordion>
   <Accordion title="Vendor single-capability">
-    `arcee` and `chutes` own text inference only; `microsoft` owns speech only. A vendor plugin can stay this narrow until it needs to cover more of that vendor's surface.
+    `llama-cpp` owns local text inference and embeddings; `duckduckgo` owns web search only. A vendor plugin can stay this narrow until it needs to cover more of that vendor's surface.
   </Accordion>
   <Accordion title="Feature plugin">
-    `voice-call` owns call transport, tools, CLI, routes, and Twilio media-stream bridging, but consumes shared speech, realtime transcription, and realtime voice capabilities instead of importing vendor plugins directly.
+    `agent-workforce` owns its team roster, review drafts, and decision log, but consumes the shared model runtime instead of importing vendor plugins directly.
   </Accordion>
 </AccordionGroup>
 
@@ -408,15 +408,15 @@ Use this mental model when deciding where code belongs:
     Vendor-specific APIs, auth, model catalogs, speech synthesis, image generation, video backends, usage endpoints.
   </Tab>
   <Tab title="Channel/feature plugin layer">
-    Discord/Slack/voice-call/etc. integration that consumes core capabilities and presents them on a surface.
+    Discord/Telegram/etc. integration that consumes core capabilities and presents them on a surface.
   </Tab>
 </Tabs>
 
 For example, TTS follows this shape:
 
 - core owns reply-time TTS policy, fallback order, prefs, and channel delivery
-- `elevenlabs`, `google`, `microsoft`, and `openai` own synthesis implementations
-- `voice-call` consumes the telephony TTS runtime helper
+- `openai` and `openrouter` own synthesis implementations
+- channels such as Discord voice consume the shared TTS runtime helper
 
 That same pattern should be preferred for future capabilities.
 

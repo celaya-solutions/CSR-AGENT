@@ -37,6 +37,12 @@ import {
   successfulUpdate,
 } from "./missing-configured-plugin-install.test-helpers.js";
 
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 function expectedNpmInstallSpec(spec: string): string {
   return resolveRegistryUpdateChannel({ currentVersion: VERSION }) === "beta"
     ? `${spec}@${VERSION}`
@@ -1079,7 +1085,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       version: "1.2.3",
       clawhub: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@openclaw/plugin-matrix",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
@@ -1426,7 +1432,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
         version: "1.2.3",
         clawhub: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "@openclaw/plugin-matrix",
           clawhubFamily: "code-plugin",
           clawhubChannel: "official",
@@ -1487,7 +1493,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
           version: "1.2.3",
           clawhub: {
             source: "clawhub",
-            clawhubUrl: "https://clawhub.ai",
+            clawhubUrl: "https://registry.example.test",
             clawhubPackage: "@openclaw/plugin-matrix",
             clawhubFamily: "code-plugin",
             clawhubChannel: "official",
@@ -2686,7 +2692,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       version: "1.2.3",
       clawhub: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubPackage: "@openclaw/whatsapp",
         clawhubFamily: "code-plugin",
         clawhubChannel: "official",
@@ -4624,7 +4630,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       installPath: installDir,
       clawhubPackage: npmSpec,
       clawhubChannel: "official",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
     });
     mocks.loadInstalledPluginIndexInstallRecords.mockResolvedValue(records);
     mocks.loadPluginMetadataSnapshot.mockReturnValue(brokenPluginSnapshot(pluginId, installDir));
@@ -4688,7 +4694,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       spec: "@openclaw/brave-plugin@2026.5.1-beta.1",
       clawhubPackage: "@openclaw/brave-plugin",
       clawhubChannel: "official",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
     });
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce(
       successfulInstall({
@@ -4723,7 +4729,7 @@ describe("repairMissingConfiguredPluginInstalls", () => {
       spec: "@openclaw/brave-plugin@2026.5.1-beta.1",
       clawhubPackage: "@openclaw/brave-plugin",
       clawhubChannel: "official",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
     });
     mocks.installPluginFromNpmSpec.mockResolvedValueOnce({
       ok: false,

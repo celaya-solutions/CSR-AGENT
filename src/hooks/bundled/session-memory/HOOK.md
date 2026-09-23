@@ -1,7 +1,6 @@
 ---
 name: session-memory
 description: "Save session context to memory on manual or automatic reset"
-homepage: https://docs.openclaw.ai/automation/hooks#session-memory
 metadata:
   {
     "openclaw":

@@ -243,7 +243,7 @@ describe("tsdown config", () => {
       "web-fetch/runtime",
       "mcp/openclaw-tools-serve",
       "mcp/plugin-tools-serve",
-      bundledEntry("active-memory"),
+      bundledEntry("memory-core"),
       "bundled/boot-md/handler",
     ]) {
       expect(keys).toContain(entry);

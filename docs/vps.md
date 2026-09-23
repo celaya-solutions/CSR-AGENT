@@ -1,40 +1,21 @@
 ---
-summary: "Run OpenAgent on a Linux server or cloud VPS — provider picker, architecture, and tuning"
+summary: "Run OpenAgent on a Linux server or cloud VPS — architecture and tuning"
 read_when:
   - You want to run the Gateway on a Linux server or cloud VPS
-  - You need a quick map of hosting guides
   - You want generic Linux server tuning for OpenAgent
 title: "Linux server"
 sidebarTitle: "Linux Server"
 ---
 
-Run the OpenAgent Gateway on any Linux server or cloud VPS. This page helps you
-pick a provider, explains how cloud deployments work, and covers generic Linux
-tuning that applies everywhere.
+Run the OpenAgent Gateway on any Linux server or cloud VPS. This page explains
+how cloud deployments work and covers generic Linux tuning that applies
+everywhere.
 
-## Pick a provider
+## Install on the server
 
-<CardGroup cols={2}>
-  <Card title="Azure" href="/install/azure">Linux VM</Card>
-  <Card title="Daytona" href="/install/daytona">Cloud sandbox with preview URLs</Card>
-  <Card title="DigitalOcean" href="/install/digitalocean">Simple paid VPS</Card>
-  <Card title="exe.dev" href="/install/exe-dev">VM with HTTPS proxy</Card>
-  <Card title="Fly.io" href="/install/fly">Fly Machines</Card>
-  <Card title="GCP" href="/install/gcp">Compute Engine</Card>
-  <Card title="Hetzner" href="/install/hetzner">Docker on Hetzner VPS</Card>
-  <Card title="Hostinger" href="/install/hostinger">VPS with one-click setup</Card>
-  <Card title="Northflank" href="/install/northflank">One-click, browser setup</Card>
-  <Card title="Oracle Cloud" href="/install/oracle">Always Free ARM tier</Card>
-  <Card title="Railway" href="/install/railway">One-click, browser setup</Card>
-  <Card title="Render" href="/install/render">Managed web service</Card>
-  <Card title="Raspberry Pi" href="/install/raspberry-pi">ARM self-hosted</Card>
-  <Card title="Upstash Box" href="/install/upstash">SSH-managed sandbox box</Card>
-</CardGroup>
-
-**AWS (EC2 / Lightsail / free tier)** also works well.
-A community video walkthrough is available at
-[x.com/techfrenAJ/status/2014934471095812547](https://x.com/techfrenAJ/status/2014934471095812547)
-(community resource -- may become unavailable).
+Any provider that gives you a Debian or Ubuntu VM works. Install from source on
+the server as described in [Install](/install), or build the Docker image from
+the checkout and follow [Docker VM runtime](/install/docker-vm-runtime).
 
 ## How cloud setups work
 
@@ -76,10 +57,9 @@ Security model details: [Security](/gateway/security).
 
 ## Using nodes with a VPS
 
-You can keep the Gateway in the cloud and pair **nodes** on your local devices
-(Mac/iOS/Android/headless). Nodes provide local screen/camera and `system.run`
-capabilities while the Gateway stays in the cloud. A paired Mac can also present
-hosted widgets in its native panel.
+You can keep the Gateway in the cloud and pair headless **nodes** on your local
+machines. Nodes provide local `system.run` capabilities while the Gateway stays
+in the cloud.
 
 Docs: [Nodes](/nodes), [Nodes CLI](/cli/nodes).
 
@@ -98,7 +78,6 @@ source ~/.bashrc
 
 - `NODE_COMPILE_CACHE` improves repeated command startup times; the first run warms the cache.
 - `OPENCLAW_NO_RESPAWN=1` keeps routine Gateway restarts in-process, which avoids extra process handoffs and keeps PID tracking simple on small hosts.
-- For Raspberry Pi specifics, see [Raspberry Pi](/install/raspberry-pi).
 
 ### systemd tuning checklist (optional)
 
@@ -135,9 +114,3 @@ diagnostics, see [Linux memory pressure and OOM kills](/platforms/linux#memory-p
 ## Related
 
 - [Install overview](/install)
-- [DigitalOcean](/install/digitalocean)
-- [Fly.io](/install/fly)
-- [Hetzner](/install/hetzner)
-- [Ansible](/install/ansible) — automated deployment to remote Debian/Ubuntu servers with Tailscale VPN and firewall isolation
-- [Kubernetes](/install/kubernetes) — a minimal Kustomize starting point when you run the Gateway on a cluster instead of a single VPS
-- [macOS VMs](/install/macos-vm) — a sandboxed macOS VM when you need macOS itself (iMessage) rather than a Linux host

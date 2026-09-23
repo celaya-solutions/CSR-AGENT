@@ -86,7 +86,7 @@ predecessor-bound restart. That exception requires a non-safe
 untargeted restart requests remain fenced. That restart RPC exception is not
 available while the Gateway is still draining. Controllers may reconnect after thaw and
 call resume. The
-[Admin HTTP RPC plugin](/plugins/admin-http-rpc) remains available for hosts
+Admin HTTP RPC plugin remains available for hosts
 that cannot speak WebSocket at all. If every control path is lost, the
 two-minute lease expiry reopens admission automatically.
 

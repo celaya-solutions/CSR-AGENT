@@ -57,11 +57,11 @@ describe("readSqliteUserVersion", () => {
 });
 
 describe("createNewerSqliteSchemaVersionError", () => {
-  it("returns a stable named error with the schema guide", () => {
+  it("returns a stable named error with recovery guidance", () => {
     const error = createNewerSqliteSchemaVersionError("test database", "/tmp/test.sqlite", 12, 11);
 
     expect(error.name).toBe("SqliteSchemaVersionError");
-    expect(error.message).toContain("https://docs.openclaw.ai/reference/database-schemas");
+    expect(error.message).toContain("restore your pre-update backup created with openclaw backup.");
   });
 
   it("names the refusing install and both schema versions", () => {

@@ -127,12 +127,6 @@ describe("detectChangedScope", () => {
 
   it("routes only native i18n-owned paths to the native inventory job", () => {
     for (const changedPath of [
-      "apps/.i18n/native-source.json",
-      "apps/android/app/src/main/java/ai/openclaw/app/MainActivity.kt",
-      "apps/android/wear/src/main/java/ai/openclaw/wear/WearScreens.kt",
-      "apps/ios/Sources/RootTabs.swift",
-      "apps/macos/Sources/OpenClaw/Settings.swift",
-      "apps/shared/OpenClawKit/Sources/OpenClawKit/Client.swift",
       "scripts/native-app-i18n.ts",
       "scripts/android-app-i18n.ts",
       "scripts/apple-app-i18n.ts",
@@ -144,7 +138,7 @@ describe("detectChangedScope", () => {
     }
 
     expect(shouldRunNativeI18n(["src/config/defaults.ts"])).toBe(false);
-    expect(shouldRunNativeI18n(["scripts/install.sh"])).toBe(false);
+    expect(shouldRunNativeI18n(["scripts/install-cli.sh"])).toBe(false);
   });
 
   it("fails safe when no paths are provided", () => {
@@ -458,13 +452,8 @@ describe("detectChangedScope", () => {
     ["scripts/npm-runner.mts", true, false],
     ["scripts/lib/format-generated-module.mts", true, false],
     ["test/scripts/format-generated-module.test.ts", true, false],
-    [".github/workflows/openclaw-cross-os-release-checks-reusable.yml", true, false],
-    [".github/workflows/windows-testbox-probe.yml", true, false],
-    ["scripts/github/run-openclaw-cross-os-release-checks.sh", true, false],
-    ["scripts/openclaw-cross-os-release-checks.ts", true, false],
     ["scripts/lib/cross-os-release-checks/runtime.ts", true, false],
-    ["test/scripts/openclaw-cross-os-release-workflow.test.ts", true, false],
-    ["scripts/install.ps1", true, true],
+    ["scripts/install.ps1", true, false],
   ])(
     "runs Windows only for Windows-relevant changes (%s)",
     (changedPath, runWindows, runChangedSmoke) => {
@@ -484,10 +473,7 @@ describe("detectChangedScope", () => {
   );
 
   it("runs changed-smoke for install and packaging surfaces", () => {
-    expect(detectChangedScope(["scripts/install.sh"])).toEqual(expectedNodeAndChangedSmokeScope);
-    expect(detectChangedScope(["scripts/install-cli.sh"])).toEqual(
-      expectedNodeAndChangedSmokeScope,
-    );
+    expect(detectChangedScope(["scripts/install-cli.sh"])).toEqual(expectedNodeOnlyScope);
     expect(detectChangedScope([bundledPluginFile("matrix", "package.json")])).toEqual(
       expectedNodeAndChangedSmokeScope,
     );
@@ -545,17 +531,13 @@ describe("detectChangedScope", () => {
       runFastInstallSmoke: false,
       runFullInstallSmoke: false,
     });
-    expect(detectInstallSmokeScope(["scripts/install.sh"])).toEqual({
-      runFastInstallSmoke: true,
-      runFullInstallSmoke: true,
-    });
     expect(detectInstallSmokeScope(["scripts/install-cli.sh"])).toEqual({
-      runFastInstallSmoke: true,
-      runFullInstallSmoke: true,
+      runFastInstallSmoke: false,
+      runFullInstallSmoke: false,
     });
     expect(detectInstallSmokeScope(["scripts/install.ps1"])).toEqual({
-      runFastInstallSmoke: true,
-      runFullInstallSmoke: true,
+      runFastInstallSmoke: false,
+      runFullInstallSmoke: false,
     });
     expect(detectInstallSmokeScope(["Dockerfile"])).toEqual({
       runFastInstallSmoke: true,

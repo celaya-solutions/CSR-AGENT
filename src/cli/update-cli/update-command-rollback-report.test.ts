@@ -73,11 +73,11 @@ function setup() {
     marker: `openclaw-report:${"b".repeat(64)}`,
     browserFallback: {
       status: "available" as const,
-      url: "https://github.com/openclaw/openclaw/issues/new",
+      url: "https://github.com/celaya-solutions/CSR-AGENT/issues/new",
     },
     savedReportPath: `${stateDir}/report.md`,
     title: "Update failed: restart-unhealthy",
-    url: "https://github.com/openclaw/openclaw/issues/new",
+    url: "https://github.com/celaya-solutions/CSR-AGENT/issues/new",
   };
   mocks.prepare.mockResolvedValue(prepared);
   mocks.submit.mockResolvedValue({

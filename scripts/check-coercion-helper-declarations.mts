@@ -254,12 +254,6 @@ const EXCEPTIONAL_COERCION_HELPER_CARVE_OUTS = [
     reason: "Standalone browser asset build cannot resolve workspace package imports.",
   },
   {
-    file: "scripts/lib/kova-report-gate.mts",
-    name: "isRecord",
-    kind: "function",
-    reason: "Copied standalone report gate cannot rely on workspace package resolution.",
-  },
-  {
     file: "scripts/lib/record-shared.mjs",
     name: "isRecord",
     kind: "function",

@@ -11,7 +11,6 @@ import { formatUiExternalText } from "../../lib/format-error.ts";
 import { formatDateMs } from "../../lib/format.ts";
 import type { PluginDiscoveryDetailResult } from "../../lib/plugins/index.ts";
 import "../../styles/sidebar-markdown.css";
-import { clawHubPackageUrl } from "./catalog-links.ts";
 import { formatCompactCount } from "./catalog-results.ts";
 import { renderPluginDetailShell } from "./detail-shell.ts";
 import { renderPluginAuthor, renderPluginOfficialBadge } from "./plugin-card.ts";
@@ -201,10 +200,6 @@ function renderTabPanel(
 function renderDetail(result: PluginDiscoveryDetailResult, props: PluginCatalogDetailProps) {
   const { plugin, detail } = result;
   const authorHandle = detail.author?.handle ?? plugin.catalog.author;
-  const packageUrl =
-    detail.origin === "clawhub" || plugin.catalog.publishedToClawHub === true
-      ? clawHubPackageUrl(detail.packageName, authorHandle)
-      : undefined;
   const packageIcon = plugin.catalog.imageUrl ? props.iconUrls[plugin.catalog.imageUrl] : undefined;
   const publisherIcon = detail.author?.imageUrl
     ? props.iconUrls[detail.author.imageUrl]
@@ -259,7 +254,7 @@ function renderDetail(result: PluginDiscoveryDetailResult, props: PluginCatalogD
           <strong>${publisherName}</strong>
           ${plugin.catalog.official ? renderPluginOfficialBadge() : nothing}
         </div>
-        ${renderPluginAuthor(authorHandle, { linked: true })}
+        ${renderPluginAuthor(authorHandle)}
       </div>
     </div>`,
     sidebar: html`<dl>
@@ -290,21 +285,7 @@ function renderDetail(result: PluginDiscoveryDetailResult, props: PluginCatalogD
       </dl>
       ${
         detail.security
-          ? renderPluginSecurityAudit(
-              detail.security.status,
-              detail.security.auditUrl ?? (packageUrl ? `${packageUrl}/security-audit` : undefined),
-            )
-          : nothing
-      }
-      ${
-        packageUrl
-          ? html`<a
-              class="btn plugin-catalog-detail__clawhub"
-              href=${packageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              >${t("pluginsPage.detailViewOnClawHub")}</a
-            >`
+          ? renderPluginSecurityAudit(detail.security.status, detail.security.auditUrl)
           : nothing
       }`,
     tabs: tabs.map((tab) => ({ value: tab, label: tabLabel(tab) })),

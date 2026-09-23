@@ -87,7 +87,7 @@ vi.mock("../server-restart-sentinel.js", () => ({
 
 const { updateReportHandler } = await import("./update-report.js");
 const runId = "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee";
-const issueUrl = "https://github.com/openclaw/openclaw/issues/123";
+const issueUrl = "https://github.com/celaya-solutions/CSR-AGENT/issues/123";
 let home: TempHomeEnv;
 
 type ClientAuthority = Pick<
@@ -486,9 +486,12 @@ describe("Report action from the authoritative update ledger", () => {
         if (fact.affectedKey) {
           expect(text).toContain(fact.affectedKey);
         }
-        if (fact.pluginId) {
-          expect(text).toContain(fact.pluginId);
-        }
+      }
+      if (fact.pluginId) {
+        expect(local).toContain(fact.pluginId);
+        // The official external catalogs ship empty, so no plugin id is public.
+        expect(body).not.toContain(fact.pluginId);
+        expect(body).toContain("[redacted-plugin]");
       }
       expect(local).toContain(fact.message);
       expect(body).toContain(`: ${publicMessage}\n`);

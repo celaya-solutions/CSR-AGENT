@@ -1085,17 +1085,19 @@ describe("buildAgentSystemPrompt", () => {
     expect(prompt).not.toContain("never answer from AGENTS.md/project context");
   });
 
-  it("falls back to public docs and GitHub source guidance when local docs are unavailable", () => {
+  it("points at local commands without hosted docs or source when local docs are unavailable", () => {
     const prompt = buildAgentSystemPrompt({
       workspaceDir: "/tmp/work",
     });
 
-    expect(prompt).toContain("Docs: https://docs.openclaw.ai");
-    expect(prompt).toContain("Source: https://github.com/openclaw/openclaw");
+    expect(prompt).not.toContain("docs.openclaw.ai");
+    expect(prompt).not.toContain("github.com/openclaw");
+    expect(prompt).not.toContain("Docs: ");
+    expect(prompt).not.toContain("Source: ");
     expect(prompt).toContain(
-      "OpenAgent behavior questions: docs mirror first when web exists. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.",
+      "OpenAgent behavior questions: use `openclaw --help` and status commands first. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.",
     );
-    expect(prompt).toContain("If docs are silent/stale, say so and inspect GitHub source.");
+    expect(prompt).toContain("If docs are silent/stale, say so.");
   });
 
   it("includes workspace notes when provided", () => {
@@ -1668,7 +1670,13 @@ describe("buildAgentSystemPrompt", () => {
       workspaceDir: "/tmp/openclaw",
       toolNames: ["message"],
     });
-    const channelOptions = listDeliverableMessageChannels().join("|");
+    // Built-in ids keep catalog order; registered external channels are sorted.
+    const channelOptions = [
+      ...CHANNEL_IDS,
+      ...listDeliverableMessageChannels()
+        .filter((channelId) => !CHANNEL_IDS.includes(channelId))
+        .toSorted(),
+    ].join("|");
 
     expect(prompt).toContain("message: Message/channel actions");
     expect(prompt).toContain("### message tool");

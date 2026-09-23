@@ -4,6 +4,13 @@ import { createWizardPrompter } from "../../test/helpers/wizard-prompter.js";
 import { createNonExitingRuntime } from "../runtime.js";
 import type { WizardMultiSelectParams, WizardPrompter } from "./prompts.js";
 
+// OpenAgent ships empty official catalogs; these cases use the upstream catalog snapshot.
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const ensureOnboardingPluginInstalled = vi.hoisted(() =>
   vi.fn(async ({ cfg }: { cfg: Record<string, unknown> }) => ({
     cfg,

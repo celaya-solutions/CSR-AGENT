@@ -127,24 +127,10 @@ describe("collectChannelSchemaMetadataWithOwnership", () => {
       );
     },
   );
-
-  it("keeps bundled schema preparation failures on the throwing path", () => {
-    let schema: Record<string, unknown> = { type: "object" };
-    for (let depth = 0; depth < 3_000; depth++) {
-      schema = { type: "object", properties: { nested: schema } };
-    }
-
-    expect(() =>
-      collectChannelSchemaMetadataWithOwnership(
-        createChannelSchemaRegistry("qqbot", schema, "bundled"),
-      ),
-    ).toThrow();
-  });
 });
 
 describe("collectChannelDmPolicyMetadata", () => {
   it.each([
-    { name: "missing official capability", declared: undefined, expected: false },
     { name: "explicit required wildcard", declared: true, expected: true },
     { name: "explicit wildcard exemption", declared: false, expected: false },
     { name: "different plugin ID", pluginId: "lookalike-qqbot", expected: undefined },

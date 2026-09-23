@@ -22,7 +22,7 @@ async function fixture() {
   const content = "---\nname: triage\ndescription: Triage incidents\nversion: 0.9.0\n---\n";
   const sha256 = createHash("sha256").update(content).digest("hex");
   const installedAt = 123;
-  const registry = "https://clawhub.ai";
+  const registry = "https://registry.example.test";
   const ownerHandle = "owner";
   await mkdir(join(skillDir, ".clawhub"), { recursive: true });
   await mkdir(join(workspaceDir, ".clawhub"), { recursive: true });

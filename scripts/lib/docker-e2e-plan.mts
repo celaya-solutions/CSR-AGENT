@@ -13,7 +13,6 @@ import {
   fleetCacheLane,
   mainLanes,
   normalizeReleaseProfile,
-  publicInstallerLanes,
   releasePathChunkLanes,
   tailLanes,
   type DockerE2eImageKind,
@@ -29,6 +28,14 @@ import {
   parseUpgradeSurvivorScenarios,
   supportsUpgradeSurvivorScenarioAtBaseline,
 } from "./upgrade-survivor-policy.mjs";
+
+type OfficialExternalChannelCatalogEntry = {
+  name: string;
+  openclaw?: { channel?: { id?: string }; install?: { npmSpec?: string } };
+};
+// The shipped catalog may be empty, which JSON import typing would infer as never[].
+const officialExternalChannelEntries: readonly OfficialExternalChannelCatalogEntry[] =
+  officialExternalChannelCatalog.entries ?? [];
 
 export { DEFAULT_LIVE_RETRIES };
 export { normalizeReleaseProfile };
@@ -93,7 +100,6 @@ export function parseLaneSelection(raw: string | undefined): string[] {
     return [];
   }
   const laneAliases = new Map([
-    ["install-e2e", ["install-e2e-openai", "install-e2e-anthropic"]],
     [
       "bundled-plugin-install-uninstall",
       Array.from(
@@ -601,7 +607,6 @@ export function findLaneByName(name: string): DockerE2eLane | undefined {
     expandUpgradeSurvivorBaselineLanes(
       [
         ...allReleasePathLanes({ includeOpenWebUI: true }),
-        ...publicInstallerLanes,
         fleetCacheLane,
         ...mainLanes,
         ...tailLanes,
@@ -616,12 +621,6 @@ export function findLaneByName(name: string): DockerE2eLane | undefined {
 function laneCredentialRequirements(poolLane: DockerE2eLane): string[] {
   const resources = laneResources(poolLane);
   const credentials: string[] = [];
-  if (poolLane.name === "install-e2e-openai") {
-    credentials.push("openai");
-  }
-  if (poolLane.name === "install-e2e-anthropic") {
-    credentials.push("anthropic");
-  }
   if (resources.includes("live:openai")) {
     credentials.push("openai");
   }
@@ -711,12 +710,12 @@ export function requiredPrepublishPluginPackagesForLanes(poolLanes: DockerE2eLan
       }
     }
   }
-  for (const packageName of (officialExternalChannelCatalog.entries ?? [])
+  for (const packageName of officialExternalChannelEntries
     .filter((entry) => {
       const channelId = entry.openclaw?.channel?.id;
       const install = entry.openclaw?.install;
       return (
-        typeof entry.name === "string" &&
+        channelId !== undefined &&
         configuredChannelIds.has(channelId) &&
         install?.npmSpec === entry.name
       );
@@ -790,7 +789,6 @@ export function resolveDockerE2ePlan(options: DockerE2ePlanOptions) {
       includeOpenWebUI: options.includeOpenWebUI,
       releaseProfile: "full",
     }),
-    ...publicInstallerLanes,
     fleetCacheLane,
     ...retriedMainLanes,
     ...retriedTailLanes,

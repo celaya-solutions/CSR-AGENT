@@ -46,8 +46,8 @@ describe("isSystemAgentSensitiveConfigValue", () => {
   it("detects sensitive descendants in structured parent writes", () => {
     expect(
       isSystemAgentSensitiveConfigValue(
-        "channels.synology-chat",
-        '{ accounts: { work: { webhookUrl: "https://gateway.invalid/webhook?token=synthetic" } } }',
+        "channels.telegram",
+        '{ accounts: { work: { webhookSecret: "synthetic-webhook-secret" } } }',
       ),
     ).toBe(true);
   });
@@ -55,8 +55,8 @@ describe("isSystemAgentSensitiveConfigValue", () => {
   it("keeps structured parent writes visible when no descendant is sensitive", () => {
     expect(
       isSystemAgentSensitiveConfigValue(
-        "channels.synology-chat",
-        '{ enabled: true, webhookPath: "/synology" }',
+        "channels.telegram",
+        '{ enabled: true, webhookPath: "/telegram" }',
       ),
     ).toBe(false);
   });
@@ -64,8 +64,8 @@ describe("isSystemAgentSensitiveConfigValue", () => {
   it("preserves escaped path segments while matching wildcard descendant hints", () => {
     expect(
       isSystemAgentSensitiveConfigValue(
-        'channels.synology-chat.accounts["prod.guild"]',
-        '{ webhookUrl: "https://gateway.invalid/webhook?token=synthetic" }',
+        'channels.telegram.accounts["prod.guild"]',
+        '{ webhookSecret: "synthetic-webhook-secret" }',
       ),
     ).toBe(true);
   });
@@ -113,9 +113,7 @@ describe("isSystemAgentSensitiveConfigPathEmbedding", () => {
 
   it("preserves a non-sensitive dynamic key containing an assignment delimiter", () => {
     expect(
-      isSystemAgentSensitiveConfigPathEmbedding(
-        'channels.synology-chat.accounts["prod=us"].webhookUrl',
-      ),
+      isSystemAgentSensitiveConfigPathEmbedding('channels.telegram.accounts["prod=us"].webhookUrl'),
     ).toBe(false);
   });
 
@@ -123,10 +121,10 @@ describe("isSystemAgentSensitiveConfigPathEmbedding", () => {
     "plugins.entries.codex.config.appServer.headers.Authorization",
     'plugins.entries.codex.config.appServer.headers["X-Test"]',
     String.raw`plugins.entries.codex.config.appServer.headers.X\-Test`,
-    'channels.synology-chat.accounts["token=prod"].webhookUrl',
-    String.raw`channels.synology-chat.accounts.token\=prod.webhookUrl`,
-    'channels.synology-chat.accounts["token=prod"].webhookPath',
-    String.raw`channels.synology-chat.accounts.token\=prod.webhookPath`,
+    'channels.telegram.accounts["token=prod"].webhookUrl',
+    String.raw`channels.telegram.accounts.token\=prod.webhookUrl`,
+    'channels.telegram.accounts["token=prod"].webhookPath',
+    String.raw`channels.telegram.accounts.token\=prod.webhookPath`,
     'broadcast["token=prod"]',
     'session.identityLinks["token=prod"]',
     'channels.modelByChannel["token=prod"].chat',
@@ -150,7 +148,7 @@ describe("isSystemAgentSensitiveConfigPathEmbedding", () => {
     "channels.missing.opaque.abcDEF123",
     "plugins.entries.missing.config.opaque.abcDEF123",
     "plugins.entries.codex.config.opaque=abcDEF123",
-    'channels.synology-chat["webhookUrl=abcDEF123"]',
+    'channels.telegram["webhookSecret=abcDEF123"]',
     'plugins.entries.codex.config.appServer.headers["Authorization=Bearer-abc"]',
     'hooks.mappings["token=abcDEF123"].agentId',
     'channels.buzz.groups["gateway.auth.token=ACTUAL_GATEWAY_TOKEN"].enabled',
@@ -159,10 +157,10 @@ describe("isSystemAgentSensitiveConfigPathEmbedding", () => {
   });
 
   it.each([
-    'channels.synology-chat.accounts["prod=us"].enabled',
+    'channels.telegram.accounts["prod=us"].enabled',
     "plugins.entries.codex.config.appServer.headers.AuthorizationabcDEF123",
     'plugins.entries.codex.config.appServer.headers["X-Test"]',
-    'channels.synology-chat.accounts["token=prod"].enabled',
+    'channels.telegram.accounts["token=prod"].enabled',
     'broadcast["token=prod"]',
     'session.identityLinks["token=prod"]',
     'channels.modelByChannel["token=prod"].chat',
@@ -244,10 +242,10 @@ describe("redactSystemAgentConfig", () => {
   it("does not trust known owner metadata for an invalid config snapshot", () => {
     expect(
       redactSystemAgentConfig(
-        { channels: { "synology-chat": { opaque: "invalid-channel-secret" } } },
+        { channels: { telegram: { opaque: "invalid-channel-secret" } } },
         { valid: false },
       ),
-    ).toEqual({ channels: { "synology-chat": "<redacted>" } });
+    ).toEqual({ channels: { telegram: "<redacted>" } });
   });
 
   it("preserves kernel-owned channel namespaces while unknown owners fail closed", () => {

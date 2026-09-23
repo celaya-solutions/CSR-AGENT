@@ -41,7 +41,7 @@ function createRigRepository(): {
   const scriptsDev = path.join(root, "scripts", "dev");
   const fakeBin = path.join(root, "fake-bin");
   const app = path.join(root, "OpenClaw.app");
-  const appExecutable = path.join(app, "Contents", "MacOS", "OpenAgent");
+  const appExecutable = path.join(app, "Contents", "MacOS", "OpenClaw");
   mkdirSync(scriptsDev, { recursive: true });
   mkdirSync(fakeBin);
   mkdirSync(path.dirname(appExecutable), { recursive: true });

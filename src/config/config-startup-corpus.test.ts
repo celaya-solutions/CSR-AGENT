@@ -47,7 +47,6 @@ const expectations: Record<
   },
   "custom-models.json": { providers: ["openai"], model: "fixture-model" },
   "empty-providers.json": { providers: ["openai"] },
-  "generic-github-token.json": { providers: [] },
   "enabled-only.json": { providers: ["openai"] },
   "falc0n.json": {
     providers: ["openai"],
@@ -121,41 +120,6 @@ describe("operator config startup corpus", () => {
       match: { channel: "discord", accountId: "*" },
     });
   });
-
-  it.each([false, true, "legacy", null])(
-    "silently removes included Copilot discovery.enabled=%j",
-    async (enabled) => {
-      const home = tempDirs.make("openclaw-copilot-migration-");
-      const configPath = path.join(home, "openclaw.json");
-      const legacy = {
-        plugins: {
-          entries: { "github-copilot": { enabled: true, config: { discovery: { enabled } } } },
-        },
-      };
-      fs.writeFileSync(path.join(home, "copilot.json"), JSON.stringify(legacy));
-      fs.writeFileSync(configPath, JSON.stringify({ $include: "copilot.json" }));
-      const io = createConfigIO({
-        configPath,
-        env: { ...process.env, OPENCLAW_STATE_DIR: home },
-        homedir: () => home,
-        observe: false,
-      });
-      const snapshot = await io.readConfigFileSnapshot();
-      expect(snapshot.valid, JSON.stringify(snapshot.issues)).toBe(true);
-      expect(snapshot.warnings).toEqual([]);
-      expect(snapshot.config.plugins?.entries?.["github-copilot"]).toEqual({
-        enabled: true,
-        config: {},
-      });
-      const repaired = normalizeCompatibilityConfigValues(snapshot.sourceConfig);
-      expect(repaired.config.plugins?.entries?.["github-copilot"]).toEqual({
-        enabled: true,
-        config: {},
-      });
-      expect(normalizeCompatibilityConfigValues(repaired.config).changes).toEqual([]);
-      expect(JSON.parse(fs.readFileSync(path.join(home, "copilot.json"), "utf8"))).toEqual(legacy);
-    },
-  );
 
   it("covers every retained config with an explicit catalog expectation", () => {
     expect(fixtureNames).toEqual(Object.keys(expectations).toSorted());
@@ -275,21 +239,12 @@ describe("operator config startup corpus", () => {
             workspaceDir,
             env,
             readOnly: true,
-            skipCredentials: name !== "generic-github-token.json",
+            skipCredentials: true,
           },
-          { catalogMode: name === "generic-github-token.json" ? "live" : "static" },
+          { catalogMode: "static" },
         );
         try {
-          const catalog =
-            name === "generic-github-token.json"
-              ? await lease.snapshot.loadFullModelCatalog!({ refresh: true })
-              : lease.snapshot.modelCatalog;
-          if (name === "generic-github-token.json") {
-            expect(catalog.providerOutcomes ?? []).not.toContainEqual(
-              expect.objectContaining({ provider: "github-copilot" }),
-            );
-            expect(catalog.refreshFailed).toBeUndefined();
-          }
+          const catalog = lease.snapshot.modelCatalog;
           for (const provider of expected.providers) {
             expect(catalog.entries, `${name}: ${agentId} must expose ${provider}`).toContainEqual(
               expect.objectContaining({ provider }),

@@ -1,7 +1,7 @@
 ---
-summary: "Troubleshoot node pairing, foreground requirements, permissions, and tool failures"
+summary: "Troubleshoot node pairing, permissions, and tool failures"
 read_when:
-  - Node is connected but camera/screen/exec tools fail
+  - Node is connected but exec or computer tools fail
   - You need the node pairing versus approvals mental model
 title: "Node troubleshooting"
 ---
@@ -71,84 +71,14 @@ Healthy signals:
 
 If startup preparation disables container session hosting that you enabled, check the node host's
 local stderr for `node host worker hosting disabled: ...` and follow the reported
-engine or context recovery guidance. The macOS app forwards worker stderr to its
-logger under subsystem `ai.openclaw`, category `node-host-worker`; see
-[macOS logging](/platforms/mac/logging) for capture options. After fixing the cause,
+engine or context recovery guidance. After fixing the cause,
 restart the node host. Explicitly disabled hosting produces no such diagnostic.
-
-## Foreground requirements
-
-`camera.*` and `screen.*` are foreground-only on iOS/Android nodes.
-
-Quick check and fix:
-
-```bash
-openclaw nodes describe --node <idOrNameOrIp>
-openclaw logs --follow
-```
-
-If you see `NODE_BACKGROUND_UNAVAILABLE`, bring the node app to the foreground and retry.
-
-## Permissions matrix
-
-| Capability                   | iOS                                     | Android                                      | macOS node app                   | Typical failure code                          |
-| ---------------------------- | --------------------------------------- | -------------------------------------------- | -------------------------------- | --------------------------------------------- |
-| `camera.snap`, `camera.clip` | Camera (+ mic for clip audio)           | Camera (+ mic for clip audio)                | Camera (+ mic for clip audio)    | `*_PERMISSION_REQUIRED`                       |
-| `screen.record`              | Screen Recording (+ mic optional)       | Screen capture prompt (+ mic optional)       | Screen Recording                 | `*_PERMISSION_REQUIRED`                       |
-| `computer.act`               | n/a                                     | n/a                                          | Accessibility + Screen Recording | `COMPUTER_DISABLED`, `ACCESSIBILITY_REQUIRED` |
-| `location.get`               | While Using or Always (depends on mode) | Foreground/Background location based on mode | Location permission              | `LOCATION_PERMISSION_REQUIRED`                |
-| `system.run`                 | n/a (node host path)                    | n/a (node host path)                         | Exec approvals required          | `SYSTEM_RUN_DENIED`                           |
-
-## Pairing versus approvals
-
-Four separate approval and policy gates control whether a node command succeeds:
-
-1. **Device pairing**: can this node connect to the gateway?
-2. **Node command surface approval**: has the declared command been approved through `openclaw nodes pending` and `openclaw nodes approve <nodeRequestId>`?
-3. **Gateway node command policy**: is the RPC command ID allowed by `gateway.nodes.commands.allow` / `gateway.nodes.commands.deny` and platform defaults?
-4. **Exec approvals**: can this node run a specific shell command locally?
-
-Device pairing admits the identity; surface approval limits the commands on its
-paired-device record. The two request IDs are distinct. An initial unapproved
-surface exposes no effective commands. A pending expansion retains only commands
-that were already approved, remain declared, and pass Gateway policy. For
-`system.run`, shell allowlist and ask policy live in the node's exec approvals
-(`openclaw approvals get --node ...`), not the pairing record. Platform permissions
-and foreground requirements still apply.
-
-Quick checks:
-
-```bash
-openclaw devices list
-openclaw nodes pending
-openclaw nodes status
-openclaw approvals get --node <idOrNameOrIp>
-openclaw approvals allowlist add --node <idOrNameOrIp> "/usr/bin/uname"
-```
-
-- Pairing missing: approve the current device request with `openclaw devices approve <deviceRequestId>`, then restart or rerun a node paused on `PAIRING_REQUIRED`. The reconnect creates the separate surface request.
-- Node paired and connected with an initial empty command list: inspect `openclaw nodes pending` and approve its distinct `<nodeRequestId>` with `openclaw nodes approve <nodeRequestId>`.
-- `nodes describe` missing a command: check the gateway node command policy and whether the node actually declared that command on connect.
-- Surface approved but `system.run` fails: check Gateway policy, then exec approvals/allowlist on that node.
-
-SSH-verified and bootstrap enrollment can approve the first surface automatically.
-Trusted-network device approval does not. Later command, capability, or permission
-expansion still needs surface approval.
-
-For approval-backed `host=node` runs, the gateway also binds execution to the prepared canonical `systemRunPlan`. If a later caller mutates the command, cwd, or session metadata before the approved run is forwarded, the gateway rejects the run as an approval mismatch instead of trusting the edited payload.
 
 ## Common node error codes
 
 | Code                                   | Meaning                                                                                                                                                                                 |
 | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NODE_BACKGROUND_UNAVAILABLE`          | App is backgrounded; bring it to the foreground.                                                                                                                                        |
-| `CAMERA_DISABLED`                      | Camera toggle disabled in node settings.                                                                                                                                                |
 | `*_PERMISSION_REQUIRED`                | OS permission missing/denied.                                                                                                                                                           |
-| `LOCATION_DISABLED`                    | Location mode is off.                                                                                                                                                                   |
-| `LOCATION_PERMISSION_REQUIRED`         | Requested location mode not granted.                                                                                                                                                    |
-| `LOCATION_BACKGROUND_UNAVAILABLE`      | App is backgrounded but only While Using permission exists.                                                                                                                             |
-| `COMPUTER_DISABLED`                    | Enable **Allow Computer Control** in the macOS app, then approve the pairing update.                                                                                                    |
-| `ACCESSIBILITY_REQUIRED`               | Grant Accessibility to the current OpenAgent app bundle in macOS System Settings.                                                                                                   |
 | `SYSTEM_RUN_DENIED: approval required` | Exec request needs explicit approval.                                                                                                                                                   |
 | `SYSTEM_RUN_DENIED: allowlist miss`    | Command blocked by allowlist mode. On Windows node hosts, shell-wrapper forms like `cmd.exe /c ...` are treated as allowlist misses in allowlist mode unless approved via the ask flow. |
 
@@ -165,7 +95,6 @@ If still stuck:
 
 - Re-approve device pairing.
 - Restart or rerun a node paused for manual pairing, then approve its pending surface request with `openclaw nodes pending` / `openclaw nodes approve <nodeRequestId>`.
-- Re-open the node app (foreground).
 - Re-grant OS permissions.
 - Recreate/adjust the exec approval policy.
 
@@ -174,8 +103,6 @@ For computer control, also verify that the node-local Computer Control toggle is
 ## Related
 
 - [Nodes overview](/nodes)
-- [Camera nodes](/nodes/camera)
-- [Location command](/nodes/location-command)
 - [Computer use](/nodes/computer-use)
 - [Exec approvals](/tools/exec-approvals)
 - [Gateway pairing](/gateway/pairing)

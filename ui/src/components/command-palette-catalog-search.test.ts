@@ -61,16 +61,14 @@ describe("command palette catalog search", () => {
       expect.objectContaining({ label: "Meetings", action: "nav:meetings" }),
     );
   });
-  it("exposes app cards and permission-filtered settings sections without RPCs", () => {
+  it("exposes permission-filtered settings sections without RPCs", () => {
     const regular = getStaticCommandPaletteCatalogItems(false);
     const admin = getStaticCommandPaletteCatalogItems(true);
 
-    expect(regular).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ category: "apps", label: "iPhone" }),
-        expect.objectContaining({ category: "settings", routeId: "profile" }),
-      ]),
+    expect(regular).toContainEqual(
+      expect.objectContaining({ category: "settings", routeId: "profile" }),
     );
+    expect(regular.some((item) => item.routeId === ("apps" as string))).toBe(false);
     expect(regular.some((item) => item.routeId === "security")).toBe(false);
     expect(admin.some((item) => item.routeId === "security")).toBe(true);
     expect(regular.some((item) => item.label === "Meeting capture")).toBe(false);

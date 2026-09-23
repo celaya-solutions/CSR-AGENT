@@ -24,6 +24,18 @@ import {
 } from "./setup.shared.js";
 
 describe("requestTelemetryConsent", () => {
+  beforeEach(() => {
+    vi.stubEnv("OPENCLAW_TELEMETRY_ENDPOINT", "https://telemetry.example.test/api/latest-version");
+  });
+
+  it("does not ask when no telemetry endpoint is configured", async () => {
+    vi.stubEnv("OPENCLAW_TELEMETRY_ENDPOINT", "");
+    const prompter = createWizardPrompter({});
+
+    await expect(requestTelemetryConsent({ opts: {}, prompter, config: {} })).resolves.toEqual({});
+    expect(prompter.select).not.toHaveBeenCalled();
+  });
+
   it.each([false, true])("records the interactive operator's %s choice once", async (enabled) => {
     const select = vi.fn(async () => enabled) as unknown as WizardPrompter["select"];
     const prompter = createWizardPrompter({ select });

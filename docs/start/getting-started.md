@@ -16,61 +16,36 @@ working chat session.
 - **An existing Claude Code or Codex CLI login, or a provider API key** — onboarding can reuse it
 
 <Tip>
-Check your Node version with `node --version`.
-**Windows users:** the native Windows Hub app is the easiest desktop path. The
-PowerShell installer and WSL2 Gateway paths are also supported. See [Windows](/platforms/windows).
+Check your Node version with `node --version`. You also need `git` and `pnpm`
+(`corepack enable` selects the version the repository pins).
+**Windows users:** run the Gateway natively or inside WSL2. See [Windows](/platforms/windows).
 Need to install Node? See [Node setup](/install/node).
 </Tip>
-
-## Try it in one command
-
-```bash
-npx openclaw@latest
-```
-
-On a fresh install, choose **Quick start** after a one-line pointer to the
-[security guide](/gateway/security). That is the only onboarding prompt when
-usable AI access is already available: OpenAgent
-finds an existing Claude Code or Codex CLI login or API key, verifies it with a
-real completion, saves the config, and opens the web dashboard.
-
-The Gateway runs in this terminal until you press **Ctrl+C**; your config stays
-saved. If no detected route works, onboarding opens manual provider setup.
-Choose **Custom setup** to walk through all guided options instead.
-
-To keep the Gateway running in the background later, install the CLI below and
-run `openclaw gateway install`. Run `openclaw` for the TUI or
-`openclaw dashboard` to reopen the web UI.
 
 ## Quick setup
 
 <Steps>
   <Step title="Install OpenAgent">
-    <Tabs>
-      <Tab title="macOS / Linux">
-        ```bash
-        curl -fsSL https://openclaw.ai/install.sh | bash
-        ```
-        <img
-  src="/assets/install-script.svg"
-  alt="Install Script Process"
-  className="rounded-lg"
-/>
-      </Tab>
-      <Tab title="Windows (PowerShell)">
-        ```powershell
-        iwr -useb https://openclaw.ai/install.ps1 | iex
-        ```
-      </Tab>
-    </Tabs>
+    OpenAgent installs from source:
+
+    ```bash
+    git clone https://github.com/celaya-solutions/CSR-AGENT.git
+    cd CSR-AGENT
+    corepack enable
+    pnpm install
+    pnpm build
+    pnpm ui:build
+    ```
 
     <Note>
-    Other install methods (Docker, Nix, npm): [Install](/install).
+    Docker, Podman, and an optional global `openclaw` command: [Install](/install).
+    The steps below write commands as `openclaw ...`; from inside the checkout,
+    run them as `pnpm openclaw ...`.
     </Note>
 
   </Step>
   <Step title="Complete onboarding">
-    The installer starts the guided onboarding wizard automatically. Choose
+    Run `pnpm openclaw onboard` to start the guided onboarding wizard. Choose
     **Quick start** to reuse detected AI access and open the dashboard, or
     **Custom setup** for the full guided flow. Provider sign-in and optional
     setup can take longer. Return later with `openclaw configure` for
@@ -171,7 +146,7 @@ To read the findings yourself instead, run [`openclaw doctor`](/cli/doctor). For
 
 <Columns>
   <Card title="Connect a channel" href="/channels" icon="message-square">
-    Discord, Feishu, iMessage, Matrix, Microsoft Teams, Signal, Slack, Telegram, WhatsApp, Zalo, and more.
+    Discord and Telegram.
   </Card>
   <Card title="Pairing and safety" href="/channels/pairing" icon="shield">
     Control who can message your agent.

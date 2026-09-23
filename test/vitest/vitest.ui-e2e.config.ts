@@ -9,21 +9,7 @@ import { sharedVitestConfig } from "./vitest.shared.config.ts";
 import { UiE2eSequencer } from "./vitest.ui-e2e.sequencer.ts";
 import { controlUiE2eTestGlobs } from "./vitest.ui-paths.mjs";
 
-const mediaTranscriptRealGatewayTest =
-  "extensions/qa-lab/src/control-ui-media-transcript.real-gateway.e2e.test.ts";
-const sessionHostCommandStateRealGatewayTest =
-  "extensions/qa-lab/src/session-host-command-state.real-gateway.e2e.test.ts";
-const openClawDelegationRealGatewayTest =
-  "extensions/qa-lab/src/control-ui-openclaw-delegation.real-gateway.e2e.test.ts";
-const automationManagementRealGatewayTest =
-  "extensions/qa-lab/src/control-ui-automation-management.real-gateway.e2e.test.ts";
-const uiE2eIncludePatterns = [
-  ...controlUiE2eTestGlobs,
-  mediaTranscriptRealGatewayTest,
-  sessionHostCommandStateRealGatewayTest,
-  openClawDelegationRealGatewayTest,
-  automationManagementRealGatewayTest,
-];
+const uiE2eIncludePatterns = [...controlUiE2eTestGlobs];
 export const uiE2eRealGatewayTestFiles = [
   "ui/src/e2e/quota-reset-status.real-gateway.e2e.test.ts",
   "ui/src/e2e/model-api-keys.real-gateway.e2e.test.ts",
@@ -48,12 +34,8 @@ export const uiE2eRealGatewayTestFiles = [
   "ui/src/e2e/mcp-app-conformance.e2e.test.ts",
   "ui/src/e2e/model-picker-search.real-gateway.e2e.test.ts",
   "ui/src/e2e/profile-page.real-gateway.e2e.test.ts",
-  sessionHostCommandStateRealGatewayTest,
   "ui/src/e2e/session-progress-hovercard.real-gateway.e2e.test.ts",
   "ui/src/e2e/usage-sessions-owner-attribution.e2e.test.ts",
-  mediaTranscriptRealGatewayTest,
-  openClawDelegationRealGatewayTest,
-  automationManagementRealGatewayTest,
 ];
 
 // These files own their server instead of leasing the global production bundle.
@@ -73,7 +55,6 @@ export const uiE2ePrivateServerTestFiles = [
   "ui/src/e2e/chat-widget-sandbox.real-gateway.e2e.test.ts",
   "ui/src/e2e/child-session-load-errors.e2e.test.ts",
   "ui/src/e2e/command-palette-catalog.real-gateway.e2e.test.ts",
-  "ui/src/e2e/community-invite-showing.e2e.test.ts",
   "ui/src/e2e/composer-draft-store.e2e.test.ts",
   "ui/src/e2e/composer-recovery-fences.e2e.test.ts",
   "ui/src/e2e/config-raw-save.e2e.test.ts",

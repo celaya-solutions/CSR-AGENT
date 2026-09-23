@@ -194,24 +194,24 @@ describe("modelsSetCommand", () => {
     });
     const runtime = makeRuntime();
 
-    await modelsSetCommand("z.ai/glm-4.7", runtime);
+    await modelsSetCommand("azure-openai-responses/gpt-5.4", runtime);
 
     expect(mocks.replaceConfigFile).toHaveBeenCalledOnce();
     const [replaceParams] = mocks.replaceConfigFile.mock.calls[0] ?? [];
     expect(replaceParams?.sourceConfig.agents?.defaults?.model).toEqual({
-      primary: "zai/glm-4.7",
+      primary: "openai/gpt-5.4",
     });
     expect(replaceParams?.sourceConfig.agents?.defaults?.models).toEqual({
-      "zai/glm-4.7": {},
+      "openai/gpt-5.4": {},
     });
     expect(mocks.repairCodexRuntimePluginInstallForModelSelection).toHaveBeenCalledWith({
       cfg: replaceParams?.sourceConfig,
-      model: "zai/glm-4.7",
+      model: "openai/gpt-5.4",
     });
     expect(mocks.repairCopilotRuntimePluginInstallForModelSelection).toHaveBeenCalledWith({
       cfg: replaceParams?.sourceConfig,
-      model: "zai/glm-4.7",
+      model: "openai/gpt-5.4",
     });
-    expect(runtime.log).toHaveBeenCalledWith("Default model: zai/glm-4.7");
+    expect(runtime.log).toHaveBeenCalledWith("Default model: openai/gpt-5.4");
   });
 });

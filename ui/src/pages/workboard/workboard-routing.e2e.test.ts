@@ -304,7 +304,7 @@ suite.define(() => {
             "workboard.cards.list": { boards, cards: [], statuses: ["todo", "done"] },
           },
         });
-        await page.goto(`${suite.server.baseUrl}apps`);
+        await page.goto(`${suite.server.baseUrl}activity`);
         const sidebar = page.locator("openclaw-app-sidebar");
         await sidebar.locator(".sidebar-nav__head-action").click();
         await sidebar
@@ -323,7 +323,11 @@ suite.define(() => {
         await page.locator(".workboard-draft__title").fill("Keep this unfinished card");
 
         await page.goBack();
-        await waitForControlUiRoute(page, { pathname: "/apps", routeId: "apps", search: "" });
+        await waitForControlUiRoute(page, {
+          pathname: "/activity",
+          routeId: "activity",
+          search: "",
+        });
         await page.locator(".workboard-draft").waitFor({ state: "detached" });
         const renamedBoards = boards.map((board) =>
           board.id === "ops" ? { ...board, name: "Renamed operations" } : board,

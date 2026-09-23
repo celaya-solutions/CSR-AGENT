@@ -8,7 +8,6 @@ import { live } from "lit/directives/live.js";
 import { applicationContext, type ApplicationContext } from "../../app/context.ts";
 import { hasOperatorAdminAccess } from "../../app/operator-access.ts";
 import {
-  renderLearnMoreLink,
   renderSettingsEmpty,
   renderSettingsPage,
   renderSettingsRow,
@@ -486,7 +485,6 @@ class SessionStorageSettings extends OpenClawLightDomElement {
             `,
           )}
           <p class="settings-page__intro">${t("configView.sessionStorage.backupHint")}</p>
-          ${renderLearnMoreLink("https://docs.openclaw.ai/gateway/config-agents/sessions#cold-storage")}
         </div>
       `)}
       <details class="settings-page" ?open=${this.advancedExpanded}>

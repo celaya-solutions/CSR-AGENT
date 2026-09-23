@@ -181,7 +181,7 @@ describe("update CLI shared helpers", () => {
           "git",
           "clone",
           "--filter=blob:none",
-          "https://github.com/openclaw/openclaw.git",
+          "https://github.com/celaya-solutions/CSR-AGENT.git",
           expect.stringMatching(/[/\\]\.openclaw-clone-[^/\\]+$/u),
         ],
         expect.objectContaining({ env: process.env, timeoutMs: 1_000 }),

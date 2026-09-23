@@ -43,21 +43,8 @@ describe("bundled plugin categories", () => {
   it.each([
     { pluginId: "codex", category: "agent-runtimes", purpose: "native agent executor" },
     { pluginId: "acpx", category: "agent-runtimes", purpose: "ACP execution backend" },
-    { pluginId: "copilot", category: "agent-runtimes", purpose: "native agent executor" },
-    { pluginId: "beam", category: "developer-tools", purpose: "coding-session review" },
     { pluginId: "anthropic", category: "models", purpose: "model access despite a CLI backend" },
-    { pluginId: "opencode", category: "models", purpose: "model access despite session tools" },
-    { pluginId: "a2a", category: "agent-orchestration", purpose: "agent-to-agent delegation" },
-    {
-      pluginId: "feishu",
-      category: "channels",
-      purpose: "human-agent messaging despite workspace tools",
-    },
     { pluginId: "document-extract", category: "documents-files", purpose: "document extraction" },
-    { pluginId: "google-meet", category: "voice", purpose: "live spoken participation" },
-    { pluginId: "tokenjuice", category: "context", purpose: "active-context compaction" },
-    { pluginId: "team-reports", category: "data-analytics", purpose: "team activity reporting" },
-    { pluginId: "diagnostics-otel", category: "infrastructure", purpose: "operational telemetry" },
   ])("classifies $pluginId by its $purpose", ({ pluginId, category }) => {
     const result = loadPluginManifest(path.join(repoRoot, "extensions", pluginId), false);
     expect(result).toMatchObject({ ok: true, manifest: { categories: [category] } });

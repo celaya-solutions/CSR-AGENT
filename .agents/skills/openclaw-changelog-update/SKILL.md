@@ -12,7 +12,7 @@ Code validation. If notes change afterward, a genuine CHANGELOG-only descendant
 may use the existing product-evidence reuse policy. For
 extended-stable, run it before final exact-head validation and tagging. Do not
 rerun it for tooling retries, resumed publication, or promotion.
-Use it with `release-openclaw-maintainer`; this skill owns changelog content,
+This skill owns changelog content,
 ordering, grouping, and attribution discipline.
 
 ## Goal

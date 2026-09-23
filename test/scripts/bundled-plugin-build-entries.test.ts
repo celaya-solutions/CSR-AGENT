@@ -10,7 +10,6 @@ import {
   listBundledPluginBuildEntries,
   listBundledPluginPackArtifacts,
 } from "../../scripts/lib/bundled-plugin-build-entries.mjs";
-import { resolvePluginNpmRuntimeBuildPlan } from "../../scripts/lib/plugin-npm-runtime-build.mts";
 import { expectNoNodeFsScans } from "../../src/test-utils/fs-scan-assertions.js";
 import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
 
@@ -125,16 +124,6 @@ describe("bundled plugin build entries", () => {
     expect(pickEntries(entries, Object.keys(expectedEntries))).toStrictEqual(expectedEntries);
   });
 
-  it("keeps the Matrix packaged runtime shim in its package-owned build", () => {
-    const entries = listBundledPluginBuildEntries();
-    const plan = resolvePluginNpmRuntimeBuildPlan({ packageDir: "extensions/matrix" });
-    expect(entries["extensions/matrix/plugin-entry.handlers.runtime"]).toBeUndefined();
-    expect(plan?.entry["plugin-entry.handlers.runtime"]).toBe(
-      path.resolve("extensions/matrix/plugin-entry.handlers.runtime.ts"),
-    );
-    expect(plan?.runtimeBuildOutputs).toContain("./dist/plugin-entry.handlers.runtime.js");
-  });
-
   it("keeps Codex CLI metadata in bundled build and standalone pack entries", () => {
     const entries = listBundledPluginBuildEntries();
     const artifacts = listBundledPluginPackArtifacts({ includeRootPackageExcludedDirs: true });
@@ -143,24 +132,17 @@ describe("bundled plugin build entries", () => {
     expect(artifacts).toContain("dist/extensions/codex/cli-metadata.js");
   });
 
-  it("builds narrow QA runner public surfaces", () => {
-    const entries = listBundledPluginBuildEntries();
-
-    expect(entries["extensions/buzz/qa-runner-api"]).toBe("extensions/buzz/qa-runner-api.ts");
-    expect(entries["extensions/msteams/qa-runner-api"]).toBe("extensions/msteams/qa-runner-api.ts");
-  });
-
   it("filters bundled plugin build entries for bounded script lanes", () => {
     const entries = listBundledPluginBuildEntries({
       env: {
         ...process.env,
-        OPENCLAW_BUNDLED_PLUGIN_BUILD_IDS: "active-memory,acpx",
+        OPENCLAW_BUNDLED_PLUGIN_BUILD_IDS: "device-pair,acpx",
       },
     });
     const entryKeys = Object.keys(entries);
 
     expect(entryKeys).toEqual(expect.arrayContaining(["extensions/acpx/index"]));
-    expect(entryKeys.every((entry) => /^extensions\/(?:acpx|active-memory)\//u.test(entry))).toBe(
+    expect(entryKeys.every((entry) => /^extensions\/(?:acpx|device-pair)\//u.test(entry))).toBe(
       true,
     );
   });
@@ -234,17 +216,13 @@ describe("bundled plugin build entries", () => {
     expectNoPrefixMatches(artifacts, "dist/extensions/qa-lab/");
   });
 
-  it("keeps explicitly downloadable plugins out of bundled package artifacts", () => {
+  it("ships the kept first-party plugins as bundled package artifacts", () => {
     const entries = listBundledPluginBuildEntries();
     const artifacts = listBundledPluginPackArtifacts();
 
-    for (const pluginId of ["acpx", "googlechat", "line"]) {
+    for (const pluginId of ["acpx", "codex", "discord", "duckduckgo", "llama-cpp"]) {
       expectSomePrefixMatch(Object.keys(entries), `extensions/${pluginId}/`);
-      expectNoPrefixMatches(artifacts, `dist/extensions/${pluginId}/`);
-    }
-    for (const pluginId of ["whatsapp"]) {
-      expectNoPrefixMatches(Object.keys(entries), `extensions/${pluginId}/`);
-      expectNoPrefixMatches(artifacts, `dist/extensions/${pluginId}/`);
+      expectSomePrefixMatch(artifacts, `dist/extensions/${pluginId}/`);
     }
   });
 
@@ -276,39 +254,66 @@ describe("bundled plugin build entries", () => {
   });
 
   it("builds explicitly selected external plugins only for Docker", () => {
+    const repoDir = tempDirs.make("openclaw-docker-selected-external-");
+    fs.writeFileSync(
+      path.join(repoDir, "package.json"),
+      `${JSON.stringify({
+        files: ["dist/**", "!dist/extensions/ext-a/**", "!dist/extensions/ext-b/**"],
+      })}\n`,
+    );
+    for (const [pluginId, external] of [
+      ["ext-a", true],
+      ["ext-b", true],
+      ["plain", false],
+    ] as const) {
+      const pluginDir = path.join(repoDir, "extensions", pluginId);
+      fs.mkdirSync(pluginDir, { recursive: true });
+      fs.writeFileSync(path.join(pluginDir, "index.ts"), "export default {};\n");
+      fs.writeFileSync(path.join(pluginDir, "setup-entry.ts"), "export default {};\n");
+      fs.writeFileSync(
+        path.join(pluginDir, "openclaw.plugin.json"),
+        `${JSON.stringify({ id: pluginId })}\n`,
+      );
+      fs.writeFileSync(
+        path.join(pluginDir, "package.json"),
+        `${JSON.stringify({
+          name: `@openclaw/${pluginId}`,
+          openclaw: {
+            extensions: ["./index.ts"],
+            setupEntry: "./setup-entry.ts",
+            ...(external ? { build: { bundledDist: false } } : {}),
+          },
+        })}\n`,
+      );
+    }
     const baselineEnv = { ...process.env };
     delete baselineEnv[DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV];
     const dockerEnv = {
       ...baselineEnv,
-      [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "slack clickclack,slack,msteams,whatsapp",
+      [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "ext-a ext-b,ext-a",
     };
-    const entries = listBundledPluginBuildEntries({ env: dockerEnv });
-    const baselineArtifacts = listBundledPluginPackArtifacts({ env: baselineEnv });
-    const artifacts = listBundledPluginPackArtifacts({ env: dockerEnv });
+    const baselineEntries = listBundledPluginBuildEntries({ cwd: repoDir, env: baselineEnv });
+    const entries = listBundledPluginBuildEntries({ cwd: repoDir, env: dockerEnv });
+    const baselineArtifacts = listBundledPluginPackArtifacts({ cwd: repoDir, env: baselineEnv });
+    const artifacts = listBundledPluginPackArtifacts({ cwd: repoDir, env: dockerEnv });
     const reorderedEntries = listBundledPluginBuildEntries({
-      env: {
-        ...baselineEnv,
-        [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "whatsapp,msteams,clickclack slack",
-      },
+      cwd: repoDir,
+      env: { ...baselineEnv, [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "ext-b ext-a" },
     });
     const entryKeys = Object.keys(entries);
 
-    expect(entries["extensions/clickclack/index"]).toBe("extensions/clickclack/index.ts");
-    expect(entries["extensions/slack/index"]).toBe("extensions/slack/index.ts");
-    expect(entries["extensions/slack/setup-entry"]).toBe("extensions/slack/setup-entry.ts");
-    expect(entries["extensions/msteams/index"]).toBe("extensions/msteams/index.ts");
-    expect(entries["extensions/whatsapp/index"]).toBe("extensions/whatsapp/index.ts");
-    expect(entries["extensions/whatsapp/setup-entry"]).toBe("extensions/whatsapp/setup-entry.ts");
-    expect(entries["extensions/clawrouter/index"]).toBe("extensions/clawrouter/index.ts");
-    expect(entryKeys.findIndex((entry) => entry.startsWith("extensions/clickclack/"))).toBeLessThan(
-      entryKeys.findIndex((entry) => entry.startsWith("extensions/slack/")),
+    expectNoPrefixMatches(Object.keys(baselineEntries), "extensions/ext-a/");
+    expect(entries["extensions/ext-a/index"]).toBe("extensions/ext-a/index.ts");
+    expect(entries["extensions/ext-a/setup-entry"]).toBe("extensions/ext-a/setup-entry.ts");
+    expect(entries["extensions/ext-b/index"]).toBe("extensions/ext-b/index.ts");
+    expect(entryKeys.findIndex((entry) => entry.startsWith("extensions/ext-a/"))).toBeLessThan(
+      entryKeys.findIndex((entry) => entry.startsWith("extensions/ext-b/")),
     );
     expect(Object.keys(reorderedEntries)).toEqual(entryKeys);
     expect(artifacts).toEqual(baselineArtifacts);
-    expectNoPrefixMatches(artifacts, "dist/extensions/clickclack/");
-    expectNoPrefixMatches(artifacts, "dist/extensions/msteams/");
-    expectNoPrefixMatches(artifacts, "dist/extensions/slack/");
-    expectNoPrefixMatches(artifacts, "dist/extensions/whatsapp/");
+    expectSomePrefixMatch(artifacts, "dist/extensions/plain/");
+    expectNoPrefixMatches(artifacts, "dist/extensions/ext-a/");
+    expectNoPrefixMatches(artifacts, "dist/extensions/ext-b/");
   });
 
   it("sorts Docker-selected build entries without git metadata", () => {
@@ -367,14 +372,12 @@ describe("bundled plugin build entries", () => {
     const selectedEntries = listBundledPluginBuildEntries({
       env: {
         ...baselineEnv,
-        [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "active-memory",
+        [DOCKER_SELECTED_PLUGIN_BUILD_IDS_ENV]: "device-pair",
       },
     });
 
     expect(selectedEntries).toEqual(baselineEntries);
-    expect(selectedEntries["extensions/active-memory/index"]).toBe(
-      "extensions/active-memory/index.ts",
-    );
+    expect(selectedEntries["extensions/device-pair/index"]).toBe("extensions/device-pair/index.ts");
   });
 
   it("rejects unknown and invalid Docker plugin selections", () => {
@@ -417,18 +420,6 @@ describe("bundled plugin build entries", () => {
     }
   });
 
-  it("keeps OpenCode Go bundled until its companion artifact is available", () => {
-    const artifacts = listBundledPluginPackArtifacts();
-
-    expect(artifacts).toEqual(
-      expect.arrayContaining([
-        "dist/extensions/opencode-go/index.js",
-        "dist/extensions/opencode-go/openclaw.plugin.json",
-        "dist/extensions/opencode-go/package.json",
-      ]),
-    );
-  });
-
   it("excludes the externalized Vydra provider from bundled artifacts", () => {
     const artifacts = listBundledPluginPackArtifacts();
 
@@ -459,14 +450,6 @@ describe("bundled plugin build entries", () => {
 
     expectNoPrefixMatches(Object.keys(entries), "extensions/synthetic/");
     expectNoPrefixMatches(artifacts, "dist/extensions/synthetic/");
-  });
-
-  it("excludes the externalized DuckDuckGo plugin from bundled artifacts", () => {
-    const artifacts = listBundledPluginPackArtifacts();
-
-    expect(artifacts).not.toContain("dist/extensions/duckduckgo/index.js");
-    expect(artifacts).not.toContain("dist/extensions/duckduckgo/openclaw.plugin.json");
-    expect(artifacts).not.toContain("dist/extensions/duckduckgo/package.json");
   });
 
   it("excludes the externalized Voyage provider from bundled artifacts", () => {

@@ -173,8 +173,6 @@ export const UI_APPEARANCE_DEFAULTS = {
   chatSendShortcut: "enter",
   catalogOpenTarget: "viewer",
   composerHoldToRecord: true,
-  lobsterPetVisits: true,
-  lobsterPetSounds: false,
   sessionDeleteConfirm: true,
 } as const;
 
@@ -222,8 +220,6 @@ export type UiSettings = {
   textScale?: TextScaleStop; // Browser-local text scale percentage
   customTheme?: ImportedCustomTheme;
   locale?: string;
-  lobsterPetVisits?: boolean; // Whether the sidebar lobster pet drops by (default true)
-  lobsterPetSounds?: boolean; // Opt-in poke/pet chirps from the lobster (default false)
   // Confirm before deleting sessions (default true). Device-local on purpose:
   // opting out on one browser must not lower the bar on the operator's others,
   // so this stays out of the synced ui.prefs set in server-prefs-state.ts.
@@ -591,8 +587,6 @@ export function loadUiPreferences(
           : undefined,
       customTheme: customTheme ?? undefined,
       locale: isSupportedLocale(parsed.locale) ? parsed.locale : undefined,
-      ...(parsed.lobsterPetVisits === false ? { lobsterPetVisits: false } : {}),
-      ...(parsed.lobsterPetSounds === true ? { lobsterPetSounds: true } : {}),
       ...(parsed.sessionDeleteConfirm === false ? { sessionDeleteConfirm: false } : {}),
       ...(parsed.openLinksInControlUiBrowser === true ? { openLinksInControlUiBrowser: true } : {}),
     };
@@ -751,10 +745,6 @@ function persistSettings(next: UiSettings, options: { selectGateway?: boolean } 
     ...(next.customTheme ? { customTheme: next.customTheme } : {}),
     sessionsByGateway,
     ...(next.locale ? { locale: next.locale } : {}),
-    // Visits default on; only an explicit opt-out persists. Sounds default
-    // off; only an explicit opt-in persists.
-    ...(next.lobsterPetVisits === false ? { lobsterPetVisits: false } : {}),
-    ...(next.lobsterPetSounds === true ? { lobsterPetSounds: true } : {}),
     // Only the opted-out value is persisted; absence means the safe default.
     ...(next.sessionDeleteConfirm === false ? { sessionDeleteConfirm: false } : {}),
     // External links keep host behavior unless the operator explicitly opts in.

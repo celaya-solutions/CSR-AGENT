@@ -59,6 +59,12 @@ import type { TempHomeEnv } from "../test-utils/temp-home.js";
 import { VERSION } from "../version.js";
 import { createCliRuntimeCapture, getMockCallOutput } from "./test-runtime-capture.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const commandTransport = vi.hoisted(() => ({
   run: vi.fn<typeof import("../process/exec.js").runCommandWithTimeout>(),
   hostEnv: { ...process.env, NODE_OPTIONS: "", NODE_PATH: "" },
@@ -240,7 +246,6 @@ vi.mock("../infra/update-runner.js", async (importOriginal) => ({
 }));
 
 vi.mock("../state/openclaw-database-preflight.js", () => ({
-  OPENCLAW_DATABASE_SCHEMA_DOCS_URL: "https://docs.openclaw.ai/reference/database-schemas",
   preflightOpenClawDatabaseSchemas: databasePreflightMocks.preflightOpenClawDatabaseSchemas,
 }));
 
@@ -289,8 +294,6 @@ vi.mock("../config/config.js", () => {
           [
             "Config is managed by Nix (`OPENCLAW_NIX_MODE=1`), so OpenAgent treats openclaw.json as immutable.",
             "Do not run setup, onboarding, openclaw update, plugin install/update/uninstall/enable, doctor repair/token-generation, or config set against this file.",
-            "Agent-first Nix setup: https://github.com/openclaw/nix-openclaw#quick-start",
-            "OpenAgent Nix overview: https://docs.openclaw.ai/install/nix",
           ].join("\n"),
         );
       }
@@ -6612,7 +6615,7 @@ describe("update-cli", () => {
 
     const logs = getLogOutput();
     expect(logs).toContain("Would refuse update: state database");
-    expect(logs).toContain("https://docs.openclaw.ai/reference/database-schemas");
+    expect(logs).toContain("Installing manually via npm bypasses this guard");
     expect(serviceStop).not.toHaveBeenCalled();
     expect(packageInstallCommandCall()?.[0]).toBeUndefined();
     expect(defaultRuntime.exit).not.toHaveBeenCalledWith(1);
@@ -8061,15 +8064,15 @@ describe("update-cli", () => {
     },
     {
       name: "explicit git package spec",
-      options: { yes: true, tag: "github:openclaw/openclaw#main" },
+      options: { yes: true, tag: "github:celaya-solutions/CSR-AGENT#csr-course" },
       packageSpec: undefined,
-      expectedSpec: "github:openclaw/openclaw#main",
+      expectedSpec: "github:celaya-solutions/CSR-AGENT#csr-course",
     },
     {
       name: "aliased git package spec",
-      options: { yes: true, tag: "OpenAgent@github:openclaw/openclaw#main" },
+      options: { yes: true, tag: "OpenAgent@github:celaya-solutions/CSR-AGENT#csr-course" },
       packageSpec: undefined,
-      expectedSpec: "OpenAgent@github:openclaw/openclaw#main",
+      expectedSpec: "OpenAgent@github:celaya-solutions/CSR-AGENT#csr-course",
     },
     {
       name: "aliased hosted GitHub URL package spec without git suffix",
@@ -12350,27 +12353,22 @@ describe("update-cli", () => {
   it("does not repair legacy config during a dry run", async () => {
     await mockPackageInstallAtCaseDir();
     const legacyConfig = {
-      channels: {
-        slack: {
-          streaming: "partial",
-          nativeStreaming: false,
-        },
-      },
-    } as OpenClawConfig;
+      gateway: { mode: "local", bind: "localhost" },
+    } as unknown as OpenClawConfig;
     vi.mocked(readConfigFileSnapshot).mockResolvedValueOnce(
       configSnapshot(legacyConfig, {
         valid: false,
         hash: "legacy-hash",
         issues: [
           {
-            path: "channels.slack.streaming",
-            message: "Invalid input: expected object, received string",
+            path: "gateway.bind",
+            message: "Invalid option",
           },
         ],
         legacyIssues: [
           {
-            path: "channels.slack",
-            message: "legacy slack streaming keys",
+            path: "gateway.bind",
+            message: "legacy gateway bind host alias",
           },
         ],
       }),

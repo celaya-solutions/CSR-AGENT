@@ -114,8 +114,6 @@ Use a specific profile with `--browser-profile <name>` on any subcommand, for ex
 
 On macOS, `system-profiles` lists real Chrome, Brave, Edge, or Chromium profiles available on the host. `import-profile` decrypts their cookies after one macOS Keychain/Touch ID consent prompt and injects them into a fresh OpenAgent-managed profile. It imports cookies only. Local storage and IndexedDB are unchanged. Some Google sessions use device-bound session credentials (DBSC) and can still require re-authentication after import.
 
-When the macOS app uses a local Gateway, it can offer this import once and make the isolated imported profile the default for agent browsing. Import always requires an explicit click. Successful import or dismissal suppresses later automatic prompts, and **Settings → General → Browser login** remains available for re-import.
-
 System-profile import is enabled by default. Set `browser.allowSystemProfileImport=false` to disable both CLI and agent-triggered imports. Import is host-local and cannot run through the browser node proxy.
 
 ### Cookie sync to a remote Gateway
@@ -132,8 +130,6 @@ openclaw browser --url wss://gateway.example.com cookie-sync --domains github.co
 - `--watch` keeps the command running and re-pushes when the source Cookies database changes. The macOS Keychain secret is read once per watch session, so you approve a single consent prompt rather than one per change.
 - Decryption is host-local (macOS only) and reuses the same allowlist and Keychain path as `import-profile`. Cookies are decrypted on this Mac and shipped over the existing TLS-pinned Gateway connection. No cookie values are printed.
 - Some Google sessions use device-bound session credentials (DBSC) that stay tied to this Mac and can still require re-authentication after sync. For those sites, prefer driving the browser on the Mac itself through the [browser node proxy](#remote-browser-control-node-host-proxy).
-
-The macOS app exposes the same capability under **Dashboard → Settings → This Mac → Browser**: an off-by-default toggle, an editable domain allowlist, and a target-profile field. When enabled in remote mode it supervises `cookie-sync --watch` for you against the connected Gateway and shows a live status row.
 
 ## Chrome extension relay
 
@@ -157,8 +153,8 @@ openclaw browser extension cdp --json
   Store installation in Google Chrome for all profiles in its user-data directory.
   Chrome discovers this at startup. Fully quit and reopen Chrome when convenient,
   then approve or enable OpenAgent. The command never restarts Chrome or bypasses
-  approval. For other browsers and platforms,
-  [add OpenAgent from the Chrome Web Store](https://chromewebstore.google.com/detail/openclaw/kcdjddhmeafeomebliikmbpblkmkfoig).
+  approval. For other browsers and platforms, use `extension install --no-store`
+  and load the unpacked copy.
   Linux supports automatic native pairing. Windows retains manual pairing.
 - `extension install --no-store` copies the stable development extension and
   registers the native host without creating a Store request. Existing requests
@@ -206,12 +202,7 @@ prints the old Bearer header with a warning only while
 without printing a credential. Use `--json` for machine output. Warnings remain
 on stderr so stdout stays valid JSON.
 
-Setup, security model, and recovery steps: [Chrome extension](/tools/chrome-extension).
-
-Run installation on the machine hosting Chrome. In the macOS app,
-**Dashboard → Settings → This Mac → Browser → Set up Chrome on this Mac** invokes
-the local CLI even when connected to a remote Gateway. The browser-based
-dashboard offers Store and documentation links instead.
+Run installation on the machine hosting Chrome.
 
 If the extension already attempted automatic setup before the native host
 existed, Chromium retains that miss for the running browser process. Restart
@@ -226,7 +217,7 @@ openclaw browser tab new --label docs
 openclaw browser tab label t1 docs
 openclaw browser tab select 2
 openclaw browser tab close 2
-openclaw browser open https://docs.openclaw.ai --label docs
+openclaw browser open https://example.com --label docs
 openclaw browser focus docs
 openclaw browser close t1
 ```

@@ -74,7 +74,7 @@ followed by a group acknowledgment without the code or URL. When neither
 channel, provider, and credential setup to `openclaw channels add <channel>` or
 `openclaw configure` in a terminal, where prompts mask secrets. Tokens, API keys,
 and passwords are not collected in chat. This credential guidance also appears
-in Codex and Copilot prompts, based on their callable control tools.
+in Codex prompts, based on their callable control tools.
 See [Secrets](/tools/secrets).
 
 UI presentation guidance is shared with native Codex developer instructions.
@@ -107,8 +107,7 @@ and compaction within an existing transcript. Adoption leaves retained history
 untouched; Doctor repairs legacy headerless history with version 3. Unknown projection versions are
 rejected before model submission. Provider message roles remain unchanged to
 preserve retained-thinking prefix compatibility. Cloud-worker prompt assembly
-uses a separate launch contract and still needs this hardening; see
-[the cloud-worker follow-up](https://github.com/openclaw/openclaw/issues/140666).
+uses a separate launch contract and still needs this hardening.
 
 Resumed room CLI turns retain new thread notes, system events, and MCP App context.
 
@@ -219,7 +218,7 @@ The runtime excerpt budget covers `memory_get`, live tool results, and post-comp
 
 ## Documentation
 
-The **Documentation** section points to local docs when available (`docs/` in a Git checkout or the bundled npm package docs), falling back to [https://docs.openclaw.ai](https://docs.openclaw.ai) otherwise. It also lists the OpenAgent source location: Git checkouts expose the local source root, package installs get the GitHub source URL with instructions to review source there when docs are incomplete or stale.
+The **Documentation** section points to local docs when available (`docs/` in a Git checkout or the bundled npm package docs), falling back to the hosted docs URL built into the runtime otherwise. It also lists the OpenAgent source location: Git checkouts expose the local source root, package installs get the GitHub source URL with instructions to review source there when docs are incomplete or stale.
 
 The prompt frames docs as the authority for OpenAgent self-knowledge before the model understands how OpenAgent works (memory/daily notes, sessions, tools, Gateway, config, commands, project context), and tells the model to treat `AGENTS.md`, project context, workspace/profile/memory notes, and `memory_search` as instruction context or user memory rather than OpenAgent design/implementation knowledge. If docs are silent or stale, the model should say so and inspect source. It also tells the model to run `openclaw status` itself when possible, asking the user only when it lacks access.
 

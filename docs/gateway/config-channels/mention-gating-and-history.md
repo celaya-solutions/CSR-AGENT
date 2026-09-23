@@ -1,5 +1,5 @@
 ---
-summary: "Group mention gating, visible reply modes, DM history limits, and self-chat mode"
+summary: "Group mention gating, visible reply modes, and DM history limits"
 read_when:
   - Deciding when the agent replies in a group or channel
   - Debugging a group @mention that types then goes silent
@@ -7,11 +7,11 @@ read_when:
 title: "Configuration — group mention gating and history"
 ---
 
-How group messages reach the agent: mention gating, visible reply modes, DM history limits, and self-chat mode.
+How group messages reach the agent: mention gating, visible reply modes, and DM history limits.
 
 ## Group chat mention gating
 
-Group messages default to **require mention** (metadata mention or safe regex patterns). Applies to WhatsApp, Telegram, Discord, Google Chat, and iMessage group chats.
+Group messages default to **require mention** (metadata mention or safe regex patterns). Applies to Discord and Telegram group chats.
 
 Visible replies are controlled separately. Normal group, channel, and internal WebChat direct requests default to automatic final delivery: final assistant text posts through the legacy visible reply path. Opt into `messages.visibleReplies: "message_tool"` or `messages.groupChat.visibleReplies: "message_tool"` when model-authored source replies should only post after the agent calls `message(action=send)`. If the model returns a substantive final answer without calling the message tool in an opted-in tool-only mode, that final text stays private, the gateway verbose log records suppressed payload metadata, and OpenAgent enqueues one recovery retry asking the model to deliver the same reply via `message(action=send)`.
 
@@ -33,7 +33,7 @@ Fix: either pick a stronger tool-calling model, remove the explicit `"message_to
 
 **Mention types:**
 
-- **Metadata mentions**: Native platform @-mentions. Ignored in WhatsApp self-chat mode.
+- **Metadata mentions**: Native platform @-mentions.
 - **Text patterns**: Safe regex patterns in `agents.entries.*.groupChat.mentionPatterns`. Invalid patterns and unsafe nested repetition are ignored.
 - Mention gating is enforced only when detection is possible (native mentions or at least one pattern).
 
@@ -60,7 +60,7 @@ Fix: either pick a stronger tool-calling model, remove the explicit `"message_to
 
 `messages.groupChat.historyLimit` sets the global default. Channels can override with `channels.<channel>.historyLimit` (or per-account). Set `0` to disable.
 
-`messages.groupChat.unmentionedInbound: "room_event"` submits unmentioned always-on group/channel messages as quiet room context on supported channels. Mentioned messages, commands, and direct messages remain user requests. See [Ambient room events](/channels/ambient-room-events) for complete Discord, Slack, and Telegram examples.
+`messages.groupChat.unmentionedInbound: "room_event"` submits unmentioned always-on group/channel messages as quiet room context on supported channels. Mentioned messages, commands, and direct messages remain user requests. See [Ambient room events](/channels/ambient-room-events) for complete Discord and Telegram examples.
 
 `messages.visibleReplies` is the global source-event default; `messages.groupChat.visibleReplies` overrides it for group/channel source events. When `messages.visibleReplies` is unset, direct/source chats use the selected runtime or harness default, but internal WebChat direct turns use automatic final delivery for Pi/Codex prompt parity. Set `messages.visibleReplies: "message_tool"` to intentionally require `message(action=send)` for visible output. Channel allowlists and mention gating still decide whether an event is processed.
 
@@ -113,26 +113,3 @@ Channel-supplied recent-message context is a separate window. For example, Teleg
 These existing windows are not one strict whole-prompt cap: supplemental reply context, saved compaction summaries, and the transcript window's batching cushion can add context beyond the configured count.
 
 Session keys alone can be ambiguous when account names or linked peer IDs contain tokens such as `direct`. OpenAgent uses the observed route peer to select the correct per-DM override. When an ambiguous session has no observed peer, or its identity link has changed, the known account/channel DM default applies instead of another peer's override. Unambiguous session keys retain their existing per-DM lookup.
-
-### Self-chat mode
-
-Include your own number in `allowFrom` to enable self-chat mode (ignores native @-mentions, only responds to text patterns):
-
-```json5
-{
-  channels: {
-    whatsapp: {
-      allowFrom: ["+15555550123"],
-      groups: { "*": { requireMention: true } },
-    },
-  },
-  agents: {
-    entries: {
-      main: {
-        default: true,
-        groupChat: { mentionPatterns: ["reisponde", "@openclaw"] },
-      },
-    },
-  },
-}
-```

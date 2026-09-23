@@ -13,17 +13,17 @@ Downgrades, automatic rollback, verified pre-update backups, and triage when an 
 ## Downgrade
 
 Verify the upgrade and your session history before retiring recovery originals
-with `openclaw update cleanup`. Downgrading the package does not reverse config
+with `openclaw update cleanup`. Downgrading the checkout does not reverse config
 or database migrations. Once state has migrated beyond the older release's
 supported format, the supported recovery is to restore a verified pre-update
 backup with its matching OpenAgent release.
 
 Prefer `openclaw update` for upgrades and recovery. It validates the target,
-runs required Doctor migrations, and verifies the activated Gateway. A raw
-`npm i -g` replacement does not retain the previous package or run this recovery
+runs required Doctor migrations, and verifies the activated Gateway. A manual
+`git pull` and rebuild does not retain the previous build or run this recovery
 workflow; use `openclaw update` or [create a backup first](#before-updating-create-a-verified-backup).
 
-The updater retains the previous package during activation and keeps it when
+The updater retains the previous build during activation and keeps it when
 failed recovery cannot prove a working installation. Migration recovery originals
 remain until explicit [update cleanup](/cli/update#update-cleanup). These are
 separate recovery mechanisms: cleanup does not manage package or Git runtime
@@ -31,17 +31,19 @@ backups, and retained migration originals are not a full pre-update backup.
 Preserve every recovery location named in the update report until you have
 verified the installation.
 
-For a target that can read the current state, preview and use the managed
-rollback path:
+To move a source checkout back to a known-good commit that can read the current
+state, stop the Gateway from a shell outside it, check out that commit,
+rebuild, and run Doctor:
 
 ```bash
-openclaw update --tag <known-good-version> --dry-run
-openclaw update --tag <known-good-version>
+openclaw gateway stop
+git checkout <known-good-commit>
+pnpm install && pnpm build && pnpm ui:build
+openclaw doctor --fix
+openclaw gateway start
 ```
 
-The updater checks compatibility and asks for downgrade confirmation. If the
-saved channel is `extended-stable`, add `--channel stable` for an exact one-off
-tag. Supported targets finalize the config writer stamp, restart the service,
+Supported targets finalize the config writer stamp, restart the service,
 and verify the running version. Older targets may lack that finalization or
 migration-continuation contract; follow the printed recovery guidance if
 activation is refused. Do not bypass a newer-schema or newer-config refusal.
@@ -53,8 +55,8 @@ sessions created only in SQLite. If the older release cannot read the current
 state, restore the pre-update backup using [Restore a full archive](/install/backups#restore-a-full-archive).
 Keep the Gateway and other writers stopped throughout activation of the restored
 state, and preserve the current state separately first: restoration discards
-changes made since the backup. Reinstall the matching package through the
-installation's package manager; a backup archive does not contain the package.
+changes made since the backup. Check out and rebuild the matching source revision;
+a backup archive does not contain the code.
 
 A complete recovery point must cover these together:
 
@@ -70,7 +72,7 @@ main `.sqlite` file from a live WAL database: committed data can still be in
 `-wal` or `-shm` files from another database generation. See [Backup](/cli/backup)
 for archive coverage and omissions.
 
-Versions with the [startup preflight repair](https://github.com/openclaw/openclaw/pull/141451)
+Versions with the startup preflight repair
 leave configuration, databases, and migration inputs unchanged when preflight
 refuses startup. A successful start can migrate state forward. An older binary may then refuse
 both the database schema and the config's `meta.lastTouchedVersion`; changing
@@ -181,9 +183,6 @@ If the schema comparison cannot be completed, automatic rollback is refused
 verification and reporting after migration,
 preserving the same run ID and recorded activation steps.
 
-For pnpm and Bun, changes to sibling global packages after staging refuse automatic rollback (`rollback-project-changed`) without restoring the shared project; keep a reachable candidate installed, otherwise keep the Gateway stopped and follow the report’s repair command.
-A refusal before the live swap restarts the unchanged Gateway and preserves the sibling changes.
-
 ### Before updating: create a verified backup
 
 `openclaw update` preserves an automatic pre-update config copy, not a full-state
@@ -247,9 +246,8 @@ repair. A reachable candidate retained after a schema migration can continue
 serving while you diagnose it.
 The failed update retains its nonzero exit code even if the agent repairs it.
 
-- For `openclaw update --channel dev` on source checkouts, the updater auto-bootstraps `pnpm` when needed. If you see a pnpm/corepack bootstrap error, install `pnpm` manually (or re-enable `corepack`) and rerun the update.
+- On source checkouts, the updater auto-bootstraps `pnpm` when needed. If you see a pnpm/corepack bootstrap error, install `pnpm` manually (or re-enable `corepack`) and rerun the update.
 - Check: [Troubleshooting](/gateway/troubleshooting)
-- Ask in Discord: [https://discord.gg/clawd](https://discord.gg/clawd)
 
 ### Unattended repair on your own inference
 

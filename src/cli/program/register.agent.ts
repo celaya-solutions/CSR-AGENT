@@ -1,6 +1,5 @@
 // Agent and agents command registration with lazy command-module loading for startup speed.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
 import { theme } from "../../../packages/terminal-core/src/theme.js";
 import { createLazyRuntimeModule } from "../../shared/lazy-runtime.js";
 import { hasExplicitOptions } from "../command-options.js";
@@ -73,12 +72,7 @@ async function runAgentsCommandAction(
 export function registerAgentsCommands(program: Command): void {
   const agents = program
     .command("agents")
-    .description("Manage isolated agents (workspaces + auth + routing)")
-    .addHelpText(
-      "after",
-      () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/agents", "docs.openclaw.ai/cli/agents")}\n`,
-    );
+    .description("Manage isolated agents (workspaces + auth + routing)");
 
   agents
     .command("list")
@@ -256,7 +250,7 @@ export function registerAgentsCommands(program: Command): void {
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
   [
-    'openclaw agents set-identity --agent main --name "OpenAgent" --emoji "🦞"',
+    'openclaw agents set-identity --agent main --name "OpenAgent" --emoji "🤖"',
     "Set name + emoji.",
   ],
   ["openclaw agents set-identity --agent main --avatar avatars/openclaw.png", "Set avatar path."],

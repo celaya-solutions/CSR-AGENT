@@ -366,7 +366,7 @@ sessions, and workspace data.
 
 <Warning>
   Restoring an archive is time travel. Messaging-channel credentials with
-  ratchet state, especially WhatsApp, may desynchronize after rollback and need
+  ratchet state may desynchronize after rollback and need
   relinking. Approvals and delivery/dedupe state also roll back, so review
   pending approvals before resuming the Gateway. Plugin `node_modules` trees
   are not archived; after activation, run `openclaw plugins update <id>` or
@@ -422,7 +422,6 @@ first with `openclaw database preflight`; see
 
 - [Agent workspace](/concepts/agent-workspace#git-backup-recommended-private) for keeping workspace files in a private git repository
 - [Backup CLI reference](/cli/backup)
-- [Cloudflare Containers](/install/cloudflare) — continuous Litestream replication to R2 for an ephemeral container deployment
 - [Database schemas](/reference/database-schemas)
 - [Migrating between machines](/install/migrating)
 - [Updating](/install/updating)

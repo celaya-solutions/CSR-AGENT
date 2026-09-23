@@ -152,10 +152,10 @@ Active turns keep their captured delivery settings.
 
     ### Device pairing commands (`device-pair` plugin)
 
-    When installed:
+    When enabled (it is on by default):
 
     1. `/pair` generates a setup code
-    2. paste the code in the iOS app
+    2. paste the code on the device you are pairing
     3. `/pair pending` lists pending requests (including role/scopes)
     4. approve: `/pair approve <requestId>`, `/pair approve` (only pending request), or `/pair approve latest`
 

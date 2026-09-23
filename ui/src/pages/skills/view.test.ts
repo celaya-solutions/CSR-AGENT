@@ -57,7 +57,7 @@ describe("renderSkills", () => {
             {
               score: 1,
               slug: "remote-skill",
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               displayName: "Remote Skill",
             },
           ],
@@ -441,7 +441,7 @@ describe("renderSkills", () => {
         {
           score: 1,
           slug: "github",
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           displayName: "GitHub",
           version: "1.0.0",
         },

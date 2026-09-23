@@ -152,7 +152,7 @@ describe("scripts/test-live-shard", () => {
       expect(selectLiveShardFiles(shard, files), shard).toEqual(expectedFiles);
     }
     expect(selectLiveShardFiles("native-live-extensions-media-audio", allFiles)).toContain(
-      "extensions/tts-local-cli/speech-provider.live.test.ts",
+      "extensions/openai/openai-tts.live.test.ts",
     );
   });
 
@@ -222,26 +222,6 @@ describe("scripts/test-live-shard", () => {
     ).toContain("--reporter=json");
   });
 
-  it("prepares the private QA runtime for live shards that load its built API", () => {
-    const expected = {
-      env: { OPENCLAW_BUILD_PRIVATE_QA: "1" },
-      profile: "qaRuntime",
-      requiredArtifact: "dist/extensions/qa-lab/runtime-api.js",
-    };
-
-    expect(
-      resolveLiveShardPreparation(
-        selectLiveShardFiles("native-live-extensions-o-z-other", allFiles),
-      ),
-    ).toEqual(expected);
-    expect(
-      resolveLiveShardPreparation(selectLiveShardFiles("native-live-extensions-o-z", allFiles)),
-    ).toEqual(expected);
-    expect(
-      resolveLiveShardPreparation(selectLiveShardFiles("native-live-extensions-xai", allFiles)),
-    ).toBeNull();
-  });
-
   it("prepares gateway profile shards with observable source-runtime diagnostics", () => {
     const preparation = resolveLiveShardPreparation(
       selectLiveShardFiles("native-live-src-gateway-profiles", allFiles),
@@ -267,8 +247,8 @@ describe("scripts/test-live-shard", () => {
     "native-live-src-infra",
     "native-live-test",
     "src/infra/heartbeat-runner.live.test.ts",
-    "test/e2e/qa-lab/runtime/worker-skill-resources.live.test.ts",
-    "test/e2e/qa-lab/runtime/gateway-node-mcp.live.test.ts",
+    "test/gateway-widget-restart.live.test.ts",
+    "test/agent-exec-code-mode.live.test.ts",
   ])("prepares the built gateway runtime before %s starts Vitest", (target) => {
     const files = target.endsWith(".live.test.ts")
       ? [target]
@@ -504,7 +484,6 @@ describe("scripts/test-live-shard", () => {
   });
 
   it.each([
-    ["test/e2e/crabbox-sandbox.live.test.ts", "OPENCLAW_E2E_CRABBOX"],
     ["src/skills/workshop/experience-review.live.test.ts", "OPENCLAW_LIVE_SKILL_EXPERIENCE_REVIEW"],
     ["src/agents/subagent-announce.live.test.ts", "OPENCLAW_LIVE_SUBAGENT_E2E"],
     ["src/agents/subagents/announce/subagent-announce.live.test.ts", "OPENCLAW_LIVE_SUBAGENT_E2E"],

@@ -86,7 +86,7 @@ What OpenAgent can send to Telegram beyond text, and how inbound media reaches t
 
     Sticker context fields: `Sticker.emoji`, `Sticker.setName`, `Sticker.fileId`, `Sticker.fileUniqueId`, `Sticker.cachedDescription`. Descriptions are cached in OpenAgent SQLite plugin state to reduce repeated vision calls.
 
-    Sticker descriptions use the configured `agents.defaults.imageModel` before shared automatic image-model selection, including the provider's MiniMax image routing. The sticker description uses one selected model and does not try the configured fallback list if that model fails. A failed description is not cached; general media analysis can still run separately with its normal fallback handling.
+    Sticker descriptions use the configured `agents.defaults.imageModel` before shared automatic image-model selection. The sticker description uses one selected model and does not try the configured fallback list if that model fails. A failed description is not cached; general media analysis can still run separately with its normal fallback handling.
 
     Enable sticker actions:
 

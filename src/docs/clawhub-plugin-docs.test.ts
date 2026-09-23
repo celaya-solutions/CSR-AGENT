@@ -31,19 +31,16 @@ function extractNamedJsonBlock(markdown: string, label: string) {
 }
 
 describe("ClawHub plugin docs", () => {
-  it("keeps the canonical plugin-publish snippets contract-valid", async () => {
-    const packageJson = JSON.parse(
-      await fs.readFile(
-        path.join(DOCS_ROOT, "snippets", "plugin-publish", "minimal-package.json"),
-        "utf8",
-      ),
-    ) as unknown;
-    const pluginManifest = JSON.parse(
-      await fs.readFile(
-        path.join(DOCS_ROOT, "snippets", "plugin-publish", "minimal-openclaw.plugin.json"),
-        "utf8",
-      ),
-    ) as { id?: unknown; configSchema?: unknown };
+  it("keeps the canonical plugin-publish examples contract-valid", async () => {
+    const buildingPlugins = await fs.readFile(
+      path.join(DOCS_ROOT, "plugins", "building-plugins.md"),
+      "utf8",
+    );
+    const packageJson = extractNamedJsonBlock(buildingPlugins, "package.json");
+    const pluginManifest = extractNamedJsonBlock(buildingPlugins, "openclaw.plugin.json") as {
+      id?: unknown;
+      configSchema?: unknown;
+    };
 
     expect(validateExternalCodePluginPackageJson(packageJson).issues).toStrictEqual([]);
     expect(typeof pluginManifest.id).toBe("string");
@@ -62,20 +59,15 @@ describe("ClawHub plugin docs", () => {
     }
   });
 
-  it("keeps the canonical package snippet embedded in the primary plugin docs", async () => {
-    const snippet = JSON.parse(
-      await fs.readFile(
-        path.join(DOCS_ROOT, "snippets", "plugin-publish", "minimal-package.json"),
-        "utf8",
-      ),
-    ) as unknown;
+  it("keeps the canonical package example identical across the primary plugin docs", async () => {
     const buildingPlugins = await fs.readFile(
       path.join(DOCS_ROOT, "plugins", "building-plugins.md"),
       "utf8",
     );
     const sdkSetup = await fs.readFile(path.join(DOCS_ROOT, "plugins", "sdk-setup.md"), "utf8");
 
-    expect(extractNamedJsonBlock(buildingPlugins, "package.json")).toEqual(snippet);
-    expect(extractNamedJsonBlock(sdkSetup, "openclaw-clawhub-package.json")).toEqual(snippet);
+    expect(extractNamedJsonBlock(sdkSetup, "openclaw-clawhub-package.json")).toEqual(
+      extractNamedJsonBlock(buildingPlugins, "package.json"),
+    );
   });
 });

@@ -62,7 +62,7 @@ function createState(): { state: SkillsState; request: ReturnType<typeof vi.fn<T
     clawhubSearchResults: [
       {
         score: 0.9,
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "github",
         displayName: "GitHub",
         summary: "Previous result",
@@ -155,7 +155,7 @@ describe("loadSkills", () => {
               clawhub: {
                 status: "linked",
                 valid: true,
-                registry: "https://clawhub.ai",
+                registry: "https://registry.example.test",
                 slug: "agentreceipt",
                 installedVersion: "1.2.3",
                 installedAt: 123,
@@ -170,7 +170,7 @@ describe("loadSkills", () => {
           schema: "openclaw.skills.security-verdicts.v1",
           items: [
             {
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               ok: true,
               decision: "pass",
               reasons: [],
@@ -194,7 +194,7 @@ describe("loadSkills", () => {
     expect(request).toHaveBeenNthCalledWith(2, "skills.securityVerdicts", { agentId: "main" });
     expect(state.clawhubVerdicts).toEqual({
       [clawhubVerdictKey({
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "agentreceipt",
         version: "1.2.3",
       })]: expect.objectContaining({
@@ -223,7 +223,7 @@ describe("loadSkills", () => {
               clawhub: {
                 status: "linked",
                 valid: true,
-                registry: "https://clawhub.ai",
+                registry: "https://registry.example.test",
                 slug: "weather",
                 ownerHandle: "alice",
                 installedVersion: "1.2.3",
@@ -237,7 +237,7 @@ describe("loadSkills", () => {
               clawhub: {
                 status: "linked",
                 valid: true,
-                registry: "https://clawhub.ai",
+                registry: "https://registry.example.test",
                 slug: "weather",
                 ownerHandle: "bob",
                 installedVersion: "1.2.3",
@@ -252,7 +252,7 @@ describe("loadSkills", () => {
           schema: "openclaw.skills.security-verdicts.v1",
           items: [
             {
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               ok: true,
               decision: "pass",
               reasons: [],
@@ -264,7 +264,7 @@ describe("loadSkills", () => {
               securityPassed: true,
             },
             {
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               ok: false,
               decision: "fail",
               reasons: ["security.suspicious"],
@@ -284,13 +284,13 @@ describe("loadSkills", () => {
     await loadSkills(state);
 
     const aliceKey = clawhubVerdictKey({
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       slug: "weather",
       ownerHandle: "alice",
       version: "1.2.3",
     });
     const bobKey = clawhubVerdictKey({
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       slug: "weather",
       ownerHandle: "bob",
       version: "1.2.3",
@@ -317,7 +317,7 @@ describe("loadSkills", () => {
               clawhub: {
                 status: "linked",
                 valid: true,
-                registry: "https://clawhub.ai",
+                registry: "https://registry.example.test",
                 slug: "agentreceipt",
                 installedVersion: "1.2.3",
                 installedAt: 123,
@@ -467,7 +467,7 @@ describe("loadSkills", () => {
               clawhub: {
                 status: "linked",
                 valid: true,
-                registry: "https://clawhub.ai",
+                registry: "https://registry.example.test",
                 slug: "agentreceipt",
                 installedVersion: "1.2.3",
                 installedAt: 123,
@@ -514,7 +514,7 @@ describe("loadSkills", () => {
           clawhub: {
             status: "linked",
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "agentreceipt",
             installedVersion: "1.2.4",
             installedAt: 456,
@@ -633,7 +633,7 @@ describe("loadSkillCard", () => {
           clawhub: {
             status: "linked",
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "agentreceipt",
             installedVersion: "1.2.3",
             installedAt: 123,
@@ -658,7 +658,7 @@ describe("loadSkillCard", () => {
           clawhub: {
             status: "linked",
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "agentreceipt",
             installedVersion: "1.2.4",
             installedAt: 456,
@@ -703,7 +703,7 @@ describe("searchClawHub", () => {
       results: [
         {
           score: 0.95,
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           slug: "github-new",
           displayName: "GitHub New",
           summary: "Fresh result",

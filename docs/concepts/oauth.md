@@ -136,10 +136,8 @@ plan](https://support.claude.com/en/articles/11145838-using-claude-code-with-you
 and [Using Claude Code with your Team or Enterprise
 plan](https://support.anthropic.com/en/articles/11845131-using-claude-code-with-your-team-or-enterprise-plan/).
 
-If you want other subscription-style options in OpenAgent, see [OpenAI
-Codex](/providers/openai), [Qwen Cloud Coding
-Plan](/providers/qwen), [MiniMax Coding Plan](/providers/minimax),
-and [Z.AI / GLM Coding Plan](/providers/zai).
+If you want another subscription-style option in OpenAgent, see [OpenAI
+Codex](/providers/openai).
 </Warning>
 
 ## OAuth exchange (how login works)

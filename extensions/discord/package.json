@@ -4,7 +4,7 @@
   "description": "OpenAgent Discord channel plugin for channels, DMs, commands, and app events.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/celaya-solutions/CSR-AGENT"
   },
   "type": "module",
   "dependencies": {
@@ -91,18 +91,10 @@
         "warnOnEmptyGroupSenderAllowlist": false
       }
     },
-    "install": {
-      "clawhubSpec": "clawhub:@openclaw/discord",
-      "npmSpec": "@openclaw/discord",
-      "defaultChoice": "npm",
-      "minHostVersion": ">=2026.5.26",
-      "allowInvalidConfigRecovery": true
-    },
     "compat": {
       "pluginApi": ">=2026.9.4"
     },
     "build": {
-      "bundledDist": false,
       "openclawVersion": "2026.9.4",
       "staticAssets": [
         {
@@ -113,10 +105,6 @@
     },
     "assetScripts": {
       "build": "node --import tsx ../../scripts/build-discord-activity-sdk.mts"
-    },
-    "release": {
-      "publishToClawHub": true,
-      "publishToNpm": true
     }
   }
 }

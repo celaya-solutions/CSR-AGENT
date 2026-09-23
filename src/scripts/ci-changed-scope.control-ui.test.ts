@@ -108,10 +108,6 @@ it.each([
   "scripts/lib/ci-test-timings.mts",
   "scripts/lib/ci-test-timings-schema.mts",
   "config/ci-test-timings.json",
-  "extensions/qa-lab/src/control-ui-media-transcript.real-gateway.e2e.test.ts",
-  "extensions/qa-lab/src/control-ui-openclaw-delegation.real-gateway.e2e.test.ts",
-  "extensions/qa-lab/src/session-host-command-state.real-gateway.e2e.test.ts",
-  "extensions/qa-lab/src/control-ui-automation-management.real-gateway.e2e.test.ts",
 ])("runs Chromium UI tests when %s changes browser test inputs", (changedPath) => {
   expect(detectChangedScope([changedPath]).runUiTests).toBe(true);
 });
@@ -124,7 +120,6 @@ it.each([
   "test/vitest/vitest.ui-isolated.config.ts",
   "scripts/lib/ci-node-test-plan.mts",
   "scripts/control-ui-i18n.ts",
-  "extensions/qa-lab/src/suite-runtime-parity-runner.control-ui.test.ts",
 ])("keeps unrelated changes out of Chromium UI tests: %s", (changedPath) => {
   expect(detectChangedScope([changedPath]).runUiTests).toBe(false);
 });

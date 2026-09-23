@@ -17,16 +17,10 @@ const EXTENSION_RUNTIME_FILE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs"
 const BUILTIN_MODULES = new Set(builtinModules.map((moduleId) => moduleId.replace(/^node:/, "")));
 const OPTIONAL_UNDECLARED_RUNTIME_IMPORTS = new Map<string, Set<string>>([
   [
-    "extensions/canvas",
-    // The A2UI bundle probes this optional markdown renderer and falls back when absent.
-    new Set(["@a2ui/markdown-it"]),
-  ],
-  [
     "extensions/discord",
     // @discordjs/voice still probes the native addon in its dependency report path.
     new Set(["@discordjs/opus"]),
   ],
-  ["extensions/qa-lab", new Set(["crabline"])],
 ]);
 const INDIRECT_RUNTIME_DEPENDENCIES = new Map<string, Set<string>>([
   [
@@ -35,24 +29,9 @@ const INDIRECT_RUNTIME_DEPENDENCIES = new Map<string, Set<string>>([
     new Set(["zod"]),
   ],
   [
-    "extensions/whatsapp",
-    // Baileys loads this optional peer for audio decoding.
-    new Set(["audio-decode"]),
-  ],
-  [
-    "extensions/memory-lancedb",
-    // LanceDB imports apache-arrow at runtime through its peer dependency.
-    new Set(["apache-arrow"]),
-  ],
-  [
     "extensions/memory-core",
     // Packaged memory tools run through generated OpenAgent runtime chunks that parse JSON5 config.
     new Set(["json5"]),
-  ],
-  [
-    "extensions/tlon",
-    // The Tlon plugin manifest exposes the bundled skill from this package path.
-    new Set(["@tloncorp/tlon-skill"]),
   ],
 ]);
 const COMPUTED_RUNTIME_DEPENDENCIES = new Map<string, Set<string>>([
@@ -61,11 +40,6 @@ const COMPUTED_RUNTIME_DEPENDENCIES = new Map<string, Set<string>>([
     // Bundled at build time into the served Discord Activity shell asset rather than
     // imported by plugin runtime code; see scripts/build-discord-activity-sdk.mts.
     new Set(["@discord/embedded-app-sdk"]),
-  ],
-  [
-    "extensions/lobster",
-    // Keep Lobster external to the plugin bundle; its computed core import is resolved at runtime.
-    new Set(["@clawdbot/lobster"]),
   ],
 ]);
 

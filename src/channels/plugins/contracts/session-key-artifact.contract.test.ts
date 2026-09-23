@@ -5,7 +5,7 @@
 // This shard owns artifact inventory and export shape; loaded-plugin identity and
 // adapter behavior parity live in plugin-shape.contract.test.ts.
 //
-// Artifact exports are intentionally non-uniform: telegram/feishu ship the
+// Artifact exports are intentionally non-uniform: telegram ships the
 // `resolveSessionConversation` hook core probes, while discord ships only its
 // explicit session-key normalizer. Pin what each channel ships instead of
 // forcing one shape.
@@ -16,8 +16,8 @@ import {
 } from "./test-helpers/bundled-channel-plugin-loader.js";
 
 // Bundled channels expected to ship a top-level session-key artifact.
-const SESSION_KEY_ARTIFACT_PLUGIN_IDS = ["discord", "feishu", "telegram"] as const;
-const SESSION_CONVERSATION_ARTIFACT_PLUGIN_IDS = ["feishu", "telegram"] as const;
+const SESSION_KEY_ARTIFACT_PLUGIN_IDS = ["discord", "telegram"] as const;
+const SESSION_CONVERSATION_ARTIFACT_PLUGIN_IDS = ["telegram"] as const;
 
 describe("bundled channel session-key artifact parity", () => {
   const artifacts = new Map<string, Record<string, unknown>>();

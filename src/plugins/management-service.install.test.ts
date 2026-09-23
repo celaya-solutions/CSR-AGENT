@@ -12,6 +12,12 @@ import {
 } from "./management-service.test-helpers.js";
 import { invokePluginArtifactInstallMock } from "./test-helpers/install-fixtures.js";
 
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 const mocks = vi.hoisted(() => ({
   clawhubInstall: vi.fn(),
   installRecords: vi.fn(),
@@ -97,7 +103,7 @@ function mockHostedOfficialCatalog(entries: unknown[]) {
     source: "hosted",
     entries,
     feed: { schemaVersion: 1, id: "test", generatedAt: "now", sequence: 1, entries: [] },
-    metadata: { url: "https://clawhub.ai/feed", status: 200, checksum: "hash" },
+    metadata: { url: "https://registry.example.test/feed", status: 200, checksum: "hash" },
   });
 }
 
@@ -116,7 +122,7 @@ function mockClawHubInstall(pluginId: string, packageName: string) {
     packageName,
     clawhub: {
       source: "clawhub",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubPackage: packageName,
       clawhubFamily: "code-plugin",
     },
@@ -513,7 +519,7 @@ describe("managed plugin installation", () => {
         packageName: "@openclaw/diffs",
         clawhub: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "@openclaw/diffs",
           clawhubFamily: "code-plugin",
         },

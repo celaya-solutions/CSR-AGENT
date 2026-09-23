@@ -608,7 +608,6 @@ export async function setupWizardCommand(
       runtime,
       [
         "Non-interactive setup requires explicit risk acknowledgement.",
-        "Read: https://docs.openclaw.ai/security",
         `Re-run with: ${formatCliCommand("openclaw onboard --non-interactive --accept-risk ...")}`,
       ].join("\n"),
     );
@@ -628,7 +627,6 @@ export async function setupWizardCommand(
         "Windows detected - OpenAgent runs great on WSL2!",
         "Native Windows might be trickier.",
         "Quick setup: wsl --install (one command, one reboot)",
-        "Guide: https://docs.openclaw.ai/windows",
       ].join("\n"),
     );
   }

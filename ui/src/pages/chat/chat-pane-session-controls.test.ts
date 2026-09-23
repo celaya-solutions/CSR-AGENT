@@ -406,7 +406,7 @@ describe("chat pane composer controls", () => {
     },
   );
 
-  it("links the permission picker to the permission modes guide", () => {
+  it("keeps the permission picker heading free of external links", () => {
     const container = document.createElement("div");
     render(
       renderChatPermissionPicker({
@@ -417,13 +417,7 @@ describe("chat pane composer controls", () => {
       container,
     );
 
-    const docsLink = container.querySelector<HTMLAnchorElement>(
-      ".chat-controls__permission-learn-more",
-    );
-    expect(docsLink?.textContent?.trim()).toBe("Learn more");
-    expect(docsLink?.href).toBe("https://docs.openclaw.ai/gateway/permission-modes");
-    expect(docsLink?.target).toBe("_blank");
-    expect(docsLink?.rel.split(/\s+/).toSorted()).toEqual(["noopener", "noreferrer"]);
+    expect(container.querySelector(".chat-controls__permission-heading a")).toBeNull();
   });
 
   it("patches a rootless session, clears to default, and locks full access", async () => {

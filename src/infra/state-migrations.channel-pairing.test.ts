@@ -62,11 +62,11 @@ describe("legacy channel pairing state migration", () => {
   it("does not defer pairing requests or built-in explicit default accounts", async () => {
     const { sourceDir } = await createFixture();
     writeJson(path.join(sourceDir, "telegram-pairing.json"), { version: 1, requests: [] });
-    writeJson(path.join(sourceDir, "whatsapp-default-allowFrom.json"), ["legacy-user"]);
+    writeJson(path.join(sourceDir, "telegram-default-allowFrom.json"), ["legacy-user"]);
 
     const detected = detectLegacyChannelPairingState({
       sourceDir,
-      configuredChannelIds: ["custom-channel", "whatsapp"],
+      configuredChannelIds: ["custom-channel", "telegram"],
       deferConfiguredAccountDiscovery: true,
     });
 
@@ -125,10 +125,10 @@ describe("legacy channel pairing state migration", () => {
 
   it("imports a built-in channel's explicit default account without channel config", async () => {
     const { env, sourceDir } = await createFixture();
-    const filePath = path.join(sourceDir, "whatsapp-default-allowFrom.json");
+    const filePath = path.join(sourceDir, "telegram-default-allowFrom.json");
     writeJson(filePath, {
       version: 1,
-      allowFrom: ["+12025550101", "+12025550102", "+12025550103"],
+      allowFrom: ["2001", "2002", "2003"],
     });
 
     const detected = detectLegacyChannelPairingState({ sourceDir });
@@ -136,11 +136,11 @@ describe("legacy channel pairing state migration", () => {
 
     expect(result.warnings).toEqual([]);
     expect(result.changes).toEqual([
-      "Migrated 3 whatsapp/default allowFrom entries → shared SQLite state",
+      "Migrated 3 telegram/default allowFrom entries → shared SQLite state",
     ]);
     expect(fs.existsSync(filePath)).toBe(false);
-    expect(readChannelPairingStateSnapshot("whatsapp", env).allowFrom).toEqual({
-      default: ["+12025550101", "+12025550102", "+12025550103"],
+    expect(readChannelPairingStateSnapshot("telegram", env).allowFrom).toEqual({
+      default: ["2001", "2002", "2003"],
     });
   });
 

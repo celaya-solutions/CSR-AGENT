@@ -342,7 +342,7 @@ Normal OpenAgent behavior still applies to final calls:
 
 ## Config
 
-With `tools.toolSearch` unset, local Ollama models, LM Studio, and managed local
+With `tools.toolSearch` unset, local Ollama models and managed local
 services use structured `tools` mode with a default search limit of 5 and a
 maximum of 10. Known hosted Ollama routes (cloud model tags, the cloud provider,
 or the hosted endpoint) are excluded. An untagged alias served by an Ollama
@@ -436,9 +436,7 @@ Code mode attaches a `telemetry` object to every `tool_search_code` result:
 
 `tools` and `directory` mode emit no telemetry object; their `tool_search`,
 `tool_describe`, and `tool_call` results carry only the catalog data for that
-operation. OpenAgent does not record serialized tool or prompt byte counts. The
-[E2E scenario](#e2e-validation) measures provider payload bytes separately from
-the mock provider lane, not from the runtime.
+operation. OpenAgent does not record serialized tool or prompt byte counts.
 
 Regardless of mode, completed target calls persist as bounded, redacted display
 activity in session history without adding synthetic model turns to replay.
@@ -449,30 +447,6 @@ Session logs therefore still answer:
 - how many search and describe operations it performed
 - which final tool was called
 - whether the result came from OpenAgent, MCP, or a client tool
-
-## E2E validation
-
-The QA Lab gateway scenario proves all three paths with the OpenAgent runtime:
-
-```bash
-pnpm openclaw qa suite --provider-mode mock-openai --scenario tool-search-gateway-e2e
-```
-
-It creates a temporary fake plugin with a large tool catalog, starts the mock
-OpenAI provider, then runs the Gateway in direct, code-mode Tool Search, and
-structured Tool Search modes. It compares provider request payloads for direct
-and code mode, then verifies session logs and tool flow across all three lanes.
-
-The regression proves:
-
-1. Direct mode can call the fake plugin tool.
-2. Tool Search can call the same fake plugin tool.
-3. Direct mode exposes the fake plugin tool schemas directly to the provider.
-4. Tool Search exposes only the compact bridge plus any direct-only tools.
-5. The Tool Search request payload is smaller for the large fake catalog.
-6. Session logs show the expected tool-call counts and bridged call telemetry.
-7. Structured mode resolves two queries with one `tool_search` call before the
-   selected plugin tool runs through `tool_call`.
 
 ## Failure behavior
 

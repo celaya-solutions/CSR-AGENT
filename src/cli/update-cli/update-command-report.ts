@@ -3,6 +3,7 @@ import { isCancel } from "@clack/prompts";
 import { confirm, select } from "../../commands/configure.shared.js";
 import { resolveStateDir } from "../../config/paths.js";
 import { formatErrorMessage } from "../../infra/errors.js";
+import { SOURCE_REPOSITORY_SLUG } from "../../infra/source-repository.js";
 import {
   prepareUpdateFailureReport,
   submitUpdateFailureReport,
@@ -90,7 +91,7 @@ export async function runInteractiveUpdateFailureAction(params: {
       params.runtime.log("Sanitized update failure report preview:");
       params.runtime.log(prepared.body);
       const confirmed = await confirm({
-        message: "Submit this sanitized report to openclaw/openclaw now?",
+        message: `Submit this sanitized report to ${SOURCE_REPOSITORY_SLUG} now?`,
         initialValue: false,
       });
       if (isCancel(confirmed) || !confirmed) {

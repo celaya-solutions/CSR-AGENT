@@ -40,9 +40,7 @@ describe("managed image actions Gateway E2E", () => {
     const storePath = path.join(stateDir, "sessions.sqlite");
     testState.sessionStorePath = storePath;
 
-    const source = await fs.readFile(
-      path.join(process.cwd(), "docs/assets/openclaw-banner-dark.png"),
-    );
+    const source = await fs.readFile(path.join(process.cwd(), "docs/assets/openagent-banner.png"));
     const messageId = "managed-image-actions-message";
     const blocks = await createManagedOutgoingMediaBlocks({
       sessionKey: SESSION_KEY,

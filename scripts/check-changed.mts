@@ -20,7 +20,6 @@ import {
   hasConfigDocInput,
   isConfigDocSchemaSourcePath,
   hasDeadcodeScannedSource,
-  hasProtocolEventCoverageInput,
   listChangedPathsFromGit,
   listStagedChangedPaths,
 } from "./changed-lanes.mts";
@@ -605,14 +604,6 @@ export function createChangedCheckPlan(
     );
   };
 
-  if (result.lanes.all || hasProtocolEventCoverageInput(result.paths)) {
-    addCommand(
-      "mobile protocol event coverage",
-      "node",
-      ["scripts/check-protocol-event-coverage.mjs"],
-      baseEnv,
-    );
-  }
   add("conflict markers", ["check:no-conflict-markers"]);
   if (
     result.paths.some(
@@ -963,14 +954,6 @@ export function createChangedCheckPlan(
   }
   if (hasMacosAppCiPath(result.paths)) {
     add("macOS app CI tests", ["test:macos:ci"], baseEnv);
-  }
-  if (lanes.apps || lanes.core) {
-    addCommand(
-      "native state schema version guard",
-      "node",
-      ["scripts/check-native-state-schema-version.mjs"],
-      baseEnv,
-    );
   }
 
   if (lanes.core || lanes.extensions) {

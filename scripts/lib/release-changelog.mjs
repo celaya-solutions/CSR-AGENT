@@ -370,13 +370,11 @@ function renderIndex(releases, hasDuplicates = false) {
     "",
     INDEX_MARKER,
     "",
-    "Release notes: https://docs.openclaw.ai/releases",
-    "",
     "Each release has its complete changelog below. Audited contribution records are retained separately when available.",
     "",
     ...releases.map(
       (version) =>
-        `- [${version}](${changelogEntryPath(version)}) · [Raw](https://github.com/openclaw/openclaw/raw/refs/heads/main/${changelogEntryPath(version)})`,
+        `- [${version}](${changelogEntryPath(version)})`,
     ),
     ...(hasDuplicates
       ? [

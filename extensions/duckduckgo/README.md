@@ -9,4 +9,4 @@ openclaw plugins install @openclaw/duckduckgo-plugin
 openclaw gateway restart
 ```
 
-See <https://docs.openclaw.ai/tools/duckduckgo-search> for setup and configuration.
+Setup and configuration are covered in this repository at `docs/tools/duckduckgo-search.md`.

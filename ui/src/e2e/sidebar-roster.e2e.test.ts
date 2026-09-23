@@ -91,12 +91,6 @@ suite.define(() => {
           hasMore: false,
           nextOffset: null,
         });
-        await page.addInitScript(() => {
-          localStorage.setItem(
-            "openclaw:control-ui:community-invite",
-            JSON.stringify({ dismissedAtMs: Date.now() }),
-          );
-        });
         const gateway = await installMockGateway(page, {
           sessions: sessions.sessions,
           methodResponses: {
@@ -196,26 +190,19 @@ suite.define(() => {
         await page.keyboard.press("Enter");
         const workspaceMenu = sidebar.locator(".sidebar-agent-menu");
         const workspaceMenuItems = workspaceMenu.locator(":scope > wa-dropdown-item");
-        await expect.poll(() => workspaceMenuItems.count()).toBe(3);
+        await expect.poll(() => workspaceMenuItems.count()).toBe(2);
         expect(
           await workspaceMenuItems.evaluateAll((items) =>
             items.map((item) => item.getAttribute("value")),
           ),
-        ).toEqual(["command:sidebar-agents", "command:agent-settings", "command:help"]);
+        ).toEqual(["command:sidebar-agents", "command:agent-settings"]);
         expect(
           await workspaceMenu
             .getByRole("menuitem", { name: "Show one agent", exact: true })
             .count(),
         ).toBe(1);
         expect(await workspaceMenuItems.nth(1).textContent()).toContain("Agent settings");
-        expect(
-          await workspaceMenu.locator('wa-dropdown-item[slot="submenu"]').allTextContents(),
-        ).toEqual([
-          expect.stringContaining("Docs"),
-          expect.stringContaining("Get help"),
-          expect.stringContaining("Discord community"),
-          expect.stringContaining("View changelog"),
-        ]);
+        expect(await workspaceMenu.locator('wa-dropdown-item[slot="submenu"]').count()).toBe(0);
         await expect
           .poll(() => modeToggle.evaluate((element) => element === document.activeElement))
           .toBe(true);

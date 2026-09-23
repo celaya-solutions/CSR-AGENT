@@ -18,11 +18,11 @@ const visibleRerouteReceipt: AgentRunTerminalReceipt = {
 
 describe("isProviderModelRerouted", () => {
   it("keeps an equivalent vendor wire id from producing a model-switch fact", () => {
-    const requested = { provider: "arcee", model: "trinity-large-thinking" };
+    const requested = { provider: "openai", model: "gpt-5.4" };
     const effective = {
-      provider: "arcee",
-      model: "arcee-ai/trinity-large-thinking",
-      responseModel: "arcee-ai/trinity-large-thinking",
+      provider: "openai",
+      model: "openai/gpt-5.4-codex",
+      responseModel: "gpt-5.4-codex",
     };
     const rerouted = isProviderModelRerouted(requested, effective);
     expect(rerouted).toBe(false);
@@ -36,24 +36,22 @@ describe("isProviderModelRerouted", () => {
 
   it.each([
     {
-      provider: "arcee",
-      model: "arcee-ai/trinity-large-preview",
-      responseModel: "arcee-ai/trinity-large-preview",
+      provider: "openai",
+      model: "gpt-5.5",
+      responseModel: "gpt-5.5",
     },
     {
       provider: "openrouter",
-      model: "arcee-ai/trinity-large-thinking",
-      responseModel: "arcee-ai/trinity-large-thinking",
+      model: "openai/gpt-5.4",
+      responseModel: "openai/gpt-5.4",
     },
     {
-      provider: "arcee",
-      model: "arcee-ai/trinity-large-thinking",
-      responseModel: "arcee-ai/trinity-large-preview",
+      provider: "openai",
+      model: "gpt-5.4-codex",
+      responseModel: "gpt-5.5",
     },
   ])("retains a real change to $provider/$model with response $responseModel", (effective) => {
-    expect(
-      isProviderModelRerouted({ provider: "arcee", model: "trinity-large-thinking" }, effective),
-    ).toBe(true);
+    expect(isProviderModelRerouted({ provider: "openai", model: "gpt-5.4" }, effective)).toBe(true);
   });
 });
 

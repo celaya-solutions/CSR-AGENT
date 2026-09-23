@@ -13,10 +13,7 @@ OpenAgent normalizes shared locations from chat channels into:
 
 Currently supported:
 
-- **LINE** (location messages with title/address)
-- **Matrix** (`m.location` with `geo_uri`)
 - **Telegram** (location pins + venues + live locations)
-- **WhatsApp** (`locationMessage` + `liveLocationMessage`)
 
 ## Text formatting
 
@@ -71,13 +68,8 @@ Telegram currently exposes this through `message(action="send")`. Its first impl
 
 ## Channel notes
 
-- **LINE**: location message `title`/`address` map to `LocationName`/`LocationAddress`; no live locations.
-- **Matrix**: `geo_uri` is parsed as a pin location; the `u` (uncertainty) parameter maps to `LocationAccuracy`, the event body populates `LocationCaption`, altitude is ignored, and `LocationIsLive` is always false.
 - **Telegram**: venues map to `LocationName`/`LocationAddress`; live locations are detected via `live_period`.
-- **WhatsApp**: `locationMessage.comment` and `liveLocationMessage.caption` populate `LocationCaption`.
 
 ## Related
 
-- [Location command (nodes)](/nodes/location-command)
-- [Camera capture](/nodes/camera)
 - [Media understanding](/nodes/media-understanding)

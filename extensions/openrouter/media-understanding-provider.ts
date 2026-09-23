@@ -116,7 +116,7 @@ async function transcribeOpenRouterAudio(
       defaultHeaders: {
         Authorization: `Bearer ${params.apiKey}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://openclaw.ai",
+        "HTTP-Referer": "https://celayasolutions.com",
         "X-OpenRouter-Title": "OpenAgent",
       },
       provider: "openrouter",

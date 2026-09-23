@@ -11,28 +11,15 @@ import { closeOpenClawStateDatabaseForTest } from "../state/openclaw-state-db.js
 import type { PluginPackageInstall } from "./manifest.js";
 import { createSqliteHostedOfficialExternalPluginCatalogSnapshotStore } from "./official-external-plugin-catalog-snapshot-store.js";
 import {
-  getOfficialExternalChannelSecretContract,
   type HostedOfficialExternalPluginCatalogSnapshot,
   type HostedOfficialExternalPluginCatalogSnapshotStore,
-  type OfficialExternalPluginCatalogEntry,
   type OfficialExternalPluginCatalogFeed,
-  getOfficialExternalPluginCatalogEntry,
-  getOfficialExternalPluginCatalogEntryForPackage,
-  getOfficialExternalPluginCatalogManifest,
   isExternallyDistributedPlugin,
   isOfficialExternalPluginId,
   isOfficialExternalPluginCatalogFeed,
-  listOfficialExternalChannelEnvVars,
-  listOfficialExternalPluginCatalogEntries,
   loadConfiguredHostedOfficialExternalPluginCatalogEntries,
-  resolveOfficialExternalProviderContractPluginIds,
-  resolveOfficialExternalProviderPluginIds,
-  resolveOfficialExternalProviderPluginIdsForEnv,
-  resolveOfficialExternalWebProviderContractPluginIdsForEnv,
   resolveOfficialExternalPluginId,
   resolveOfficialExternalPluginInstall,
-  resolveOfficialExternalPluginLegacyIds,
-  resolveOfficialExternalPluginLegacyNpmPackageNames,
 } from "./official-external-plugin-catalog.js";
 
 type ExtensionPackageMetadata = {
@@ -112,14 +99,6 @@ function listPublishedExternalPluginOwners(): Array<{
   });
 }
 
-function expectCatalogEntry(id: string): OfficialExternalPluginCatalogEntry {
-  const entry = getOfficialExternalPluginCatalogEntry(id);
-  if (entry === undefined) {
-    throw new Error(`Expected external plugin catalog entry for ${id}`);
-  }
-  return entry;
-}
-
 const HOSTED_CATALOG_PAYLOAD_TYPE = "openclaw.official-external-plugin-catalog-feed.v1";
 
 type HostedCatalogConfig = NonNullable<
@@ -136,6 +115,19 @@ type HostedCatalogLoadParams = ConfiguredHostedCatalogLoadParams & {
 type HostedCatalogLoadResult = Awaited<
   ReturnType<typeof loadConfiguredHostedOfficialExternalPluginCatalogEntries>
 >;
+
+// Builds ship no hosted feed or registry source; tests configure one like an operator would.
+const TEST_CATALOG_CONFIG: HostedCatalogConfig = {
+  feeds: {
+    "clawhub-public": {
+      url: "https://registry.example.test/v1/feeds/plugins",
+      feedId: "clawhub-official",
+    },
+  },
+  sources: {
+    "public-clawhub": { type: "clawhub", baseUrl: "https://registry.example.test" },
+  },
+};
 
 function loadHostedCatalog(
   params: HostedCatalogLoadParams = {},
@@ -341,7 +333,6 @@ describe("official external plugin catalog", () => {
   });
 
   it.each([
-    { pluginId: "google-meet", packageName: "@openclaw/google-meet", external: true },
     { pluginId: "google-meet", packageName: "@example/google-meet", external: false },
     { pluginId: "other-plugin", packageName: "@openclaw/google-meet", external: false },
     {
@@ -364,7 +355,6 @@ describe("official external plugin catalog", () => {
       id: "openclaw-official-external-plugins",
       sequence: 1,
     });
-    expect(officialExternalPluginCatalog.entries.length).toBeGreaterThan(0);
   });
 
   it("catalogs every published external extension exactly once", async () => {
@@ -410,62 +400,6 @@ describe("official external plugin catalog", () => {
     });
 
     expect(gaps).toEqual([]);
-  });
-
-  it("keeps Codex installable as a harness without declaring a model provider", () => {
-    const entry = expectCatalogEntry("codex");
-    const manifest = getOfficialExternalPluginCatalogManifest(entry);
-
-    expect(entry.kind).toBe("plugin");
-    expect(manifest?.providers).toBeUndefined();
-    expect(resolveOfficialExternalPluginInstall(entry)).toMatchObject({
-      npmSpec: "@openclaw/codex",
-      defaultChoice: "npm",
-    });
-  });
-
-  it("keeps Fish Audio's legacy id migration-only across npm and ClawHub routes", () => {
-    const entry = getOfficialExternalPluginCatalogEntryForPackage("@openclaw/fish-audio-speech");
-    expect(entry).toBeDefined();
-    expect(resolveOfficialExternalPluginId(entry!)).toBe("fish-audio-speech");
-    expect(resolveOfficialExternalPluginLegacyIds(entry!)).toEqual(["fish-audio"]);
-    expect(resolveOfficialExternalPluginInstall(entry!)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/fish-audio-speech",
-      npmSpec: "@openclaw/fish-audio-speech",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(getOfficialExternalPluginCatalogEntry("fish-audio-speech")).toBe(entry);
-    expect(getOfficialExternalPluginCatalogEntry("fish-audio")).toBeUndefined();
-  });
-
-  it("curates featured external plugins with ClawHub install alternatives", () => {
-    const featured = [
-      ["diffs", "@openclaw/diffs", 40],
-      ["lobster", "@openclaw/lobster", 50],
-      ["tokenjuice", "@openclaw/tokenjuice", 60],
-      ["memory-lancedb", "@openclaw/memory-lancedb", 70],
-    ] as const;
-
-    for (const [id, npmSpec, order] of featured) {
-      const entry = expectCatalogEntry(id);
-      expect(getOfficialExternalPluginCatalogManifest(entry)?.catalog).toEqual({
-        featured: true,
-        order,
-      });
-      expect(resolveOfficialExternalPluginInstall(entry)).toMatchObject({
-        clawhubSpec: `clawhub:${npmSpec}`,
-        npmSpec,
-        defaultChoice: "npm",
-      });
-    }
-  });
-
-  it("advertises DeepInfra through the generic embedding provider contract", () => {
-    const entry = expectCatalogEntry("deepinfra");
-    const contracts = getOfficialExternalPluginCatalogManifest(entry)?.contracts;
-
-    expect(contracts?.embeddingProviders).toEqual(["deepinfra"]);
   });
 
   it("does not allow malformed feed wrappers to count as feed documents", () => {
@@ -571,7 +505,7 @@ describe("official external plugin catalog", () => {
       catalogConfig: {
         feeds: {
           "clawhub-public": {
-            url: "https://clawhub.ai/v1/feeds/plugins",
+            url: "https://registry.example.test/v1/feeds/plugins",
             feedId: "clawhub-official",
             verification: {
               mode: "signed",
@@ -601,7 +535,7 @@ describe("official external plugin catalog", () => {
       catalogConfig: {
         feeds: {
           "clawhub-public": {
-            url: "https://clawhub.ai/v1/feeds/plugins",
+            url: "https://registry.example.test/v1/feeds/plugins",
             feedId: "clawhub-official",
             verification: {
               mode: "signed",
@@ -627,7 +561,7 @@ describe("official external plugin catalog", () => {
       catalogConfig: {
         feeds: {
           "clawhub-public": {
-            url: "https://clawhub.ai/v1/feeds/plugins",
+            url: "https://registry.example.test/v1/feeds/plugins",
             feedId: "clawhub-official",
             verification: { mode: "unsigned" },
           },
@@ -650,7 +584,7 @@ describe("official external plugin catalog", () => {
       catalogConfig: {
         feeds: {
           "clawhub-public": {
-            url: "https://clawhub.ai/v1/feeds/plugins",
+            url: "https://registry.example.test/v1/feeds/plugins",
             feedId: "clawhub-official",
             verification: {
               mode: "signed",
@@ -743,33 +677,27 @@ describe("official external plugin catalog", () => {
       ],
     });
     const result = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       fetchImpl: vi.fn(async () => new Response(body, { status: 200 })),
       snapshotStore: null,
     });
 
     expectHosted(result);
-    expect(result.entries.map((entry) => entry.id)).toEqual([
-      "@acme/trusted",
-      "@acme/disabled",
-      "@acme/community",
-      "@acme/missing-authority",
-    ]);
-    const [trusted, disabled, community, missingAuthority] = result.entries;
-    if (!trusted || !disabled || !community || !missingAuthority) {
-      throw new Error("expected schema-v2 marketplace entries");
+    // Every configured feed must name install sources, so entries without a
+    // resolvable sourceRef are dropped rather than kept as unavailable.
+    expect(result.entries.map((entry) => entry.id)).toEqual(["@acme/trusted"]);
+    const [trusted] = result.entries;
+    if (!trusted) {
+      throw new Error("expected the trusted schema-v2 marketplace entry");
     }
-    expect(resolveOfficialExternalPluginInstall(trusted)).toEqual({
+    expect(
+      resolveOfficialExternalPluginInstall(trusted, { catalogConfig: TEST_CATALOG_CONFIG }),
+    ).toEqual({
       clawhubSpec: "clawhub:@acme/trusted@1.2.3",
       defaultChoice: "clawhub",
       expectedIntegrity: "sha256-s1XdoEQDvsqri7qwaf0eewV4Ji50WeWYzFsZYVtb2rk=",
     });
     expect(trusted.featured).toBe(true);
-    expect(disabled).not.toHaveProperty("featured");
-    expect(resolveOfficialExternalPluginInstall(disabled)).toBeNull();
-    expect(resolveOfficialExternalPluginInstall(community)).toBeNull();
-    expect(missingAuthority).toMatchObject({ state: "unavailable" });
-    expect(getOfficialExternalPluginCatalogManifest(missingAuthority)?.install).toBeUndefined();
-    expect(resolveOfficialExternalPluginInstall(missingAuthority)).toBeNull();
   });
 
   it("requires complete schema-v2 install authority when either trust field is present", () => {
@@ -797,7 +725,7 @@ describe("official external plugin catalog", () => {
     const stateDir = mkdtempSync(path.join(os.tmpdir(), "openclaw-hosted-store-"));
     try {
       const store = createSqliteHostedOfficialExternalPluginCatalogSnapshotStore({ stateDir });
-      const url = "https://clawhub.ai/v1/feeds/plugins";
+      const url = "https://registry.example.test/v1/feeds/plugins";
 
       const firstBody = JSON.stringify({ entries: [] });
       const secondBody = JSON.stringify({ entries: [{}] });
@@ -1676,17 +1604,17 @@ describe("official external plugin catalog", () => {
     ],
     [
       "credential-bearing URLs",
-      "https://user:test-auth-token@clawhub.ai/v1/feeds/plugins",
+      "https://user:test-auth-token@registry.example.test/v1/feeds/plugins",
       "must not include credentials",
     ],
     [
       "query-bearing URLs",
-      "https://clawhub.ai/v1/feeds/plugins?query=test-value",
+      "https://registry.example.test/v1/feeds/plugins?query=test-value",
       "must not include query strings or fragments",
     ],
     [
       "fragment-bearing URLs",
-      "https://clawhub.ai/v1/feeds/plugins#fragment",
+      "https://registry.example.test/v1/feeds/plugins#fragment",
       "must not include query strings or fragments",
     ],
   ])("rejects direct hosted feed overrides with %s", async (_label, feedUrl, expectedError) => {
@@ -1702,7 +1630,7 @@ describe("official external plugin catalog", () => {
 
   it.each([
     ["configured profile", {}],
-    ["direct feed URL override", { feedUrl: "https://clawhub.ai/v1/feeds/plugins" }],
+    ["direct feed URL override", { feedUrl: "https://packages.acme.example/openclaw/feed" }],
   ])("keeps a legacy signed profile without feedId usable via %s", async (_label, options) => {
     const signed = signedHostedCatalogFeed({
       feed: hostedCatalogFeed({ sequence: 8, pluginName: "@openclaw/legacy-profile" }),
@@ -1732,7 +1660,7 @@ describe("official external plugin catalog", () => {
     );
     const result = await loadHostedCatalog({
       feedProfile: "acme",
-      feedUrl: "https://clawhub.ai/v1/feeds/plugins",
+      feedUrl: "https://packages.acme.example/openclaw/feed",
       catalogConfig: signedCatalogConfig(signed.publicKeyPem),
       fetchImpl: vi.fn(async () => dsseResponse(unsignedBody, { status: 200 })),
       snapshotStore: null,
@@ -1829,6 +1757,7 @@ describe("official external plugin catalog", () => {
       entries: [],
     });
     const mismatch = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       expectedSha256: "sha256:not-current",
       fetchImpl: vi.fn(async () => new Response(validBody, { status: 200 })),
       snapshotStore: null,
@@ -1841,6 +1770,7 @@ describe("official external plugin catalog", () => {
     }
 
     const oversized = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       maxBytes: 4,
       fetchImpl: vi.fn(async () => new Response("12345", { status: 200 })),
       snapshotStore: null,
@@ -1858,6 +1788,7 @@ describe("official external plugin catalog", () => {
     const arrayBuffer = vi.fn(response.arrayBuffer.bind(response));
     Object.defineProperty(response, "arrayBuffer", { value: arrayBuffer });
     const nonStreaming = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       maxBytes: 4096,
       fetchImpl: vi.fn(async () => response),
       snapshotStore: null,
@@ -1880,6 +1811,7 @@ describe("official external plugin catalog", () => {
       entries: [],
     });
     const seeded = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       fetchImpl: vi.fn(
         async () =>
           new Response(body, {
@@ -1893,6 +1825,7 @@ describe("official external plugin catalog", () => {
     expectHosted(seeded);
 
     const reused = await loadHostedCatalog({
+      catalogConfig: TEST_CATALOG_CONFIG,
       ifNoneMatch: '"snapshot-v1"',
       fetchImpl: vi.fn(
         async () => new Response(null, { status: 304, headers: { etag: '"snapshot-v1"' } }),
@@ -1907,31 +1840,35 @@ describe("official external plugin catalog", () => {
 
   it("prefers feed install candidates before legacy install metadata", () => {
     expect(
-      resolveOfficialExternalPluginInstall({
-        name: "@legacy/plain-package",
-        kind: "plugin",
-        state: "available",
-        publisher: { id: "openclaw", trust: "official" },
-        install: {
-          candidates: [
-            {
-              sourceRef: "public-clawhub",
-              package: "@openclaw/candidate-package",
-              version: "1.2.3",
-              integrity: "sha256:b355dda04403becaab8bbab069fd1e7b0578262e7459e598cc5b19615b5bdab9",
-            },
-          ],
-        },
-        openclaw: {
-          plugin: { id: "candidate-package" },
+      resolveOfficialExternalPluginInstall(
+        {
+          name: "@legacy/plain-package",
+          kind: "plugin",
+          state: "available",
+          publisher: { id: "openclaw", trust: "official" },
           install: {
-            npmSpec: "@legacy/plain-package",
-            minHostVersion: ">=2026.6.1",
-            expectedIntegrity: "sha256:manifest",
-            allowInvalidConfigRecovery: true,
+            candidates: [
+              {
+                sourceRef: "public-clawhub",
+                package: "@openclaw/candidate-package",
+                version: "1.2.3",
+                integrity:
+                  "sha256:b355dda04403becaab8bbab069fd1e7b0578262e7459e598cc5b19615b5bdab9",
+              },
+            ],
+          },
+          openclaw: {
+            plugin: { id: "candidate-package" },
+            install: {
+              npmSpec: "@legacy/plain-package",
+              minHostVersion: ">=2026.6.1",
+              expectedIntegrity: "sha256:manifest",
+              allowInvalidConfigRecovery: true,
+            },
           },
         },
-      }),
+        { catalogConfig: TEST_CATALOG_CONFIG },
+      ),
     ).toEqual({
       clawhubSpec: "clawhub:@openclaw/candidate-package@1.2.3",
       defaultChoice: "clawhub",
@@ -2025,719 +1962,6 @@ describe("official external plugin catalog", () => {
     expect(
       resolveOfficialExternalPluginInstall({ id: "metadata-only", title: "Metadata only" }),
     ).toBeNull();
-  });
-
-  it("lists the externalized provider and capability plugins with install metadata", () => {
-    const providers = [
-      ["arcee", "@openclaw/arcee-provider"],
-      ["cerebras", "@openclaw/cerebras-provider"],
-      ["chutes", "@openclaw/chutes-provider"],
-      ["cloudflare-ai-gateway", "@openclaw/cloudflare-ai-gateway-provider"],
-      ["deepinfra", "@openclaw/deepinfra-provider"],
-      ["deepseek", "@openclaw/deepseek-provider"],
-      ["groq", "@openclaw/groq-provider"],
-      ["longcat", "@openclaw/longcat-provider"],
-      ["kilocode", "@openclaw/kilocode-provider"],
-      ["kimi", "@openclaw/kimi-provider"],
-      ["qianfan", "@openclaw/qianfan-provider"],
-      ["qwen", "@openclaw/qwen-provider"],
-    ] as const;
-    const plugins = [
-      ["exa", "@openclaw/exa-plugin"],
-      ["firecrawl", "@openclaw/firecrawl-plugin"],
-      ["gradium", "@openclaw/gradium-speech"],
-      ["inworld", "@openclaw/inworld-speech"],
-      ["parallel", "@openclaw/parallel-plugin"],
-      ["perplexity", "@openclaw/perplexity-plugin"],
-    ] as const;
-    const newlyExternalized = [
-      ["clickclack", "@openclaw/clickclack"],
-      ["fireworks", "@openclaw/fireworks-provider"],
-      ["irc", "@openclaw/irc"],
-      ["mattermost", "@openclaw/mattermost"],
-      ["moonshot", "@openclaw/moonshot-provider"],
-      ["searxng", "@openclaw/searxng-plugin"],
-      ["signal", "@openclaw/signal"],
-      ["sms", "@openclaw/sms"],
-      ["tavily", "@openclaw/tavily-plugin"],
-      ["tencent", "@openclaw/tencent-provider"],
-      ["venice", "@openclaw/venice-provider"],
-      ["vercel-ai-gateway", "@openclaw/vercel-ai-gateway-provider"],
-      ["zai", "@openclaw/zai-provider"],
-    ] as const;
-    const currentExternalized = [["featherless", "@openclaw/featherless-provider"]] as const;
-
-    for (const [id, npmSpec] of [...providers, ...plugins]) {
-      expect(resolveOfficialExternalPluginInstall(expectCatalogEntry(id))).toEqual({
-        clawhubSpec: `clawhub:${npmSpec}`,
-        npmSpec,
-        defaultChoice: "npm",
-        minHostVersion: ">=2026.6.8",
-      });
-    }
-    for (const [id, npmSpec] of newlyExternalized) {
-      expect(resolveOfficialExternalPluginInstall(expectCatalogEntry(id))).toMatchObject({
-        clawhubSpec: `clawhub:${npmSpec}`,
-        npmSpec,
-        defaultChoice: "npm",
-        minHostVersion: ">=2026.6.9",
-      });
-    }
-    for (const [id, npmSpec] of currentExternalized) {
-      expect(resolveOfficialExternalPluginInstall(expectCatalogEntry(id))).toEqual({
-        clawhubSpec: `clawhub:${npmSpec}`,
-        npmSpec,
-        defaultChoice: "npm",
-        minHostVersion: ">=2026.6.11",
-      });
-    }
-  });
-
-  it("advertises StepFun with its ClawHub package and plugin API floor", () => {
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("stepfun"))).toEqual({
-      clawhubSpec: "clawhub:@openclaw/stepfun-provider",
-      npmSpec: "@openclaw/stepfun-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.6.9",
-    });
-  });
-
-  it("resolves third-party channel lookup aliases to published plugin ids", () => {
-    const wecomByChannel = expectCatalogEntry("wecom");
-    const wecomByPlugin = expectCatalogEntry("wecom-openclaw-plugin");
-    const yuanbaoByChannel = expectCatalogEntry("yuanbao");
-    const qqbotByChannel = expectCatalogEntry("qqbot");
-    const qqbotByPlugin = expectCatalogEntry("openclaw-qqbot");
-
-    expect(resolveOfficialExternalPluginId(wecomByChannel)).toBe("wecom-openclaw-plugin");
-    expect(resolveOfficialExternalPluginId(wecomByPlugin)).toBe("wecom-openclaw-plugin");
-    expect(resolveOfficialExternalPluginInstall(wecomByChannel)?.npmSpec).toBe(
-      "@wecom/wecom-openclaw-plugin@2026.7.2",
-    );
-    expect(resolveOfficialExternalPluginId(yuanbaoByChannel)).toBe("openclaw-plugin-yuanbao");
-    expect(resolveOfficialExternalPluginInstall(yuanbaoByChannel)?.npmSpec).toBe(
-      "openclaw-plugin-yuanbao@2.18.2",
-    );
-    expect(resolveOfficialExternalPluginId(qqbotByChannel)).toBe("openclaw-qqbot");
-    expect(qqbotByPlugin).toBe(qqbotByChannel);
-    expect(resolveOfficialExternalPluginLegacyNpmPackageNames(qqbotByChannel)).toEqual([
-      "@openclaw/qqbot",
-    ]);
-    expect(
-      getOfficialExternalPluginCatalogManifest(qqbotByChannel)?.channel?.doctorCapabilities,
-    ).toEqual({ openDmRequiresAllowFromWildcard: false });
-    expect(resolveOfficialExternalPluginInstall(qqbotByChannel)).toEqual({
-      npmSpec: "@tencent-connect/openclaw-qqbot@2.0.3",
-      defaultChoice: "npm",
-      expectedIntegrity:
-        "sha512-yngu/2cPeZjJfIfHWCXWB2/6KlDHrb9vpOUjKLdQxePLSp6wCn3CFOALcBIVq/9o6jlYz9WTU9idW6nfX1xpFA==",
-    });
-    expect(getOfficialExternalChannelSecretContract("qqbot")).toEqual({
-      channelId: "qqbot",
-      fields: [
-        {
-          field: "clientSecret",
-          activationField: "appId",
-          activationEnv: "QQBOT_APP_ID",
-        },
-      ],
-    });
-  });
-
-  it("keeps official launch package specs on the production package names", () => {
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("acpx"))?.npmSpec).toBe(
-      "@openclaw/acpx",
-    );
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("googlechat"))?.npmSpec).toBe(
-      "@openclaw/googlechat",
-    );
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("line"))?.npmSpec).toBe(
-      "@openclaw/line",
-    );
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("diffs-language-pack"))).toEqual(
-      {
-        npmSpec: "@openclaw/diffs-language-pack",
-        clawhubSpec: "clawhub:@openclaw/diffs-language-pack",
-        defaultChoice: "npm",
-        minHostVersion: ">=2026.5.27",
-      },
-    );
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("llama-cpp"))?.npmSpec).toBe(
-      "@openclaw/llama-cpp-provider",
-    );
-  });
-
-  it("lists GMI Cloud as an official external provider", () => {
-    const gmi = expectCatalogEntry("gmi");
-
-    expect(resolveOfficialExternalPluginId(gmi)).toBe("gmi");
-    expect(getOfficialExternalPluginCatalogEntry("gmi-cloud")).toBe(gmi);
-    expect(resolveOfficialExternalPluginInstall(gmi)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/gmi-provider",
-      npmSpec: "@openclaw/gmi-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.6.8",
-    });
-  });
-
-  it("lists Cohere as an official external provider", () => {
-    const cohere = expectCatalogEntry("cohere");
-
-    expect(resolveOfficialExternalPluginId(cohere)).toBe("cohere");
-    expect(resolveOfficialExternalPluginInstall(cohere)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/cohere-provider",
-      npmSpec: "@openclaw/cohere-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.6.8",
-    });
-  });
-
-  it("lists OpenCode Zen with its model and media install surfaces", () => {
-    const opencode = expectCatalogEntry("opencode");
-    const manifest = getOfficialExternalPluginCatalogManifest(opencode);
-
-    expect(resolveOfficialExternalPluginId(opencode)).toBe("opencode");
-    expect(resolveOfficialExternalPluginInstall(opencode)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/opencode-provider",
-      npmSpec: "@openclaw/opencode-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.providers?.map((provider) => provider.id)).toEqual(["opencode"]);
-    expect(manifest?.contracts?.mediaUnderstandingProviders).toEqual(["opencode"]);
-    expect(manifest?.providerEndpoints).toEqual([
-      {
-        endpointClass: "opencode-native",
-        baseUrls: ["https://opencode.ai/zen", "https://opencode.ai/zen/v1"],
-      },
-    ]);
-  });
-
-  it("lists OpenCode Go with its provider and media-understanding contracts", () => {
-    const opencodeGo = expectCatalogEntry("opencode-go");
-    const manifest = getOfficialExternalPluginCatalogManifest(opencodeGo);
-
-    expect(resolveOfficialExternalPluginId(opencodeGo)).toBe("opencode-go");
-    expect(resolveOfficialExternalPluginInstall(opencodeGo)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/opencode-go-provider",
-      npmSpec: "@openclaw/opencode-go-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.providers?.map((provider) => provider.id)).toEqual(["opencode-go"]);
-    expect(manifest?.contracts?.mediaUnderstandingProviders).toEqual(["opencode-go"]);
-    expect(manifest?.providerEndpoints).toEqual([
-      {
-        endpointClass: "opencode-go-native",
-        baseUrls: ["https://opencode.ai/zen/go", "https://opencode.ai/zen/go/v1"],
-      },
-    ]);
-  });
-
-  it("lists Synthetic as an official external provider", () => {
-    const synthetic = expectCatalogEntry("synthetic");
-
-    expect(resolveOfficialExternalPluginId(synthetic)).toBe("synthetic");
-    expect(resolveOfficialExternalPluginInstall(synthetic)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/synthetic-provider",
-      npmSpec: "@openclaw/synthetic-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-  });
-
-  it("preserves DuckDuckGo's keyless web search setup contract", () => {
-    const duckduckgo = expectCatalogEntry("duckduckgo");
-    const manifest = getOfficialExternalPluginCatalogManifest(duckduckgo);
-
-    expect(resolveOfficialExternalPluginInstall(duckduckgo)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/duckduckgo-plugin",
-      npmSpec: "@openclaw/duckduckgo-plugin",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.contracts?.webSearchProviders).toEqual(["duckduckgo"]);
-    expect(manifest?.webSearchProviders).toEqual([
-      {
-        id: "duckduckgo",
-        label: "DuckDuckGo Search (experimental)",
-        hint: "Free web search fallback with no API key required",
-        onboardingScopes: ["text-inference"],
-        requiresCredential: false,
-        envVars: [],
-        placeholder: "(no key needed)",
-        signupUrl: "https://duckduckgo.com/",
-        docsUrl: "https://docs.openclaw.ai/tools/duckduckgo-search",
-        credentialPath: "",
-        autoDetectOrder: 100,
-      },
-    ]);
-  });
-
-  it("lists Voyage as an official external embedding provider", () => {
-    const voyage = expectCatalogEntry("voyage");
-    const manifest = getOfficialExternalPluginCatalogManifest(voyage);
-
-    expect(resolveOfficialExternalPluginId(voyage)).toBe("voyage");
-    expect(resolveOfficialExternalPluginInstall(voyage)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/voyage-provider",
-      npmSpec: "@openclaw/voyage-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.contracts?.embeddingProviders).toEqual(["voyage"]);
-    expect(manifest?.providers).toEqual([
-      expect.objectContaining({
-        id: "voyage",
-        envVars: ["VOYAGE_API_KEY"],
-      }),
-    ]);
-  });
-
-  it("lists Vydra as an official external media provider", () => {
-    const vydra = expectCatalogEntry("vydra");
-    const manifest = getOfficialExternalPluginCatalogManifest(vydra);
-
-    expect(resolveOfficialExternalPluginId(vydra)).toBe("vydra");
-    expect(resolveOfficialExternalPluginInstall(vydra)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/vydra-provider",
-      npmSpec: "@openclaw/vydra-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.providers?.map((provider) => provider.id)).toEqual(["vydra"]);
-    expect(manifest?.contracts).toMatchObject({
-      speechProviders: ["vydra"],
-      imageGenerationProviders: ["vydra"],
-      videoGenerationProviders: ["vydra"],
-    });
-  });
-
-  it("lists Volcengine model and speech providers as one official external plugin", () => {
-    const entry = expectCatalogEntry("volcengine");
-    const manifest = getOfficialExternalPluginCatalogManifest(entry);
-    const volcengine = manifest?.providers?.find((provider) => provider.id === "volcengine");
-
-    expect(resolveOfficialExternalPluginId(entry)).toBe("volcengine");
-    expect(getOfficialExternalPluginCatalogEntry("volcengine-plan")).toBe(entry);
-    expect(resolveOfficialExternalPluginInstall(entry)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/volcengine-provider",
-      npmSpec: "@openclaw/volcengine-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(volcengine?.aliases).toEqual(["volcengine-plan"]);
-    expect(volcengine?.authChoices?.[0]).toMatchObject({
-      choiceId: "volcengine-api-key",
-      optionKey: "volcengineApiKey",
-      onboardingScopes: ["text-inference"],
-    });
-    expect(manifest?.providers?.map((provider) => provider.id)).toEqual([
-      "volcengine",
-      "volcengine-plan",
-    ]);
-    expect(manifest?.contracts?.speechProviders).toEqual(["volcengine"]);
-  });
-
-  it("lists Xiaomi's model, speech, and usage surfaces as one official external provider", () => {
-    const xiaomi = expectCatalogEntry("xiaomi");
-    const manifest = getOfficialExternalPluginCatalogManifest(xiaomi);
-
-    expect(resolveOfficialExternalPluginId(xiaomi)).toBe("xiaomi");
-    expect(getOfficialExternalPluginCatalogEntry("xiaomi-token-plan")).toBe(xiaomi);
-    expect(resolveOfficialExternalPluginInstall(xiaomi)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/xiaomi-provider",
-      npmSpec: "@openclaw/xiaomi-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.providers?.map((provider) => provider.id)).toEqual([
-      "xiaomi",
-      "xiaomi-token-plan",
-    ]);
-    expect(manifest?.providers?.[0]?.authChoices?.map((choice) => choice.choiceId)).toEqual([
-      "xiaomi-api-key",
-    ]);
-    expect(manifest?.providers?.[1]?.authChoices?.map((choice) => choice.choiceId)).toEqual([
-      "xiaomi-token-plan-ams",
-      "xiaomi-token-plan-cn",
-      "xiaomi-token-plan-sgp",
-    ]);
-    expect(manifest?.contracts).toMatchObject({
-      speechProviders: ["xiaomi"],
-      usageProviders: ["xiaomi", "xiaomi-token-plan"],
-    });
-    expect(manifest?.providerEndpoints).toEqual([
-      {
-        endpointClass: "xiaomi-native",
-        hosts: [
-          "api.xiaomimimo.com",
-          "token-plan-ams.xiaomimimo.com",
-          "token-plan-cn.xiaomimimo.com",
-          "token-plan-sgp.xiaomimimo.com",
-        ],
-      },
-    ]);
-  });
-
-  it("lists BytePlus and its paired plan route as an official external provider", () => {
-    const byteplus = expectCatalogEntry("byteplus");
-    const manifest = getOfficialExternalPluginCatalogManifest(byteplus);
-
-    expect(getOfficialExternalPluginCatalogEntry("byteplus-plan")).toBe(byteplus);
-    expect(resolveOfficialExternalPluginInstall(byteplus)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/byteplus-provider",
-      npmSpec: "@openclaw/byteplus-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.contracts?.videoGenerationProviders).toEqual(["byteplus"]);
-    expect(manifest?.providers?.[0]?.aliases).toEqual(["byteplus-plan"]);
-    expect(
-      resolveOfficialExternalProviderPluginIds({
-        providerIds: new Set(["byteplus-plan"]),
-      }),
-    ).toEqual(["byteplus"]);
-    expect(resolveOfficialExternalProviderPluginIdsForEnv({ BYTEPLUS_API_KEY: "key" })).toEqual([
-      "byteplus",
-    ]);
-  });
-
-  it("lists ComfyUI as an official external media provider", () => {
-    const comfy = expectCatalogEntry("comfy");
-    const manifest = getOfficialExternalPluginCatalogManifest(comfy);
-
-    expect(resolveOfficialExternalPluginId(comfy)).toBe("comfy");
-    expect(resolveOfficialExternalPluginInstall(comfy)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/comfy-provider",
-      npmSpec: "@openclaw/comfy-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.contracts).toMatchObject({
-      imageGenerationProviders: ["comfy"],
-      musicGenerationProviders: ["comfy"],
-      videoGenerationProviders: ["comfy"],
-    });
-  });
-
-  it("lists Mistral with its model and capability provider contracts", () => {
-    const mistral = expectCatalogEntry("mistral");
-    const manifest = getOfficialExternalPluginCatalogManifest(mistral);
-
-    expect(resolveOfficialExternalPluginId(mistral)).toBe("mistral");
-    expect(resolveOfficialExternalPluginInstall(mistral)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/mistral-provider",
-      npmSpec: "@openclaw/mistral-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-    });
-    expect(manifest?.providers).toEqual([
-      expect.objectContaining({
-        id: "mistral",
-        envVars: ["MISTRAL_API_KEY"],
-      }),
-    ]);
-    expect(manifest?.contracts).toMatchObject({
-      embeddingProviders: ["mistral"],
-      mediaUnderstandingProviders: ["mistral"],
-      realtimeTranscriptionProviders: ["mistral"],
-    });
-  });
-
-  it("maps NovitaAI provider aliases and credentials to the external plugin", () => {
-    expect(
-      resolveOfficialExternalProviderPluginIds({
-        providerIds: new Set(["novita", "novita-ai", "novitaai"]),
-      }),
-    ).toEqual(["novita"]);
-    expect(
-      resolveOfficialExternalProviderPluginIdsForEnv({
-        NOVITA_API_KEY: "novita-key",
-      }),
-    ).toEqual(["novita"]);
-  });
-
-  it("lists iMessage as an official external channel", () => {
-    const imessage = expectCatalogEntry("imessage");
-    const channel = getOfficialExternalPluginCatalogManifest(imessage)?.channel;
-
-    expect(resolveOfficialExternalPluginId(imessage)).toBe("imessage");
-    expect(channel).toMatchObject({
-      id: "imessage",
-      aliases: ["imsg"],
-      docsPath: "/channels/imessage",
-    });
-    expect(resolveOfficialExternalPluginInstall(imessage)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/imessage",
-      npmSpec: "@openclaw/imessage",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.7.2",
-      allowInvalidConfigRecovery: true,
-    });
-  });
-
-  it("projects channel environment variables from generated configured-state metadata", () => {
-    const envVarsByChannel = new Map(
-      listOfficialExternalChannelEnvVars().map((entry) => [entry.channelId, entry.envVars]),
-    );
-
-    expect(envVarsByChannel.get("clickclack")).toEqual(["CLICKCLACK_BOT_TOKEN"]);
-    expect(envVarsByChannel.get("mattermost")).toEqual(["MATTERMOST_BOT_TOKEN", "MATTERMOST_URL"]);
-  });
-
-  it.each([
-    ["teams-meetings", "@openclaw/teams-meetings", "teams_meetings", "teams"],
-    ["zoom-meetings", "@openclaw/zoom-meetings", "zoom_meetings", "zoom"],
-  ] as const)(
-    "lists %s as an official external meeting plugin",
-    (id, npmSpec, toolId, transcriptSourceProviderId) => {
-      const entry = expectCatalogEntry(id);
-      const contracts = getOfficialExternalPluginCatalogManifest(entry)?.contracts;
-
-      expect(resolveOfficialExternalPluginInstall(entry)).toEqual({
-        clawhubSpec: `clawhub:${npmSpec}`,
-        npmSpec,
-        defaultChoice: "npm",
-        minHostVersion: ">=2026.7.2",
-      });
-      expect(contracts?.tools).toEqual([toolId]);
-      expect(contracts?.transcriptSourceProviders).toEqual([transcriptSourceProviderId]);
-    },
-  );
-
-  it("lists LongCat as an official external provider", () => {
-    const longcat = expectCatalogEntry("longcat");
-
-    expect(resolveOfficialExternalPluginId(longcat)).toBe("longcat");
-    expect(getOfficialExternalPluginCatalogEntry("meituan-longcat")).toBe(longcat);
-    expect(resolveOfficialExternalPluginInstall(longcat)).toEqual({
-      clawhubSpec: "clawhub:@openclaw/longcat-provider",
-      npmSpec: "@openclaw/longcat-provider",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.6.8",
-    });
-  });
-
-  it("resolves current external provider aliases beyond the primary provider id", () => {
-    const qwen = expectCatalogEntry("qwen");
-
-    expect(getOfficialExternalPluginCatalogEntry("modelstudio")).toBe(qwen);
-    expect(getOfficialExternalPluginCatalogEntry("qwen-token-plan")).toBe(qwen);
-    expect(getOfficialExternalPluginCatalogEntry("bailian-token-plan")).toBe(qwen);
-  });
-
-  it.each(["qwen-oauth", "qwen-portal", "qwen-cli"])(
-    "does not resolve retired Qwen Portal alias %s",
-    (providerId) => {
-      expect(getOfficialExternalPluginCatalogEntry(providerId)).toBeUndefined();
-    },
-  );
-
-  it("maps external speech and web-fetch contracts to plugin owners", () => {
-    expect(
-      resolveOfficialExternalProviderContractPluginIds({
-        contract: "speechProviders",
-        providerIds: new Set(["gradium", "inworld", "xiaomi"]),
-      }),
-    ).toEqual(["gradium", "inworld", "xiaomi"]);
-    expect(
-      resolveOfficialExternalProviderContractPluginIds({
-        contract: "webFetchProviders",
-        providerIds: new Set(["firecrawl"]),
-      }),
-    ).toEqual(["firecrawl"]);
-    expect(
-      resolveOfficialExternalProviderContractPluginIds({
-        contract: "mediaUnderstandingProviders",
-        providerIds: new Set(["groq", "moonshot", "zai"]),
-      }),
-    ).toEqual(["groq", "moonshot", "zai"]);
-    expect(
-      resolveOfficialExternalProviderContractPluginIds({
-        contract: "embeddingProviders",
-        providerIds: new Set(["voyage"]),
-      }),
-    ).toEqual(["voyage"]);
-  });
-
-  it("maps env-only web-fetch credentials to external plugin owners", () => {
-    expect(
-      resolveOfficialExternalWebProviderContractPluginIdsForEnv({
-        contract: "webFetchProviders",
-        env: { FIRECRAWL_API_KEY: "firecrawl-key" },
-      }),
-    ).toEqual(["firecrawl"]);
-    expect(
-      resolveOfficialExternalWebProviderContractPluginIdsForEnv({
-        contract: "webFetchProviders",
-        env: { EXA_API_KEY: "exa-key" },
-      }),
-    ).toEqual([]);
-  });
-
-  it("maps configured provider ids and aliases even without an auth choice", () => {
-    expect(
-      resolveOfficialExternalProviderPluginIds({
-        providerIds: new Set(["groq", "modelstudio"]),
-      }),
-    ).toEqual(["groq", "qwen"]);
-  });
-
-  it("maps env-only provider credentials to external installs", () => {
-    expect(
-      resolveOfficialExternalProviderPluginIdsForEnv({
-        ARCEEAI_API_KEY: "arcee-key",
-        CEREBRAS_API_KEY: "cerebras-key",
-        CHUTES_OAUTH_TOKEN: "chutes-token",
-        CLOUDFLARE_AI_GATEWAY_API_KEY: "cloudflare-key",
-        DEEPINFRA_API_KEY: "deepinfra-key",
-        DEEPSEEK_API_KEY: "deepseek-key",
-        FEATHERLESS_API_KEY: "featherless-key",
-        GROQ_API_KEY: "groq-key",
-        LONGCAT_API_KEY: "longcat-key",
-        KILOCODE_API_KEY: "kilocode-key",
-        KIMICODE_API_KEY: "kimi-key",
-        KIMI_API_KEY: "moonshot-kimi-key",
-        MOONSHOT_API_KEY: "moonshot-key",
-        QIANFAN_API_KEY: "qianfan-key",
-        MODELSTUDIO_API_KEY: "qwen-key",
-        STEPFUN_API_KEY: "stepfun-key",
-        FIREWORKS_API_KEY: "fireworks-key",
-        TOKENHUB_API_KEY: "tokenhub-key",
-        TOKENPLAN_API_KEY: "tokenplan-key",
-        VENICE_API_KEY: "venice-key",
-        AI_GATEWAY_API_KEY: "gateway-key",
-        VOYAGE_API_KEY: "voyage-key",
-        XIAOMI_API_KEY: "xiaomi-key",
-        XIAOMI_TOKEN_PLAN_API_KEY: "xiaomi-token-plan-key",
-        ZAI_API_KEY: "zai-key",
-      }),
-    ).toEqual([
-      "arcee",
-      "cerebras",
-      "chutes",
-      "cloudflare-ai-gateway",
-      "deepinfra",
-      "deepseek",
-      "featherless",
-      "fireworks",
-      "groq",
-      "kilocode",
-      "kimi",
-      "longcat",
-      "moonshot",
-      "qianfan",
-      "qwen",
-      "stepfun",
-      "tencent",
-      "venice",
-      "vercel-ai-gateway",
-      "voyage",
-      "xiaomi",
-      "zai",
-    ]);
-    expect(resolveOfficialExternalProviderPluginIdsForEnv({ GROQ_API_KEY: " " })).toEqual([]);
-    expect(resolveOfficialExternalProviderPluginIdsForEnv({ LONGCAT_API_KEY: " " })).toEqual([]);
-  });
-
-  it("keeps Tencent auth choices available through the cold-install auth catalog", () => {
-    const tencent = expectCatalogEntry("tencent");
-    const tokenHub = tencent.openclaw?.providers?.find(
-      (provider) => provider.id === "tencent-tokenhub",
-    );
-    const tokenPlan = tencent.openclaw?.providers?.find(
-      (provider) => provider.id === "tencent-tokenplan",
-    );
-
-    expect(tokenHub?.envVars).toEqual(["TOKENHUB_API_KEY"]);
-    expect(tokenHub?.authChoices).toEqual([
-      expect.objectContaining({
-        choiceId: "tokenhub-api-key",
-        optionKey: "tokenhubApiKey",
-        cliFlag: "--tokenhub-api-key",
-      }),
-    ]);
-    expect(tokenPlan?.envVars).toEqual(["TOKENPLAN_API_KEY"]);
-    expect(tokenPlan?.authChoices?.[0]).toMatchObject({
-      choiceId: "tokenplan-api-key",
-      optionKey: "tokenplanApiKey",
-      cliFlag: "--tokenplan-api-key",
-    });
-  });
-
-  it("keeps the shared OpenRouter onboarding flag with its provider", () => {
-    const arceeChoices = expectCatalogEntry("arcee").openclaw?.providers?.find(
-      (provider) => provider.id === "arcee",
-    )?.authChoices;
-    const directChoice = arceeChoices?.find((choice) => choice.choiceId === "arceeai-api-key");
-    const openRouterChoice = arceeChoices?.find(
-      (choice) => choice.choiceId === "arceeai-openrouter",
-    );
-
-    expect(directChoice).toMatchObject({
-      optionKey: "arceeaiApiKey",
-      cliFlag: "--arceeai-api-key",
-    });
-    expect(openRouterChoice).toMatchObject({ optionKey: "openrouterApiKey" });
-    expect(openRouterChoice).not.toHaveProperty("cliFlag");
-    expect(openRouterChoice).not.toHaveProperty("cliOption");
-  });
-
-  it("keeps Groq available through the cold-install auth catalog", () => {
-    const groq = expectCatalogEntry("groq");
-    const authChoice = groq.openclaw?.providers?.find((provider) => provider.id === "groq")
-      ?.authChoices?.[0];
-
-    expect(authChoice).toMatchObject({
-      choiceId: "groq-api-key",
-      optionKey: "groqApiKey",
-      cliFlag: "--groq-api-key",
-      cliOption: "--groq-api-key <key>",
-    });
-  });
-
-  it("allows invalid-config recovery for externalized stock plugins", () => {
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("brave"))).toMatchObject({
-      npmSpec: "@openclaw/brave-plugin",
-      allowInvalidConfigRecovery: true,
-    });
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("slack"))).toMatchObject({
-      npmSpec: "@openclaw/slack",
-      allowInvalidConfigRecovery: true,
-    });
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("discord"))).toMatchObject({
-      npmSpec: "@openclaw/discord",
-      allowInvalidConfigRecovery: true,
-    });
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("mattermost"))).toMatchObject({
-      npmSpec: "@openclaw/mattermost",
-      allowInvalidConfigRecovery: true,
-    });
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("tavily"))).toMatchObject({
-      npmSpec: "@openclaw/tavily-plugin",
-      allowInvalidConfigRecovery: true,
-    });
-  });
-
-  it("lists Matrix as an official external npm-first channel after cutover", () => {
-    const ids = new Set<string>();
-    for (const entry of listOfficialExternalPluginCatalogEntries()) {
-      const pluginId = resolveOfficialExternalPluginId(entry);
-      if (pluginId) {
-        ids.add(pluginId);
-      }
-    }
-
-    expect(ids.has("matrix")).toBe(true);
-    expect(ids.has("mattermost")).toBe(true);
-    expect(resolveOfficialExternalPluginInstall(expectCatalogEntry("matrix"))).toEqual({
-      clawhubSpec: "clawhub:@openclaw/matrix",
-      npmSpec: "@openclaw/matrix",
-      defaultChoice: "npm",
-      minHostVersion: ">=2026.4.10",
-      allowInvalidConfigRecovery: true,
-    });
   });
 });
 /* oxlint-disable max-lines -- TODO: split this grandfathered oversized file. */

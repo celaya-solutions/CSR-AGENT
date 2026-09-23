@@ -8,7 +8,6 @@ import {
   type PluginDoctorContractModule,
 } from "../plugins/doctor-contract-module.js";
 import { createTrackedTempDirs } from "../test-utils/tracked-temp-dirs.js";
-import * as fsSafe from "./fs-safe.js";
 import {
   createLegacyStateMigrationStepReceipt,
   throwIfDoctorStateMigrationRefused,
@@ -29,11 +28,6 @@ describe("Doctor derived artifact cleanup", () => {
       migrationId: "memory-core-qmd-workspace-retired",
       label: "retired Memory Core QMD workspace",
     },
-    {
-      pluginId: "memory-wiki",
-      migrationId: "memory-wiki-compiled-cache-file-cleanup",
-      label: "rebuildable Memory Wiki compiled cache",
-    },
   ])("continues Doctor when $pluginId cleanup fails", async (fixture) => {
     const { stateMigrations } = coercePluginDoctorContractModule(
       await vi.importActual<PluginDoctorContractModule>(
@@ -41,17 +35,11 @@ describe("Doctor derived artifact cleanup", () => {
       ),
     );
     const stateDir = await tempDirs.make("openclaw-derived-cleanup-");
-    const vaultRoot = path.join(stateDir, "vault");
     const qmdHome = path.join(stateDir, "agents", "main", "qmd");
-    const artifactPath =
-      fixture.pluginId === "memory-core"
-        ? path.join(qmdHome, "index.sqlite")
-        : path.join(vaultRoot, ".openclaw-wiki", "cache", "agent-digest.json");
+    const artifactPath = path.join(qmdHome, "index.sqlite");
     await fs.mkdir(path.dirname(artifactPath), { recursive: true });
     await fs.writeFile(artifactPath, "rebuildable artifact\n");
-    const config: OpenClawConfig = {
-      plugins: { entries: { "memory-wiki": { config: { vault: { path: vaultRoot } } } } },
-    };
+    const config: OpenClawConfig = {};
     const env = { ...process.env, HOME: stateDir, OPENCLAW_STATE_DIR: stateDir };
     const params = {
       config,
@@ -65,24 +53,13 @@ describe("Doctor derived artifact cleanup", () => {
       fixture.migrationId,
     );
     const removalError = new Error("synthetic cleanup permission denied");
-    if (fixture.pluginId === "memory-core") {
-      const remove = fs.rm;
-      vi.spyOn(fs, "rm").mockImplementation(async (target, options) => {
-        if (target === qmdHome) {
-          throw removalError;
-        }
-        await remove(target, options);
-      });
-    } else {
-      const openRoot = fsSafe.root;
-      vi.spyOn(fsSafe, "root").mockImplementation(async (rootPath, defaults) => {
-        const root = await openRoot(rootPath, defaults);
-        if (rootPath === vaultRoot) {
-          vi.spyOn(root, "remove").mockRejectedValue(removalError);
-        }
-        return root;
-      });
-    }
+    const remove = fs.rm;
+    vi.spyOn(fs, "rm").mockImplementation(async (target, options) => {
+      if (target === qmdHome) {
+        throw removalError;
+      }
+      await remove(target, options);
+    });
 
     const result = await migration.migrateLegacyState(params);
     const receipt = createLegacyStateMigrationStepReceipt(

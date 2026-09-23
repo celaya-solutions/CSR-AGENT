@@ -1,5 +1,4 @@
 // Verifies optional media/PDF tool factory planning from plugin metadata and auth.
-import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
@@ -24,7 +23,6 @@ type CreateOpenClawToolsOptions = Parameters<
   typeof import("./openclaw-tools.js").createOpenClawTools
 >[0];
 let createOpenClawToolsForTestModule: typeof import("./openclaw-tools.js").createOpenClawTools;
-let legacyComfyToolNames: string[];
 
 async function createOpenClawToolsForTest(options?: CreateOpenClawToolsOptions) {
   return createOpenClawToolsForTestModule(options);
@@ -142,16 +140,6 @@ function createComfyPlugin(
   });
 }
 
-function legacyModelProviderConfig(provider: Record<string, unknown>): OpenClawConfig {
-  return {
-    models: {
-      providers: {
-        comfy: provider as never,
-      },
-    },
-  };
-}
-
 function installSnapshot(
   config: OpenClawConfig,
   plugins: PluginManifestRecord[],
@@ -175,23 +163,6 @@ describe("optional media tool factory planning", () => {
   beforeAll(async () => {
     ({ createOpenClawTools: createOpenClawToolsForTestModule } =
       await import("./openclaw-tools.js"));
-
-    const config = legacyModelProviderConfig({
-      workflow: { "1": { inputs: {} } },
-      promptNodeId: "1",
-    });
-    vi.stubEnv("OPENCLAW_BUNDLED_PLUGINS_DIR", path.join(process.cwd(), "extensions"));
-    legacyComfyToolNames = (
-      await createOpenClawToolsForTest({
-        config,
-        authProfileStore: createAuthStore(),
-        pluginToolAllowlist: ["image_generate", "video_generate", "music_generate"],
-      })
-    ).map((tool) => tool.name);
-    clearPluginMetadataLifecycleCaches();
-    resetPluginRuntimeStateForTest();
-    clearSecretsRuntimeSnapshot();
-    vi.unstubAllEnvs();
   });
 
   beforeEach(() => {
@@ -926,62 +897,6 @@ describe("optional media tool factory planning", () => {
       ).map((tool) => tool.name),
     ).not.toContain("view_image");
   });
-
-  it.each([
-    {
-      name: "legacy local provider config",
-      config: legacyModelProviderConfig({
-        workflow: { "1": { inputs: {} } },
-        promptNodeId: "1",
-      }),
-      expectedToolNames: () => legacyComfyToolNames,
-    },
-    {
-      name: "plugin cloud API key config",
-      config: {
-        plugins: {
-          entries: {
-            comfy: {
-              config: {
-                mode: "cloud",
-                apiKey: "cloud-key",
-                workflow: { "1": { inputs: {} } },
-                promptNodeId: "1",
-              },
-            },
-          },
-        },
-      } satisfies OpenClawConfig,
-      expectedToolNames: undefined,
-    },
-    {
-      name: "legacy cloud API key config",
-      config: legacyModelProviderConfig({
-        mode: "cloud",
-        apiKey: "cloud-key",
-        workflow: { "1": { inputs: {} } },
-        promptNodeId: "1",
-      }),
-      expectedToolNames: undefined,
-    },
-  ])(
-    "registers generation tools from Comfy $name without a current metadata snapshot",
-    async ({ config, expectedToolNames }) => {
-      const toolNames = expectedToolNames
-        ? expectedToolNames()
-        : (
-            await createOpenClawToolsForTest({
-              config,
-              authProfileStore: createAuthStore(),
-              pluginToolAllowlist: ["image_generate", "video_generate", "music_generate"],
-            })
-          ).map((tool) => tool.name);
-
-      expect(toolNames).toContain("image_generate");
-      expect(toolNames).toContain("video_generate");
-      expect(toolNames).toContain("music_generate");
-    },
-  );
 
   it("honors manifest-declared image provider auth alias base-url guards", () => {
     const config: OpenClawConfig = {

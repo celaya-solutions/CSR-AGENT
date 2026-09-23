@@ -391,7 +391,7 @@ describe("test-projects args", () => {
     },
     {
       title: "routes misc extension file targets to the misc extensions config",
-      target: "extensions/firecrawl/index.test.ts",
+      target: "extensions/duckduckgo/src/ddg-search-provider.test.ts",
       config: "test/vitest/vitest.extension-misc.config.ts",
     },
   ])("$title", ({ target, config }) => {

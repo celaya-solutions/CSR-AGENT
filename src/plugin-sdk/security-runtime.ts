@@ -88,7 +88,6 @@ export { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
  * The last nonempty capture is the secret (its last occurrence within match);
  * with no capture, the whole match is masked. Use "" for unmatched captures.
  * Executable entries are programmatic only; logging.redactPatterns stores strings.
- * See https://docs.openclaw.ai/plugins/sdk-subpaths#sensitive-text-redaction.
  */
 export { redactSensitiveText } from "../logging/redact.js";
 export { safeEqualSecret } from "../security/secret-equal.js";

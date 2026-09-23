@@ -42,9 +42,7 @@ describe("Control UI managed media under a UI base path", () => {
     const sourcePath =
       "/api/chat/media/outgoing/agent%3Amain%3Amain/00000000-0000-4000-8000-000000000001/full";
     const previewPath = `/rosita${sourcePath.replace(/\/full$/u, "/thumbnail")}`;
-    const imageBytes = await readFile(
-      path.join(process.cwd(), "docs/assets/openclaw-banner-dark.png"),
-    );
+    const imageBytes = await readFile(path.join(process.cwd(), "docs/assets/openagent-banner.png"));
     const requests: Array<{ contentType: string; path: string }> = [];
 
     await page.route("**/rosita/api/chat/media/outgoing/**", async (route) => {

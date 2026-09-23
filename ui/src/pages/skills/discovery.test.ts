@@ -89,7 +89,7 @@ describe("unified skill discovery", () => {
             clawhubResults: [
               {
                 score: 1,
-                registry: "https://clawhub.ai",
+                registry: "https://registry.example.test",
                 slug: "repo",
                 installRef: "@alice/repo",
                 displayName: "Repo",
@@ -117,7 +117,7 @@ describe("unified skill discovery", () => {
             {
               score: 1,
               slug: "repo-helper",
-              registry: "https://clawhub.ai",
+              registry: "https://registry.example.test",
               installRef: "@alice/repo-helper",
               displayName: "Repo Helper",
             },
@@ -155,7 +155,7 @@ describe("unified skill discovery", () => {
       clawhub: {
         status: "linked",
         valid: true,
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "repo",
         ownerHandle: "alice",
         installedVersion: "1.0.0",
@@ -172,7 +172,7 @@ describe("unified skill discovery", () => {
           report: { workspaceDir: "/tmp", managedSkillsDir: "/tmp", skills: [local] },
           clawhubResults: ["alice", "bob"].map((owner) => ({
             score: 1,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "repo",
             installRef: `@${owner}/repo`,
             displayName: "Repo",

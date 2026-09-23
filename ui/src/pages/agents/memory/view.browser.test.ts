@@ -33,7 +33,6 @@ describe.skipIf(!hasBrowserLayout)("dream diary browser layout", () => {
       },
       viewState,
       active: true,
-      selectedAgentId: "main",
       shortTermCount: 0,
       promotedCount: 0,
       shortTermEntries: [],

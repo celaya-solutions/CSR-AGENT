@@ -9,14 +9,14 @@ title: "Docker"
 
 Docker is **optional**. Use it for an isolated, throwaway Gateway environment or a host without local installs. If you already develop on your own machine, use the normal install flow instead.
 
-The default Docker sandbox backend uses only the `docker` CLI. Set the backend to `"podman"` to select native Podman directly. Sandboxing is off by default and does not require the Gateway itself to run in a container. SSH and OpenShell sandbox backends are also available; see [Sandboxing](/gateway/sandboxing).
+The default Docker sandbox backend uses only the `docker` CLI. Set the backend to `"podman"` to select native Podman directly. Sandboxing is off by default and does not require the Gateway itself to run in a container. An SSH sandbox backend is also available; see [Sandboxing](/gateway/sandboxing).
 
 Hosting multiple users? See [Multi-tenant hosting](/gateway/multi-tenant-hosting) for the one-cell-per-tenant model.
 
 ## Prerequisites
 
 - Docker Desktop (or Docker Engine) + Docker Compose v2
-- At least 6 GB RAM for a local source image build; pre-built images avoid this build requirement
+- At least 6 GB RAM for the local source image build
 - Enough disk for images and logs
 - On a VPS/public host, review [Security hardening for network exposure](/gateway/security), especially the Docker `DOCKER-USER` firewall chain
 
@@ -30,30 +30,18 @@ Hosting multiple users? See [Multi-tenant hosting](/gateway/multi-tenant-hosting
     ./scripts/docker/setup.sh
     ```
 
-    This builds the Gateway image locally as `openclaw:local`. To use a pre-built image instead:
-
-    ```bash
-    export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
-    ./scripts/docker/setup.sh
-    ```
-
-    Pre-built images are published first to the [GitHub Container Registry](https://github.com/openclaw/openclaw/pkgs/container/openclaw). GHCR is the primary registry for release automation, pinned deployments, and provenance checks. The same release publishes a Docker Hub mirror at `openclaw/openclaw`:
-
-    ```bash
-    export OPENCLAW_IMAGE="openclaw/openclaw:latest"
-    ./scripts/docker/setup.sh
-    ```
-
-    Use `ghcr.io/openclaw/openclaw` or `openclaw/openclaw` and avoid unofficial mirrors, which don't share OpenAgent's release timing or retention policy. Version-specific tags include releases such as `2026.9.3` and prereleases such as `2026.9.1-beta.1`. Stable releases move `latest` and `main`; trailing-month Gateway releases move only `extended-stable`. Variants include `slim`, `main-slim`, `extended-stable-slim`, `latest-browser`, `main-browser`, and `extended-stable-browser`. The default images bundle the `codex` and `diagnostics-otel` plugins. A `-browser` variant also ships with Chromium baked in for the [Gateway-controlled browser](/install/docker#using-the-control-ui-browser). The agent sandbox browser uses a separate image.
+    This builds the Gateway image locally from your checkout as `openclaw:local`.
+    OpenAgent publishes no prebuilt images; every image comes from a source build.
 
   </Step>
 
   <Step title="Airgapped rerun">
-    On offline hosts, transfer and load the image first:
+    On offline hosts, build the image on a connected machine, `docker save` it,
+    then transfer and load it first:
 
     ```bash
     docker load -i openclaw-image.tar
-    export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
+    export OPENCLAW_IMAGE="openclaw:local"
     ./scripts/docker/setup.sh --offline
     ```
 
@@ -90,9 +78,6 @@ Hosting multiple users? See [Multi-tenant hosting](/gateway/multi-tenant-hosting
 
   <Step title="Configure channels (optional)">
     ```bash
-    # WhatsApp (QR)
-    docker compose run --rm openclaw-cli channels login
-
     # Telegram
     docker compose run --rm openclaw-cli channels add --channel telegram --token "<token>"
 
@@ -100,7 +85,7 @@ Hosting multiple users? See [Multi-tenant hosting](/gateway/multi-tenant-hosting
     docker compose run --rm openclaw-cli channels add --channel discord --token "<token>"
     ```
 
-    Docs: [WhatsApp](/channels/whatsapp), [Telegram](/channels/telegram), [Discord](/channels/discord)
+    Docs: [Telegram](/channels/telegram), [Discord](/channels/discord)
 
   </Step>
 </Steps>
@@ -112,39 +97,23 @@ browser controlled by the Gateway. It is separate from the browser on your lapto
 or phone that opens the dashboard. For a local managed browser with a Docker
 Gateway, Chromium must be available **inside the Gateway container**.
 
-For a new installation, use the official browser-equipped image with the normal
-Compose setup; no custom Dockerfile is needed:
-
-```bash
-export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest-browser"
-./scripts/docker/setup.sh
-```
-
-For a pinned deployment, choose a release's `-browser` tag instead of the moving
-`latest-browser` tag. For an existing Compose installation, change `OPENCLAW_IMAGE`
-in its `.env` to the browser variant, then pull and recreate the Gateway using
-the same Compose files and overlays as your current deployment:
-
-```bash
-docker compose pull openclaw-gateway openclaw-cli
-docker compose up -d openclaw-gateway
-```
-
-Keep your existing volumes, ports, and other settings. Do not rerun setup with an
-empty shell environment to change only the image: setup rewrites `.env` from the
-current shell and defaults.
-
-An existing home volume or bind mount covering `/home/node/.cache/ms-playwright`
-can hide the image's bundled Chromium. If browser discovery still fails after the
-image switch, check those mounts. Preserve the data, then either provision
-Chromium in the mounted home or adjust the mounts to leave the image's browser
-cache visible; recreating the container does not refresh a populated home volume.
-
-For a new installation from a local source build, bake Chromium into the image:
+Bake Chromium into the image at build time:
 
 ```bash
 OPENCLAW_IMAGE=openclaw:local OPENCLAW_INSTALL_BROWSER=1 ./scripts/docker/setup.sh
 ```
+
+For an existing Compose installation, rebuild with the same option and recreate
+the Gateway using the same Compose files and overlays as your current
+deployment. Keep your existing volumes, ports, and other settings. Do not rerun
+setup with an empty shell environment: setup rewrites `.env` from the current
+shell and defaults.
+
+An existing home volume or bind mount covering `/home/node/.cache/ms-playwright`
+can hide the image's bundled Chromium. If browser discovery still fails after the
+rebuild, check those mounts. Preserve the data, then either provision
+Chromium in the mounted home or adjust the mounts to leave the image's browser
+cache visible; recreating the container does not refresh a populated home volume.
 
 This build-time option installs Chromium and Xvfb; setting it on
 an already-built container does not install a browser.
@@ -166,8 +135,8 @@ The image supplies Chromium, not a replacement for your browser configuration:
   verify that Chromium can start.
 
 This is not the separate [sandboxed browser](/gateway/sandboxing#sandboxed-browser)
-container used by sandboxed agent sessions. Selecting a Gateway `-browser` image
-does not build or configure that sandbox image.
+container used by sandboxed agent sessions. Baking Chromium into the Gateway
+image does not build or configure that sandbox image.
 
 ### Headless bootstrap
 
@@ -227,7 +196,7 @@ Run `docker compose` from the repo root. If you enabled `OPENCLAW_EXTRA_MOUNTS` 
 
 ### Upgrading container images
 
-When you replace the OpenAgent image but keep the same mounted state/config, the
+When you rebuild the OpenAgent image from a newer checkout but keep the same mounted state/config, the
 new Gateway runs startup-safe upgrade migrations and plugin convergence before
 readiness. Routine image upgrades should not require a separate
 `openclaw doctor --fix` pass.
@@ -261,89 +230,33 @@ existing source-directory names are also accepted when they differ. The Docker
 build resolves the selection to source directories once, installs production
 dependencies, links each selected plugin's own runtime dependencies under its
 packaged root in `/app/dist/extensions/<id>`, and includes the selected plugin
-runtime in the image. Source checkouts also compile first-party plugins
-published separately with
-`openclaw.build.bundledDist: false`; that marker still preserves the plugin's
-external npm or ClawHub ownership and does not change either artifact contract.
-Unknown, invalid, or ambiguous ids fail the image build.
-This includes WhatsApp: `OPENCLAW_EXTENSIONS=whatsapp` compiles and packages its
-runtime. Ordinary source builds generate its runtime through the separate
-external-plugin build path; root npm artifacts continue to exclude it. Selected
-plugins must compile successfully; unselected external plugin source and
+runtime in the image. Unknown, invalid, or ambiguous ids fail the image build.
+Selected plugins must compile successfully; unselected plugin source and
 runtime output are pruned.
 
-For example, these commands build separate, multi-architecture standalone
-FakeCo Gateway images for ClickClack, Slack, and Microsoft Teams. ClawRouter is
-already part of the root OpenAgent runtime, so the ClickClack image selects only
-`clickclack`. The explicit empty browser argument keeps the default image free
-of Chromium:
+For example, this command builds a multi-architecture image that includes only
+the Discord plugin and no Chromium:
 
 ```bash
 SOURCE_SHA="$(git rev-parse HEAD)"
 BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-REGISTRY="registry.example.com/fakeco"
 
-build_gateway_image() {
-  gateway="$1"
-  selected_plugin="$2"
-  docker buildx build \
-    --platform linux/amd64,linux/arm64 \
-    --build-arg "GIT_COMMIT=${SOURCE_SHA}" \
-    --build-arg "OPENCLAW_BUILD_TIMESTAMP=${BUILD_TIMESTAMP}" \
-    --build-arg "OPENCLAW_EXTENSIONS=${selected_plugin}" \
-    --build-arg OPENCLAW_INSTALL_BROWSER= \
-    --provenance=mode=max \
-    --sbom=true \
-    --tag "${REGISTRY}/openclaw-${gateway}:${SOURCE_SHA}" \
-    --push \
-    .
-}
-
-build_gateway_image clickclack clickclack
-build_gateway_image slack slack
-build_gateway_image teams msteams
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  --build-arg "GIT_COMMIT=${SOURCE_SHA}" \
+  --build-arg "OPENCLAW_BUILD_TIMESTAMP=${BUILD_TIMESTAMP}" \
+  --build-arg OPENCLAW_EXTENSIONS=discord \
+  --build-arg OPENCLAW_INSTALL_BROWSER= \
+  --tag "registry.example.com/you/openclaw-discord:${SOURCE_SHA}" \
+  --push \
+  .
 ```
 
 Use `--platform linux/arm64 --load` or `--platform linux/amd64 --load` for a
-single native local build. Multi-platform output and attached SBOM/provenance
-require a registry or another Buildx output that preserves attestations. After
-pushing, inspect the manifest and deploy the immutable digest rather than the
-mutable source-SHA tag:
+single native local build. Multi-platform output requires a registry or another
+Buildx output.
 
-```bash
-docker buildx imagetools inspect \
-  "${REGISTRY}/openclaw-clickclack:${SOURCE_SHA}"
-# Deploy: registry.example.com/fakeco/openclaw-clickclack@sha256:<manifest-digest>
-```
-
-These images are for standalone OCI-based Gateways and generic Docker users.
-Crabhelm-managed Gateways do not consume them: that delivery path builds a
-separate x86_64 appliance archive containing an OpenAgent npm tarball and pins
-the Node, archive, and manifest digests. Build that appliance independently
-from the same landed OpenAgent source.
-
-To test bundled plugin source against a packaged image, mount one plugin source directory over its packaged source path, e.g. `OPENCLAW_EXTRA_MOUNTS=/path/to/fork/extensions/synology-chat:/app/extensions/synology-chat:ro`. That overrides the matching compiled `/app/dist/extensions/synology-chat` bundle for the same plugin id. Restart the Gateway after adding or changing a mount; runtime loading and setup use the mounted source.
-
-### Observability
-
-OpenTelemetry export is outbound from the Gateway container to your OTLP collector; it needs no published Docker port. To include the bundled exporter in a locally built image:
-
-```bash
-export OPENCLAW_EXTENSIONS="diagnostics-otel"
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://otel-collector:4318"
-export OTEL_SERVICE_NAME="openclaw-gateway"
-./scripts/docker/setup.sh
-```
-
-Official prebuilt images already bundle `diagnostics-otel`; install `clawhub:@openclaw/diagnostics-otel` yourself only if you removed it. To enable export, allow and enable the `diagnostics-otel` plugin in config, then set `diagnostics.otel.enabled=true` (see the full example in [OpenTelemetry export](/gateway/opentelemetry)). Collector auth headers go through `diagnostics.otel.headers`, not Docker environment variables.
-
-Prometheus metrics reuse the already-published Gateway port. Install `clawhub:@openclaw/diagnostics-prometheus`, enable the `diagnostics-prometheus` plugin, then scrape:
-
-```text
-http://<gateway-host>:18789/api/diagnostics/prometheus
-```
-
-The route is protected by Gateway authentication; don't expose a separate public `/metrics` port or unauthenticated reverse-proxy path. See [Prometheus metrics](/gateway/prometheus).
+To test bundled plugin source against a packaged image, mount one plugin source directory over its packaged source path, e.g. `OPENCLAW_EXTRA_MOUNTS=/path/to/fork/extensions/telegram:/app/extensions/telegram:ro`. That overrides the matching compiled `/app/dist/extensions/telegram` bundle for the same plugin id. Restart the Gateway after adding or changing a mount; runtime loading and setup use the mounted source.
 
 ### Health checks
 
@@ -371,7 +284,7 @@ docker compose exec openclaw-gateway sh -lc 'node dist/index.js gateway health -
     The full variable table, apt/pip build extras, and build-memory tuning.
   </Card>
   <Card title="Networking and storage" href="/install/docker/networking-and-storage" icon="server">
-    LAN vs loopback, host.docker.internal, Claude CLI, Bonjour, and mounted state.
+    LAN vs loopback, host.docker.internal, Claude CLI, and mounted state.
   </Card>
   <Card title="Compose operations" href="/install/docker/compose-operations" icon="terminal">
     Compose command table, sandbox/CI/DNS/EACCES accordions, and image refreshes.
@@ -385,7 +298,6 @@ docker compose exec openclaw-gateway sh -lc 'node dist/index.js gateway health -
 - <a id="lan-vs-loopback" />[LAN vs loopback](/install/docker/networking-and-storage#lan-vs-loopback)
 - <a id="host-local-providers" />[Host local providers](/install/docker/networking-and-storage#host-local-providers)
 - <a id="claude-cli-backend-in-docker" />[Claude CLI backend in Docker](/install/docker/networking-and-storage#claude-cli-backend-in-docker)
-- <a id="bonjour-%2F-mdns" /><a id="bonjour-/-mdns" />[Bonjour / mDNS](/install/docker/networking-and-storage#bonjour-%2F-mdns)
 - <a id="storage-and-persistence" />[Storage and persistence](/install/docker/networking-and-storage#storage-and-persistence)
 - <a id="clawdock-migration" />[ClawDock migration](/install/docker/compose-operations#clawdock-migration)
   - <a id="enable-agent-sandbox-for-docker-gateway" />[Enable agent sandbox for Docker gateway](/install/docker/compose-operations#enable-agent-sandbox-for-docker-gateway)
@@ -414,8 +326,5 @@ docker compose exec openclaw-gateway sh -lc 'node dist/index.js gateway health -
 
 - [Install Overview](/install) — all installation methods
 - [Podman](/install/podman) — Podman alternative to Docker
-- [Kubernetes](/install/kubernetes) — a minimal Kustomize starting point for running the Gateway on a cluster
-- [Ansible](/install/ansible) — automated server deployment with Tailscale VPN and firewall isolation
-- [Cloudflare Containers](/install/cloudflare) — experimental Worker plus container deployment with Litestream backups to R2
 - [Updating](/install/updating) — keeping OpenAgent up to date
 - [Configuration](/gateway/configuration) — Gateway configuration after install

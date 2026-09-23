@@ -12,7 +12,7 @@ const resolveAgentWorkspaceDirMock = vi.fn<(_cfg: unknown, _agentId: string) => 
 const buildWorkspaceSkillStatusMock = vi.fn();
 const readLocalSkillCardContentSyncMock = vi.fn();
 const fetchExactClawHubSkillSecurityVerdictsMock = vi.fn();
-const resolveClawHubBaseUrlMock = vi.fn(() => "https://clawhub.ai");
+const resolveClawHubBaseUrlMock = vi.fn(() => "https://registry.example.test");
 const installSkillFromClawHubMock = vi.fn();
 const installSkillMock = vi.fn();
 const updateSkillsFromClawHubMock = vi.fn();
@@ -110,7 +110,7 @@ describe("skills gateway handlers (clawhub)", () => {
     resolveDefaultAgentIdMock.mockReturnValue("main");
     resolveAgentWorkspaceDirMock.mockReturnValue("/tmp/workspace");
     buildWorkspaceSkillStatusMock.mockReturnValue(emptySkillStatusReport());
-    resolveClawHubBaseUrlMock.mockReturnValue("https://clawhub.ai");
+    resolveClawHubBaseUrlMock.mockReturnValue("https://registry.example.test");
   });
 
   it("returns an empty verdict batch without calling ClawHub when no skills are linked", async () => {
@@ -150,7 +150,7 @@ describe("skills gateway handlers (clawhub)", () => {
           clawhub: {
             status: "linked",
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "agentreceipt",
             installedVersion: "1.2.3",
             installedAt: 123,
@@ -172,7 +172,7 @@ describe("skills gateway handlers (clawhub)", () => {
         requestedVersion: "1.2.3",
         version: "1.2.3",
         securityAuditUrl:
-          "https://clawhub.ai/openclaw/skills/agentreceipt/security-audit?version=1.2.3",
+          "https://registry.example.test/openclaw/skills/agentreceipt/security-audit?version=1.2.3",
         security: { status: "clean", passed: true },
         scannerPayload: { ignored: true },
       },
@@ -183,7 +183,7 @@ describe("skills gateway handlers (clawhub)", () => {
     expect(error).toBeUndefined();
     expect(fetchExactClawHubSkillSecurityVerdictsMock).toHaveBeenCalledTimes(1);
     expect(fetchExactClawHubSkillSecurityVerdictsMock).toHaveBeenCalledWith({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       items: [{ slug: "agentreceipt", version: "1.2.3" }],
       skipAuth: true,
     });
@@ -193,7 +193,7 @@ describe("skills gateway handlers (clawhub)", () => {
       schema: "openclaw.skills.security-verdicts.v1",
       items: [
         expect.objectContaining({
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           ok: true,
           requestedSlug: "agentreceipt",
           requestedVersion: "1.2.3",
@@ -217,7 +217,7 @@ describe("skills gateway handlers (clawhub)", () => {
           clawhub: {
             status: "linked",
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "weather",
             ownerHandle: "alice",
             installedVersion: "1.2.3",
@@ -230,7 +230,7 @@ describe("skills gateway handlers (clawhub)", () => {
           clawhub: {
             status: "linked",
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "weather",
             ownerHandle: "bob",
             installedVersion: "1.2.3",
@@ -271,7 +271,7 @@ describe("skills gateway handlers (clawhub)", () => {
     expect(error).toBeUndefined();
     expect(fetchExactClawHubSkillSecurityVerdictsMock).toHaveBeenCalledTimes(1);
     expect(fetchExactClawHubSkillSecurityVerdictsMock).toHaveBeenCalledWith({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       items: [
         { slug: "weather", ownerHandle: "alice", version: "1.2.3" },
         { slug: "weather", ownerHandle: "bob", version: "1.2.3" },

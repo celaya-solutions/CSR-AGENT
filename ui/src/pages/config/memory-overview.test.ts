@@ -1,26 +1,8 @@
 /* @vitest-environment jsdom */
 
-import { expectDefined } from "@openclaw/normalization-core";
 import { render } from "lit";
 import { describe, expect, it, vi } from "vitest";
 import type { DoctorMemoryStatusPayload } from "../../../../src/gateway/server-methods/doctor.ts";
-
-// The hero derives its lobster from lobsterPetSeed, which mixes in a random
-// per-load salt, so the palette (and with it sprite geometry like the sleeping
-// eye peek) varies per test process. Pin a canonical look so pose assertions
-// stay deterministic.
-vi.mock("../../components/lobster-pet-look.ts", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("../../components/lobster-pet-look.ts")>();
-  const { LOBSTER_PET_PALETTES } = await import("../../components/lobster-pet-palettes.ts");
-  return {
-    ...actual,
-    createLobsterPetLook: () =>
-      actual.canonicalLobsterLook(
-        expectDefined(LOBSTER_PET_PALETTES[0], "canonical lobster palette"),
-      ),
-  };
-});
-
 import { renderMemoryOverview, type MemoryOverviewStatus } from "./memory-overview.ts";
 
 type MemoryOverviewProps = Parameters<typeof renderMemoryOverview>[0];
@@ -95,7 +77,6 @@ function renderOverview(
   const container = document.createElement("div");
   render(
     renderMemoryOverview({
-      agentId: "main",
       engineSelection,
       engineDisabled: false,
       status,
@@ -116,7 +97,6 @@ describe("renderMemoryOverview", () => {
 
     expect(container.textContent).toContain("Memory is awake");
     expect(container.textContent).toContain("memory-core · hybrid search");
-    expect(container.querySelector(".lob-reading-book")).not.toBeNull();
     expect(container.textContent).toContain("Sleep schedule");
     expect(container.textContent).toContain("Europe/Vienna");
     expect(container.textContent).toContain("Promoted today");
@@ -131,24 +111,19 @@ describe("renderMemoryOverview", () => {
     expect(container.textContent).toContain("Memory needs attention");
     expect(container.textContent).toContain("gateway request failed");
     expect(container.textContent).toContain("Retry");
-    expect(container.querySelector(".lob-reading-book")).toBeNull();
   });
 
-  it("renders the dimmed sleeping hero when the engine is off", () => {
+  it("renders the hibernating hero when the engine is off", () => {
     const container = renderOverview({ kind: "idle" }, { kind: "off" });
 
     expect(container.textContent).toContain("Memory is hibernating");
     expect(container.textContent).toContain("Open Settings");
-    expect(container.querySelector(".memory-overview__hero--sleeping")).not.toBeNull();
-    expect(container.querySelector(".lobster-pet__svg")).not.toBeNull();
-    expect(container.querySelector(".lob-reading-book")).toBeNull();
   });
 
   it("hibernates a disabled pinned engine and points to Settings", () => {
     const container = document.createElement("div");
     render(
       renderMemoryOverview({
-        agentId: "main",
         engineSelection: { kind: "pinned", engineId: "memory-core" },
         engineDisabled: true,
         status: { kind: "ready", payload: fixturePayload() },
@@ -163,7 +138,6 @@ describe("renderMemoryOverview", () => {
     expect(container.textContent).toContain("Memory is hibernating");
     expect(container.textContent).toContain("selected memory engine is disabled");
     expect(container.textContent).toContain("Open Settings");
-    expect(container.querySelector(".lob-reading-book")).toBeNull();
     expect(container.textContent).not.toContain("Engine health");
     expect(container.textContent).not.toContain("Sleep schedule");
   });
@@ -183,7 +157,7 @@ describe("renderMemoryOverview", () => {
     expect(phaseRows.every((row) => !row.textContent?.includes("next "))).toBe(true);
   });
 
-  it("explains the phases in sweep order and links to the dreaming guide", () => {
+  it("explains the phases in sweep order without an external guide link", () => {
     const container = renderOverview({ kind: "ready", payload: fixturePayload() });
     const phaseRows = [...container.querySelectorAll(".settings-row")].filter((row) =>
       /Light phase|REM phase|Deep phase/.test(row.textContent ?? ""),
@@ -203,12 +177,7 @@ describe("renderMemoryOverview", () => {
     );
     expect(phaseRows.every((row) => row.textContent?.includes("0 3 * * *"))).toBe(true);
 
-    const docs = container.querySelector<HTMLAnchorElement>(
-      'a[href="https://docs.openclaw.ai/concepts/dreaming"]',
-    );
-    expect(docs?.textContent).toContain("Open dreaming guide");
-    expect(docs?.target).toBe("_blank");
-    expect(docs?.rel).toBe("noreferrer noopener");
+    expect(container.querySelector('a[target="_blank"]')).toBeNull();
   });
 
   it("reports an enabled phase without its managed cron as not scheduled", () => {
@@ -288,7 +257,6 @@ describe("renderMemoryOverview", () => {
     const container = document.createElement("div");
     render(
       renderMemoryOverview({
-        agentId: "main",
         engineSelection: { kind: "auto", engineId: "memory-core" },
         engineDisabled: false,
         status: { kind: "ready", payload: fixturePayload() },

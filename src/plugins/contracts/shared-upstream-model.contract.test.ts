@@ -8,9 +8,9 @@ import { listGitTrackedFiles } from "../../test-utils/repo-files.js";
 const repoRoot = path.resolve(import.meta.dirname, "../../..");
 const MANIFEST_BASENAME = "openclaw.plugin.json";
 const CODE_MODE_TIER_LITERAL = /codeMode:\s*"(?:preferred|capable)"/;
-// Minimax resolves cost per provider surface, so its rows cannot live in one
-// manifest catalog and remain invisible to the manifest scan below.
-const UNCONVERTED_SOURCE_CATALOG_PLUGINS = ["minimax"];
+// Plugins whose code-mode tiers live in source catalogs stay invisible to the
+// manifest scan below; bundled plugins currently keep every tier in manifests.
+const UNCONVERTED_SOURCE_CATALOG_PLUGINS: string[] = [];
 
 type CatalogEntry = {
   /** `provider/model` ref used in failure output. */

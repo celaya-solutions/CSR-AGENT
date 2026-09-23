@@ -15,7 +15,7 @@ OpenAgent ACP runtime backend with plugin-owned session and transport management
 ## Distribution
 
 - Package: `@openclaw/acpx`
-- Install route: npm or ClawHub: `clawhub:@openclaw/acpx`
+- Install route: included in OpenAgent
 
 ## Surface
 

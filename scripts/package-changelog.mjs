@@ -114,9 +114,8 @@ export function readCurrentPackageChangelog(rootDir, packageVersion, options = {
         source.preamble,
         `## ${source.version}`,
         "The complete release documentation exceeds the package's 500 KiB changelog limit.",
-        `Read the [full release notes](https://github.com/openclaw/openclaw/blob/main/${source.sourcePath}) ([Raw](https://github.com/openclaw/openclaw/raw/refs/heads/main/${source.sourcePath})) or the [release documentation](https://docs.openclaw.ai/releases/${source.version}).`,
-        `The [complete contribution record](https://github.com/openclaw/openclaw/blob/main/${source.recordPath}#complete-contribution-record) remains available separately.`,
-        "The changelog and contribution-record links follow the maintained files on main.",
+        `Read the full release notes in \`${source.sourcePath}\` in this repository.`,
+        `The complete contribution record remains available separately in \`${source.recordPath}\`.`,
       ].join("\n\n");
     }
     return extractCurrentPackageChangelog(content, packageVersion, {

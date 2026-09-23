@@ -269,7 +269,7 @@ describe("managed plugin install transactions", () => {
             packageName: "community/demo",
             clawhub: {
               source: "clawhub",
-              clawhubUrl: "https://clawhub.ai",
+              clawhubUrl: "https://registry.example.test",
               clawhubPackage: "community/demo",
               clawhubFamily: "code-plugin",
             },

@@ -10,7 +10,7 @@ read_when:
 
 <AccordionGroup>
   <Accordion title="What is OpenAgent, in one paragraph?">
-    OpenAgent is an AI assistant you run on your own infrastructure - for yourself, or shared with your team. It replies on the messaging surfaces you already use (Discord, Google Chat, iMessage, Mattermost, Signal, Slack, Telegram, WebChat, WhatsApp, and bundled channel plugins such as QQ Bot) and can also do voice plus hosted widgets in chat, on session dashboards, and in the macOS panel. The **Gateway** is the always-on control plane; the assistant is the product. The same gateway scales from one person's WhatsApp to a shared workspace bot with [multi-user sessions](/concepts/multi-user).
+    OpenAgent is an AI assistant you run on your own infrastructure - for yourself, or shared with your team. It replies on Discord, Telegram, and WebChat and can also do voice plus hosted widgets in chat and on session dashboards. The **Gateway** is the always-on control plane; the assistant is the product. The same gateway scales from one person's Telegram bot to a shared workspace bot with [multi-user sessions](/concepts/multi-user).
   </Accordion>
 
   <Accordion title="Can my team share one OpenAgent?">
@@ -24,8 +24,8 @@ read_when:
     OpenAgent is not "just a Claude wrapper." It is a **local-first control plane** that runs a capable assistant on **your own hardware**, reachable from the chat apps you already use, with stateful sessions, memory, and tools - without handing your workflows to a hosted SaaS.
 
     - **Your devices, your data**: run the Gateway wherever you want (Mac, Linux, VPS) and keep the workspace and session history local.
-    - **Real channels, not a web sandbox**: Discord/iMessage/Signal/Slack/Telegram/WhatsApp/etc, plus mobile voice and hosted widgets.
-    - **Model-agnostic**: use Anthropic, MiniMax, OpenAI, OpenRouter, etc., with per-agent routing and failover.
+    - **Real channels, not a web sandbox**: Discord and Telegram, plus browser voice and hosted widgets.
+    - **Model-agnostic**: use Anthropic, OpenAI, OpenRouter, Ollama, llama.cpp, etc., with per-agent routing and failover.
     - **Local-only option**: run local models so all data can stay on your device.
     - **Multi-agent routing**: separate agents per channel, account, or task, each with its own workspace and defaults.
     - **Open source and hackable**: inspect, extend, and self-host without vendor lock-in.
@@ -60,17 +60,17 @@ read_when:
   </Accordion>
 
   <Accordion title="Is OpenAgent owned by OpenAI?">
-    No. OpenAgent is stewarded by the [Celaya Solutions](https://openclaw.org), an independent 501(c)(3). OpenAI is one of several donors, and its creator works there. Donors do not own, control, or direct the project. Codex is one [agent harness](/concepts/agent-runtimes) plugin among several, and no lab's model is privileged in the code.
+    No. OpenAgent is a course edition by Celaya Solutions, derived from OpenClaw, and is not endorsed by the OpenClaw Foundation. Codex is one [agent harness](/concepts/agent-runtimes) plugin among several, and no lab's model is privileged in the code.
 
   </Accordion>
 
-  <Accordion title="What does OpenAgent send to the Foundation?">
-    By default, a daily update check carrying the OpenAgent version, OS, Node version, and CPU architecture: the same information any package registry sees. Optional anonymous feature statistics are off by default and carry no identifier. No prompts, messages, model names, keys, paths, or machine identifiers are ever sent to the Foundation. Set `update.checkOnStart: false` to send nothing at all. Traffic to the model providers and chat platforms you configure is separate and goes to them, as always; see [Is all data used with OpenAgent saved locally?](/help/faq/where-things-live-on-disk#is-all-data-used-with-openclaw-saved-locally). Details: [Usage telemetry and update checks](/gateway/telemetry).
+  <Accordion title="What does OpenAgent send home?">
+    Nothing by default. OpenAgent has no default telemetry endpoint: update checks and optional anonymous feature statistics are sent only when you set `OPENCLAW_TELEMETRY_ENDPOINT`, and even then no prompts, messages, model names, keys, paths, or machine identifiers are sent. Traffic to the model providers and chat platforms you configure is separate and goes to them, as always; see [Is all data used with OpenAgent saved locally?](/help/faq/where-things-live-on-disk#is-all-data-used-with-openclaw-saved-locally). Details: [Usage telemetry and update checks](/gateway/telemetry).
 
   </Accordion>
 
-  <Accordion title="How is OpenAgent funded, and how does that compare?">
-    The Foundation is funded by donations and has no product to sell: no paid tier, no hosted service, no token. It is not venture-backed. Some other self-hosted agents are built by venture-funded companies that sell a subscription their agent offers during setup. That is a difference in incentives, not a judgment of their engineering; see the [governance comparison](/start/why-openclaw#governance).
+  <Accordion title="Who maintains OpenAgent?">
+    Celaya Solutions maintains OpenAgent as a course edition of OpenClaw. It has no paid tier, no hosted service, and no token. See [Governance](/start/why-openclaw#governance).
 
   </Accordion>
 
@@ -78,12 +78,10 @@ read_when:
     OpenAgent is an **assistant and coordination layer**, not an IDE replacement. Use Claude Code or Codex for the fastest direct coding loop inside a repo. Use OpenAgent for durable memory, cross-device access, and tool orchestration.
 
     - Persistent memory and workspace across sessions.
-    - Multi-platform access (Telegram, WhatsApp, TUI, WebChat).
+    - Multi-platform access (Discord, Telegram, TUI, WebChat).
     - Tool orchestration (browser, files, scheduling, hooks).
     - Always-on Gateway (run on a VPS, interact from anywhere).
-    - Nodes for local browser/screen/camera/exec.
-
-    Showcase: [https://openclaw.ai/showcase](https://openclaw.ai/showcase).
+    - Nodes for remote command execution.
 
   </Accordion>
 </AccordionGroup>

@@ -19,7 +19,6 @@ import {
   verifyPreparedNpmBundleFiles,
   verifyNpmSourceCheck,
 } from "../../scripts/npm-prepared-bundle.mjs";
-import { validatePreflightManifest } from "../../scripts/release-candidate-checklist.mts";
 import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
 
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
@@ -490,11 +489,6 @@ describe("prepared npm bundle", () => {
       });
       expect(qualified.releaseTag).toBe(expectedTag);
       expect(qualified.packageVersion).toBe(packageVersion);
-      const params = { tag: expectedTag, targetSha: fixture.releaseRef, npmDistTag: "beta" };
-      expect(() => validatePreflightManifest(qualified, params)).not.toThrow();
-      expect(() => validatePreflightManifest(qualified, { ...params, tag: "v2026.8.1-3" })).toThrow(
-        "npm preflight tag mismatch",
-      );
       expect(
         JSON.parse(
           execFileSync(

@@ -55,10 +55,6 @@ required capabilities instead of asserting a partial fixture as the full
 application context. Keep real selection capabilities in lifecycle tests so
 agent scope changes and subscription cleanup follow the application behavior.
 
-For remote-environment proof, invoke `node scripts/crabbox-wrapper.mjs`
-directly. Avoid local `pnpm crabbox:run` in linked worktrees because pnpm may
-reconcile dependencies before the remote wrapper starts.
-
 ## Core commands
 
 Run the test toolchain on Node 24.16+ or Node 26.1+, matching the packaged
@@ -105,7 +101,7 @@ need separate cache roots.
 Control UI builds report size budgets without enforcing them. Run
 `pnpm ui:check-performance` after a build to enforce absolute budgets, or
 `pnpm ui:check-performance:base <base-commit-sha>` to build and compare both
-revisions with the same toolchain. See [Control UI size budgets](/ci/pipeline#control-ui-size-budgets).
+revisions with the same toolchain. See Control UI size budgets.
 
 ### Source tests and subprocess builds
 
@@ -206,18 +202,11 @@ trailer.
 | `pnpm test`                                       | Explicit file/directory targets route through scoped Vitest lanes. Untargeted runs are full-suite proof: fixed shard groups expand to leaf configs for local parallel execution, with the expected shard fanout printed before starting. The extension group always expands to per-extension shard configs instead of one giant root-project process. |
 | `pnpm test:changed`                               | Cheap smart changed-test run: precise targets from direct test edits, sibling `*.test.ts` files, explicit source mappings, and the local import graph. Broad/config/package changes are skipped unless they map to precise tests.                                                                                                                     |
 | `OPENCLAW_TEST_CHANGED_BROAD=1 pnpm test:changed` | Explicit broad changed-test run; use when a test harness/config/package edit should fall back to Vitest's broader changed-test behavior.                                                                                                                                                                                                              |
-| `pnpm test:force`                                 | Frees the configured OpenAgent gateway port (default `18789`), then runs the full suite with an isolated gateway port so server tests do not collide with a running instance.                                                                                                                                                                          |
+| `pnpm test:force`                                 | Frees the configured OpenAgent gateway port (default `18789`), then runs the full suite with an isolated gateway port so server tests do not collide with a running instance.                                                                                                                                                                         |
 | `pnpm test:coverage`                              | Emits an informational V8 coverage report for the default unit lane (`vitest.unit.config.ts`); no coverage thresholds are enforced.                                                                                                                                                                                                                   |
 | `pnpm test:coverage:changed`                      | Unit coverage only for files changed since `origin/main`.                                                                                                                                                                                                                                                                                             |
 | `pnpm changed:lanes`                              | Shows the architectural lanes triggered by the diff against `origin/main`.                                                                                                                                                                                                                                                                            |
 | `pnpm check:changed`                              | Runs the local changed formatting/typecheck/lint/guard plan, including targeted Vitest owner tests for selected paths. Use `pnpm test:changed` or `pnpm test <target>` for additional test proof matching the touched contract.                                                                                                                       |
-
-`pnpm check:changed` also runs the mobile protocol-event coverage guard when
-changes affect the gateway event catalog or constants, scanned mobile sources,
-coverage declarations, or the guard, its execution helpers, and its routing.
-All-lane checks include it too. Every gateway event must have a handler or an
-explicitly approved non-consumption declaration for each mobile client. To run
-only this guard, use `pnpm check:protocol-coverage`.
 
 For native app changes, `pnpm check:changed` uses platform scope to select lint:
 Android selects `pnpm android:lint` (the Gradle ktlint checks), while Apple app

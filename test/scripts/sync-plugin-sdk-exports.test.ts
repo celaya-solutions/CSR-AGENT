@@ -10,7 +10,6 @@ const repoRoot = path.resolve(import.meta.dirname, "../..");
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 const declarationConfigs = [
   { file: "extensions/tsconfig.package-boundary.paths.json", prefix: "../" },
-  { file: "extensions/xai/tsconfig.json", prefix: "../../" },
 ] as const;
 const outputFiles = [
   "package.json",
@@ -183,18 +182,12 @@ describe("plugin SDK registration CLI", () => {
     }
   });
 
-  it("repairs both declaration maps while preserving all existing custom mappings and fields", () => {
+  it("repairs the declaration map while preserving all existing custom mappings and fields", () => {
     const root = createFixture();
     const original = readOutputs(root);
     const shared = readConfig(root, declarationConfigs[0].file);
     delete shared.compilerOptions.paths["openclaw/plugin-sdk/browser-cdp"];
     writeJson(root, declarationConfigs[0].file, shared);
-    const xai = readConfig(root, declarationConfigs[1].file);
-    xai.compilerOptions.paths["openclaw/plugin-sdk/browser-cdp"] = ["./wrong.d.ts"];
-    for (const entry of ["channel-secret-owner-runtime", "channel-secret-tts-runtime"]) {
-      xai.compilerOptions.paths[`openclaw/plugin-sdk/${entry}`] = ["./wrong.d.ts"];
-    }
-    writeJson(root, declarationConfigs[1].file, xai);
 
     const result = runSync(root);
 

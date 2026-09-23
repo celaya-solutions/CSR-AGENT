@@ -290,7 +290,7 @@ describeControlUiE2e("Control UI chat message actions", () => {
         const imageUrl =
           kind === "image"
             ? `data:image/png;base64,${(
-                await readFile(path.join(process.cwd(), "docs/assets/openclaw-banner-dark.png"))
+                await readFile(path.join(process.cwd(), "docs/assets/openagent-banner.png"))
               ).toString("base64")}`
             : "";
         const source = {

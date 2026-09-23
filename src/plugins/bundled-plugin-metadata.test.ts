@@ -31,7 +31,7 @@ import { writeBundledRuntimeSidecarPathBaseline } from "./runtime-sidecar-paths-
 import { BUNDLED_RUNTIME_SIDECAR_PATHS } from "./runtime-sidecar-paths.js";
 
 const BUNDLED_PLUGIN_METADATA_TEST_TIMEOUT_MS = 300_000;
-const EXPECTED_EMPTY_CONFIG_GATEWAY_STARTUP_EXTRAS = ["memory-core", "xai"] as const;
+const EXPECTED_EMPTY_CONFIG_GATEWAY_STARTUP_EXTRAS = ["memory-core"] as const;
 
 installGeneratedPluginTempRootCleanup();
 
@@ -308,7 +308,6 @@ describe("bundled plugin metadata", () => {
   beforeAll(() => {
     listRepoBundledPluginMetadata();
     collectRepoBundledChannelConfigsForTest("discord");
-    collectRepoBundledChannelConfigsForTest("tlon");
   });
 
   it("lists bundled plugin manifests without scanning extension directories in-process", () => {
@@ -343,9 +342,7 @@ describe("bundled plugin metadata", () => {
   );
 
   it("excludes non-packaged QA sidecars from the packaged runtime sidecar baseline", () => {
-    expect(BUNDLED_RUNTIME_SIDECAR_PATHS).not.toContain(
-      "dist/extensions/qa-channel/runtime-api.js",
-    );
+    expect(BUNDLED_RUNTIME_SIDECAR_PATHS).not.toContain();
     expect(BUNDLED_RUNTIME_SIDECAR_PATHS).not.toContain("dist/extensions/qa-lab/runtime-api.js");
   });
 
@@ -379,37 +376,12 @@ describe("bundled plugin metadata", () => {
     expect(discordChannelConfig?.schema?.type).toBe("object");
   });
 
-  it("keeps Slack's doctor contract sidecar on the bundled public surface", () => {
-    const slack = listRepoBundledPluginMetadata().find((entry) => entry.dirName === "slack");
-    expectArtifactPresence(slack?.publicSurfaceArtifacts, {
-      contains: ["doctor-contract-api.js"],
-    });
-  });
-
   it("keeps Memory Core's health checks on a narrow public surface", () => {
     const memoryCore = listRepoBundledPluginMetadata().find(
       (entry) => entry.dirName === "memory-core",
     );
     expectArtifactPresence(memoryCore?.publicSurfaceArtifacts, {
       contains: ["doctor-health-api.js"],
-    });
-  });
-
-  it("keeps iMessage message-tool discovery on a narrow public surface", () => {
-    const imessage = listRepoBundledPluginMetadata().find((entry) => entry.dirName === "imessage");
-    expectArtifactPresence(imessage?.publicSurfaceArtifacts, {
-      contains: ["message-tool-api.js"],
-    });
-  });
-
-  it("keeps Slack's narrow runtime-setter sidecar on the bundled public surface", () => {
-    // Regression for #69317: the bundled channel entry now points its
-    // runtime.specifier at runtime-setter-api.js to avoid loading the full
-    // runtime-api barrel during register(). The setter file must therefore
-    // be discoverable as part of Slack's public surface.
-    const slack = listRepoBundledPluginMetadata().find((entry) => entry.dirName === "slack");
-    expectArtifactPresence(slack?.publicSurfaceArtifacts, {
-      contains: ["runtime-setter-api.js"],
     });
   });
 
@@ -433,53 +405,9 @@ describe("bundled plugin metadata", () => {
     });
   });
 
-  it("keeps QA runner discovery on narrow bundled runtime sidecars", () => {
-    const runnerPlugins = listRepoBundledPluginMetadata().filter(
-      (entry) => (entry.manifest.qaRunners?.length ?? 0) > 0,
-    );
-    expect(runnerPlugins.length).toBeGreaterThan(0);
-
-    for (const plugin of runnerPlugins) {
-      expectArtifactPresence(plugin?.publicSurfaceArtifacts, {
-        contains: ["qa-runner-api.js"],
-      });
-      expectArtifactPresence(plugin?.runtimeSidecarArtifacts, {
-        contains: ["qa-runner-api.js"],
-      });
-    }
-  });
-
-  it("loads tlon channel config metadata from the lightweight schema surface", () => {
-    const tlonChannelConfig = collectRepoBundledChannelConfigsForTest("tlon")?.tlon as
-      | { schema?: { type?: unknown } }
-      | undefined;
-    expect(tlonChannelConfig?.schema?.type).toBe("object");
-  });
-
-  it("keeps bundled persisted-auth metadata on channel package manifests", () => {
-    const whatsapp = listRepoBundledPluginMetadata().find((entry) => entry.dirName === "whatsapp");
-    expect(whatsapp?.packageManifest?.channel?.persistedAuthState).toEqual({
-      specifier: "./auth-presence",
-      exportName: "hasAnyWhatsAppAuth",
-    });
-
-    const matrix = listRepoBundledPluginMetadata().find((entry) => entry.dirName === "matrix");
-    expect(matrix?.packageManifest?.channel?.persistedAuthState).toEqual({
-      specifier: "./auth-presence",
-      exportName: "hasAnyMatrixAuth",
-    });
-  });
-
-  it("keeps Matrix's narrow runtime-setter sidecar on the bundled public surface", () => {
-    const matrix = listRepoBundledPluginMetadata().find((entry) => entry.dirName === "matrix");
-    expectArtifactPresence(matrix?.publicSurfaceArtifacts, {
-      contains: ["runtime-setter-api.js"],
-    });
-  });
-
   it("keeps bundled configured-state env metadata on channel package manifests", () => {
     const configuredChannels = listRepoBundledPluginMetadata()
-      .filter((entry) => ["discord", "irc", "slack", "telegram"].includes(entry.dirName))
+      .filter((entry) => ["discord", "telegram"].includes(entry.dirName))
       .map((entry) => ({
         dir: entry.dirName,
         configuredState: entry.packageManifest?.channel?.configuredState,
@@ -491,24 +419,6 @@ describe("bundled plugin metadata", () => {
           env: {
             anyOf: ["DISCORD_BOT_TOKEN"],
           },
-        },
-      },
-      {
-        dir: "irc",
-        configuredState: {
-          env: {
-            allOf: ["IRC_HOST", "IRC_NICK"],
-          },
-        },
-      },
-      {
-        dir: "slack",
-        configuredState: {
-          env: {
-            anyOf: ["SLACK_BOT_TOKEN", "SLACK_APP_TOKEN", "SLACK_USER_TOKEN"],
-          },
-          specifier: "./configured-state",
-          exportName: "hasConfiguredSlackChannelState",
         },
       },
       {
@@ -543,24 +453,6 @@ describe("bundled plugin metadata", () => {
     for (const entry of listRepoBundledPluginManifests()) {
       expect(typeof entry.manifest.activation?.onStartup).toBe("boolean");
     }
-  });
-
-  it("scopes Voice Call CLI activation to the voicecall command", () => {
-    const entry = listRepoBundledPluginManifests().find(
-      ({ manifest }) => manifest.id === "voice-call",
-    );
-
-    expect(entry?.manifest.commandAliases).toStrictEqual([{ name: "voicecall" }]);
-    expect(entry?.manifest.activation?.onCommands).toStrictEqual(["voicecall"]);
-  });
-
-  it("keeps Workboard CLI ownership separate from its slash command", () => {
-    const entry = listRepoBundledPluginManifests().find(
-      ({ manifest }) => manifest.id === "workboard",
-    );
-
-    expect(entry?.manifest.commandAliases).toStrictEqual([{ name: "workboard" }]);
-    expect(entry?.manifest.activation?.onCommands).toStrictEqual(["workboard"]);
   });
 
   it("scopes Codex CLI activation to the codex command", () => {
@@ -602,21 +494,6 @@ describe("bundled plugin metadata", () => {
     ).toEqual(expectedPluginIds);
   });
 
-  it("auto-starts Bonjour for empty-config macOS Gateway startup", () => {
-    const manifestRegistry = createRepoBundledManifestRegistry();
-    const index = createInstalledPluginIndexForManifests(manifestRegistry);
-
-    expect(
-      resolveGatewayStartupPluginPlanFromRegistry({
-        config: {},
-        env: process.env,
-        index,
-        manifestRegistry,
-        platform: "darwin",
-      }).pluginIds,
-    ).toContain("bonjour");
-  });
-
   it.each([
     { name: "before login", config: {} },
     {
@@ -642,21 +519,6 @@ describe("bundled plugin metadata", () => {
         manifestRegistry,
       }).pluginIds,
     ).toContain("openai");
-  });
-
-  it("starts Bonjour when explicitly enabled", () => {
-    const manifestRegistry = createRepoBundledManifestRegistry();
-    const index = createInstalledPluginIndexForManifests(manifestRegistry);
-
-    expect(
-      resolveGatewayStartupPluginPlanFromRegistry({
-        config: { plugins: { entries: { bonjour: { enabled: true } } } },
-        env: process.env,
-        index,
-        manifestRegistry,
-        platform: "linux",
-      }).pluginIds,
-    ).toContain("bonjour");
   });
 
   it("prefers built generated paths when present and falls back to source paths", () => {

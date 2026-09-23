@@ -1,5 +1,4 @@
 // Verifies generated talk default config stays aligned with schema.
-import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,19 +14,7 @@ const EXPECTED_TALK_SILENCE_TIMEOUT_MS_BY_PLATFORM = {
 } as const;
 
 function readRepoFile(relativePath: string): string {
-  try {
-    return fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
-      throw error;
-    }
-  }
-
-  // Sparse worktrees may omit app sources, but the tracked blob is still the parity source.
-  return execFileSync("git", ["show", `HEAD:${relativePath}`], {
-    cwd: repoRoot,
-    encoding: "utf8",
-  });
+  return fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
 }
 
 describe("talk silence timeout defaults", () => {
@@ -38,27 +25,6 @@ describe("talk silence timeout defaults", () => {
       `\`${EXPECTED_TALK_SILENCE_TIMEOUT_MS_BY_PLATFORM.ios}\` ms iOS`;
 
     expect(FIELD_HELP["talk.silenceTimeoutMs"]).toContain(defaultsDescription);
-    expect(readRepoFile("docs/gateway/config-agents/messages-and-talk.md")).toContain(
-      defaultsDescription,
-    );
     expect(readRepoFile("docs/nodes/talk.md")).toContain(talkDocDefaults);
-  });
-
-  it("matches the Apple and Android runtime constants", () => {
-    const macDefaults = readRepoFile("apps/macos/Sources/OpenClaw/TalkDefaults.swift");
-    const iosDefaults = readRepoFile("apps/ios/Sources/Voice/TalkDefaults.swift");
-    const androidDefaults = readRepoFile(
-      "apps/android/app/src/main/java/ai/openclaw/app/voice/TalkDefaults.kt",
-    );
-
-    expect(macDefaults).toContain(
-      `static let silenceTimeoutMs = ${EXPECTED_TALK_SILENCE_TIMEOUT_MS_BY_PLATFORM.macos}`,
-    );
-    expect(iosDefaults).toContain(
-      `static let silenceTimeoutMs = ${EXPECTED_TALK_SILENCE_TIMEOUT_MS_BY_PLATFORM.ios}`,
-    );
-    expect(androidDefaults).toContain(
-      `const val defaultSilenceTimeoutMs = ${EXPECTED_TALK_SILENCE_TIMEOUT_MS_BY_PLATFORM.android}L`,
-    );
   });
 });

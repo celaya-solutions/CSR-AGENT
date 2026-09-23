@@ -40,9 +40,6 @@ function writeFixtureFile(rootDir: string, relativePath: string, contents: strin
 function writeStartupMetadataSourceSignatureFixture(rootDir: string): void {
   const fixtures = new Map<string, string>([
     ["extensions/browser/src/cli/browser-cli.ts", "export const browserHelp = 'browser';\n"],
-    ["extensions/canvas/cli-metadata.ts", "export const canvasMetadata = 'canvas';\n"],
-    ["extensions/canvas/index.ts", "export const canvasEntry = 'canvas';\n"],
-    ["extensions/canvas/src/cli.ts", "export const canvasCliHelp = 'canvas';\n"],
     ["src/cli/banner.ts", "export const banner = 'openclaw';\n"],
     [
       "src/cli/daemon-cli/register-service-commands.ts",
@@ -1130,7 +1127,7 @@ describe("write-cli-startup-metadata", () => {
     }
   });
 
-  it("regenerates nodes help when bundled canvas CLI help sources change", async () => {
+  it("regenerates nodes help when nodes CLI help sources change", async () => {
     const tempRoot = createTempDir("openclaw-startup-metadata-signature-");
     const distDir = path.join(tempRoot, "dist");
     const extensionsDir = path.join(tempRoot, "extensions");
@@ -1181,8 +1178,8 @@ describe("write-cli-startup-metadata", () => {
 
     writeFixtureFile(
       tempRoot,
-      "extensions/canvas/src/cli.ts",
-      "export const canvasCliHelp = 'canvas changed help';\n",
+      "src/cli/nodes-cli/register.ts",
+      "export const nodesHelp = 'nodes changed help';\n",
     );
 
     await writeMetadata();

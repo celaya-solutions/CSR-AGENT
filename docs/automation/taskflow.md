@@ -37,14 +37,6 @@ For Gateway-backed plugin subagents, the public path is `api.runtime.subagent.ru
 
 Use the returned identities and current owner-visible task facts, not invented status/timing. A child can finish before linkage; `runTask` does not replay past terminal events. Do not create a running projection of completed work. See the [SDK Tasks contract](/plugins/sdk-runtime) for the launch, synchronous pre-link check, result handling and revision rules.
 
-#### Run a managed Lobster workflow
-
-For operator/agent use, the optional [Lobster tool](/tools/lobster) can execute a workflow with `flowControllerId` and `flowGoal`. It creates a managed flow, records a real approval pause as waiting, and finishes or fails from the workflow outcome. The workflow steps are not detached child task records.
-
-The tool returns envelope fields plus `flow` and `mutation` at the top level of its details. Check `mutation.applied` and use `mutation.flow`, the post-mutation record, for the next `flowExpectedRevision`. After the user's decision, resume with the returned token or approval ID and the actual flow id/revision; check cancellation through `mutation.cancelled`. Report errors and rejected updates instead of treating workflow output as proof that flow state persisted.
-
-The bundled TaskFlow skill examples route synthetic inbox/PR batches and suspend for approval without contacting external services. A workflow approval is not an arbitrary Slack-reply listener: a real controller must register that listener, persist thread correlation and resume when the matching event arrives.
-
 ### Mirrored mode
 
 OpenAgent creates a mirrored one-task flow automatically when a detached ACP or subagent run starts (session-scoped tasks with deliverable completion). The flow record mirrors its single backing task - status, goal, and timing - so detached spawns get a stable flow handle for status and retry surfaces without a controller. Mirrored flows show sync mode `task_mirrored` in the CLI.
@@ -108,8 +100,7 @@ For recurring workflows such as market intelligence briefings, treat the schedul
 
 1. Use [Automations](/automation/cron-jobs) for timing.
 2. Use a persistent automation session when the workflow should build on prior context.
-3. Use [Lobster](/tools/lobster) for deterministic steps, approval gates, and resume tokens.
-4. Use Task Flow to track the multi-step run across child tasks, waits, retries, and gateway restarts.
+3. Use Task Flow to track the multi-step run across child tasks, waits, retries, and gateway restarts.
 
 Example automation job (`openclaw automations`; `openclaw cron` remains an alias):
 
@@ -119,43 +110,24 @@ openclaw automations add \
   --cron "0 7 * * 1-5" \
   --tz "America/New_York" \
   --session session:market-intel \
-  --message "Run the market-intel Lobster workflow. Verify source freshness before summarizing." \
+  --message "Run the market-intel workflow. Verify source freshness before summarizing." \
   --announce \
-  --channel slack \
-  --to "channel:C1234567890"
+  --channel discord \
+  --to "channel:123456789012345678"
 ```
 
 Use `--session session:<id>` instead of `isolated` when the recurring workflow needs deliberate history, previous run summaries, or standing context. Use `isolated` when each run should start fresh and all required state is explicit in the workflow.
 
 Inside the workflow, put reliability checks before the LLM summary step:
-
-```yaml
-name: market-intel-brief
-steps:
-  - id: preflight
-    command: market-intel check --json
-  - id: collect
-    command: market-intel collect --json
-    stdin: $preflight.json
-  - id: summarize
-    command: market-intel summarize --json
-    stdin: $collect.json
-  - id: approve
-    command: market-intel deliver --preview
-    stdin: $summarize.json
-    approval: required
-  - id: deliver
-    command: market-intel deliver --execute
-    stdin: $summarize.json
-    condition: $approve.approved
-```
+run a preflight check, collect the data, summarize it, and ask for approval
+before the delivery step executes.
 
 Recommended preflight checks:
 
 - Browser availability and profile choice, for example `openclaw` for managed state or `user` when a signed-in Chrome session is required. See [Browser](/tools/browser).
 - API credentials and quota for each source.
 - Network reachability for required endpoints.
-- Required tools enabled for the agent, such as `lobster`, `browser`, and `llm-task`.
+- Required tools enabled for the agent, such as `browser` and `llm-task`.
 - Failure destination configured for the automation so preflight failures are visible. See [Automations](/automation/cron-jobs#delivery-and-output).
 
 Recommended data provenance fields for every collected item:
@@ -172,7 +144,7 @@ Recommended data provenance fields for every collected item:
 
 Have the workflow reject or mark stale items before summarization. The LLM step should receive only structured JSON and should be asked to preserve `sourceUrl`, `retrievedAt`, and `asOf` in its output. Use [LLM Task](/tools/llm-task) when you need a schema-validated model step inside the workflow.
 
-For reusable team or community workflows, package the CLI, `.lobster` files, and any setup notes as a skill or plugin and publish it through [ClawHub](/clawhub). Keep workflow-specific guardrails in that package unless the plugin API is missing a needed generic capability.
+For reusable team or community workflows, package the CLI and any setup notes as a skill or plugin and share it as a Git repository or package. Keep workflow-specific guardrails in that package unless the plugin API is missing a needed generic capability.
 
 ## How flows relate to tasks
 

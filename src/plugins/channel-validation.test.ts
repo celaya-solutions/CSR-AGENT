@@ -1,9 +1,31 @@
 // Covers plugin channel validation from manifest metadata.
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { getChatChannelMeta } from "../channels/chat-meta.js";
 import type { ChannelPlugin } from "../channels/plugins/types.public.js";
 import { normalizeRegisteredChannelPlugin } from "./channel-validation.js";
 import type { PluginDiagnostic } from "./manifest-types.js";
+
+// This distribution ships empty official catalogs; supply one external channel entry.
+vi.mock("./official-external-plugin-bundled-catalogs.js", () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: [
+    {
+      name: "@example/openclaw-weixin",
+      source: "external",
+      kind: "channel",
+      openclaw: {
+        plugin: { id: "openclaw-weixin", label: "Weixin" },
+        channel: {
+          id: "openclaw-weixin",
+          label: "Weixin",
+          docsPath: "/channels/wechat",
+          blurb: "Personal WeChat messaging via QR-code login.",
+          aliases: ["weixin", "wechat", "微信"],
+        },
+        install: { npmSpec: "@example/openclaw-weixin@2.4.8", defaultChoice: "npm" },
+      },
+    },
+  ],
+}));
 
 function collectDiagnostics() {
   const diagnostics: PluginDiagnostic[] = [];

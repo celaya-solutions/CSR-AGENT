@@ -24,9 +24,6 @@ binary presence.
   <Card title="Skills config" href="/tools/skills-config" icon="gear">
     Full `skills.*` config schema and agent allowlists.
   </Card>
-  <Card title="ClawHub" href="/clawhub" icon="cloud">
-    Browse and install community skills.
-  </Card>
 </CardGroup>
 
 ## Loading order
@@ -127,7 +124,7 @@ bundled, extra, and state-owned managed skills continue to load normally.
 On a shared Gateway, identified operators can keep a personal skill library
 without receiving permission to change everybody's workspace skills or Gateway
 configuration. Open **Plugins → Skills** to create a skill, import a `SKILL.md`
-or ZIP bundle, or add a skill from ClawHub. The editor keeps supporting scripts,
+or ZIP bundle, or add a skill from a configured registry. The editor keeps supporting scripts,
 references, and assets with the instructions.
 
 The ordinary single-admin setup stays unchanged: workspace authoring still
@@ -308,11 +305,14 @@ openclaw skills workshop apply <proposal-id>
 See [Skill Workshop](/tools/skill-workshop) for the full lifecycle, CLI
 reference, and configuration.
 
-## Installing from ClawHub
+## Installing skills
 
-[ClawHub](https://clawhub.ai) is the public skills registry. Use
-`openclaw skills` commands for install and update, or the `clawhub` CLI for
-publish and sync.
+<a id="installing-from-clawhub" />
+
+Use `openclaw skills` commands for install and update. Git, local, and
+skills.sh sources work out of the box. `@owner/<slug>` refs come from a skills
+registry, which an operator must configure with `OPENCLAW_CLAWHUB_URL`; there
+is no default registry, and registry requests fail until one is set.
 
 | Action                             | Command                                                |
 | ---------------------------------- | ------------------------------------------------------ |
@@ -326,7 +326,6 @@ publish and sync.
 | Update all shared managed skills   | `openclaw skills update --all --global`                |
 | Verify a skill's trust envelope    | `openclaw skills verify @owner/<slug>`                 |
 | Print the generated Skill Card     | `openclaw skills verify @owner/<slug> --card`          |
-| Publish / sync via ClawHub CLI     | `clawhub sync --all`                                   |
 
 <AccordionGroup>
   <Accordion title="Install details">
@@ -341,30 +340,26 @@ publish and sync.
     Git and local installs expect `SKILL.md` at the source root. The slug comes
     from `SKILL.md` frontmatter `name` when valid, then falls back to the
     directory or repository name. Use `--as <slug>` to override.
-    `openclaw skills update` tracks ClawHub installs only — reinstall Git or
+    `openclaw skills update` tracks registry installs only — reinstall Git or
     local sources to refresh them.
 
   </Accordion>
   <Accordion title="Verification and security scanning">
-    `openclaw skills verify @owner/<slug>` asks ClawHub for the skill's
-    `clawhub.skill.verify.v1` trust envelope. Installed ClawHub skills verify
-    against the version and registry recorded in `.clawhub/origin.json`.
+    `openclaw skills verify @owner/<slug>` asks the configured registry for the
+    skill's `clawhub.skill.verify.v1` trust envelope. Installed registry skills
+    verify against the version and registry recorded in `.clawhub/origin.json`.
     Bare slugs remain accepted for existing installed or unambiguous skills, but
     owner-qualified refs avoid publisher ambiguity.
 
-    ClawHub skill pages expose the latest security scan state before install,
-    with detail pages for VirusTotal, ClawScan, and static analysis. The
-    command exits non-zero when ClawHub marks verification as failed. Publishers
-    recover false positives through the ClawHub dashboard or
-    `clawhub skill rescan @owner/<slug>`.
+    The command exits non-zero when the registry marks verification as failed.
 
   </Accordion>
   <Accordion title="Private archive installs">
-    Gateway clients that need non-ClawHub delivery can stage a zip skill archive
+    Gateway clients that need non-registry delivery can stage a zip skill archive
     with `skills.upload.begin`, `skills.upload.chunk`, and `skills.upload.commit`,
     then install with `skills.install({ source: "upload", ... })`. This path is
     off by default and requires `skills.install.allowUploadedArchives: true` in
-    `openclaw.json`. Normal ClawHub installs never need that setting.
+    `openclaw.json`. Normal registry installs never need that setting.
   </Accordion>
 </AccordionGroup>
 
@@ -390,7 +385,7 @@ publish and sync.
   <Accordion title="Operator install policy">
     Configure `security.installPolicy` to run a trusted local policy command
     before skill installs continue. The policy receives metadata and the staged
-    source path, applies to ClawHub, uploaded, Git, local, update, and
+    source path, applies to registry, uploaded, Git, local, update, and
     dependency-installer paths, and fails closed when the command cannot return
     a valid decision.
   </Accordion>
@@ -805,9 +800,6 @@ read every admitted skill. Native harnesses retain their own prompt policy.
   </Card>
   <Card title="Slash commands" href="/tools/slash-commands" icon="terminal">
     How skill slash commands are registered and routed.
-  </Card>
-  <Card title="ClawHub" href="/clawhub" icon="cloud">
-    Browse and publish skills on the public registry.
   </Card>
   <Card title="Plugins" href="/tools/plugin" icon="plug">
     Plugins can ship skills alongside the tools they document.

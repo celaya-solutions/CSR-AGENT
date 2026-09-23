@@ -42,7 +42,7 @@ describe("fetchExactClawHubSkillSecurityVerdicts", () => {
         reasons: [],
         slug: "weather",
         displayName: `${ownerHandle} Weather`,
-        pageUrl: `https://clawhub.ai/${ownerHandle}/skills/weather`,
+        pageUrl: `https://registry.example.test/${ownerHandle}/skills/weather`,
         publisherHandle: ownerHandle,
         publisherDisplayName: ownerHandle,
         createdAt: 1,
@@ -58,7 +58,7 @@ describe("fetchExactClawHubSkillSecurityVerdicts", () => {
     );
 
     const items = await fetchExactClawHubSkillSecurityVerdicts({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       items: [
         { slug: "weather", ownerHandle: "@Alice", version: "1.2.3" },
         { slug: "weather", ownerHandle: "bob", version: "1.2.3" },
@@ -68,14 +68,14 @@ describe("fetchExactClawHubSkillSecurityVerdicts", () => {
 
     expect(mocks.fetchClawHubSkillSecurityVerdicts).toHaveBeenCalledTimes(2);
     expect(mocks.fetchClawHubSkillSecurityVerdicts).toHaveBeenNthCalledWith(1, {
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       items: [{ slug: "weather", ownerHandle: "alice", version: "1.2.3" }],
       skipAuth: true,
       timeoutMs: undefined,
       token: undefined,
     });
     expect(mocks.fetchClawHubSkillSecurityVerdicts).toHaveBeenNthCalledWith(2, {
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       items: [{ slug: "weather", ownerHandle: "bob", version: "1.2.3" }],
       skipAuth: true,
       timeoutMs: undefined,
@@ -83,7 +83,7 @@ describe("fetchExactClawHubSkillSecurityVerdicts", () => {
     });
     expect(mocks.fetchClawHubSkillVerification).toHaveBeenCalledTimes(2);
     expect(mocks.fetchClawHubSkillVerification).toHaveBeenNthCalledWith(1, {
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       ownerHandle: "alice",
       skipAuth: true,
       slug: "weather",

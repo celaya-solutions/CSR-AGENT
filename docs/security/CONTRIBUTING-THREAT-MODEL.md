@@ -9,15 +9,15 @@ read_when:
 The [threat model](/security/THREAT-MODEL-ATLAS) is a living document. Contributions are welcome from anyone; you do not need security or MITRE ATLAS background.
 
 <Note>
-This is for adding to the threat model, not reporting live vulnerabilities. If you found an exploitable vulnerability, follow the responsible-disclosure instructions on the [Trust page](https://trust.openclaw.ai) instead.
+This is for adding to the threat model, not reporting live vulnerabilities. If you found an exploitable vulnerability, follow the reporting instructions in `SECURITY.md` at the root of the source repository instead.
 </Note>
 
 ## Ways to contribute
 
-**Add a threat.** Open a [documentation issue](https://github.com/openclaw/openclaw/issues/new?template=docs_bug_report.yml) describing the attack scenario in your own words. Helpful but not required:
+**Add a threat.** Open a documentation issue in the project repository describing the attack scenario in your own words. Helpful but not required:
 
 - The attack scenario and how it could be exploited.
-- Which components are affected (CLI, gateway, channels, ClawHub, MCP servers, etc.).
+- Which components are affected (CLI, gateway, channels, plugins, MCP servers, etc.).
 - Your estimate of severity (low / medium / high / critical).
 - Links to related research, CVEs, or real-world examples.
 
@@ -69,13 +69,12 @@ Threats are mapped to [MITRE ATLAS](https://atlas.mitre.org/) (Adversarial Threa
 
 ## Contact
 
-- **Security vulnerabilities:** [Trust page](https://trust.openclaw.ai) for reporting instructions, or `security@openclaw.ai`.
-- **Threat model questions:** open a [documentation issue](https://github.com/openclaw/openclaw/issues/new?template=docs_bug_report.yml).
-- **General chat:** Discord `#security` channel.
+- **Security vulnerabilities:** follow `SECURITY.md` at the root of the source repository.
+- **Threat model questions:** open a documentation issue in the project repository.
 
 ## Recognition
 
-Contributors to the threat model are recognized in the threat model acknowledgments, release notes, and the OpenAgent security hall of fame for significant contributions.
+Contributors to the threat model are credited in the threat model acknowledgments.
 
 ## Related
 

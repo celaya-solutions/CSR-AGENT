@@ -201,7 +201,7 @@ function mockClawHubSecurity(
     package: { name: "demo", displayName: "Demo", family: "code-plugin" },
     release: { version: releaseVersion },
     overview,
-    securityAuditUrl: `https://clawhub.ai/plugins/demo/security-audit?version=${releaseVersion}`,
+    securityAuditUrl: `https://registry.example.test/plugins/demo/security-audit?version=${releaseVersion}`,
     trust: {
       scanStatus: "clean",
       moderationState: null,
@@ -428,7 +428,7 @@ describe("installPluginFromClawHub", () => {
             version: params.version ?? "2026.3.22",
           },
           overview: "No security analysis has been recorded yet.",
-          securityAuditUrl: `https://clawhub.ai/plugins/${params.name ?? "demo"}/security-audit?version=${params.version ?? "2026.3.22"}`,
+          securityAuditUrl: `https://registry.example.test/plugins/${params.name ?? "demo"}/security-audit?version=${params.version ?? "2026.3.22"}`,
           trust: {
             scanStatus: "clean",
             moderationState: null,
@@ -458,12 +458,12 @@ describe("installPluginFromClawHub", () => {
     const logger = createLoggerSpies();
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
     });
 
     expectClawHubInstallFlow({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       version: "2026.3.22",
       archivePath: "/tmp/clawhub-demo/archive.zip",
       expectSecurityCall: false,
@@ -481,7 +481,7 @@ describe("installPluginFromClawHub", () => {
       expect.stringContaining("Requires  pluginApi >=2026.3.22"),
     );
     expect(logger.info).toHaveBeenCalledWith(
-      expect.stringContaining("ClawHub   https://clawhub.ai/plugins/demo"),
+      expect.stringContaining("ClawHub   https://registry.example.test/plugins/demo"),
     );
     expect(logger.warn).not.toHaveBeenCalled();
     expect(archiveCleanupMock).toHaveBeenCalledTimes(1);
@@ -583,8 +583,8 @@ describe("installPluginFromClawHub", () => {
   });
 
   it.each([
-    { baseUrl: "https://clawhub.ai", channel: "official" },
-    { baseUrl: "https://clawhub.ai", channel: "community" },
+    { baseUrl: "https://registry.example.test", channel: "official" },
+    { baseUrl: "https://registry.example.test", channel: "community" },
     { baseUrl: "https://plugins.example.test", channel: "official" },
   ])(
     "passes verified source facts to consent for $baseUrl/$channel",
@@ -694,7 +694,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
     });
 
@@ -709,7 +709,7 @@ describe("installPluginFromClawHub", () => {
 
     await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai/\u001b]8;;https://evil.example\u0007\ninjected",
+      baseUrl: "https://registry.example.test/\u001b]8;;https://evil.example\u0007\ninjected",
       logger,
     });
 
@@ -717,8 +717,8 @@ describe("installPluginFromClawHub", () => {
     expect(summary).toContain("ClawHub");
     expect(summary).not.toContain("\u001b");
     expect(summary).not.toContain("\u0007");
-    expect(summary).not.toContain("https://clawhub.ai/\ninjected");
-    expect(summary).toContain("https://clawhub.ai/\\ninjected/plugins/demo");
+    expect(summary).not.toContain("https://registry.example.test/\ninjected");
+    expect(summary).toContain("https://registry.example.test/\\ninjected/plugins/demo");
   });
 
   it("blocks malicious ClawHub releases", async () => {
@@ -733,7 +733,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
     });
 
@@ -745,7 +745,9 @@ describe("installPluginFromClawHub", () => {
     expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining("Blocked"));
     const warning = logger.warn.mock.calls[0]?.[0] ?? "";
     expect(warning).toContain("Overview:");
-    expect(warning).toContain("https://clawhub.ai/plugins/demo/security-audit?version=2026.3.22");
+    expect(warning).toContain(
+      "https://registry.example.test/plugins/demo/security-audit?version=2026.3.22",
+    );
     expect(warning).not.toContain('replying "Install"');
     expect(downloadClawHubPackageArchiveMock).not.toHaveBeenCalled();
     expect(installPluginFromArchiveMock).not.toHaveBeenCalled();
@@ -763,7 +765,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
       mode: "update",
     });
@@ -786,7 +788,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -803,7 +805,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -821,7 +823,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
       confirmInstall,
     });
@@ -839,7 +841,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -855,7 +857,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       mode: "update",
     });
 
@@ -877,7 +879,7 @@ describe("installPluginFromClawHub", () => {
 
     await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
     });
 
@@ -893,7 +895,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -908,7 +910,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -925,7 +927,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -957,7 +959,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -977,7 +979,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
     });
 
@@ -991,7 +993,7 @@ describe("installPluginFromClawHub", () => {
       /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/u,
     );
     expect(logger.warn.mock.calls.map(([message]) => message).join("\n")).toContain(
-      "https://clawhub.ai/plugins/demo/security-audit?version=2026.3.22",
+      "https://registry.example.test/plugins/demo/security-audit?version=2026.3.22",
     );
     expect(downloadClawHubPackageArchiveMock).toHaveBeenCalled();
   });
@@ -1003,7 +1005,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
     });
 
@@ -1018,7 +1020,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       logger,
     });
 
@@ -1032,7 +1034,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1052,7 +1054,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -1081,7 +1083,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1120,7 +1122,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo@latest",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     expectSuccessfulClawHubInstall(result);
@@ -1157,7 +1159,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1212,7 +1214,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1258,7 +1260,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1295,7 +1297,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1354,7 +1356,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1383,7 +1385,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1409,7 +1411,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -1435,7 +1437,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -1461,7 +1463,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -1501,7 +1503,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -1553,7 +1555,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo@2026.3.21",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const success = expectInstallSuccess(result);
@@ -1595,7 +1597,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo@2026.6.8",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     expectSuccessfulClawHubInstall(result);
@@ -1646,7 +1648,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo@2026.6.8",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -1687,7 +1689,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo@2026.6.8",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -1724,7 +1726,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     const failure = expectInstallFailure(result);
@@ -1747,7 +1749,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     expectSuccessfulClawHubInstall(result);
@@ -1773,7 +1775,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     expectSuccessfulClawHubInstall(result);
@@ -1799,7 +1801,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     expectSuccessfulClawHubInstall(result);
@@ -1821,7 +1823,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     expectSuccessfulClawHubInstall(result);
@@ -1914,7 +1916,7 @@ describe("installPluginFromClawHub", () => {
 
     const result = await installPluginFromClawHub({
       spec: "clawhub:demo",
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
     });
 
     expect(expectInstallFailure(result).error).toBe("bad archive");

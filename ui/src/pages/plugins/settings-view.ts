@@ -31,7 +31,6 @@ import {
   renderPluginDetailReadme,
   renderPluginDetailVersions,
 } from "./catalog-detail.ts";
-import { clawHubPackageUrl } from "./catalog-links.ts";
 import { formatCompactCount } from "./catalog-results.ts";
 import {
   renderArtTile,
@@ -558,9 +557,6 @@ export function renderPluginSettingsDetail(props: DetailProps): TemplateResult {
   const authorHandle = catalog?.detail.author?.handle ?? catalog?.plugin.catalog.author;
   const publisherName =
     catalog?.detail.author?.displayName ?? authorHandle ?? plugin.packageName ?? plugin.name;
-  const packageUrl = catalog
-    ? clawHubPackageUrl(catalog.detail.packageName, authorHandle)
-    : undefined;
   const sidebar = catalog
     ? html`<dl>
           ${
@@ -592,20 +588,8 @@ export function renderPluginSettingsDetail(props: DetailProps): TemplateResult {
           catalog.detail.security
             ? renderPluginSecurityAudit(
                 catalog.detail.security.status,
-                catalog.detail.security.auditUrl ??
-                  (packageUrl ? `${packageUrl}/security-audit` : undefined),
+                catalog.detail.security.auditUrl,
               )
-            : nothing
-        }
-        ${
-          packageUrl
-            ? html`<a
-                class="btn plugin-catalog-detail__clawhub"
-                href=${packageUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                >${t("pluginsPage.detailViewOnClawHub")}</a
-              >`
             : nothing
         }`
     : undefined;

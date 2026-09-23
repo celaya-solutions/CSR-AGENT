@@ -80,12 +80,9 @@ describe("package-changelog", () => {
         expect(packaged).toBe(`# Changelog\n\n${mirror.trimEnd()}\n`);
       } else {
         expect(Buffer.byteLength(mirror)).toBeGreaterThan(500 * 1024);
-        expect(packaged).toContain(`https://github.com/openclaw/openclaw/blob/main/${entryPath}`);
-        expect(packaged).toContain(
-          `https://github.com/openclaw/openclaw/raw/refs/heads/main/${entryPath}`,
-        );
-        expect(packaged).toContain(`https://github.com/openclaw/openclaw/blob/main/${recordPath}`);
-        expect(packaged).toContain(`https://docs.openclaw.ai/releases/${version}`);
+        expect(packaged).toContain(`\`${entryPath}\` in this repository`);
+        expect(packaged).toContain(`\`${recordPath}\``);
+        expect(packaged).not.toContain("https://");
         expect(packaged).not.toContain(`/v${version}/`);
       }
       expect(Buffer.byteLength(packaged)).toBeLessThanOrEqual(500 * 1024);

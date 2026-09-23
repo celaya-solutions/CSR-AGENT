@@ -118,14 +118,14 @@ describe("runGuidedOnboarding quick start", () => {
       const securityNotes = vi
         .mocked(prompter.note)
         .mock.calls.filter(([message]) =>
-          message.includes("https://docs.openclaw.ai/gateway/security"),
+          message.includes("OpenAgent runs an AI agent with real access to this machine."),
         );
       expect(securityNotes).toEqual(
         acknowledgedAt
           ? []
           : [
               [
-                "OpenAgent runs an AI agent with real access to this machine. Security guide: https://docs.openclaw.ai/gateway/security",
+                "OpenAgent runs an AI agent with real access to this machine.",
                 "Security disclaimer",
               ],
             ],
@@ -175,6 +175,8 @@ describe("runGuidedOnboarding quick start", () => {
   });
 
   it("custom setup keeps telemetry, first-agent, access, and provider choices in order", async () => {
+    // The telemetry question only appears once an operator configured an endpoint.
+    vi.stubEnv("OPENCLAW_TELEMETRY_ENDPOINT", "https://telemetry.example.test/api/latest-version");
     const prompter = createWizardPrompter(
       { text: vi.fn(async () => "helper"), confirm: vi.fn(async () => true) },
       { selectValues: ["custom", "one", "full"] },

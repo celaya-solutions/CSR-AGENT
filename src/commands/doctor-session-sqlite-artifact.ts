@@ -75,8 +75,8 @@ function formatMigrationArtifactRefusal(filePath: string, stat: fs.BigIntStats):
     `Artifact ${filePath} is not an unaliased regular file ` +
     `(nlink=${stat.nlink}, dev=${stat.dev}, inode=${stat.ino}): ` +
     "another hard link references this inode; the migration refuses aliased inputs so a snapshot copy cannot be rewritten in place. " +
-    "Stop the Gateway and make a verified backup, then follow the recovery guidance: " +
-    "https://docs.openclaw.ai/cli/doctor/sqlite-maintenance#hard-linked-legacy-artifacts"
+    "Stop the Gateway and make a verified backup. Copy the file to a new regular file in the same directory, " +
+    "verify the copy matches and has a link count of one, rename it over the reported path, then rerun the same Doctor command."
   );
 }
 

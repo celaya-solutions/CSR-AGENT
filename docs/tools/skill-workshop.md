@@ -22,7 +22,7 @@ skill change needs review before publication.
 By default, Skill Workshop writes only under the active agent's
 `<state-dir>/agents/<agentId>/agent/workshop-skills`. When `agents.entries.<id>.agentDir` is
 configured, it writes under `<agentDir>/workshop-skills` instead. Operators edit
-bundled, plugin, ClawHub, extra-root, managed, personal-agent, project, and
+bundled, plugin, registry, extra-root, managed, personal-agent, project, and
 workspace skills through their owning tools or files. The same authoring tool
 also supports [personal library skills](/tools/skills#personal-skills-on-a-shared-gateway)
 when the Gateway supplies an authorized library target. Those operations publish

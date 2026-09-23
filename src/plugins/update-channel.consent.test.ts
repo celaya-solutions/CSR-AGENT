@@ -110,7 +110,7 @@ describe("channel migration artifact consent", () => {
         },
         clawhub: {
           source: "clawhub" as const,
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: pluginId,
           clawhubFamily: "code-plugin" as const,
           integrity: "sha256-next",

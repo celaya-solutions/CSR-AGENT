@@ -19,25 +19,21 @@ understanding, and live voice conversations use separate paths; see
 
 ## Client support
 
-| Client          | Playback path                                       | Operator notes                                                                                                                                                                                                                                                                          |
-| --------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Control UI      | Themed inline audio cards and native video controls | Audio cards provide play/pause, seek, elapsed and total time, download, a voice-note badge, and keyboard controls. Space toggles playback; Left/Right seek by five seconds. Starting one audio card pauses the previous one. Video upload is available from the chat attachment picker. |
-| iOS and macOS   | `AVAudioPlayer` for audio and `AVPlayer` for video  | Inline media coordinates with Talk and Listen so two speech paths do not play over each other. For a pinned-TLS Gateway, the app performs a bounded authenticated download before video playback instead of bypassing certificate pinning.                                              |
-| Android         | Media3 ExoPlayer                                    | The app streams video through the authenticated Gateway HTTP client, requests Android audio focus, and coordinates attachment playback with Talk/TTS. Cached transcript media rows remain visible offline, but playback needs a connection to obtain a fresh media ticket.              |
-| Linux companion | Control UI inside the companion WebView             | Codec availability comes from GStreamer. Released packages include or declare the expected codec plugins; see [Linux media codecs](/platforms/linux#media-codecs).                                                                                                                      |
+| Client     | Playback path                                       | Operator notes                                                                                                                                                                                                                                                                          |
+| ---------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Control UI | Themed inline audio cards and native video controls | Audio cards provide play/pause, seek, elapsed and total time, download, a voice-note badge, and keyboard controls. Space toggles playback; Left/Right seek by five seconds. Starting one audio card pauses the previous one. Video upload is available from the chat attachment picker. |
 
 ## Portable formats
 
 The Gateway classifies these formats as the portable native set shared by the
-browser, Apple players, and Android Media3:
+browser and native media players:
 
 | Kind  | Portable native input                                                                   | Recognized transcode input                                         | Playback target                                          |
 | ----- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------- |
 | Audio | MP3; AAC in M4A/MP4; PCM WAV                                                            | AAC, AIFF, AMR/AMR-WB, CAF, FLAC, Ogg/Opus/Vorbis, WebM audio, WMA | AAC in M4A (`audio/mp4`)                                 |
 | Video | H.264 MP4 with a portable profile and 4:2:0 pixel format; AAC or MP3 audio when present | AVI, FLV, Matroska/MKV, QuickTime/MOV, WebM, ASF, WMV              | H.264/AAC MP4 with 4:2:0 pixel format, at most 1920×1080 |
 
-The Linux companion can also play formats supplied by its installed GStreamer
-plugins. Browser and operating-system updates may add native formats, but the
+Browser and operating-system updates may add native formats, but the
 table above is the cross-client contract OpenAgent targets.
 
 ## Lazy playback renditions
@@ -159,12 +155,6 @@ Use the package and source-build instructions in
 [Linux media codecs](/platforms/linux#media-codecs). The `.deb` depends on the
 required GStreamer plugin packages; the AppImage carries the media framework
 and codecs installed by the release build.
-
-### Android shows a media row while offline
-
-That is expected. Android caches the transcript metadata, not the attachment
-bytes or its short-lived download capability. Reconnect, then play again so the
-app can request a new ticket.
 
 ## Related
 

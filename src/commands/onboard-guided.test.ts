@@ -494,9 +494,9 @@ describe("runGuidedOnboarding", () => {
 
     await runGuidedOnboarding({ acceptRisk: true }, makeRuntime(), deps);
 
+    // No telemetry endpoint is configured, so there is no consent to record.
     expect(persistRiskAcknowledgement).toHaveBeenCalledWith({
       wizard: { securityAcknowledgedAt: expect.any(String) },
-      telemetry: { enabled: false, consentedAt: expect.any(String) },
     });
     expect(persistRiskAcknowledgement.mock.invocationCallOrder[0]).toBeLessThan(
       detect.mock.invocationCallOrder[0]!,
@@ -504,6 +504,7 @@ describe("runGuidedOnboarding", () => {
   });
 
   it("persists explicit feature-stat consent with the guided onboarding acknowledgement", async () => {
+    vi.stubEnv("OPENCLAW_TELEMETRY_ENDPOINT", "https://telemetry.example.test/api/latest-version");
     const select = vi.fn(async ({ message }: { message: string }) =>
       message === "Help make OpenAgent better?" ? true : "full",
     ) as unknown as WizardPrompter["select"];

@@ -102,8 +102,6 @@ describe("bundled plugin assets", () => {
       ).toBe(true);
     }
 
-    expect(generatedAssetSources).toContain("extensions/canvas/src/host/a2ui/.bundle.hash");
-    expect(generatedAssetSources).toContain("extensions/canvas/src/host/a2ui/a2ui.bundle.js");
     expect(generatedAssetSources).toContain("extensions/discord/assets/embedded-app-sdk.mjs");
     for (const source of generatedAssetSources) {
       expect(isBuildRelevantRunNodePath(source), source).toBe(false);

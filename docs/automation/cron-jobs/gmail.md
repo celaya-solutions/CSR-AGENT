@@ -15,8 +15,6 @@ Wiring Gmail inbox events into OpenAgent through Google Pub/Sub, with a restrict
 
 Wire Gmail inbox triggers to OpenAgent through Google Pub/Sub and `gog gmail watch serve`. Pub/Sub calls the watcher; the watcher forwards email data to the [Gateway HTTP hook](/automation/cron-jobs/webhooks#webhooks). This does not load or invoke an internal `HOOK.md` handler.
 
-Not on Gmail? The [IMAP email trigger plugin](/automation/imap) watches an existing IMAP mailbox without Google PubSub or a public webhook.
-
 <Note>
 **Prerequisites:** `gcloud` CLI, `gog` (gogcli) authorized for the watched Gmail account, OpenAgent hooks enabled, an HTTPS push endpoint reachable by Pub/Sub (Tailscale Funnel in the recommended setup), and a working sandbox backend. The example below uses the default Docker backend; build its image first by following [Sandbox images and setup](/gateway/sandboxing#images-and-setup), or configure another supported backend.
 </Note>

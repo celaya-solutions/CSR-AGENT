@@ -22,7 +22,7 @@ Disconnect removes usable local credentials and retains a secret-free disconnect
 
 Personal publication receipts remain for the logical session's lifetime. Archive/reset preserves receipts and invalidates incompatible unfinished work. An already-dispatched GitHub operation can still record its observed result, without gaining authority for another operation. Permanent session deletion fences execution and removes its personal receipts and lifecycle bindings. There is no timed idempotency expiry, and deleting local state does not undo an already-created GitHub commit or pull request.
 
-See the accepted [personal GitHub ownership and publication design](https://github.com/openclaw/openclaw/issues/133590) and the operator-facing [GitHub connections guide](/concepts/user-model#github-connections).
+See the operator-facing [GitHub connections guide](/concepts/user-model#github-connections).
 
 ## Personal model accounts
 
@@ -39,7 +39,7 @@ See [Per-person model accounts](/concepts/multi-user#per-person-model-accounts) 
 Companion Watch chat has separate app-local storage. It does not change the
 Gateway control-plane or per-agent database schema, and `openclaw doctor`
 does not migrate it. Open the updated iPhone and Watch apps to use the new
-delivery protocol. See [Watch voice and chat](/platforms/ios#apple-watch-voice-and-chat)
+delivery protocol. See Watch voice and chat
 for delivery statuses and recovery.
 
 The iPhone's existing `client-state.sqlite` owns `watch_message_journal`.
@@ -101,6 +101,3 @@ trigger keeps its Forget path effective after downgrade. An older app cannot
 offer the new receipt protocol. Do not remove migration markers or reset
 `client-state.sqlite` to downgrade: that file also contains other user-owned
 client state.
-
-The [accepted design](https://github.com/openclaw/openclaw/issues/136617) records
-the schema, migration, ownership, retention and validation boundaries.

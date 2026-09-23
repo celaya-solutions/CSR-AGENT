@@ -1,4 +1,4 @@
-/* The lobster uses this ledge even when the invitation is disabled. */
+/* Full-bleed slot for the community invitation card above the sidebar footer. */
 .sidebar-shell__invite {
   position: relative;
   z-index: 1;

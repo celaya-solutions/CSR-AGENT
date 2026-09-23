@@ -217,7 +217,7 @@ For remote host approvals, use `openclaw approvals set --gateway` or `openclaw a
 
 ## Notes
 
-- The node host must advertise `system.execApprovals.get/set` (macOS app, headless node host, or Windows companion).
+- The node host must advertise `system.execApprovals.get/set` (for example the headless node host).
 - Generated grants became directory-bound in `2026.8.1`. After upgrading from `2026.7.1` or earlier, run `openclaw doctor --fix` if the update did not already do so. Doctor removes only inactive generated grants; manual allowlist rules stay in place. Rerun affected workflows to approve them in the intended directory.
 - Approvals are stored per host in
   `$OPENCLAW_STATE_DIR/state/openclaw.sqlite#exec_approvals_config`, or

@@ -42,7 +42,6 @@ const ALL_ROUTES: RouteId[] = Array.from(
     "memory-import",
     "ai-agents",
     "model-setup",
-    "lobsterdex",
     ...visibleSettingsNavigationGroups(true).flatMap((group) => group.routes),
   ]),
 );
@@ -57,7 +56,6 @@ const SETTINGS_ROUTE_PATHS = [
     alias: "/communications",
   },
   { routeId: "appearance", path: "/settings/appearance", alias: "/appearance" },
-  { routeId: "lobsterdex", path: "/settings/lobsterdex", alias: "/lobsterdex" },
   { routeId: "automation", path: "/settings/automation", alias: "/automation" },
   { routeId: "mcp", path: "/settings/mcp", alias: "/mcp" },
   {
@@ -93,10 +91,9 @@ describe("navigationIconForRoute", () => {
       Object.fromEntries(ALL_ROUTES.map((routeId) => [routeId, navigationIconForRoute(routeId)])),
     ).toEqual({
       chat: "messageSquare",
-      custodian: "lobster",
+      custodian: "brandMark",
       activity: "activity",
       meetings: "book",
-      apps: "layoutGrid",
       portals: "monitor",
       approvals: "badgeCheck",
       workboard: "kanban",
@@ -120,7 +117,6 @@ describe("navigationIconForRoute", () => {
       profile: "circleUser",
       communications: "send",
       appearance: "palette",
-      lobsterdex: "bug",
       automation: "terminal",
       mcp: "wrench",
       memory: "book",
@@ -202,7 +198,6 @@ describe("titleForRoute", () => {
       custodian: "OpenAgent",
       activity: "Activity",
       meetings: "Meetings",
-      apps: "Apps",
       portals: "Portals",
       approvals: "Approvals",
       workboard: "Workboard",
@@ -226,7 +221,6 @@ describe("titleForRoute", () => {
       profile: "Profile",
       communications: "Communications",
       appearance: "Appearance",
-      lobsterdex: "Lobsterdex",
       automation: "Automation",
       mcp: "MCP",
       memory: "Memory",
@@ -258,7 +252,6 @@ describe("subtitleForRoute", () => {
       custodian: "System setup and care.",
       activity: "Recent sessions across people using this gateway.",
       meetings: "Meeting notes and transcripts across this gateway.",
-      apps: "Companion apps for phone, watch, desktop, and browser.",
       portals: "Live previews from agent-run applications.",
       approvals: "Recent exec, plugin, and system-agent approvals.",
       workboard: "Agent work queue and session handoff.",
@@ -283,7 +276,6 @@ describe("subtitleForRoute", () => {
       profile: "Your display name, avatar, and identity on this gateway.",
       communications: "Messages, text-to-speech, and meeting capture settings.",
       appearance: "Theme and UI settings.",
-      lobsterdex: "Every lobster palette that has visited this browser.",
       automation: "Commands, hooks, automations, and plugins.",
       mcp: "MCP servers, auth, tools, and diagnostics.",
       memory: "Memory engine, search, and dreaming.",
@@ -312,7 +304,6 @@ describe("pathForRoute", () => {
     expect(pathForRoute("chat")).toBe("/chat");
     expect(pathForRoute("agents-home")).toBe("/agents");
     expect(pathForRoute("agents")).toBe("/settings/agents");
-    expect(pathForRoute("apps")).toBe("/apps");
     expect(pathForRoute("dashboards")).toBe("/dashboards");
     expect(pathForRoute("custodian")).toBe("/custodian");
     expect(pathForRoute("connection")).toBe("/settings/connection");
@@ -354,7 +345,6 @@ describe("routeIdFromPath", () => {
     expect(routeIdFromPath("/settings/connection")).toBe("connection");
     expect(routeIdFromPath("/connection")).toBeNull();
     expect(routeIdFromPath("/activity")).toBe("activity");
-    expect(routeIdFromPath("/apps")).toBe("apps");
     expect(routeIdFromPath("/dashboards")).toBe("dashboards");
     expect(routeIdFromPath("/sessions")).toBe("sessions");
     expect(routeIdFromPath("/debug")).toBe("debug");
@@ -618,7 +608,6 @@ describe("SIDEBAR_NAV_ROUTES", () => {
       "activity",
       "meetings",
       "plugins",
-      "apps",
       "portals",
     ]);
   });

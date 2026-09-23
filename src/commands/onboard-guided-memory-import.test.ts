@@ -77,7 +77,6 @@ describe("guided onboarding post-inference steps", () => {
         defaults: { model: { primary: "openai/gpt-5.5" }, workspace: "/tmp/work" },
       },
       gateway: { mode: "local" },
-      telemetry: { enabled: false, consentedAt: expect.any(String) },
       wizard: localOnboarding.persisted.config?.wizard,
     };
     expect(activate).toHaveBeenCalledWith(
@@ -136,7 +135,6 @@ describe("guided onboarding post-inference steps", () => {
         },
       },
       gateway: { mode: "local" },
-      telemetry: { enabled: false, consentedAt: expect.any(String) },
       wizard: localOnboarding.persisted.config?.wizard,
     };
     expect(runSetupMemoryImportStep).toHaveBeenCalledWith(

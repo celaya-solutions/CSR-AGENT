@@ -5,7 +5,7 @@ description: "Run, watch, debug, and summarize OpenAgent full release CI, releas
 
 # OpenAgent Release CI
 
-Use this with `$release-openclaw-maintainer` and `$openclaw-testing` when a release candidate needs full validation, install/update proof, live provider checks, or CI recovery.
+Use this with `$openclaw-testing` when a release candidate needs full validation, install/update proof, live provider checks, or CI recovery.
 
 ## Guardrails
 

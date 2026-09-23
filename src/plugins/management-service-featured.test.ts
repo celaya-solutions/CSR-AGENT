@@ -3,6 +3,12 @@ import { recordInstalledPluginIndexInstallOwner } from "./installed-plugin-index
 import { recordPluginManifestInstallOwner } from "./manifest-install-owner.js";
 import type { OfficialExternalPluginCatalogEntry } from "./official-external-plugin-catalog.js";
 
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 const mocks = vi.hoisted(() => ({
   metadata: vi.fn(),
   officialCatalog: vi.fn(),
@@ -104,7 +110,7 @@ function hostedCatalog(entries: unknown[]) {
     source: "hosted",
     entries,
     feed: { schemaVersion: 1, id: "test", generatedAt: "now", sequence: 1, entries: [] },
-    metadata: { url: "https://clawhub.ai/feed", status: 200, checksum: "hash" },
+    metadata: { url: "https://registry.example.test/feed", status: 200, checksum: "hash" },
   };
 }
 
@@ -633,7 +639,7 @@ describe("plugin management Featured authority", () => {
         packageName: "@openclaw/new-tool",
         installRecord: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubChannel: "official",
           clawhubPackage: "@openclaw/new-tool",
         },
@@ -662,7 +668,7 @@ describe("plugin management Featured authority", () => {
         packageName: null,
         installRecord: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubChannel: "official",
           clawhubPackage: "@openclaw/new-tool",
         },
@@ -828,7 +834,7 @@ describe("plugin management Featured authority", () => {
       packageName: "@acme/first",
       installRecord: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubChannel: "official",
         clawhubPackage: "@acme/first",
       },
@@ -840,7 +846,7 @@ describe("plugin management Featured authority", () => {
       packageName: "@acme/second",
       installRecord: {
         source: "clawhub",
-        clawhubUrl: "https://clawhub.ai",
+        clawhubUrl: "https://registry.example.test",
         clawhubChannel: "official",
         clawhubPackage: "@acme/second",
       },

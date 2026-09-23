@@ -246,7 +246,10 @@ export async function loginOpenAICodexOAuth(params: {
     stopProgress("OpenAI OAuth failed");
     const rewrittenError = rewriteOpenAICodexOAuthError(err);
     runtime.error(String(rewrittenError));
-    await prompter.note("Trouble with OAuth? See https://docs.openclaw.ai/start/faq", "OAuth help");
+    await prompter.note(
+      "Trouble with OAuth? Check the error above, then run the sign-in again.",
+      "OAuth help",
+    );
     throw rewrittenError;
   } finally {
     manualPromptAbort.abort();

@@ -55,22 +55,7 @@ function writeChannelDoc(repoRoot: string, docsPath: string, title: string, summ
   );
 }
 
-function writeExternalChannelDocs(repoRoot: string): void {
-  const seed = JSON.parse(
-    fs.readFileSync(path.resolve("scripts/lib/official-external-channel-seed.json"), "utf8"),
-  ) as {
-    entries: Array<{
-      openclaw?: { channel?: { docsPath?: string; id?: string; label?: string } };
-    }>;
-  };
-  for (const entry of seed.entries) {
-    const channel = entry.openclaw?.channel;
-    if (!channel?.docsPath || !channel.label) {
-      continue;
-    }
-    const title = channel.id === "openclaw-weixin" ? "WeChat" : channel.label;
-    writeChannelDoc(repoRoot, channel.docsPath, title, `${title} test summary`);
-  }
+function writeBuiltInChannelDocs(repoRoot: string): void {
   writeChannelDoc(repoRoot, "/web/webchat", "WebChat", "Gateway WebChat UI over WebSocket");
 }
 
@@ -170,25 +155,16 @@ describe("buildOfficialChannelCatalog", () => {
     expect(findDuplicateOfficialChannelDocsNavRoutes({ repoRoot: process.cwd() })).toEqual([]);
 
     const entries = buildOfficialChannelDocsCatalog({ repoRoot: process.cwd() }).entries;
-    expect(entries.find((entry) => entry.id === "openclaw-weixin")).toMatchObject({
-      label: "WeChat",
-      summary: "WeChat channel setup through the external openclaw-weixin plugin",
-    });
     expect(entries.map((entry) => entry.id)).toEqual(
-      expect.arrayContaining(["reef", "telegram", "webchat"]),
+      expect.arrayContaining(["discord", "telegram", "webchat"]),
     );
-    expect(entries.map((entry) => entry.id)).not.toEqual(
-      expect.arrayContaining(["qa-channel", "voice-call"]),
-    );
+    expect(entries.map((entry) => entry.id)).not.toContain("qa-channel");
     const rendered = renderOfficialChannelDocsIndex({ repoRoot: process.cwd() });
-    expect(rendered).toContain(
-      "[Voice Call](/plugins/voice-call) - Telephony via Plivo, Telnyx, or Twilio",
-    );
     expect(rendered).not.toContain("Very well supported right now");
     expect(rendered).not.toContain('David Reagans: "Hop on Discord."');
   });
 
-  it("lets publishable package metadata override same-id seeds and skips non-publishable entries", () => {
+  it("builds publishable package metadata and skips non-publishable entries", () => {
     const repoRoot = makeRepoRoot("openclaw-official-channel-catalog-");
     writeJson(path.join(repoRoot, "extensions", "wecom", "package.json"), {
       name: "@openclaw/wecom",
@@ -317,101 +293,36 @@ describe("buildOfficialChannelCatalog", () => {
         defaultChoice: "npm",
       },
     });
-    expect(
-      summarizeCatalogEntry(
-        findCatalogEntry(entries, (entry) => entry.name === "openclaw-plugin-yuanbao"),
-      ),
-    ).toEqual({
-      name: "openclaw-plugin-yuanbao",
-      description: "OpenAgent Yuanbao channel plugin by the Tencent Yuanbao team.",
-      source: "external",
-      plugin: {
-        id: "openclaw-plugin-yuanbao",
-        label: "Yuanbao",
-      },
-      catalog: undefined,
-      contracts: {
-        tools: ["query_group_info", "query_session_members", "yuanbao_remind"],
-      },
-      channel: {
-        id: "yuanbao",
-        label: "Yuanbao",
-        selectionLabel: "Yuanbao (元宝)",
-        detailLabel: "Yuanbao",
-        docsLabel: "yuanbao",
-        docsPath: "/channels/yuanbao",
-        blurb: "Tencent Yuanbao AI assistant conversation channel.",
-        order: 85,
-        aliases: ["yuanbao", "yb", "tencent-yuanbao", "元宝"],
-      },
-      channelConfigs: {
-        yuanbao: {
-          label: "Yuanbao",
-          description: "Tencent Yuanbao AI assistant channel.",
-          schema: {
-            type: "object",
-            additionalProperties: true,
-          },
-        },
-      },
-      providerEndpoints: undefined,
-      install: {
-        npmSpec: "openclaw-plugin-yuanbao@2.18.2",
-        defaultChoice: "npm",
-        expectedIntegrity:
-          "sha512-cL85zWLePhi/GWRsXL8ogS4tejNuCE/J0V/OYhDFJzElF2TmndVCUAXaJdssgv/ULJ9sBaic88wAzRllIgZIwA==",
-      },
-    });
-    expect(
-      summarizeCatalogEntry(
-        findCatalogEntry(entries, (entry) => entry.name === "@tencent-connect/openclaw-qqbot"),
-      ),
-    ).toMatchObject({
-      name: "@tencent-connect/openclaw-qqbot",
-      source: "external",
-      plugin: {
-        id: "openclaw-qqbot",
-        label: "QQ Bot",
-      },
-      contracts: {
-        tools: ["qqbot_platform_api", "qqbot_remind"],
-      },
-      channel: {
-        id: "qqbot",
-        docsPath: "/channels/qqbot",
-        approvalFlags: ["native"],
-      },
-      install: {
-        npmSpec: "@tencent-connect/openclaw-qqbot@2.0.3",
-        defaultChoice: "npm",
-        expectedIntegrity:
-          "sha512-yngu/2cPeZjJfIfHWCXWB2/6KlDHrb9vpOUjKLdQxePLSp6wCn3CFOALcBIVq/9o6jlYz9WTU9idW6nfX1xpFA==",
-      },
-    });
-    expect(
-      findCatalogEntry(entries, (entry) => entry.name === "@tencent-connect/openclaw-qqbot")
-        .openclaw?.legacyNpmPackageNames,
-    ).toEqual(["@openclaw/qqbot"]);
     expect(entries.some((entry) => entry.openclaw?.channel?.id === "local-only")).toBe(false);
   });
 
-  it("preserves manifest-owned metadata without duplicating channel schemas", () => {
-    const entries = buildOfficialChannelCatalog({ repoRoot: process.cwd() }).entries;
-    const slack = findCatalogEntry(entries, (entry) => entry.openclaw?.channel?.id === "slack");
-    const raft = findCatalogEntry(entries, (entry) => entry.openclaw?.channel?.id === "raft");
-    const clickclack = findCatalogEntry(
-      entries,
-      (entry) => entry.openclaw?.channel?.id === "clickclack",
+  it("preserves manifest-owned contracts and channel config metadata", () => {
+    const repoRoot = makeRepoRoot("openclaw-official-channel-catalog-manifest-");
+    const pluginDir = path.join(repoRoot, "extensions", "fixture-chat");
+    writeJson(path.join(pluginDir, "package.json"), {
+      name: "@openclaw/fixture-chat",
+      openclaw: {
+        channel: { id: "fixture-chat", label: "Fixture Chat" },
+        install: { npmSpec: "@openclaw/fixture-chat" },
+        release: { publishToNpm: true },
+      },
+    });
+    writeJson(path.join(pluginDir, "openclaw.plugin.json"), {
+      id: "fixture-chat",
+      contracts: { transcriptSourceProviders: ["fixture-chat-voice"] },
+      channelConfigs: { "fixture-chat": { label: "Fixture Chat" } },
+      configSchema: { type: "object", properties: {} },
+    });
+
+    const entry = findCatalogEntry(
+      buildOfficialChannelCatalog({ repoRoot }).entries,
+      (candidate) => candidate.openclaw?.channel?.id === "fixture-chat",
     );
 
-    // Channel schemas are single-sourced from the zod-derived generated bundled
-    // channel metadata (compiled into core by channelId); manifest and catalog
-    // copies drifted and silently overrode it in validation (see #131292).
-    expect(slack.openclaw.channelConfigs?.slack?.schema).toBeUndefined();
-    expect(slack.openclaw.channelConfigs?.slack?.label).toBe("Slack");
-    expect(raft.openclaw.channelConfigs?.raft?.schema).toBeUndefined();
-    expect(raft.openclaw.channelConfigs?.raft?.label).toBeTruthy();
-    expect(clickclack.openclaw.contracts?.tools).toEqual(["discussion"]);
+    expect(entry.openclaw.channelConfigs?.["fixture-chat"]).toEqual({ label: "Fixture Chat" });
+    expect(entry.openclaw.contracts).toEqual({
+      transcriptSourceProviders: ["fixture-chat-voice"],
+    });
   });
 
   it("rejects duplicate channel ids from repository packages", () => {
@@ -439,46 +350,7 @@ describe("buildOfficialChannelCatalog", () => {
     );
   });
 
-  it("keeps the hand-authored seed limited to out-of-tree external channels", () => {
-    const seed = JSON.parse(
-      fs.readFileSync(path.resolve("scripts/lib/official-external-channel-seed.json"), "utf8"),
-    ) as {
-      entries: Array<{
-        name?: string;
-        source?: string;
-        openclaw?: { channel?: { id?: string } };
-      }>;
-    };
-    const publishableChannelIds = new Set(
-      fs.readdirSync(path.resolve("extensions")).flatMap((dirName) => {
-        const packageJsonPath = path.resolve("extensions", dirName, "package.json");
-        if (!fs.existsSync(packageJsonPath)) {
-          return [];
-        }
-        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8")) as {
-          openclaw?: {
-            channel?: { id?: string };
-            release?: { publishToNpm?: boolean };
-          };
-        };
-        const channelId = packageJson.openclaw?.channel?.id;
-        return channelId && packageJson.openclaw?.release?.publishToNpm === true ? [channelId] : [];
-      }),
-    );
-    const seedChannelIds = seed.entries.map((entry) => entry.openclaw?.channel?.id?.toLowerCase());
-
-    expect(seed.entries.every((entry) => entry.source === "external")).toBe(true);
-    expect(seed.entries.some((entry) => entry.name?.startsWith("@openclaw/"))).toBe(false);
-    expect(new Set(seedChannelIds).size).toBe(seedChannelIds.length);
-    expect(
-      seed.entries.some((entry) => {
-        const channelId = entry.openclaw?.channel?.id;
-        return channelId ? publishableChannelIds.has(channelId) : false;
-      }),
-    ).toBe(false);
-  });
-
-  it("projects bundled, external, and built-in channels into docs while hiding source-only channels", () => {
+  it("projects bundled and built-in channels into docs while hiding source-only channels", () => {
     const repoRoot = makeRepoRoot("openclaw-official-channel-docs-");
     writeJson(path.join(repoRoot, "package.json"), {
       files: ["dist/extensions/**", "!dist/extensions/hidden/**"],
@@ -508,7 +380,7 @@ describe("buildOfficialChannelCatalog", () => {
         },
       },
     });
-    writeExternalChannelDocs(repoRoot);
+    writeBuiltInChannelDocs(repoRoot);
     writeChannelDoc(repoRoot, "/channels/bundled", "Bundled Chat", "Public bundled summary");
 
     const entries = buildOfficialChannelDocsCatalog({ repoRoot }).entries;
@@ -528,9 +400,6 @@ describe("buildOfficialChannelCatalog", () => {
       summary: "Gateway WebChat UI over WebSocket",
       source: "built-in",
     });
-    expect(entries.find((entry) => entry.id === "wecom")?.docsPath).toBe("/channels/wecom");
-    expect(entries.find((entry) => entry.id === "yuanbao")?.docsPath).toBe("/channels/yuanbao");
-    expect(entries.find((entry) => entry.id === "qqbot")?.source).toBe("official");
   });
 
   it("uses the canonical channel docs route when a manifest omits docsPath", () => {
@@ -544,7 +413,7 @@ describe("buildOfficialChannelCatalog", () => {
         },
       },
     });
-    writeExternalChannelDocs(repoRoot);
+    writeBuiltInChannelDocs(repoRoot);
     writeChannelDoc(repoRoot, "/channels/defaulted", "Defaulted Chat", "Default route summary");
 
     expect(
@@ -615,7 +484,7 @@ describe("buildOfficialChannelCatalog", () => {
         },
       },
     });
-    writeExternalChannelDocs(repoRoot);
+    writeBuiltInChannelDocs(repoRoot);
     if (content !== null) {
       writeChannelDocContent(repoRoot, "/channels/frontmatter-test", content);
     }
@@ -649,7 +518,7 @@ describe("buildOfficialChannelCatalog", () => {
         },
       },
     });
-    writeExternalChannelDocs(repoRoot);
+    writeBuiltInChannelDocs(repoRoot);
     writeChannelDoc(repoRoot, "/channels/bundled", "Bundled Chat", "Public bundled summary");
     const docsIndexPath = path.join(repoRoot, OFFICIAL_CHANNEL_DOCS_INDEX_RELATIVE_PATH);
     fs.mkdirSync(path.dirname(docsIndexPath), { recursive: true });
@@ -689,7 +558,7 @@ describe("buildOfficialChannelCatalog", () => {
 
   it("rejects missing or duplicate generated docs markers", () => {
     const repoRoot = makeRepoRoot("openclaw-official-channel-docs-markers-");
-    writeExternalChannelDocs(repoRoot);
+    writeBuiltInChannelDocs(repoRoot);
     const docsIndexPath = path.join(repoRoot, OFFICIAL_CHANNEL_DOCS_INDEX_RELATIVE_PATH);
     fs.mkdirSync(path.dirname(docsIndexPath), { recursive: true });
     fs.writeFileSync(docsIndexPath, "# Channels\n", "utf8");
@@ -710,20 +579,6 @@ describe("buildOfficialChannelCatalog", () => {
     expect(() => renderOfficialChannelDocsIndex({ repoRoot })).toThrow(
       "must contain exactly one generated channel marker pair",
     );
-  });
-
-  it("keeps third-party official external catalog npm sources pinned unless they track latest", () => {
-    const repoRoot = makeRepoRoot("openclaw-official-channel-catalog-policy-");
-    const entries = buildOfficialChannelCatalog({ repoRoot }).entries.filter(
-      (entry) => entry.source === "external" && !entry.name?.startsWith("@openclaw/"),
-    );
-
-    expect(entries.length).toBeGreaterThan(0);
-    for (const entry of entries) {
-      const installSource = describePluginInstallSource(requireInstall(entry));
-      expect(installSource.warnings).toStrictEqual([]);
-      expect(requireNpmInstallSource(installSource).pinState).toBe("exact-with-integrity");
-    }
   });
 
   it("allows official OpenAgent channel npm specs without integrity during launch", () => {
@@ -870,12 +725,6 @@ describe("buildOfficialChannelCatalog", () => {
     const outputPath = path.join(repoRoot, OFFICIAL_CHANNEL_CATALOG_RELATIVE_PATH);
     expect(fs.existsSync(outputPath)).toBe(true);
     const entries = JSON.parse(fs.readFileSync(outputPath, "utf8")).entries;
-    expect(entries.map((entry: { name?: string }) => entry.name)).toContain(
-      "@wecom/wecom-openclaw-plugin",
-    );
-    expect(entries.map((entry: { name?: string }) => entry.name)).toContain(
-      "openclaw-plugin-yuanbao",
-    );
     const whatsappEntry = findCatalogEntry(
       entries,
       (entry: { openclaw?: { channel?: { id?: string } } }) =>

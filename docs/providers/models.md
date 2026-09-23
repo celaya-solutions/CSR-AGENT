@@ -19,47 +19,19 @@ Pick a provider, authenticate, then set the default model as `provider/model`.
 }
 ```
 
-## Supported providers (starter set)
+## Supported providers
 
-- [Alibaba Model Studio](/providers/alibaba)
-- [Amazon Bedrock](/providers/bedrock)
 - [Anthropic (API + Claude CLI)](/providers/anthropic)
-- [Baseten (Inkling + Model APIs)](/providers/baseten)
-- [BytePlus (International)](/concepts/model-providers#byteplus-international)
-- [Chutes](/providers/chutes)
-- [Cloudflare AI Gateway](/providers/cloudflare-ai-gateway)
-- [Cohere](/providers/cohere)
-- [ComfyUI](/providers/comfy)
-- [DeepInfra](/providers/deepinfra)
-- [fal](/providers/fal)
-- [Fireworks](/providers/fireworks)
-- [MiniMax](/providers/minimax)
-- [Mistral](/providers/mistral)
-- [Moonshot AI (Kimi + Kimi Coding)](/providers/moonshot)
-- [NovitaAI](/providers/novita)
+- [llama.cpp (managed or existing server)](/plugins/llama-cpp)
+- [Ollama (cloud + local models)](/providers/ollama)
 - [OpenAI (API + Codex)](/providers/openai)
-- [OpenCode (Zen + Go)](/providers/opencode)
 - [OpenRouter](/providers/openrouter)
-- [Qianfan](/providers/qianfan)
-- [Qwen](/providers/qwen)
-- [Runway](/providers/runway)
-- [StepFun](/providers/stepfun)
-- [Synthetic](/providers/synthetic)
-- [Venice (Venice AI)](/providers/venice)
-- [Vercel AI Gateway](/providers/vercel-ai-gateway)
-- [xAI](/providers/xai)
-- [Z.AI (GLM)](/providers/zai)
 
-For the full provider catalog and advanced configuration, see
-[Provider directory](/providers/index) and [Model providers](/concepts/model-providers).
+For advanced configuration, see [Provider directory](/providers/index) and
+[Model providers](/concepts/model-providers).
 
 <a id="additional-bundled-provider-variants" />
-
-## Additional provider variants
-
-- `anthropic-vertex` - install `@openclaw/anthropic-vertex-provider` for implicit Anthropic on Google Vertex support. That support applies when Vertex credentials are available. There is no separate onboarding auth choice.
-- `copilot-proxy` - local VS Code Copilot Proxy bridge. Use `openclaw onboard --auth-choice copilot-proxy`.
-- `google-gemini-cli` - optional explicit runtime for canonical `google/*` models. It requires a local `gemini` install and a supported Google AI Studio API-key profile. New Gemini CLI or Antigravity OAuth setup is not offered.
+<a id="additional-provider-variants" />
 
 ## Related
 

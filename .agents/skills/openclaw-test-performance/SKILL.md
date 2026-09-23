@@ -94,25 +94,23 @@ barrels, package-boundary tests, or extension suites.
    - command output should include wall time, exit code, and peak RSS when
      available.
 4. Follow `$openclaw-testing` for host selection. Trusted source benchmarks
-   can run locally with comparable machine/load conditions. Use `$crabbox` when
-   clean packaging, Linux/platform behavior, isolation, or an explicit remote
-   request is part of the proof; reuse and clean up only the owned lease.
-5. If plugin performance is package-artifact sensitive, switch to
-   `release-openclaw-plugin-testing` and Package Acceptance rather than
-   trusting source-only timing.
+   can run locally with comparable machine/load conditions. Use CI when clean
+   packaging, Linux/platform behavior, or isolation is part of the proof.
+5. If plugin performance is package-artifact sensitive, use Package Acceptance
+   rather than trusting source-only timing.
 
 ## Metric Collection
 
 Collect at least one stable metric before and after. Prefer the same machine and
-same command. For Testbox comparisons, use the same `tbx_...` id when possible.
+same command.
 
 | Metric          | Use for                            | Preferred source                                                            |
 | --------------- | ---------------------------------- | --------------------------------------------------------------------------- |
-| wall time       | user-visible suite cost            | `/usr/bin/time -l`, test wrapper duration, Testbox run time                 |
+| wall time       | user-visible suite cost            | `/usr/bin/time -l`, test wrapper duration, CI job time                      |
 | Vitest duration | test body/import cost              | Vitest output per file/shard                                                |
 | import duration | broad barrel/runtime loads         | `OPENCLAW_VITEST_IMPORT_DURATIONS=1`                                        |
 | max RSS         | memory pressure and OOM risk       | `/usr/bin/time -l`, `pnpm test:extensions:memory`, wrapper memory summaries |
-| CPU/user/sys    | CPU-bound vs wait-bound split      | `/usr/bin/time -l` locally, Testbox job timing when local CPU is noisy      |
+| CPU/user/sys    | CPU-bound vs wait-bound split      | `/usr/bin/time -l` locally, CI job timing when local CPU is noisy           |
 | heap evidence   | real leak vs retained module graph | `openclaw-test-heap-leaks` workflow                                         |
 
 Local scoped command with CPU/RSS:
@@ -226,8 +224,7 @@ pnpm test:perf:groups --report <vitest-json> \
 ## Verification
 
 - Always run the targeted test surface that proves the change.
-- For source changes, run `pnpm check:changed` before push; in maintainer
-  Testbox mode run it in the warmed Testbox.
+- For source changes, run `pnpm check:changed` before push.
 - For test-only changes, run `pnpm test:changed` or the exact edited tests.
 - Run `pnpm build` when touching lazy-loading, bundled artifacts, package
   boundaries, dynamic imports, build output, or public surfaces.
@@ -262,5 +259,5 @@ Keep the final concise:
   or inconclusive.
 - Coverage retained.
 - Verification commands.
-- Testbox ID or workflow URL for remote proof.
+- Workflow URL for remote proof.
 - Commit hash and push status.

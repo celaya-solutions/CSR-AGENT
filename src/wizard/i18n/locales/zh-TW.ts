@@ -5,7 +5,6 @@ export const zh_TW = {
   common: {
     back: "返回",
     done: "完成",
-    docs: "文件：",
     finished: "完成",
     noAuth: "不啟用認證",
     password: "密碼",
@@ -96,11 +95,10 @@ export const zh_TW = {
       trustedProxyLoopbackWarning:
         "任何本機程序都可以向 Gateway 傳送身分標頭，冒充回環反向代理。\n僅當反向代理是接收使用者流量的唯一本機監聽服務、Gateway 的直接存取已受限且你信任本機程序時，才啟用此選項。\n代理必須驗證使用者身分，並移除或覆寫用戶端提供的身分標頭。",
       trustedProxyLoopbackRefused:
-        "回環代理請求在執行時將被拒絕（trusted_proxy_loopback_source）。\n請使用非回環代理位址，或重新執行 Gateway 設定，在閱讀安全警告後明確允許回環。\n文件：https://docs.openclaw.ai/gateway/trusted-proxy-auth",
+        "回環代理請求在執行時將被拒絕（trusted_proxy_loopback_source）。\n請使用非回環代理位址，或重新執行 Gateway 設定，在閱讀安全警告後明確允許回環。",
       websocketUrl: "Gateway WebSocket URL",
     },
     gatewayTailscale: {
-      docsNote: "文件：\nhttps://docs.openclaw.ai/gateway/tailscale\nhttps://docs.openclaw.ai/web",
       funnel: "Funnel",
       funnelHint: "透過 Tailscale Funnel 暴露公開 HTTPS",
       missingBinNote:
@@ -273,8 +271,7 @@ export const zh_TW = {
     },
     guided: {
       laneQuestion: "你想如何開始？",
-      laneSecurityLine:
-        "OpenAgent 執行的 AI 代理程式擁有這台機器的實際存取權限。安全指南：https://docs.openclaw.ai/gateway/security",
+      laneSecurityLine: "OpenAgent 執行的 AI 代理程式擁有這台機器的實際存取權限。",
       laneQuickLabel: "快速開始（建議）",
       laneQuickHint: "尋找 AI 存取方式，由你選擇要驗證的連線，然後開啟網頁儀表板。",
       laneCustomLabel: "自訂設定",
@@ -441,7 +438,6 @@ export const zh_TW = {
       baselineStrongModel: "對啟用了工具或使用共享/公開收件箱的 bot，使用可用的最強模型。",
       confirm: "我理解 OpenAgent 預設面向個人使用；共享/多使用者使用需要加固。繼續？",
       hardeningRequired: "如果你不熟悉存取控制和安全加固，請在獲得協助前不要執行 OpenAgent。",
-      learnMore: "了解更多請參閱",
       notMultitenant: "預設情況下，OpenAgent 並非旨在安全地隔離多個使用者。",
       personalAgent: "預設情況下，OpenAgent 是供一位操作者使用的個人 agent。",
       promptRisk: "惡意 prompt 可能誘導它執行不安全操作。",
@@ -465,7 +461,6 @@ export const zh_TW = {
         "在 Linux 容器中會隱藏僅支援 brew 的技能安裝項，因為官方映像檔不包含 Homebrew。",
       containerBrewManual: "請使用預先安裝 Homebrew 的自訂映像檔，或手動安裝這些依賴。",
       containerInstallsTitle: "容器技能安裝",
-      docsLine: "文件：https://docs.openclaw.ai/skills",
       enterEnv: "輸入 {env}",
       homebrewCommand: "顯示 Homebrew 安裝命令？",
       homebrewInstallTitle: "Homebrew 安裝",
@@ -513,7 +508,6 @@ export const zh_TW = {
       dmPolicyOpen: '公開 DM：{policyKey}="open" + {allowFromKey} 包含 "*"。',
       dmPolicyOpenOption: "開放（公開接收入站 DM）",
       dmPolicyPairing: "配對（建議）",
-      docs: "文件：{link}",
       disabledBeforeSetup: "{channel} 目前為 {hint}，無法設定。請先啟用再設定。",
       disabledDuringSetup: "{channel} 目前為 {hint}，無法設定。啟用後再執行 {command}。",
       disableKeepConfig: "停用（保留設定）",
@@ -1032,7 +1026,6 @@ export const zh_TW = {
     },
     channelsPrimer: {
       approveWith: "核准配對：{command}",
-      docs: "文件：{link}",
       inboundSafety: "入站 DM 安全預設使用配對：未知傳送者會先取得配對碼。",
       multiUserDm:
         '多使用者 DM 請隔離工作階段：{command}（多帳號頻道也可用 "per-account-channel-peer"）。',
@@ -1071,7 +1064,6 @@ export const zh_TW = {
       chooseProvider: "選擇一個提供方。有些提供方需要 API key，有些無需 key。",
       configured: "已設定",
       configureLaterHint: "稍後可用 openclaw configure --section web 設定",
-      docsLine: "文件：{url}",
       intro: "Web search 可以讓 agent 線上查詢資料。",
       keyFree: "無需 key",
       noProvidersAction: "請啟用插件或移除 deny 規則，然後重新執行設定。",
@@ -1087,7 +1079,6 @@ export const zh_TW = {
       codexNativeSearchOnly: "僅用於支援 Codex 的模型。",
       codexNativeSearchTitle: "Codex 原生搜尋",
       controlUiTitle: "Control UI",
-      controlUiDocs: "文件：https://docs.openclaw.ai/web/control-ui",
       dashboardCopyPaste: "在本機瀏覽器中複製/貼上這個 URL 來控制 OpenAgent。",
       dashboardOpened: "已在瀏覽器中開啟。保留該分頁以控制 OpenAgent。",
       dashboardOpenAnytime: "隨時開啟 dashboard：{command}",
@@ -1153,7 +1144,7 @@ export const zh_TW = {
       containerSystemdUnavailable:
         "此容器內沒有 systemd 使用者服務。OpenAgent 只會略過背景服務安裝；請以前景方式執行 Gateway，或使用你的容器 supervisor。",
       securityReminder:
-        "在你的電腦上執行 agent 存在風險，請加固設定：https://docs.openclaw.ai/security",
+        "在你的電腦上執行 agent 存在風險。請執行 openclaw security audit --deep 檢查你的設定。",
       secretRefAuthFailed: "無法解析用於設定認證的 {field} SecretRef。",
       skipHealthNextTime: "下次也可略過此探測：{command}",
       skipControlUi: "略過 Control UI/TUI 提示。",
@@ -1167,7 +1158,6 @@ export const zh_TW = {
       sessionGatewayStarted: "本次工作階段的 Gateway 已啟動。",
       sessionGatewayStartFailed: "本次工作階段的 Gateway 啟動失敗。",
       terminalHatch: "在終端機中啟動（建議）",
-      webDocs: "文件：https://docs.openclaw.ai/tools/web",
       webSearchAutoDetected: "Web search 可透過 {provider} 使用（自動偵測）。",
       webSearchDisabled: "Web search（{provider}）已設定但被停用。",
       webSearchEnabled: "Web search 已啟用，agent 可在需要時線上查詢。",
@@ -1189,10 +1179,7 @@ export const zh_TW = {
       webSearchUnavailableAction:
         "重新啟用該 provider 或選擇其他 provider 前，web_search 無法運作。",
       webUiUrl: "Web UI：{url}",
-      whatNow: '下一步：https://openclaw.ai/showcase（"What People Are Building"）。',
-      whatNowTitle: "下一步",
       workspaceBackupTitle: "工作區備份",
-      workspaceDocs: "文件：https://docs.openclaw.ai/concepts/agent-workspace",
       workspaceReady: "你的工作區已就緒。",
     },
     gatewayNotes: {

@@ -153,18 +153,18 @@ describe("applyFinalEffectiveToolPolicy", () => {
   });
 
   it("applies channel-normalized per-sender policy to bundled tools", () => {
-    // Teams normalizes to msteams in policy keys, which must happen before
-    // sender-specific deny rules are applied.
+    // Provider spelling normalizes to the canonical channel id in policy keys,
+    // which must happen before sender-specific deny rules are applied.
     const filtered = applyFinalPolicy({
       bundledTools: [makeTool("mcp__bundle__exec"), makeTool("mcp__bundle__read")],
       config: {
         tools: {
           toolsBySender: {
-            "channel:msteams:alice": { deny: ["mcp__bundle__exec"] },
+            "channel:telegram:alice": { deny: ["mcp__bundle__exec"] },
           },
         },
       },
-      messageProvider: "teams",
+      messageProvider: "Telegram",
       senderId: "alice",
       warn: () => {},
     });

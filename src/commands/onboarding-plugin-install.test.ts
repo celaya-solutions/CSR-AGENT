@@ -14,6 +14,12 @@ import { VERSION } from "../version.js";
 import { WizardNavigationError } from "../wizard/prompts.js";
 import { WizardSession } from "../wizard/session.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("./official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 // Stable setup is the default fixture, independent of the checkout's release version.
 const coreVersion = vi.hoisted(() => ({ value: "2026.8.1" }));
 vi.mock("../version.js", async (importOriginal) => ({
@@ -352,7 +358,7 @@ describe("ensureOnboardingPluginInstalled", () => {
                 source: "clawhub",
                 spec: clawhubSpec,
                 clawhubPackage: packageName,
-                clawhubUrl: "https://clawhub.ai",
+                clawhubUrl: "https://registry.example.test",
                 clawhubChannel: "official",
               };
         createColdPluginFixture({
@@ -941,7 +947,7 @@ describe("ensureOnboardingPluginInstalled", () => {
           packageName: "demo-plugin",
           clawhub: {
             source: "clawhub",
-            clawhubUrl: "https://clawhub.ai",
+            clawhubUrl: "https://registry.example.test",
             clawhubPackage: "demo-plugin",
             clawhubFamily: "code-plugin",
             clawhubChannel: "official",
@@ -1005,7 +1011,7 @@ describe("ensureOnboardingPluginInstalled", () => {
         packageName: "demo-plugin",
         clawhub: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "demo-plugin",
           clawhubFamily: "code-plugin",
           clawhubChannel: "official",

@@ -1568,9 +1568,6 @@ describe("loadGatewayPlugins", () => {
 
     await expect(request).rejects.toThrow(reason);
     await expect(request).rejects.toThrow("bundled or trusted official plugins");
-    await expect(request).rejects.toThrow(
-      "https://docs.openclaw.ai/plugins/sdk-runtime#api-runtime-gateway",
-    );
     expect(handleGatewayRequest).not.toHaveBeenCalled();
   });
 
@@ -2509,7 +2506,7 @@ describe("loadGatewayPlugins", () => {
     expect(getLastDispatchedClientInternal().pluginRuntimeOwnerId).toBe("memory-core");
   });
 
-  test("includes docs guidance when a plugin fallback override is not trusted", async () => {
+  test("explains how to trust a plugin fallback override", async () => {
     const serverPlugins = serverPluginsModule;
     const runtime = await createSubagentRuntime(serverPlugins);
     serverPlugins.setFallbackGatewayContext(createTestContext("fallback-untrusted-plugin"));
@@ -2525,7 +2522,7 @@ describe("loadGatewayPlugins", () => {
         }),
       ),
     ).rejects.toThrow(
-      'plugin "voice-call" is not trusted for fallback provider/model override requests. See https://docs.openclaw.ai/plugins/sdk-runtime#api-runtime-subagent and search for: plugins.entries.<id>.subagent.allowModelOverride',
+      'plugin "voice-call" is not trusted for fallback provider/model override requests. To trust it, set plugins.entries.<id>.subagent.allowModelOverride.',
     );
   });
 

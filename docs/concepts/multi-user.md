@@ -82,7 +82,6 @@ Open **Settings → Profile → Connected accounts**, select **Add account**, th
 
 - **Anthropic** accepts an API key for personal setup, not a Claude subscription token.
 - **OpenAI** offers API key, ChatGPT/Codex browser sign-in, and device-code sign-in.
-- **Grok (xAI)** offers API key and device sign-in.
 
 The chooser shows only provider methods enabled for personal accounts on that Gateway. Follow its instructions and use the protected input for credentials or authorization codes. A browser callback can finish while an input is open. Keep the Profile connection open until it reports the result. Saving credentials is separate from verifying a successful model request.
 

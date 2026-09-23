@@ -254,9 +254,9 @@ describe("ClawHub chat recommendations", () => {
   });
 
   it.each([
-    ["https://clawhub.ai", undefined, true],
+    ["https://registry.example.test", undefined, true],
     ["https://other.example", undefined, false],
-    ["https://clawhub.ai", "skills-sh:openclaw/skills/calendar", false],
+    ["https://registry.example.test", "skills-sh:openclaw/skills/calendar", false],
   ] as const)(
     "matches native skill identity (%s, %s) and keeps its agent in the detail link",
     async (registry, requestedReference, installed) => {
@@ -265,7 +265,7 @@ describe("ClawHub chat recommendations", () => {
         kind: "skill",
         id: "@openclaw/calendar",
         skillRef: "@openclaw/calendar",
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         name: "Calendar",
         official: true,
         installed: false,

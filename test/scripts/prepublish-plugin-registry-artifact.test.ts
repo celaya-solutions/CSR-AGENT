@@ -312,7 +312,7 @@ describe("prepublish plugin registry artifact", () => {
     },
   );
 
-  it.each(["discord", "slack"])(
+  it.each(["discord"])(
     "stages the planned %s candidate and Codex in one verified artifact",
     (channel) => {
       const lane = findLaneByName(`npm-onboard-${channel}-candidate-channel-agent`);

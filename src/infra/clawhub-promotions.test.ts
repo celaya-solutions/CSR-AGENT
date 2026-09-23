@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { useMockHttp } from "../test-utils/mock-http.js";
 import { fetchClawHubPromotion, fetchClawHubPromotions } from "./clawhub-promotions.js";
 
-const CLAWHUB_URL = "https://clawhub.ai";
+const CLAWHUB_URL = "https://registry.example.test";
 const mockHttp = useMockHttp();
 
 const validPromotion = {

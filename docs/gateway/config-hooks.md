@@ -16,7 +16,7 @@ For the full key index and the other top-level config domains, see [Configuratio
 `hooks.*` configures generic Gateway HTTP ingress. For setup and a verified first
 request, see [Webhooks](/automation/cron-jobs#webhooks). This is separate from
 [internal hooks](/automation/hooks) (`hooks.internal`, `HOOK.md`) and the
-[TaskFlow Webhooks plugin](/plugins/webhooks) (`plugins.entries.webhooks`).
+TaskFlow Webhooks plugin (`plugins.entries.webhooks`).
 
 ```json5
 {
@@ -305,10 +305,10 @@ example and must be available to the reader. Gmail fields:
 | `hooks.gmail` field          | Runtime default              | Contract                                                                                                                                                      |
 | ---------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `account`                    | required                     | Gmail account already authorized in `gog`.                                                                                                                    |
-| `label`                      | `"INBOX"`                    | Gmail label to watch. OpenAgent excludes `SPAM`, `TRASH`, `DRAFT`, and `SENT` when launching the watcher.                                                 |
+| `label`                      | `"INBOX"`                    | Gmail label to watch. OpenAgent excludes `SPAM`, `TRASH`, `DRAFT`, and `SENT` when launching the watcher.                                                     |
 | `topic`                      | required                     | Full Pub/Sub topic path. Setup can provision the `gog-gmail-watch` topic.                                                                                     |
 | `subscription`               | `"gog-gmail-watch-push"`     | Pub/Sub subscription used by setup.                                                                                                                           |
-| `pushToken`                  | required                     | Authenticates incoming pushes to the watcher. Separate from `hooks.token`, which authenticates forwarding to OpenAgent. Setup generates one if absent.    |
+| `pushToken`                  | required                     | Authenticates incoming pushes to the watcher. Separate from `hooks.token`, which authenticates forwarding to OpenAgent. Setup generates one if absent.        |
 | `hookUrl`                    | local Gateway `/hooks/gmail` | Forwarding URL built from `hooks.path` and Gateway port unless configured.                                                                                    |
 | `includeBody`                | `true`                       | Include email body snippets. Set `false` in config to omit them.                                                                                              |
 | `maxBytes`                   | `20000`                      | Positive integer per-message body limit passed to the watcher. Also used to derive the Gmail HTTP body allowance.                                             |

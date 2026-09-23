@@ -2,7 +2,6 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { repoInstallSpec } from "openclaw/plugin-sdk/test-fixtures";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../config/config.js";
 import { hashConfigIncludeRaw } from "../config/includes.js";
@@ -13,6 +12,12 @@ import {
   resolvePluginInstallRequestContext,
   type PluginInstallRequestContext,
 } from "../plugins/install-config.js";
+
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
 
 const hoisted = vi.hoisted(() => ({
   assertConfigPathForWriteMock: vi.fn(),
@@ -61,7 +66,6 @@ vi.mock("../plugins/location-bridges.js", () => ({
     listPersistedBundledPluginRecoveryLocationsMock(),
 }));
 
-const DISCORD_REPO_INSTALL_SPEC = repoInstallSpec("discord");
 const installWriteOptions = {
   inputBase: "source",
   envSnapshotForRestore: { INSTALL_CONFIG_READ_VALUE: "read-time" },
@@ -502,26 +506,47 @@ describe("loadConfigForInstall", () => {
     });
   });
 
-  it("allows explicit repo-checkout bundled-plugin reinstall recovery", async () => {
+  it("allows explicit local-checkout plugin reinstall recovery", async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "plugin-checkout-recovery-"));
+    const checkout = path.join(root, "fixture-channel");
+    fs.mkdirSync(checkout);
+    fs.writeFileSync(
+      path.join(checkout, "package.json"),
+      JSON.stringify({
+        name: "fixture-channel",
+        openclaw: { install: { allowInvalidConfigRecovery: true } },
+      }),
+    );
+    fs.writeFileSync(
+      path.join(checkout, "openclaw.plugin.json"),
+      JSON.stringify({
+        id: "fixture-channel",
+        configSchema: { type: "object", properties: {} },
+      }),
+    );
     const snapshotCfg = { plugins: {} } as OpenClawConfig;
     readConfigFileSnapshotMock.mockResolvedValue(
       makeSnapshot({
         config: snapshotCfg,
-        issues: [{ path: "channels.discord", message: "unknown channel id: discord" }],
+        issues: [
+          { path: "channels.fixture-channel", message: "unknown channel id: fixture-channel" },
+        ],
       }),
     );
 
-    const repoRequest = resolvePluginInstallRequestContext({
-      rawSpec: DISCORD_REPO_INSTALL_SPEC,
-    });
-    if (!repoRequest.ok) {
-      throw new Error(repoRequest.error);
-    }
+    try {
+      const checkoutRequest = resolvePluginInstallRequestContext({ rawSpec: checkout });
+      if (!checkoutRequest.ok) {
+        throw new Error(checkoutRequest.error);
+      }
 
-    const result = await loadConfigForInstall({
-      ...repoRequest.request,
-    });
-    expect(result.config).toBe(snapshotCfg);
+      const result = await loadConfigForInstall({
+        ...checkoutRequest.request,
+      });
+      expect(result.config).toBe(snapshotCfg);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
   });
 
   it("allows recovery through an exact single-file top-level plugins include", async () => {

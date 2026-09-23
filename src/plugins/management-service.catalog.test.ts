@@ -8,6 +8,12 @@ import {
   metadataSnapshot,
 } from "./management-service.test-helpers.js";
 
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 const mocks = vi.hoisted(() => ({
   metadata: vi.fn(),
   officialCatalog: vi.fn(),
@@ -50,7 +56,7 @@ function mockHostedOfficialCatalog(entries: unknown[]) {
     source: "hosted",
     entries,
     feed: { schemaVersion: 1, id: "test", generatedAt: "now", sequence: 1, entries: [] },
-    metadata: { url: "https://clawhub.ai/feed", status: 200, checksum: "hash" },
+    metadata: { url: "https://registry.example.test/feed", status: 200, checksum: "hash" },
   });
 }
 
@@ -226,7 +232,14 @@ describe("managed plugin catalog", () => {
   const privateRegistry = "https://private.example/clawhub";
   it.each([
     ["foreign registry", "clawhub", `${privateRegistry}/`, undefined, false],
-    ["public registry", "clawhub", "https://clawhub.ai/", undefined, true],
+    // The configured registry plays the public default's role; nothing is public without one.
+    [
+      "configured default registry",
+      "clawhub",
+      "https://registry.example.test/",
+      "https://registry.example.test",
+      true,
+    ],
     ["custom primary override", "clawhub", `${privateRegistry}/`, privateRegistry, true],
     [
       "custom secondary override",
@@ -237,8 +250,8 @@ describe("managed plugin catalog", () => {
       "CLAWHUB_URL",
     ],
     ["different custom registry", "clawhub", "https://other.example/", privateRegistry, false],
-    ["public npm counterpart", "npm", undefined, undefined, true],
-    ["public npm counterpart on custom registry", "npm", undefined, privateRegistry, false],
+    ["npm counterpart on the configured registry", "npm", undefined, privateRegistry, true],
+    ["npm counterpart without a configured registry", "npm", undefined, undefined, false],
     ["unproven registry", "clawhub", undefined, undefined, false],
   ] as const)(
     "binds remote discovery to the effective registry: %s",
@@ -305,7 +318,7 @@ describe("managed plugin catalog", () => {
         packageVersion: "1.2.3",
         installRecord: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "@openclaw/memory-tools",
           version: "1.2.3",
         },
@@ -336,7 +349,7 @@ describe("managed plugin catalog", () => {
         packageVersion: "4.5.6",
         installRecord: {
           source: "clawhub",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubPackage: "community/memory",
           version: "4.5.6",
         },
@@ -363,7 +376,7 @@ describe("managed plugin catalog", () => {
 
     expect(mocks.pluginVersionCategories).toHaveBeenCalledOnce();
     expect(mocks.pluginVersionCategories).toHaveBeenCalledWith({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       skipAuth: true,
       packages: [{ name: "community/memory", version: "4.5.6" }],
     });

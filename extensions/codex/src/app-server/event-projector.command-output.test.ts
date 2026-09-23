@@ -383,7 +383,7 @@ describe("CodexAppServerEventProjector command output projection", () => {
     )?.output;
     expect(output).toHaveLength(10_000);
     expect(output).toContain("OpenAgent truncated Codex native tool output");
-    expect(output).toContain("original 12124 chars");
+    expect(output).toContain("original 12125 chars");
     expect(output).toContain("before user marker");
     expect(output).toContain("second line must survive");
   });

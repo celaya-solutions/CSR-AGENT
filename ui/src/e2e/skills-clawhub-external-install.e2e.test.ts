@@ -34,7 +34,7 @@ const installedStatus = {
       clawhub: {
         status: "linked",
         valid: true,
-        registry: "https://clawhub.ai",
+        registry: "https://registry.example.test",
         slug: "pdf",
         requestedReference: "skills-sh:openai/skills/pdf",
         installedVersion: "0.0.0",
@@ -63,7 +63,7 @@ suite.define(() => {
               {
                 score: 1,
                 slug: "pdf",
-                registry: "https://clawhub.ai",
+                registry: "https://registry.example.test",
                 installRef: "skills-sh:openai/skills/pdf",
                 installOnly: true,
                 trustState: "not-scanned-by-clawhub",

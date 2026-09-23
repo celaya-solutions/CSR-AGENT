@@ -4,7 +4,7 @@
   "description": "OpenAgent provider for managed and external llama.cpp servers",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/celaya-solutions/CSR-AGENT"
   },
   "type": "module",
   "devDependencies": {
@@ -14,21 +14,11 @@
     "extensions": [
       "./index.ts"
     ],
-    "install": {
-      "npmSpec": "@openclaw/llama-cpp-provider",
-      "defaultChoice": "npm",
-      "minHostVersion": ">=2026.6.2"
-    },
     "compat": {
       "pluginApi": ">=2026.9.4"
     },
     "build": {
       "openclawVersion": "2026.9.4"
-    },
-    "release": {
-      "bundleRuntimeDependencies": false,
-      "publishToClawHub": true,
-      "publishToNpm": true
     }
   }
 }

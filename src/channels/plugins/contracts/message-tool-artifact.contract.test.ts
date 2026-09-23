@@ -10,8 +10,9 @@ import {
   listBundledChannelPluginIds,
 } from "./test-helpers/bundled-channel-plugin-loader.js";
 
-// Bundled channels expected to ship a top-level message-tool artifact.
-const MESSAGE_TOOL_ARTIFACT_PLUGIN_IDS = ["imessage", "slack"] as const;
+// Bundled channels expected to ship a top-level message-tool artifact. None of the channels
+// bundled in this distribution do; a new one must be listed here.
+const MESSAGE_TOOL_ARTIFACT_PLUGIN_IDS: readonly string[] = [];
 
 describe("bundled channel message-tool artifact parity", () => {
   const artifactDescribers = new Map<string, unknown>();

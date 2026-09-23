@@ -19,11 +19,9 @@ export const SUPPORTED_NODE_VERSIONS = `${NODE_RELEASE_FLOORS.map(
 export function formatUnsupportedNodeVersionMessage(version) {
   return [
     `Node ${version ?? "unknown"} is unsupported; OpenAgent requires ${SUPPORTED_NODE_VERSIONS}.`,
-    "npm can finish installing OpenAgent without running its preinstall check; a successful install does not mean Node is supported.",
-    "Re-run the installer: curl -fsSL https://openclaw.ai/install.sh | bash",
-    "On Windows: iwr -useb https://openclaw.ai/install.ps1 | iex",
-    "Or with nvm: nvm install 26 && nvm use 26 && nvm alias default 26",
-    "Then rerun openclaw update. See https://docs.openclaw.ai/install/node",
+    "Install a supported Node, for example with nvm: nvm install 26 && nvm use 26 && nvm alias default 26",
+    "Then rebuild your OpenAgent checkout with pnpm install && pnpm build, and rerun openclaw update.",
+    "See docs/install/node.md in the checkout.",
   ].join("\n");
 }
 

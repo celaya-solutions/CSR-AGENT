@@ -40,7 +40,7 @@ openclaw docs gateway token secretref
 
 ## How it works
 
-`openclaw docs` calls `https://docs.openclaw.ai/api/search` and renders the JSON results. The search request uses a fixed 30 second timeout.
+`openclaw docs` calls the hosted docs search API (`/api/search` on the docs host) and renders the JSON results. The search request uses a fixed 30 second timeout.
 
 ## Output
 
@@ -53,8 +53,8 @@ In non-rich output (piped, `--no-color`, scripts), the same data renders as Mark
 ```markdown
 # Docs search: <query>
 
-- [Title](https://docs.openclaw.ai/...) - snippet
-- [Title](https://docs.openclaw.ai/...) - snippet
+- [Title](<docs page URL>) - snippet
+- [Title](<docs page URL>) - snippet
 ```
 
 With `--json`, stdout contains one object with the normalized query and result
@@ -75,4 +75,3 @@ while retaining the error message on stderr.
 ## Related
 
 - [CLI reference](/cli)
-- [Live docs](https://docs.openclaw.ai)

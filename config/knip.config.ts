@@ -17,23 +17,16 @@ function bundledPluginFile(pluginId: string, relativePath: string, suffix = ""):
 // Package scripts, workflows, Docker scenarios, and documented maintainer commands invoke these
 // files by path. They are executable roots rather than importable library modules.
 const repositoryScriptEntries = [
-  // apps/linux/README.md invokes this live Windows native-browser proof driver by path.
-  "apps/linux/scripts/test-inline-browser.mjs!",
   "scripts/render-proof-video.mts!",
   // CI imports this selector from its trusted harness inside an inline Node script.
   ".github/actions/git-owner/test-prerequisites.mjs!",
-  // mobile-release-authority invokes this helper from composite-action YAML.
-  ".github/actions/mobile-release-authority/authority.mjs!",
   // setup-node-env invokes this helper from composite-action YAML.
   ".github/actions/setup-node-env/dependency-fingerprint.mjs!",
   ".github/actions/setup-node-env/seed-bun-from-image.mjs!",
   // setup-pnpm-store-cache invokes this helper from composite-action YAML.
   ".github/actions/setup-pnpm-store-cache/seed-pnpm-from-image.mjs!",
-  "apps/android/scripts/build-release-artifacts.ts!",
   "scripts/bundle-a2ui.mts!",
   "scripts/build-discord-activity-sdk.mts!",
-  // package-mac-app.sh launches the architecture scheduler by path.
-  "scripts/build-mac-swift.mts!",
   "scripts/check-control-ui-performance.mts!",
   "scripts/check-control-ui-precompressed-assets.mts!",
   "scripts/check-live-cache.ts!",
@@ -45,8 +38,6 @@ const repositoryScriptEntries = [
   "scripts/cloudflare/src/index.ts!",
   // Invoked by the documented macOS Computer Use live-proof shell rig.
   "scripts/dev/computer-use-macos-live-proof.ts!",
-  "scripts/dev/ios-node-e2e.ts!",
-  "scripts/diffs-shiki-curated.ts!",
   // Reusable Docker workflows invoke this from the downloaded .release-harness tree.
   "scripts/docker-e2e.mts!",
   // Docker and package-install harnesses invoke this verifier by path.
@@ -81,7 +72,6 @@ const repositoryScriptEntries = [
   "scripts/e2e/lib/fleet-cache/prepare-podman-storage.mjs!",
   "scripts/e2e/lib/fleet-cache/probe-podman-cell.mjs!",
   "scripts/e2e/lib/fleet-cache/runtime-preflight.mjs!",
-  "scripts/e2e/lib/npm-telegram-live/prepare-package.mts!",
   "scripts/e2e/lib/onboard/assert-config.mjs!",
   "scripts/e2e/lib/onboard/write-config.mjs!",
   "scripts/e2e/lib/openai-chat-tools/client.mjs!",
@@ -121,13 +111,6 @@ const repositoryScriptEntries = [
   "scripts/embedded-run-abort-leak.ts!",
   "scripts/embedded-run-liveness-leak.ts!",
   "scripts/fixtures/packed-plugin-sdk-type-smoke.ts!",
-  // Generates the native browser page scripts from their UI source modules.
-  "scripts/generate-browser-inspect-script-swift.mts!",
-  // CI executes screenshot evidence from the workflow-owned harness copy.
-  "scripts/ios-screenshot-evidence.mjs!",
-  "scripts/ios-release-cut.ts!",
-  "scripts/ios-release-plan.ts!",
-  "scripts/ios-release-signing.mts!",
   "scripts/lib/docker-plugin-selection.mjs!",
   // The frozen compatibility shell invokes this CLI and imports it from inline bundle resolution.
   "scripts/lib/frozen-target-source.mjs!",
@@ -135,21 +118,6 @@ const repositoryScriptEntries = [
   "scripts/lib/vitest-resource-reporter.mts!",
   // Invoked by scripts/lib/live-docker-stage.sh during container validation.
   "scripts/live-docker-normalize-config.ts!",
-  // Mantis controllers launch these observers and bridge by path inside isolated runtimes.
-  "scripts/mantis/observe-request-telegram-qa.mts!",
-  "scripts/mantis/observe-request-web-ui.mts!",
-  "scripts/mantis/telegram-proof-bridge.mjs!",
-  "scripts/mcp-code-mode-gateway-e2e.ts!",
-  // Existing explicit Linux proof driver imports the inactive capsule adapter.
-  // Reachability for auditing is not registration or permission to execute it.
-  "scripts/openclaw-release-clawhub-plan.ts!",
-  "scripts/openclaw-release-clawhub-runtime-state.ts!",
-  // Protected preparation/button workflows invoke this coordinator by path.
-  "scripts/openclaw-release-ready.mjs!",
-  // Plugin Prerelease builds immutable package artifacts, then scans them in a bounded child.
-  "scripts/plugin-npm-security-prepare.mts!",
-  "scripts/plugin-npm-security-scan-runner.mjs!",
-  "scripts/plugin-npm-security-scan.mts!",
   // Oxlint loads this JS plugin by path from config/oxlint/boundary-guards.json.
   "scripts/oxlint-boundary-guards.mjs!",
   "scripts/plugin-prerelease-liveish-matrix.mts!",
@@ -169,8 +137,6 @@ const repositoryScriptEntries = [
   "scripts/pr-lib/process-group-runner.mjs!",
   "scripts/pre-commit/filter-staged-files.mjs!",
   "scripts/print-live-docker-plugin-selection.mjs!",
-  "scripts/qa-coverage-report.ts!",
-  "scripts/qa-parity-report.ts!",
   "scripts/resolve-frozen-codex-live-suite.mjs!",
   // Changed-file checks invoke this targeted UI Stylelint entrypoint by path.
   "scripts/run-stylelint.mts!",
@@ -179,14 +145,9 @@ const repositoryScriptEntries = [
   "scripts/secrets/openclaw-bws-resolver.mjs!",
   "scripts/sync-labels.ts!",
   "scripts/test-built-bundled-channel-entry-smoke.mts!",
-  // Native shell UI tests connect to this manually launched loopback Gateway fixture.
-  "scripts/test-ios-shell-gateway.mjs!",
   "scripts/update-clawtributors.ts!",
   // The candidate binder invokes this trusted producer-identity verifier by path.
   "scripts/verify-full-release-producer-job.mjs!",
-  // Staging and signed-app packaging execute this verifier with each bundled Node.
-  "scripts/verify-mac-node-worker.mjs!",
-  "scripts/verify-stable-main-closeout.mjs!",
   "scripts/write-package-dist-inventory.ts!",
   "scripts/write-plugin-sdk-entry-dts.ts!",
   "scripts/write-unified-entry-dts.ts!",
@@ -243,10 +204,6 @@ const rootEntries = [
   "src/agents/compaction-planning.worker.ts!",
   "src/config/sessions/disk-budget.worker.ts!",
   "scripts/print-cli-backend-live-metadata.ts!",
-  // Workflow/package-script entrypoints are not imported from production modules.
-  "scripts/openclaw-cross-os-release-checks.ts!",
-  "scripts/release-plan-producer-core.mts!",
-  "scripts/release-plan-producer.mts!",
   // Spawned by the agent concurrency benchmark; no static import edge exists.
   "scripts/bench-agent-concurrency-worker.ts!",
   // Spawned by the durable task registry churn benchmark in a fresh GC-enabled process.
@@ -298,12 +255,6 @@ const rootEntries = [
   "src/plugins/contracts/rootdir-boundary-canary.ts!",
   // Mintlify executes every JavaScript file in the docs content directory on each page.
   "docs/nav-tabs-underline.js!",
-  // Native applications load these JavaScript assets directly rather than through Node imports.
-  "apps/android/app/src/main/assets/katex/katex.min.js!",
-  "apps/android/app/src/main/assets/katex/renderer.js!",
-  "apps/linux/ui/main.js!",
-  "apps/linux/ui/quickchat.js!",
-  "scripts/qa/render-maturity-docs.ts!",
   bundledPluginFile("telegram", "src/audit.ts", "!"),
   bundledPluginFile("telegram", "src/token.ts", "!"),
   "src/hooks/bundled/*/handler.ts!",
@@ -385,7 +336,6 @@ const rootBundledPluginRuntimeDependencies = [
 // owning workspace, or invoke their package binaries/loaders without a static module import.
 const rootToolingAndWorkspaceDependencies = [
   "@a2ui/lit",
-  "@copilotkit/aimock",
   "@lit-labs/signals",
   "@lit/context",
   "@lit/task",
@@ -560,7 +510,6 @@ const config = {
       stylelint: { config: ["config/stylelint.config.mjs"] },
       project: [
         ".github/actions/**/*.{js,mjs,cjs,ts,mts,cts}!",
-        "apps/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "config/**/*.{ts,mts,cts}!",
         "docs/**/*.js!",
         "security/**/*.{js,mjs,cjs,ts,mts,cts}!",
@@ -576,13 +525,6 @@ const config = {
     "examples/ai-chat": {
       entry: ["index.mjs!"],
       project: ["**/*.{js,mjs,cjs,ts,mts,cts}!"],
-    },
-    "qa/convex-credential-broker": {
-      // Convex discovers these registered functions and schemas by filename.
-      entry: ["convex/credentials.ts!", "convex/crons.ts!", "convex/http.ts!", "convex/schema.ts!"],
-      // This intentionally standalone package is not linked into the pnpm workspace.
-      ignoreBinaries: ["convex"],
-      project: ["convex/**/*.ts!"],
     },
     ui: {
       entry: [
@@ -902,18 +844,6 @@ const config = {
     [`${BUNDLED_PLUGIN_ROOT_DIR}/pixverse`]: bundledPluginWorkspace(),
     [`${BUNDLED_PLUGIN_ROOT_DIR}/qianfan`]: bundledPluginWorkspace(),
     [`${BUNDLED_PLUGIN_ROOT_DIR}/qwen`]: bundledPluginWorkspace(),
-    [`${BUNDLED_PLUGIN_ROOT_DIR}/qa-lab`]: bundledPluginWorkspace([
-      // Core loads the CLI facade by basename; QA Lab also owns a nested Vite app.
-      "cli.ts!",
-      "web/index.html!",
-      "web/src/app.ts!",
-      "web/src/main.ts!",
-      "web/vite.config.ts!",
-      // Imported directly from the GitHub Actions smoke-plan script.
-      "src/ci-smoke-plan.ts!",
-      // Imported directly from the GitHub Actions evidence workflow.
-      "src/profile-evidence-sharding.ts!",
-    ]),
     [`${BUNDLED_PLUGIN_ROOT_DIR}/senseaudio`]: bundledPluginWorkspace(),
     [`${BUNDLED_PLUGIN_ROOT_DIR}/slack`]: bundledPluginWorkspace([
       // The vendor integrity test executes this verifier by path.

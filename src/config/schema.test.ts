@@ -136,41 +136,6 @@ describe("config schema", () => {
     expect(res.uiHints["nodeHost.mcp.servers.*.env.*"]?.sensitive).toBe(true);
     expect(res.uiHints["nodeHost.mcp.servers.*.url"]?.tags).toContain(SENSITIVE_URL_HINT_TAG);
     expect(res.uiHints["models.providers.*.baseUrl"]?.tags).toContain(SENSITIVE_URL_HINT_TAG);
-    const phonePresentationPaths = [
-      "channels.sms.fromNumber",
-      "channels.sms.defaultTo",
-      "channels.sms.allowFrom",
-      "channels.sms.accounts.*.fromNumber",
-      "channels.sms.accounts.*.defaultTo",
-      "channels.sms.accounts.*.allowFrom.*",
-      "channels.signal.account",
-      "channels.signal.allowFrom",
-      "channels.signal.defaultTo",
-      "channels.signal.groupAllowFrom",
-      "channels.signal.reactionAllowlist",
-      "channels.signal.accounts.*.account",
-      "channels.signal.accounts.*.allowFrom.*",
-      "channels.signal.accounts.*.defaultTo",
-      "channels.signal.accounts.*.groupAllowFrom.*",
-      "channels.signal.accounts.*.reactionAllowlist.*",
-      "channels.whatsapp.allowFrom",
-      "channels.whatsapp.defaultTo",
-      "channels.whatsapp.groupAllowFrom",
-      "channels.whatsapp.accounts.*.allowFrom.*",
-      "channels.whatsapp.accounts.*.defaultTo",
-      "channels.whatsapp.accounts.*.groupAllowFrom.*",
-      "channels.imessage.allowFrom",
-      "channels.imessage.defaultTo",
-      "channels.imessage.groupAllowFrom",
-      "channels.imessage.accounts.*.allowFrom.*",
-      "channels.imessage.accounts.*.defaultTo",
-      "channels.imessage.accounts.*.groupAllowFrom.*",
-    ];
-    for (const path of phonePresentationPaths) {
-      expect(res.uiHints[path]?.presentation, path).toBe("phone-number");
-    }
-    expect(res.uiHints["channels.sms.authToken"]?.presentation).toBeUndefined();
-    expect(res.uiHints["channels.signal.configPath"]?.presentation).toBeUndefined();
     expect(res.uiHints["proxy.tls.caFile"]?.tags).toEqual(
       expect.arrayContaining(["security", "network", "storage"]),
     );
@@ -650,14 +615,11 @@ describe("config schema", () => {
       const progress = streamingProperties?.progress as Record<string, unknown> | undefined;
       return progress?.properties as Record<string, unknown> | undefined;
     };
-    expect(progressPropsFor("slack")).toHaveProperty("style");
-    expect(progressPropsFor("slack")).toHaveProperty("nativeTaskCards");
     expect(progressPropsFor("discord")).not.toHaveProperty("style");
     expect(progressPropsFor("telegram")).not.toHaveProperty("style");
     expect(progressPropsFor("discord")).not.toHaveProperty("nativeTaskCards");
     expect(progressPropsFor("telegram")).not.toHaveProperty("nativeTaskCards");
     expect(progressPropsFor("discord")).toHaveProperty("commentary");
-    expect(progressPropsFor("slack")).toHaveProperty("commentary");
     expect(progressPropsFor("telegram")).toHaveProperty("commentary");
     expect(res.uiHints["channels.matrix"]?.label).toBe("Matrix");
     expect(res.uiHints["channels.matrix"]?.help).toBe("Matrix channel help");
@@ -666,15 +628,6 @@ describe("config schema", () => {
       help: "Matrix credential",
       sensitive: true,
     });
-    expect(res.uiHints["channels.matrix.streaming.progress.label"]?.label).toBe(
-      "Matrix Progress Label",
-    );
-    expect(res.uiHints["channels.slack.streaming.progress.nativeTaskCards"]?.label).toBe(
-      "Slack Native Progress Task Cards",
-    );
-    expect(res.uiHints["channels.slack.streaming.progress.style"]?.label).toBe(
-      "Slack Progress Style",
-    );
     expect(res.uiHints["channels.discord.streaming.progress.nativeTaskCards"]).toBeUndefined();
     expect(res.uiHints["channels.telegram.streaming.progress.nativeTaskCards"]).toBeUndefined();
     expect(res.uiHints["channels.discord.streaming.progress.toolProgress"]?.label).toBe(
@@ -682,9 +635,6 @@ describe("config schema", () => {
     );
     expect(res.uiHints["channels.telegram.streaming.progress.commentary"]?.label).toBe(
       "Telegram Progress Commentary",
-    );
-    expect(res.uiHints["channels.mattermost.streaming.progress.label"]?.label).toBe(
-      "Mattermost Progress Label",
     );
   });
 
@@ -694,7 +644,11 @@ describe("config schema", () => {
       const schema = metadata === "bundled" ? baseSchema : buildConfigSchemaCore(mergedSchemaInput);
       const channels = lookupConfigSchema(schema, "channels");
       expect(channels?.children.map((child) => child.key)).toEqual(
-        expect.arrayContaining(["defaults", "modelByChannel", "matrix"]),
+        expect.arrayContaining([
+          "defaults",
+          "modelByChannel",
+          metadata === "bundled" ? "telegram" : "matrix",
+        ]),
       );
       expect(channels?.children.map((child) => child.key)).not.toContain("*");
       expect(lookupConfigSchema(schema, "channels.unknownChannel")).toBeNull();

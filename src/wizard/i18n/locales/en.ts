@@ -5,7 +5,6 @@ export const en = {
   common: {
     back: "Back",
     done: "Done",
-    docs: "Docs:",
     finished: "Finished",
     noAuth: "No auth",
     password: "Password",
@@ -97,11 +96,10 @@ export const en = {
       trustedProxyLoopbackWarning:
         "Any local process can impersonate a loopback reverse proxy by sending identity headers to the Gateway.\nOnly enable this when the reverse proxy is the sole local listener for incoming user traffic, direct Gateway access is locked down, and you trust local processes.\nThe proxy must authenticate users and strip or overwrite client-supplied identity headers.",
       trustedProxyLoopbackRefused:
-        "Loopback proxy requests will be rejected at runtime (trusted_proxy_loopback_source).\nUse a non-loopback proxy address, or rerun gateway configuration and explicitly allow loopback after reviewing the security warning.\nDocs: https://docs.openclaw.ai/gateway/trusted-proxy-auth",
+        "Loopback proxy requests will be rejected at runtime (trusted_proxy_loopback_source).\nUse a non-loopback proxy address, or rerun gateway configuration and explicitly allow loopback after reviewing the security warning.",
       websocketUrl: "Gateway WebSocket URL",
     },
     gatewayTailscale: {
-      docsNote: "Docs:\nhttps://docs.openclaw.ai/gateway/tailscale\nhttps://docs.openclaw.ai/web",
       funnel: "Funnel",
       funnelHint: "Public HTTPS via Tailscale Funnel (internet)",
       missingBinNote:
@@ -276,8 +274,7 @@ export const en = {
     },
     guided: {
       laneQuestion: "How would you like to start?",
-      laneSecurityLine:
-        "OpenAgent runs an AI agent with real access to this machine. Security guide: https://docs.openclaw.ai/gateway/security",
+      laneSecurityLine: "OpenAgent runs an AI agent with real access to this machine.",
       laneQuickLabel: "Quick start (recommended)",
       laneQuickHint: "Find AI access, choose a connection to verify, then open the web dashboard.",
       laneCustomLabel: "Custom setup",
@@ -455,7 +452,6 @@ export const en = {
         "I understand this is personal-by-default and shared/multi-user use requires lock-down. Continue?",
       hardeningRequired:
         "If you're not comfortable managing access controls and security hardening, don't run OpenAgent without help.",
-      learnMore: "Learn more at",
       notMultitenant: "OpenAgent is not designed to safely separate multiple users by default.",
       personalAgent: "By default, OpenAgent is a personal agent for one operator.",
       promptRisk: "A bad prompt can trick it into doing unsafe things.",
@@ -480,7 +476,6 @@ export const en = {
       containerBrewManual:
         "Use a custom image with Homebrew preinstalled or install those dependencies manually.",
       containerInstallsTitle: "Container skill installs",
-      docsLine: "Docs: https://docs.openclaw.ai/skills",
       enterEnv: "Enter {env}",
       homebrewCommand: "Show Homebrew install command?",
       homebrewInstallTitle: "Homebrew install",
@@ -529,7 +524,6 @@ export const en = {
       dmPolicyOpen: 'Public DMs: {policyKey}="open" + {allowFromKey} includes "*".',
       dmPolicyOpenOption: "Open (public inbound DMs)",
       dmPolicyPairing: "Pairing (recommended)",
-      docs: "Docs: {link}",
       disabledBeforeSetup: "{channel} cannot be configured while {hint}. Enable it before setup.",
       disabledDuringSetup:
         "{channel} cannot be configured while {hint}. Enable it, then run {command} again.",
@@ -1068,7 +1062,6 @@ export const en = {
     },
     channelsPrimer: {
       approveWith: "Approve with: {command}",
-      docs: "Docs: {link}",
       inboundSafety:
         "Inbound DM safety defaults to pairing: unknown senders get a pairing code first.",
       multiUserDm:
@@ -1109,7 +1102,6 @@ export const en = {
       chooseProvider: "Choose a provider. Some providers need an API key, and some work key-free.",
       configured: "configured",
       configureLaterHint: "Configure later with openclaw configure --section web",
-      docsLine: "Docs: {url}",
       intro: "Web search lets your agent look things up online.",
       keyFree: "key-free",
       noProvidersAction: "Enable plugins or remove deny rules, then run setup again.",
@@ -1126,7 +1118,6 @@ export const en = {
       codexNativeSearchOnly: "Used only for Codex-capable models.",
       codexNativeSearchTitle: "Codex native search",
       controlUiTitle: "Control UI",
-      controlUiDocs: "Docs: https://docs.openclaw.ai/web/control-ui",
       dashboardCopyPaste: "Copy/paste this URL in a browser on this machine to control OpenAgent.",
       dashboardOpened: "Opened in your browser. Keep that tab to control OpenAgent.",
       dashboardOpenAnytime: "Open the dashboard anytime: {command}",
@@ -1196,7 +1187,7 @@ export const en = {
       containerSystemdUnavailable:
         "Systemd user services are not available inside this container. OpenAgent is skipping only the background service install; run the Gateway in the foreground or use your container supervisor.",
       securityReminder:
-        "Running agents on your computer is risky — harden your setup: https://docs.openclaw.ai/security",
+        "Running agents on your computer is risky. Run openclaw security audit --deep to review your setup.",
       secretRefAuthFailed: "Could not resolve {field} SecretRef for setup auth.",
       skipHealthNextTime: "Or skip this probe next time: {command}",
       skipControlUi: "Skipping Control UI/TUI prompts.",
@@ -1211,7 +1202,6 @@ export const en = {
       sessionGatewayStarted: "Session Gateway started.",
       sessionGatewayStartFailed: "Session Gateway failed to start.",
       terminalHatch: "Hatch in Terminal (recommended)",
-      webDocs: "Docs: https://docs.openclaw.ai/tools/web",
       webSearchAutoDetected: "Web search is available via {provider} (auto-detected).",
       webSearchDisabled: "Web search ({provider}) is configured but disabled.",
       webSearchEnabled:
@@ -1234,10 +1224,7 @@ export const en = {
       webSearchUnavailableAction:
         "web_search will not work until the provider is re-enabled or a different provider is selected.",
       webUiUrl: "Web UI: {url}",
-      whatNow: 'What now: https://openclaw.ai/showcase ("What People Are Building").',
-      whatNowTitle: "What now",
       workspaceBackupTitle: "Workspace backup",
-      workspaceDocs: "Docs: https://docs.openclaw.ai/concepts/agent-workspace",
       workspaceReady: "Your workspace is ready.",
     },
     gatewayNotes: {

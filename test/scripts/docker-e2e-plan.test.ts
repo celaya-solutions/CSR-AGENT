@@ -406,9 +406,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     ["release-typed-onboarding", ["@openclaw/codex"]],
     ["npm-onboard-channel-agent", ["@openclaw/codex"]],
     ["npm-onboard-discord-channel-agent", ["@openclaw/codex"]],
-    ["npm-onboard-slack-channel-agent", ["@openclaw/codex"]],
     ["npm-onboard-discord-candidate-channel-agent", ["@openclaw/codex", "@openclaw/discord"]],
-    ["npm-onboard-slack-candidate-channel-agent", ["@openclaw/codex", "@openclaw/slack"]],
     ["mcp-code-mode-gateway", ["@openclaw/codex"]],
   ] as const)("requests only the matching companions for %s", (name, packages) => {
     const plan = planFor({ selectedLaneNames: [name] });
@@ -575,22 +573,12 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     },
   );
 
-  it("plans package-backed installer, Compose, and package artifact proofs", () => {
+  it("plans package-backed Compose and package artifact proofs", () => {
     const plan = planFor({
-      selectedLaneNames: ["cli-installer-distribution", "compose-setup", "docker-package-install"],
+      selectedLaneNames: ["compose-setup", "docker-package-install"],
     });
 
     expect(plan.lanes.map(summarizeLane)).toEqual([
-      {
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:cli-installer-distribution",
-        imageKind: "bare",
-        live: false,
-        name: "cli-installer-distribution",
-        resources: ["docker", "npm"],
-        stateScenario: "empty",
-        timeoutMs: 1_800_000,
-        weight: 3,
-      },
       {
         command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:compose-setup",
         imageKind: "functional",
@@ -613,7 +601,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       },
     ]);
     expect(plan.needs).toEqual({
-      bareImage: true,
+      bareImage: false,
       e2eImage: true,
       functionalImage: true,
       liveImage: false,
@@ -644,11 +632,9 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       prepublishPluginRegistry: true,
     });
     expect(plan.credentials).toEqual(["anthropic-api-key", "openai"]);
-    expect(plan.lanes.map((lane) => lane.name)).not.toContain("install-e2e-openai");
     expect(plan.lanes.map((lane) => lane.name)).toContain("openai-chat-tools");
     expect(plan.lanes.map((lane) => lane.name)).toContain("live-codex-npm-plugin");
     expect(plan.lanes.map((lane) => lane.name)).toContain("codex-on-demand");
-    expect(plan.lanes.map((lane) => lane.name)).not.toContain("install-e2e-anthropic");
     expect(plan.lanes.map((lane) => lane.name)).toContain("mcp-channels");
     expect(plan.lanes.map((lane) => lane.name)).toContain("plugin-binding-command-escape");
     expect(plan.lanes.map((lane) => lane.name)).toContain("live-plugin-tool");
@@ -656,7 +642,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     expect(plan.lanes.map((lane) => lane.name)).toContain("bundled-plugin-install-uninstall-23");
     const countLane = (name: string) =>
       plan.lanes.reduce((count, lane) => count + (lane.name === name ? 1 : 0), 0);
-    expect(countLane("install-e2e-openai")).toBe(0);
     expect(countLane("bundled-plugin-install-uninstall-0")).toBe(1);
     expect(plan.lanes.map((lane) => lane.name)).not.toContain("bundled-plugin-install-uninstall");
     expect(plan.lanes.map((lane) => lane.name)).not.toContain("bundled-channel-deps");
@@ -750,11 +735,9 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
 
     const laneNames = plan.lanes.map((lane) => lane.name);
     expect(plan.releaseProfile).toBe("beta");
-    expect(laneNames).not.toContain("install-e2e-openai");
     expect(laneNames).toContain("openai-chat-tools");
     expect(laneNames).toContain("live-codex-npm-plugin");
     expect(laneNames).toContain("release-typed-onboarding");
-    expect(laneNames).not.toContain("install-e2e-anthropic");
     expect(laneNames).toContain("update-channel-switch");
     expect(laneNames).not.toContain("plugins");
     expect(laneNames).not.toContain("live-plugin-tool");
@@ -773,7 +756,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     expect(plan.lanes.map((lane) => lane.name)).toEqual(["live-plugin-tool"]);
   });
 
-  it("keeps provider-backed install E2E lanes out of non-live package chunks", () => {
+  it("keeps provider-backed lanes out of non-live package chunks", () => {
     const plan = planFor({
       includeOpenWebUI: true,
       liveMode: "skip",
@@ -782,10 +765,8 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     });
 
     const laneNames = plan.lanes.map((lane) => lane.name);
-    expect(laneNames).not.toContain("install-e2e-openai");
     expect(laneNames).not.toContain("openai-chat-tools");
     expect(laneNames).not.toContain("live-codex-npm-plugin");
-    expect(laneNames).not.toContain("install-e2e-anthropic");
     expect(laneNames).toContain("codex-on-demand");
     expect(laneNames).toContain("release-typed-onboarding");
     expect(laneNames).toContain("update-channel-switch");
@@ -937,16 +918,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         weight: 3,
       },
       {
-        command:
-          "OPENCLAW_NPM_ONBOARD_CHANNEL=slack OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-onboard-channel-agent",
-        imageKind: "bare",
-        live: false,
-        name: "npm-onboard-slack-channel-agent",
-        resources: ["docker", "npm", "service"],
-        stateScenario: "empty",
-        weight: 3,
-      },
-      {
         command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:doctor-switch",
         imageKind: "bare",
         live: false,
@@ -954,16 +925,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         resources: ["docker", "npm"],
         stateScenario: "empty",
         weight: 3,
-      },
-      {
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:skill-install",
-        imageKind: "bare",
-        live: false,
-        name: "skill-install",
-        resources: ["docker", "npm"],
-        stateScenario: "empty",
-        timeoutMs: 600_000,
-        weight: 2,
       },
       {
         command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:update-channel-switch",
@@ -1151,8 +1112,8 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       ].map((releaseChunk) => planFor({ ...options, releaseChunk }));
       const lanes = partitions.flatMap((partition) => partition.lanes);
 
-      expect(partitions.map((partition) => partition.lanes.length)).toEqual([5, 2, 3]);
-      expect(new Set(lanes.map((lane) => lane.name)).size).toBe(10);
+      expect(partitions.map((partition) => partition.lanes.length)).toEqual([3, 2, 3]);
+      expect(new Set(lanes.map((lane) => lane.name)).size).toBe(8);
       expect(lanes.map(summarizeLane)).toEqual(aggregate.lanes.map(summarizeLane));
       const complete = planFor({ ...options, planReleaseAll: true });
       const packageNames = new Set(lanes.map((lane) => lane.name));
@@ -1191,9 +1152,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       "update-restart-auth",
       "npm-onboard-channel-agent",
       "npm-onboard-discord-channel-agent",
-      "npm-onboard-slack-channel-agent",
       "doctor-switch",
-      "skill-install",
       "update-channel-switch",
       "published-upgrade-survivor",
       "upgrade-survivor",
@@ -1339,11 +1298,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       expect(explicitPlan.requiredPrepublishPluginPackages).toEqual([]);
     }
     if (scenario === "recovery-cleanup") {
-      expect(explicitPlan.requiredPrepublishPluginPackages).toEqual([
-        "@openclaw/codex",
-        "@openclaw/discord",
-        "@openclaw/whatsapp",
-      ]);
+      expect(explicitPlan.requiredPrepublishPluginPackages).toEqual(["@openclaw/codex"]);
     }
 
     for (const aggregateScenario of ["reported-issues", "far-reaching"]) {
@@ -1986,7 +1941,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       { credentials: ["factory"], name: "live-acp-bind-droid" },
       { credentials: ["gemini"], name: "live-acp-bind-gemini" },
       { credentials: ["opencode"], name: "live-acp-bind-opencode" },
-      { credentials: ["openai", "telegram"], name: "npm-telegram-live" },
     ] as const;
 
     for (const { credentials, name } of cases) {
@@ -2134,10 +2088,10 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
 
   it("plans Docker package scripts that were previously only directly runnable", () => {
     const plan = planFor({
-      selectedLaneNames: ["browser-cdp-snapshot", "multi-node-update", "npm-telegram-live"],
+      selectedLaneNames: ["browser-cdp-snapshot", "multi-node-update"],
     });
 
-    expect(plan.credentials).toEqual(["openai", "telegram"]);
+    expect(plan.credentials).toEqual([]);
     expect(plan.lanes.map(summarizeLane)).toEqual([
       {
         command: "pnpm test:docker:browser-cdp-snapshot",
@@ -2157,15 +2111,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         resources: ["docker", "npm"],
         stateScenario: "empty",
         timeoutMs: 900_000,
-        weight: 3,
-      },
-      {
-        command: "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-telegram-live",
-        imageKind: "bare",
-        live: true,
-        name: "npm-telegram-live",
-        resources: ["docker", "live", "live:openai", "live:telegram", "npm", "service"],
-        timeoutMs: 1_800_000,
         weight: 3,
       },
     ]);
@@ -2223,13 +2168,11 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         "agents-delete-shared-workspace",
         "browser-cdp-snapshot",
         "doctor-switch",
-        "openai-image-auth",
         "openai-web-search-minimal",
         "mcp-channels",
         "mcp-code-mode-gateway",
         "cron-mcp-cleanup",
         "agent-bundle-mcp-tools",
-        "system-agent-first-run",
         "system-agent-rescue",
         "config-reload",
         "plugin-update",
@@ -2239,7 +2182,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
         "bundled-plugin-install-uninstall-0",
         "multi-node-update",
         "update-channel-switch",
-        "skill-install",
         "upgrade-survivor",
       ],
     });
@@ -2251,13 +2193,11 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       { name: "agents-delete-shared-workspace", stateScenario: "empty" },
       { name: "browser-cdp-snapshot", stateScenario: "empty" },
       { name: "doctor-switch", stateScenario: "empty" },
-      { name: "openai-image-auth", stateScenario: "empty" },
       { name: "openai-web-search-minimal", stateScenario: "empty" },
       { name: "mcp-channels", stateScenario: "empty" },
       { name: "mcp-code-mode-gateway", stateScenario: "empty" },
       { name: "cron-mcp-cleanup", stateScenario: "empty" },
       { name: "agent-bundle-mcp-tools", stateScenario: "empty" },
-      { name: "system-agent-first-run", stateScenario: "empty" },
       { name: "system-agent-rescue", stateScenario: "empty" },
       { name: "config-reload", stateScenario: "empty" },
       { name: "plugin-update", stateScenario: "empty" },
@@ -2267,7 +2207,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       { name: "bundled-plugin-install-uninstall-0", stateScenario: "empty" },
       { name: "multi-node-update", stateScenario: "empty" },
       { name: "update-channel-switch", stateScenario: "update-stable" },
-      { name: "skill-install", stateScenario: "empty" },
       { name: "upgrade-survivor", stateScenario: "upgrade-survivor" },
     ]);
   });
@@ -2281,35 +2220,11 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
       "update-migration",
     ]) {
       const plan = planFor({ selectedLaneNames: [laneName] });
-      expect(plan.requiredPrepublishPluginPackages).toEqual([
-        "@openclaw/codex",
-        "@openclaw/discord",
-        "@openclaw/whatsapp",
-      ]);
+      // Configured channels add no companion: every kept channel ships bundled.
+      expect(plan.requiredPrepublishPluginPackages).toEqual(["@openclaw/codex"]);
       expect(plan.needs.prepublishPluginRegistry).toBe(true);
     }
 
-    const feishuPlan = planFor({
-      selectedLaneNames: ["published-upgrade-survivor"],
-      upgradeSurvivorBaselines: "2026.7.2",
-      upgradeSurvivorScenarios: "base feishu-channel",
-    });
-    expect(feishuPlan.requiredPrepublishPluginPackages).toEqual([
-      "@openclaw/codex",
-      "@openclaw/discord",
-      "@openclaw/feishu",
-      "@openclaw/whatsapp",
-    ]);
-    const legacyFeishuPlan = planFor({
-      selectedLaneNames: ["published-upgrade-survivor"],
-      upgradeSurvivorBaselines: "2026.3.13",
-      upgradeSurvivorScenarios: "feishu-channel",
-    });
-    expect(legacyFeishuPlan.requiredPrepublishPluginPackages).toEqual([
-      "@openclaw/codex",
-      "@openclaw/discord",
-      "@openclaw/whatsapp",
-    ]);
     const selfUpgradeLane = findLaneByName("update-run-package-self-upgrade");
     expect(selfUpgradeLane).toBeDefined();
     expect(requiredPrepublishPluginPackagesForLanes([selfUpgradeLane!])).toEqual([]);
@@ -2318,7 +2233,7 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
   it.each([
     {
       baseline: "2026.4.23",
-      packages: ["@openclaw/acpx", "@openclaw/codex", "@openclaw/discord", "@openclaw/whatsapp"],
+      packages: ["@openclaw/acpx", "@openclaw/codex"],
     },
     { baseline: "2026.4.15", packages: [] },
   ])(
@@ -2356,40 +2271,6 @@ await import('./scripts/check-docker-e2e-boundaries.mts');`,
     const plan = planFor({ selectedLaneNames: ["doctor-switch"] });
     expect(plan.requiredPrepublishPluginPackages).toEqual([]);
     expect(plan.needs.prepublishPluginRegistry).toBe(false);
-  });
-
-  it("maps installer E2E to provider-specific package install lanes", () => {
-    const selectedLaneNames = parseLaneSelection("install-e2e");
-    const plan = planFor({ selectedLaneNames });
-
-    expect(selectedLaneNames).toEqual(["install-e2e-openai", "install-e2e-anthropic"]);
-    expect(
-      plan.lanes.map((lane) => ({
-        imageKind: lane.imageKind,
-        live: lane.live,
-        name: lane.name,
-        resources: lane.resources,
-        timeoutMs: lane.timeoutMs,
-        weight: lane.weight,
-      })),
-    ).toEqual([
-      {
-        imageKind: "bare",
-        live: true,
-        name: "install-e2e-openai",
-        resources: ["docker", "live", "live:openai", "npm", "service"],
-        timeoutMs: 900_000,
-        weight: 3,
-      },
-      {
-        imageKind: "bare",
-        live: true,
-        name: "install-e2e-anthropic",
-        resources: ["docker", "live", "live:claude", "npm", "service"],
-        weight: 3,
-      },
-    ]);
-    expect(plan.credentials).toEqual(["anthropic", "openai"]);
   });
 
   it("maps bundled plugin install/uninstall to package-backed shards", () => {

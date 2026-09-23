@@ -119,5 +119,4 @@ eight child pages below. The anchors from the single-page version still resolve 
 - [Provider Plugins](/plugins/sdk-provider-plugins)
 - [Codex Harness](/plugins/codex-harness)
 - [Codex harness runtime](/plugins/codex-harness-runtime)
-- [Copilot SDK harness](/plugins/copilot)
 - [Model Providers](/concepts/model-providers)

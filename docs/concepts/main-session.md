@@ -2,13 +2,13 @@
 summary: "One rolling conversation across all your channels: the personal-agent default"
 read_when:
   - You want to understand where your agent "lives"
-  - You expect the same context whether you write on Telegram, WhatsApp, or the web
+  - You expect the same context whether you write on Telegram, Discord, or the web
   - You want your agent to know what happens in groups and side threads
 title: "The main session"
 ---
 
 OpenAgent is a personal agent first. Out of the box, every direct message you
-send it — from Telegram, WhatsApp, iMessage, Slack DMs, the web app, anywhere —
+send it — from Telegram, Discord DMs, the web app, anywhere —
 lands in **one rolling conversation**: the main session. Ask something on your
 phone, follow up from your laptop, and the agent has the same context in both
 places. There is one brain, and this is where it thinks.

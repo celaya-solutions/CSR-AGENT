@@ -385,7 +385,7 @@ describe("provider attribution", () => {
       product: "OpenAgent",
       version: "2026.3.22",
       headers: {
-        "HTTP-Referer": "https://openclaw.ai",
+        "HTTP-Referer": "https://celayasolutions.com",
         "X-OpenRouter-Title": "OpenAgent",
         "X-OpenRouter-Categories":
           "cli-agent,cloud-agent,programming-app,creative-writing,writing-assistant,general-chat,personal-agent",
@@ -440,7 +440,7 @@ describe("provider attribution", () => {
         OPENCLAW_VERSION: "2026.3.22",
       })?.headers,
     ).toEqual({
-      "HTTP-Referer": "https://openclaw.ai",
+      "HTTP-Referer": "https://celayasolutions.com",
       "X-OpenRouter-Title": "OpenAgent",
       "X-OpenRouter-Categories":
         "cli-agent,cloud-agent,programming-app,creative-writing,writing-assistant,general-chat,personal-agent",

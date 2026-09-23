@@ -219,9 +219,9 @@ describe("toSanitizedMarkdownHtml links", () => {
     });
 
     it("does NOT rewrite explicit markdown links with CJK display text", () => {
-      const html = toSanitizedMarkdownHtml("[OpenAgent中文](https://docs.openclaw.ai)");
+      const html = toSanitizedMarkdownHtml("[OpenAgent中文](https://example.com)");
       expect(html).toBe(
-        '<p><a href="https://docs.openclaw.ai" rel="noreferrer noopener" target="_blank">OpenAgent中文</a></p>\n',
+        '<p><a href="https://example.com" rel="noreferrer noopener" target="_blank">OpenAgent中文</a></p>\n',
       );
     });
 

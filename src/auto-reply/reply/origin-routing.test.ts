@@ -19,13 +19,4 @@ describe("resolveOriginMessageProvider", () => {
 
     expect(provider).toBe("workchat");
   });
-
-  it("canonicalizes built-in aliases before comparing delivery routes", () => {
-    expect(
-      resolveOriginMessageProvider({
-        originatingChannel: "imsg",
-        provider: "imessage",
-      }),
-    ).toBe("imessage");
-  });
 });

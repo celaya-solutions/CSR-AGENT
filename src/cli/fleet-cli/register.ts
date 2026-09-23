@@ -1,6 +1,6 @@
 import { parseStrictFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { InvalidArgumentError, type Command } from "commander";
-import { validateDiskSize } from "../../fleet/cell-profile.js";
+import { DEFAULT_FLEET_IMAGE, validateDiskSize } from "../../fleet/cell-profile.js";
 import { createLazyImportLoader } from "../../shared/lazy-promise.js";
 import { collectOption, parseStrictPositiveIntOption } from "../program/helpers.js";
 
@@ -63,7 +63,7 @@ export function registerFleetCli(program: Command): void {
     .command("create")
     .description("Create an isolated tenant cell")
     .argument("<tenant>", "Tenant slug")
-    .option("--image <ref>", "Container image", "ghcr.io/openclaw/openclaw:latest")
+    .option("--image <ref>", "Container image", DEFAULT_FLEET_IMAGE)
     .option(
       "--runtime <runtime>",
       "Container runtime (docker or podman)",

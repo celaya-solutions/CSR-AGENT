@@ -18,4 +18,3 @@ paths:
   - .github/workflows
 
 paths-ignore:
-  - .github/workflows/stale.yml

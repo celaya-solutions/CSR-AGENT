@@ -9,17 +9,8 @@
     "typebox",
     "websocket"
   ],
-  "homepage": "https://github.com/openclaw/openclaw#readme",
-  "bugs": {
-    "url": "https://github.com/openclaw/openclaw/issues"
-  },
   "license": "MIT",
   "author": "Celaya Solutions (https://openclaw.org)",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/openclaw/openclaw.git",
-    "directory": "packages/gateway-protocol"
-  },
   "files": [
     "dist",
     "LICENSE",

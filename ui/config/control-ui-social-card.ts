@@ -13,12 +13,15 @@ export function controlUiSocialCardPlugin(): Plugin {
       const images = [canvas];
       try {
         const source = PhotonImage.new_from_byteslice(
-          fs.readFileSync(new URL("../../docs/assets/openclaw-hero-dark.png", import.meta.url)),
+          fs.readFileSync(new URL("../../docs/assets/openagent-banner.png", import.meta.url)),
         );
         images.push(source);
-        const logo = resize(source, 1060, 376, SamplingFilter.Lanczos3);
+        // Fit the banner to 1060px wide, keeping its aspect ratio, centered on the card.
+        const width = 1060;
+        const height = Math.round((width * source.get_height()) / source.get_width());
+        const logo = resize(source, width, height, SamplingFilter.Lanczos3);
         images.push(logo);
-        watermark(canvas, logo, 70n, 127n);
+        watermark(canvas, logo, BigInt((1200 - width) / 2), BigInt(Math.round((630 - height) / 2)));
         this.emitFile({ type: "asset", fileName: "social-card.png", source: canvas.get_bytes() });
       } finally {
         for (const image of images) {

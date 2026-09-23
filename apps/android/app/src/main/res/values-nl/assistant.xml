@@ -1,7 +1,0 @@
-<resources>
-    <string-array name="ask_openclaw_query_patterns">
-        <item>"vraag OpenAgent %1$s"</item>
-        <item>"vraag OpenAgent om %1$s"</item>
-        <item>"open OpenAgent en vraag %1$s"</item>
-    </string-array>
-</resources>

@@ -1,5 +1,5 @@
 ---
-summary: "Platform support overview (Gateway + companion apps)"
+summary: "Platform support overview for the Gateway"
 read_when:
   - Looking for OS support or install paths
   - Deciding where to run the Gateway
@@ -11,36 +11,25 @@ recommended runtime**. Bun 1.4+ builds with WAL-reset-safe `node:sqlite` can run
 the CLI, Gateway, and managed node host as an explicit opt-in; see
 [Bun](/install/bun).
 
-Companion apps exist for Linux, Windows Hub, macOS (menu bar app), and mobile
-nodes (iOS/Android). On Windows, choose Windows Hub for the desktop app, native
-PowerShell install for terminal-first use, or WSL2 for the most
-Linux-compatible Gateway runtime.
+OpenAgent has no companion desktop or mobile apps. The Gateway, CLI, TUI, and
+browser Control UI run on macOS, Linux, and Windows. On Windows, run the
+Gateway natively from PowerShell or inside WSL2 for the most Linux-compatible
+runtime.
 
 ## Choose your OS
 
-- Android: [Android](/platforms/android)
-- ChromeOS: [ChromeOS (Crostini)](/platforms/chromeos)
-- iOS: [iOS](/platforms/ios)
 - Linux: [Linux](/platforms/linux)
-- macOS: [macOS](/platforms/macos)
-- Omarchy: [Omarchy](/platforms/omarchy)
+- macOS: [Install](/install) (from source)
 - Windows: [Windows](/platforms/windows)
 
 ## VPS and hosting
 
-- VPS hub: [VPS hosting](/vps)
-- Azure (Linux VM): [Azure](/install/azure)
-- Daytona (cloud sandbox): [Daytona](/install/daytona)
-- EasyRunner (Podman + Caddy): [EasyRunner](/platforms/easyrunner)
-- exe.dev (VM + HTTPS proxy): [exe.dev](/install/exe-dev)
-- Fly.io: [Fly.io](/install/fly)
-- GCP (Compute Engine): [GCP](/install/gcp)
-- Hetzner (Docker): [Hetzner](/install/hetzner)
+- [Linux server](/vps)
+- [Docker VM runtime](/install/docker-vm-runtime)
 
 ## Common links
 
 - Install guide: [Getting Started](/start/getting-started)
-- Windows Hub: [Windows](/platforms/windows)
 - Gateway runbook: [Gateway](/gateway)
 - Gateway configuration: [Configuration](/gateway/configuration)
 - Service status: `openclaw gateway status`
@@ -63,6 +52,4 @@ The service target depends on OS:
 ## Related
 
 - [Install overview](/install)
-- [Windows Hub](/platforms/windows)
-- [macOS app](/platforms/macos)
-- [iOS app](/platforms/ios)
+- [Windows](/platforms/windows)

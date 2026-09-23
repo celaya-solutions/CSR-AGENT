@@ -150,10 +150,9 @@ model discovery, and the full config field list, see
 
 ## Quickstart
 
-Install the official plugin, then sign in with Codex OAuth:
+The `codex` plugin is bundled. Sign in with Codex OAuth:
 
 ```bash
-openclaw plugins install @openclaw/codex
 openclaw models auth login --provider openai
 ```
 
@@ -330,7 +329,6 @@ nine child pages below. The anchors from the single-page version still resolve h
 - [OpenAI provider](/providers/openai)
 - [OpenAI Codex help](https://help.openai.com/en/collections/14937394-codex)
 - [Agent harness plugins](/plugins/sdk-agent-harness)
-- [Copilot SDK harness](/plugins/copilot)
 - [Plugin hooks](/plugins/hooks)
 - [Diagnostics export](/gateway/diagnostics)
 - [Status](/cli/status)

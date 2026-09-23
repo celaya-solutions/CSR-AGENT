@@ -53,6 +53,12 @@ import {
 import { runPluginInstallCommand } from "./plugins-install-command.js";
 import { createCliTtyMock } from "./test-runtime-capture.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 // Default-selector assertions describe a stable build; beta cases set their own identity.
 const coreVersion = vi.hoisted(() => ({ value: "2026.8.1" }));
 const resolveNpmSpecMetadataMock = vi.hoisted(() =>
@@ -161,7 +167,7 @@ function createClawHubInstallResult(params: {
     packageName: params.packageName,
     clawhub: {
       source: "clawhub",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubPackage: params.packageName,
       clawhubFamily: "code-plugin",
       clawhubChannel: params.channel,
@@ -1780,7 +1786,7 @@ describe("plugins cli install", () => {
     expect(configWriteMock).toHaveBeenCalledWith(enabledCfg);
     expect(runtimeLogsContain("Installed plugin: demo")).toBe(true);
     expect(reportClawHubPluginInstallTelemetryMock).toHaveBeenCalledWith({
-      baseUrl: "https://clawhub.ai",
+      baseUrl: "https://registry.example.test",
       packageName: "demo",
       version: "1.2.3",
     });

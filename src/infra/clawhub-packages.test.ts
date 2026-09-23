@@ -54,7 +54,7 @@ describe("clawhub packages", () => {
                 artifactKind: "npm-pack",
                 packageName: "@openclaw/diagnostics-otel",
                 version: "2026.3.22",
-                downloadUrl: "https://clawhub.ai/api/v1/clawpacks/abc",
+                downloadUrl: "https://registry.example.test/api/v1/clawpacks/abc",
                 npmIntegrity: "sha512-demo",
                 npmShasum: "abc",
               },
@@ -69,7 +69,7 @@ describe("clawhub packages", () => {
         artifactKind: "npm-pack",
         packageName: "@openclaw/diagnostics-otel",
         version: "2026.3.22",
-        downloadUrl: "https://clawhub.ai/api/v1/clawpacks/abc",
+        downloadUrl: "https://registry.example.test/api/v1/clawpacks/abc",
         npmIntegrity: "sha512-demo",
         npmShasum: "abc",
       },
@@ -100,7 +100,7 @@ describe("clawhub packages", () => {
               },
               overview: "The plugin uses privileged local APIs.\n\nReview those capabilities.",
               securityAuditUrl:
-                "https://clawhub.ai/plugins/@openclaw/diagnostics-otel/security-audit?version=2026.3.22",
+                "https://registry.example.test/plugins/@openclaw/diagnostics-otel/security-audit?version=2026.3.22",
               trust: {
                 scanStatus: "clean",
                 moderationState: null,
@@ -126,7 +126,7 @@ describe("clawhub packages", () => {
       },
       overview: "The plugin uses privileged local APIs.\n\nReview those capabilities.",
       securityAuditUrl:
-        "https://clawhub.ai/plugins/@openclaw/diagnostics-otel/security-audit?version=2026.3.22",
+        "https://registry.example.test/plugins/@openclaw/diagnostics-otel/security-audit?version=2026.3.22",
       trust: {
         scanStatus: "clean",
         moderationState: null,
@@ -173,7 +173,7 @@ describe("clawhub packages", () => {
           new Response(
             JSON.stringify({
               securityAuditUrl:
-                "https://clawhub.ai/plugins/@openclaw/diagnostics-otel/security-audit?version=2026.3.22",
+                "https://registry.example.test/plugins/@openclaw/diagnostics-otel/security-audit?version=2026.3.22",
               trust: {
                 blockedFromDownload: false,
                 reasons: [],

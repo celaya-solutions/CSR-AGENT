@@ -15,6 +15,12 @@ import {
   resolveCatalogOfficialExternalNpmPackageTrust,
 } from "../plugins/official-external-install-trust.js";
 
+vi.mock("../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 function createSourceCheckoutPlugin(pluginId: string): {
   packageRoot: string;
   pluginRoot: string;

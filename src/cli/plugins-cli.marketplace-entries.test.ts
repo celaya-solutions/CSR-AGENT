@@ -140,23 +140,26 @@ describe("plugins marketplace entries", () => {
       source: "bundled-fallback",
       entries: [],
       error:
-        "hosted catalog feed fetch failed for https://clawhub.ai/v1/feeds/plugins?token=secret#frag",
+        "hosted catalog feed fetch failed for https://registry.example.test/v1/feeds/plugins?token=secret#frag",
       metadata: {
-        url: "https://clawhub.ai/v1/feeds/plugins?token=secret#frag",
+        url: "https://registry.example.test/v1/feeds/plugins?token=secret#frag",
         status: 503,
       },
     });
 
     const { runPluginMarketplaceEntriesCommand } = await import("./plugins-cli.runtime.js");
     await runPluginMarketplaceEntriesCommand({
-      feedUrl: "https://clawhub.ai/v1/feeds/plugins?token=secret#frag",
+      feedUrl: "https://registry.example.test/v1/feeds/plugins?token=secret#frag",
       json: true,
     });
 
     expect(mocks.defaultRuntime.writeJson).toHaveBeenCalledWith(
       expect.objectContaining({
-        metadata: expect.objectContaining({ url: "https://clawhub.ai/v1/feeds/plugins" }),
-        error: "hosted catalog feed fetch failed for https://clawhub.ai/v1/feeds/plugins",
+        metadata: expect.objectContaining({
+          url: "https://registry.example.test/v1/feeds/plugins",
+        }),
+        error:
+          "hosted catalog feed fetch failed for https://registry.example.test/v1/feeds/plugins",
       }),
     );
 
@@ -164,11 +167,11 @@ describe("plugins marketplace entries", () => {
     mocks.defaultRuntime.log.mockClear();
 
     await runPluginMarketplaceEntriesCommand({
-      feedUrl: "https://clawhub.ai/v1/feeds/plugins?token=secret#frag",
+      feedUrl: "https://registry.example.test/v1/feeds/plugins?token=secret#frag",
     });
 
     const output = mocks.defaultRuntime.log.mock.calls.map(([value]) => String(value)).join("\n");
-    expect(output).toContain("https://clawhub.ai/v1/feeds/plugins");
+    expect(output).toContain("https://registry.example.test/v1/feeds/plugins");
     expect(output).not.toContain("token=secret");
     expect(output).not.toContain("#frag");
   });

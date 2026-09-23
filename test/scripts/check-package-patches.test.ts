@@ -38,7 +38,6 @@ describe("check-package-patches", () => {
       ["baileys@7.0.0-rc12", "patches/baileys@7.0.0-rc12.patch"],
       ["baileys@7.0.0-rc13", "patches/baileys@7.0.0-rc13.patch"],
       ["vitest@5.0.0", "patches/vitest@5.0.0.patch"],
-      ["matrix-js-sdk@42.3.0", "patches/matrix-js-sdk@42.3.0.patch"],
     ] as const;
     const dir = makeRepo();
     mkdirSync(path.join(dir, "patches"), { recursive: true });

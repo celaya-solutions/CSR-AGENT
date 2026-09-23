@@ -10,8 +10,7 @@ import productionConfig from "./knip.config.ts";
 
 function isTypedShimImplementationEntry(entry: string): boolean {
   const filePath = entry.endsWith("!") ? entry.slice(0, -1) : entry;
-  // The export-free Crabbox implementation must remain a root so its library imports stay live.
-  if (!filePath.endsWith(".mts") || filePath === "scripts/crabbox-wrapper.mts") {
+  if (!filePath.endsWith(".mts")) {
     return false;
   }
   const basePath = filePath.slice(0, -".mts".length);
@@ -24,7 +23,6 @@ const scriptEntries = productionConfig.workspaces["."].entry.filter(
 
 const repositoryToolEntries = [
   ".github/actions/setup-node-env/dependency-fingerprint.mjs!",
-  "apps/android/scripts/build-release-artifacts.ts!",
   "security/opengrep/check-rule-metadata.mjs!",
   "security/opengrep/compile-rules.mjs!",
   "skills/meme-maker/scripts/meme.mjs!",
@@ -32,21 +30,13 @@ const repositoryToolEntries = [
 ] as const;
 
 const config = {
-  ignoreWorkspaces: ["apps/**", "extensions/**", "packages/**", "ui"],
+  ignoreWorkspaces: ["extensions/**", "packages/**", "ui"],
   ignore: ["scripts/**/*.d.{mts,cts,ts}", "scripts/**/*.test-support.{js,mjs,cjs,ts,mts,cts}"],
   // Script entrypoints import core and Plugin SDK APIs. Those owners are
   // checked by the application scans; this pass owns only scripts/** exports.
   ignoreIssues: {
     // These executable modules are also loaded through variable/file-URL imports
     // by build or subprocess test harnesses, which Knip cannot resolve statically.
-    "scripts/diffs-shiki-curated.ts": [
-      "exports",
-      "nsExports",
-      "types",
-      "nsTypes",
-      "enumMembers",
-      "namespaceMembers",
-    ],
     "scripts/e2e/lib/bundled-plugin-install-uninstall/runtime-smoke.mjs": [
       "exports",
       "nsExports",
@@ -81,7 +71,6 @@ const config = {
       project: [
         ".github/actions/**/*.{js,mjs,cjs,ts,mts,cts}!",
         ".agents/skills/**/scripts/**/*.{js,mjs,cjs,ts,mts,cts}!",
-        "apps/android/scripts/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "security/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "skills/**/*.{js,mjs,cjs,ts,mts,cts}!",
         "scripts/**/*.{js,mjs,cjs,ts,mts,cts}!",

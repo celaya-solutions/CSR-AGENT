@@ -887,16 +887,16 @@ describe("configureOpenAICompatibleSelfHostedProviderNonInteractive", () => {
 
   it.each([
     {
-      providerId: "lmstudio",
-      providerLabel: "LM Studio",
-      envVar: "LM_API_TOKEN",
+      providerId: "llama-cpp",
+      providerLabel: "llama.cpp",
+      envVar: "LLAMA_SERVER_API_KEY",
       marker: "custom-local",
     },
     {
-      providerId: "lmstudio",
-      providerLabel: "LM Studio",
-      envVar: "LM_API_TOKEN",
-      marker: "lmstudio-local",
+      providerId: "llama-cpp",
+      providerLabel: "llama.cpp",
+      envVar: "LLAMA_SERVER_API_KEY",
+      marker: "llama-cpp-local",
     },
   ])("keeps the $providerLabel non-secret marker keyless in ref mode", async (params) => {
     const modelId = "Qwen/Qwen3-32B";

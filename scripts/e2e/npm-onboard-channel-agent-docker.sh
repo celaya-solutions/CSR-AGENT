@@ -48,9 +48,9 @@ cleanup() {
 trap cleanup EXIT
 
 case "$CHANNEL" in
-telegram | discord | slack) ;;
+telegram | discord) ;;
 *)
-  echo "OPENCLAW_NPM_ONBOARD_CHANNEL must be telegram, discord, or slack, got: $CHANNEL" >&2
+  echo "OPENCLAW_NPM_ONBOARD_CHANNEL must be telegram or discord, got: $CHANNEL" >&2
   exit 1
   ;;
 esac
@@ -119,13 +119,6 @@ case "$CHANNEL" in
     DEP_SENTINEL="discord-api-types"
     CHANNEL_ADD_ARGS=(--token "$CHANNEL_TOKEN")
     CHANNEL_CONFIG_TOKENS=("$CHANNEL_TOKEN")
-    ;;
-  slack)
-    SLACK_BOT_TOKEN="xoxb-openclaw-npm-onboard-slack-token"
-    SLACK_APP_TOKEN="xapp-openclaw-npm-onboard-slack-token"
-    DEP_SENTINEL="@slack/bolt"
-    CHANNEL_ADD_ARGS=(--bot-token "$SLACK_BOT_TOKEN" --app-token "$SLACK_APP_TOKEN")
-    CHANNEL_CONFIG_TOKENS=("$SLACK_BOT_TOKEN" "$SLACK_APP_TOKEN")
     ;;
   *)
     echo "unsupported channel: $CHANNEL" >&2

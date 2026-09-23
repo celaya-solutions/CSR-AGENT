@@ -23,6 +23,12 @@ import { closeOpenClawStateDatabaseByPath } from "../../../state/openclaw-state-
 import { resolveOpenClawStateSqlitePath } from "../../../state/openclaw-state-db.paths.js";
 import { runPostCorePluginConvergence } from "./post-core-plugin-convergence.js";
 
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
 const mocks = vi.hoisted(() => ({
   hostRoot: "",
   getRuntimeConfig: vi.fn<() => OpenClawConfig>(),

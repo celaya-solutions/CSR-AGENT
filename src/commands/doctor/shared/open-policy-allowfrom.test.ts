@@ -1,12 +1,21 @@
 // Open policy allow-from tests cover doctor handling of open allowlist policy.
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { GoogleChatConfig } from "../../../config/types.googlechat.js";
 import type { OpenClawConfig } from "../../../config/types.openclaw.js";
 import { GoogleChatConfigSchema } from "../../../config/zod-schema.providers-googlechat.js";
-import {
-  collectOpenPolicyAllowFromWarnings,
-  maybeRepairOpenPolicyAllowFrom,
-} from "./open-policy-allowfrom.js";
+
+vi.mock("../../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
+
+// The shared runtime setup preloads the channel catalog reader against the shipped (empty)
+// official catalog; reload the graph so external channel doctor capabilities (matrix, QQBot)
+// come from the injected catalog fixture.
+vi.resetModules();
+const { collectOpenPolicyAllowFromWarnings, maybeRepairOpenPolicyAllowFrom } =
+  await import("./open-policy-allowfrom.js");
 
 describe("doctor open-policy allowFrom repair", () => {
   it('adds top-level wildcard when dmPolicy="open" has no allowFrom', () => {

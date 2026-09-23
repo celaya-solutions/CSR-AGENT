@@ -28,9 +28,8 @@ export const MEMORY_SYSTEM_PROMPT = [
   "Memory system not found in workspace.",
   "Paste this into your agent:",
   "",
-  "Install the memory system by applying:",
-  "https://github.com/openclaw/openclaw/commit/9ffea23f31ca1df5183b25668f8f814bee0fb34e",
-  "https://github.com/openclaw/openclaw/commit/7d1fee70e76f2f634f1b41fca927ee663914183a",
+  `Set up a memory system: keep durable facts and decisions in ${CANONICAL_ROOT_MEMORY_FILENAME} at the workspace root,`,
+  "write dated daily notes to memory/YYYY-MM-DD.md, and read both at the start of each session.",
 ].join("\n");
 
 /** Returns true when the workspace appears to lack canonical memory guidance. */

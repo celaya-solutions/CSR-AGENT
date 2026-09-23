@@ -223,13 +223,11 @@ export function buildSystemAgentAssistantUserPrompt(params: {
     `Gemini CLI: ${params.overview.tools.gemini.found ? "found" : "not found"}`,
     `OpenAI API key: ${params.overview.tools.apiKeys.openai ? "found" : "not found"}`,
     `Anthropic API key: ${params.overview.tools.apiKeys.anthropic ? "found" : "not found"}`,
-    `OpenAgent docs: ${params.overview.references.docsPath ?? params.overview.references.docsUrl}`,
-    `OpenAgent source: ${
-      params.overview.references.sourcePath ?? params.overview.references.sourceUrl
-    }`,
+    `OpenAgent docs: ${params.overview.references.docsPath ?? "not available locally"}`,
+    `OpenAgent source: ${params.overview.references.sourcePath ?? "not available locally"}`,
     params.overview.references.sourcePath
       ? "Source mode: local git checkout; inspect source directly when docs are insufficient."
-      : "Source mode: package/install; use GitHub source when docs are insufficient.",
+      : "Source mode: package/install; use `openclaw --help` and status commands when docs are insufficient.",
     "",
     "Agents:",
     agents || "- none",

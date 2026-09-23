@@ -60,7 +60,7 @@ describe("Claw committed plugin requirement handoff", () => {
               clawhub: {
                 source: "clawhub",
                 clawhubFamily: "code-plugin",
-                clawhubUrl: "https://clawhub.ai",
+                clawhubUrl: "https://registry.example.test",
                 clawhubPackage: "@owner/demo",
                 integrity,
               },
@@ -153,7 +153,7 @@ describe("Claw committed plugin requirement handoff", () => {
               clawhub: {
                 source: "clawhub",
                 clawhubFamily: "code-plugin",
-                clawhubUrl: "https://clawhub.ai",
+                clawhubUrl: "https://registry.example.test",
                 clawhubPackage: spec,
                 integrity,
               },

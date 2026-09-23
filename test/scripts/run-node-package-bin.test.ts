@@ -13,7 +13,6 @@ const toolEntries: Record<string, string> = {
   playwright: "cli.js",
 };
 const commands = [
-  { directory: "packages/mermaid-renderer", script: "build", tool: "vite", args: ["build"] },
   { directory: "ui", script: "build", tool: "vite", args: ["build"] },
   { directory: "ui", script: "dev", tool: "vite", args: [] },
   { directory: "ui", script: "preview", tool: "vite", args: ["preview"] },
@@ -22,18 +21,6 @@ const commands = [
     script: "test",
     tool: "vitest",
     args: ["run", "--config", "vitest.config.ts"],
-  },
-  {
-    directory: ".",
-    script: "qa:lab:build",
-    tool: "vite",
-    args: ["build", "--config", "extensions/qa-lab/web/vite.config.ts"],
-  },
-  {
-    directory: ".",
-    script: "qa:lab:watch",
-    tool: "vite",
-    args: ["build", "--watch", "--config", "extensions/qa-lab/web/vite.config.ts"],
   },
 ];
 

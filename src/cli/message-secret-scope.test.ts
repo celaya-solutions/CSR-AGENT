@@ -6,11 +6,11 @@ describe("resolveMessageSecretScope", () => {
   it("prefers explicit channel/account inputs", () => {
     expect(
       resolveMessageSecretScope({
-        channel: "Signal",
+        channel: "Telegram",
         accountId: "Ops",
       }),
     ).toEqual({
-      channel: "signal",
+      channel: "telegram",
       accountId: "ops",
     });
   });
@@ -18,27 +18,27 @@ describe("resolveMessageSecretScope", () => {
   it("infers channel from a prefixed target", () => {
     expect(
       resolveMessageSecretScope({
-        target: "signal:12345",
+        target: "telegram:12345",
       }),
     ).toEqual({
-      channel: "signal",
+      channel: "telegram",
     });
   });
 
   it("infers a shared channel from target arrays", () => {
     expect(
       resolveMessageSecretScope({
-        targets: ["signal:one", "signal:two"],
+        targets: ["telegram:one", "telegram:two"],
       }),
     ).toEqual({
-      channel: "signal",
+      channel: "telegram",
     });
   });
 
   it("does not infer a channel when target arrays mix channels", () => {
     expect(
       resolveMessageSecretScope({
-        targets: ["signal:one", "imessage:two"],
+        targets: ["telegram:one", "discord:two"],
       }),
     ).toStrictEqual({});
   });
@@ -46,11 +46,11 @@ describe("resolveMessageSecretScope", () => {
   it("uses fallback channel/account when direct inputs are missing", () => {
     expect(
       resolveMessageSecretScope({
-        fallbackChannel: "Signal",
+        fallbackChannel: "Telegram",
         fallbackAccountId: "Chat",
       }),
     ).toEqual({
-      channel: "signal",
+      channel: "telegram",
       accountId: "chat",
     });
   });

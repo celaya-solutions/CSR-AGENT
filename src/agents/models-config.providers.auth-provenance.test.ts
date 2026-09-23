@@ -906,9 +906,9 @@ describe("models-config provider auth provenance", () => {
       {
         models: {
           providers: {
-            vllm: {
-              baseUrl: "http://127.0.0.1:8000/v1",
-              apiKey: "VLLM_API_KEY",
+            "llama-cpp": {
+              baseUrl: "http://127.0.0.1:8080/v1",
+              apiKey: "LLAMA_SERVER_API_KEY",
               api: "openai-completions",
               models: [],
             },
@@ -917,7 +917,7 @@ describe("models-config provider auth provenance", () => {
       },
     );
 
-    expect(auth("vllm")).toEqual({
+    expect(auth("llama-cpp")).toEqual({
       apiKey: undefined,
       discoveryApiKey: undefined,
     });

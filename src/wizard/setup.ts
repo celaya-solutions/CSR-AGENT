@@ -105,11 +105,7 @@ async function runSetupWizardOnce(
     );
     if (snapshot.issues.length > 0) {
       await prompter.note(
-        [
-          ...snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`),
-          "",
-          "Docs: https://docs.openclaw.ai/gateway/configuration",
-        ].join("\n"),
+        snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`).join("\n"),
         "Config issues",
       );
     }

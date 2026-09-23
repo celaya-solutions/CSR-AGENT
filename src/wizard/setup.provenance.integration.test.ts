@@ -97,6 +97,11 @@ describe("classic setup matched config bases", () => {
         vi.stubEnv("OPENCLAW_CONFIG_PATH", configPath);
         vi.stubEnv("OPENCLAW_STATE_DIR", stateDir);
         vi.stubEnv("CLASSIC_RESPONSE_PREFIX", "prefix-before");
+        // Consent is only requested when an operator configured a telemetry endpoint.
+        vi.stubEnv(
+          "OPENCLAW_TELEMETRY_ENDPOINT",
+          "https://telemetry.example.test/api/latest-version",
+        );
         await fs.mkdir(stateDir, { recursive: true });
         if (state !== "fresh-config") {
           const config: OpenClawConfig = {

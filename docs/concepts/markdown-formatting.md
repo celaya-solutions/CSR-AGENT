@@ -16,8 +16,8 @@ splits formatting mid-span.
 
 1. **Parse Markdown into IR** (`markdownToIR`) - plain text plus style spans
    (bold, italic, strikethrough, code, code block, spoiler, blockquote,
-   heading 1-6) and link spans. Offsets are UTF-16 code units so Signal style
-   ranges align with its API directly. Tables parse only when the channel
+   heading 1-6) and link spans. Offsets are UTF-16 code units so style-range
+   transports can use them directly. Tables parse only when the channel
    opts into a table mode.
 2. **Chunk the IR** (`chunkMarkdownIR` / `renderMarkdownIRChunksWithinLimit`)
    - style and link spans are sliced with the text. The rendered-size chunker
@@ -37,18 +37,14 @@ Examples of shared IR renderers:
 
 | Channel  | Renderer                                                                             | Notes                                                                                    |
 | -------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| Matrix   | HTML tags, including native tables                                                   | Automatic replies, direct sends, and media captions use the same formatter               |
-| Signal   | plain text + `text-style` ranges                                                     | Links render as `label (url)` when the label differs from the URL                        |
-| Slack    | mrkdwn tokens (`*bold*`, `_italic_`, `` `code` ``, code fences)                      | Links become `<url\|label>`; autolink disabled during parse to avoid double-linking      |
 | Telegram | HTML tags (`<b>`, `<i>`, `<s>`, `<code>`, `<pre><code>`, `<a href>`, `<tg-spoiler>`) | Also supports rich-message tables and headings (`<h1>`-`<h6>`) when `richMessages` is on |
-| WhatsApp | WhatsApp style markers                                                               | Uses shared IR; styled chunks are measured after rendering                               |
 
 ## IR example
 
 Input Markdown:
 
 ```markdown
-Hello **world** - see [docs](https://docs.openclaw.ai).
+Hello **world** - see [docs](https://example.com/docs).
 ```
 
 IR (schematic):
@@ -57,7 +53,7 @@ IR (schematic):
 {
   "text": "Hello world - see docs.",
   "styles": [{ "start": 6, "end": 11, "style": "bold" }],
-  "links": [{ "start": 19, "end": 23, "href": "https://docs.openclaw.ai" }]
+  "links": [{ "start": 19, "end": 23, "href": "https://example.com/docs" }]
 }
 ```
 
@@ -76,9 +72,7 @@ channel and optionally per account:
 Inline code in table cells keeps its parsed content, including leading and
 trailing spaces, in every enabled table mode.
 
-Per-channel plugin defaults: Matrix defaults to `block` (native tables);
-Mattermost defaults to `off`; Signal and WhatsApp default to `bullets`;
-Telegram defaults to `block` (which resolves to `code` unless the account
+Per-channel plugin defaults: Telegram defaults to `block` (which resolves to `code` unless the account
 has `richMessages` enabled). Any
 channel without an explicit plugin default falls back to `code`.
 
@@ -112,15 +106,12 @@ delivery behavior across channels.
 
 ## Link policy
 
-- **Slack:** `[label](url)` -> `<url|label>`; bare URLs stay bare.
 - **Telegram:** `[label](url)` -> `<a href="url">label</a>` (HTML parse mode).
-- **Signal:** `[label](url)` -> `label (url)` unless the label already
-  matches the URL.
 
 ## Spoilers
 
-Spoiler markers (`||spoiler||`) are parsed for Signal (mapped to `SPOILER`
-style ranges) and Telegram (mapped to `<tg-spoiler>`). Other channels treat
+Spoiler markers (`||spoiler||`) are parsed for Telegram (mapped to
+`<tg-spoiler>`). Other channels treat
 `||...||` as plain text.
 
 ## Collapsible details
@@ -137,7 +128,7 @@ content is hidden or lost.
 1. **Parse once** with `markdownToIR(...)`, passing channel-appropriate
    options (`autolink`, `headingStyle`, `blockquotePrefix`, `tableMode`).
 2. **Render** with `renderMarkdownWithMarkers(...)` and a style-marker map (or
-   custom style-range logic for transports like Signal).
+   custom style-range logic for transports that use style ranges).
 3. **Chunk** with `chunkMarkdownIR(...)` or
    `renderMarkdownIRChunksWithinLimit(...)`. The latter returns the measured
    `rendered` payload; use it directly instead of rendering the source again.
@@ -148,10 +139,8 @@ content is hidden or lost.
 
 ## Common gotchas
 
-- Slack angle-bracket tokens (`<@U123>`, `<#C123>`, `<https://...>`) must
-  survive escaping; raw HTML still needs to be escaped safely.
 - Telegram HTML requires escaping text outside tags to avoid broken markup.
-- Signal style ranges use UTF-16 offsets, not code-point offsets.
+- Style ranges use UTF-16 offsets, not code-point offsets.
 - Preserve trailing newlines on fenced code blocks so the closing marker
   lands on its own line.
 - Code-span parsing preserves all-space content. It removes one surrounding

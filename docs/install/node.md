@@ -4,10 +4,10 @@ title: "Node.js"
 read_when:
   - "You need to install Node.js before installing OpenAgent"
   - "You installed OpenAgent but `openclaw` is command not found"
-  - "npm install -g fails with permissions or PATH issues"
+  - "A linked global `openclaw` command is not on PATH"
 ---
 
-OpenAgent requires **Node 24.16+ or Node 26.1+** with a WAL-reset-safe linked SQLite library. **Node 26 is the recommended runtime** — it starts the Gateway noticeably faster and uses less memory than Node 24. The installer provisions Node 26 on macOS and the supported Node 24 LTS line on Linux when Node is missing; CI and release workflows also pin Node 24. On RPM-based Linux, the installer preserves a supported distro-owned Node package that links unsafe SQLite and uses a user-space Node runtime for OpenAgent instead. Node 22, 23, and 25 are unsupported. The [installer script](/install#recommended-installer-script) detects and installs Node automatically — use this page when you want to set up Node yourself (versions, PATH, global installs).
+OpenAgent requires **Node 24.16+ or Node 26.1+** with a WAL-reset-safe linked SQLite library. **Node 26 is the recommended runtime** — it starts the Gateway noticeably faster and uses less memory than Node 24. Node 22, 23, and 25 are unsupported. OpenAgent installs from source, so set up Node yourself before you [install](/install); this page covers versions, install options, and PATH.
 
 ## Check your version
 
@@ -92,7 +92,7 @@ Automatic installation supports macOS, Windows, and glibc-based Linux on x64/ARM
     sudo dnf install nodejs
     ```
 
-    Some distro Node packages link the system SQLite library. The recommended OpenAgent installer checks the effective Node and SQLite combination and automatically uses a user-space Node runtime when the distro build is unsafe; it does not remove the distro package.
+    Some distro Node packages link the system SQLite library. Startup checks the effective Node and SQLite combination and refuses an unsafe build; use a Node from nodejs.org or a version manager instead.
 
     Or use a version manager (see below).
 
@@ -138,52 +138,21 @@ fnm use 26
 
 ### `openclaw: command not found`
 
-This almost always means npm's global bin directory isn't on your PATH.
+Inside the checkout, run the CLI as `pnpm openclaw ...`. If you linked a global
+command with `pnpm add --global "openclaw@link:$PWD"`, pnpm's global bin
+directory must be on your PATH.
 
 <Steps>
-  <Step title="Find your global npm prefix">
+  <Step title="Find pnpm's global bin directory">
     ```bash
-    npm prefix -g
+    pnpm bin -g
     ```
   </Step>
-  <Step title="Check if it's on your PATH">
-    ```bash
-    echo "$PATH"
-    ```
-
-    Look for `<npm-prefix>/bin` (macOS/Linux) or `<npm-prefix>` (Windows) in the output.
-
-  </Step>
-  <Step title="Add it to your shell startup file">
-    <Tabs>
-      <Tab title="macOS / Linux">
-        Add to `~/.zshrc` or `~/.bashrc`:
-
-        ```bash
-        export PATH="$(npm prefix -g)/bin:$PATH"
-        ```
-
-        Then open a new terminal (or run `rehash` in zsh / `hash -r` in bash).
-      </Tab>
-      <Tab title="Windows">
-        Add the output of `npm prefix -g` to your system PATH via Settings → System → Environment Variables.
-      </Tab>
-    </Tabs>
-
+  <Step title="Add it to your PATH">
+    Run `pnpm setup`, which adds the directory to your shell startup file, then
+    open a new terminal (or run `rehash` in zsh / `hash -r` in bash).
   </Step>
 </Steps>
-
-### Permission errors on `npm install -g` (Linux)
-
-If you see `EACCES` errors, switch npm's global prefix to a user-writable directory:
-
-```bash
-mkdir -p "$HOME/.npm-global"
-npm config set prefix "$HOME/.npm-global"
-export PATH="$HOME/.npm-global/bin:$PATH"
-```
-
-Add the `export PATH=...` line to your `~/.bashrc` or `~/.zshrc` to make it permanent.
 
 ## Related
 

@@ -56,7 +56,6 @@ Expose and operate:
 Run it from the CLI:
 
 - [`openclaw security`](/cli/security) - Run the audit, read findings, and apply the supported auto-fixes.
-- [`openclaw policy`](/cli/policy) - Inspect and test the tool policy the guidance above configures.
 
 ## Where each section moved
 
@@ -83,7 +82,6 @@ Every anchor this page used to publish still resolves here. Each entry below car
 - <a id="hardened-baseline-in-60-seconds" />[Hardened baseline in 60 seconds](/gateway/security/hardened-baseline#hardened-baseline-in-60-seconds)
 - <a id="requester-scoped-controls-and-prompt-context" />[Requester-scoped controls and prompt context](/gateway/security/hardened-baseline#requester-scoped-controls-and-prompt-context)
 - <a id="secure-baseline-(copy%2Fpaste)" /><a id="secure-baseline-copy/paste" />[Secure baseline (copy/paste)](/gateway/security/hardened-baseline#secure-baseline-copy/paste)
-- <a id="separate-numbers-(whatsapp%2C-signal%2C-telegram)" /><a id="separate-numbers-whatsapp-signal-telegram" />[Separate numbers (WhatsApp, Signal, Telegram)](/gateway/security/hardened-baseline#separate-numbers-whatsapp-signal-telegram)
 
 **[Access control and allowlists](/gateway/security/access-control)**
 

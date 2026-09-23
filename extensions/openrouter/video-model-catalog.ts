@@ -247,7 +247,7 @@ function resolveOpenRouterVideoCatalogRequest(params: {
       defaultBaseUrl: OPENROUTER_BASE_URL,
       defaultHeaders: {
         Authorization: `Bearer ${params.apiKey}`,
-        "HTTP-Referer": "https://openclaw.ai",
+        "HTTP-Referer": "https://celayasolutions.com",
         "X-OpenRouter-Title": "OpenAgent",
       },
       request,

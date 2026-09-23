@@ -27,7 +27,6 @@ import { page as activityPage } from "./pages/activity/route.ts";
 import { page as agentsHomePage } from "./pages/agents-home/route.ts";
 import { page as agentsPage } from "./pages/agents/route.ts";
 import { page as approvalsPage } from "./pages/approvals/route.ts";
-import { page as appsPage } from "./pages/apps/route.ts";
 import { page as channelsPage } from "./pages/channels/route.ts";
 import { pages as chatPages } from "./pages/chat/route.ts";
 import { page as cloudWorkersPage } from "./pages/cloud-workers/route.ts";
@@ -43,7 +42,6 @@ import {
 } from "./pages/device/route.ts";
 import { page as devicesPage } from "./pages/devices/route.ts";
 import { page as labsPage } from "./pages/labs/route.ts";
-import { page as lobsterdexPage } from "./pages/lobsterdex/route.ts";
 import { page as logsPage } from "./pages/logs/route.ts";
 import { page as meetingsPage } from "./pages/meetings/route.ts";
 import { page as memoryImportPage } from "./pages/memory-import/route.ts";
@@ -90,7 +88,6 @@ const APP_ROUTE_TREE = [
   activityPage,
   meetingsPage,
   dashboardsPage,
-  appsPage,
   portalsPage,
   agentsHomePage,
   agentsPage,
@@ -100,7 +97,6 @@ const APP_ROUTE_TREE = [
   connectionPage,
   labsPage,
   aboutPage,
-  lobsterdexPage,
   ...configPages,
   modelSetupPage,
   modelProvidersPage,

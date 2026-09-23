@@ -20,7 +20,7 @@ describe.runIf("__vitest_browser__" in globalThis)("identity menu keyboard navig
 
     const identity = sidebar.querySelector<HTMLButtonElement>(".sidebar-identity-card");
     expect(identity).not.toBeNull();
-    // A pointer left by another test can open Help as the keyboard menu appears.
+    // Park the pointer so a hover left by another test cannot steal focus.
     await page.elementLocator(document.body).hover({ position: { x: 0, y: 0 } });
     identity?.focus();
     await userEvent.keyboard("{Enter}");
@@ -44,12 +44,6 @@ describe.runIf("__vitest_browser__" in globalThis)("identity menu keyboard navig
       expect(document.activeElement).toBe(expected);
     }
     expect(items.at(-1)?.active).toBe(true);
-    await userEvent.keyboard("{ArrowRight}");
-    await expect.poll(() => document.activeElement?.getAttribute("slot")).toBe("submenu");
-    await userEvent.keyboard("{ArrowDown}");
-    expect(document.activeElement?.getAttribute("slot")).toBe("submenu");
-    await userEvent.keyboard("{ArrowLeft}");
-    await expect.poll(() => document.activeElement).toBe(items.at(-1));
     await userEvent.keyboard("{ArrowDown}");
     expect(document.activeElement).toBe(build);
     await userEvent.keyboard("{ArrowDown}");

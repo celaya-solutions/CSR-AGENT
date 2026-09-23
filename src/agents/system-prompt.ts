@@ -688,18 +688,17 @@ function buildDocsSection(params: {
   }
   const lines = [
     "## Documentation",
-    docsPath ? `Docs: ${docsPath}` : "Docs: https://docs.openclaw.ai",
-    docsPath ? "Mirror: https://docs.openclaw.ai" : undefined,
-    sourcePath ? `Source: ${sourcePath}` : "Source: https://github.com/openclaw/openclaw",
+    docsPath ? `Docs: ${docsPath}` : undefined,
+    sourcePath ? `Source: ${sourcePath}` : undefined,
     docsPath
       ? `OpenAgent behavior questions: docs first${params.readToolName ? ` via \`${params.readToolName}\`/local search` : " using available tools"}. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.`
-      : "OpenAgent behavior questions: docs mirror first when web exists. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.",
+      : "OpenAgent behavior questions: use `openclaw --help` and status commands first. AGENTS/project/workspace/profile/memory = instructions/user memory, not product design truth.",
     params.hasGateway
       ? "Config field: use `gateway(config.schema.lookup)` with an exact path only when that action is exposed by the tool schema. Otherwise use `docs/gateway/configuration.md` and `docs/gateway/configuration-reference.md`."
       : "Configuration docs: `docs/gateway/configuration.md`, `docs/gateway/configuration-reference.md`.",
     sourcePath
       ? "If docs are silent/stale, say so and inspect local source."
-      : "If docs are silent/stale, say so and inspect GitHub source.",
+      : "If docs are silent/stale, say so.",
     "Diagnosis: run `openclaw status` when possible; ask only if blocked.",
     "",
   ];

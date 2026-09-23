@@ -900,10 +900,8 @@ describe("runSetupWizard", () => {
 
     expect(createConfigIO).toHaveBeenCalledWith({ pluginValidation: "skip" });
     expect(plain).not.toHaveBeenCalled();
-    expect(select).toHaveBeenCalledOnce();
-    expect(select).toHaveBeenCalledWith(
-      expect.objectContaining({ message: "Help make OpenAgent better?", initialValue: false }),
-    );
+    // No telemetry endpoint is configured, so not even the consent question is asked.
+    expect(select).not.toHaveBeenCalled();
     expect(ensureAuthProfileStore).not.toHaveBeenCalled();
     expect(setupChannels).not.toHaveBeenCalled();
     expect(setupSkills).not.toHaveBeenCalled();
@@ -1368,6 +1366,8 @@ describe("runSetupWizard", () => {
   });
 
   it("leaves feature-stat telemetry unset during non-interactive wizard setup", async () => {
+    // With an endpoint configured, only the non-interactive gate keeps the question away.
+    vi.stubEnv("OPENCLAW_TELEMETRY_ENDPOINT", "https://telemetry.example.test/api/latest-version");
     const prompter = buildWizardPrompter();
 
     await runWizard({ nonInteractive: true }, createRuntime({ throwsOnExit: true }), prompter);
@@ -1801,10 +1801,8 @@ describe("runSetupWizard", () => {
         opts: expect.objectContaining({ importSource: "~/.hermes" }),
       }),
     );
-    expect(prompter.select).toHaveBeenCalledOnce();
-    expect(prompter.select).toHaveBeenCalledWith(
-      expect.objectContaining({ message: "Help make OpenAgent better?", initialValue: false }),
-    );
+    // No setup-mode prompt, and no telemetry endpoint means no consent question either.
+    expect(prompter.select).not.toHaveBeenCalled();
   });
 
   it("preserves concurrent edits while migrating pending plugin install records", async () => {
@@ -3178,7 +3176,6 @@ describe("runSetupWizard", () => {
       });
     const select = vi
       .fn()
-      .mockResolvedValueOnce(false)
       .mockResolvedValueOnce("fix")
       .mockResolvedValueOnce("fix")
       .mockResolvedValueOnce("continue") as unknown as WizardPrompter["select"];
@@ -3208,7 +3205,8 @@ describe("runSetupWizard", () => {
         "second retry auth choice",
       ) as Parameters<ApplyAuthChoice>[0];
       expect(secondRetry.config.models?.providers?.openai?.apiKey).toBe("test-original-key");
-      expect(select).toHaveBeenCalledTimes(4);
+      // Three recovery choices (fix, fix, continue); no telemetry question without an endpoint.
+      expect(select).toHaveBeenCalledTimes(3);
       expect(
         persistedWizardConfigs().some(
           (config) =>

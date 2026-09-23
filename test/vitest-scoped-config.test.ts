@@ -43,7 +43,6 @@ import { createExtensionMiscVitestConfig } from "./vitest/vitest.extension-misc.
 import { createExtensionMsTeamsVitestConfig } from "./vitest/vitest.extension-msteams.config.ts";
 import { createExtensionProviderOpenAiVitestConfig } from "./vitest/vitest.extension-provider-openai.config.ts";
 import { createExtensionProvidersVitestConfig } from "./vitest/vitest.extension-providers.config.ts";
-import { createExtensionQaVitestConfig } from "./vitest/vitest.extension-qa.config.ts";
 import { createExtensionSignalVitestConfig } from "./vitest/vitest.extension-signal.config.ts";
 import { createExtensionSlackVitestConfig } from "./vitest/vitest.extension-slack.config.ts";
 import { createExtensionTelegramVitestConfig } from "./vitest/vitest.extension-telegram.config.ts";
@@ -551,7 +550,6 @@ describe("scoped vitest configs", () => {
   const defaultExtensionMessagingConfig = createExtensionMessagingVitestConfig({});
   const defaultExtensionProviderOpenAiConfig = createExtensionProviderOpenAiVitestConfig({});
   const defaultExtensionProvidersConfig = createExtensionProvidersVitestConfig({});
-  const defaultExtensionQaConfig = createExtensionQaVitestConfig({});
   const defaultExtensionSignalConfig = createExtensionSignalVitestConfig({});
   const defaultExtensionSlackConfig = createExtensionSlackVitestConfig({});
   const defaultExtensionTelegramConfig = createExtensionTelegramVitestConfig({});
@@ -871,11 +869,7 @@ describe("scoped vitest configs", () => {
       "test/setup.extensions.ts",
       "test/setup-openclaw-runtime.ts",
     ]);
-    expect(testConfig.include).toEqual([
-      "memory-core/**/*.test.ts",
-      "memory-lancedb/**/*.test.ts",
-      "memory-wiki/**/*.test.ts",
-    ]);
+    expect(testConfig.include).toEqual(["memory-core/**/*.test.ts"]);
   });
 
   it("keeps telegram plugin tests out of the shared extensions lane", () => {
@@ -996,16 +990,13 @@ describe("scoped vitest configs", () => {
     const browserTestConfig = requireTestConfig(defaultExtensionBrowserConfig);
     const mediaTestConfig = requireTestConfig(defaultExtensionMediaConfig);
     const miscTestConfig = requireTestConfig(defaultExtensionMiscConfig);
-    const qaTestConfig = requireTestConfig(defaultExtensionQaConfig);
     expect(browserTestConfig.include).toContain("browser/**/*.test.ts");
-    expect(mediaTestConfig.include).toContain("vydra/**/*.test.ts");
-    expect(miscTestConfig.include).toContain("firecrawl/**/*.test.ts");
-    expect(qaTestConfig.include).toContain("qa-lab/**/*.test.ts");
+    expect(mediaTestConfig.include).toContain("image-generation-core/**/*.test.ts");
+    expect(miscTestConfig.include).toContain("duckduckgo/**/*.test.ts");
     for (const file of [
       "browser/src/browser/pw.test.ts",
-      "vydra/src/index.test.ts",
-      "firecrawl/src/index.test.ts",
-      "qa-lab/src/index.test.ts",
+      "image-generation-core/src/index.test.ts",
+      "duckduckgo/src/index.test.ts",
     ]) {
       expect(matchingExcludePatterns(extensionExcludes, file)).not.toEqual([]);
     }

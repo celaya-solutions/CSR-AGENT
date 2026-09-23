@@ -1,4 +1,0 @@
-/* OpenAgent source: "OpenAgent connects this Apple Watch directly to your Gateway on trusted local networks." */
-"NSLocalNetworkUsageDescription" = "OpenAgent conecta este Apple Watch directamente a tu Gateway en redes locales de confianza.";
-/* OpenAgent source: "OpenAgent uses the microphone for voice conversations you start on Apple Watch." */
-"NSMicrophoneUsageDescription" = "OpenAgent usa el micrófono para las conversaciones de voz que inicias en el Apple Watch.";

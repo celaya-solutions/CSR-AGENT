@@ -1,8 +1,6 @@
 // CLI banner formatter and one-shot emitter.
 import { visibleWidth } from "../../packages/terminal-core/src/ansi.js";
 import {
-  decorativeEmoji,
-  decorativePrefix,
   stripDecorativeEmojiForTerminal,
   type DecorativeEmojiOptions,
 } from "../../packages/terminal-core/src/decorative-emoji.js";
@@ -10,7 +8,6 @@ import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
 import { resolveCommitHash } from "../infra/git-commit.js";
 import { hasRootVersionAlias } from "./argv.js";
 import { parseTaglineMode } from "./banner-config-lite.js";
-import { pickCliLobsterArt } from "./lobster-art.js";
 import { pickTagline, type TaglineMode, type TaglineOptions } from "./tagline.js";
 
 type BannerOptions = TaglineOptions & {
@@ -57,9 +54,7 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
     emojiOptions,
   );
   const rich = options.richTty ?? isRich();
-  const title = decorativePrefix("🦞", "OpenAgent", emojiOptions);
-  const prefix = decorativeEmoji("🦞", emojiOptions);
-  const indent = prefix ? `${prefix} ` : "";
+  const title = "OpenAgent";
   const columns = options.columns ?? process.stdout.columns ?? 120;
   const plainBaseLine = `${title} ${version} (${commitLabel})`;
   const plainFullLine = tagline ? `${plainBaseLine} — ${tagline}` : plainBaseLine;
@@ -79,7 +74,7 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
     if (!tagline) {
       return line1;
     }
-    const line2 = `${" ".repeat(indent.length)}${theme.accentDim(tagline)}`;
+    const line2 = theme.accentDim(tagline);
     return `${line1}\n${line2}`;
   }
   if (fitsOnOneLine) {
@@ -89,23 +84,8 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
   if (!tagline) {
     return line1;
   }
-  const line2 = `${" ".repeat(indent.length)}${tagline}`;
+  const line2 = tagline;
   return `${line1}\n${line2}`;
-}
-
-// Rare day-seeded ASCII lobster above the banner: random-tagline mode only,
-// rich terminals only, never in CI (see lobster-art.ts for the odds).
-function resolveLobsterArt(options: BannerOptions): string | null {
-  const mode = resolveTaglineMode(options);
-  if (mode === "off" || mode === "default") {
-    return null;
-  }
-  if (!(options.richTty ?? isRich())) {
-    return null;
-  }
-  const now = options.now ? options.now() : new Date();
-  const art = pickCliLobsterArt(now, options.env ?? process.env);
-  return art ? theme.accentDim(art) : null;
 }
 
 /** Emit the CLI banner once for interactive, non-JSON, non-version invocations. */
@@ -125,8 +105,7 @@ export function emitCliBanner(version: string, options: BannerOptions = {}) {
     return;
   }
   const line = formatCliBannerLine(version, options);
-  const art = resolveLobsterArt(options);
-  process.stdout.write(`\n${art ? `${art}\n` : ""}${line}\n\n`);
+  process.stdout.write(`\n${line}\n\n`);
   bannerEmitted = true;
 }
 

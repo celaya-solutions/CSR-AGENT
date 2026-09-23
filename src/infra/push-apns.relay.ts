@@ -61,9 +61,6 @@ export type ApnsRelayRequestSender = (params: {
   isCurrent?: () => Promise<boolean>;
 }) => Promise<ApnsRelayPushResponse>;
 
-/** Hosted APNs relay origin used only when registrations prove they were minted there. */
-const DEFAULT_APNS_RELAY_BASE_URL = "https://ios-push-relay.openclaw.ai";
-const DEFAULT_APNS_SANDBOX_RELAY_BASE_URL = "https://ios-push-relay-sandbox.openclaw.ai";
 const DEFAULT_APNS_RELAY_TIMEOUT_MS = 10_000;
 // Hard cap on the relay response body. The hosted relay reply is a tiny JSON status object;
 // without a cap a buggy/hostile/compromised relay could stream an unbounded body and exhaust
@@ -228,23 +225,16 @@ export function resolveApnsRelayConfigFromEnv(
     };
   }
 
-  const hostedRelayBaseUrl =
-    normalizedRegistrationOrigin?.value === DEFAULT_APNS_RELAY_BASE_URL
-      ? DEFAULT_APNS_RELAY_BASE_URL
-      : normalizedRegistrationOrigin?.value === DEFAULT_APNS_SANDBOX_RELAY_BASE_URL
-        ? DEFAULT_APNS_SANDBOX_RELAY_BASE_URL
-        : undefined;
-  const baseUrl = explicitBaseUrl ?? hostedRelayBaseUrl;
+  // No hosted relay ships with this build; relay pushes need an operator-run relay.
+  const baseUrl = explicitBaseUrl;
   const baseUrlSource = envBaseUrl
     ? "OPENCLAW_APNS_RELAY_BASE_URL"
-    : configBaseUrl
-      ? "gateway.push.apns.relay.baseUrl"
-      : "default APNs relay base URL";
+    : "gateway.push.apns.relay.baseUrl";
   if (!baseUrl) {
     return {
       ok: false,
       error:
-        "APNs relay config missing: set gateway.push.apns.relay.baseUrl or OPENCLAW_APNS_RELAY_BASE_URL for relay registrations without the hosted relay origin",
+        "APNs relay config missing: set gateway.push.apns.relay.baseUrl or OPENCLAW_APNS_RELAY_BASE_URL to the relay you run",
     };
   }
 

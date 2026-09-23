@@ -617,7 +617,7 @@ describe("channel detail", () => {
     },
   );
 
-  it("links every channel to its docs page", () => {
+  it("keeps channel detail actions free of external docs links", () => {
     const props = createProps({
       ts: Date.now(),
       channelOrder: ["telegram"],
@@ -640,9 +640,7 @@ describe("channel detail", () => {
       container,
     );
 
-    const docs = container.querySelector<HTMLAnchorElement>(".channels-detail__header-actions a");
-    expect(docs?.href).toBe("https://docs.openclaw.ai/channels/telegram");
-    expect(docs?.textContent?.trim()).toBe("Docs");
+    expect(container.querySelector(".channels-detail__header-actions a")).toBeNull();
   });
 
   it.each([

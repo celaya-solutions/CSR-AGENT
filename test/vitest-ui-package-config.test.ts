@@ -221,10 +221,6 @@ describe("ui package vitest config", () => {
         "ui/src/components/markdown-mermaid.runtime.browser.test.ts",
       ],
     ],
-    [
-      ["extensions/workboard/browser/catalog.test.ts"],
-      ["extensions/workboard/browser/catalog.test.ts"],
-    ],
     [[], []],
   ])("intersects a repository include list with every project: %j", async (requested, expected) => {
     const includeFile = path.join(tempDirs.make("ui-package-selection-"), "include.json");

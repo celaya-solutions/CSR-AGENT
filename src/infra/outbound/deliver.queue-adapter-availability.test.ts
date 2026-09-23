@@ -1,5 +1,6 @@
 import { expectDefined } from "@openclaw/normalization-core";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import type { ChannelOutboundAdapter } from "../../channels/plugins/types.public.js";
 import { createDefaultDeps } from "../../cli/deps.js";
 import type { OpenClawConfig } from "../../config/config.js";
 import type { PluginRegistry } from "../../plugins/registry-types.js";
@@ -32,6 +33,24 @@ type RuntimeSender = (
   options?: Record<string, unknown>,
 ) => Promise<unknown>;
 
+// Resolves the lazily synthesized Telegram runtime sender from deps, like a
+// bundled channel adapter does, so adapter-lookup failures surface through it.
+const telegramOutboundForLazySenderTest: ChannelOutboundAdapter = {
+  deliveryMode: "direct",
+  sendText: async ({ cfg, to, text, accountId, deps, onPlatformSendDispatch }) => {
+    await onPlatformSendDispatch?.();
+    const send = deps?.telegram;
+    if (typeof send !== "function") {
+      throw new Error("missing telegram sender");
+    }
+    const result = (await (send as RuntimeSender)(to, text, {
+      cfg,
+      accountId: accountId ?? undefined,
+    })) as { messageId: string };
+    return { channel: "telegram" as const, ...result };
+  },
+};
+
 describe("queued lazy outbound adapter availability", () => {
   const fixtures = installDeliveryQueueTmpDirHooks();
   let tmpDir: string;
@@ -54,30 +73,33 @@ describe("queued lazy outbound adapter availability", () => {
     const emptyRegistry = createEmptyPluginRegistry();
     const outerRegistry = createTestRegistry([
       {
-        pluginId: "matrix",
+        pluginId: "telegram",
         source: "test-outer",
-        plugin: createOutboundTestPlugin({ id: "matrix", outbound: matrixOutboundForQueueTest }),
+        plugin: createOutboundTestPlugin({
+          id: "telegram",
+          outbound: telegramOutboundForLazySenderTest,
+        }),
       },
     ]);
     const restoredRegistry = createTestRegistry([
       {
-        pluginId: "matrix",
+        pluginId: "telegram",
         source: "test-restored",
         plugin: createOutboundTestPlugin({
-          id: "matrix",
+          id: "telegram",
           outbound: {
             deliveryMode: "direct",
-            sendText: async () => ({ channel: "matrix", messageId: "matrix-recovered" }),
+            sendText: async () => ({ channel: "telegram", messageId: "telegram-recovered" }),
           },
         }),
       },
     ]);
     setActivePluginRegistry(outerRegistry);
     const defaultDeps = createDefaultDeps() as Record<string, RuntimeSender>;
-    const lazyRuntimeSender = expectDefined(defaultDeps.matrix, "matrix runtime sender");
+    const lazyRuntimeSender = expectDefined(defaultDeps.telegram, "telegram runtime sender");
     let scopedRuntimeRegistry: PluginRegistry = emptyRegistry;
     const deps = {
-      matrix: (...args: Parameters<RuntimeSender>) =>
+      telegram: (...args: Parameters<RuntimeSender>) =>
         withPluginRuntimeRegistryScope(scopedRuntimeRegistry, async () => {
           setActivePluginRegistry(emptyRegistry);
           return await lazyRuntimeSender(...args);
@@ -86,8 +108,8 @@ describe("queued lazy outbound adapter availability", () => {
     const deliveryIntentId = "cron-direct-delivery:v1:lazy-adapter-recovery";
     const params = {
       cfg: {} as OpenClawConfig,
-      channel: "matrix" as const,
-      to: "!room:example",
+      channel: "telegram" as const,
+      to: "123",
       payloads: [{ text: "recover after adapter registration" }],
       deps,
       queuePolicy: "required" as const,
@@ -98,7 +120,7 @@ describe("queued lazy outbound adapter availability", () => {
     };
 
     await expect(deliverOutboundPayloads(params)).rejects.toThrow(
-      "matrix outbound adapter is unavailable.",
+      "telegram outbound adapter is unavailable.",
     );
     const initialEntry = expectDefined(
       (await loadPendingDeliveries(tmpDir))[0],

@@ -21,10 +21,9 @@ Restart the Gateway after installing or updating the plugin.
 
 ## Configure
 
-Use the ACP docs for harness-specific setup, permission modes, and model/runtime selection:
-
-- https://docs.openclaw.ai/tools/acp-agents-setup
-- https://docs.openclaw.ai/tools/acp-agents
+The ACP agent guides in this repository's `docs/tools/` folder
+(`acp-agents-setup.md` and `acp-agents.md`) cover harness-specific setup,
+permission modes, and model/runtime selection.
 
 ## Package
 

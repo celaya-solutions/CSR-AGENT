@@ -15,7 +15,7 @@ type Scenario = {
   registry?: boolean;
   corruptRegistry?: boolean;
   companion?: "missing" | "wrong-identity";
-  channel?: "telegram" | "discord" | "slack";
+  channel?: "telegram" | "discord";
   bundled?: boolean;
   sourcePlugin?: boolean;
   helpFailure?: "exit" | "timeout";
@@ -32,7 +32,7 @@ function registryFixture(root: string, scenario: Scenario): NodeJS.ProcessEnv {
   mkdirSync(join(staging, "package"), { recursive: true });
   mkdirSync(artifactDir);
   // Extra verified companions must not select source mode on their own.
-  const packages = ["codex", "discord", "slack"]
+  const packages = ["codex", "discord", "telegram"]
     .filter((id) => scenario.companion !== "missing" || id !== scenario.channel)
     .map((id) => {
       const name = `@openclaw/${id}`;
@@ -124,7 +124,7 @@ if (help) {
   if (!current) installChannelDependency();
 }
 function dependencyPath() {
-  const dep = { telegram: "grammy", discord: "discord-api-types", slack: "@slack/bolt" }[env.OPENCLAW_NPM_ONBOARD_CHANNEL];
+  const dep = { telegram: "grammy", discord: "discord-api-types" }[env.OPENCLAW_NPM_ONBOARD_CHANNEL];
   return path.join(env.HOME, ".openclaw/node_modules", dep, "package.json");
 }
 function installChannelDependency() {
@@ -254,7 +254,7 @@ describe("npm onboarding fixture consent", () => {
     { registry: false, channel: "telegram" as const },
     { registry: true, channel: "telegram" as const },
     { registry: false, channel: "discord" as const },
-    { registry: true, channel: "slack" as const, sourcePlugin: true },
+    { registry: true, channel: "discord" as const, sourcePlugin: true },
   ])("keeps same-version legacy setup automatic: $channel registry=$registry", (scenario) => {
     const { result, installs, detail } = runScenario({ ...scenario, consent: false });
     expect(result.status, detail).toBe(0);
@@ -265,9 +265,7 @@ describe("npm onboarding fixture consent", () => {
     { channel: "telegram" as const, bundled: true, sourcePlugin: true },
     { channel: "discord" as const, bundled: true },
     { channel: "discord" as const },
-    { channel: "slack" as const },
     { channel: "discord" as const, sourcePlugin: true },
-    { channel: "slack" as const, sourcePlugin: true },
   ])("prepares only the selected external channel: %j", (scenario) => {
     const { result, installs, detail } = runScenario({ ...scenario, registry: true });
     expect(result.status, detail).toBe(0);
@@ -290,8 +288,6 @@ describe("npm onboarding fixture consent", () => {
   it.each([
     { channel: "discord" as const, consent: true },
     { channel: "discord" as const, consent: false },
-    { channel: "slack" as const, consent: true },
-    { channel: "slack" as const, consent: false },
   ])("rejects source fixtures without a verified registry: %j", (scenario) => {
     const { result, events, detail } = runScenario({ ...scenario, sourcePlugin: true });
     expect(result.status, detail).not.toBe(0);
@@ -303,9 +299,7 @@ describe("npm onboarding fixture consent", () => {
 
   it.each([
     { channel: "discord" as const, companion: "missing" as const },
-    { channel: "slack" as const, companion: "missing" as const },
     { channel: "discord" as const, companion: "wrong-identity" as const },
-    { channel: "slack" as const, companion: "wrong-identity" as const },
   ])("verifies the selected companion before any CLI call: %j", (scenario) => {
     const { result, events, detail } = runScenario({
       ...scenario,

@@ -1,5 +1,4 @@
 import { fileURLToPath } from "node:url";
-import { qaGatewayCleanupRuntimeEntrypoint } from "../../extensions/qa-lab/src/gateway-child-artifacts-runtime.test-support.ts";
 import {
   codeModeDescriptionRetentionEntrypoint,
   codeModeRetentionEntrypoint,
@@ -59,7 +58,6 @@ export const vitestWorkerBuildEntries = {
       nodeHostConfigRuntimeEntrypoint,
       channelIngressGatewayRestartEntrypoint,
       persistenceRuntimeEntrypoint,
-      qaGatewayCleanupRuntimeEntrypoint,
       stateLeaseProcessExitRuntimeEntrypoint,
       agentDatabaseHeldRuntimeEntrypoint,
     ].map((entry) => [

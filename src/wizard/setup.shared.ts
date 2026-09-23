@@ -6,6 +6,7 @@ import { inheritLegacyDefaultAgentId } from "../config/legacy.default-agent-owne
 import { applyMergePatch, createMergePatch } from "../config/merge-patch.js";
 import type { ConfigWriteAfterWrite } from "../config/runtime-snapshot.js";
 import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.js";
+import { resolveTelemetryEndpoint } from "../infra/telemetry-endpoint.js";
 import { transformConfigWithPendingPluginInstalls } from "../plugins/install-record-commit.js";
 import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.js";
 import { t } from "./i18n/index.js";
@@ -173,7 +174,12 @@ export async function requestTelemetryConsent(params: {
   prompter: WizardPrompter;
   config: OpenClawConfig;
 }): Promise<OpenClawConfig> {
-  if (params.opts.nonInteractive === true || params.config.telemetry?.consentedAt) {
+  if (
+    params.opts.nonInteractive === true ||
+    params.config.telemetry?.consentedAt ||
+    // Nothing to consent to until an operator configures their own endpoint.
+    !resolveTelemetryEndpoint()
+  ) {
     return params.config;
   }
 

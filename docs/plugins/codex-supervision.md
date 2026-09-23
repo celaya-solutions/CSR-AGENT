@@ -41,9 +41,8 @@ Supported actions depend on the source host and its capabilities:
 
 ## Before you begin
 
-- Install the official `@openclaw/codex` plugin on the Gateway. The OpenAgent
-  macOS app can install it when you enable Codex features. CLI installations can
-  run `openclaw plugins install @openclaw/codex`.
+- Enable the bundled `codex` plugin on the Gateway
+  (`openclaw plugins enable codex`).
 - Install and sign in to Codex Desktop or the Codex CLI on each computer whose
   sessions you want to list.
 - Pair remote computers as OpenAgent nodes. Each computer must opt in locally.
@@ -121,14 +120,6 @@ treats a thread that its supervision App Server reports as `notLoaded` as
 **Stored / activity unknown**, not as idle.
 
 Apply the same opt-in on every headless node host whose sessions should appear.
-The native OpenAgent macOS app reads the same local setting when it advertises
-its Codex catalog to the paired Gateway. That paired native Mac catalog supports
-only the default or explicit `appServer.transport: "stdio"` with an unset or
-explicit `appServer.homeScope: "user"`. `command`, `args`, and `clearEnv` are
-honored for that stdio process. If the Mac config selects `"unix"`,
-`"websocket"`, or `homeScope: "agent"`, the app does not advertise the catalog
-capability or command, and a stale direct invocation fails instead of exposing
-the user Codex home or spawning a different local stdio App Server.
 
 Headless nodes default to their native user-home stdio catalog: `CODEX_HOME`,
 or `~/.codex` when it is unset. Native listing, transcript reads, terminal resume,

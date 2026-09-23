@@ -246,7 +246,7 @@ Example:
 | `npmSpec`                    | `string`                            | Canonical npm spec for install/update fallback flows.                             |
 | `localPath`                  | `string`                            | Local development or bundled install path.                                        |
 | `defaultChoice`              | `"clawhub"` \| `"npm"` \| `"local"` | Preferred install source when multiple sources are available.                     |
-| `minHostVersion`             | `string`                            | Minimum supported OpenAgent version, `>=x.y.z` or `>=x.y.z-prerelease`.       |
+| `minHostVersion`             | `string`                            | Minimum supported OpenAgent version, `>=x.y.z` or `>=x.y.z-prerelease`.           |
 | `expectedIntegrity`          | `string`                            | Expected npm dist integrity string, usually `sha512-...`, for pinned installs.    |
 | `allowInvalidConfigRecovery` | `boolean`                           | Lets bundled-plugin reinstall flows recover from specific stale-config failures.  |
 | `requiredPlatformPackages`   | `string[]`                          | Required platform-specific npm aliases verified during npm install.               |
@@ -596,7 +596,7 @@ const setupWizard: ChannelSetupWizard = {
 
 ## Publishing and installing
 
-**External plugins:** publish to [ClawHub](/clawhub), then install:
+**External plugins:** publish to ClawHub, then install:
 
 <Tabs>
   <Tab title="npm">
@@ -645,7 +645,7 @@ clawhub package publish your-org/your-plugin
 ```
 
 <Note>
-`clawhub skill publish <path>` is a different command for publishing a skill folder, not a plugin package. See [Publishing on ClawHub](/clawhub/publishing).
+`clawhub skill publish <path>` is a different command for publishing a skill folder, not a plugin package. See Publishing on ClawHub.
 </Note>
 
 ## Related

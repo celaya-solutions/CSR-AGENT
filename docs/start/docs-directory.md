@@ -26,14 +26,13 @@ For a complete map of the docs, see [Docs hubs](/start/hubs).
 - [Multi-agent routing](/concepts/multi-agent)
 - [Updating and rollback](/install/updating)
 - [Pairing (DM and nodes)](/channels/pairing)
-- [Nix mode](/install/nix)
 - [OpenAgent assistant setup](/start/openclaw)
 - [Skills](/tools/skills)
 - [Skills config](/tools/skills-config)
 - [Workspace templates](/reference/templates/AGENTS)
 - [RPC adapters](/reference/rpc)
 - [Gateway runbook](/gateway)
-- [Nodes (iOS and Android)](/nodes)
+- [Nodes](/nodes)
 - [Web surfaces (Control UI)](/web)
 - [Discovery and transports](/gateway/discovery)
 - [Remote access](/gateway/remote)
@@ -43,22 +42,15 @@ For a complete map of the docs, see [Docs hubs](/start/hubs).
 - [Control UI (browser)](/web/control-ui)
 - [Discord](/channels/discord)
 - [Groups](/channels/groups)
-- [iMessage](/channels/imessage)
-- [Mattermost](/channels/mattermost)
 - [Media audio](/nodes/audio)
 - [Media images](/nodes/images)
-- [QQ Bot](/channels/qqbot)
 - [Telegram](/channels/telegram)
 - [WebChat](/web/webchat)
-- [WhatsApp group messages](/channels/group-messages)
 
-## Companion apps
+## Platforms
 
-- [Android app](/platforms/android)
-- [iOS app](/platforms/ios)
-- [Linux app](/platforms/linux)
-- [macOS app](/platforms/macos)
-- [Windows Hub](/platforms/windows)
+- [Linux](/platforms/linux)
+- [Windows](/platforms/windows)
 
 ## Operations and safety
 

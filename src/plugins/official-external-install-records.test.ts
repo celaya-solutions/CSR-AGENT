@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
 import {
   isOfficialCatalogLookupPluginIdReplacement,
@@ -8,6 +8,12 @@ import {
   resolveTrustedSourceLinkedOfficialNpmInstall,
   resolveTrustedSourceLinkedOfficialNpmSpec,
 } from "./official-external-install-records.js";
+
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
 
 const QQBOT_EXPECTED_INTEGRITY =
   "sha512-yngu/2cPeZjJfIfHWCXWB2/6KlDHrb9vpOUjKLdQxePLSp6wCn3CFOALcBIVq/9o6jlYz9WTU9idW6nfX1xpFA==";
@@ -100,7 +106,7 @@ describe("official plugin install trust", () => {
           source: "clawhub",
           spec: "clawhub:@openclaw/acpx",
           clawhubPackage: "@openclaw/acpx",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
           clawhubChannel: "official",
           resolvedName: "@openclaw/acpx",
           ...overrides,
@@ -324,7 +330,7 @@ describe("trusted official npm install records", () => {
           spec: "clawhub:@openclaw/fish-audio-speech",
           clawhubPackage: "@openclaw/fish-audio-speech",
           clawhubChannel: "official",
-          clawhubUrl: "https://clawhub.ai",
+          clawhubUrl: "https://registry.example.test",
         },
       }),
     ).toBeUndefined();

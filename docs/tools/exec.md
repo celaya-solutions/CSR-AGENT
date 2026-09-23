@@ -324,4 +324,3 @@ Notes:
 - [Security](/gateway/security) — tool policy and elevated access
 - [Code Mode](/tools/code-mode) — an opt-in runtime where the model writes a program that calls the hidden tool catalog
 - [`apply_patch`](/tools/apply-patch) — apply a structured edit instead of shelling out
-- [Tokenjuice](/tools/tokenjuice) — compacting large command output

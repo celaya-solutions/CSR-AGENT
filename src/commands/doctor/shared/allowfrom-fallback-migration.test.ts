@@ -1,10 +1,13 @@
 // Allow-from fallback migration tests cover doctor repair of legacy sender allowlists.
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { maybeRepairGroupAllowFromFallback } from "./allowfrom-fallback-migration.js";
+
+const capabilityState = vi.hoisted(() => ({ nestedDmChannels: new Set<string>() }));
 
 vi.mock("../channel-capabilities.js", () => ({
   getDoctorChannelCapabilities: (channelName?: string) => ({
-    dmAllowFromMode: channelName === "matrix" ? "nestedOnly" : "topOnly",
+    dmAllowFromMode:
+      channelName && capabilityState.nestedDmChannels.has(channelName) ? "nestedOnly" : "topOnly",
     groupModel: "sender",
     groupAllowFromFallbackToAllowFrom: channelName !== "discord",
     warnOnEmptyGroupSenderAllowlist: true,
@@ -12,6 +15,10 @@ vi.mock("../channel-capabilities.js", () => ({
 }));
 
 describe("doctor group allowFrom fallback migration", () => {
+  afterEach(() => {
+    capabilityState.nestedDmChannels.clear();
+  });
+
   it("copies fallback allowFrom into explicit groupAllowFrom", () => {
     const result = maybeRepairGroupAllowFromFallback({
       channels: {
@@ -29,27 +36,28 @@ describe("doctor group allowFrom fallback migration", () => {
   });
 
   it("uses canonical nested dm allowFrom for nested channels", () => {
+    capabilityState.nestedDmChannels.add("telegram");
     const result = maybeRepairGroupAllowFromFallback({
       channels: {
-        matrix: {
-          allowFrom: ["@legacy:example.org"],
+        telegram: {
+          allowFrom: ["legacy-user"],
           dm: {
-            allowFrom: ["@alice:example.org"],
+            allowFrom: ["alice"],
           },
         },
       },
     });
 
     expect(result.changes).toEqual([
-      "channels.matrix.groupAllowFrom: copied 1 sender entry from allowFrom for explicit group allowlist.",
+      "channels.telegram.groupAllowFrom: copied 1 sender entry from allowFrom for explicit group allowlist.",
     ]);
-    expect(result.config.channels?.matrix?.groupAllowFrom).toEqual(["@alice:example.org"]);
+    expect(result.config.channels?.telegram?.groupAllowFrom).toEqual(["alice"]);
   });
 
   it("preserves account-scoped fallback without broadening to the channel", () => {
     const result = maybeRepairGroupAllowFromFallback({
       channels: {
-        signal: {
+        telegram: {
           allowFrom: ["parent"],
           accounts: {
             work: { allowFrom: ["work-user"] },
@@ -60,12 +68,12 @@ describe("doctor group allowFrom fallback migration", () => {
     });
 
     expect(result.changes).toEqual([
-      "channels.signal.groupAllowFrom: copied 1 sender entry from allowFrom for explicit group allowlist.",
-      "channels.signal.accounts.work.groupAllowFrom: copied 1 sender entry from allowFrom for explicit group allowlist.",
+      "channels.telegram.groupAllowFrom: copied 1 sender entry from allowFrom for explicit group allowlist.",
+      "channels.telegram.accounts.work.groupAllowFrom: copied 1 sender entry from allowFrom for explicit group allowlist.",
     ]);
-    expect(result.config.channels?.signal?.groupAllowFrom).toEqual(["parent"]);
-    expect(result.config.channels?.signal?.accounts?.work?.groupAllowFrom).toEqual(["work-user"]);
-    expect(result.config.channels?.signal?.accounts?.personal?.groupAllowFrom).toEqual([
+    expect(result.config.channels?.telegram?.groupAllowFrom).toEqual(["parent"]);
+    expect(result.config.channels?.telegram?.accounts?.work?.groupAllowFrom).toEqual(["work-user"]);
+    expect(result.config.channels?.telegram?.accounts?.personal?.groupAllowFrom).toEqual([
       "personal-user",
     ]);
   });

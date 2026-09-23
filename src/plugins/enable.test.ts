@@ -205,22 +205,6 @@ describe("enablePluginInConfig", () => {
 });
 
 describe("enableExplicitlySelectedPluginInConfig", () => {
-  it("appends ClickClack to a restrictive allowlist before enabling it", () => {
-    const result = enableExplicitlySelectedPluginInConfig(
-      {
-        plugins: {
-          allow: ["memory-core"],
-        },
-      } as OpenClawConfig,
-      "clickclack",
-    );
-
-    expect(result.enabled).toBe(true);
-    expect(result.config.plugins?.allow).toEqual(["memory-core", "clickclack"]);
-    expect(result.config.plugins?.entries?.clickclack?.enabled).toBe(true);
-    expect(result.config.channels?.clickclack?.enabled).toBe(true);
-  });
-
   it("keeps unrelated explicit plugin enables blocked by a restrictive allowlist", () => {
     const cfg = {
       plugins: {

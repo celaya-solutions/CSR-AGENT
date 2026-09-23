@@ -39,10 +39,6 @@ const pluginPrereleaseDockerLanes = Object.freeze([
     ],
   },
   {
-    lane: "npm-onboard-slack-candidate-channel-agent",
-    surfaces: ["package-artifact", "gateway-bootstrap", "status-diagnostics"],
-  },
-  {
     lane: "doctor-switch",
     surfaces: ["package-artifact", "doctor-fix"],
   },

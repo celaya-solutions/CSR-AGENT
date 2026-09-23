@@ -59,7 +59,6 @@ describe("resolved model Tool Search policy", () => {
     { provider: "ollama", api: "ollama", id: "qwen3.5:4b", expected: true },
     { provider: "custom-host", api: "ollama", id: "qwen3.5:4b", expected: true },
     { provider: "custom-host", api: "ollama", id: "server-alias", expected: true },
-    { provider: "lmstudio", api: "openai-completions", id: "small-model", expected: true },
     { provider: "ollama-cloud", api: "ollama", id: "cloud-model", expected: false },
     { provider: "custom-host", api: "ollama", id: "model:cloud", expected: false },
     { provider: "custom-host", api: "openai-responses", id: "hosted-model", expected: false },

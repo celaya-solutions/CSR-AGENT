@@ -5432,7 +5432,9 @@ describe("openclaw agent database", () => {
     }
     expect(firstFailure).toMatchObject({
       name: "SqliteSchemaVersionError",
-      message: expect.stringContaining("https://docs.openclaw.ai/reference/database-schemas"),
+      message: expect.stringContaining(
+        "restore your pre-update backup created with openclaw backup.",
+      ),
     });
     expect(isOpenClawAgentDatabaseOpen(databasePath)).toBe(false);
     expect(

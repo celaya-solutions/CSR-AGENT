@@ -78,7 +78,7 @@ function getActiveRemoteModelCatalog(config: OpenClawConfig): ActiveRemoteModelC
     return undefined;
   }
   const snapshot = captureRemoteModelCatalogStartupSnapshot();
-  return snapshot?.sourceUrl === resolveRemoteCatalogUrl(config) ? snapshot : undefined;
+  return snapshot && snapshot.sourceUrl === resolveRemoteCatalogUrl(config) ? snapshot : undefined;
 }
 
 /** Inspects a completed check without activating its download or replacing the startup pair. */

@@ -278,34 +278,15 @@ suite.define(() => {
         .poll(() => hero.locator(".about-hero__version").textContent())
         .toBe("v2026.7.10");
 
-      const githubLink = hero.getByRole("link", { name: "GitHub", exact: true });
-      await expect
-        .poll(() => githubLink.getAttribute("href"))
-        .toBe("https://github.com/openclaw/openclaw");
-      await expect.poll(() => githubLink.getAttribute("target")).toBe("_blank");
-      await expect.poll(() => githubLink.getAttribute("rel")).toContain("noopener");
-      const discordLink = hero.getByRole("link", { name: "Discord", exact: true });
-      await expect.poll(() => discordLink.getAttribute("href")).toBe("https://discord.gg/clawd");
-      const xLink = hero.getByRole("link", { name: "X (Twitter)", exact: true });
-      await expect.poll(() => xLink.getAttribute("href")).toBe("https://x.com/openclaw");
+      const websiteLink = hero.getByRole("link", { name: "Website", exact: true });
+      await expect.poll(() => websiteLink.getAttribute("href")).toBe("https://celayasolutions.com");
+      await expect.poll(() => websiteLink.getAttribute("target")).toBe("_blank");
+      await expect.poll(() => websiteLink.getAttribute("rel")).toContain("noopener");
+      await expect.poll(() => hero.getByRole("link").count()).toBe(1);
 
-      const clawd = page.getByRole("button", { name: "Wave hello to Clawd" });
-      // CLAWD_WAVE_MS clears the class after 1400ms, so click and read it in one browser step.
-      const clawdWaving = await clawd.evaluate(async (element) => {
-        const button = element as HTMLButtonElement;
-        const owner = element.closest("openclaw-about-page") as
-          | (HTMLElement & {
-              updateComplete: Promise<unknown>;
-            })
-          | null;
-        if (!owner) {
-          throw new Error("About page owner is unavailable");
-        }
-        button.click();
-        await owner.updateComplete;
-        return button.classList.contains("about-hero__clawd--wave");
-      });
-      expect(clawdWaving).toBe(true);
+      await expect
+        .poll(() => hero.locator("img.about-hero__mark").getAttribute("src"))
+        .toMatch(/favicon\.svg$/);
 
       await expect.poll(() => page.locator(".about-footer").textContent()).toContain("MIT License");
 

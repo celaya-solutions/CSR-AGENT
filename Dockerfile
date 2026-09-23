@@ -229,10 +229,8 @@ ARG OPENCLAW_BUNDLED_PLUGIN_DIR
 # OCI base-image metadata for downstream image consumers.
 # If you change these annotations, also update:
 # - docs/install/docker.md ("Base image metadata" section)
-# - https://docs.openclaw.ai/install/docker
-LABEL org.opencontainers.image.source="https://github.com/openclaw/openclaw" \
-  org.opencontainers.image.url="https://openclaw.ai" \
-  org.opencontainers.image.documentation="https://docs.openclaw.ai/install/docker" \
+LABEL org.opencontainers.image.source="https://github.com/celaya-solutions/CSR-AGENT" \
+  org.opencontainers.image.url="https://celayasolutions.com" \
   org.opencontainers.image.licenses="MIT" \
   org.opencontainers.image.title="OpenAgent" \
   org.opencontainers.image.description="OpenAgent gateway and CLI runtime container image"

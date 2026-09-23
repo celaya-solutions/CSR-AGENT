@@ -50,17 +50,10 @@ chunks. Set these with `queryInputType` and `documentInputType`; see
 
 | Provider          | ID                  | Needs API key | Notes                             |
 | ----------------- | ------------------- | ------------- | --------------------------------- |
-| Bedrock           | `bedrock`           | No            | Uses the AWS credential chain     |
-| DeepInfra         | `deepinfra`         | Yes           | Default model `BAAI/bge-m3`       |
-| Gemini            | `gemini`            | Yes           | Supports image/audio indexing     |
-| GitHub Copilot    | `github-copilot`    | No            | Uses your Copilot subscription    |
 | Local             | `local`             | No            | Managed llama.cpp GGUF, ~0.3 GB   |
-| LM Studio         | `lmstudio`          | No            | Local/self-hosted server          |
-| Mistral           | `mistral`           | Yes           | Default model `mistral-embed`     |
 | Ollama            | `ollama`            | No            | Local/self-hosted server          |
 | OpenAI            | `openai`            | Yes           | Default                           |
 | OpenAI-compatible | `openai-compatible` | Usually       | Generic `/v1/embeddings` endpoint |
-| Voyage            | `voyage`            | Yes           | Default model `voyage-4-large`    |
 
 ## How search works
 
@@ -230,7 +223,5 @@ the managed server endpoints before rebuilding the index.
 
 - [Memory overview](/concepts/memory)
 - [Memory architecture](/concepts/memory-architecture)
-- [Active memory](/concepts/active-memory)
 - [Builtin memory engine](/concepts/memory-builtin)
 - [Memory configuration reference](/reference/memory-config)
-- [Memory LanceDB](/plugins/memory-lancedb)

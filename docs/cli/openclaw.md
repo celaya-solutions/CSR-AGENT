@@ -46,7 +46,7 @@ It does not dump secrets or load plugin CLI commands just to start.
 
 Use `status` for the detailed inventory: config path, docs/source paths, local CLI probes, key/token presence, agents, model, and Gateway details.
 
-OpenAgent uses the same reference discovery as regular agents: in a Git checkout it points at local `docs/` and the source tree; in an npm install it uses bundled docs and links to [https://github.com/openclaw/openclaw](https://github.com/openclaw/openclaw), with guidance to check source when docs are not enough.
+OpenAgent uses the same reference discovery as regular agents: in a Git checkout it points at local `docs/` and the source tree; in a packaged install it uses the bundled docs, with guidance to check source when docs are not enough.
 
 ## Examples
 
@@ -253,15 +253,12 @@ use `openclaw doctor --fix` on the same state/config to finish it sooner.
 
 If inference is missing or its live check fails, leave OpenAgent and run `openclaw onboard`. Guided onboarding tries the configured model first, then authenticated subscription CLIs, API keys, and remaining supported CLIs; it asks each candidate for a real reply and persists only a passing route. OpenAgent starts immediately after that boundary and can then configure the workspace, Gateway, channels, agents, plugins, and other optional features.
 
-The macOS app skips this ladder entirely when it reaches a configured Gateway
-whose default agent already has a configured model; it opens the normal agent
-UI.
-For a fresh or incomplete Gateway, the app drives the inference ladder through
+Clients can drive the same inference ladder through
 the `openclaw.setup.detect` and `openclaw.setup.activate` Gateway methods:
 detect lists every candidate backend it finds, activate live-tests one
 candidate (a real "reply with OK" completion), and only persists the model,
 credential, and provider/runtime state needed for that route after the test passes. Workspace and Gateway defaults remain for OpenAgent. A failing candidate
-never changes config; the app automatically walks down the ladder and finally
+never changes config; the client walks down the ladder and finally
 offers a manual key/token step populated from the Gateway's active
 text-inference provider plugins. The selected provider owns its starter model
 and config, and the credential is verified the same way before it is saved.
@@ -344,7 +341,7 @@ switch to main agent
 
 ## Message rescue mode
 
-Message rescue mode is the message-channel entrypoint for OpenAgent: use it when your normal agent is dead but a trusted channel (for example WhatsApp) still receives commands.
+Message rescue mode is the message-channel entrypoint for OpenAgent: use it when your normal agent is dead but a trusted channel (for example Telegram) still receives commands.
 
 This is a deterministic emergency command handler, not the conversational
 OpenAgent agent. It does not bootstrap a fresh setup or relax the inference
@@ -402,26 +399,6 @@ An opt-in live channel command-surface smoke checks `/openclaw status` plus a pe
 
 ```bash
 pnpm test:live:system-agent-rescue-channel
-```
-
-Inference-gated packaged one-shot setup is covered by:
-
-```bash
-pnpm test:docker:system-agent-first-run
-```
-
-That packaged-CLI lane starts with an empty state dir and proves OpenAgent
-fails closed without inference. It then tests and activates fake Claude through
-the packaged activation module. Only afterward does a fuzzy request reach the
-planner and resolve to typed setup, followed by one-shot commands that create an
-additional agent, configure Discord through a plugin enablement plus token
-SecretRef, validate config, and check the audit log. This lane is supporting
-gate/operation evidence; it does not exercise interactive onboarding or the
-OpenAgent agent/tool/approval conversation. The QA Lab scenario below redirects
-to the same Docker lane:
-
-```bash
-pnpm openclaw qa suite --scenario system-agent-ring-zero-setup
 ```
 
 ## Related

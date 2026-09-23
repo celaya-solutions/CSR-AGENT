@@ -4,41 +4,29 @@ import { describe, expect, it, vi } from "vitest";
 import { renderDevicePairSetup } from "./view-pairing.runtime.ts";
 
 describe("device pairing dialog", () => {
-  it.each([
-    {
-      access: "full" as const,
-      href: "https://docs.openclaw.ai/channels/pairing#pair-from-the-control-ui-recommended",
-    },
-    {
-      access: "limited" as const,
-      href: "https://docs.openclaw.ai/channels/pairing#pair-from-the-control-ui-recommended",
-    },
-    {
-      access: "node" as const,
-      href: "https://docs.openclaw.ai/gateway/pairing#one-paste-node-pairing",
-    },
-  ])("links $access setup help to the matching workflow", ({ access, href }) => {
-    const container = document.createElement("div");
+  it.each(["full", "limited", "node"] as const)(
+    "keeps the %s setup footer free of external links",
+    (access) => {
+      const container = document.createElement("div");
 
-    render(
-      renderDevicePairSetup({
-        open: true,
-        lifecycle: { phase: "selection", access },
-        nowMs: 0,
-        pendingCount: 0,
-        onRefresh: vi.fn(),
-        onAccessChange: vi.fn(),
-        onClose: vi.fn(),
-        onManageDevices: vi.fn(),
-        onGetApps: vi.fn(),
-      }),
-      container,
-    );
+      render(
+        renderDevicePairSetup({
+          open: true,
+          lifecycle: { phase: "selection", access },
+          nowMs: 0,
+          pendingCount: 0,
+          onRefresh: vi.fn(),
+          onAccessChange: vi.fn(),
+          onClose: vi.fn(),
+          onManageDevices: vi.fn(),
+        }),
+        container,
+      );
 
-    expect(container.querySelector<HTMLAnchorElement>(".device-pair-setup__footer a")?.href).toBe(
-      href,
-    );
-  });
+      expect(container.querySelector(".device-pair-setup__footer a")).toBeNull();
+      expect(container.querySelector(".device-pair-setup__footer button")).not.toBeNull();
+    },
+  );
 
   it("renders the node one-paste command and quiet expiry countdown", () => {
     const container = document.createElement("div");
@@ -66,7 +54,6 @@ describe("device pairing dialog", () => {
         onAccessChange: vi.fn(),
         onClose: vi.fn(),
         onManageDevices: vi.fn(),
-        onGetApps: vi.fn(),
       }),
       container,
     );

@@ -18,36 +18,6 @@ const BUNDLED_EXTENSION_CONFIG_IMPORT_GUARDS = [
     allowedSpecifier: "openclaw/plugin-sdk/channel-config-schema",
     forbiddenSpecifier: "openclaw/plugin-sdk/bundled-channel-config-schema",
   },
-  {
-    path: "extensions/slack/src/config-schema.ts",
-    allowedSpecifier: "openclaw/plugin-sdk/channel-config-schema",
-    forbiddenSpecifier: "openclaw/plugin-sdk/bundled-channel-config-schema",
-  },
-  {
-    path: "extensions/signal/src/config-schema.ts",
-    allowedSpecifier: "openclaw/plugin-sdk/channel-config-schema",
-    forbiddenSpecifier: "openclaw/plugin-sdk/bundled-channel-config-schema",
-  },
-  {
-    path: "extensions/imessage/src/config-schema.ts",
-    allowedSpecifier: "openclaw/plugin-sdk/channel-config-schema",
-    forbiddenSpecifier: "openclaw/plugin-sdk/bundled-channel-config-schema",
-  },
-  {
-    path: "extensions/whatsapp/src/config-schema.ts",
-    allowedSpecifier: "../config-api.js",
-    forbiddenSpecifier: "openclaw/plugin-sdk/channel-config-schema",
-  },
-  {
-    path: "extensions/googlechat/src/config-schema.ts",
-    allowedSpecifier: "../config-api.js",
-    forbiddenSpecifier: "openclaw/plugin-sdk/channel-config-schema",
-  },
-  {
-    path: "extensions/msteams/src/config-schema.ts",
-    allowedSpecifier: "openclaw/plugin-sdk/channel-config-schema",
-    forbiddenSpecifier: "openclaw/plugin-sdk/bundled-channel-config-schema",
-  },
 ] as const;
 
 describe("bundled extension config api guardrails", () => {

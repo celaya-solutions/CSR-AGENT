@@ -201,7 +201,8 @@ run_failure_scenario() {
 run_kitchen_sink_sweep_main() {
   if [[ "$KITCHEN_SINK_SCENARIOS" == *"clawhub:"* ]]; then
     if [[ "${OPENCLAW_KITCHEN_SINK_LIVE_CLAWHUB:-0}" = "1" ]]; then
-      export OPENCLAW_CLAWHUB_URL="${OPENCLAW_CLAWHUB_URL:-${CLAWHUB_URL:-https://clawhub.ai}}"
+      # This build ships no default registry; live mode needs an explicit one.
+      export OPENCLAW_CLAWHUB_URL="${OPENCLAW_CLAWHUB_URL:-${CLAWHUB_URL:?set OPENCLAW_CLAWHUB_URL for live ClawHub kitchen-sink E2E}}"
     else
       if [[ -n "${OPENCLAW_CLAWHUB_URL:-}" || -n "${CLAWHUB_URL:-}" ]]; then
         echo "Ignoring ambient ClawHub URL for fixture-mode kitchen-sink E2E; set OPENCLAW_KITCHEN_SINK_LIVE_CLAWHUB=1 for live ClawHub."

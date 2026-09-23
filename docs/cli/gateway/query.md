@@ -283,7 +283,7 @@ openclaw gateway probe --port 18789
 
 #### Remote over SSH (Mac app parity)
 
-The macOS app "Remote over SSH" mode uses a local port-forward so a loopback-only remote gateway becomes reachable at `ws://127.0.0.1:<port>`.
+"Remote over SSH" uses a local port-forward so a loopback-only remote gateway becomes reachable at `ws://127.0.0.1:<port>`.
 
 CLI equivalent:
 

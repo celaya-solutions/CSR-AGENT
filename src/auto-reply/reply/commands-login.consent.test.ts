@@ -380,7 +380,7 @@ describe("handleLoginCommand model consent", () => {
           defaults: { model: "other/current", modelPolicy: { allow: ["other/current"] } },
           entries: { main: { workspace: state.workspaceDir } },
         };
-        params.cfg.commands = { ...params.cfg.commands, allowFrom: { slack: ["owner"] } };
+        params.cfg.commands = { ...params.cfg.commands, allowFrom: { telegram: ["owner"] } };
         await state.writeConfig(params.cfg);
         setRuntimeConfigSnapshot(params.cfg);
         const prepared = prepareProviderModelAccess({
@@ -415,7 +415,7 @@ describe("handleLoginCommand model consent", () => {
         const command = button.action.command;
         const revokedConfig: OpenClawConfig = {
           ...params.cfg,
-          commands: { ...params.cfg.commands, allowFrom: { slack: ["replacement"] } },
+          commands: { ...params.cfg.commands, allowFrom: { telegram: ["replacement"] } },
         };
         const beforeDenied = await fs.readFile(state.configPath, "utf8");
         const wrongSession = await dispatchLoginCommand(
@@ -470,7 +470,7 @@ describe("handleLoginCommand model consent", () => {
         expect(saved.agents?.defaults?.model).toBe("other/current");
         expect(saved.commands?.ownerAllowFrom).toEqual(["owner"]);
         expect(saved.commands?.allowFrom).toEqual({
-          slack: [
+          telegram: [
             revocation === "authorized" || revocation === "runtime-preflight"
               ? "owner"
               : "replacement",
@@ -479,7 +479,7 @@ describe("handleLoginCommand model consent", () => {
         if (revocation === "runtime-preflight") {
           expect(getRuntimeConfigSnapshot()?.commands).toMatchObject({
             ownerAllowFrom: ["owner"],
-            allowFrom: { slack: ["replacement"] },
+            allowFrom: { telegram: ["replacement"] },
           });
           expect(getRuntimeConfigSnapshot()?.agents?.defaults?.modelPolicy?.allow).toEqual([
             "other/current",

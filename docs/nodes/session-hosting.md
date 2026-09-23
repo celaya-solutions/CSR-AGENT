@@ -10,8 +10,8 @@ sidebarTitle: "Session hosting"
 
 ## Host OpenAgent sessions
 
-The macOS menu bar app and the headless node host can opt into full OpenAgent
-session hosting with the same node-local setting:
+The headless node host can opt into full OpenAgent session hosting with a
+node-local setting:
 
 ```json5
 {
@@ -25,11 +25,7 @@ session hosting with the same node-local setting:
 Only enable session hosting on a machine you trust as shared Gateway infrastructure. Hosting consent applies to the device, not to an individual person's ownership of it. Existing session authorization still controls who may dispatch work.
 </Warning>
 
-Restart the app or node host after enabling this setting. The macOS app owns
-one paired node identity and uses the shared node runtime for session hosting;
-do not start a second CLI node for the same Mac. Its native camera, screen, and
-desktop capabilities remain on that identity. If the shared runtime cannot
-start, native capabilities remain available, but session hosting is unavailable.
+Restart the node host after enabling this setting.
 
 Approving an updated capability surface on a connected host automatically
 refreshes its session-hosting declaration and current worker slots. The Gateway

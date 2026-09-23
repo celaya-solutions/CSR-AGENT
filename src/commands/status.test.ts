@@ -1219,12 +1219,12 @@ describe("statusCommand", () => {
       "50%",
       "40% cached",
       "LaunchAgent",
-      "FAQ:",
-      "Troubleshooting:",
       "Next steps:",
     ]) {
       expectLogsInclude(logs, token);
     }
+    // This build ships without hosted docs, so the footer carries no FAQ/troubleshooting links.
+    expect(logs.join("\n")).not.toMatch(/FAQ:|Troubleshooting:|docs\.openclaw\.ai/);
     expectLogsInclude(logs, "legacy-plugin is hook-only");
     expectLogsMatch(logs, /openclaw (?:--profile isolated )?status --all/);
     expectLogsInclude(logs, "Cache");

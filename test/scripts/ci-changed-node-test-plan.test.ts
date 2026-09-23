@@ -41,10 +41,6 @@ const gitToolingTargets = [
   "ci-git-owner",
   "ci-linux-git",
   "ci-platform-checkout",
-  "openclaw-performance-workflow",
-  "openclaw-performance-git-lifecycle",
-  "plugin-release-git-lifecycle",
-  "release-workflow-git-lifecycle",
   "ci-workflow-guards",
 ].map((name) => `test/scripts/${name}.test.ts`);
 
@@ -489,42 +485,6 @@ describe("CI changed Node test plan", () => {
     }
   });
   it.each([
-    "extensions/copilot/index.ts",
-    "extensions/copilot/harness.ts",
-    "extensions/copilot/openclaw.plugin.json",
-  ])("keeps host discovery proof when only %s changes", (changedPath) => {
-    const hostTest = "src/agents/prepared-model-runtime.copilot.integration.test.ts";
-    const shards = createChangedNodeTestShards([changedPath]);
-    expect(shards).not.toBeNull();
-    expect(shards?.filter((shard) => shard.targets)).toHaveLength(1);
-    expect(shards?.flatMap((shard) => shard.targets ?? [])).toEqual([hostTest]);
-    expect(new Set(fallbackGroups(shards ?? []).flatMap((group) => group.configs))).toEqual(
-      new Set(["test/vitest/vitest.extensions.config.ts"]),
-    );
-    expect(buildVitestRunPlans([hostTest])).toEqual([
-      {
-        config: "test/vitest/vitest.agents-core.config.ts",
-        forwardedArgs: [],
-        includePatterns: [hostTest],
-        watchMode: false,
-      },
-    ]);
-    expect(
-      buildVitestRunPlans([
-        "extensions/copilot/index.test.ts",
-        "extensions/copilot/harness.test.ts",
-      ]),
-    ).toEqual([
-      {
-        config: "test/vitest/vitest.extensions.config.ts",
-        forwardedArgs: [],
-        includePatterns: ["extensions/copilot/index.test.ts", "extensions/copilot/harness.test.ts"],
-        watchMode: false,
-      },
-    ]);
-  });
-
-  it.each([
     {
       source: "ui/src/styles/chat/layout.css",
       targets: [
@@ -695,7 +655,7 @@ describe("CI changed Node test plan", () => {
   });
 
   it.each(
-    [[], ["extensions/matrix/src/matrix/actions/verification.test.ts"]].map((companions) => ({
+    [[], ["extensions/telegram/src/bot.test.ts"]].map((companions) => ({
       companions,
     })),
   )(
@@ -727,7 +687,7 @@ describe("CI changed Node test plan", () => {
       expect(configs).not.toContain("test/vitest/vitest.tooling.config.ts");
       if (companions.length) {
         expect(shards).toEqual(createChangedNodeTestShards(companions));
-        expect(targets).toContain("extensions/matrix/src/matrix/actions/verification.test.ts");
+        expect(targets).toContain("extensions/telegram/src/bot.test.ts");
       } else {
         expect(groups.map((group) => group.configs)).toEqual([
           ["test/vitest/vitest.boundary.config.ts"],
@@ -1258,58 +1218,27 @@ describe("CI changed Node test plan", () => {
   );
 
   it.each([
-    ["test/vitest/vitest.extensions.config.ts", "extensions/copilot/index.ts"],
-    ["test/vitest/vitest.extension-qa.config.ts", "extensions/qa-lab/src/cli.runtime.ts"],
+    ["test/vitest/vitest.extensions.config.ts", "extensions/llama-cpp/index.ts"],
     ["test/vitest/vitest.extension-providers.config.ts", "extensions/anthropic/index.ts"],
-  ])("partitions the whole %s for direct and core-driven plugin changes", (config, changedPath) => {
-    const sortArgs = (args: Array<Record<string, string> | undefined>) =>
-      args.toSorted((left, right) =>
-        JSON.stringify(left ?? {}).localeCompare(JSON.stringify(right ?? {})),
-      );
-    for (const shards of [
-      createChangedNodeTestShards([changedPath]),
-      createChangedExtensionFallbackShards([changedPath]),
-      createChangedExtensionFallbackShards(["scripts/lib/ci-changed-node-test-plan.mts"]),
-    ]) {
-      expect(shards).not.toBeNull();
-      const groups = fallbackGroups(shards ?? []).filter((group) => group.configs.includes(config));
-      expect(groups.length).toBeGreaterThan(1);
-      expect(groups.every((group) => group.configs.length === 1)).toBe(true);
-      expect(groups.every((group) => !group.includePatterns)).toBe(true);
-      // Every native partition must survive packing exactly once, with no argument changes.
-      expect(sortArgs(groups.map((group) => group.env))).toEqual(
-        sortArgs(
-          groups.map((_, index) => ({
-            OPENCLAW_NODE_TEST_VITEST_ARGS_JSON: JSON.stringify([
-              `--shard=${index + 1}/${groups.length}`,
-            ]),
-          })),
-        ),
-      );
-    }
-  });
-
-  it("preserves Matrix process bounds in mixed package fallbacks", () => {
-    const shards = createChangedExtensionFallbackShards([
-      "packages/gateway-protocol/src/frame-guards.ts",
-      "extensions/matrix/src/channel.ts",
-    ]);
-    const groups = fallbackGroups(shards);
-    const targets = groups.flatMap((group) => group.includePatterns ?? []);
-
-    expect(groups.length).toBeGreaterThan(1);
-    expect(
-      groups.every(
-        (shard) =>
-          shard.configs[0] === "test/vitest/vitest.extension-matrix.config.ts" &&
-          (shard.includePatterns?.length ?? 0) > 0 &&
-          (shard.includePatterns?.length ?? 0) <= 40,
-      ),
-    ).toBe(true);
-    expect(targets.toSorted()).toEqual(
-      listExtensionTestFilesForRoots(["extensions/matrix"]).toSorted(),
-    );
-  });
+  ])(
+    "runs the whole small %s as one unsharded group for direct and core-driven plugin changes",
+    (config, changedPath) => {
+      for (const shards of [
+        createChangedNodeTestShards([changedPath]),
+        createChangedExtensionFallbackShards([changedPath]),
+        createChangedExtensionFallbackShards(["scripts/lib/ci-changed-node-test-plan.mts"]),
+      ]) {
+        expect(shards).not.toBeNull();
+        const groups = fallbackGroups(shards ?? []).filter((group) =>
+          group.configs.includes(config),
+        );
+        expect(groups).toHaveLength(1);
+        expect(groups[0]?.configs).toEqual([config]);
+        expect(groups[0]?.includePatterns).toBeUndefined();
+        expect(groups[0]?.env?.OPENCLAW_NODE_TEST_VITEST_ARGS_JSON).toBeUndefined();
+      }
+    },
+  );
 
   it("skips extension fallback when the core-impact predicate does not fire", () => {
     expect(createChangedExtensionFallbackShards(["src/agents/live-provider-owner.ts"])).toEqual([]);
@@ -1367,45 +1296,6 @@ describe("CI changed Node test plan", () => {
       targets: [target],
       pretestBuildMode: "runtime",
     });
-  });
-
-  it("retains compact metadata for the ordinary tooling delivery-cache smoke", () => {
-    const target = "test/e2e/qa-lab/runtime/gateway-codex-delivery-cache.test.ts";
-    expect(createChangedNodeTestShards([target])).toBeNull();
-    expect(buildVitestRunPlans([target])).toEqual([
-      expect.objectContaining({
-        config: "test/vitest/vitest.tooling.config.ts",
-        includePatterns: [target],
-      }),
-    ]);
-  });
-
-  it("prebuilds private QA dist before the QA Lab extension fallback", () => {
-    const shards = createChangedExtensionFallbackShards(["extensions/qa-lab/src/cli.runtime.ts"]);
-    expect(shards.length).toBeGreaterThan(1);
-    for (const shard of shards) {
-      expect(shard).toMatchObject({
-        configs: ["test/vitest/vitest.extension-qa.config.ts"],
-        pretestBuildMode: "private-qa",
-      });
-    }
-  });
-
-  it("routes lifecycle edits to the prepared QA config without losing boundary coverage", () => {
-    const target = "extensions/qa-lab/src/suite-process-lifecycle.test.ts";
-    const shards = createChangedNodeTestShards([target]);
-    expect(shards).not.toBeNull();
-    const qaShards = shards?.filter((shard) => shard.pretestBuildMode === "private-qa") ?? [];
-    expect(qaShards.length).toBeGreaterThan(1);
-    for (const shard of qaShards) {
-      expect(shard).toMatchObject({
-        configs: ["test/vitest/vitest.extension-qa.config.ts"],
-        pretestBuildMode: "private-qa",
-      });
-    }
-    expect(shards?.filter((shard) => !qaShards.includes(shard))).toEqual([
-      expect.objectContaining({ configs: ["test/vitest/vitest.boundary.config.ts"] }),
-    ]);
   });
 
   it("retains complete tooling setup and rejects unsupported whole-config setup", () => {

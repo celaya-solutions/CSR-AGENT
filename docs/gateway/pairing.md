@@ -15,7 +15,7 @@ Gateway's SQLite state database:
   below and [Channel pairing](/channels/pairing).
 - **Node capability approval** (`node.pair.*`) gates which declared
   capabilities/commands a connected node may expose. The Gateway is the
-  source of truth; UIs (macOS app, Control UI) are frontends that approve or
+  source of truth; UIs such as the Control UI are frontends that approve or
   reject pending requests.
 
 The former standalone node pairing store (`nodes/paired.json` with a per-node
@@ -308,38 +308,6 @@ Harden or disable:
   },
 }
 ```
-
-## Manual approval (macOS app)
-
-The macOS app shows node and device requests in one OpenAgent approval panel.
-Each request keeps the name, platform, source address, and all requested access
-visible. System-command execution and device admin access are highlighted.
-Node requests that Gateway classifies as requiring administrator approval also
-show a warning for the whole request. Expand **Details**
-for the full identity, app/core versions, and request metadata.
-
-**Approve Node** approves the node's declared capabilities; it does not rotate
-the device's access token. **Command-Return** approves only a single displayed
-request. Return alone does not approve. **Not Now** or **Escape** hides the panel
-without resolving requests. Device-pairing requests retain their normal
-expiry; node capability requests remain pending until their lifecycle resolves
-them.
-
-For multiple requests, **Approve All** and **Reject All** apply only to the
-displayed requests. Requests arriving after that view was displayed are not
-included in the decision.
-
-## Auto-approval (macOS app)
-
-The macOS app can attempt a **silent approval** of node capability requests
-when:
-
-- the request is marked `silent` (the gateway marks the first capability
-  surface silent when device pairing was approved non-interactively), and
-- the app can verify an SSH connection to the gateway host using the same
-  user.
-
-If silent approval fails, it falls back to the normal Approve/Reject prompt.
 
 ## Trusted-CIDR device auto-approval
 

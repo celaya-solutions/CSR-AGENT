@@ -309,10 +309,10 @@ describe("Codex native hook relay config", () => {
       { enabled: boolean; trusted_hash: string }
     >;
     expect(hookState["/<session-flags>/config.toml:pre_tool_use:0:0"]?.trusted_hash).toBe(
-      "sha256:00eef2fb113075f6aa238484c41e5eac82830c98c6379611019592ad93d2e56b",
+      "sha256:3c7ec27900d7a06250f73587eb2f68d333f8daea6a964d9202df4a9dfbd69b09",
     );
     expect(hookState["/<session-flags>/config.toml:post_tool_use:0:0"]?.trusted_hash).toBe(
-      "sha256:64b626a7cee798d42404b892982925feda7b335a9cd0ed62be905ab2e2766c1f",
+      "sha256:7bf3a39e7e974757de9b541324aa231e0594f0cb6d04f89fce63dc8107f695ac",
     );
   });
 

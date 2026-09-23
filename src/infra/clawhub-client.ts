@@ -16,7 +16,13 @@ import {
   readResponseWithLimit,
 } from "./http-body.js";
 
-const DEFAULT_CLAWHUB_URL = "https://clawhub.ai";
+/**
+ * This build ships without a default skill/plugin registry. Until an operator
+ * sets OPENCLAW_CLAWHUB_URL (or passes an explicit registry), base URLs resolve
+ * to this reserved, never-resolving host and requests refuse before any network
+ * I/O, so nothing reaches a vendor registry by default.
+ */
+const UNCONFIGURED_CLAWHUB_URL = "https://registry.invalid";
 const DEFAULT_FETCH_TIMEOUT_MS = 30_000;
 const CLAWHUB_ARCHIVE_MAX_BYTES = 256 * 1024 * 1024;
 const CLAWHUB_JSON_MAX_BYTES = 16 * 1024 * 1024;
@@ -73,9 +79,23 @@ function normalizeBaseUrl(baseUrl?: string): string {
   const envValue =
     normalizeOptionalString(process.env.OPENCLAW_CLAWHUB_URL) ||
     normalizeOptionalString(process.env.CLAWHUB_URL) ||
-    DEFAULT_CLAWHUB_URL;
+    UNCONFIGURED_CLAWHUB_URL;
   const value = (normalizeOptionalString(baseUrl) || envValue).replace(/\/+$/, "");
-  return value || DEFAULT_CLAWHUB_URL;
+  return value || UNCONFIGURED_CLAWHUB_URL;
+}
+
+/** True once an operator has pointed this install at a registry. */
+export function isClawHubRegistryConfigured(baseUrl?: string): boolean {
+  return normalizeBaseUrl(baseUrl) !== UNCONFIGURED_CLAWHUB_URL;
+}
+
+export class ClawHubRegistryNotConfiguredError extends Error {
+  constructor() {
+    super(
+      "No skill or plugin registry is configured. Set OPENCLAW_CLAWHUB_URL to the registry you run.",
+    );
+    this.name = "ClawHubRegistryNotConfiguredError";
+  }
 }
 
 export function resolveClawHubImageUrl(value: string | null | undefined, baseUrl?: string) {
@@ -211,6 +231,9 @@ type ClawHubResponse = {
 
 async function requestClawHub(params: ClawHubRequestParams): Promise<ClawHubResponse> {
   const url = buildUrl(params);
+  if (url.origin === new URL(UNCONFIGURED_CLAWHUB_URL).origin) {
+    throw new ClawHubRegistryNotConfiguredError();
+  }
   const token = params.skipAuth
     ? undefined
     : normalizeOptionalString(params.token) || (await resolveClawHubAuthToken());
@@ -501,13 +524,18 @@ export function readClawHubStringArrayField(
   throw new Error(`Malformed ClawHub ${context}: expected ${field} to be a string array.`);
 }
 
-/** Resolves the configured ClawHub base URL, falling back to the default public host. */
+/** Resolves the configured ClawHub base URL, or the unconfigured sentinel when none is set. */
 export function resolveClawHubBaseUrl(baseUrl?: string): string {
   return normalizeBaseUrl(baseUrl);
 }
 
+/**
+ * The operator-configured registry takes the role the vendor registry had
+ * upstream: it is the default, and its official flags carry official trust.
+ * With no registry configured, nothing is official.
+ */
 export function isDefaultClawHubBaseUrl(baseUrl?: string): boolean {
-  return normalizeBaseUrl(baseUrl) === normalizeBaseUrl(DEFAULT_CLAWHUB_URL);
+  return isClawHubRegistryConfigured() && normalizeBaseUrl(baseUrl) === normalizeBaseUrl();
 }
 
 export function isClawHubTelemetryDisabled(): boolean {

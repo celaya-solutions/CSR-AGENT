@@ -77,7 +77,7 @@ Run `openclaw doctor --fix` to rotate a persisted reused `hooks.token`, then upd
 ### Plugins/channels
 
 - Warns when npm-based plugin/hook install records are unpinned, missing integrity metadata, or drift from currently installed package versions.
-- Warns when channel allowlists rely on mutable names/emails/tags instead of stable IDs (Discord, Slack, Google Chat, Microsoft Teams, Mattermost, IRC scopes where applicable).
+- Warns when channel allowlists rely on mutable names/emails/tags instead of stable IDs (Discord and other channel scopes where applicable).
 
 ### Dangerous flags
 
@@ -129,7 +129,6 @@ openclaw security audit --fix --json | jq '{fix: .fix.ok, summary: .report.summa
 Applies safe, deterministic remediations:
 
 - flips common `groupPolicy="open"` to `groupPolicy="allowlist"` (including account variants in supported channels)
-- when WhatsApp group policy flips to `allowlist`, seeds `groupAllowFrom` from the stored `allowFrom` file when that list exists and config does not already define `allowFrom`
 - tightens permissions for state/config and common sensitive files (`credentials/*.json`, legacy `auth-profiles.json`, `openclaw-agent.sqlite`, and legacy session artifacts)
 - also tightens config include files referenced from `openclaw.json`
 - uses `chmod` on POSIX hosts and `icacls` resets on Windows

@@ -17,10 +17,9 @@ same sub-agent session.
 
 A channel supports persistent thread-bound subagent sessions
 (`sessions_spawn` with `thread: true`) when it registers a conversation
-binding adapter. Bundled channels with that support: **Discord**,
-**iMessage**, **Matrix**, and **Telegram**. Discord and Matrix default to
-creating a child thread; Telegram and iMessage default to binding the
-current conversation. Use the per-channel `threadBindings` config keys for
+binding adapter. Bundled channels with that support: **Discord** and
+**Telegram**. Discord defaults to creating a child thread; Telegram defaults
+to binding the current conversation. Use the per-channel `threadBindings` config keys for
 enablement, timeouts, and `spawnSessions`.
 
 ### Quick flow

@@ -1,11 +1,14 @@
 import type { OpenClawConfig } from "../config/types.openclaw.js";
 
-const DEFAULT_REMOTE_MODEL_CATALOG_URL = "https://catalog.openclaw.ai/models/v1/catalog.json";
-
-export function isRemoteModelCatalogRefreshEnabled(config: OpenClawConfig): boolean {
-  return config.models?.catalogRefresh?.enabled !== false;
+// This build ships no hosted model catalog: refresh runs only once an operator
+// points models.catalogRefresh.url at a catalog they serve.
+export function resolveRemoteCatalogUrl(config: OpenClawConfig): string | undefined {
+  return config.models?.catalogRefresh?.url?.trim() || undefined;
 }
 
-export function resolveRemoteCatalogUrl(config: OpenClawConfig): string {
-  return config.models?.catalogRefresh?.url?.trim() || DEFAULT_REMOTE_MODEL_CATALOG_URL;
+export function isRemoteModelCatalogRefreshEnabled(config: OpenClawConfig): boolean {
+  return (
+    config.models?.catalogRefresh?.enabled !== false &&
+    resolveRemoteCatalogUrl(config) !== undefined
+  );
 }

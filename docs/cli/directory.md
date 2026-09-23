@@ -34,34 +34,26 @@ JSON mode.
 
 - For many channels, results are config-backed (allowlists / configured groups) rather than a live provider directory.
 - Before a live lookup, OpenAgent resolves configured SecretRefs only for the selected channel and account. Resolved credentials remain runtime-only. Plugin installation and auto-enable writes preserve the authored references without persisting runtime defaults.
-- WhatsApp group listing is live. Gateway lookups reuse its owned connection. A standalone command opens the linked session only when no other process owns that account. Otherwise it reports that live groups are unavailable.
 - An already-installed channel plugin can lack directory support. In that case the command reports the unsupported operation. It does not try to reinstall or upgrade the plugin to add support.
 
 ## Using results with `message send`
 
 ```bash
-openclaw directory peers list --channel slack --query "U0"
-openclaw message send --channel slack --target user:U012ABCDEF --message "hello"
+openclaw directory peers list --channel discord --query "jane"
+openclaw message send --channel discord --target user:123456789012345678 --message "hello"
 ```
 
 ## ID formats by channel
 
-| Channel                             | Target id format                                                                                                            |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| WhatsApp                            | `+15551234567` (DM), `1234567890-1234567890@g.us` (group), `120363123456789@newsletter` (Channel/Newsletter, outbound only) |
-| Signal                              | Configured aliases resolve to E.164/UUID DM targets or `group:<id>` group targets                                           |
-| Telegram                            | `@username` or numeric chat id; groups use numeric ids                                                                      |
-| Slack                               | `user:U…` and `channel:C…`                                                                                                  |
-| Discord                             | `user:<id>` and `channel:<id>`                                                                                              |
-| Matrix (plugin)                     | `user:@user:server`, `room:!roomId:server`, or `#alias:server`                                                              |
-| Microsoft Teams (plugin)            | `user:<id>` and `conversation:<id>`                                                                                         |
-| Zalo (plugin)                       | User id (Bot API)                                                                                                           |
-| Zalo Personal / `zalouser` (plugin) | Thread id (DM/group), from `zca` (`me`, `friend list`, `group list`)                                                        |
+| Channel  | Target id format                                       |
+| -------- | ------------------------------------------------------ |
+| Discord  | `user:<id>` and `channel:<id>`                         |
+| Telegram | `@username` or numeric chat id; groups use numeric ids |
 
 ## Self ("me")
 
 ```bash
-openclaw directory self --channel zalouser
+openclaw directory self --channel discord
 ```
 
 A channel may legitimately return no self identity. This is a successful empty result (exit code
@@ -84,7 +76,7 @@ that case by its reason:
 ```json
 {
   "status": "unavailable",
-  "channel": "msteams",
+  "channel": "discord",
   "accountId": "default",
   "reason": "plugin-returned-no-self-identity"
 }
@@ -93,17 +85,17 @@ that case by its reason:
 ## Peers (contacts/users)
 
 ```bash
-openclaw directory peers list --channel zalouser
-openclaw directory peers list --channel zalouser --query "name"
-openclaw directory peers list --channel zalouser --limit 50
+openclaw directory peers list --channel discord
+openclaw directory peers list --channel discord --query "name"
+openclaw directory peers list --channel discord --limit 50
 ```
 
 ## Groups
 
 ```bash
-openclaw directory groups list --channel zalouser
-openclaw directory groups list --channel zalouser --query "work"
-openclaw directory groups members --channel zalouser --group-id <id>
+openclaw directory groups list --channel discord
+openclaw directory groups list --channel discord --query "work"
+openclaw directory groups members --channel discord --group-id <id>
 ```
 
 `groups members` requires a non-blank `--group-id`. Empty or whitespace-only IDs fail before plugin setup or lookup.

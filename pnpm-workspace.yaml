@@ -33,9 +33,8 @@ verifyDepsBeforeRun: false
 blockExoticSubdeps: true
 
 overrides:
-  # Memory LanceDB supplies vectors; WhatsApp prepares thumbnails with Rastermill.
+  # Memory LanceDB supplies vectors.
   "@lancedb/lancedb>@huggingface/transformers": "-"
-  "baileys>sharp": "-"
   "@agentclientprotocol/codex-acp@1.10.0>@openai/codex": 0.153.4
   "@codemirror/commands@6.11.0>@codemirror/view": 6.43.11
   "@anthropic-ai/sdk": 0.124.0
@@ -79,10 +78,6 @@ overrides:
 allowBuilds:
   "@google/genai": true
   "@lydell/node-pty": true
-  "@matrix-org/matrix-sdk-crypto-nodejs": true
-  "@tloncorp/api": true
-  "@tloncorp/tlon-skill": true
-  baileys: true
   authenticate-pam: true
   "@discordjs/opus": false
   esbuild: true
@@ -92,19 +87,10 @@ allowBuilds:
   openclaw: true
   "@openclaw/proxyline": true
   clawpdf: true
-  "@openclaw/crabline": true
   rastermill: true
   node-pty: true
 
-# The transient npm lock generator also needs the peer marked optional.
-packageExtensions:
-  baileys:
-    peerDependenciesMeta:
-      sharp:
-        optional: true
-
 patchedDependencies:
   "@awesome.me/webawesome@3.12.0": patches/@awesome.me__webawesome@3.12.0.patch
-  "matrix-js-sdk@42.3.0": patches/matrix-js-sdk@42.3.0.patch
   "@novnc/novnc@1.7.0": patches/@novnc__novnc@1.7.0.patch
   vitest@5.0.0: patches/vitest@5.0.0.patch

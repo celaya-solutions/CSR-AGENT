@@ -63,8 +63,8 @@ see raw vs. injected sizes and truncation status.
 
 ## Import from coding assistants
 
-The Control UI can import existing local memory from Codex, Claude Code, and
-Hermes.
+The Control UI can import existing local memory from Codex through the bundled
+`codex` plugin.
 Open **Settings** → **Import Memory**, choose the destination agent, review the
 detected files, and confirm the import. For the existing default agent, you can
 instead open **Settings → Ask OpenAgent** and say `import memory`; this narrower
@@ -75,16 +75,9 @@ Markdown memory:
 - Codex: the consolidated `MEMORY.md` and `memory_summary.md` files under
   `~/.codex/memories` (or `CODEX_HOME/memories`). Raw rollout and transcript
   files are not imported.
-- Claude Code: Markdown files from each project auto-memory directory under
-  `~/.claude/projects/*/memory`, plus a user-configured
-  `autoMemoryDirectory` when present. Project instructions, sessions, settings,
-  and credentials are not part of this memory-only action.
-- Hermes: `MEMORY.md` and `USER.md` from the detected Hermes home. Config,
-  credentials, and skills are not part of this memory-only action.
 
-Imported files stay separate under `memory/imports/codex/` and
-`memory/imports/claude-code/`, or `memory/imports/hermes/` in the selected agent
-workspace. They are indexed for `memory_search` and available through
+Imported files stay separate under `memory/imports/codex/` in the selected
+agent workspace. They are indexed for `memory_search` and available through
 `memory_get`; they are not merged into the agent's bootstrap `MEMORY.md`. The
 source files are left unchanged.
 
@@ -179,9 +172,8 @@ for any supported provider.
 
 <Info>
 OpenAgent uses OpenAI embeddings by default. Set
-`memory.search.provider` explicitly to use Gemini, Voyage,
-Mistral, Bedrock, DeepInfra, local GGUF, Ollama, LM Studio, GitHub Copilot, or
-a generic OpenAI-compatible endpoint.
+`memory.search.provider` explicitly to use local GGUF, Ollama, or a generic
+OpenAI-compatible endpoint.
 </Info>
 
 See [Memory search](/concepts/memory-search) for how search works, tuning
@@ -193,36 +185,6 @@ options, and provider setup.
 <Card title="Builtin (default)" icon="database" href="/concepts/memory-builtin">
 SQLite-based. Works out of the box with keyword search, vector similarity, and
 hybrid search. No extra dependencies.
-</Card>
-<Card title="Honcho" icon="brain" href="/concepts/memory-honcho">
-AI-native cross-session memory with user modeling, semantic search, and
-multi-agent awareness. Plugin install.
-</Card>
-<Card title="LanceDB" icon="layers" href="/plugins/memory-lancedb">
-LanceDB-backed memory with OpenAI-compatible embeddings, auto-recall,
-auto-capture, and local Ollama embedding support. Plugin install.
-</Card>
-</CardGroup>
-
-## Knowledge wiki layer
-
-If you want durable memory to behave more like a maintained knowledge base
-than raw notes, use the bundled `memory-wiki` plugin. It compiles durable
-knowledge into a wiki vault with deterministic page structure, structured
-claims and evidence, contradiction and freshness tracking, generated
-dashboards, compiled digests, and wiki-native tools (`wiki_status`,
-`wiki_search`, `wiki_get`, `wiki_apply`, `wiki_lint`).
-
-`memory-wiki` does not replace the active memory plugin; the active memory
-plugin still owns recall, promotion, and dreaming. `memory-wiki` adds a
-provenance-rich knowledge layer beside it. You can browse the compiled wiki
-in the Control UI under Memory → Dreams → Diary → **Memory Wiki**
-([details](/plugins/memory-wiki#browsing-the-wiki-in-the-control-ui)).
-
-<CardGroup cols={1}>
-<Card title="Memory Wiki" icon="book" href="/plugins/memory-wiki">
-Compiles durable memory into a provenance-rich wiki vault with claims,
-dashboards, bridge mode, and Obsidian-friendly workflows.
 </Card>
 </CardGroup>
 
@@ -339,14 +301,10 @@ openclaw memory index --force   # Rebuild the index
 - [Memory architecture](/concepts/memory-architecture): the storage, indexing, and retrieval layers behind every memory feature.
 - [Memory search](/concepts/memory-search): search pipeline, providers, and tuning.
 - [Builtin memory engine](/concepts/memory-builtin): default SQLite backend.
-- [Honcho memory](/concepts/memory-honcho): AI-native cross-session memory.
-- [Memory LanceDB](/plugins/memory-lancedb): LanceDB-backed plugin with OpenAI-compatible embeddings.
-- [Memory Wiki](/plugins/memory-wiki): compiled knowledge vault and wiki-native tools.
 - [Dreaming](/concepts/dreaming): background promotion from short-term recall to long-term memory.
 - [Memory provenance and deletion](/concepts/memory-provenance): session lineage, admission policy, and `memory forget`.
 - [Memory configuration reference](/reference/memory-config): all config knobs.
 - [Compaction](/concepts/compaction): how compaction interacts with memory.
-- [Active memory](/concepts/active-memory): sub-agent memory for interactive chat sessions.
 - [User model](/concepts/user-model): directive-based durable preferences and profile facts.
 - [Standing intents](/concepts/standing-intents): event-conditioned prospective memory.
 

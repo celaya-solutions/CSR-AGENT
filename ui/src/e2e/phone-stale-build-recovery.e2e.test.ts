@@ -99,7 +99,7 @@ suite.define(() => {
         "/api/chat/media/outgoing/agent%3Amain%3Amain/phone-proof-generated/full";
       const retainedImageTicketedUrl = `${retainedImagePath}?mediaTicket=phone-proof`;
       const retainedImageBytes = await readFile(
-        path.join(process.cwd(), "docs/assets/openclaw-banner-dark.png"),
+        path.join(process.cwd(), "docs/assets/openagent-banner.png"),
       );
       const retainedImageRequestUrls: string[] = [];
       let blockedUnticketedRequestCount = 0;

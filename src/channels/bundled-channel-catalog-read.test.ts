@@ -44,13 +44,18 @@ vi.mock("../infra/openclaw-root.js", () => ({
     opts.cwd ?? null,
 }));
 
+import { importFreshModule } from "openclaw/plugin-sdk/test-fixtures";
 import { resolveBundledPluginsDir } from "../plugins/bundled-dir.js";
 import { clearPluginMetadataLifecycleCaches } from "../plugins/plugin-metadata-lifecycle.js";
-import {
-  findBundledChannelCatalogMetadata,
-  listBundledChannelCatalogEntries,
-} from "./bundled-channel-catalog-read.js";
 import { listBundledChannelIds } from "./plugins/bundled-ids.js";
+
+// The shared runtime setup can evaluate the reader before this file's mocks register, so load a
+// fresh instance whose imports resolve through the mocks above.
+const { findBundledChannelCatalogMetadata, listBundledChannelCatalogEntries } =
+  await importFreshModule<typeof import("./bundled-channel-catalog-read.js")>(
+    import.meta.url,
+    "./bundled-channel-catalog-read.js?scope=mocked-deps",
+  );
 
 const tempDirs: string[] = [];
 const originalBundledPluginsDir = process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;

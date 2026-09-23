@@ -163,40 +163,18 @@ export const toolIcons = {
   spark: strokeIcon(svg` <path
     d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
   />`),
-  // Theme tokens brighten the gradient in dark mode; var() needs style attributes.
-  lobster: html`
-    <svg viewBox="0 0 120 120" fill="none">
-      <defs>
-        <linearGradient id="lob-g" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color: var(--lobster-icon-body, #ff4d4d)" />
-          <stop offset="100%" style="stop-color: var(--lobster-icon-shade, #991b1b)" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M60 10C30 10 15 35 15 55C15 75 30 95 45 100L45 110L55 110L55 100C55 100 60 102 65 100L65 110L75 110L75 100C90 95 105 75 105 55C105 35 90 10 60 10Z"
-        fill="url(#lob-g)"
-      />
-      <path d="M20 45C5 40 0 50 5 60C10 70 20 65 25 55C28 48 25 45 20 45Z" fill="url(#lob-g)" />
-      <path
-        d="M100 45C115 40 120 50 115 60C110 70 100 65 95 55C92 48 95 45 100 45Z"
-        fill="url(#lob-g)"
-      />
-      <path
-        d="M45 15Q35 5 30 8"
-        style="stroke: var(--lobster-icon-body, #ff4d4d)"
-        stroke-width="3"
-        stroke-linecap="round"
-      />
-      <path
-        d="M75 15Q85 5 90 8"
-        style="stroke: var(--lobster-icon-body, #ff4d4d)"
-        stroke-width="3"
-        stroke-linecap="round"
-      />
-      <circle cx="45" cy="35" r="6" style="fill: var(--lobster-icon-eye, #050810)" />
-      <circle cx="75" cy="35" r="6" style="fill: var(--lobster-icon-eye, #050810)" />
-      <circle cx="46" cy="34" r="2.5" fill="#00e5cc" />
-      <circle cx="76" cy="34" r="2.5" fill="#00e5cc" />
+  // Celaya Solutions barcode mark. Bars follow the text color; the flagged
+  // pole keeps the brand accent in both themes.
+  brandMark: html`
+    <svg viewBox="20 18 200 200" fill="none" aria-hidden="true">
+      <g stroke="currentColor" stroke-width="10">
+        <path d="M29 84V120M55 84V120M81 84V120M107 84V120M133 84V120M185 84V120M211 84V120" />
+        <path
+          d="M44 132V168M67 132V168M90 132V168M113 132V168M136 132V168M182 132V168M205 132V168"
+        />
+      </g>
+      <path d="M159 76V176" stroke="#d85b2a" stroke-width="14" />
+      <path d="M149 58H169L159 74Z" fill="#d85b2a" />
     </svg>
   `,
   circleUser: strokeIcon(svg` <path d="M18 20a6 6 0 0 0-12 0" />

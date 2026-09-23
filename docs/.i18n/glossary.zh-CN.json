@@ -4858,5 +4858,65 @@
   {
     "source": "FAQ: providers, hardware, and hosting",
     "target": "常见问题：服务商、硬件与托管"
+  },
+  {
+    "source": "Migrating an OpenAgent install",
+    "target": "迁移 OpenAgent 安装"
+  },
+  {
+    "source": "OpenAgent setup agent",
+    "target": "OpenAgent 设置智能体"
+  },
+  {
+    "source": "Configuration — Discord",
+    "target": "配置 — Discord"
+  },
+  {
+    "source": "Configuration — Telegram",
+    "target": "配置 — Telegram"
+  },
+  {
+    "source": "Docker VM runtime",
+    "target": "Docker VM 运行时"
+  },
+  {
+    "source": "Windows",
+    "target": "Windows"
+  },
+  {
+    "source": "Install OpenAgent from source",
+    "target": "从源码安装 OpenAgent"
+  },
+  {
+    "source": "Agent Workforce",
+    "target": "Agent Workforce"
+  },
+  {
+    "source": "Agent Workforce plugin reference",
+    "target": "Agent Workforce 插件参考"
+  },
+  {
+    "source": "agent-workforce",
+    "target": "agent-workforce"
+  },
+  {
+    "source": "Ollama (cloud + local models)",
+    "target": "Ollama（云端 + 本地模型）"
+  },
+  {
+    "source": "OpenAgent assistant setup",
+    "target": "OpenAgent 助手设置"
+  },
+  {
+    "source": "OpenAgent assistant",
+    "target": "OpenAgent 助手"
+  },
+  {
+    "source": "Why OpenAgent: working together",
+    "target": "为什么选择 OpenAgent：协同工作"
+  },
+  {
+    "source": "Why OpenAgent",
+    "target": "为什么选择 OpenAgent"
   }
 ]

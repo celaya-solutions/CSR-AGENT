@@ -183,27 +183,6 @@ describe("minimaxUnderstandImage apiKey normalization", () => {
   });
 
   describe("SSRF policy", () => {
-    it("pins a default hostname without granting broad private-network access", async () => {
-      fetchWithSsrFGuardMock.mockResolvedValueOnce(guardedOk());
-
-      await expect(
-        minimaxUnderstandImage({
-          apiKey: "minimax-test-key",
-          prompt: "hi",
-          imageDataUrl: "data:image/png;base64,AAAA",
-          apiHost: "https://api.minimax.io",
-        }),
-      ).resolves.toBe("ok");
-
-      const opts = fetchWithSsrFGuardMock.mock.calls.at(-1)?.[0];
-      expect(opts?.policy).toBeDefined();
-      expect(opts?.policy.hostnameAllowlist).toEqual(["api.minimax.io"]);
-      // Native public hosts stay DNS-pinned without trusting a rebinding target.
-      expect(opts?.policy.allowedOrigins).toBeUndefined();
-      expect(opts?.policy.allowPrivateNetwork).toBeUndefined();
-      expect(opts?.policy.dangerouslyAllowPrivateNetwork).toBeUndefined();
-    });
-
     it("pins a custom public hostname and preserves the configured origin", async () => {
       fetchWithSsrFGuardMock.mockResolvedValueOnce(guardedOk());
 

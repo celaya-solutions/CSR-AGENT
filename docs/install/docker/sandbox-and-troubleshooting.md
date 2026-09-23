@@ -18,7 +18,6 @@ Sandbox scope can be per-agent (default), per-session, or shared; each scope get
 For full configuration, images, security notes, and multi-agent profiles:
 
 - [Sandboxing](/gateway/sandboxing) -- complete sandbox reference
-- [OpenShell](/gateway/openshell) -- OpenShell-managed local or remote sandbox backend
 - [Multi-agent sandbox and tools](/tools/multi-agent-sandbox-tools) -- per-agent overrides
 
 ### Quick enable
@@ -42,13 +41,13 @@ Build the default sandbox image (from a source checkout):
 scripts/sandbox-setup.sh
 ```
 
-For npm installs without a source checkout, see [Sandboxing § Images and setup](/gateway/sandboxing#images-and-setup) for inline `docker build` commands.
+See [Sandboxing § Images and setup](/gateway/sandboxing#images-and-setup) for the equivalent inline `docker build` commands.
 
 ## Troubleshooting
 
 <AccordionGroup>
   <Accordion title="Image missing or sandbox container not starting">
-    Build the sandbox image with [`scripts/sandbox-setup.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/sandbox-setup.sh) (source checkout) or the inline `docker build` command from [Sandboxing § Images and setup](/gateway/sandboxing#images-and-setup) (npm install), or set `agents.defaults.sandbox.docker.image` to your custom image. Containers are auto-created per session on demand.
+    Build the sandbox image with `scripts/sandbox-setup.sh` or the inline `docker build` command from [Sandboxing § Images and setup](/gateway/sandboxing#images-and-setup), or set `agents.defaults.sandbox.docker.image` to your custom image. Containers are auto-created per session on demand.
   </Accordion>
 
   <Accordion title="Permission errors in sandbox">
@@ -60,7 +59,7 @@ For npm installs without a source checkout, see [Sandboxing § Images and setup]
   </Accordion>
 
   <Accordion title="OOM-killed during image build (exit 137)">
-    A local source image build needs at least 6 GB RAM. Use a larger machine class or a pre-built image and retry.
+    A local source image build needs at least 6 GB RAM. Use a larger machine class, or build the image elsewhere and `docker load` it, then retry.
   </Accordion>
 
   <Accordion title="Unauthorized or pairing required in Control UI">

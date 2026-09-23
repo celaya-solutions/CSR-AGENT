@@ -15,12 +15,19 @@ import {
 import { tmpdir } from "node:os";
 import { delimiter, join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { PluginInstallRecord } from "../../src/config/types.plugins.js";
 import {
   writePluginInspectFixture,
   type PluginInspectFixture,
 } from "./plugin-inspect.test-support.js";
+
+// The inspect fixture decides official trust in-process; this build ships no official catalog.
+vi.mock("../../src/plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../src/commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
 
 const ASSERTIONS_PATH = "scripts/e2e/lib/upgrade-survivor/assertions.mjs";
 
@@ -855,6 +862,9 @@ function assertCompanionPluginRecords(
         resolvedVersion: version,
         integrity: npmIntegrity,
         installPath: codexInstallPath,
+        // Codex carries recorded consent, which is validated even for an
+        // official catalog install.
+        ...(capabilityConsentSupported ? consent(npmIntegrity) : {}),
         ...(recoveryPluginIds
           ? {
               sourcePath: join(root, "unverified-plugin.tgz"),

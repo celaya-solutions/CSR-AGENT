@@ -218,36 +218,8 @@ describe("package scripts", () => {
     expect(assets).toBeLessThan(postbuild);
   });
 
-  it("cleans package builds before validating release contents", () => {
-    const scripts = readPackageJson().scripts;
-
-    expect(scripts["build:package"]).toBe(
-      "node --import ./scripts/tsx.mjs scripts/build-all.mts package",
-    );
-    expect(scripts["release:check"]).toBe(
-      "pnpm build:package && pnpm release:generated:check && node --import ./scripts/tsx.mjs scripts/release-check.ts",
-    );
-  });
-
   it("uses the shipped package launcher for npm start", () => {
     expect(readPackageJson().scripts.start).toBe("node openclaw.mjs");
-  });
-
-  it("builds iOS against a generic simulator by default", () => {
-    const script = readPackageJson().scripts["ios:build"];
-
-    expect(script).toContain("${IOS_DEST:-generic/platform=iOS Simulator}");
-    expect(script).not.toContain("name=iPhone");
-  });
-
-  it("keeps the Wear app in the root Android contributor gates", () => {
-    const scripts = readPackageJson().scripts;
-
-    expect(scripts["android:assemble"]).toContain(":wear:assembleDebug");
-    expect(scripts["android:format"]).toContain(":wear:ktlintFormat");
-    expect(scripts["android:lint"]).toContain(":wear:ktlintCheck");
-    expect(scripts["android:lint:android"]).toContain(":wear:lintDebug");
-    expect(scripts["android:test"]).toContain(":wear:testDebugUnitTest");
   });
 
   it("routes every declared Windows CI test to its native lane", () => {
@@ -294,7 +266,6 @@ describe("package scripts", () => {
       "test/scripts/direct-run-entrypoints.test.ts",
       "test/scripts/vitest-worker-artifacts.test.ts",
       "test/scripts/vitest-worker-artifacts.transforms.test.ts",
-      "test/e2e/qa-lab/runtime/package-openclaw-for-docker.e2e.test.ts",
       "src/commands/doctor-gateway-auth-token.windows.test.ts",
       "src/infra/state-migrations.legacy-session-store.test.ts",
       "src/infra/sqlite-snapshot.test.ts",
@@ -311,8 +282,6 @@ describe("package scripts", () => {
       "test/scripts/openclaw-cross-os-installer.windows.test.ts",
       "test/scripts/run-with-env.test.ts",
       "test/scripts/ts-topology.test.ts",
-      "extensions/mxc/test/mxc-backend.test.ts",
-      "extensions/mxc/test/sandbox-policy-loader.test.ts",
       "src/agents/bash-tools.exec.script-preflight.test.ts",
       "src/infra/exec-allowlist-pattern.test.ts",
       "src/infra/executable-path.test.ts",
@@ -322,8 +291,6 @@ describe("package scripts", () => {
       "src/infra/fs-safe-remove.test.ts",
       "src/agents/tools/media-tool-file-url.windows.test.ts",
       "src/media/web-media.file-url.windows.test.ts",
-      "extensions/msteams/src/media-helpers.test.ts",
-      "extensions/msteams/src/messenger.test.ts",
       "src/auto-reply/usage-bar/template.windows.test.ts",
       "src/media-understanding/attachments.file-url.windows.test.ts",
       "src/utils.test.ts",

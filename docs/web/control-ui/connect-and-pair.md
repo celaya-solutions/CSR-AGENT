@@ -49,19 +49,21 @@ If the Gateway denies the upgrade because it exceeds your assigned operator role
 
 </Note>
 
-## Pair a mobile device
+## Pair a device
 
-An already paired administrator can create the iOS/Android connection QR without opening a terminal:
+<a id="pair-a-mobile-device" />
+
+An already paired administrator can create a device connection QR without opening a terminal:
 
 <Steps>
-  <Step title="Open mobile pairing">
+  <Step title="Open device pairing">
     Select **Devices**, then click **Pair device** in the **Devices** card.
   </Step>
-  <Step title="Connect the phone">
-    In the OpenAgent mobile app, open **Settings** → **Gateway** and scan the QR code. You can copy and paste the setup code instead.
+  <Step title="Connect the device">
+    On the device, scan the QR code or paste the setup code into its Gateway settings.
   </Step>
   <Step title="Confirm the connection">
-    The official iOS/Android app connects automatically. If **Pending approval** shows a request, review its role and scopes before approving it.
+    If **Pending approval** shows a request, review its role and scopes before approving it.
   </Step>
 </Steps>
 
@@ -77,9 +79,7 @@ Local and data-URL agent avatars use [authenticated avatar URLs](/web/control-ui
 
 The Control UI ships a `manifest.webmanifest` and a service worker, so modern browsers can install it as a standalone PWA. Web Push lets the Gateway wake the installed PWA with notifications even when the tab or browser window is not open.
 
-Inside the macOS app, the Notifications settings page shows the app's native notification permission instead of browser push because the app delivers notifications natively.
-
-See [Notifications](/web/notifications) for the browser and macOS setup steps.
+See [Notifications](/web/notifications) for the browser setup steps.
 
 If the page shows **Protocol mismatch** right after an OpenAgent update, first reopen the dashboard with `openclaw dashboard` and hard-refresh. If it still fails, clear site data for the dashboard origin or test in a private browser window; an old tab or browser service-worker cache can keep running a pre-update Control UI bundle against the newer Gateway.
 
@@ -96,7 +96,7 @@ Override the VAPID keypair through env vars on the Gateway process when you want
 
 - `OPENCLAW_VAPID_PUBLIC_KEY`
 - `OPENCLAW_VAPID_PRIVATE_KEY`
-- `OPENCLAW_VAPID_SUBJECT` (defaults to `https://openclaw.ai`)
+- `OPENCLAW_VAPID_SUBJECT` (a `mailto:` or `https:` contact URI; set your own)
 
 One service-worker registration scope has one browser push subscription and therefore one application-server key. If one installed PWA switches among multiple logical Gateways, configure the same public/private VAPID pair on every Gateway and set each Gateway's `gateway.publicOrigin`; otherwise registration fails closed with a VAPID-identity mismatch. Sharing the private VAPID key and browser endpoint creates one push-signing trust domain, so do this only among mutually trusted Gateways. PWAs installed from separate HTTPS origins or base-path scopes have separate registrations and do not need to share keys.
 
@@ -110,7 +110,7 @@ The Control UI uses these scope-gated Gateway methods to register and test brows
 Pending exec and plugin approvals also trigger Web Push. Approval delivery is narrower than `push.web.test`: the Gateway targets only bound subscriptions whose paired device, current operator token, profile role, and approval visibility still authorize the request. Legacy unbound subscriptions stay test-only until the Control UI reconnects and reconciles them. Push payloads contain generic text and an authenticated `/approve/<approvalId>` link, not approval details.
 
 <Note>
-Web Push is independent of the iOS APNS relay path (see [Configuration](/gateway/configuration) for relay-backed push) and the `push.test` method, which targets native mobile pairing.
+Web Push is independent of relay-backed mobile push (see [Configuration](/gateway/configuration)) and the `push.test` method, which targets native mobile pairing.
 </Note>
 
 ## Tailnet access (recommended)

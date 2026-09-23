@@ -77,7 +77,7 @@ back to OpenAgent.
 
 | Category                  | Fields                                                                                                                                                                                                                                                             | Gateway restart needed?                |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
-| Channels                  | `channels.*`, `web` (WhatsApp)                                                                                                                                                                                                                                     | Depends on setting and loaded plugin   |
+| Channels                  | `channels.*`                                                                                                                                                                                                                                                       | Depends on setting and loaded plugin   |
 | Agent & models            | `agents`, `models`, `auth.order`, `auth.profiles`, `broadcast`, `worktreeRoot`, `cloudWorkers.projectProfiles`                                                                                                                                                     | No                                     |
 | Automation                | `hooks`, `cron`, `agents.defaults.heartbeat`                                                                                                                                                                                                                       | No (reloads the owning subsystem)      |
 | Sessions & messages       | `session`, `messages`                                                                                                                                                                                                                                              | No                                     |
@@ -103,9 +103,7 @@ back to OpenAgent.
 
 Channel plugins declare which settings restart their channel
 (`reload.configPrefixes`) and which need no reload action (`reload.noopPrefixes`).
-For example, with WhatsApp loaded, `channels.whatsapp.enabled` restarts the
-WhatsApp channel, while `channels.whatsapp.replyToMode` matches its broader
-no-action prefix.
+For example, `channels.telegram.enabled` restarts the Telegram channel.
 
 Changes to `channels.defaults`, `channels.modelByChannel`, `commands`,
 `accessGroups`, `tts`, `surfaces`, `acp.stream`, and `diagnostics.flags` refresh
@@ -115,14 +113,11 @@ stay stopped, and the Gateway keeps running.
 [Inbound debounce settings](/concepts/messages#inbound-debouncing) apply at the
 next inbound admission without reconnecting supported channels.
 `messages.ackReactionScope` applies to subsequent turns without reconnecting
-Discord, Matrix, Signal, Slack, Telegram, or WhatsApp. Other channel plugins
+Discord or Telegram. Other channel plugins
 refresh unless they declare that they read the policy live. Per-channel and
 per-account overrides still take precedence; admitted turns retain their policy.
 
 `diagnostics.enabled` updates diagnostic dispatch and heartbeat ownership live.
-With `diagnostics-otel` loaded, `diagnostics.otel` restarts only its exporter service,
-flushing the old generation before starting the new one. Externally preloaded
-OpenTelemetry providers retain their transport and shutdown ownership.
 
 Operation settings apply at their next use; they do not restart in-flight runs
 or recreate provisioned workers. Approval expiry changes affect newly issued
@@ -199,9 +194,8 @@ Browser-origin and node-reapproval budgets remain nonexempt.
 
 Discovery mode changes replace the current advertisements without interrupting
 Gateway connections. Switching from `full` to `minimal` removes extra TXT hints
-from LAN advertisements and any configured wide-area DNS-SD zone. `off` stops
-LAN advertisements while configured wide-area discovery remains enabled. The
-Bonjour plugin must already be enabled, and environment overrides still apply.
+from LAN advertisements and any configured wide-area DNS-SD zone. Environment
+overrides still apply.
 
 The Gateway accepts its configured secret whether the client sends it as a token or a password; `gateway.auth.mode` still decides which config value is the secret.
 

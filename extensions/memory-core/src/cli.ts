@@ -1,11 +1,7 @@
 // Memory Core plugin module implements cli behavior.
 import type { Command } from "commander";
 import { createLazyRuntimeModule } from "openclaw/plugin-sdk/lazy-runtime";
-import {
-  formatDocsLink,
-  formatHelpExamples,
-  theme,
-} from "openclaw/plugin-sdk/memory-core-host-runtime-cli";
+import { formatHelpExamples, theme } from "openclaw/plugin-sdk/memory-core-host-runtime-cli";
 import {
   parseStrictNonNegativeInteger,
   parseStrictPositiveInteger,
@@ -128,7 +124,7 @@ export function registerMemoryCli(program: Command, hostOptions?: MemoryCoreRunt
             "Preview trusted candidates from retained session history.",
           ],
           ["openclaw memory status --json", "Output machine-readable JSON (good for scripts)."],
-        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.openclaw.ai/cli/memory")}\n`,
+        ])}\n`,
     );
 
   memory

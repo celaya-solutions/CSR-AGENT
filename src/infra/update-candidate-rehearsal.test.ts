@@ -3,27 +3,15 @@ import path from "node:path";
 import { afterEach, expect, it } from "vitest";
 import { useAutoCleanupTempDirTracker } from "../../test/helpers/temp-dir.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { exitCodeFromFindings, runDoctorLintChecks } from "../flows/doctor-lint-flow.js";
-import type { HealthCheck } from "../flows/health-checks.js";
-import { loadBundledPluginFacade } from "../test-utils/bundled-plugin-public-surface.js";
 import { prepareUpdateCandidateRehearsal } from "./update-candidate-rehearsal.js";
 
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
-const { registerPolicyDoctorChecks } = await loadBundledPluginFacade<{
-  registerPolicyDoctorChecks: (host: { registerHealthCheck: (check: HealthCheck) => void }) => void;
-}>({ pluginId: "policy", artifactBasename: "api.ts" });
 
 it.each(["token", "password"] as const)(
-  "preserves policy rate limits while isolating %s authentication",
+  "preserves gateway rate limits while isolating %s authentication",
   async (mode) => {
-    const root = tempDirs.make("candidate-policy-");
-    const policyPath = path.join(root, "policy.jsonc");
-    await fs.writeFile(
-      policyPath,
-      JSON.stringify({ gateway: { auth: { requireAuth: true, requireExplicitRateLimit: true } } }),
-    );
+    const root = tempDirs.make("candidate-rate-limit-");
     const config: OpenClawConfig = {
-      plugins: { entries: { policy: { enabled: true, config: { path: policyPath } } } },
       gateway: {
         bind: "lan",
         port: 18789,
@@ -43,15 +31,6 @@ it.each(["token", "password"] as const)(
       },
     };
     const original = structuredClone(config);
-    const checks: HealthCheck[] = [];
-    registerPolicyDoctorChecks({ registerHealthCheck: (check) => checks.push(check) });
-    const lint = (cfg: OpenClawConfig, configPath: string) =>
-      runDoctorLintChecks(
-        { mode: "lint", cfg, configPath, cwd: root, runtime: { log() {}, error() {}, exit() {} } },
-        { checks },
-      );
-    expect((await lint(config, path.join(root, "openclaw.json"))).findings).toEqual([]);
-
     const rehearsal = await prepareUpdateCandidateRehearsal({
       config,
       stateDir: path.join(root, "source"),
@@ -63,9 +42,6 @@ it.each(["token", "password"] as const)(
     });
     try {
       const copied: OpenClawConfig = JSON.parse(await fs.readFile(rehearsal.configPath, "utf8"));
-      const result = await lint(copied, rehearsal.configPath);
-      expect(result.findings).toEqual([]);
-      expect(exitCodeFromFindings(result.findings)).toBe(0);
       expect(copied.gateway).toMatchObject({
         bind: "loopback",
         port: rehearsal.port,

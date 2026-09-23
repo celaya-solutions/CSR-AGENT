@@ -113,7 +113,7 @@ Controls inline attachment support for `sessions_spawn`.
     defaults: {
       subagents: {
         allowAgents: ["research"],
-        model: "minimax/MiniMax-M2.7",
+        model: "openai/gpt-5.4-mini",
         maxConcurrent: 8,
         runTimeoutSeconds: 900,
         announceTimeoutMs: 120000,

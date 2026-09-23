@@ -1,7 +1,0 @@
-<resources>
-    <string-array name="ask_openclaw_query_patterns">
-        <item>ask OpenAgent $prompt</item>
-        <item>tell OpenAgent to $prompt</item>
-        <item>open OpenAgent and ask $prompt</item>
-    </string-array>
-</resources>

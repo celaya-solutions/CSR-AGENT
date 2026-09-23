@@ -333,7 +333,7 @@ export function renderPluginInstallWizard(props: PluginInstallWizardProps): Temp
             <h2>${catalog.name}</h2>
             ${official ? renderPluginOfficialBadge() : nothing}
           </div>
-          ${renderPluginAuthor(author, { linked: true })}
+          ${renderPluginAuthor(author)}
         </div>
         ${
           !isWorking

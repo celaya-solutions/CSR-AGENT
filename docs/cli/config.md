@@ -41,7 +41,7 @@ as needed. Runtime state still needs a writable `OPENCLAW_STATE_DIR`.
 `OPENCLAW_CONFIG_READONLY=1` uses generic externally managed config messages and
 does not enable Nix-specific installation or service behavior. `OPENCLAW_NIX_MODE=1`
 continues to imply immutable config, even if `OPENCLAW_CONFIG_READONLY` is unset or
-`0`. For Nix installs, edit the Nix source instead; see [Nix](/install/nix).
+`0`. For Nix installs, edit the Nix source instead; see Nix.
 
 ## Root options
 
@@ -295,7 +295,7 @@ expectation check and the final file replacement.
 </Tabs>
 
 <Warning>
-SecretRef assignments are rejected on unsupported runtime-mutable surfaces (for example `hooks.token`, Discord thread-binding webhook tokens, and WhatsApp creds JSON). See [SecretRef Credential Surface](/reference/secretref-credential-surface).
+SecretRef assignments are rejected on unsupported runtime-mutable surfaces (for example `hooks.token`, and Discord thread-binding webhook tokens). See [SecretRef Credential Surface](/reference/secretref-credential-surface).
 </Warning>
 
 Batch parsing always uses the batch payload (`--batch-json`/`--batch-file`) as the source of truth; `--strict-json` / `--json` do not change batch parsing behavior.

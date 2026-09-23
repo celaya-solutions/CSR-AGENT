@@ -565,7 +565,7 @@ describe("gateway source replacement across reconnect with a reused client", () 
 
   it("hydrates linked skill verdicts without reloading accepted route data", async () => {
     const verdict = {
-      registry: "https://clawhub.ai",
+      registry: "https://registry.example.test",
       ok: true,
       decision: "pass",
       reasons: [],
@@ -591,7 +591,7 @@ describe("gateway source replacement across reconnect with a reused client", () 
           clawhub: {
             status: "linked",
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "agentreceipt",
             installedVersion: "1.2.3",
             installedAt: 123,
@@ -628,7 +628,7 @@ describe("gateway source replacement across reconnect with a reused client", () 
     expect(
       page.clawhubVerdicts[
         clawhubVerdictKey({
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           slug: "agentreceipt",
           version: "1.2.3",
         })
@@ -656,7 +656,7 @@ describe("gateway source replacement across reconnect with a reused client", () 
           clawhub: {
             status: "linked",
             valid: true,
-            registry: "https://clawhub.ai",
+            registry: "https://registry.example.test",
             slug: "agentreceipt",
             installedVersion: "1.2.3",
             installedAt: 123,
@@ -690,7 +690,7 @@ describe("gateway source replacement across reconnect with a reused client", () 
       schema: "openclaw.skills.security-verdicts.v1",
       items: [
         {
-          registry: "https://clawhub.ai",
+          registry: "https://registry.example.test",
           ok: true,
           decision: "pass",
           requestedSlug: "agentreceipt",

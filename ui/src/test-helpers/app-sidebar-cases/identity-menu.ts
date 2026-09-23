@@ -149,9 +149,7 @@ describe("AppSidebar footer identity menu", () => {
       "command:settings",
       "command:usage",
       "command:pair-mobile",
-      "command:apps",
       "command:debug-overlay",
-      "command:help",
     ]);
     const footerName = identity?.querySelector(".sidebar-identity-card__name");
     const menuName = menu?.querySelector(".sidebar-identity-menu__name");
@@ -188,23 +186,12 @@ describe("AppSidebar footer identity menu", () => {
     ).toBe("identity");
     expect(menu?.querySelector("openclaw-theme-mode-toggle")).not.toBeNull();
     expect(menu?.textContent).not.toContain("Recent activity");
-    expect(menu?.querySelectorAll(':scope > [role="separator"]')).toHaveLength(4);
+    expect(menu?.querySelectorAll(':scope > [role="separator"]')).toHaveLength(3);
     expect(identity?.querySelector(".sidebar-identity-card__more")).toBeNull();
     expect(identity?.querySelector(".sidebar-identity-card__chevron")).toBeNull();
 
-    const helpRow = menu?.querySelector<HTMLElement>(".sidebar-identity-menu__help");
-    await (helpRow as (HTMLElement & { updateComplete?: Promise<unknown> }) | null)?.updateComplete;
-    expect(helpRow?.getAttribute("aria-haspopup")).toBe("menu");
-    expect(
-      [...(helpRow?.querySelectorAll('wa-dropdown-item[slot="submenu"] a[href]') ?? [])].map(
-        (link) => link.getAttribute("href"),
-      ),
-    ).toEqual([
-      "https://docs.openclaw.ai",
-      "https://docs.openclaw.ai/help",
-      "https://discord.gg/clawd",
-      "https://docs.openclaw.ai/releases",
-    ]);
+    expect(menu?.querySelector(".sidebar-identity-menu__help")).toBeNull();
+    expect(menu?.querySelector("a[href^='http']")).toBeNull();
 
     menu?.querySelector<HTMLElement>('wa-dropdown-item[value="command:profile"]')?.focus();
     menu?.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));

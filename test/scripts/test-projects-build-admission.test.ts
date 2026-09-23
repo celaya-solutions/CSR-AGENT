@@ -32,9 +32,10 @@ vi.mock("../../scripts/lib/vitest-shard-timings.mts", async (importOriginal) => 
 }));
 
 const modelTarget = "src/agents/embedded-agent-runner/model-resolution-consistency.test.ts";
-const targets = [modelTarget, "extensions/qa-lab/src/suite-process-lifecycle.test.ts"];
+// Telegram sticker selection is the extension-lane runtime consumer (see vitest-build-prerequisites).
+const targets = [modelTarget, "extensions/telegram/src/sticker-cache.selection.test.ts"];
 const lifecycle = targets[1]!;
-const ordinaryQa = "extensions/qa-lab/src/gateway-child.test.ts";
+const ordinaryTelegram = "extensions/telegram/src/bot.test.ts";
 const patternFiles = createPatternFileHelper("plugin-build-selection-");
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 const e2eTarget = "test/openclaw-launcher-version.e2e.test.ts";
@@ -81,7 +82,7 @@ afterEach(() => {
 describe("CLI runtime admission", () => {
   const posixIt = process.platform === "win32" ? it.skip : it;
   posixIt.each<[name: string, args: string[]]>([
-    ["ordinary target", [ordinaryQa]],
+    ["ordinary target", [ordinaryTelegram]],
     ["ordinary CLI config", ["--config", "test/vitest/vitest.cli.config.ts"]],
     [
       "ordinary CLI selection",
@@ -117,7 +118,7 @@ describe("CLI runtime admission", () => {
       [
         "--config",
         "vitest.config.ts",
-        "suite-process-lifecycle",
+        "sticker-cache.selection",
         "--exclude",
         lifecycle.replace("extensions/", ""),
       ],
@@ -126,7 +127,7 @@ describe("CLI runtime admission", () => {
     ["absolute exclusion", ["--exclude", path.resolve(lifecycle)]],
     ["alternate root", ["--root", "."]],
     ["alternate directory", ["--dir=extensions"]],
-    ["project override", ["--project", "extension-qa"]],
+    ["project override", ["--project", "extension-telegram"]],
     ["custom config", ["--config", "custom.config.ts"]],
     ["list command", ["list"]],
     ["help", ["--help"]],
@@ -151,7 +152,7 @@ syncFixtureBuiltinExports();\n`,
     );
     const configArgs = args.includes("--config")
       ? []
-      : ["--config", "test/vitest/vitest.extension-qa.config.ts"];
+      : ["--config", "test/vitest/vitest.extension-telegram.config.ts"];
     const child = spawn(
       process.execPath,
       ["--import", preload, "scripts/run-vitest.mts", ...configArgs, ...args],
@@ -165,35 +166,42 @@ syncFixtureBuiltinExports();\n`,
       }
     }
   });
+  // Telegram splits broad runs into one process per file; a suite-wide option keeps
+  // the whole-root selection in one stubbed reader so each row stays bounded.
   posixIt.each([
-    ["single", "scripts/test-extension.mts", []],
-    ["batch", "scripts/test-extension-batch.mts", ["qa-lab,firecrawl"]],
+    ["single", "scripts/test-extension.mts", ["--bail=1"]],
+    ["batch", "scripts/test-extension-batch.mts", ["telegram,duckduckgo", "--bail=1"]],
     [
       "direct",
       "scripts/run-vitest.mts",
-      ["run", "--config", "test/vitest/vitest.extension-qa.config.ts"],
+      ["run", "--config", "test/vitest/vitest.extension-telegram.config.ts"],
     ],
     [
       "direct watch",
       "scripts/run-vitest.mts",
-      ["watch", "--config=test/vitest/vitest.extension-qa.config.ts"],
+      ["watch", "--config=test/vitest/vitest.extension-telegram.config.ts"],
     ],
     [
       "config short control",
       "scripts/run-vitest.mts",
-      ["run", "-c", "test/vitest/vitest.extension-qa.config.ts"],
+      ["run", "-c", "test/vitest/vitest.extension-telegram.config.ts"],
     ],
     [
       "config empty long",
       "scripts/run-vitest.mts",
-      ["run", "--config=", "test/vitest/vitest.extension-qa.config.ts"],
+      ["run", "--config=", "test/vitest/vitest.extension-telegram.config.ts"],
     ],
     [
       "config empty short",
       "scripts/run-vitest.mts",
-      ["run", "-c=", "test/vitest/vitest.extension-qa.config.ts"],
+      ["run", "-c=", "test/vitest/vitest.extension-telegram.config.ts"],
     ],
-    ["root config", "scripts/run-vitest.mts", ["run", "--config", "vitest.config.ts"]],
+    [
+      "root config",
+      "scripts/run-vitest.mts",
+      ["run", "--config", "vitest.config.ts"],
+      "private-qa",
+    ],
     [
       "CLI process",
       "scripts/run-vitest.mts",
@@ -213,13 +221,24 @@ syncFixtureBuiltinExports();\n`,
       "runtime",
     ],
     [
-      "Codex delivery QA runtime",
+      "tooling runtime",
       "scripts/run-vitest.mts",
       [
         "run",
         "--config",
         "test/vitest/vitest.tooling.config.ts",
-        "test/e2e/qa-lab/runtime/gateway-codex-delivery-cache.test.ts",
+        "test/plugin-npm-runtime-build.test.ts",
+      ],
+      "runtime",
+    ],
+    [
+      "channel shape private-QA",
+      "scripts/run-vitest.mts",
+      [
+        "run",
+        "--config",
+        "test/vitest/vitest.contracts-channel-registry.config.ts",
+        "src/channels/plugins/contracts/plugin-shape.contract.test.ts",
       ],
       "private-qa",
     ],
@@ -272,17 +291,6 @@ syncFixtureBuiltinExports();\n`,
       "runtime",
     ],
     [
-      "Gateway active memory",
-      "scripts/run-vitest.mts",
-      [
-        "run",
-        "--config",
-        "test/vitest/vitest.gateway-core.config.ts",
-        "gateway-active-memory.test.ts",
-      ],
-      "runtime",
-    ],
-    [
       "Windows cron process identity",
       "scripts/run-vitest.mts",
       [
@@ -300,7 +308,7 @@ syncFixtureBuiltinExports();\n`,
     ],
   ] as const)(
     "blocks %s CLI readers until successful build and preserves SIGTERM",
-    async (_name, script, args, mode: "private-qa" | "runtime" = "private-qa") => {
+    async (_name, script, args, mode: "private-qa" | "runtime" = "runtime") => {
       const outcomes = [0, 7, "SIGTERM"] as const;
       // Rows share hooks and module state; only their independent process trees overlap.
       const results = await Promise.allSettled(
@@ -342,7 +350,7 @@ syncFixtureBuiltinExports();\n`,
               process.execPath,
               ["--import", preload, path.resolve(script), ...args],
               {
-                cwd: _name === "single" ? path.resolve("extensions/qa-lab") : process.cwd(),
+                cwd: _name === "single" ? path.resolve("extensions/telegram") : process.cwd(),
                 env: { ...process.env, OPENCLAW_EXTENSION_BATCH_PARALLEL: "2" },
                 stdio: ["pipe", "pipe", "pipe"],
               },
@@ -771,8 +779,7 @@ function createPreparationGate<T>(prepare: typeof commands.prepare) {
 describe("test-projects build admission", () => {
   const toolingConfig = "test/vitest/vitest.tooling.config.ts";
   const ordinaryTooling = "test/scripts/run-vitest-state-cleanup.test.ts";
-  const runtimeTooling = "test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts";
-  const privateQaTooling = "test/e2e/qa-lab/runtime/gateway-codex-delivery-cache.test.ts";
+  const runtimeTooling = "test/plugin-npm-runtime-build.test.ts";
 
   it.each([
     {
@@ -785,12 +792,6 @@ describe("test-projects build admission", () => {
       name: "borrowed runtime tooling",
       args: [toolingConfig],
       include: [runtimeTooling],
-      build: true,
-    },
-    {
-      name: "borrowed private-QA tooling",
-      args: [toolingConfig],
-      include: [privateQaTooling],
       build: true,
     },
     { name: "borrowed empty selection", args: [toolingConfig], include: [], build: false },
@@ -915,7 +916,7 @@ describe("test-projects build admission", () => {
         expect(commands.prepare).toHaveBeenCalledExactlyOnceWith(
           expect.objectContaining({
             args: ["scripts/run-node.mjs", "--version"],
-            env: expect.objectContaining({ OPENCLAW_BUILD_PRIVATE_QA: "1" }),
+            env: expect.objectContaining({ OPENCLAW_BUILD_PRIVATE_QA: "" }),
           }),
         );
         preparation.resolve(0);
@@ -948,7 +949,6 @@ describe("test-projects build admission", () => {
   it.each([
     modelTarget,
     "extensions/browser/src/browser/extension-install.test.ts",
-    "test/e2e/qa-lab/runtime/package-openclaw-for-docker.e2e.test.ts",
     "packages/sdk/src/app-sdk-external-boundary.e2e.test.ts",
   ])("starts %s without runtime preparation", async (target) => {
     await start([target]);
@@ -1006,7 +1006,7 @@ describe("test-projects build admission", () => {
         vi.stubEnv(key, "1");
       }
       commands.prepare.mockResolvedValue(0);
-      await start(["test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts"]);
+      await start(["test/plugin-npm-runtime-build.test.ts"]);
       await terminal.promise;
       expect(commands.prepare).toHaveBeenCalledExactlyOnceWith(
         expect.objectContaining({
@@ -1018,7 +1018,7 @@ describe("test-projects build admission", () => {
     },
   );
 
-  it("coalesces mixed package, E2E and private QA preparation before marking only E2E prebuilt", async () => {
+  it("coalesces mixed package, E2E and runtime preparation before marking only E2E prebuilt", async () => {
     vi.stubEnv("OPENCLAW_TEST_PROJECTS_PARALLEL", "2");
     const preparation = createPreparationGate<NodeJS.ProcessEnv>(commands.prepareE2e);
     await start([...targets, e2eTarget, "packages/sdk/src/app-sdk-external-boundary.e2e.test.ts"]);
@@ -1076,7 +1076,9 @@ describe("plugin batch build admission", () => {
       const { resolveExtensionBatchPlan, createExtensionTestProcessTargetChunks } =
         await import("../../scripts/lib/extension-test-plan.mts");
       const { runExtensionBatchPlan } = await import("../../scripts/test-extension-batch.mts");
-      const batch = resolveExtensionBatchPlan({ extensionIds: ["qa-lab", "matrix", "firecrawl"] });
+      const batch = resolveExtensionBatchPlan({
+        extensionIds: ["telegram", "discord", "duckduckgo"],
+      });
       const preparation = createPreparationGate<number>(commands.prepare);
       const reader = vi.fn().mockResolvedValue(0);
       const running = runExtensionBatchPlan(batch, {
@@ -1089,7 +1091,7 @@ describe("plugin batch build admission", () => {
         expect(commands.prepare).toHaveBeenCalledExactlyOnceWith(
           expect.objectContaining({
             args: ["scripts/run-node.mjs", "--version"],
-            env: expect.objectContaining({ OPENCLAW_BUILD_PRIVATE_QA: "1" }),
+            env: expect.not.objectContaining({ OPENCLAW_BUILD_PRIVATE_QA: "1" }),
           }),
         );
       } finally {
@@ -1119,7 +1121,7 @@ describe("plugin batch build admission", () => {
     });
     const reader = vi.fn().mockResolvedValue(0);
     const running = runExtensionBatchPlan(
-      resolveExtensionBatchPlan({ extensionIds: ["qa-lab", "matrix"] }),
+      resolveExtensionBatchPlan({ extensionIds: ["telegram", "discord"] }),
       {
         runGroup: reader,
         env: { OPENCLAW_EXTENSION_BATCH_PARALLEL: "2" },
@@ -1135,10 +1137,9 @@ describe("plugin batch build admission", () => {
   });
 
   it.each([
-    { name: "full QA", ids: ["qa-lab"], build: true },
-    { name: "shared config, channel only", ids: ["qa-channel"], build: false },
-    { name: "unrelated plugin", ids: ["firecrawl"], build: false },
-    { name: "ordinary QA file", args: [ordinaryQa], build: false },
+    { name: "full Telegram", ids: ["telegram"], build: true },
+    { name: "unrelated plugin", ids: ["duckduckgo"], build: false },
+    { name: "ordinary Telegram file", args: [ordinaryTelegram], build: false },
     { name: "lifecycle file", args: [lifecycle], build: true },
     { name: "absolute lifecycle", args: [path.resolve(lifecycle)], build: true },
     { name: "exact exclusion", args: ["--exclude", lifecycle], build: false },
@@ -1151,12 +1152,12 @@ describe("plugin batch build admission", () => {
     { name: "absolute exclusion", args: ["--exclude", path.resolve(lifecycle)], build: false },
     {
       name: "glob exclusion",
-      args: ["--exclude", "extensions/qa-lab/**/suite-process-*.test.ts"],
+      args: ["--exclude", "extensions/telegram/**/sticker-cache.selection*.test.ts"],
       build: false,
     },
-    { name: "all QA excluded", args: ["--exclude=extensions/qa-lab/**"], build: false },
+    { name: "all Telegram excluded", args: ["--exclude=extensions/telegram/**"], build: false },
     { name: "empty include", include: [], build: false },
-    { name: "unrelated include", include: [ordinaryQa], build: false },
+    { name: "unrelated include", include: [ordinaryTelegram], build: false },
     { name: "lifecycle include", include: [lifecycle], build: true },
     { name: "absolute lifecycle include", include: [path.resolve(lifecycle)], build: true },
     {
@@ -1166,38 +1167,25 @@ describe("plugin batch build admission", () => {
     },
     {
       name: "runtime include outside config directory",
-      include: ["test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts"],
-      args: ["test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts"],
+      include: ["test/plugin-npm-runtime-build.test.ts"],
+      args: ["test/plugin-npm-runtime-build.test.ts"],
       build: false,
-    },
-    {
-      name: "include outside emitted roots",
-      ids: ["qa-channel"],
-      include: [lifecycle],
-      build: false,
-    },
-    {
-      name: "cross-root CLI with include",
-      ids: ["qa-channel"],
-      args: [lifecycle],
-      include: [lifecycle],
-      build: true,
     },
     {
       name: "include outside explicit target",
-      args: [ordinaryQa],
+      args: [ordinaryTelegram],
       include: [lifecycle],
       build: true,
     },
     {
       name: "existing exact-exclude expansion",
-      args: [ordinaryQa, "--exclude", "extensions/codex/src/app-server/run-attempt.test.ts"],
+      args: [ordinaryTelegram, "--exclude", "extensions/codex/src/app-server/run-attempt.test.ts"],
       build: true,
     },
     { name: "no groups", ids: [], build: false },
   ])(
     "prepares the actual invocation selection: $name",
-    async ({ ids = ["qa-lab"], args = [], include, build }) => {
+    async ({ ids = ["telegram"], args = [], include, build }) => {
       const { resolveExtensionBatchPlan } =
         await import("../../scripts/lib/extension-test-plan.mts");
       const { runExtensionBatchPlan } = await import("../../scripts/test-extension-batch.mts");
@@ -1214,7 +1202,8 @@ describe("plugin batch build admission", () => {
         }),
       ).resolves.toBe(0);
       expect(commands.prepare).toHaveBeenCalledTimes(build ? 1 : 0);
-      expect(reader).toHaveBeenCalledTimes(ids.length ? 1 : 0);
+      // Broad Telegram selections split into per-file processes; only presence is stable.
+      expect(reader.mock.calls.length > 0).toBe(ids.length > 0);
     },
   );
 });

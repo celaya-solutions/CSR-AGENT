@@ -452,7 +452,7 @@ openclaw plugins install clawhub:your-org/stock-quotes
 ```
 
 Bare npm package specs install from npm, but ClawHub is the preferred
-discovery and distribution surface for OpenAgent plugins. See [ClawHub publishing](/clawhub/publishing) for owner scope and
+discovery and distribution surface for OpenAgent plugins. See ClawHub publishing for owner scope and
 release review.
 
 ## Troubleshooting
@@ -509,4 +509,3 @@ Check these in order:
 - [Plugin SDK subpaths](/plugins/sdk-subpaths)
 - [Plugin manifest](/plugins/manifest)
 - [Plugins CLI](/cli/plugins)
-- [ClawHub publishing](/clawhub/publishing)

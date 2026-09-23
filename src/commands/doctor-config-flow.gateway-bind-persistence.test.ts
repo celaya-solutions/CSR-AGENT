@@ -58,7 +58,7 @@ describe("Doctor gateway bind persistence", () => {
         const configPath = await writeOpenClawConfig(home, {
           gateway: { mode: "local", ...(scenario === "invalid" ? { port: "invalid" } : {}) },
           diagnostics: scenario === "include" ? { $include: "diagnostics.json" } : diagnostics,
-          plugins: { entries: { canvas: { enabled: true, config: { host: { enabled: false } } } } },
+          plugins: { entries: { browser: { enabled: true } } },
           ...(scenario === "doctor" ? { agents: { defaults: { models: { bare: {} } } } } : {}),
         });
         const includePath = path.join(path.dirname(configPath), "diagnostics.json");
@@ -109,7 +109,7 @@ describe("Doctor gateway bind persistence", () => {
         }
         expect(result.repaired).toBe(true);
         const saved = JSON.parse(await fs.readFile(configPath, "utf8"));
-        expect(Object.keys(saved.plugins.entries)).toEqual(["canvas"]);
+        expect(Object.keys(saved.plugins.entries)).toEqual(["browser"]);
         if (scenario === "doctor") {
           expect(saved.agents.defaults.models).toStrictEqual({ bare: {} });
         }

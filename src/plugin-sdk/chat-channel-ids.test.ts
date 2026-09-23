@@ -18,16 +18,9 @@ describe("plugin-sdk chat-channel-ids", () => {
     expect(missing).toEqual([]);
   });
 
-  it("covers channel labels and aliases used by envelope formatters", () => {
+  it("covers channel ids and labels used by envelope formatters", () => {
     expect(BUNDLED_CHAT_CHANNEL_ENVELOPE_PREFIXES).toEqual(
-      expect.arrayContaining([
-        "googlechat",
-        "Google Chat",
-        "nextcloud-talk",
-        "Nextcloud Talk",
-        "msteams",
-        "teams",
-      ]),
+      expect.arrayContaining(["discord", "telegram"]),
     );
   });
 });

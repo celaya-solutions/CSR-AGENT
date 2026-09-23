@@ -16,8 +16,7 @@ Windows (native or WSL2). On a fresh install, **Quick start** detects available 
 access, waits for you to choose a connection, verifies your choice with a real
 completion, and opens the web dashboard with a foreground Gateway. **Custom setup** preserves the full
 guided flow. `openclaw setup` runs the same flow ([Setup](/cli/setup) covers
-the `--baseline` config-only variant). Windows desktop users can also start
-from [Windows Hub](/platforms/windows).
+the `--baseline` config-only variant).
 
 Guided onboarding verifies your selected connection before starting the Gateway
 and AI chat. Detected connections and supported providers share the same picker;
@@ -49,7 +48,7 @@ To change the model provider or its authentication, exit OpenAgent and run
 `openclaw onboard`; OpenAgent does not open guided or classic provider flows.
 
 <Info>
-On a fresh install, run `npx openclaw@latest` and choose **Quick start** for the
+On a fresh install, run `pnpm openclaw onboard` from your checkout and choose **Quick start** for the
 browser dashboard. Reopen it later with `openclaw dashboard`.
 Docs: [Dashboard](/web/dashboard).
 </Info>
@@ -80,10 +79,8 @@ openclaw agents add <name>
 </Note>
 
 <Tip>
-The classic wizard includes a web search step where you can pick a provider: Brave,
-DuckDuckGo, Exa, Firecrawl, Gemini, Grok, Kimi, MiniMax Search, Ollama Web
-Search, Perplexity, SearXNG, or Tavily. Some need an API key; others are
-key-free. Configure this later with `openclaw configure --section web`, or say
+The classic wizard includes a web search step where you can pick a provider:
+DuckDuckGo or Ollama Web Search. Configure this later with `openclaw configure --section web`, or say
 `configure web search` in the OpenAgent chat to run the same provider setup
 conversationally. Docs: [Web tools](/tools/web).
 </Tip>
@@ -222,7 +219,7 @@ directly instead of showing a menu that could discard the requested import.
     - Tool policy: `tools.profile: "coding"` for new setups (an existing explicit profile is preserved)
     - DM sessions: onboarding preserves an explicit `session.dmScope` and otherwise leaves it unset, so the `"main"` default keeps all direct messages across channels in the agent's rolling main session—the personal-agent default. For shared or multi-user inboxes, use `"per-channel-peer"`; `openclaw security audit` recommends isolation when it detects multi-user DM traffic. Details: [CLI setup reference](/start/wizard-cli-reference#outputs-and-internals)
     - Tailscale exposure **Off**
-    - Telegram and WhatsApp DMs default to **allowlist**: Telegram asks for a numeric Telegram user ID, WhatsApp asks for a phone number
+    - Telegram DMs default to **allowlist**: setup asks for a numeric Telegram user ID
 
   </Tab>
   <Tab title="Manual setup (full control)">
@@ -272,8 +269,7 @@ Local mode (default) walks through these steps:
    plaintext secret storage (default) or opt into a SecretRef. Non-interactive
    token SecretRef path: `--gateway-token-ref-env <ENV_VAR>`.
 4. **Channels** - built-in and official plugin chat channels, including
-   Discord, Feishu, Google Chat, iMessage, Mattermost, Microsoft Teams,
-   QQ Bot, Signal, Slack, Telegram, WhatsApp, and more. When no command owner
+   Discord and Telegram. When no command owner
    exists, completed channel setup offers a separate operator-account step for
    `/update` and other administration. Enter your own user ID and confirm it, or
    skip. This works in servers and groups without DM pairing and does not promote
@@ -308,7 +304,7 @@ run `openclaw doctor` first.
 
 `--flow import` runs a detected migration flow (for example Hermes) in the
 classic wizard instead of fresh setup; see [Migrate](/cli/migrate) and the migration guides under
-[Install](/install/migrating-hermes). `openclaw onboard --modern` is a
+Install. `openclaw onboard --modern` is a
 compatibility alias for [OpenAgent](/cli/openclaw). It uses the same
 inference gate as `openclaw setup`: verified inference starts the
 assistant, while an interactive failure returns to guided inference setup.
@@ -344,5 +340,4 @@ For the full flag reference, see [`openclaw onboard`](/cli/onboard).
 
 - CLI command reference: [`openclaw onboard`](/cli/onboard)
 - Onboarding overview: [Onboarding overview](/start/onboarding-overview)
-- macOS app onboarding: [Onboarding](/start/onboarding)
 - Agent first-run ritual: [Agent Bootstrapping](/start/bootstrapping)

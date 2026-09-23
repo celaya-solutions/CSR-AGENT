@@ -26,13 +26,16 @@ import {
 import { setRemoteModelCatalogOverlaySourcesForTest } from "./remote-overlay.test-support.js";
 
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
+// Hosted pricing applies only when the stored catalog came from the configured URL.
+const CATALOG_URL = "https://catalog.example.test/models/v1/catalog.json";
+const catalogRefresh = { url: CATALOG_URL };
 const readStoredCatalog = vi.fn();
 
 beforeEach(() => {
   clearRuntimeConfigSnapshot();
   resetUsageFormatCachesForTest();
   readStoredCatalog.mockReset().mockReturnValue({
-    source_url: "https://catalog.openclaw.ai/models/v1/catalog.json",
+    source_url: CATALOG_URL,
     bundle_json: JSON.stringify({
       schemaVersion: 1,
       generatedAt: 200,
@@ -105,6 +108,7 @@ afterEach(() => {
 function configFor(baseUrl: string): OpenClawConfig {
   return {
     models: {
+      catalogRefresh,
       providers: {
         openai: {
           baseUrl,
@@ -126,8 +130,8 @@ describe("hosted model pricing", () => {
       maxTokens: 8192,
     };
     const providers = { fixture: { baseUrl: "https://fixture.invalid", models: [model] } };
-    const firstConfig: OpenClawConfig = { models: { providers } };
-    const secondConfig: OpenClawConfig = { models: { providers } };
+    const firstConfig: OpenClawConfig = { models: { catalogRefresh, providers } };
+    const secondConfig: OpenClawConfig = { models: { catalogRefresh, providers } };
     const enumeratePolicies = vi.fn(Reflect.ownKeys);
     const snapshotFor = (canonicalModel: string) =>
       createPluginMetadataSnapshotFixture({
@@ -199,6 +203,7 @@ describe("hosted model pricing", () => {
       };
       const config: OpenClawConfig = {
         models: {
+          catalogRefresh,
           providers: {
             openai: { baseUrl: "https://api.openai.com/v1", models: [] },
             ...(source === "config" ? providers : {}),
@@ -243,6 +248,7 @@ describe("hosted model pricing", () => {
       const agentDir = tempDirs.make("openclaw-exact-pricing-");
       const config: OpenClawConfig = {
         models: {
+          catalogRefresh,
           providers: {
             custom: {
               baseUrl: "https://custom.example/v1",
@@ -284,6 +290,7 @@ describe("hosted model pricing", () => {
     const agentDir = tempDirs.make("openclaw-static-pricing-alias-");
     const config: OpenClawConfig = {
       models: {
+        catalogRefresh,
         providers: {
           [provider]: {
             baseUrl: "https://pricing.example/v1",
@@ -395,21 +402,22 @@ describe("hosted model pricing", () => {
     const agentDir = tempDirs.make("openclaw-native-zero-policy-");
     vi.stubEnv("OPENCLAW_STATE_DIR", agentDir);
     const config: OpenClawConfig = {
-      plugins: { allow: ["venice"], entries: { venice: { enabled: !scenario.disabled } } },
-      ...(scenario.private
-        ? {
-            models: { providers: { venice: { baseUrl: "http://127.0.0.1:8080/v1", models: [] } } },
-          }
-        : {}),
+      plugins: { allow: ["ollama"], entries: { ollama: { enabled: !scenario.disabled } } },
+      models: {
+        catalogRefresh,
+        ...(scenario.private
+          ? { providers: { ollama: { baseUrl: "http://127.0.0.1:8080/v1", models: [] } } }
+          : {}),
+      },
     };
     const snapshot = pluginMetadata.resolvePluginMetadataSnapshot({ config, env: process.env });
     const plugins = [...snapshot.manifestRegistry.plugins];
-    const ownerIndex = plugins.findIndex((plugin) => plugin.id === "venice");
+    const ownerIndex = plugins.findIndex((plugin) => plugin.id === "ollama");
     plugins[ownerIndex] = {
-      ...expectDefined(plugins[ownerIndex], "Venice manifest owner"),
+      ...expectDefined(plugins[ownerIndex], "Ollama manifest owner"),
       modelPricing: normalizeManifestModelPricing(
-        { providers: { venice: scenario.policy } },
-        { ownedProviders: new Set(scenario.unowned ? [] : ["venice"]) },
+        { providers: { ollama: scenario.policy } },
+        { ownedProviders: new Set(scenario.unowned ? [] : ["ollama"]) },
       ),
     };
     vi.spyOn(pluginMetadata, "resolvePluginMetadataSnapshot").mockReturnValue({
@@ -417,14 +425,14 @@ describe("hosted model pricing", () => {
       manifestRegistry: { ...snapshot.manifestRegistry, plugins },
     });
     readStoredCatalog.mockReturnValue({
-      source_url: "https://catalog.openclaw.ai/models/v1/catalog.json",
+      source_url: CATALOG_URL,
       bundle_json: JSON.stringify({
         schemaVersion: 1,
         generatedAt: 200,
         sourceCommit: "native-zero-policy",
-        providers: { venice: { models: [{ id: "zero-fixture", cost: { input: 0, output: 0 } }] } },
+        providers: { ollama: { models: [{ id: "zero-fixture", cost: { input: 0, output: 0 } }] } },
         pricing: {
-          [`${scenario.foreign ? "opencode" : scenario.alias ? "Venice" : "venice"}/zero-fixture`]:
+          [`${scenario.foreign ? "opencode" : scenario.alias ? "Ollama" : "ollama"}/zero-fixture`]:
             { input: 0, output: 0 },
         },
       }),
@@ -432,7 +440,7 @@ describe("hosted model pricing", () => {
     const cost = resolveModelCostConfig({
       config,
       agentDir,
-      provider: "venice",
+      provider: "ollama",
       model: "zero-fixture",
     });
     expect(cost).toEqual(
@@ -557,6 +565,7 @@ describe("hosted model pricing", () => {
       const source = {
         messages: { responseUsage: "full" },
         models: {
+          catalogRefresh,
           providers: {
             openai: {
               baseUrl: "https://api.openai.com/v1",
@@ -661,6 +670,7 @@ describe("hosted model pricing", () => {
       setRuntimeConfigSnapshot(runtime, snapshot === "unpaired" ? undefined : {});
       const config = {
         models: {
+          catalogRefresh,
           providers: {
             openai: {
               baseUrl: "https://api.openai.com/v1",
@@ -698,6 +708,7 @@ describe("hosted model pricing", () => {
     const cost = {} as ModelDefinitionConfig["cost"];
     const config = {
       models: {
+        catalogRefresh,
         providers: {
           openai: {
             baseUrl: "https://api.openai.com/v1",
@@ -734,6 +745,7 @@ describe("hosted model pricing", () => {
     const agentDir = tempDirs.make("openclaw-catalog-pricing-");
     const config = {
       models: {
+        catalogRefresh,
         providers: {
           openai: {
             baseUrl: "https://api.openai.com/v1",
@@ -817,6 +829,7 @@ describe("hosted model pricing", () => {
     const agentDir = tempDirs.make("openclaw-passthrough-pricing-");
     const config = {
       models: {
+        catalogRefresh,
         providers: {
           openrouter: {
             baseUrl: "https://openrouter.ai/api/v1",
@@ -848,6 +861,7 @@ describe("hosted model pricing", () => {
 
     const zaiConfig = {
       models: {
+        catalogRefresh,
         providers: {
           zai: {
             baseUrl: "https://api.z.ai/api/paas/v4",
@@ -868,7 +882,7 @@ describe("hosted model pricing", () => {
 
   it("fingerprints provider overlays without explicit model rows", () => {
     const config = {
-      models: { providers: { openai: { baseUrl: "https://api.openai.com/v1" } } },
+      models: { catalogRefresh, providers: { openai: { baseUrl: "https://api.openai.com/v1" } } },
     } as unknown as OpenClawConfig;
     expect(() => resolveModelCostConfigFingerprint(config)).not.toThrow();
   });
@@ -880,6 +894,7 @@ describe("hosted model pricing", () => {
         entries: { main: {}, other: {} },
       },
       models: {
+        catalogRefresh,
         providers: {
           fixture: {
             baseUrl: "https://fixture.invalid",
@@ -927,7 +942,7 @@ describe("hosted model pricing", () => {
     const bundleJson = JSON.stringify(bundle);
     expect(Buffer.byteLength(bundleJson)).toBeGreaterThan(2 * 1024 * 1024);
     readStoredCatalog.mockReturnValue({
-      source_url: "https://catalog.openclaw.ai/models/v1/catalog.json",
+      source_url: CATALOG_URL,
       bundle_json: bundleJson,
     });
 

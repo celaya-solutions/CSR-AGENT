@@ -32,8 +32,8 @@ Day-to-day operation of stored jobs: copy-ready CLI examples, the management com
       --tz "America/Los_Angeles" \
       --session isolated \
       --announce \
-      --channel slack \
-      --to "channel:C1234567890"
+      --channel discord \
+      --to "channel:123456789012345678"
     ```
   </Tab>
   <Tab title="Model and thinking override">

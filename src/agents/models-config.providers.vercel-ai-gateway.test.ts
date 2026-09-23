@@ -16,20 +16,6 @@ async function loadModules() {
 beforeAll(loadModules);
 
 describe("vercel-ai-gateway provider resolution", () => {
-  it("resolves AI_GATEWAY_API_KEY through provider auth lookup", () => {
-    const resolveAuth = createProviderAuthResolver(
-      {
-        AI_GATEWAY_API_KEY: "vercel-gateway-test-key", // pragma: allowlist secret
-      } as NodeJS.ProcessEnv,
-      { version: 1, profiles: {} },
-    );
-
-    const auth = resolveAuth("vercel-ai-gateway");
-    expect(auth.apiKey).toBe("AI_GATEWAY_API_KEY");
-    expect(auth.mode).toBe("api_key");
-    expect(auth.source).toBe("env");
-  });
-
   it("prefers env keyRef markers over runtime plaintext in auth profiles", () => {
     const resolveAuth = createProviderAuthResolver({} as NodeJS.ProcessEnv, {
       version: 1,

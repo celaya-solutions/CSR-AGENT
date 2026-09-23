@@ -3,9 +3,9 @@ import { detectChangedLanes } from "../../scripts/changed-lanes.mts";
 import { createChangedCheckPlan } from "../../scripts/check-changed.mts";
 
 describe("generated extension asset lint planning", () => {
-  it("still lints extension tests alongside a generated browser asset", () => {
-    const generatedAsset = "extensions/canvas/src/host/a2ui/a2ui.bundle.js";
-    const extensionTest = "extensions/canvas/scripts/bundle-a2ui.test.ts";
+  it("still lints extension tests alongside a generated plugin asset", () => {
+    const generatedAsset = "extensions/discord/assets/embedded-app-sdk.mjs";
+    const extensionTest = "extensions/discord/src/activities/http.test.ts";
     const result = detectChangedLanes([generatedAsset, extensionTest]);
     const plan = createChangedCheckPlan(result, { env: { PATH: "/usr/bin" } });
 
@@ -23,9 +23,9 @@ describe("generated extension asset lint planning", () => {
     ).not.toContain(generatedAsset);
   });
 
-  it("keeps fallback extension lint for a manifest beside a generated browser asset", () => {
-    const generatedAsset = "extensions/canvas/src/host/a2ui/a2ui.bundle.js";
-    const manifest = "extensions/canvas/openclaw.plugin.json";
+  it("keeps fallback extension lint for a manifest beside a generated plugin asset", () => {
+    const generatedAsset = "extensions/discord/assets/embedded-app-sdk.mjs";
+    const manifest = "extensions/discord/openclaw.plugin.json";
     const result = detectChangedLanes([generatedAsset, manifest]);
     const plan = createChangedCheckPlan(result, { env: { PATH: "/usr/bin" } });
 

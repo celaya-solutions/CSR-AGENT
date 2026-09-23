@@ -1,5 +1,6 @@
 /** Top-level doctor command wrapper, including post-upgrade probe mode. */
 import { exitCliAfterOutput } from "../cli/one-shot-exit.js";
+import { SOURCE_REPOSITORY_SLUG } from "../infra/source-repository.js";
 import { LEGACY_IMPLICIT_AGENT_ID, normalizeAgentId } from "../routing/session-key.js";
 import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
 import type { DoctorOptions } from "./doctor-prompter.js";
@@ -182,7 +183,7 @@ async function maybeCreateSessionSqliteGithubIssue(
   if (!approved && options.nonInteractive !== true && options.json !== true) {
     const { promptYesNo } = await import("../cli/prompt.js");
     approved = await promptYesNo(
-      "Create a GitHub issue in openclaw/openclaw with the sanitized recovery report?",
+      `Create a GitHub issue in ${SOURCE_REPOSITORY_SLUG} with the sanitized recovery report?`,
       false,
     );
   }

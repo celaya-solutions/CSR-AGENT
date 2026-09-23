@@ -46,7 +46,7 @@ import { extensionCatchAllExcludedTestRoots } from "../vitest/vitest.extensions.
 
 const scriptPath = path.join(process.cwd(), "scripts", "test-extension.mts");
 const posixIt = process.platform === "win32" ? it.skip : it;
-const MATRIX_TEST_PROCESS_FILE_LIMIT = 40;
+const CODEX_TEST_PROCESS_FILE_LIMIT = 12;
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 
 type RunGroupParams = VitestBatchRunParams;
@@ -107,9 +107,9 @@ function listExtensionTestFiles(extensionId: string): string[] {
   return listExtensionTestFilesForRoots([bundledPluginRoot(extensionId)]);
 }
 
-function expectedMatrixTestProcessCount() {
-  const testFileCount = listExtensionTestFilesForRoots([bundledPluginRoot("matrix")]).length;
-  return Math.max(1, Math.ceil(testFileCount / MATRIX_TEST_PROCESS_FILE_LIMIT));
+function expectedCodexTestProcessCount() {
+  const testFileCount = listExtensionTestFilesForRoots([bundledPluginRoot("codex")]).length;
+  return Math.max(1, Math.ceil(testFileCount / CODEX_TEST_PROCESS_FILE_LIMIT));
 }
 
 function expectPositiveIntegerMetric(value: number) {
@@ -140,27 +140,20 @@ describe("scripts/test-extension.mts", () => {
   );
 
   it("resolves split channel extensions onto their own vitest configs", () => {
-    const plan = resolveExtensionTestPlan({ targetArg: "slack", cwd: process.cwd() });
+    const plan = resolveExtensionTestPlan({ targetArg: "telegram", cwd: process.cwd() });
 
-    expect(plan.extensionId).toBe("slack");
-    expect(plan.extensionDir).toBe(bundledPluginRoot("slack"));
-    expect(plan.config).toBe("test/vitest/vitest.extension-slack.config.ts");
-    expect(plan.roots).toContain(bundledPluginRoot("slack"));
+    expect(plan.extensionId).toBe("telegram");
+    expect(plan.extensionDir).toBe(bundledPluginRoot("telegram"));
+    expect(plan.config).toBe("test/vitest/vitest.extension-telegram.config.ts");
+    expect(plan.roots).toContain(bundledPluginRoot("telegram"));
     expect(plan.hasTests).toBe(true);
   });
 
   it.each([
     { extensionId: "acpx" },
-    { extensionId: "diffs" },
-    { extensionId: "feishu" },
-    { extensionId: "matrix" },
+    { extensionId: "browser" },
+    { extensionId: "discord" },
     { extensionId: "telegram" },
-    { extensionId: "whatsapp" },
-    { extensionId: "voice-call" },
-    { extensionId: "mattermost" },
-    { extensionId: "irc" },
-    { extensionId: "zalo" },
-    { extensionId: "msteams" },
     { extensionId: "codex" },
   ])("resolves $extensionId onto the $extensionId vitest config", ({ extensionId }) => {
     const plan = resolveExtensionTestPlan({ targetArg: extensionId, cwd: process.cwd() });
@@ -180,39 +173,12 @@ describe("scripts/test-extension.mts", () => {
     expect(plan.hasTests).toBe(true);
   });
 
-  it("splits the iMessage batch between persistence and channel owners without double counting", () => {
-    const batch = resolveExtensionBatchPlan({ extensionIds: ["imessage"] });
-    const files = listExtensionTestFilesForRoots(["extensions/imessage"]);
-    expect(batch.extensionIds).toEqual(["imessage"]);
-    expect(batch.testFileCount).toBe(files.length);
-    expect(batch.planGroups).toEqual([
-      expect.objectContaining({
-        config: "test/vitest/vitest.extension-database-workers.config.ts",
-        roots: ["extensions/imessage/src/approval-reactions.persistence.test.ts"],
-        extensionIds: ["imessage"],
-        testFileCount: 1,
-      }),
-      expect.objectContaining({
-        config: "test/vitest/vitest.extension-imessage.config.ts",
-        roots: ["extensions/imessage"],
-        extensionIds: ["imessage"],
-        testFileCount: files.length - 1,
-      }),
-    ]);
-    expect(listExtensionTestFilesForRoots(batch.planGroups[0]!.roots)).toEqual([
-      "extensions/imessage/src/approval-reactions.persistence.test.ts",
-    ]);
-    const shards = createExtensionTestShards({ extensionIds: ["imessage"], shardCount: 2 });
-    expect(shards).toHaveLength(1);
-    expect(shards[0]?.planGroups).toEqual(batch.planGroups);
-  });
-
   it.each([
     {
-      name: "Matrix",
-      config: "test/vitest/vitest.extension-matrix.config.ts",
-      root: "matrix",
-      limit: 40,
+      name: "Codex",
+      config: "test/vitest/vitest.extension-codex.config.ts",
+      root: "codex",
+      limit: 12,
     },
     {
       name: "Telegram",
@@ -234,20 +200,14 @@ describe("scripts/test-extension.mts", () => {
     expect(new Set(chunks.flat()).size).toBe(expectedFiles.length);
   });
 
-  it("excludes plugin browser tests from the server-side extension inventory", () => {
-    const files = listExtensionTestFilesForRoots([bundledPluginRoot("workboard")]);
-    expect(files.length).toBeGreaterThan(0);
-    expect(files.some((file) => file.includes("/browser/"))).toBe(false);
-  });
-
-  it("includes newly authored Matrix tests in bounded process targets", () => {
+  it("includes newly authored Codex tests in bounded process targets", () => {
     const root = mkdtempSync(path.join(tmpdir(), "openclaw-extension-test-plan-"));
     const relativeRoot = path.relative(process.cwd(), root);
     const testFile = path.join(root, "newly-authored.test.ts");
     writeFileSync(testFile, "export {};\n");
     try {
       const chunks = createExtensionTestProcessTargetChunks(
-        "test/vitest/vitest.extension-matrix.config.ts",
+        "test/vitest/vitest.extension-codex.config.ts",
         [relativeRoot],
       );
 
@@ -289,15 +249,15 @@ describe("scripts/test-extension.mts", () => {
     ["missing exclude value", ["--exclude"]],
     ["bail", ["--bail=2"]],
     ["changed", ["--changed=origin/main"]],
-    ["exclude", ["--exclude=extensions/matrix/src/**"]],
-    ["one-or-more extglob exclude", ["--exclude=extensions/matrix/src/+(a).test.ts"]],
-    ["exactly-one extglob exclude", ["--exclude=extensions/matrix/src/@(a).test.ts"]],
-  ])("keeps Matrix %s runs in one process", (_name, vitestArgs) => {
-    const root = bundledPluginRoot("matrix");
+    ["exclude", ["--exclude=extensions/codex/src/**"]],
+    ["one-or-more extglob exclude", ["--exclude=extensions/codex/src/+(a).test.ts"]],
+    ["exactly-one extglob exclude", ["--exclude=extensions/codex/src/@(a).test.ts"]],
+  ])("keeps Codex %s runs in one process", (_name, vitestArgs) => {
+    const root = bundledPluginRoot("codex");
 
     expect(
       createExtensionTestProcessTargetChunks(
-        "test/vitest/vitest.extension-matrix.config.ts",
+        "test/vitest/vitest.extension-codex.config.ts",
         [root],
         vitestArgs,
       ),
@@ -317,43 +277,40 @@ describe("scripts/test-extension.mts", () => {
     expect(resolveExtensionTestPlan({ targetArg: "browser", cwd: process.cwd() }).config).toBe(
       "test/vitest/vitest.extension-browser.config.ts",
     );
-    expect(resolveExtensionTestPlan({ targetArg: "qa-lab", cwd: process.cwd() }).config).toBe(
-      "test/vitest/vitest.extension-qa.config.ts",
-    );
-    expect(resolveExtensionTestPlan({ targetArg: "vydra", cwd: process.cwd() }).config).toBe(
-      "test/vitest/vitest.extension-media.config.ts",
-    );
-    expect(resolveExtensionTestPlan({ targetArg: "firecrawl", cwd: process.cwd() }).config).toBe(
+    expect(
+      resolveExtensionTestPlan({ targetArg: "image-generation-core", cwd: process.cwd() }).config,
+    ).toBe("test/vitest/vitest.extension-media.config.ts");
+    expect(resolveExtensionTestPlan({ targetArg: "duckduckgo", cwd: process.cwd() }).config).toBe(
       "test/vitest/vitest.extension-misc.config.ts",
     );
   });
 
   it("omits src/<extension> when no paired core root exists", () => {
-    const plan = resolveExtensionTestPlan({ targetArg: "line", cwd: process.cwd() });
+    const plan = resolveExtensionTestPlan({ targetArg: "telegram", cwd: process.cwd() });
 
-    expect(plan.roots).toContain(bundledPluginRoot("line"));
-    expect(plan.roots).not.toContain("src/line");
-    expect(plan.config).toBe("test/vitest/vitest.extension-line.config.ts");
+    expect(plan.roots).toContain(bundledPluginRoot("telegram"));
+    expect(plan.roots).not.toContain("src/telegram");
+    expect(plan.config).toBe("test/vitest/vitest.extension-telegram.config.ts");
     expect(plan.hasTests).toBe(true);
   });
 
   it("infers the extension from the current working directory", () => {
-    const cwd = path.join(process.cwd(), "extensions", "slack");
+    const cwd = path.join(process.cwd(), "extensions", "telegram");
     const plan = resolveExtensionTestPlan({ cwd });
 
-    expect(plan.extensionId).toBe("slack");
-    expect(plan.extensionDir).toBe(bundledPluginRoot("slack"));
+    expect(plan.extensionId).toBe("telegram");
+    expect(plan.extensionDir).toBe(bundledPluginRoot("telegram"));
   });
 
   it("maps changed paths back to extension ids", () => {
     const extensionIds = detectChangedExtensionIds([
-      bundledPluginFile("slack", "src/channel.ts"),
-      "src/line/message.test.ts",
-      bundledPluginFile("firecrawl", "package.json"),
+      bundledPluginFile("telegram", "src/channel.ts"),
+      "src/discord/message.test.ts",
+      bundledPluginFile("duckduckgo", "package.json"),
       "src/not-a-plugin/file.ts",
     ]);
 
-    expect(extensionIds).toEqual(["firecrawl", "line", "slack"]);
+    expect(extensionIds).toEqual(["discord", "duckduckgo", "telegram"]);
   });
 
   it("does not normalize extension path lookalikes", () => {
@@ -369,8 +326,8 @@ describe("scripts/test-extension.mts", () => {
   it("lists available extension ids", () => {
     const extensionIds = listAvailableExtensionIds();
 
-    expect(extensionIds).toContain("slack");
-    expect(extensionIds).toContain("firecrawl");
+    expect(extensionIds).toContain("telegram");
+    expect(extensionIds).toContain("duckduckgo");
     expect(extensionIds).toEqual(
       [...extensionIds].toSorted((left, right) => left.localeCompare(right)),
     );
@@ -385,13 +342,13 @@ describe("scripts/test-extension.mts", () => {
         await import("./scripts/lib/changed-extensions.mts");
       const ids = listAvailableExtensionIds();
       const changed = detectChangedExtensionIds([
-        "extensions/slack/src/channel.ts",
-        "src/line/message.test.ts",
+        "extensions/telegram/src/channel.ts",
+        "src/discord/message.test.ts",
         "extensions/not-real/package.json",
       ]);
       return { changed, ids: ids.length };
     `);
-    expect(payload.changed).toEqual(["line", "slack"]);
+    expect(payload.changed).toEqual(["discord", "telegram"]);
     expect(payload.ids).toBeGreaterThan(0);
   });
 
@@ -417,57 +374,38 @@ describe("scripts/test-extension.mts", () => {
     const batch = resolveExtensionBatchPlan({
       cwd: process.cwd(),
       extensionIds: [
-        "slack",
-        "firecrawl",
-        "line",
-        "openai",
-        "matrix",
         "telegram",
-        "mattermost",
-        "voice-call",
-        "whatsapp",
-        "zalo",
-        "zalouser",
+        "duckduckgo",
+        "openai",
         "memory-core",
-        "msteams",
-        "feishu",
-        "irc",
         "acpx",
-        "diffs",
         "browser",
-        "qa-lab",
-        "vydra",
+        "codex",
+        "discord",
+        "anthropic",
+        "ollama",
+        "llama-cpp",
       ],
     });
 
     expect(batch.extensionIds).toEqual([
       "acpx",
+      "anthropic",
       "browser",
-      "diffs",
-      "feishu",
-      "firecrawl",
-      "irc",
-      "line",
-      "matrix",
-      "mattermost",
+      "codex",
+      "discord",
+      "duckduckgo",
+      "llama-cpp",
       "memory-core",
-      "msteams",
+      "ollama",
       "openai",
-      "qa-lab",
-      "slack",
       "telegram",
-      "voice-call",
-      "vydra",
-      "whatsapp",
-      "zalo",
-      "zalouser",
     ]);
     const stablePlanGroups = batch.planGroups.map(({ estimatedCost, testFileCount, ...group }) => {
       expectPositiveIntegerMetric(estimatedCost);
       expectPositiveIntegerMetric(testFileCount);
       return group;
     });
-
     expect(stablePlanGroups).toEqual([
       {
         config: "test/vitest/vitest.extension-acpx.config.ts",
@@ -480,39 +418,14 @@ describe("scripts/test-extension.mts", () => {
         roots: [bundledPluginRoot("browser")],
       },
       {
-        config: "test/vitest/vitest.extension-diffs.config.ts",
-        extensionIds: ["diffs"],
-        roots: [bundledPluginRoot("diffs")],
+        config: "test/vitest/vitest.extension-codex.config.ts",
+        extensionIds: ["codex"],
+        roots: [bundledPluginRoot("codex")],
       },
       {
-        config: "test/vitest/vitest.extension-feishu.config.ts",
-        extensionIds: ["feishu"],
-        roots: [bundledPluginRoot("feishu")],
-      },
-      {
-        config: "test/vitest/vitest.extension-irc.config.ts",
-        extensionIds: ["irc"],
-        roots: [bundledPluginRoot("irc")],
-      },
-      {
-        config: "test/vitest/vitest.extension-line.config.ts",
-        extensionIds: ["line"],
-        roots: [bundledPluginRoot("line")],
-      },
-      {
-        config: "test/vitest/vitest.extension-matrix.config.ts",
-        extensionIds: ["matrix"],
-        roots: [bundledPluginRoot("matrix")],
-      },
-      {
-        config: "test/vitest/vitest.extension-mattermost.config.ts",
-        extensionIds: ["mattermost"],
-        roots: [bundledPluginRoot("mattermost")],
-      },
-      {
-        config: "test/vitest/vitest.extension-media.config.ts",
-        extensionIds: ["vydra"],
-        roots: [bundledPluginRoot("vydra")],
+        config: "test/vitest/vitest.extension-discord.config.ts",
+        extensionIds: ["discord"],
+        roots: [bundledPluginRoot("discord")],
       },
       {
         config: "test/vitest/vitest.extension-memory.config.ts",
@@ -521,13 +434,8 @@ describe("scripts/test-extension.mts", () => {
       },
       {
         config: "test/vitest/vitest.extension-misc.config.ts",
-        extensionIds: ["firecrawl"],
-        roots: [bundledPluginRoot("firecrawl")],
-      },
-      {
-        config: "test/vitest/vitest.extension-msteams.config.ts",
-        extensionIds: ["msteams"],
-        roots: [bundledPluginRoot("msteams")],
+        extensionIds: ["duckduckgo"],
+        roots: [bundledPluginRoot("duckduckgo")],
       },
       {
         config: "test/vitest/vitest.extension-provider-openai.config.ts",
@@ -535,14 +443,9 @@ describe("scripts/test-extension.mts", () => {
         roots: [bundledPluginRoot("openai")],
       },
       {
-        config: "test/vitest/vitest.extension-qa.config.ts",
-        extensionIds: ["qa-lab"],
-        roots: [bundledPluginRoot("qa-lab")],
-      },
-      {
-        config: "test/vitest/vitest.extension-slack.config.ts",
-        extensionIds: ["slack"],
-        roots: [bundledPluginRoot("slack")],
+        config: "test/vitest/vitest.extension-providers.config.ts",
+        extensionIds: ["anthropic", "ollama"],
+        roots: [bundledPluginRoot("anthropic"), bundledPluginRoot("ollama")],
       },
       {
         config: "test/vitest/vitest.extension-telegram.config.ts",
@@ -550,26 +453,16 @@ describe("scripts/test-extension.mts", () => {
         roots: [bundledPluginRoot("telegram")],
       },
       {
-        config: "test/vitest/vitest.extension-voice-call.config.ts",
-        extensionIds: ["voice-call"],
-        roots: [bundledPluginRoot("voice-call")],
-      },
-      {
-        config: "test/vitest/vitest.extension-whatsapp.config.ts",
-        extensionIds: ["whatsapp"],
-        roots: [bundledPluginRoot("whatsapp")],
-      },
-      {
-        config: "test/vitest/vitest.extension-zalo.config.ts",
-        extensionIds: ["zalo", "zalouser"],
-        roots: [bundledPluginRoot("zalo"), bundledPluginRoot("zalouser")],
+        config: "test/vitest/vitest.extensions.config.ts",
+        extensionIds: ["llama-cpp"],
+        roots: [bundledPluginRoot("llama-cpp")],
       },
     ]);
   });
 
   it("keeps explicitly requested extensions without tests in batch plans", () => {
     const extensionId = findExtensionWithoutTests();
-    const testedExtensionId = "firecrawl";
+    const testedExtensionId = "duckduckgo";
     const testedExtensionFiles = listExtensionTestFiles(testedExtensionId);
     const batch = resolveExtensionBatchPlan({
       cwd: process.cwd(),
@@ -595,7 +488,7 @@ describe("scripts/test-extension.mts", () => {
       `
         const { createExtensionTestShards, resolveExtensionBatchPlan } =
           await import("./scripts/lib/extension-test-plan.mts");
-        const extensionIds = ["matrix", "openai", "slack", "telegram"];
+        const extensionIds = ["codex", "discord", "openai", "telegram"];
         const batch = resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds });
         const shards = createExtensionTestShards({ cwd: process.cwd(), extensionIds, shardCount: 2 });
         return {
@@ -1063,37 +956,37 @@ await new Promise(()=>{});export default {};`,
     }
   });
 
-  it("runs Matrix extension batches in bounded sequential processes", async () => {
+  it("runs Codex extension batches in bounded sequential processes", async () => {
     const runGroup = vi.fn<(params: RunGroupParams) => Promise<number>>().mockResolvedValue(0);
-    const expectedFiles = listExtensionTestFilesForRoots([bundledPluginRoot("matrix")]).map(
-      (file) => file.replace(/^extensions\//u, ""),
+    const expectedFiles = listExtensionTestFilesForRoots([bundledPluginRoot("codex")]).map((file) =>
+      file.replace(/^extensions\//u, ""),
     );
 
     const result = await runExtensionBatchPlan(
-      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["matrix"] }),
+      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["codex"] }),
       { runGroup },
     );
 
     expect(result).toBe(0);
-    expect(runGroup).toHaveBeenCalledTimes(expectedMatrixTestProcessCount());
+    expect(runGroup).toHaveBeenCalledTimes(expectedCodexTestProcessCount());
     const calls = runGroup.mock.calls.map(([params]) => params as RunGroupParams);
-    expect(calls.every((call) => call.targets.length <= MATRIX_TEST_PROCESS_FILE_LIMIT)).toBe(true);
+    expect(calls.every((call) => call.targets.length <= CODEX_TEST_PROCESS_FILE_LIMIT)).toBe(true);
     expect(calls.flatMap((call) => call.targets)).toEqual(expectedFiles);
   });
 
-  it("runs every Matrix process chunk after an earlier chunk fails", async () => {
+  it("runs every Codex process chunk after an earlier chunk fails", async () => {
     const runGroup = vi
       .fn<(params: RunGroupParams) => Promise<number>>()
       .mockResolvedValueOnce(1)
       .mockResolvedValue(0);
 
     const result = await runExtensionBatchPlan(
-      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["matrix"] }),
+      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["codex"] }),
       { runGroup },
     );
 
     expect(result).toBe(1);
-    expect(runGroup).toHaveBeenCalledTimes(expectedMatrixTestProcessCount());
+    expect(runGroup).toHaveBeenCalledTimes(expectedCodexTestProcessCount());
   });
 
   it.each([
@@ -1103,28 +996,28 @@ await new Promise(()=>{});export default {};`,
     ["--outputFile=results.json"],
     ["--bail=2"],
     ["--changed=origin/main"],
-    ["--exclude=extensions/matrix/src/**"],
-  ])("keeps Matrix extension batch mode %s in one process", async (vitestArg) => {
+    ["--exclude=extensions/codex/src/**"],
+  ])("keeps Codex extension batch mode %s in one process", async (vitestArg) => {
     const runGroup = vi.fn<() => Promise<number>>().mockResolvedValue(0);
 
     const result = await runExtensionBatchPlan(
-      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["matrix"] }),
+      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["codex"] }),
       { runGroup, vitestArgs: [vitestArg] },
     );
 
     expect(result).toBe(0);
     expect(runGroup).toHaveBeenCalledOnce();
-    expect(requireFirstMockArg<RunGroupParams>(runGroup).targets).toEqual(["matrix"]);
+    expect(requireFirstMockArg<RunGroupParams>(runGroup).targets).toEqual(["codex"]);
   });
 
   it("fails extension batch groups when exact excludes remove every test", async () => {
     const runGroup = vi.fn<() => Promise<number>>().mockResolvedValue(0);
-    const firecrawlTestFiles = listExtensionTestFiles("firecrawl");
+    const duckduckgoTestFiles = listExtensionTestFiles("duckduckgo");
     const result = await runExtensionBatchPlan(
-      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["firecrawl"] }),
+      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["duckduckgo"] }),
       {
         runGroup,
-        vitestArgs: firecrawlTestFiles.flatMap((testFile) => ["--exclude", testFile]),
+        vitestArgs: duckduckgoTestFiles.flatMap((testFile) => ["--exclude", testFile]),
       },
     );
 
@@ -1134,12 +1027,12 @@ await new Promise(()=>{});export default {};`,
 
   it("fails extension batch groups when dir-relative exact excludes remove every test", async () => {
     const runGroup = vi.fn<() => Promise<number>>().mockResolvedValue(0);
-    const firecrawlTestFiles = listExtensionTestFiles("firecrawl");
+    const duckduckgoTestFiles = listExtensionTestFiles("duckduckgo");
     const result = await runExtensionBatchPlan(
-      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["firecrawl"] }),
+      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["duckduckgo"] }),
       {
         runGroup,
-        vitestArgs: firecrawlTestFiles.flatMap((testFile) => [
+        vitestArgs: duckduckgoTestFiles.flatMap((testFile) => [
           "--exclude",
           testFile.replace(/^extensions\//u, ""),
         ]),
@@ -1152,13 +1045,13 @@ await new Promise(()=>{});export default {};`,
 
   it("allows extension batch groups to opt into empty exact excludes", async () => {
     const runGroup = vi.fn<() => Promise<number>>().mockResolvedValue(0);
-    const firecrawlTestFiles = listExtensionTestFiles("firecrawl");
+    const duckduckgoTestFiles = listExtensionTestFiles("duckduckgo");
     const result = await runExtensionBatchPlan(
-      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["firecrawl"] }),
+      resolveExtensionBatchPlan({ cwd: process.cwd(), extensionIds: ["duckduckgo"] }),
       {
         allowEmptyAfterExclude: true,
         runGroup,
-        vitestArgs: firecrawlTestFiles.flatMap((testFile) => ["--exclude", testFile]),
+        vitestArgs: duckduckgoTestFiles.flatMap((testFile) => ["--exclude", testFile]),
       },
     );
 

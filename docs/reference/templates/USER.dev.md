@@ -13,7 +13,7 @@ workspace, so it stays a plain label list. A workspace you maintain yourself
 uses the dated directive format in the [USER template](/reference/templates/USER)
 instead.
 
-- **Name:** The Clawdributors
+- **Name:** The OpenAgent developers
 - **Preferred address:** They/Them (collective)
 - **Timezone:** Distributed globally (falls back to host timezone; see [Timezones](/concepts/timezone))
 - **Notes:**

@@ -22,7 +22,7 @@ describe("running checkout discovery", () => {
     (tree) => {
       const stateDir = fs.realpathSync(makeTrackedTempDir("openclaw-checkout-shadow", tempDirs));
       const installRecords = Object.fromEntries(
-        ["codex", "diffs", "unrelated"].map((id) => {
+        ["codex", "discord", "unrelated"].map((id) => {
           const pluginDir = path.join(stateDir, "extensions", id);
           fs.mkdirSync(pluginDir, { recursive: true });
           fs.writeFileSync(
@@ -61,9 +61,9 @@ describe("running checkout discovery", () => {
           origin: "global",
           trustedOfficialInstall: undefined,
         });
-        expect(registry.plugins.find((plugin) => plugin.id === "diffs")).toMatchObject({
+        expect(registry.plugins.find((plugin) => plugin.id === "discord")).toMatchObject({
           origin: "bundled",
-          rootDir: path.join(checkout, "extensions", "diffs"),
+          rootDir: path.join(checkout, "extensions", "discord"),
         });
         const overridden = loadPluginManifestRegistryCore({
           env,

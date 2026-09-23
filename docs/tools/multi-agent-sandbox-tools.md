@@ -119,7 +119,7 @@ Auth is scoped by agent: each agent has its own `<agentDir>/openclaw-agent.sqlit
             "default": true
           },
           "support": {
-            "tools": { "profile": "messaging", "allow": ["slack"] }
+            "tools": { "profile": "messaging", "allow": ["discord"] }
           }
         }
       }
@@ -129,7 +129,7 @@ Auth is scoped by agent: each agent has its own `<agentDir>/openclaw-agent.sqlit
     **Result:**
 
     - default agents get coding tools.
-    - `support` agent is messaging-only (+ Slack tool).
+    - `support` agent is messaging-only (+ Discord tool).
 
   </Accordion>
   <Accordion title="Example 3: Different sandbox modes per agent">
@@ -442,6 +442,5 @@ After configuring multi-agent sandbox and tools:
 - [Sandbox vs tool policy vs elevated](/gateway/sandbox-vs-tool-policy-vs-elevated) — debugging "why is this blocked?"
 - [Sandboxing](/gateway/sandboxing) — full sandbox reference (modes, scopes, backends, images)
 - [Session management](/concepts/session)
-- [OpenShell](/gateway/openshell) — a managed sandbox backend a per-agent sandbox can delegate to
 - [ACP agents](/tools/acp-agents) — a separate boundary: OpenAgent sandbox policy does not wrap ACP harness execution
 - [Sub-agents](/tools/subagents) — the spawned sessions these limits clamp

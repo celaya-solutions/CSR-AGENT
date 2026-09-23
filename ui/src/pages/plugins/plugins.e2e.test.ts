@@ -85,7 +85,6 @@ describeControlUiE2e("Control UI Plugins mocked Gateway E2E", () => {
       });
       await catalog.getByRole("link", { name: "Matrix search result", exact: true }).waitFor();
       if (proofDir) {
-        expect(await page.locator(".community-invite-card").count()).toBe(0);
         await page.screenshot({
           animations: "disabled",
           fullPage: true,
@@ -228,15 +227,12 @@ describeControlUiE2e("Control UI Plugins mocked Gateway E2E", () => {
       expect(await page.getByRole("link", { name: "openclaw/openclaw", exact: true }).count()).toBe(
         0,
       );
+      // No public registry ships with this build: author and store links stay plain text.
+      expect(await page.getByRole("link", { name: "@openclaw", exact: true }).count()).toBe(0);
       expect(
-        await page.getByRole("link", { name: "@openclaw", exact: true }).getAttribute("href"),
-      ).toBe("https://clawhub.ai/openclaw");
-      expect(await page.getByRole("link", { name: "Security audit" }).getAttribute("href")).toBe(
-        "https://clawhub.ai/openclaw/plugins/matrix/security-audit",
-      );
-      expect(await page.getByRole("link", { name: "View on ClawHub" }).getAttribute("href")).toBe(
-        "https://clawhub.ai/openclaw/plugins/matrix",
-      );
+        await page.locator(".plugin-catalog-detail__security").first().getAttribute("href"),
+      ).toBeNull();
+      expect(await page.getByRole("link", { name: "View on ClawHub" }).count()).toBe(0);
       expect(await page.getByRole("tab", { name: "Plugins", exact: true }).count()).toBe(0);
       expect(
         await page.getByRole("button", { name: "Install", exact: true }).evaluate((button) => {

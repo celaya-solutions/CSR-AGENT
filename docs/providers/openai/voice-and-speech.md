@@ -2,7 +2,7 @@
 summary: "OpenAI text-to-speech, transcription, and realtime voice settings and auth"
 read_when:
   - You are configuring OpenAI text-to-speech or transcription
-  - You are setting up realtime voice for Talk, Voice Call, or Discord
+  - You are setting up realtime voice for Talk or Discord
   - You need the auth order for a specific realtime route
 title: "OpenAI voice and speech"
 sidebarTitle: "Voice and speech"
@@ -51,9 +51,9 @@ sidebarTitle: "Voice and speech"
     OAuth-only installs can use Codex-backed chat models and GA Realtime browser
     Talk over a ChatGPT subscription when the account has access (see the
     Realtime accordion).
-    OpenAI TTS and GA realtime Voice Call, Gateway relay, and Discord sessions
+    OpenAI TTS and GA realtime Gateway relay and Discord sessions
     still require a Platform API key. Codex GPT-Live supports ChatGPT OAuth
-    through the shared Gateway-owned bridge, including Discord and Voice Call.
+    through the shared Gateway-owned bridge, including Discord.
     </Note>
 
   </Accordion>
@@ -104,38 +104,14 @@ sidebarTitle: "Voice and speech"
 
   </Accordion>
 
-  <Accordion title="Realtime transcription">
-    The bundled `openai` plugin registers realtime transcription for the
-    Voice Call plugin.
-
-    | Setting          | Config path                                                          | Default |
-    | ----------------- | ----------------------------------------------------------------------- | --------- |
-    | Model            | `plugins.entries.voice-call.config.streaming.providers.openai.model` | `gpt-4o-transcribe` |
-    | Language         | `...openai.language`                                                 | (unset) |
-    | Prompt           | `...openai.prompt`                                                   | (unset) |
-    | Silence duration | `...openai.silenceDurationMs`                                        | `800`   |
-    | VAD threshold    | `...openai.vadThreshold`                                             | `0.5`   |
-    | Auth             | `...openai.apiKey`, `OPENAI_API_KEY`, or `openai` API-key profile    | Platform API key required |
-
-    <Note>
-    Uses a WebSocket connection to `wss://api.openai.com/v1/realtime` with
-    G.711 u-law (`g711_ulaw` / `audio/pcmu`) audio. For an `openai` API-key
-    profile, the Gateway mints an ephemeral Realtime transcription client
-    secret before opening the WebSocket. This streaming provider is for Voice
-    Call's realtime transcription path; Discord voice records short
-    segments and uses the batch `tools.media.audio` transcription path
-    instead.
-    </Note>
-
-  </Accordion>
-
   <Accordion title="Realtime voice">
-    The bundled `openai` plugin registers realtime voice for the Voice Call
-    plugin.
+    The bundled `openai` plugin registers realtime voice for Talk and Discord
+    voice. Provider settings live under `talk.realtime.providers.openai` (Talk)
+    and `channels.discord.voice.realtime.providers.openai` (Discord).
 
     | Setting                               | Config path                                                              | Default             |
     | --------------------------------------- | ---------------------------------------------------------------------------- | ---------------------- |
-    | Model                                  | `plugins.entries.voice-call.config.realtime.providers.openai.model`     | `gpt-realtime-2.1`  |
+    | Model                                  | `talk.realtime.providers.openai.model`                                  | `gpt-realtime-2.1`  |
     | Voice                                  | `...openai.voice`                                                       | `alloy`             |
     | Temperature (Azure deployment bridge)  | `...openai.temperature`                                                 | `0.8`               |
     | VAD threshold                          | `...openai.vadThreshold`                                                | `0.5`                |
@@ -187,8 +163,8 @@ sidebarTitle: "Voice and speech"
     browser's SDP, and returns only the answer SDP. An explicitly configured but
     unavailable Platform credential fails instead of falling back to OAuth.
 
-    Gateway-controlled GA relay, iOS client-owned WebRTC, GA Voice Call, direct
-    backend sockets, and GA Discord realtime voice require Platform auth.
+    Gateway-controlled GA relay, direct backend sockets, and GA Discord realtime
+    voice require Platform auth.
 
     #### GPT-Live API
 
@@ -207,9 +183,9 @@ sidebarTitle: "Voice and speech"
     Explicit model choices and voices supported by that model stay in effect;
     an explicit GPT-Live model is audio-only. Requests requiring video or forced
     agent-consult replies retain `gpt-realtime-2.1` when no model is pinned.
-    Direct tool bridges, Discord and Voice Call without an explicit model, and Azure
+    Direct tool bridges, Discord without an explicit model, and Azure
     deployments retain their existing defaults. An explicit GPT-Live model in
-    Discord or Voice Call uses the shared Gateway relay bridge and provider-owned delegation.
+    Discord uses the shared Gateway relay bridge and provider-owned delegation.
     Installing an update does not rewrite saved configuration or switch an
     active session.
 
@@ -239,11 +215,8 @@ sidebarTitle: "Voice and speech"
 
     Browser Talk uses Gateway-brokered WebRTC; the Platform key stays on the
     Gateway. Set `transport: "gateway-relay"` for the direct server WebSocket
-    path. Discord realtime voice and Voice Call with `gpt-live-1` use the same
+    path. Discord realtime voice with `gpt-live-1` uses the same
     Gateway-owned direct WebSocket bridge and native agent delegation.
-
-    iOS uses the same brokered WebRTC path and displays public Live captions.
-    Physical-device voice validation remains pending.
 
     The default voice is `marin`. Supported built-in voices are `alloy`, `ash`,
     `ballad`, `beacon`, `bossa`, `cedar`, `cinder`, `coral`, `delta`, `echo`,
@@ -290,15 +263,7 @@ sidebarTitle: "Voice and speech"
     `channels.discord.voice.realtime.speakerVoice` to `cove` for the Codex
     default voice. The other supported voices are `arbor`, `breeze`, `ember`,
     `juniper`, `maple`, `sol`, `spruce`, and `vale`. A voice selection is specific
-    to its model route, regardless of whether the client is Talk, Discord, or
-    Voice Call.
-
-    Voice Call uses this same OAuth-capable bridge when
-    `plugins.entries.voice-call.config.realtime.providers.openai.model` is
-    `gpt-live-1-codex`; set `voice: "cove"` in that provider block. Its audio
-    adapter converts carrier G.711 mu-law at 8 kHz to and from the model's
-    24 kHz PCM stream for both WebRTC and direct WebSocket routes. Initial
-    greetings and `voicecall.speak` requests use native session context.
+    to its model route, regardless of whether the client is Talk or Discord.
 
     Both GPT-Live routes produce continuous audio and own interruption.
     Gateway WebSocket and WebRTC use the same sample clock to send microphone
@@ -311,14 +276,6 @@ sidebarTitle: "Voice and speech"
     The shared OpenAgent agent conversation supplies room context, while each
     speaker's voice-model connection has separate acoustic conversation history.
     See [GPT-Live in Discord](/channels/discord/voice-channels#gpt-live-in-discord).
-
-    Voice Call also leaves microphone input open during Live playback and
-    does not add host speech-start cancellation. Native delegations use the
-    existing call-owned agent consult, including its tool policy and cancellation
-    lifetime. Explicit `realtime.consultPolicy: "always"` is rejected for
-    GPT-Live. `openclaw_end_call` and custom `realtime.tools` require native
-    function-tool support and remain unavailable on GPT-Live; delegation does
-    not expose them. See [GPT-Live in Voice Call](/plugins/voice-call/realtime-and-streaming#gpt-live).
 
     Both credential types stay in the Gateway. The single-use offer broker
     exchanges the browser's SDP and returns only the answer SDP; it does not
@@ -397,14 +354,10 @@ sidebarTitle: "Voice and speech"
     | Browser Talk | Supported with Platform-key client WebRTC and Gateway-owned sideband |
     | Gateway-relay Talk | Supported with direct Platform-key transport |
     | Discord bidirectional voice | Supported with the Platform-key backend WebSocket |
-    | Voice Call and telephony | Supported with the Platform-key backend WebSocket |
-    | iOS client-owned Talk | Implemented; device live verification pending |
-    | Android realtime Talk | Pending an Android device live-proof flip; Android stays on native Talk |
 
     These rows describe implemented transports, not account entitlement or
     complete model capability parity. See the [Discord voice policy limits](/channels/discord/voice-channels#voice-channels)
-    and [Voice Call tool limits](/plugins/voice-call#realtime-voice-conversations) before
-    selecting an unlisted or private route for those consumers.
+    before selecting an unlisted or private route for that consumer.
 
     <Warning>
     Unlisted or private routes require a Platform API key with access to the
@@ -423,10 +376,7 @@ sidebarTitle: "Voice and speech"
     fallback, routes sideband delegations through the configured OpenAgent
     agent, and keeps credentials away from relay clients. Unlisted or private
     browser WebRTC and the direct backend socket remain Platform-only. The
-    direct socket enables Discord voice and Voice Call/telephony; OpenAgent
-    converts G.711 u-law telephony audio to and from the provider's 24 kHz PCM
-    stream. Android's client-side gate stays closed until the Gateway relay
-    path has live proof from an Android device.
+    direct socket enables Discord voice.
 
     The WebRTC path creates a provider call and joins its sideband. The direct
     unlisted/private backend path opens one bidirectional session, sends a Frameless
@@ -450,7 +400,7 @@ sidebarTitle: "Voice and speech"
     retain their separate transport contracts. Azure OpenAI
     deployments remain available via `azureEndpoint` and `azureDeployment` and
     keep the deployment-compatible session shape (including `temperature`).
-    Supports bidirectional tool calling and G.711 u-law audio.
+    Supports bidirectional tool calling.
     </Note>
 
     <Note>
@@ -469,13 +419,6 @@ sidebarTitle: "Voice and speech"
     API-key profile, then `OPENAI_API_KEY`. The public `gpt-live-1` API,
     direct backend sockets, and unlisted
     or private realtime routes require Platform credentials.
-    Maintainer live verification is available with
-    `OPENAI_API_KEY=... GEMINI_API_KEY=... node --import tsx scripts/dev/realtime-talk-live-smoke.ts`;
-    the OpenAI legs verify the backend WebSocket bridge, a synthesized PCM24
-    speech-to-response audio roundtrip, and the browser WebRTC SDP exchange
-    without logging secrets. Pass `--openai-only` to run those legs without
-    Google credentials. Use `--openai-audio-cycles 3` for a short repeated
-    connect, talkback, and close soak.
     </Note>
 
   </Accordion>

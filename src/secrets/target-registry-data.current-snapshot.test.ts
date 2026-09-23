@@ -20,6 +20,24 @@ vi.mock("../plugins/bundled-plugin-metadata.js", () => ({
   listBundledPluginMetadata: metadataMocks.listBundledPluginMetadata,
 }));
 
+// The shipped official external catalog is empty; a synthetic catalog channel
+// keeps the host secret fallback targets covered without a real external channel.
+vi.mock("../plugins/official-external-plugin-catalog.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../plugins/official-external-plugin-catalog.js")>()),
+  listOfficialExternalChannelCatalogEntries: () => [
+    { name: "@acme/chat", openclaw: { channel: { id: "acme" } } },
+  ],
+  getOfficialExternalChannelSecretContract: (channelId: string) =>
+    channelId === "acme"
+      ? {
+          channelId: "acme",
+          fields: [
+            { field: "clientSecret", activationField: "appId", activationEnv: "ACME_APP_ID" },
+          ],
+        }
+      : undefined,
+}));
+
 vi.mock("../plugins/plugin-metadata-snapshot.js", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../plugins/plugin-metadata-snapshot.js")>()),
   resolvePluginMetadataSnapshot: metadataMocks.resolvePluginMetadataSnapshot,
@@ -470,8 +488,8 @@ describe("getSecretTargetRegistry metadata reuse", () => {
 
     const ids = getSecretTargetRegistry().map((entry) => entry.id);
 
-    expect(ids).toContain("channels.qqbot.clientSecret");
-    expect(ids).toContain("channels.qqbot.accounts.*.clientSecret");
+    expect(ids).toContain("channels.acme.clientSecret");
+    expect(ids).toContain("channels.acme.accounts.*.clientSecret");
   });
 
   it("builds config-scoped registries independently instead of reusing the singleton", async () => {

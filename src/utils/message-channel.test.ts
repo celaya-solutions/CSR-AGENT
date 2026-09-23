@@ -60,7 +60,7 @@ describe("message-channel", () => {
 
   it("normalizes gateway message channels and rejects unknown values", () => {
     expect(resolveGatewayMessageChannel("discord")).toBe("discord");
-    expect(resolveGatewayMessageChannel(" imsg ")).toBe("imessage");
+    expect(resolveGatewayMessageChannel(" Telegram ")).toBe("telegram");
     expect(resolveGatewayMessageChannel("webchat")).toBe("webchat");
     expect(resolveGatewayMessageChannel("web")).toBeUndefined();
     expect(resolveGatewayMessageChannel("nope")).toBeUndefined();
@@ -123,13 +123,13 @@ describe("message-channel", () => {
     expect(isMarkdownCapableMessageChannel("demo-markdown-channel")).toBe(true);
   });
 
-  it("reads Matrix markdown capability from bundled channel catalog metadata", async () => {
+  it("reads Telegram markdown capability from bundled channel catalog metadata", async () => {
     const previousBundledPluginsDir = process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
     process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = path.resolve("extensions");
     vi.resetModules();
     try {
       const module = await import("./message-channel.js");
-      expect(module.isMarkdownCapableMessageChannel("matrix")).toBe(true);
+      expect(module.isMarkdownCapableMessageChannel("telegram")).toBe(true);
     } finally {
       if (previousBundledPluginsDir === undefined) {
         delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;

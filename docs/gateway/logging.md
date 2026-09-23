@@ -220,13 +220,11 @@ The console formatter is **TTY-aware** and prints consistent, prefixed lines. Su
 - **`logRaw()`** for QR/UX output (no prefix, no formatting).
 - **Console styles**: `pretty` | `json` (`compact` is applied automatically off-TTY and is not a settable value).
 - **Console log level** is separate from file log level (file keeps full detail when `logging.level` is `debug`/`trace`).
-- **WhatsApp message bodies** log at `debug` (use `--verbose` to see them).
 
 This keeps file logs stable while making interactive output scannable.
 
 ## Related
 
 - [Logging](/logging)
-- [OpenTelemetry export](/gateway/opentelemetry)
 - [Diagnostics export](/gateway/diagnostics)
 - [`openclaw logs`](/cli/logs) — tail Gateway logs over RPC from the CLI

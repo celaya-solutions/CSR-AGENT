@@ -1,6 +1,8 @@
 // Preaction tests cover CLI preaction hooks and command context setup.
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { Command } from "commander";
-import { repoInstallSpec } from "openclaw/plugin-sdk/test-fixtures";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { loggingState } from "../../logging/state.js";
 import { isConfigSetJsonParseOnly } from "../config-output-mode.js";
@@ -12,7 +14,11 @@ import {
   registerNativeExecutorPreActionTests,
 } from "./preaction.test-helpers.js";
 
-const DISCORD_REPO_INSTALL_SPEC = repoInstallSpec("discord");
+vi.mock("../../plugins/official-external-plugin-bundled-catalogs.js", async () =>
+  (
+    await import("../../commands/official-external-catalog.test-support.js")
+  ).officialExternalCatalogModuleFixture(),
+);
 
 const setVerboseMock = vi.fn();
 const emitCliBannerMock = vi.fn();
@@ -671,18 +677,34 @@ describe("registerPreActionHooks", () => {
       commandPath: ["plugins", "install"],
     });
 
-    vi.clearAllMocks();
-    await runPreAction({
-      parseArgv: ["plugins", "install", DISCORD_REPO_INSTALL_SPEC],
-      processArgv: ["node", "openclaw", "plugins", "install", DISCORD_REPO_INSTALL_SPEC],
-    });
+    const checkoutRoot = fs.mkdtempSync(path.join(os.tmpdir(), "preaction-recovery-checkout-"));
+    try {
+      fs.writeFileSync(
+        path.join(checkoutRoot, "package.json"),
+        JSON.stringify({
+          name: "fixture-channel",
+          openclaw: { install: { allowInvalidConfigRecovery: true } },
+        }),
+      );
+      fs.writeFileSync(
+        path.join(checkoutRoot, "openclaw.plugin.json"),
+        JSON.stringify({ id: "fixture-channel", configSchema: { type: "object", properties: {} } }),
+      );
+      vi.clearAllMocks();
+      await runPreAction({
+        parseArgv: ["plugins", "install", checkoutRoot],
+        processArgv: ["node", "openclaw", "plugins", "install", checkoutRoot],
+      });
 
-    expect(ensureConfigReadyMock).toHaveBeenCalledWith({
-      runtime: runtimeMock,
-      measure: expect.any(Function),
-      commandPath: ["plugins", "install"],
-      allowInvalid: true,
-    });
+      expect(ensureConfigReadyMock).toHaveBeenCalledWith({
+        runtime: runtimeMock,
+        measure: expect.any(Function),
+        commandPath: ["plugins", "install"],
+        allowInvalid: true,
+      });
+    } finally {
+      fs.rmSync(checkoutRoot, { recursive: true, force: true });
+    }
 
     vi.clearAllMocks();
     await runPreAction({

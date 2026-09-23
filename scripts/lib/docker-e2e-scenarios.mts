@@ -215,13 +215,6 @@ function createPackageUpdateMaintenanceLanes() {
         weight: 3,
       },
     ),
-    npmLane("skill-install", "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:skill-install", {
-      retryPatterns: LIVE_RETRY_PATTERNS,
-      retries: 1,
-      stateScenario: "empty",
-      timeoutMs: 10 * 60 * 1000,
-      weight: 2,
-    }),
     npmLane("upgrade-survivor", upgradeSurvivorCommand, {
       stateScenario: "upgrade-survivor",
       timeoutMs: 20 * 60 * 1000,
@@ -392,15 +385,6 @@ export const mainLanes: DockerE2eLane[] = [
     weight: 3,
   }),
   npmLane(
-    "cli-installer-distribution",
-    "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:cli-installer-distribution",
-    {
-      stateScenario: "empty",
-      timeoutMs: 30 * 60 * 1000,
-      weight: 3,
-    },
-  ),
-  npmLane(
     "docker-package-install",
     "OPENCLAW_SKIP_DOCKER_BUILD=0 pnpm test:docker:package-install",
     {
@@ -501,11 +485,6 @@ export const mainLanes: DockerE2eLane[] = [
     "OPENCLAW_NPM_ONBOARD_CHANNEL=discord OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-onboard-channel-agent",
     npmOnboardLaneOptions,
   ),
-  npmLane(
-    "npm-onboard-slack-channel-agent",
-    "OPENCLAW_NPM_ONBOARD_CHANNEL=slack OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-onboard-channel-agent",
-    npmOnboardLaneOptions,
-  ),
   // Prerelease validation must pair frozen core bytes with matching target plugin bytes.
   // The lanes above leave channel source selection to the published catalog.
   npmLane(
@@ -517,17 +496,6 @@ export const mainLanes: DockerE2eLane[] = [
     {
       ...npmOnboardLaneOptions,
       prepublishPluginPackages: ["@openclaw/codex", "@openclaw/discord"],
-    },
-  ),
-  npmLane(
-    "npm-onboard-slack-candidate-channel-agent",
-    liveDockerScriptCommand(
-      "e2e/npm-onboard-channel-agent-docker.sh",
-      "OPENCLAW_NPM_ONBOARD_CHANNEL=slack OPENCLAW_NPM_ONBOARD_USE_SOURCE_PLUGIN_PACKAGE=1",
-    ),
-    {
-      ...npmOnboardLaneOptions,
-      prepublishPluginPackages: ["@openclaw/codex", "@openclaw/slack"],
     },
   ),
   npmLane(
@@ -656,14 +624,6 @@ export const mainLanes: DockerE2eLane[] = [
       weight: 3,
     },
   ),
-  npmLane(
-    "plugin-lifecycle-matrix",
-    "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:plugin-lifecycle-matrix",
-    {
-      stateScenario: "empty",
-      timeoutMs: 12 * 60 * 1000,
-    },
-  ),
   serviceLane("config-reload", "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:config-reload", {
     stateScenario: "empty",
   }),
@@ -672,14 +632,6 @@ export const mainLanes: DockerE2eLane[] = [
     timeoutMs: 15 * 60 * 1000,
     weight: 3,
   }),
-  lane("openai-image-auth", "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:openai-image-auth", {
-    stateScenario: "empty",
-  }),
-  lane(
-    "system-agent-first-run",
-    "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:system-agent-first-run",
-    { stateScenario: "empty" },
-  ),
   lane(
     "session-runtime-context",
     "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:session-runtime-context",
@@ -694,13 +646,6 @@ export const mainLanes: DockerE2eLane[] = [
       stateScenario: "empty",
     },
   ),
-  liveLane("npm-telegram-live", "OPENCLAW_SKIP_DOCKER_BUILD=1 pnpm test:docker:npm-telegram-live", {
-    e2eImageKind: "bare",
-    provider: "openai",
-    resources: ["live:telegram", "npm", "service"],
-    timeoutMs: 30 * 60 * 1000,
-    weight: 3,
-  }),
   lane("qr", "pnpm test:docker:qr"),
 ];
 
@@ -867,40 +812,6 @@ const releasePathPluginRuntimeLanes = [
 
 const releasePathBundledChannelLanes = scheduledLaneList("plugin-update");
 
-// Public installer smoke needs a published, immutable package version. Keep it
-// selectable for post-publish verification, but out of frozen-candidate CI.
-export const publicInstallerLanes: DockerE2eLane[] = [
-  liveLane(
-    "install-e2e-openai",
-    liveDockerScriptCommand(
-      "test-install-sh-e2e-docker.sh",
-      "OPENCLAW_INSTALL_TAG=beta OPENCLAW_E2E_MODELS=openai OPENCLAW_INSTALL_E2E_IMAGE=openclaw-install-e2e-openai:local OPENCLAW_INSTALL_E2E_AGENT_TOOL_SMOKE=0 OPENCLAW_INSTALL_E2E_OPENAI_MODEL=openai/gpt-5.4-mini OPENCLAW_INSTALL_E2E_AGENT_TURN_TIMEOUT_SECONDS=120 OPENCLAW_INSTALL_E2E_OPENAI_PROVIDER_TIMEOUT_SECONDS=120",
-      { skipBuild: false },
-    ),
-    {
-      e2eImageKind: "bare",
-      provider: "openai",
-      resources: ["npm", "service"],
-      timeoutMs: 15 * 60 * 1000,
-      weight: 3,
-    },
-  ),
-  liveLane(
-    "install-e2e-anthropic",
-    liveDockerScriptCommand(
-      "test-install-sh-e2e-docker.sh",
-      "OPENCLAW_INSTALL_TAG=beta OPENCLAW_E2E_MODELS=anthropic OPENCLAW_INSTALL_E2E_IMAGE=openclaw-install-e2e-anthropic:local",
-      { skipBuild: false },
-    ),
-    {
-      e2eImageKind: "bare",
-      provider: "claude",
-      resources: ["npm", "service"],
-      weight: 3,
-    },
-  ),
-];
-
 const releasePathPackageUpdateOpenAiLanes = [
   liveOpenAiChatToolsLane(),
   scheduledLane("live-codex-npm-plugin"),
@@ -914,9 +825,7 @@ const releasePathPackageUpdateOpenAiLanes = [
 const releasePathPackageOnboardingLanes = scheduledLaneList(
   "npm-onboard-channel-agent",
   "npm-onboard-discord-channel-agent",
-  "npm-onboard-slack-channel-agent",
   "doctor-switch",
-  "skill-install",
 );
 const releasePathPackageMigrationLanes = scheduledLaneList(
   "update-channel-switch",

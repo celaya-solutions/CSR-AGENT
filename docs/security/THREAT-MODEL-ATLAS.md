@@ -16,16 +16,16 @@ This threat model documents adversarial threats to the OpenAgent AI agent platfo
 
 ## 1. Scope
 
-| Component                   | Included | Notes                                            |
-| --------------------------- | -------- | ------------------------------------------------ |
-| OpenAgent agent runtime | Yes      | Core agent execution, tool calls, sessions       |
-| Gateway                     | Yes      | Authentication, routing, channel integration     |
-| Channel integrations        | Yes      | WhatsApp, Telegram, Discord, Signal, Slack, etc. |
-| ClawHub marketplace         | Yes      | Skill publishing, moderation, distribution       |
-| MCP servers                 | Yes      | External tool providers                          |
-| User devices                | Partial  | Mobile apps, desktop clients                     |
+| Component               | Included | Notes                                         |
+| ----------------------- | -------- | --------------------------------------------- |
+| OpenAgent agent runtime | Yes      | Core agent execution, tool calls, sessions    |
+| Gateway                 | Yes      | Authentication, routing, channel integration  |
+| Channel integrations    | Yes      | Discord, Telegram, and channel plugins        |
+| Skill/plugin registry   | Yes      | Operator-configured ClawHub-protocol registry |
+| MCP servers             | Yes      | External tool providers                       |
+| User devices            | Partial  | Browsers, CLI clients, paired node hosts      |
 
-Out-of-scope reports and false-positive patterns (public internet exposure, prompt-injection-only chains without a boundary bypass, mutually untrusted operators sharing one gateway host, and others) are enumerated in [`SECURITY.md`](https://github.com/openclaw/openclaw/blob/main/SECURITY.md); that file is the current source of truth for vulnerability-report scope, not this page.
+Out-of-scope reports and false-positive patterns (public internet exposure, prompt-injection-only chains without a boundary bypass, mutually untrusted operators sharing one gateway host, and others) are enumerated in `SECURITY.md` at the repository root; that file is the current source of truth for vulnerability-report scope, not this page.
 
 ## 2. System architecture
 
@@ -35,7 +35,7 @@ Out-of-scope reports and false-positive patterns (public internet exposure, prom
 ┌─────────────────────────────────────────────────────────────────┐
 │                    UNTRUSTED ZONE                                │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
-│  │  WhatsApp   │  │  Telegram   │  │   Discord   │  ...         │
+│  │   Plugins   │  │  Telegram   │  │   Discord   │  ...         │
 │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘              │
 │         │                │                │                      │
 └─────────┼────────────────┼────────────────┼──────────────────────┘
@@ -233,7 +233,7 @@ T-EXEC-002 → T-EXFIL-001 → External exfiltration
 
 ### 7.1 ATLAS technique mapping
 
-| ATLAS ID      | Technique name                 | OpenAgent threats                                            |
+| ATLAS ID      | Technique name                 | OpenAgent threats                                                |
 | ------------- | ------------------------------ | ---------------------------------------------------------------- |
 | AML.T0006     | Active Scanning                | T-RECON-001, T-RECON-002                                         |
 | AML.T0009     | Collection                     | T-EXFIL-001, T-EXFIL-002, T-EXFIL-003                            |
@@ -261,16 +261,16 @@ T-EXEC-002 → T-EXFIL-001 → External exfiltration
 | Term                 | Definition                                                |
 | -------------------- | --------------------------------------------------------- |
 | **ATLAS**            | MITRE's Adversarial Threat Landscape for AI Systems       |
-| **ClawHub**          | OpenAgent's skill marketplace                         |
-| **Gateway**          | OpenAgent's message routing and authentication layer  |
+| **ClawHub**          | OpenAgent's skill marketplace                             |
+| **Gateway**          | OpenAgent's message routing and authentication layer      |
 | **MCP**              | Model Context Protocol - tool provider interface          |
 | **Prompt injection** | Attack where malicious instructions are embedded in input |
-| **Skill**            | Downloadable extension for OpenAgent agents           |
+| **Skill**            | Downloadable extension for OpenAgent agents               |
 | **SSRF**             | Server-Side Request Forgery                               |
 
 ---
 
-_This threat model is a living document. Report security issues to `security@openclaw.ai` or see the [Trust page](https://trust.openclaw.ai)._
+_This threat model is a living document. Report security issues as described in `SECURITY.md` at the repository root._
 
 ## Where each section moved
 

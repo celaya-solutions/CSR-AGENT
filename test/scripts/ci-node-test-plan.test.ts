@@ -116,7 +116,9 @@ type VitestConfig = {
 };
 
 const PLUGIN_PRERELEASE_NPM_SPEC_TEST = "src/plugins/install.npm-spec.test.ts";
-const PRIVATE_QA_TOOLING_TEST = "test/e2e/qa-lab/runtime/gateway-codex-delivery-cache.test.ts";
+const TOOLING_RUNTIME_CONSUMERS = new Set(
+  listVitestRuntimeConsumerFiles(["test/vitest/vitest.tooling.config.ts"]),
+);
 const DEFAULT_NODE_TEST_RUNNER = "blacksmith-8vcpu-ubuntu-2404";
 const BUNDLED_NODE_TEST_RUNNER = "blacksmith-4vcpu-ubuntu-2404";
 const EXTRA_LARGE_NODE_TEST_RUNNER = "blacksmith-32vcpu-ubuntu-2404";
@@ -410,16 +412,14 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
   ])(
     "bounds $runnerBackend child groups by the slower $slowerProfile path",
     ({ runnerBackend, slowerProfile }) => {
-      const consumer = "test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts";
+      const consumer = "test/plugin-npm-runtime-build.test.ts";
       const target = createNodeTestShards().find((shard) =>
         shard.includePatterns?.includes(consumer),
       )!;
-      const runtimeConsumers = target.includePatterns!.filter(
-        (file) => file === consumer || file === PRIVATE_QA_TOOLING_TEST,
+      const runtimeConsumers = target.includePatterns!.filter((file) =>
+        TOOLING_RUNTIME_CONSUMERS.has(file),
       );
-      const buildMode = runtimeConsumers.includes(PRIVATE_QA_TOOLING_TEST)
-        ? "private-qa"
-        : "runtime";
+      const buildMode = "runtime";
       const originalShards = fullSuiteVitestShards.slice();
       // Exercise this owner's split without consuming unrelated suite families' job budget.
       const fixtureShards = originalShards
@@ -1355,11 +1355,7 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
             ),
             `runtime CLI owner for ${file}`,
           );
-          expect(job.pretestBuildMode).toBe(
-            job.groups.some((group) => group.includePatterns?.includes(PRIVATE_QA_TOOLING_TEST))
-              ? "private-qa"
-              : "runtime",
-          );
+          expect(job.pretestBuildMode).toBe("runtime");
           expect(job.groups).toContainEqual(
             expect.objectContaining({
               pretestBuildMode: "runtime",
@@ -2181,11 +2177,10 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
       "src/commands/doctor-config-preflight.v17-atomicity.process.test.ts",
     ];
     const runtimeTargets = [
-      "test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts",
+      "test/plugin-npm-runtime-build.test.ts",
       "src/infra/update-managed-service-handoff-lifecycle.test.ts",
       ...doctorRuntimeTargets,
       "src/commands/doctor-plugin-install-config.process.test.ts",
-      "src/gateway/gateway-active-memory.test.ts",
       "src/gateway/gateway-concurrent-streams.test.ts",
       "src/gateway/gateway-cron-process-identity.windows.test.ts",
       "src/gateway/gateway-route-model-reuse.test.ts",
@@ -2199,7 +2194,7 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
           "configs" in shard ? shard.configs : shard.groups.flatMap((group) => group.configs),
         ),
       ).not.toContain(qaConfig);
-      for (const runtimeTarget of [...runtimeTargets, PRIVATE_QA_TOOLING_TEST]) {
+      for (const runtimeTarget of runtimeTargets) {
         const owner = expectDefined(
           shards.find((shard) =>
             ("configs" in shard ? [shard] : shard.groups).some((group) =>
@@ -2209,17 +2204,9 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
           `runtime owner for ${runtimeTarget}`,
         );
         const groups = "configs" in owner ? [owner] : owner.groups;
-        // A shared build takes the strongest requirement of its complete selection.
-        const containsPrivateQa = groups.some((group) =>
-          group.includePatterns?.includes(PRIVATE_QA_TOOLING_TEST),
-        );
-        expect(owner.pretestBuildMode, runtimeTarget).toBe(
-          containsPrivateQa ? "private-qa" : "runtime",
-        );
+        expect(owner.pretestBuildMode, runtimeTarget).toBe("runtime");
         const group = groups.find((entry) => entry.includePatterns?.includes(runtimeTarget));
-        expect(group?.pretestBuildMode, runtimeTarget).toBe(
-          group?.includePatterns?.includes(PRIVATE_QA_TOOLING_TEST) ? "private-qa" : "runtime",
-        );
+        expect(group?.pretestBuildMode, runtimeTarget).toBe("runtime");
       }
     }
 
@@ -2314,7 +2301,6 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
       "test/scripts/managed-child-process.test.ts",
       "test/scripts/vitest-worker-artifacts.test.ts",
       "test/scripts/vitest-worker-artifacts.transforms.test.ts",
-      "test/scripts/openclaw-performance-git-lifecycle.test.ts",
       "test/scripts/ci-linux-git.test.ts",
       "test/scripts/pr-merge-outcome.test.ts",
     ];
@@ -2324,13 +2310,9 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
     expect(processProofStripes).not.toContain(undefined);
     expect(new Set(processProofStripes).size).toBe(processProofFiles.length);
     const runtimeStripe = stripes.find((stripe) =>
-      stripe.includePatterns?.includes(
-        "test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts",
-      ),
+      stripe.includePatterns?.includes("test/plugin-npm-runtime-build.test.ts"),
     );
-    expect(runtimeStripe?.pretestBuildMode).toBe(
-      runtimeStripe?.includePatterns?.includes(PRIVATE_QA_TOOLING_TEST) ? "private-qa" : "runtime",
-    );
+    expect(runtimeStripe?.pretestBuildMode).toBe("runtime");
     expect(
       toolingShards.find((shard) => shard.shardName === "core-tooling-isolated"),
     ).toMatchObject({
@@ -2420,24 +2402,12 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
     );
   });
 
-  it("keeps the private runtime prerequisite on precise tooling readers", () => {
-    const shards = createSelectedNodeTestShardBundles([PRIVATE_QA_TOOLING_TEST]);
-    expect(shards).not.toBeNull();
-    const readers = shards?.filter((shard) => !shard.requiresDist) ?? [];
-    expect(readers).toHaveLength(1);
-    expect(readers[0]?.pretestBuildMode).toBe("private-qa");
-    expect(readers[0]?.planConcurrency).toBe(1);
-    expect(readers[0]?.groups.flatMap((group) => group.includePatterns ?? [])).toEqual([
-      PRIVATE_QA_TOOLING_TEST,
-    ]);
-  });
-
   it.each(["blacksmith", "github", "hybrid"])(
     "shares one prepared runtime across affordable %s tooling groups",
     (runnerBackend) => {
       const targets = [
-        PRIVATE_QA_TOOLING_TEST,
-        "test/e2e/qa-lab/runtime/gateway-support-export-runtime.test.ts",
+        "test/plugin-npm-runtime-build.test.ts",
+        "test/scripts/plugin-inventory-module-refs.test.ts",
       ];
       vi.spyOn(testTimings, "readCompactGroupTimings").mockReturnValue(
         Object.fromEntries(defaultShards.map((shard) => [shard.shardName, 1])),
@@ -2446,7 +2416,7 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
       expect(plan).not.toBeNull();
       const readers = plan!.filter((shard) => !shard.requiresDist);
       expect(readers).toHaveLength(1);
-      expect(readers[0]).toMatchObject({ pretestBuildMode: "private-qa", planConcurrency: 1 });
+      expect(readers[0]).toMatchObject({ pretestBuildMode: "runtime", planConcurrency: 1 });
       expect(readers[0]!.predictedSeconds).toBeLessThanOrEqual(
         runnerBackend === "github" ? 210 : 150,
       );
@@ -3335,7 +3305,6 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
         shardName: "agentic-gateway-core-runtime",
         configs: gatewayCoreConfigs,
         includePatterns: [
-          "src/gateway/gateway-active-memory.test.ts",
           "src/gateway/gateway-auth-recovery.test.ts",
           "src/gateway/gateway-concurrent-streams.test.ts",
           "src/gateway/gateway-cron-process-identity.windows.test.ts",
@@ -3437,16 +3406,6 @@ describe("scripts/lib/ci-node-test-plan.mts", () => {
     expect(shardNames).toContain("agentic-gateway-core-3");
     expect(shardNames).toContain("agentic-gateway-methods");
     expect(shardNames).toContain("agentic-plugin-sdk");
-  });
-
-  it("keeps changed native browser tests in UI jobs and out of extension fallback", () => {
-    const target = "extensions/workboard/browser/catalog.test.ts";
-    const shards = createChangedNodeTestShards([target]);
-    expect(shards).not.toBeNull();
-    expect(shards?.flatMap((shard) => shard.targets ?? shard.includePatterns ?? [])).toContain(
-      target,
-    );
-    expect(createChangedExtensionFallbackShards([target])).toEqual([]);
   });
 
   it("prepares the sticker provider runtime in extension fallback", () => {

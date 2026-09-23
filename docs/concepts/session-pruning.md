@@ -66,8 +66,7 @@ justify the new cache write. When clearing occurs, OpenAgent logs this info line
 
 ### Client-side pruning
 
-Amazon Bedrock, Google, Microsoft Foundry, OAuth, proxies, Vertex, and other
-cache-TTL-eligible routes keep client-side pruning. New pruning rounds are gated
+OAuth, proxies, and other cache-TTL-eligible routes keep client-side pruning. New pruning rounds are gated
 on both a time check and a context-size check:
 
 1. Wait for the cache TTL to expire. When you turn on `cache-ttl` mode and set no `ttl`, the TTL is 5 minutes. The bundled Anthropic plugin seeds `1h` instead, see [Smart defaults](#smart-defaults). Each successful model request refreshes the in-memory clock to its request start time, including tool-loop requests before turn settlement. Failed requests do not refresh it. Before the TTL elapses, no new pruning occurs. Existing projections still replay unchanged.

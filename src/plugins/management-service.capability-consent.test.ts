@@ -22,6 +22,12 @@ import { collectPluginCapabilityConsentDiagnostics } from "./status-snapshot.js"
 import { createColdPluginFixture } from "./test-helpers/cold-plugin-fixtures.js";
 import { cleanupTrackedTempDirs, makeTrackedTempDir } from "./test-helpers/fs-fixtures.js";
 
+vi.mock("./official-external-plugin-bundled-catalogs.js", async () => ({
+  BUNDLED_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_ENTRIES: (
+    await import("./test-helpers/official-external-catalog-fixture.js")
+  ).OFFICIAL_EXTERNAL_CATALOG_FIXTURE_ENTRIES,
+}));
+
 const mocks = vi.hoisted(() => ({
   metadata: vi.fn(),
   officialCatalog: vi.fn(),
@@ -274,7 +280,7 @@ describe("managed plugin capability consent", () => {
       source: "clawhub",
       spec: "clawhub:@openclaw/diffs@1.0.0",
       clawhubPackage: "@openclaw/diffs",
-      clawhubUrl: "https://clawhub.ai",
+      clawhubUrl: "https://registry.example.test",
       clawhubChannel: "official",
       integrity: "sha256-official-artifact",
     },

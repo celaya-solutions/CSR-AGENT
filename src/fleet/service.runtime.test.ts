@@ -198,7 +198,7 @@ describe("fleet service", () => {
       tenant: "acme",
       containerName: "openclaw-cell-acme",
       port: 19_100,
-      image: "ghcr.io/openclaw/openclaw:latest",
+      image: "openclaw:local",
       runtime: "docker",
       started: true,
       token: "gw-token",
@@ -720,7 +720,7 @@ describe("fleet service", () => {
 
     expect(containers.run).toHaveBeenCalledTimes(2);
     expect(containers.run.mock.calls[1]?.[0].image).toBe("sha256:old-image-id");
-    expect(getFleetCell(env, "acme")?.image).toBe("ghcr.io/openclaw/openclaw:latest");
+    expect(getFleetCell(env, "acme")?.image).toBe("openclaw:local");
   });
 
   it("restarts the old cell when removal fails after stop", async () => {
@@ -767,7 +767,7 @@ describe("fleet service", () => {
     expect(containers.run.mock.calls[1]?.[0].image).toBe("sha256:old-image-id");
     expect(containers.remove).toHaveBeenCalledWith("docker", "openclaw-cell-acme", true);
     expect(containers.removeNetwork).not.toHaveBeenCalled();
-    expect(getFleetCell(env, "acme")?.image).toBe("ghcr.io/openclaw/openclaw:latest");
+    expect(getFleetCell(env, "acme")?.image).toBe("openclaw:local");
   });
 
   it("restores the previous cell when the replacement container is not running", async () => {
@@ -794,7 +794,7 @@ describe("fleet service", () => {
 
     expect(containers.run).toHaveBeenCalledTimes(2);
     expect(containers.run.mock.calls[1]?.[0].image).toBe("sha256:old-image-id");
-    expect(getFleetCell(env, "acme")?.image).toBe("ghcr.io/openclaw/openclaw:latest");
+    expect(getFleetCell(env, "acme")?.image).toBe("openclaw:local");
   });
 
   it("restores the previous cell when the replacement crashes after starting", async () => {
@@ -828,7 +828,7 @@ describe("fleet service", () => {
 
     expect(containers.run).toHaveBeenCalledTimes(2);
     expect(containers.run.mock.calls[1]?.[0].image).toBe("sha256:old-image-id");
-    expect(getFleetCell(env, "acme")?.image).toBe("ghcr.io/openclaw/openclaw:latest");
+    expect(getFleetCell(env, "acme")?.image).toBe("openclaw:local");
   });
 
   it("restores the previous cell when the replacement never becomes healthy", async () => {
@@ -859,7 +859,7 @@ describe("fleet service", () => {
 
     expect(containers.run).toHaveBeenCalledTimes(2);
     expect(containers.run.mock.calls[1]?.[0].image).toBe("sha256:old-image-id");
-    expect(getFleetCell(env, "acme")?.image).toBe("ghcr.io/openclaw/openclaw:latest");
+    expect(getFleetCell(env, "acme")?.image).toBe("openclaw:local");
   });
 
   it("refuses upgrade before pull or removal when the inspected token is missing", async () => {

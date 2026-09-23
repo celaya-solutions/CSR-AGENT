@@ -20,6 +20,40 @@ import { resolveProviderPolicySurface } from "./provider-public-artifacts.js";
 
 const temporary = useAutoCleanupTempDirTracker(afterEach);
 
+// Arcee is no longer bundled; this installed copy keeps its provider policy shape as fixture data.
+const INSTALLED_ARCEE_PLUGIN_FILES = {
+  "package.json": JSON.stringify({
+    name: "@openclaw/arcee-provider",
+    version: "2026.9.4",
+    type: "module",
+    openclaw: { extensions: ["./index.ts"] },
+  }),
+  "openclaw.plugin.json": JSON.stringify({
+    id: "arcee",
+    activation: { onStartup: false },
+    providers: ["arcee"],
+    providerAuthAliases: {
+      arcee: {
+        provider: "openrouter",
+        baseUrls: ["https://openrouter.ai/api/v1", "https://openrouter.ai/v1"],
+      },
+    },
+    modelCatalog: { discovery: { arcee: "runtime" } },
+    configSchema: { type: "object", additionalProperties: false, properties: {} },
+  }),
+  "provider-policy-api.ts": [
+    "/** Direct and OpenRouter wire ids identify the same logical Arcee catalog model. */",
+    "export function normalizeModelCatalogId({ provider, modelId }) {",
+    '  if (provider.trim().toLowerCase() !== "arcee") {',
+    "    return undefined;",
+    "  }",
+    "  const id = modelId.trim();",
+    '  return id.startsWith("arcee-ai/") ? id.slice("arcee-ai/".length) : id;',
+    "}",
+    "",
+  ].join("\n"),
+};
+
 describe("installed Arcee catalog identity", () => {
   function installed(
     trustedOfficialInstall: boolean,
@@ -30,11 +64,8 @@ describe("installed Arcee catalog identity", () => {
     const pluginRoot = path.join(root, "installed", "arcee");
     fs.mkdirSync(bundled);
     fs.mkdirSync(pluginRoot, { recursive: true });
-    for (const file of ["provider-policy-api.ts", "package.json", "openclaw.plugin.json"]) {
-      fs.copyFileSync(
-        path.join(process.cwd(), "extensions", "arcee", file),
-        path.join(pluginRoot, file),
-      );
+    for (const [file, contents] of Object.entries(INSTALLED_ARCEE_PLUGIN_FILES)) {
+      fs.writeFileSync(path.join(pluginRoot, file), contents);
     }
     const loaded = loadPluginManifest(pluginRoot);
     if (!loaded.ok) {

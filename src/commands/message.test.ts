@@ -293,20 +293,20 @@ describe("messageCommand", () => {
   });
 
   it("scopes unqualified broadcast secrets to channels accepting the explicit account", async () => {
-    const slackPlugin = createAccountPlugin("slack", ["shared"]);
-    slackPlugin.config.isEnabled = vi.fn(() => {
+    const discordPlugin = createAccountPlugin("discord", ["shared"]);
+    discordPlugin.config.isEnabled = vi.fn(() => {
       throw new Error("runtime enablement must not receive inspection metadata");
     });
     const telegramPlugin = createAccountPlugin("telegram", ["default"]);
     setActivePluginRegistry(
       createTestRegistry([
-        { pluginId: "slack", source: "test", plugin: slackPlugin },
+        { pluginId: "discord", source: "test", plugin: discordPlugin },
         { pluginId: "telegram", source: "test", plugin: telegramPlugin },
       ]),
     );
     testConfig = {
       channels: {
-        slack: { accounts: { shared: { botToken: { $secret: "vault://slack/shared" } } } },
+        discord: { accounts: { shared: { botToken: { $secret: "vault://discord/shared" } } } },
         telegram: {
           accounts: { default: { botToken: { $secret: "vault://telegram/default" } } },
         },
@@ -317,22 +317,22 @@ describe("messageCommand", () => {
       action: "broadcast",
       channel: "all",
       target: undefined,
-      targets: ["slack:channel:ops", "telegram:123"],
+      targets: ["discord:channel:ops", "telegram:123"],
       accountId: "shared",
     });
 
     expect(getScopedChannelsCommandSecretTargets).toHaveBeenCalledWith({
       config: testConfig,
       channel: undefined,
-      channels: ["slack"],
+      channels: ["discord"],
       accountId: "shared",
     });
     expect(readOnlyMessageActionCall().broadcastAccountPlan).toEqual({
       accountId: "shared",
-      candidateChannels: ["slack", "telegram"],
-      secretChannels: ["slack"],
+      candidateChannels: ["discord", "telegram"],
+      secretChannels: ["discord"],
     });
-    expect(slackPlugin.config.isEnabled).not.toHaveBeenCalled();
+    expect(discordPlugin.config.isEnabled).not.toHaveBeenCalled();
   });
 
   it("keeps unresolved SecretRefs for a legacy single-account broadcast plugin", async () => {

@@ -72,7 +72,7 @@ async function trackedQualifiedSkillFixture() {
   const content = "---\nname: triage\ndescription: Triage incidents\n---\n";
   const sha256 = createHash("sha256").update(content).digest("hex");
   const installedAt = 1;
-  const registry = "https://clawhub.ai";
+  const registry = "https://registry.example.test";
   const ownerHandle = "owner";
   await mkdir(join(skillDir, ".clawhub"), { recursive: true });
   await mkdir(join(workspaceDir, ".clawhub"), { recursive: true });

@@ -18,7 +18,7 @@ import {
 import { getSessionBindingContractRegistry } from "./registry-session-binding.js";
 
 function resolveSessionBindingContractRuntimeConfig(id: string) {
-  if (id !== "discord" && id !== "matrix") {
+  if (id !== "discord") {
     return {};
   }
   return {

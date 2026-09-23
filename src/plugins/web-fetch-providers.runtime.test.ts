@@ -147,15 +147,6 @@ describe("resolvePluginWebFetchProviders", () => {
     vi.restoreAllMocks();
   });
 
-  it("loads bundled runtime artifacts when no compatible active registry exists", () => {
-    const providers = resolvePluginWebFetchProviders({});
-
-    expect(providers.map((provider) => `${provider.pluginId}:${provider.id}`)).toEqual([
-      "firecrawl:firecrawl",
-    ]);
-    expect(loadOpenClawPluginsMock).not.toHaveBeenCalled();
-  });
-
   it("falls back to the plugin loader for non-bundled provider owners", () => {
     vi.mocked(manifestRegistryModule.loadPluginManifestRegistryCore).mockReturnValue(
       createManifestRegistryFixture(
@@ -188,18 +179,6 @@ describe("resolvePluginWebFetchProviders", () => {
     const providers = resolvePluginWebFetchProviders({ config });
 
     expect(providers).toStrictEqual([]);
-    expect(loadOpenClawPluginsMock).not.toHaveBeenCalled();
-  });
-
-  it("loads manifest-declared web-fetch providers in setup mode without the plugin loader", () => {
-    const providers = resolvePluginWebFetchProviders({
-      config: createFirecrawlAllowConfig(),
-      mode: "setup",
-    });
-
-    expect(providers.map((provider) => `${provider.pluginId}:${provider.id}`)).toEqual([
-      "firecrawl:firecrawl",
-    ]);
     expect(loadOpenClawPluginsMock).not.toHaveBeenCalled();
   });
 

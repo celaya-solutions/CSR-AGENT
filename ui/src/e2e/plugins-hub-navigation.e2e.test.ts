@@ -82,7 +82,12 @@ const methodResponses = {
   },
   "skills.search": {
     results: [
-      { slug: "calendar", displayName: "Calendar", score: 1, registry: "https://clawhub.ai" },
+      {
+        slug: "calendar",
+        displayName: "Calendar",
+        score: 1,
+        registry: "https://registry.example.test",
+      },
     ],
   },
   "skills.library.list": {
@@ -138,26 +143,21 @@ async function expectHeaderCopy(page: Page, active: "plugins" | "skills" | "skil
     plugins: {
       title: "Plugins",
       subtitle: "Extend your Claw with tools",
-      docs: "https://docs.openclaw.ai/plugins/manage-plugins",
     },
     skills: {
       title: "Skills",
       subtitle: "Manage your agent skills",
-      docs: "https://docs.openclaw.ai/tools/skills",
     },
     "skill-workshop": {
       title: "Skill workshop",
       subtitle:
         "The skills your agent uses now, suggestions waiting for review, and past decisions.",
-      docs: "https://docs.openclaw.ai/tools/skill-workshop",
     },
   }[active];
   const header = page.locator(".plugins-hub-header");
   expect(await header.getByRole("heading", { level: 1 }).textContent()).toBe(expected.title);
   expect(await header.locator(".page-subtitle").textContent()).toContain(expected.subtitle);
-  expect(await header.getByRole("link", { name: "Learn more" }).getAttribute("href")).toBe(
-    expected.docs,
-  );
+  expect(await header.locator(".page-subtitle a").count()).toBe(0);
 }
 
 async function installButtonPresentation(page: Page) {

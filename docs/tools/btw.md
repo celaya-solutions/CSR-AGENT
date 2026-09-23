@@ -11,7 +11,7 @@ session** without adding it to conversation history. It is modeled after
 Claude Code's `/btw`, adapted to OpenAgent's Gateway and multi-channel
 architecture.
 
-The two side-question contracts are deliberately separate. BTW is a one-shot question on the session's actual model, preserving harness behavior and Codex thread-fork continuity for channel ingress (WhatsApp, Telegram, and Discord), the TUI, and embedded `tui --local`; the TUI stays on BTW by design. Side chat uses a persistent, read-only RPC thread for Control UI-class clients. Its first question lazily prepares bounded visible context from the selected session; a temporary history failure remains retryable and does not run as an empty session. Channels cannot use Side chat because they do not have an RPC connection.
+The two side-question contracts are deliberately separate. BTW is a one-shot question on the session's actual model, preserving harness behavior and Codex thread-fork continuity for channel ingress (Telegram and Discord), the TUI, and embedded `tui --local`; the TUI stays on BTW by design. Side chat uses a persistent, read-only RPC thread for Control UI-class clients. Its first question lazily prepares bounded visible context from the selected session; a temporary history failure remains retryable and does not run as an empty session. Channels cannot use Side chat because they do not have an RPC connection.
 
 ```text
 /btw what changed?
@@ -30,7 +30,7 @@ The two side-question contracts are deliberately separate. BTW is a one-shot que
 The main run, if one is active, is left untouched.
 
 When their runtime supplies usage, completed direct-provider and harness side
-questions report it through the configured [diagnostics pipeline](/gateway/opentelemetry).
+questions report it through the configured diagnostics pipeline.
 This does not add the exchange to session history or session-derived `/usage cost` totals.
 
 For Codex harness sessions, BTW forks the active Codex app-server thread into
@@ -68,7 +68,7 @@ conversation history. The Control UI does not consume that event; it calls the
 | Surface           | Behavior                                                                                                                                                                                                                                     |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | TUI               | Rendered inline in the chat log, visibly distinct from a normal reply, dismissible with `Enter` or `Esc`.                                                                                                                                    |
-| External channels | Delivered as a clearly labeled one-off reply (Telegram, WhatsApp, Discord have no local ephemeral overlay).                                                                                                                                  |
+| External channels | Delivered as a clearly labeled one-off reply (Telegram and Discord have no local ephemeral overlay).                                                                                                                                         |
 | Control UI / web  | Routes `/btw` and `/side` to the expanded Side chat. The read-only thread is keyed by session, rehydrates from Gateway memory, and preserves a failed question for Retry. It can be cleared with the trash button. `Esc` collapses the rail. |
 
 ## Selection popup (Control UI)

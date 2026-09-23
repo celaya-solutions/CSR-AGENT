@@ -108,7 +108,7 @@ describe("fleet command output", () => {
       tenant: "acme",
       containerName: "openclaw-cell-acme",
       port: 19_100,
-      image: "ghcr.io/openclaw/openclaw:latest",
+      image: "openclaw:local",
       runtime: "docker" as const,
       started: true,
       token: "gw-token",

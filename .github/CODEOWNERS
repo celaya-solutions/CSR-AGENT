@@ -10,7 +10,6 @@
 /.github/dependabot.yml @openclaw/openclaw-secops
 /.github/codeql/ @openclaw/openclaw-secops
 /.github/workflows/codeql.yml @openclaw/openclaw-secops
-/.github/workflows/codeql-android-critical-security.yml @openclaw/openclaw-secops
 /.github/workflows/codeql-critical-quality.yml @openclaw/openclaw-secops
 /.github/workflows/dependency-guard.yml @openclaw/openclaw-secops
 /.github/workflows/security-sensitive-guard.yml @openclaw/openclaw-secops
@@ -66,8 +65,4 @@
 /docs/reference/secretref-user-supplied-credentials-matrix.json @openclaw/openclaw-secops
 
 # Release workflow and its supporting release-path checks.
-/.github/workflows/openclaw-npm-release.yml @openclaw/openclaw-release-managers
 /docs/reference/RELEASING.md @openclaw/openclaw-release-managers
-/scripts/openclaw-npm-publish.sh @openclaw/openclaw-release-managers
-/scripts/openclaw-npm-release-check.ts @openclaw/openclaw-release-managers
-/scripts/release-check.ts @openclaw/openclaw-release-managers

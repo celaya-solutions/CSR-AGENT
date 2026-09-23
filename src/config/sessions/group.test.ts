@@ -39,14 +39,14 @@ describe("resolveGroupSessionKey", () => {
 
   it("preserves empty opaque segments in originating group ids", () => {
     const ctx = {
-      Provider: "matrix",
+      Provider: "discord",
       ChatType: "channel",
-      From: "matrix:channel:!room:[2001:db8::1]",
+      From: "discord:channel:!room:[2001:db8::1]",
     } satisfies Partial<MsgContext>;
 
     expect(resolveGroupSessionKey(ctx as MsgContext)).toEqual({
-      key: "matrix:channel:!room:[2001:db8::1]",
-      channel: "matrix",
+      key: "discord:channel:!room:[2001:db8::1]",
+      channel: "discord",
       id: "!room:[2001:db8::1]",
       chatType: "channel",
     });

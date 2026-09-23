@@ -11,19 +11,11 @@ read_when:
 ## Common tasks
 
 <AccordionGroup>
-  <Accordion title="Set up a channel (WhatsApp, Telegram, Discord, etc.)">
+  <Accordion title="Set up a channel (Telegram, Discord)">
     Each channel has its own config section under `channels.<provider>`. See the dedicated channel page for setup steps:
 
     - [Discord](/channels/discord) - `channels.discord`
-    - [Feishu](/channels/feishu) - `channels.feishu`
-    - [Google Chat](/channels/googlechat) - `channels.googlechat`
-    - [iMessage](/channels/imessage) - `channels.imessage`
-    - [Mattermost](/channels/mattermost) - `channels.mattermost`
-    - [Microsoft Teams](/channels/msteams) - `channels.msteams`
-    - [Signal](/channels/signal) - `channels.signal`
-    - [Slack](/channels/slack) - `channels.slack`
     - [Telegram](/channels/telegram) - `channels.telegram`
-    - [WhatsApp](/channels/whatsapp) - `channels.whatsapp`
 
     All channels share the same DM policy pattern:
 
@@ -108,14 +100,14 @@ read_when:
         },
       },
       channels: {
-        whatsapp: {
+        telegram: {
           groups: { "*": { requireMention: true } },
         },
       },
     }
     ```
 
-    - **Metadata mentions**: native @-mentions (WhatsApp tap-to-mention, Telegram @bot, etc.)
+    - **Metadata mentions**: native @-mentions (Telegram @bot, Discord mentions)
     - **Text patterns**: safe regex patterns in `mentionPatterns`
     - **Visible replies**: `messages.visibleReplies` can require message-tool sends globally; `messages.groupChat.visibleReplies` overrides that for groups/channels.
     - See [full reference](/gateway/config-channels#group-chat-mention-gating) for visible reply modes, per-channel overrides, and self-chat mode.
@@ -222,64 +214,6 @@ read_when:
 
   </Accordion>
 
-  <Accordion title="Enable relay-backed push for official iOS builds">
-    Relay-backed push for public App Store builds uses the hosted OpenAgent relay: `https://ios-push-relay.openclaw.ai`.
-
-    Custom relay deployments require a deliberately separate iOS build/deployment path whose relay URL matches the gateway relay URL. If you are using a custom relay build, set this in gateway config:
-
-    ```json5
-    {
-      gateway: {
-        push: {
-          apns: {
-            relay: {
-              baseUrl: "https://relay.example.com",
-              // Optional. Default: 10000
-              timeoutMs: 10000,
-            },
-          },
-        },
-      },
-    }
-    ```
-
-    CLI equivalent:
-
-    ```bash
-    openclaw config set gateway.push.apns.relay.baseUrl https://relay.example.com
-    ```
-
-    What this does:
-
-    - Lets the gateway send `push.test`, wake nudges, and reconnect wakes through the external relay.
-    - Uses a registration-scoped send grant forwarded by the paired iOS app. The gateway does not need a deployment-wide relay token.
-    - Binds each relay-backed registration to the gateway identity that the iOS app paired with, so another gateway cannot reuse the stored registration.
-    - Keeps local/manual iOS builds on direct APNs. Relay-backed sends apply only to official distributed builds that registered through the relay.
-    - Must match the relay base URL baked into the iOS build, so registration and send traffic reach the same relay deployment.
-
-    End-to-end flow:
-
-    1. Install the official iOS app.
-    2. Optional: configure `gateway.push.apns.relay.baseUrl` on the gateway only when using a deliberately separate custom relay build.
-    3. Pair the iOS app to the gateway and let both node and operator sessions connect.
-    4. The iOS app fetches the gateway identity, registers with the relay using App Attest plus the app receipt, and then publishes the relay-backed `push.apns.register` payload to the paired gateway.
-    5. The gateway stores the relay handle and send grant, then uses them for `push.test`, wake nudges, and reconnect wakes.
-
-    Operational notes:
-
-    - If you switch the iOS app to a different gateway, reconnect the app so it can publish a new relay registration bound to that gateway.
-    - If you ship a new iOS build that points at a different relay deployment, the app refreshes its cached relay registration instead of reusing the old relay origin.
-
-    Compatibility note:
-
-    - `OPENCLAW_APNS_RELAY_BASE_URL` and `OPENCLAW_APNS_RELAY_TIMEOUT_MS` still work as temporary env overrides.
-    - Custom gateway relay URLs must match the relay base URL baked into the iOS build; the public App Store release lane rejects custom iOS relay URL overrides.
-    - `OPENCLAW_APNS_RELAY_ALLOW_HTTP=true` remains a loopback-only development escape hatch; do not persist HTTP relay URLs in config.
-
-    See [iOS App](/platforms/ios#relay-backed-push-for-official-builds) for the end-to-end flow and [Authentication and trust flow](/platforms/ios#authentication-and-trust-flow) for the relay security model.
-
-  </Accordion>
-
   <Accordion title="Set up heartbeat (periodic check-ins)">
     ```json5
     {
@@ -369,8 +303,8 @@ read_when:
         },
       },
       bindings: [
-        { agentId: "home", match: { channel: "whatsapp", accountId: "personal" } },
-        { agentId: "work", match: { channel: "whatsapp", accountId: "biz" } },
+        { agentId: "home", match: { channel: "telegram", accountId: "personal" } },
+        { agentId: "work", match: { channel: "telegram", accountId: "biz" } },
       ],
     }
     ```
