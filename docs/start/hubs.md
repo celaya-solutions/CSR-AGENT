@@ -23,7 +23,6 @@ Use these hubs to discover more of the documentation, including deep dives and r
 - [Configuration](/gateway/configuration)
 - [Configuration examples](/gateway/configuration-examples)
 - [OpenAgent assistant](/start/openclaw)
-- [Lore](/start/lore)
 
 ## Installation + updates
 

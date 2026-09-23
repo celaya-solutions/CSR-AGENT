@@ -21,4 +21,3 @@ MIT, copyright Celaya Solutions. Third-party notices for incorporated or adapted
 
 ## Related
 
-- [OpenAgent lore](/start/lore) - the backstory behind the name

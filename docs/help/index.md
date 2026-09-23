@@ -34,6 +34,5 @@ Fastest path to unstuck, by symptom:
 
 ## Community and meta
 
-- [OpenAgent lore](/start/lore) - the story
 - [Docs hubs](/start/hubs) - how this documentation is organized
 - [Docs directory](/start/docs-directory) - full file map

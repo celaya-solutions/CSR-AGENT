@@ -274,8 +274,8 @@ Config sample:
         default: true,
         identity: {
           name: "OpenAgent",
-          theme: "space lobster",
-          emoji: "🦞",
+          theme: "calm operator",
+          emoji: "🤖",
           avatar: "avatars/openclaw.png",
         },
       },
