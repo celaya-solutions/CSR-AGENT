@@ -1,8 +1,5 @@
-import {
-  resolveAgentWorkspaceDir,
-  resolveConfiguredAgentId,
-  resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
+import { resolveAgentOperationAgentId } from "../agents/agent-scope-config.js";
+import { resolveAgentWorkspaceDir, resolveConfiguredAgentId } from "../agents/agent-scope.js";
 import { getRuntimeConfig } from "../config/config.js";
 import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
 import {
@@ -49,7 +46,9 @@ function createDefaultOnboardingRecommendationsStore(
     throw new Error("--agent must not be blank");
   }
   const cfg = getRuntimeConfig();
-  const agentId = requested ? resolveConfiguredAgentId(cfg, requested) : resolveDefaultAgentId(cfg);
+  const agentId = requested
+    ? resolveConfiguredAgentId(cfg, requested)
+    : resolveAgentOperationAgentId(cfg);
   const workspaceDir = resolveAgentWorkspaceDir(cfg, agentId);
   return createOnboardingRecommendationsStore({ workspaceDir });
 }
