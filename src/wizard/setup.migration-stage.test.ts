@@ -92,6 +92,29 @@ describe("setup migration stage", () => {
     await stage.cleanup();
   });
 
+  it("stages into the system agent when an explicit roster has several agents", async () => {
+    const root = tempRoots.make("openclaw-migration-stage-");
+    const stateDir = path.join(root, "state");
+    const workspaceDir = path.join(root, "workspace");
+    const stage = await createSetupMigrationStage({
+      providerId: "claude",
+      stateDir,
+      workspaceDir,
+      reportDir: path.join(stateDir, "migration", "claude", "attempt"),
+      targetConfig: {
+        agents: {
+          ownership: "explicit",
+          defaults: { workspace: workspaceDir, systemAgent: { agentId: "main" } },
+          entries: { main: {}, helper: {} },
+        },
+      },
+    });
+
+    expect(stage.final.agentDir).toBe(path.join(stateDir, "agents", "main", "agent"));
+    expect(stage.staged.agentDir).toContain(path.join("agents", "main", "agent"));
+    await stage.cleanup();
+  });
+
   it("uses the most-specific path mapping when workspace lives under state", async () => {
     const root = tempRoots.make("openclaw-migration-stage-");
     const stateDir = path.join(root, "state");
